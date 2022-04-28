@@ -17,8 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedGeometry.Internals;
 using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Primitives;
 using System;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -50,7 +50,7 @@ namespace Jodo.Extensions.CheckedGeometry
         public bool Equals(Angle<T> other) => Degrees.Equals(other.Degrees);
         public override bool Equals(object? obj) => obj is Angle<T> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
-        public override string ToString() => Utilities.GetString(GetType(), Degrees);
+        public override string ToString() => TypeString.Combine(GetType(), Degrees);
 
         public static Angle<T> FromDegrees(T degrees) => new Angle<T>(degrees);
         public static Angle<T> FromDegrees(byte degrees) => new Angle<T>(Math<T>.Convert(degrees));

@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.CheckedNumerics.Internals;
+using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -73,6 +74,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ufix64 INumeric<ufix64>.MinUnit => MinUnit;
         ufix64 INumeric<ufix64>.One => One;
         ufix64 INumeric<ufix64>.Pi => Pi;
+
         bool INumeric<ufix64>.GreaterThan(ufix64 value2) => _scaledValue > value2._scaledValue;
         bool INumeric<ufix64>.GreaterThanOrEqualTo(ufix64 value2) => _scaledValue >= value2._scaledValue;
         bool INumeric<ufix64>.LessThan(ufix64 value2) => _scaledValue < value2._scaledValue;
@@ -125,6 +127,10 @@ namespace Jodo.Extensions.CheckedNumerics
         ufix64 INumeric<ufix64>.Parse(string s, NumberStyles style) => Parse(s, style);
         ufix64 INumeric<ufix64>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
 
+        int IBitConverter<ufix64>.Size => sizeof(ulong);
+        ufix64 IBitConverter<ufix64>.FromBytes(ReadOnlySpan<byte> bytes) => new ufix64(BitConverter.ToUInt64(bytes));
+        ReadOnlySpan<byte> IBitConverter<ufix64>.GetBytes() => BitConverter.GetBytes(_scaledValue);
+
         ufix64 INumeric<ufix64>.Next(Random random, ufix64 minInclusive, ufix64 maxInclusive)
         {
             if (minInclusive > maxInclusive) throw new ArgumentOutOfRangeException(nameof(minInclusive), minInclusive, $"{nameof(minInclusive)}' cannot be greater than {nameof(maxInclusive)}");
@@ -134,9 +140,9 @@ namespace Jodo.Extensions.CheckedNumerics
                     GetInternalRepresentation(maxInclusive)));
         }
 
-        public static bool TryParse(string s, IFormatProvider provider, out ufix64 result) => Try.Function(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ufix64 result) => Try.Function(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out ufix64 result) => Try.Function(Parse, s, style, out result);
+        public static bool TryParse(string s, IFormatProvider provider, out ufix64 result) => Try.Run(Parse, s, provider, out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ufix64 result) => Try.Run(Parse, s, style, provider, out result);
+        public static bool TryParse(string s, NumberStyles style, out ufix64 result) => Try.Run(Parse, s, style, out result);
         public static bool TryParse(string s, out ufix64 result) => Try.Function(Parse, s, out result);
         public static byte[] GetBytes(ufix64 value) => BitConverter.GetBytes(value._scaledValue);
         public static ufix64 FromBytes(byte[] bytes) => new ufix64(BitConverter.ToUInt64(bytes));

@@ -19,11 +19,11 @@
 
 using System;
 
-namespace Jodo.Extensions.CheckedNumerics.Internals
+namespace Jodo.Extensions.Primitives
 {
-    internal static class Try
+    public static class Try
     {
-        public static bool Function<TResult>(Func<TResult> function, out TResult result)
+        public static bool Run<TResult>(Func<TResult> function, out TResult result)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace Jodo.Extensions.CheckedNumerics.Internals
             }
         }
 
-        public static bool Function<T1, T2, TResult>(Func<T1, T2, TResult> function, T1 arg1, T2 arg2, out TResult result)
+        public static bool Run<T1, T2, TResult>(Func<T1, T2, TResult> function, T1 arg1, T2 arg2, out TResult result)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace Jodo.Extensions.CheckedNumerics.Internals
             }
         }
 
-        public static bool Function<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> function, T1 arg1, T2 arg2, T3 arg3, out TResult result)
+        public static bool Run<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> function, T1 arg1, T2 arg2, T3 arg3, out TResult result)
         {
             try
             {

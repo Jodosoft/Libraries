@@ -17,8 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedGeometry.Internals;
 using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Primitives;
 using System;
 using System.Linq;
 
@@ -48,7 +48,7 @@ namespace Jodo.Extensions.CheckedGeometry
         public bool Equals(Rectangle<T> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
         public override bool Equals(object? obj) => obj is Rectangle<T> rectangle && Equals(rectangle);
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions, Angle);
-        public override string ToString() => Utilities.GetString(GetType(), Center, Dimensions, Angle);
+        public override string ToString() => TypeString.Combine(GetType(), Center, Dimensions, Angle);
 
         public T Area => Math<T>.Abs(Width * Height);
         public T Height => Dimensions.Y;

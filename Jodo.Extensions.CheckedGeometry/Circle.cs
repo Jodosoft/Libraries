@@ -17,8 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedGeometry.Internals;
 using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 
@@ -48,7 +48,7 @@ namespace Jodo.Extensions.CheckedGeometry
         public bool Equals(Circle<T> other) => Center.Equals(other.Center) && EqualityComparer<T>.Default.Equals(Radius, other.Radius);
         public override bool Equals(object? obj) => obj is Circle<T> circle && Equals(circle);
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
-        public override string ToString() => Utilities.GetString(GetType(), Center, Radius);
+        public override string ToString() => TypeString.Combine(GetType(), Center, Radius);
 
         public Circle<T> Translate(in Vector2<T> delta) => new Circle<T>(Center.Translate(delta), Radius);
         public Circle<T> Translate(in T deltaX, in T deltaY) => new Circle<T>(Center.Translate(deltaX, deltaY), Radius);

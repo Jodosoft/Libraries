@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Extensions.Primitives;
 using System;
 using System.Globalization;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
-    public interface INumeric<T> where T : struct, INumeric<T>
+    public interface INumeric<T> : IBitConverter<T> where T : struct, INumeric<T>
     {
         T E { get; }
         T Epsilon { get; }

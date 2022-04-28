@@ -17,8 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedGeometry.Internals;
 using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Primitives;
 using System;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -58,7 +58,7 @@ namespace Jodo.Extensions.CheckedGeometry
         public bool Equals(Vector2<T> other) => X.Equals(other.X) && Y.Equals(other.Y);
         public override bool Equals(object? obj) => obj is Vector2<T> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y);
-        public override string ToString() => Utilities.GetString(GetType(), X, Y);
+        public override string ToString() => TypeString.Combine(GetType(), X, Y);
         public (T, T) Convert() => this;
         public Vector2<TOther> Convert<TOther>(Func<T, TOther> convert) where TOther : struct, INumeric<TOther> => (convert(X), convert(Y));
         public Vector2<cfloat> Approximate(float offset) => new Vector2<cfloat>(X.Approximate(offset), Y.Approximate(offset));
@@ -79,7 +79,7 @@ namespace Jodo.Extensions.CheckedGeometry
 
         public static Vector2<T> Parse(string value)
         {
-            value = value.Replace(Utilities.GetName(typeof(Vector2<T>)), string.Empty);
+            value = value.Replace(TypeString.Combine(typeof(Vector2<T>)), string.Empty);
             var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
             if (args.Length != 2) throw new FormatException(""); // jjs
             return new Vector2<T>(Math<T>.Parse(args[0].Trim()), Math<T>.Parse(args[1].Trim()));

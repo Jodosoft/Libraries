@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.CheckedNumerics.Internals;
+using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -121,6 +122,10 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.TurnsToDegrees() => new cint((int)Checked.TurnsToDegrees(this));
         cint INumeric<cint>.TurnsToRadians() => new cint((int)Checked.TurnsToRadians(this));
         cint INumeric<cint>.Next(Random random, cint minInclusive, cint maxInclusive) => new cint(random.NextInt32(minInclusive, maxInclusive));
+
+        int IBitConverter<cint>.Size => sizeof(int);
+        cint IBitConverter<cint>.FromBytes(ReadOnlySpan<byte> bytes) => new cint(BitConverter.ToInt32(bytes));
+        ReadOnlySpan<byte> IBitConverter<cint>.GetBytes() => BitConverter.GetBytes(_value);
 
         public static explicit operator cint(cfloat value) => new cint((int)value);
         public static explicit operator cint(decimal value) => new cint((int)value);

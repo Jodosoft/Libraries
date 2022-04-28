@@ -17,13 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedGeometry.Internals;
 using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Primitives;
 using System;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public readonly struct Vector3<T> : IEquatable<Vector3<T>> where T : struct, INumeric<T>
+    public readonly struct Vector3<T> : IEquatable<Vector3<T>>, IBitConverter<Vector3<T>> where T : struct, INumeric<T>, IBitConverter<T>
     {
         public readonly T X;
         public readonly T Y;
@@ -41,7 +41,7 @@ namespace Jodo.Extensions.CheckedGeometry
         public bool Equals(Vector3<T> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         public override bool Equals(object? obj) => obj is Vector3<T> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
-        public override string ToString() => Utilities.GetString(GetType(), X, Y, Z);
+        public override string ToString() => TypeString.Combine(GetType(), X, Y, Z);
 
         public static bool TryParse(string value, out Vector3<T> result)
         {
@@ -59,10 +59,29 @@ namespace Jodo.Extensions.CheckedGeometry
 
         public static Vector3<T> Parse(string value)
         {
-            value = value.Replace(Utilities.GetName(typeof(Vector3<T>)), string.Empty);
+            value = value.Replace(TypeString.Combine(typeof(Vector3<T>)), string.Empty);
             var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
             if (args.Length != 3) throw new FormatException(""); // todo
             return new Vector3<T>(Math<T>.Parse(args[0].Trim()), Math<T>.Parse(args[1].Trim()), Math<T>.Parse(args[2].Trim()));
+        }
+
+        int IBitConverter<Vector3<T>>.Size => BitConverter<T>.Size * 3;
+
+        Vector3<T> IBitConverter<Vector3<T>>.FromBytes(ReadOnlySpan<byte> bytes)
+        {
+            return new Vector3<T>(
+                BitConverter<T>.FromBytes(bytes.Slice(0, BitConverter<T>.Size)),
+                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size, BitConverter<T>.Size)),
+                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size * 2, BitConverter<T>.Size)));
+        }
+
+        ReadOnlySpan<byte> IBitConverter<Vector3<T>>.GetBytes()
+        {
+            var result = new byte[BitConverter<T>.Size * 3];
+            BitConverter<T>.GetBytes(X).CopyTo(new Span<byte>(result, 0, BitConverter<T>.Size));
+            BitConverter<T>.GetBytes(Y).CopyTo(new Span<byte>(result, BitConverter<T>.Size, BitConverter<T>.Size));
+            BitConverter<T>.GetBytes(Z).CopyTo(new Span<byte>(result, BitConverter<T>.Size * 2, BitConverter<T>.Size));
+            return result;
         }
 
         public static Vector3<T> operator -(Vector3<T> value) => new Vector3<T>(-value.X, -value.Y, -value.Z);

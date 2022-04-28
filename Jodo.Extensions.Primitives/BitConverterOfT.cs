@@ -18,35 +18,15 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Linq;
 
-namespace Jodo.Extensions.CheckedGeometry.Internals
+namespace Jodo.Extensions.Primitives
 {
-    internal static class Utilities
+    public static class BitConverter<T> where T : struct, IBitConverter<T>
     {
-        public static string GetName(Type type)
-        {
-            if (type.IsGenericType)
-            {
-                var parameterNames = type
-                    .GetGenericArguments()
-                    .Select(x => GetName(x))
-                    .Aggregate((x, y) => $"{x}, {y}");
+        private static readonly T Default = default;
 
-                var name = type.Name.Substring(0, type.Name.IndexOf("`"));
-                return $"{name}<{parameterNames}>";
-            }
-            return type.Name;
-        }
-
-        public static string GetString(Type type, params object[] properties)
-        {
-            if (properties?.Length > 0)
-            {
-                var names = properties.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}");
-                return $"{GetName(type)}({names})";
-            }
-            return GetName(type);
-        }
+        public static int Size => Default.Size;
+        public static ReadOnlySpan<byte> GetBytes(T value) => value.GetBytes();
+        public static T FromBytes(ReadOnlySpan<byte> bytes) => Default.FromBytes(bytes);
     }
 }

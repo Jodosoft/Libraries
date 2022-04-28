@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Jodo.Extensions.Primitives</AssemblyName>
+    <AssemblyTitle>Jodo.Extensions.Primitives</AssemblyTitle>
+    <Description>Reusable types and utilities used by Jodo.Extensions</Description>
+    <PackageId>Jodo.Extensions.Primitives</PackageId>
+    <PackageTags>collections</PackageTags>
+    <RootNamespace>Jodo.Extensions.Primitives</RootNamespace>
+    <Summary>Reusable types and utilities used by Jodo.Extensions</Summary>
+    <Title>Jodo.Extensions.Primitives</Title>
+  </PropertyGroup>
+</Project>

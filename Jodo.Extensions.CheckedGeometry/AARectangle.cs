@@ -17,8 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedGeometry.Internals;
 using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Primitives;
 using System;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -87,7 +87,7 @@ namespace Jodo.Extensions.CheckedGeometry
         public bool Equals(AARectangle<T> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions);
         public override bool Equals(object? obj) => obj is AARectangle<T> fix && Equals(fix);
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions);
-        public override string ToString() => Utilities.GetString(GetType(), Center, Dimensions);
+        public override string ToString() => TypeString.Combine(GetType(), Center, Dimensions);
 
         public static AARectangle<T> FromCenter(Vector2<T> center, Vector2<T> dimensions) => new AARectangle<T>(center, dimensions);
         public static AARectangle<T> FromBottomLeft(Vector2<T> bottomLeft, Vector2<T> dimensions) => new AARectangle<T>(GetTopRight(bottomLeft, dimensions), dimensions);

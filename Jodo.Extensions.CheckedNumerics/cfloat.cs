@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.CheckedNumerics.Internals;
+using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -126,6 +127,10 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.Tanh() => new cfloat(MathF.Tanh(_value));
         cfloat INumeric<cfloat>.TurnsToDegrees() => new cfloat(Checked.TurnsToDegrees(_value));
         cfloat INumeric<cfloat>.TurnsToRadians() => new cfloat(Checked.TurnsToRadians(_value));
+
+        int IBitConverter<cfloat>.Size => sizeof(float);
+        cfloat IBitConverter<cfloat>.FromBytes(ReadOnlySpan<byte> bytes) => new cfloat(BitConverter.ToSingle(bytes));
+        ReadOnlySpan<byte> IBitConverter<cfloat>.GetBytes() => BitConverter.GetBytes(_value);
 
         public static explicit operator cfloat(decimal value) => new cfloat((float)value);
         public static explicit operator cfloat(double value) => new cfloat((float)value);

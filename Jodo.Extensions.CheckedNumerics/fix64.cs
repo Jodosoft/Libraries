@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.CheckedNumerics.Internals;
+using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -135,9 +136,13 @@ namespace Jodo.Extensions.CheckedNumerics
                     GetInternalRepresentation(maxInclusive)));
         }
 
-        public static bool TryParse(string s, IFormatProvider provider, out fix64 result) => Try.Function(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out fix64 result) => Try.Function(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out fix64 result) => Try.Function(Parse, s, style, out result);
+        int IBitConverter<fix64>.Size => sizeof(long);
+        fix64 IBitConverter<fix64>.FromBytes(ReadOnlySpan<byte> bytes) => new fix64(BitConverter.ToInt64(bytes));
+        ReadOnlySpan<byte> IBitConverter<fix64>.GetBytes() => BitConverter.GetBytes(_scaledValue);
+
+        public static bool TryParse(string s, IFormatProvider provider, out fix64 result) => Try.Run(Parse, s, provider, out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out fix64 result) => Try.Run(Parse, s, style, provider, out result);
+        public static bool TryParse(string s, NumberStyles style, out fix64 result) => Try.Run(Parse, s, style, out result);
         public static bool TryParse(string s, out fix64 result) => Try.Function(Parse, s, out result);
         public static byte[] GetBytes(fix64 value) => BitConverter.GetBytes(value._scaledValue);
         public static fix64 FromBytes(byte[] bytes) => new fix64(BitConverter.ToInt64(bytes));

@@ -9,4 +9,7 @@
     <Summary>Reusable numeric types</Summary>
     <Title>Jodo.Extensions.CheckedNumerics</Title>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Extensions.Primitives\Jodo.Extensions.Primitives.csproj" />
+  </ItemGroup>
 </Project>
