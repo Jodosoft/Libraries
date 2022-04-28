@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Jodo.Extensions.CheckedNumerics</AssemblyName>
+    <AssemblyTitle>Jodo.Extensions.CheckedNumerics</AssemblyTitle>
+    <Description>Reusable numeric types with protection from overflow</Description>
+    <PackageId>Jodo.Extensions.CheckedNumerics</PackageId>
+    <PackageTags>collections</PackageTags>
+    <RootNamespace>Jodo.Extensions.CheckedNumerics</RootNamespace>
+    <Summary>Reusable numeric types</Summary>
+    <Title>Jodo.Extensions.CheckedNumerics</Title>
+  </PropertyGroup>
+</Project>

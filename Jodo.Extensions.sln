@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Numerics", "Jodo.Extensions.Numerics\Jodo.Extensions.Numerics.csproj", "{A7D0F867-6822-4A6B-A1C6-69C32B469DC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.CheckedNumerics", "Jodo.Extensions.CheckedNumerics\Jodo.Extensions.CheckedNumerics.csproj", "{A7D0F867-6822-4A6B-A1C6-69C32B469DC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Geometry", "Jodo.Extensions.Geometry\Jodo.Extensions.Geometry.csproj", "{0B09C663-CFB5-4A20-AB09-E1601BE69DFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.CheckedGeometry", "Jodo.Extensions.CheckedGeometry\Jodo.Extensions.CheckedGeometry.csproj", "{0B09C663-CFB5-4A20-AB09-E1601BE69DFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Collections", "Jodo.Extensions.Collections\Jodo.Extensions.Collections.csproj", "{C8B3D915-3B8C-4800-B21C-428C281BE385}"
 EndProject
@@ -27,19 +27,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Testing", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Benchmarking", "Jodo.Extensions.Benchmarking\Jodo.Extensions.Benchmarking.csproj", "{0A151C55-8DBB-447E-A89A-9BD2E0FA2075}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Geometry.Tests", "Jodo.Extensions.Geometry.Tests\Jodo.Extensions.Geometry.Tests.csproj", "{F09D29F6-D470-4A1A-8B57-E1D5699AAE1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.CheckedGeometry.Tests", "Jodo.Extensions.CheckedGeometry.Tests\Jodo.Extensions.CheckedGeometry.Tests.csproj", "{F09D29F6-D470-4A1A-8B57-E1D5699AAE1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Geometry.Benchmarks", "Jodo.Extensions.Geometry.Benchmarks\Jodo.Extensions.Geometry.Benchmarks.csproj", "{77836D4E-EBF9-4B3B-B3A3-A8B82C1D75EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.CheckedGeometry.Benchmarks", "Jodo.Extensions.CheckedGeometry.Benchmarks\Jodo.Extensions.CheckedGeometry.Benchmarks.csproj", "{77836D4E-EBF9-4B3B-B3A3-A8B82C1D75EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Numerics.Tests", "Jodo.Extensions.Numerics.Tests\Jodo.Extensions.Numerics.Tests.csproj", "{CC1D802A-4430-4F7D-8C6D-DF0FD7F99CCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.CheckedNumerics.Tests", "Jodo.Extensions.CheckedNumerics.Tests\Jodo.Extensions.CheckedNumerics.Tests.csproj", "{CC1D802A-4430-4F7D-8C6D-DF0FD7F99CCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.Numerics.Benchmarks", "Jodo.Extensions.Numerics.Benchmarks\Jodo.Extensions.Numerics.Benchmarks.csproj", "{B15100CB-5DA3-409C-A057-949C04390D5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodo.Extensions.CheckedNumerics.Benchmarks", "Jodo.Extensions.CheckedNumerics.Benchmarks\Jodo.Extensions.CheckedNumerics.Benchmarks.csproj", "{B15100CB-5DA3-409C-A057-949C04390D5A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections", "Collections", "{C9B74B34-041D-427D-8DF6-7F47807E64E0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Geometry", "Geometry", "{9F3632FA-220F-44E4-B0E6-CE3609839F9C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CheckedGeometry", "CheckedGeometry", "{9F3632FA-220F-44E4-B0E6-CE3609839F9C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Numerics", "Numerics", "{DCB75F85-EB42-4342-B02E-9186D60A9807}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CheckedNumerics", "CheckedNumerics", "{DCB75F85-EB42-4342-B02E-9186D60A9807}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarking", "Benchmarking", "{FEF49D2A-EE54-47CA-A0D7-35C82E6A16F6}"
 EndProject
