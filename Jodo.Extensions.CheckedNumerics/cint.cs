@@ -71,8 +71,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.Pi => Pi;
         bool INumeric<cint>.GreaterThan(cint value2) => this > value2;
         bool INumeric<cint>.GreaterThanOrEqualTo(cint value2) => this >= value2;
-        bool INumeric<cint>.SmallerThan(cint value2) => this < value2;
-        bool INumeric<cint>.SmallerThanOrEqualTo(cint value2) => this <= value2;
+        bool INumeric<cint>.LessThan(cint value2) => this < value2;
+        bool INumeric<cint>.LessThanOrEqualTo(cint value2) => this <= value2;
         cint INumeric<cint>.Abs() => new cint(Math.Abs(_value));
         cint INumeric<cint>.Acos() => new cint((int)Math.Acos(_value));
         cint INumeric<cint>.Acosh() => new cint((int)Math.Acosh(_value));

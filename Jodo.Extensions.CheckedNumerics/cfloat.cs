@@ -76,8 +76,8 @@ namespace Jodo.Extensions.CheckedNumerics
 
         bool INumeric<cfloat>.GreaterThan(cfloat value2) => this > value2;
         bool INumeric<cfloat>.GreaterThanOrEqualTo(cfloat value2) => this >= value2;
-        bool INumeric<cfloat>.SmallerThan(cfloat value2) => this < value2;
-        bool INumeric<cfloat>.SmallerThanOrEqualTo(cfloat value2) => this <= value2;
+        bool INumeric<cfloat>.LessThan(cfloat value2) => this < value2;
+        bool INumeric<cfloat>.LessThanOrEqualTo(cfloat value2) => this <= value2;
         cfloat INumeric<cfloat>.Abs() => new cfloat(MathF.Abs(_value));
         cfloat INumeric<cfloat>.Acos() => new cfloat(MathF.Acos(_value));
         cfloat INumeric<cfloat>.Acosh() => new cfloat(MathF.Acosh(_value));

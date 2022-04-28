@@ -75,8 +75,8 @@ namespace Jodo.Extensions.CheckedNumerics
         ufix64 INumeric<ufix64>.Pi => Pi;
         bool INumeric<ufix64>.GreaterThan(ufix64 value2) => _scaledValue > value2._scaledValue;
         bool INumeric<ufix64>.GreaterThanOrEqualTo(ufix64 value2) => _scaledValue >= value2._scaledValue;
-        bool INumeric<ufix64>.SmallerThan(ufix64 value2) => _scaledValue < value2._scaledValue;
-        bool INumeric<ufix64>.SmallerThanOrEqualTo(ufix64 value2) => _scaledValue <= value2._scaledValue;
+        bool INumeric<ufix64>.LessThan(ufix64 value2) => _scaledValue < value2._scaledValue;
+        bool INumeric<ufix64>.LessThanOrEqualTo(ufix64 value2) => _scaledValue <= value2._scaledValue;
         ufix64 INumeric<ufix64>.Abs() => this;
         ufix64 INumeric<ufix64>.Acos() => new ufix64(Checked.ToUInt64(Math.Acos(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.Acosh() => new ufix64(Checked.ToUInt64(Math.Acosh(ConversionValue) * ScalingFactor));

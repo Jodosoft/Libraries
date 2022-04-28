@@ -76,8 +76,8 @@ namespace Jodo.Extensions.CheckedNumerics
         fix64 INumeric<fix64>.Pi => Pi;
         bool INumeric<fix64>.GreaterThan(fix64 value2) => _scaledValue > value2._scaledValue;
         bool INumeric<fix64>.GreaterThanOrEqualTo(fix64 value2) => _scaledValue >= value2._scaledValue;
-        bool INumeric<fix64>.SmallerThan(fix64 value2) => _scaledValue < value2._scaledValue;
-        bool INumeric<fix64>.SmallerThanOrEqualTo(fix64 value2) => _scaledValue <= value2._scaledValue;
+        bool INumeric<fix64>.LessThan(fix64 value2) => _scaledValue < value2._scaledValue;
+        bool INumeric<fix64>.LessThanOrEqualTo(fix64 value2) => _scaledValue <= value2._scaledValue;
         fix64 INumeric<fix64>.Abs() => _scaledValue >= 0 ? this : new fix64(-_scaledValue);
         fix64 INumeric<fix64>.Acos() => new fix64(Checked.ToInt64(Math.Acos(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.Acosh() => new fix64(Checked.ToInt64(Math.Acosh(ConversionValue) * ScalingFactor));

@@ -37,8 +37,8 @@ namespace Jodo.Extensions.CheckedNumerics
 
         bool GreaterThan(T value2);
         bool GreaterThanOrEqualTo(T value2);
-        bool SmallerThan(T value2);
-        bool SmallerThanOrEqualTo(T value2);
+        bool LessThan(T value2);
+        bool LessThanOrEqualTo(T value2);
         T Abs();
         T Acos();
         T Acosh();
@@ -89,8 +89,8 @@ namespace Jodo.Extensions.CheckedNumerics
         T Parse(string s, NumberStyles style, IFormatProvider provider);
         T Next(Random random, T minInclusive, T maxInclusive);
 
-        public static bool operator <(INumeric<T> n, INumeric<T> t) => n.SmallerThan((T)t);
-        public static bool operator <=(INumeric<T> n, INumeric<T> t) => n.SmallerThanOrEqualTo((T)t);
+        public static bool operator <(INumeric<T> n, INumeric<T> t) => n.LessThan((T)t);
+        public static bool operator <=(INumeric<T> n, INumeric<T> t) => n.LessThanOrEqualTo((T)t);
         public static bool operator >(INumeric<T> n, INumeric<T> t) => n.GreaterThan((T)t);
         public static bool operator >=(INumeric<T> n, INumeric<T> t) => n.GreaterThanOrEqualTo((T)t);
         public static T operator %(INumeric<T> n, INumeric<T> t) => n.Remainder((T)t);
