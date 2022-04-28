@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2007 Joseph J. Short
+// Copyright (c) 2007 Joseph J. Short
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
 // deal in the Software without restriction, including without limitation the
@@ -17,9 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Extensions.Numerics
-{
-    public interface INumeric
-    {
-    }
-}
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Jodo.Extensions.Benchmarking.Tests")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.Collections.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.Collections.Tests")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.Geometry.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.Geometry.Tests")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.Numerics.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.Numerics.Tests")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.Testing.Tests")]
