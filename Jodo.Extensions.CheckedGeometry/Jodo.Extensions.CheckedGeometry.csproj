@@ -9,4 +9,7 @@
     <Summary>Reusable geometric types with protection from overflow</Summary>
     <Title>Jodo.Extensions.CheckedGeometry</Title>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Extensions.CheckedNumerics\Jodo.Extensions.CheckedNumerics.csproj" />
+  </ItemGroup>
 </Project>
