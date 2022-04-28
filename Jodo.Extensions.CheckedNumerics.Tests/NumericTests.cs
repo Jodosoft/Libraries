@@ -29,6 +29,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         static readonly object[] AllNumericTypes =
         {
             default(cfloat),
+            default(cdouble),
             default(cint),
             default(ucint),
             default(fix64),

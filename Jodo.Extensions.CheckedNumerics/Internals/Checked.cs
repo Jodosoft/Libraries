@@ -149,12 +149,6 @@ namespace Jodo.Extensions.CheckedNumerics.Internals
             return x / y;
         }
 
-        public static double Divide(double x, double y)
-        {
-            if (x == 0 && y == 0) return 0;
-            return x / y;
-        }
-
         public static uint Divide(uint x, uint y)
         {
             if (y == 0) return x == 0 ? 0 : uint.MaxValue;
@@ -281,6 +275,42 @@ namespace Jodo.Extensions.CheckedNumerics.Internals
             if (result == float.PositiveInfinity) return float.MaxValue;
             if (result == float.NegativeInfinity) return float.MinValue;
             if (result == float.NaN) return 0;
+            return result;
+        }
+
+        public static double Add(double x, double y)
+        {
+            double result = x + y;
+            if (result == double.PositiveInfinity) return double.MaxValue;
+            if (result == double.NegativeInfinity) return double.MinValue;
+            if (result == double.NaN) return 0;
+            return result;
+        }
+
+        public static double Subtract(double x, double y)
+        {
+            double result = x - y;
+            if (result == double.PositiveInfinity) return double.MaxValue;
+            if (result == double.NegativeInfinity) return double.MinValue;
+            if (result == double.NaN) return 0;
+            return result;
+        }
+
+        public static double Multiply(double x, double y)
+        {
+            double result = x * y;
+            if (result == double.PositiveInfinity) return double.MaxValue;
+            if (result == double.NegativeInfinity) return double.MinValue;
+            if (result == double.NaN) return 0;
+            return result;
+        }
+
+        public static double Divide(double x, double y)
+        {
+            double result = x / y;
+            if (result == double.PositiveInfinity) return double.MaxValue;
+            if (result == double.NegativeInfinity) return double.MinValue;
+            if (result == double.NaN) return 0;
             return result;
         }
     }
