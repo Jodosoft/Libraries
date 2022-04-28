@@ -1,2 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Jodo.Extensions.Collections</AssemblyName>
+    <AssemblyTitle>Jodo.Extensions.Collections</AssemblyTitle>
+    <Description>Reusable collection types</Description>
+    <PackageId>Jodo.Extensions.Collections</PackageId>
+    <PackageTags>collections</PackageTags>
+    <RootNamespace>Jodo.Extensions.Collections</RootNamespace>
+    <Summary>Reusable collection types</Summary>
+    <Title>Jodo.Extensions.Collections</Title>
+  </PropertyGroup>
 </Project>
