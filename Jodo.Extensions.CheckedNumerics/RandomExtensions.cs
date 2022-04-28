@@ -27,8 +27,8 @@ namespace System
     {
         public static T Next<T>(this Random random, IReadOnlyList<T> list) => list[random.Next(0, list.Count)];
         public static T Next<T>(this Random random, ReadOnlySpan<T> span) => span[random.Next(0, span.Length)];
-        public static T Next<T>(this Random random) where T : struct, INumeric<T> => default(T).Next(random, default(T).MinValue, default(T).MaxValue);
         public static T Next<T>(this Random random, T minInclusive, T maxInclusive) where T : struct, INumeric<T> => default(T).Next(random, minInclusive, maxInclusive);
+        public static T NextNumeric<T>(this Random random) where T : struct, INumeric<T> => default(T).Next(random, default(T).MinValue, default(T).MaxValue);
         public static bool NextBoolean(this Random random) => random.Next(0, 2) == 1;
         public static byte NextByte(this Random random) => (byte)random.Next(256);
         public static byte NextByte(this Random random, byte maxValue) => (byte)random.Next(maxValue);

@@ -68,8 +68,11 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.MaxValue => MaxValue;
         cint INumeric<cint>.MinUnit => MinUnit;
         cint INumeric<cint>.MinValue => MinValue;
+        cint INumeric<cint>.Zero => Zero;
         cint INumeric<cint>.One => One;
         cint INumeric<cint>.Pi => Pi;
+        bool INumeric<cint>.IsSigned => true;
+        bool INumeric<cint>.HasMantissa => false;
         bool INumeric<cint>.GreaterThan(cint value2) => this > value2;
         bool INumeric<cint>.GreaterThanOrEqualTo(cint value2) => this >= value2;
         bool INumeric<cint>.LessThan(cint value2) => this < value2;

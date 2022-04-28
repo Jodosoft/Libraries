@@ -72,9 +72,11 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.MaxValue => MaxValue;
         cfloat INumeric<cfloat>.MinUnit => MinUnit;
         cfloat INumeric<cfloat>.MinValue => MinValue;
+        cfloat INumeric<cfloat>.Zero => Zero;
         cfloat INumeric<cfloat>.One => One;
         cfloat INumeric<cfloat>.Pi => Pi;
-
+        bool INumeric<cfloat>.IsSigned => true;
+        bool INumeric<cfloat>.HasMantissa => true;
         bool INumeric<cfloat>.GreaterThan(cfloat value2) => this > value2;
         bool INumeric<cfloat>.GreaterThanOrEqualTo(cfloat value2) => this >= value2;
         bool INumeric<cfloat>.LessThan(cfloat value2) => this < value2;

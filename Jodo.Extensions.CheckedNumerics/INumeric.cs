@@ -31,8 +31,11 @@ namespace Jodo.Extensions.CheckedNumerics
         T MinValue { get; }
         T MaxUnit { get; }
         T MinUnit { get; }
+        T Zero { get; }
         T One { get; }
         T Pi { get; }
+        bool IsSigned { get; }
+        bool HasMantissa { get; }
 
         float Approximate(float offset);
 

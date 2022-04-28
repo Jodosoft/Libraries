@@ -73,8 +73,11 @@ namespace Jodo.Extensions.CheckedNumerics
         fix64 INumeric<fix64>.MinValue => MinValue;
         fix64 INumeric<fix64>.MaxUnit => MaxUnit;
         fix64 INumeric<fix64>.MinUnit => MinUnit;
+        fix64 INumeric<fix64>.Zero => Zero;
         fix64 INumeric<fix64>.One => One;
         fix64 INumeric<fix64>.Pi => Pi;
+        bool INumeric<fix64>.IsSigned => true;
+        bool INumeric<fix64>.HasMantissa => true;
         bool INumeric<fix64>.GreaterThan(fix64 value2) => _scaledValue > value2._scaledValue;
         bool INumeric<fix64>.GreaterThanOrEqualTo(fix64 value2) => _scaledValue >= value2._scaledValue;
         bool INumeric<fix64>.LessThan(fix64 value2) => _scaledValue < value2._scaledValue;

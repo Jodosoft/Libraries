@@ -32,9 +32,9 @@ namespace Jodo.Extensions.CheckedNumerics
         public static readonly T MaxValue = Default.MaxValue;
         public static readonly T MinUnit = Default.MinUnit;
         public static readonly T MinValue = Default.MinValue;
+        public static readonly T Zero = Default.Zero;
         public static readonly T One = Default.One;
         public static readonly T Pi = Default.Pi;
-        public static readonly T Zero = default;
 
         public static T Convert(byte value) => Default.Convert(value);
         public static T Parse(string s) => Default.Parse(s);
