@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedNumerics.Internals;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
@@ -91,8 +90,8 @@ namespace Jodo.Extensions.CheckedNumerics
         ucint INumeric<ucint>.Convert(byte value) => new ucint(value);
         ucint INumeric<ucint>.Cos() => new ucint((uint)Math.Cos(_value));
         ucint INumeric<ucint>.Cosh() => new ucint((uint)Math.Cosh(_value));
-        ucint INumeric<ucint>.DegreesToRadians() => new ucint((uint)Checked.DegreesToRadians(this));
-        ucint INumeric<ucint>.DegreesToTurns() => new ucint((uint)Checked.DegreesToTurns(this));
+        ucint INumeric<ucint>.DegreesToRadians() => new ucint((uint)CheckedMath.DegreesToRadians(this));
+        ucint INumeric<ucint>.DegreesToTurns() => new ucint((uint)CheckedMath.DegreesToTurns(this));
         ucint INumeric<ucint>.Divide(ucint value2) => this / value2;
         ucint INumeric<ucint>.Exp() => new ucint((uint)Math.Exp(_value));
         ucint INumeric<ucint>.Floor() => this;
@@ -108,9 +107,9 @@ namespace Jodo.Extensions.CheckedNumerics
         ucint INumeric<ucint>.Parse(string s, NumberStyles style) => new ucint(uint.Parse(s, style));
         ucint INumeric<ucint>.Parse(string s, NumberStyles style, IFormatProvider provider) => new ucint(uint.Parse(s, style, provider));
         ucint INumeric<ucint>.Positive() => this;
-        ucint INumeric<ucint>.Pow(ucint value2) => new ucint(Checked.Pow(_value, value2._value));
-        ucint INumeric<ucint>.RadiansToDegrees() => new ucint((uint)Checked.RadiansToDegrees(this));
-        ucint INumeric<ucint>.RadiansToTurns() => new ucint((uint)Checked.RadiansToTurns(this));
+        ucint INumeric<ucint>.Pow(ucint value2) => new ucint(CheckedMath.Pow(_value, value2._value));
+        ucint INumeric<ucint>.RadiansToDegrees() => new ucint((uint)CheckedMath.RadiansToDegrees(this));
+        ucint INumeric<ucint>.RadiansToTurns() => new ucint((uint)CheckedMath.RadiansToTurns(this));
         ucint INumeric<ucint>.Remainder(ucint value2) => this % value2;
         ucint INumeric<ucint>.Round() => this;
         ucint INumeric<ucint>.Round(byte digits) => this;
@@ -122,8 +121,8 @@ namespace Jodo.Extensions.CheckedNumerics
         ucint INumeric<ucint>.Subtract(ucint value2) => this - value2;
         ucint INumeric<ucint>.Tan() => new ucint((uint)Math.Tan(_value));
         ucint INumeric<ucint>.Tanh() => new ucint((uint)Math.Tanh(_value));
-        ucint INumeric<ucint>.TurnsToDegrees() => new ucint((uint)Checked.TurnsToDegrees(this));
-        ucint INumeric<ucint>.TurnsToRadians() => new ucint((uint)Checked.TurnsToRadians(this));
+        ucint INumeric<ucint>.TurnsToDegrees() => new ucint((uint)CheckedMath.TurnsToDegrees(this));
+        ucint INumeric<ucint>.TurnsToRadians() => new ucint((uint)CheckedMath.TurnsToRadians(this));
         ucint INumeric<ucint>.Next(Random random, ucint minInclusive, ucint maxInclusive) => new ucint(random.NextUInt32(minInclusive, maxInclusive));
 
         int IBitConverter<ucint>.Size => sizeof(uint);
@@ -164,17 +163,17 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator >=(ucint left, ucint right) => left._value >= right._value;
         public static ucint operator %(ucint left, ucint right) => new ucint(left._value % right._value);
         public static ucint operator &(ucint left, ucint right) => new ucint(left._value & right._value);
-        public static ucint operator -(ucint left, ucint right) => new ucint(Checked.Subtract(left._value, right._value));
-        public static ucint operator --(ucint value) => new ucint(Checked.Subtract(value._value, 1));
+        public static ucint operator -(ucint left, ucint right) => new ucint(CheckedMath.Subtract(left._value, right._value));
+        public static ucint operator --(ucint value) => new ucint(CheckedMath.Subtract(value._value, 1));
         public static ucint operator -(ucint _) => MinValue;
-        public static ucint operator *(ucint left, ucint right) => new ucint(Checked.Multiply(left._value, right._value));
-        public static ucint operator /(ucint left, ucint right) => new ucint(Checked.Divide(left._value, right._value));
+        public static ucint operator *(ucint left, ucint right) => new ucint(CheckedMath.Multiply(left._value, right._value));
+        public static ucint operator /(ucint left, ucint right) => new ucint(CheckedMath.Divide(left._value, right._value));
         public static ucint operator ^(ucint left, ucint right) => new ucint(left._value ^ right._value);
         public static ucint operator |(ucint left, ucint right) => new ucint(left._value | right._value);
         public static ucint operator ~(ucint value) => new ucint(~value._value);
-        public static ucint operator +(ucint left, ucint right) => new ucint(Checked.Add(left._value, right._value));
+        public static ucint operator +(ucint left, ucint right) => new ucint(CheckedMath.Add(left._value, right._value));
         public static ucint operator +(ucint value) => value;
-        public static ucint operator ++(ucint value) => new ucint(Checked.Add(value._value, 1));
+        public static ucint operator ++(ucint value) => new ucint(CheckedMath.Add(value._value, 1));
         public static ucint operator <<(ucint left, int right) => new ucint(left._value << right);
         public static ucint operator >>(ucint left, int right) => new ucint(left._value >> right);
     }

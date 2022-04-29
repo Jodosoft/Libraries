@@ -12,4 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Jodo.Extensions.Primitives\Jodo.Extensions.Primitives.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Internals\" />
+  </ItemGroup>
 </Project>

@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedNumerics.Internals;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
@@ -95,8 +94,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.Convert(byte value) => new cdouble(value);
         cdouble INumeric<cdouble>.Cos() => new cdouble(Math.Cos(_value));
         cdouble INumeric<cdouble>.Cosh() => new cdouble(Math.Cosh(_value));
-        cdouble INumeric<cdouble>.DegreesToRadians() => new cdouble(Checked.DegreesToRadians(_value));
-        cdouble INumeric<cdouble>.DegreesToTurns() => new cdouble(Checked.DegreesToTurns(_value));
+        cdouble INumeric<cdouble>.DegreesToRadians() => new cdouble(CheckedMath.DegreesToRadians(_value));
+        cdouble INumeric<cdouble>.DegreesToTurns() => new cdouble(CheckedMath.DegreesToTurns(_value));
         cdouble INumeric<cdouble>.Divide(cdouble value2) => this / value2;
         cdouble INumeric<cdouble>.Exp() => new cdouble(Math.Exp(_value));
         cdouble INumeric<cdouble>.Floor() => new cdouble(Math.Floor(_value));
@@ -114,8 +113,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.Parse(string s, NumberStyles style, IFormatProvider provider) => new cdouble(double.Parse(s, style, provider));
         cdouble INumeric<cdouble>.Positive() => this;
         cdouble INumeric<cdouble>.Pow(cdouble value2) => new cdouble(Math.Pow(_value, value2._value));
-        cdouble INumeric<cdouble>.RadiansToDegrees() => new cdouble(Checked.RadiansToDegrees(_value));
-        cdouble INumeric<cdouble>.RadiansToTurns() => new cdouble(Checked.RadiansToTurns(_value));
+        cdouble INumeric<cdouble>.RadiansToDegrees() => new cdouble(CheckedMath.RadiansToDegrees(_value));
+        cdouble INumeric<cdouble>.RadiansToTurns() => new cdouble(CheckedMath.RadiansToTurns(_value));
         cdouble INumeric<cdouble>.Remainder(cdouble value2) => this % value2;
         cdouble INumeric<cdouble>.Round() => new cdouble(Math.Round(_value));
         cdouble INumeric<cdouble>.Round(byte digits) => new cdouble(Math.Round(_value, digits));
@@ -127,8 +126,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.Subtract(cdouble value2) => this - value2;
         cdouble INumeric<cdouble>.Tan() => new cdouble(Math.Tan(_value));
         cdouble INumeric<cdouble>.Tanh() => new cdouble(Math.Tanh(_value));
-        cdouble INumeric<cdouble>.TurnsToDegrees() => new cdouble(Checked.TurnsToDegrees(_value));
-        cdouble INumeric<cdouble>.TurnsToRadians() => new cdouble(Checked.TurnsToRadians(_value));
+        cdouble INumeric<cdouble>.TurnsToDegrees() => new cdouble(CheckedMath.TurnsToDegrees(_value));
+        cdouble INumeric<cdouble>.TurnsToRadians() => new cdouble(CheckedMath.TurnsToRadians(_value));
 
         int IBitConverter<cdouble>.Size => sizeof(double);
         cdouble IBitConverter<cdouble>.FromBytes(ReadOnlySpan<byte> bytes) => new cdouble(BitConverter.ToDouble(bytes));
@@ -167,13 +166,13 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator >(cdouble left, cdouble right) => left._value > right._value;
         public static bool operator >=(cdouble left, cdouble right) => left._value >= right._value;
         public static cdouble operator %(cdouble left, cdouble right) => new cdouble(left._value % right._value);
-        public static cdouble operator -(cdouble left, cdouble right) => new cdouble(Checked.Subtract(left._value, right._value));
-        public static cdouble operator --(cdouble value) => new cdouble(Checked.Subtract(value._value, 1));
+        public static cdouble operator -(cdouble left, cdouble right) => new cdouble(CheckedMath.Subtract(left._value, right._value));
+        public static cdouble operator --(cdouble value) => new cdouble(CheckedMath.Subtract(value._value, 1));
         public static cdouble operator -(cdouble value) => new cdouble(-value._value);
-        public static cdouble operator *(cdouble left, cdouble right) => new cdouble(Checked.Multiply(left._value, right._value));
-        public static cdouble operator /(cdouble left, cdouble right) => new cdouble(Checked.Divide(left._value, right._value));
-        public static cdouble operator +(cdouble left, cdouble right) => new cdouble(Checked.Add(left._value, right._value));
+        public static cdouble operator *(cdouble left, cdouble right) => new cdouble(CheckedMath.Multiply(left._value, right._value));
+        public static cdouble operator /(cdouble left, cdouble right) => new cdouble(CheckedMath.Divide(left._value, right._value));
+        public static cdouble operator +(cdouble left, cdouble right) => new cdouble(CheckedMath.Add(left._value, right._value));
         public static cdouble operator +(cdouble value) => value;
-        public static cdouble operator ++(cdouble value) => new cdouble(Checked.Add(value._value, 1));
+        public static cdouble operator ++(cdouble value) => new cdouble(CheckedMath.Add(value._value, 1));
     }
 }

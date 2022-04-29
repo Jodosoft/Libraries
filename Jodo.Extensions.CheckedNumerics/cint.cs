@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedNumerics.Internals;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
@@ -91,8 +90,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.Convert(byte value) => new cint(value);
         cint INumeric<cint>.Cos() => new cint((int)Math.Cos(_value));
         cint INumeric<cint>.Cosh() => new cint((int)Math.Cosh(_value));
-        cint INumeric<cint>.DegreesToRadians() => new cint((int)Checked.DegreesToRadians(this));
-        cint INumeric<cint>.DegreesToTurns() => new cint((int)Checked.DegreesToTurns(this));
+        cint INumeric<cint>.DegreesToRadians() => new cint((int)CheckedMath.DegreesToRadians(this));
+        cint INumeric<cint>.DegreesToTurns() => new cint((int)CheckedMath.DegreesToTurns(this));
         cint INumeric<cint>.Divide(cint value2) => this / value2;
         cint INumeric<cint>.Exp() => new cint((int)Math.Exp(_value));
         cint INumeric<cint>.Floor() => this;
@@ -108,9 +107,9 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.Parse(string s, NumberStyles style) => new cint(int.Parse(s, style));
         cint INumeric<cint>.Parse(string s, NumberStyles style, IFormatProvider provider) => new cint(int.Parse(s, style, provider));
         cint INumeric<cint>.Positive() => this;
-        cint INumeric<cint>.Pow(cint value2) => new cint(Checked.Pow(_value, value2._value));
-        cint INumeric<cint>.RadiansToDegrees() => new cint((int)Checked.RadiansToDegrees(this));
-        cint INumeric<cint>.RadiansToTurns() => new cint((int)Checked.RadiansToTurns(this));
+        cint INumeric<cint>.Pow(cint value2) => new cint(CheckedMath.Pow(_value, value2._value));
+        cint INumeric<cint>.RadiansToDegrees() => new cint((int)CheckedMath.RadiansToDegrees(this));
+        cint INumeric<cint>.RadiansToTurns() => new cint((int)CheckedMath.RadiansToTurns(this));
         cint INumeric<cint>.Remainder(cint value2) => this % value2;
         cint INumeric<cint>.Round() => this;
         cint INumeric<cint>.Round(byte digits) => this;
@@ -122,8 +121,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.Subtract(cint value2) => this - value2;
         cint INumeric<cint>.Tan() => new cint((int)Math.Tan(_value));
         cint INumeric<cint>.Tanh() => new cint((int)Math.Tanh(_value));
-        cint INumeric<cint>.TurnsToDegrees() => new cint((int)Checked.TurnsToDegrees(this));
-        cint INumeric<cint>.TurnsToRadians() => new cint((int)Checked.TurnsToRadians(this));
+        cint INumeric<cint>.TurnsToDegrees() => new cint((int)CheckedMath.TurnsToDegrees(this));
+        cint INumeric<cint>.TurnsToRadians() => new cint((int)CheckedMath.TurnsToRadians(this));
         cint INumeric<cint>.Next(Random random, cint minInclusive, cint maxInclusive) => new cint(random.NextInt32(minInclusive, maxInclusive));
 
         int IBitConverter<cint>.Size => sizeof(int);
@@ -163,17 +162,17 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator >=(cint left, cint right) => left._value >= right._value;
         public static cint operator %(cint left, cint right) => new cint(left._value % right._value);
         public static cint operator &(cint left, cint right) => new cint(left._value & right._value);
-        public static cint operator -(cint left, cint right) => new cint(Checked.Subtract(left._value, right._value));
-        public static cint operator --(cint value) => new cint(Checked.Subtract(value._value, 1));
+        public static cint operator -(cint left, cint right) => new cint(CheckedMath.Subtract(left._value, right._value));
+        public static cint operator --(cint value) => new cint(CheckedMath.Subtract(value._value, 1));
         public static cint operator -(cint value) => new cint(-value._value);
-        public static cint operator *(cint left, cint right) => new cint(Checked.Multiply(left._value, right._value));
-        public static cint operator /(cint left, cint right) => new cint(Checked.Divide(left._value, right._value));
+        public static cint operator *(cint left, cint right) => new cint(CheckedMath.Multiply(left._value, right._value));
+        public static cint operator /(cint left, cint right) => new cint(CheckedMath.Divide(left._value, right._value));
         public static cint operator ^(cint left, cint right) => new cint(left._value ^ right._value);
         public static cint operator |(cint left, cint right) => new cint(left._value | right._value);
         public static cint operator ~(cint value) => new cint(~value._value);
-        public static cint operator +(cint left, cint right) => new cint(Checked.Add(left._value, right._value));
+        public static cint operator +(cint left, cint right) => new cint(CheckedMath.Add(left._value, right._value));
         public static cint operator +(cint value) => value;
-        public static cint operator ++(cint value) => new cint(Checked.Add(value._value, 1));
+        public static cint operator ++(cint value) => new cint(CheckedMath.Add(value._value, 1));
         public static cint operator <<(cint left, int right) => new cint(left._value << right);
         public static cint operator >>(cint left, int right) => new cint(left._value >> right);
     }

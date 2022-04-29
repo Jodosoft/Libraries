@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedNumerics.Internals;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
@@ -95,8 +94,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.Convert(byte value) => new cfloat(value);
         cfloat INumeric<cfloat>.Cos() => new cfloat(MathF.Cos(_value));
         cfloat INumeric<cfloat>.Cosh() => new cfloat(MathF.Cosh(_value));
-        cfloat INumeric<cfloat>.DegreesToRadians() => new cfloat(Checked.DegreesToRadians(_value));
-        cfloat INumeric<cfloat>.DegreesToTurns() => new cfloat(Checked.DegreesToTurns(_value));
+        cfloat INumeric<cfloat>.DegreesToRadians() => new cfloat(CheckedMath.DegreesToRadians(_value));
+        cfloat INumeric<cfloat>.DegreesToTurns() => new cfloat(CheckedMath.DegreesToTurns(_value));
         cfloat INumeric<cfloat>.Divide(cfloat value2) => this / value2;
         cfloat INumeric<cfloat>.Exp() => new cfloat(MathF.Exp(_value));
         cfloat INumeric<cfloat>.Floor() => new cfloat(MathF.Floor(_value));
@@ -114,8 +113,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.Parse(string s, NumberStyles style, IFormatProvider provider) => new cfloat(float.Parse(s, style, provider));
         cfloat INumeric<cfloat>.Positive() => this;
         cfloat INumeric<cfloat>.Pow(cfloat value2) => new cfloat(MathF.Pow(_value, value2._value));
-        cfloat INumeric<cfloat>.RadiansToDegrees() => new cfloat(Checked.RadiansToDegrees(_value));
-        cfloat INumeric<cfloat>.RadiansToTurns() => new cfloat(Checked.RadiansToTurns(_value));
+        cfloat INumeric<cfloat>.RadiansToDegrees() => new cfloat(CheckedMath.RadiansToDegrees(_value));
+        cfloat INumeric<cfloat>.RadiansToTurns() => new cfloat(CheckedMath.RadiansToTurns(_value));
         cfloat INumeric<cfloat>.Remainder(cfloat value2) => this % value2;
         cfloat INumeric<cfloat>.Round() => new cfloat(MathF.Round(_value));
         cfloat INumeric<cfloat>.Round(byte digits) => new cfloat(MathF.Round(_value, digits));
@@ -127,8 +126,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.Subtract(cfloat value2) => this - value2;
         cfloat INumeric<cfloat>.Tan() => new cfloat(MathF.Tan(_value));
         cfloat INumeric<cfloat>.Tanh() => new cfloat(MathF.Tanh(_value));
-        cfloat INumeric<cfloat>.TurnsToDegrees() => new cfloat(Checked.TurnsToDegrees(_value));
-        cfloat INumeric<cfloat>.TurnsToRadians() => new cfloat(Checked.TurnsToRadians(_value));
+        cfloat INumeric<cfloat>.TurnsToDegrees() => new cfloat(CheckedMath.TurnsToDegrees(_value));
+        cfloat INumeric<cfloat>.TurnsToRadians() => new cfloat(CheckedMath.TurnsToRadians(_value));
 
         int IBitConverter<cfloat>.Size => sizeof(float);
         cfloat IBitConverter<cfloat>.FromBytes(ReadOnlySpan<byte> bytes) => new cfloat(BitConverter.ToSingle(bytes));
@@ -167,13 +166,13 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator >(cfloat left, cfloat right) => left._value > right._value;
         public static bool operator >=(cfloat left, cfloat right) => left._value >= right._value;
         public static cfloat operator %(cfloat left, cfloat right) => new cfloat(left._value % right._value);
-        public static cfloat operator -(cfloat left, cfloat right) => new cfloat(Checked.Subtract(left._value, right._value));
-        public static cfloat operator --(cfloat value) => new cfloat(Checked.Subtract(value._value, 1));
+        public static cfloat operator -(cfloat left, cfloat right) => new cfloat(CheckedMath.Subtract(left._value, right._value));
+        public static cfloat operator --(cfloat value) => new cfloat(CheckedMath.Subtract(value._value, 1));
         public static cfloat operator -(cfloat value) => new cfloat(-value._value);
-        public static cfloat operator *(cfloat left, cfloat right) => new cfloat(Checked.Multiply(left._value, right._value));
-        public static cfloat operator /(cfloat left, cfloat right) => new cfloat(Checked.Divide(left._value, right._value));
-        public static cfloat operator +(cfloat left, cfloat right) => new cfloat(Checked.Add(left._value, right._value));
+        public static cfloat operator *(cfloat left, cfloat right) => new cfloat(CheckedMath.Multiply(left._value, right._value));
+        public static cfloat operator /(cfloat left, cfloat right) => new cfloat(CheckedMath.Divide(left._value, right._value));
+        public static cfloat operator +(cfloat left, cfloat right) => new cfloat(CheckedMath.Add(left._value, right._value));
         public static cfloat operator +(cfloat value) => value;
-        public static cfloat operator ++(cfloat value) => new cfloat(Checked.Add(value._value, 1));
+        public static cfloat operator ++(cfloat value) => new cfloat(CheckedMath.Add(value._value, 1));
     }
 }

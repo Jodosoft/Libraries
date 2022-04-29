@@ -21,6 +21,8 @@ using FluentAssertions;
 using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
@@ -35,6 +37,23 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             default(fix64),
             default(ufix64),
         };
+
+        [TestCaseSource(nameof(AllNumericTypes))]
+        public void Serialize_RoundTrip_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
+        {
+            //arrange
+            var input = Random.NextNumeric<T>();
+            var formatter = new BinaryFormatter();
+
+            //act
+            using var stream = new MemoryStream();
+            formatter.Serialize(stream, input);
+            stream.Position = 0;
+            var result = (T)formatter.Deserialize(stream);
+
+            //assert
+            result.Should().Be(input);
+        }
 
         [TestCaseSource(nameof(AllNumericTypes))]
         public void GetBytes_RoundTrip_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
@@ -87,6 +106,99 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
 
             //assert
             result.ToArray().Should().Contain(x => x != 0);
+        }
+
+        [TestCaseSource(nameof(AllNumericTypes))]
+        public void Increment_AtMaxValue_ResultIsMaxValue<T>(T _) where T : struct, INumeric<T>
+        {
+            //arrange
+            var input = Math<T>.MaxValue;
+
+            //act
+            var result = input + 1;
+
+            //assert
+            result.Should().Be(Math<T>.MaxValue);
+        }
+
+        [TestCaseSource(nameof(AllNumericTypes))]
+        public void Decrement_AtMinValue_ResultIsMaxValue<T>(T _) where T : struct, INumeric<T>
+        {
+            //arrange
+            var input = Math<T>.MinValue;
+
+            //act
+            var result = input - 1;
+
+            //assert
+            result.Should().Be(Math<T>.MinValue);
+        }
+
+        [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
+        public void DivideBy_1_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
+        {
+            //arrange
+            var input = Random.NextNumeric<T>();
+
+            //act
+            var result = input / 1;
+
+            //assert
+            result.Should().Be(input);
+        }
+
+        [TestCaseSource(nameof(AllNumericTypes))]
+        public void Multiply_By1_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
+        {
+            //arrange
+            var input = Random.NextNumeric<T>() * 1;
+
+            //act
+            var result = input * 1;
+
+            //assert
+            result.Should().Be(input);
+        }
+
+        [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
+        public void Divide_By0_ReturnsMaxValue<T>(T _) where T : struct, INumeric<T>
+        {
+            //arrange
+            var input = Random.NextNumeric<T>();
+
+            //act
+            var result = input / 0;
+
+            //assert
+            result.Should().Be(input);
+        }
+
+        [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
+        public void Add_Random_CorrectResult<T>(T _) where T : struct, INumeric<T>
+        {
+            //arrange
+            var left = Random.NextByte();
+            var right = Random.NextByte();
+
+            //act
+            var result = Math<T>.Convert(left) + Math<T>.Convert(right);
+
+            //assert
+            result.Should().Be(left + right);
+        }
+
+        [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
+        public void Add_Multiply_CorrectResult<T>(T _) where T : struct, INumeric<T>
+        {
+            //arrange
+            var left = Random.NextByte();
+            var right = Random.NextByte();
+
+            //act
+            var result = Math<T>.Convert(left) * Math<T>.Convert(right);
+
+            //assert
+            result.Should().Be(left * right);
         }
     }
 }

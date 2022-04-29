@@ -20,10 +20,10 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Jodo.Extensions.Benchmarking.Tests")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.CheckedGeometry.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.CheckedGeometry.Tests")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.CheckedNumerics.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodo.Extensions.CheckedNumerics.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Extensions.Collections.Benchmarks")]
 [assembly: InternalsVisibleTo("Jodo.Extensions.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Extensions.Geometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Extensions.Geometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Extensions.Numerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Extensions.Numerics.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Extensions.Testing.Tests")]
