@@ -34,8 +34,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             default(cdouble),
             default(cint),
             default(ucint),
-            default(fix64),
-            default(ufix64),
+            //default(fix64),
+            //default(ufix64),
         };
 
         [TestCaseSource(nameof(AllNumericTypes))]
@@ -134,8 +134,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(Math<T>.MinValue);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
-        public void DivideBy_1_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
+        [TestCaseSource(nameof(AllNumericTypes))]
+        public void Divide_ByOne_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
             var input = Random.NextNumeric<T>();
@@ -160,8 +160,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(input);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
-        public void Divide_By0_ReturnsMaxValue<T>(T _) where T : struct, INumeric<T>
+        [TestCaseSource(nameof(AllNumericTypes))]
+        public void Divide_ByZero_ReturnsMaxValue<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
             var input = Random.NextNumeric<T>();
@@ -170,7 +170,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             var result = input / 0;
 
             //assert
-            result.Should().Be(input);
+            result.Should().Be(Math<T>.MaxValue);
         }
 
         [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
@@ -187,8 +187,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(left + right);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
-        public void Add_Multiply_CorrectResult<T>(T _) where T : struct, INumeric<T>
+        [TestCaseSource(nameof(AllNumericTypes))]
+        public void Multiply_RandomValues_CorrectResult<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
             var left = Random.NextByte();

@@ -153,28 +153,40 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         [Test] public void Int64Pow_OverflowFromMaxValueBoundary_ReturnsMaxValue() => CheckedMath.Pow(long.MaxValue, (long)2).Should().Be(long.MaxValue);
         [Test] public void Int64Pow_Zero_ReturnsOne() => CheckedMath.Pow(Random.NextInt64(), (long)0).Should().Be((long)1);
 
+        [Test] public void SingleAdd_SmokeTest_CorrectResult() => CheckedMath.Add((float)12, (float)12).Should().Be(24);
+        [Test] public void SingleAdd_OverflowFromMaxValue_ReturnsMaxValue() => CheckedMath.Add(float.MaxValue, float.MaxValue).Should().Be(float.MaxValue);
+        [Test] public void SingleAdd_OverflowFromMinValue_ReturnsMinValue() => CheckedMath.Add(float.MinValue, float.MinValue).Should().Be(float.MinValue);
+        [Test] public void SingleSubtract_SmokeTest_CorrectResult() => CheckedMath.Subtract((float)12, (float)8).Should().Be(4);
+        [Test] public void SingleSubtract_OverflowFromMaxValue_ReturnsMaxValue() => CheckedMath.Subtract(float.MaxValue, float.MinValue).Should().Be(float.MaxValue);
+        [Test] public void SingleSubtract_OverflowFromMinValue_ReturnsMinValue() => CheckedMath.Subtract(float.MinValue, float.MaxValue).Should().Be(float.MinValue);
+        [Test] public void SingleMultiply_SmokeTest_CorrectResult() => CheckedMath.Multiply((float)12, (float)12).Should().Be(144);
+        [Test] public void SingleMultiply_OverflowFromMaxValue_ReturnsMaxValue() => CheckedMath.Multiply(float.MaxValue, float.MaxValue).Should().Be(float.MaxValue);
+        [Test] public void SingleMultiply_OverflowFromMinValue_ReturnsMinValue() => CheckedMath.Multiply(float.MaxValue, float.MinValue).Should().Be(float.MinValue);
+        [Test] public void SingleDivide_SmokeTest_CorrectResult() => CheckedMath.Divide((float)12, (float)4).Should().Be(3);
+        [Test] public void SingleDivide_ByZero_ReturnsMaxValue() => CheckedMath.Divide(Random.NextSingle(), (float)0).Should().Be(float.MaxValue);
+        [Test] public void SingleRemainder_SmokeTest_CorrectResult() => CheckedMath.Remainder((float)12, (float)5).Should().Be(2);
+        [Test] public void SingleRemainder_ByZero_ReturnsMaxValue() => CheckedMath.Remainder(Random.NextSingle(), (float)0).Should().Be(float.MaxValue);
+        [Test] public void SinglePow_OverflowFromMinValue_ReturnsMinValue() => CheckedMath.Pow(float.MinValue, (float)3).Should().Be(float.MinValue);
+        [Test] public void SinglePow_OverflowFromMaxValue_ReturnsMaxValue() => CheckedMath.Pow(float.MaxValue, float.MaxValue).Should().Be(float.MaxValue);
+        [Test] public void SinglePow_OverflowFromMaxValueBoundary_ReturnsMaxValue() => CheckedMath.Pow(float.MaxValue, (float)2).Should().Be(float.MaxValue);
+        [Test] public void SinglePow_Zero_ReturnsOne() => CheckedMath.Pow(Random.NextSingle(), (float)0).Should().Be((float)1);
 
-        [Test]
-        public void MultiplyFloat_Random_CorrectResult()
-        {
-            //arrange
-            var left = Random.NextSingle();
-            var right = Random.NextSingle();
-            var expected = left * right;
-            if (float.IsPositiveInfinity(expected)) expected = float.MaxValue;
-            if (float.IsNegativeInfinity(expected)) expected = float.MinValue;
-
-            //act
-            var result = CheckedMath.Multiply(left, right);
-
-            //assert
-            result.Should().Be(expected);
-        }
-
-        [Test]
-        public void MultiplyFloat_Nan_Returns0()
-        {
-            CheckedMath.Multiply(Random.NextSingle(), float.NaN).Should().Be(0);
-        }
+        [Test] public void DoubleAdd_SmokeTest_CorrectResult() => CheckedMath.Add((double)12, (double)12).Should().Be(24);
+        [Test] public void DoubleAdd_OverflowFromMaxValue_ReturnsMaxValue() => CheckedMath.Add(double.MaxValue, double.MaxValue).Should().Be(double.MaxValue);
+        [Test] public void DoubleAdd_OverflowFromMinValue_ReturnsMinValue() => CheckedMath.Add(double.MinValue, double.MinValue).Should().Be(double.MinValue);
+        [Test] public void DoubleSubtract_SmokeTest_CorrectResult() => CheckedMath.Subtract((double)12, (double)8).Should().Be(4);
+        [Test] public void DoubleSubtract_OverflowFromMaxValue_ReturnsMaxValue() => CheckedMath.Subtract(double.MaxValue, double.MinValue).Should().Be(double.MaxValue);
+        [Test] public void DoubleSubtract_OverflowFromMinValue_ReturnsMinValue() => CheckedMath.Subtract(double.MinValue, double.MaxValue).Should().Be(double.MinValue);
+        [Test] public void DoubleMultiply_SmokeTest_CorrectResult() => CheckedMath.Multiply((double)12, (double)12).Should().Be(144);
+        [Test] public void DoubleMultiply_OverflowFromMaxValue_ReturnsMaxValue() => CheckedMath.Multiply(double.MaxValue, double.MaxValue).Should().Be(double.MaxValue);
+        [Test] public void DoubleMultiply_OverflowFromMinValue_ReturnsMinValue() => CheckedMath.Multiply(double.MaxValue, double.MinValue).Should().Be(double.MinValue);
+        [Test] public void DoubleDivide_SmokeTest_CorrectResult() => CheckedMath.Divide((double)12, (double)4).Should().Be(3);
+        [Test] public void DoubleDivide_ByZero_ReturnsMaxValue() => CheckedMath.Divide(Random.NextDouble(), (double)0).Should().Be(double.MaxValue);
+        [Test] public void DoubleRemainder_SmokeTest_CorrectResult() => CheckedMath.Remainder((double)12, (double)5).Should().Be(2);
+        [Test] public void DoubleRemainder_ByZero_ReturnsMaxValue() => CheckedMath.Remainder(Random.NextDouble(), (double)0).Should().Be(double.MaxValue);
+        [Test] public void DoublePow_OverflowFromMinValue_ReturnsMinValue() => CheckedMath.Pow(double.MinValue, (double)3).Should().Be(double.MinValue);
+        [Test] public void DoublePow_OverflowFromMaxValue_ReturnsMaxValue() => CheckedMath.Pow(double.MaxValue, double.MaxValue).Should().Be(double.MaxValue);
+        [Test] public void DoublePow_OverflowFromMaxValueBoundary_ReturnsMaxValue() => CheckedMath.Pow(double.MaxValue, (double)2).Should().Be(double.MaxValue);
+        [Test] public void DoublePow_Zero_ReturnsOne() => CheckedMath.Pow(Random.NextDouble(), (double)0).Should().Be((double)1);
     }
 }

@@ -96,52 +96,52 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             if (y == 0) return 1;
             if (y == 1) return x;
-            var acc = x;
+            var result = x;
             for (byte i = 0; i < y; i++)
             {
-                try { checked { acc *= x; } }
+                try { checked { result *= x; } }
                 catch (OverflowException) { return byte.MaxValue; }
             }
-            return acc;
+            return result;
         }
 
         public static ushort Pow(ushort x, ushort y)
         {
             if (y == 0) return 1;
             if (y == 1) return x;
-            var acc = x;
+            var result = x;
             for (ushort i = 0; i < y; i++)
             {
-                try { checked { acc *= x; } }
+                try { checked { result *= x; } }
                 catch (OverflowException) { return ushort.MaxValue; }
             }
-            return acc;
+            return result;
         }
 
         public static uint Pow(uint x, uint y)
         {
             if (y == 0) return 1;
             if (y == 1) return x;
-            var acc = x;
+            var result = x;
             for (uint i = 0; i < y; i++)
             {
-                try { checked { acc *= x; } }
+                try { checked { result *= x; } }
                 catch (OverflowException) { return uint.MaxValue; }
             }
-            return acc;
+            return result;
         }
 
         public static ulong Pow(ulong x, ulong y)
         {
             if (y == 0) return 1;
             if (y == 1) return x;
-            var acc = x;
+            var result = x;
             for (ulong i = 0; i < y; i++)
             {
-                try { checked { acc *= x; } }
+                try { checked { result *= x; } }
                 catch (OverflowException) { return ulong.MaxValue; }
             }
-            return acc;
+            return result;
         }
 
         public static short Pow(short x, short y)
@@ -149,13 +149,13 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y < 0) return 0;
             if (y == 0) return 1;
             if (y == 1) return x;
-            var acc = x;
+            var result = x;
             for (short i = 0; i < y; i++)
             {
-                try { checked { acc *= x; } }
+                try { checked { result *= x; } }
                 catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? short.MaxValue : short.MinValue; }
             }
-            return acc;
+            return result;
         }
 
         public static int Pow(int x, int y)
@@ -163,13 +163,13 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y < 0) return 0;
             if (y == 0) return 1;
             if (y == 1) return x;
-            var acc = x;
+            var result = x;
             for (int i = 0; i < y; i++)
             {
-                try { checked { acc *= x; } }
+                try { checked { result *= x; } }
                 catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? int.MaxValue : int.MinValue; }
             }
-            return acc;
+            return result;
         }
 
         public static long Pow(long x, long y)
@@ -177,13 +177,31 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y < 0) return 0;
             if (y == 0) return 1;
             if (y == 1) return x;
-            var acc = x;
+            var result = x;
             for (long i = 0; i < y; i++)
             {
-                try { checked { acc *= x; } }
+                try { checked { result *= x; } }
                 catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? long.MaxValue : long.MinValue; }
             }
-            return acc;
+            return result;
+        }
+
+        public static float Pow(float x, float y)
+        {
+            var result = MathF.Pow(x, y);
+            if (float.IsNaN(result)) return float.MaxValue;
+            if (float.IsPositiveInfinity(result)) return float.MaxValue;
+            if (float.IsNegativeInfinity(result)) return float.MinValue;
+            return result;
+        }
+
+        public static double Pow(double x, double y)
+        {
+            var result = Math.Pow(x, y);
+            if (double.IsNaN(result)) return double.MaxValue;
+            if (double.IsPositiveInfinity(result)) return double.MaxValue;
+            if (double.IsNegativeInfinity(result)) return double.MinValue;
+            return result;
         }
 
         public static long ToInt64(double x)
@@ -255,7 +273,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static float Multiply(in float x, in float y)
         {
             float result = x * y;
-            if (float.IsNaN(result)) return 0f;
+            if (float.IsNaN(result)) return float.MaxValue;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
             if (float.IsNegativeInfinity(result)) return float.MinValue;
             return result;
@@ -264,18 +282,18 @@ namespace Jodo.Extensions.CheckedNumerics
         public static float Divide(in float x, in float y)
         {
             float result = x / y;
-            if (float.IsNaN(result)) return 0f;
+            if (float.IsNaN(result)) return float.MaxValue;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
-            if (float.IsNegativeInfinity(result)) return float.MinValue;
+            if (float.IsNegativeInfinity(result)) return float.MaxValue;
             return result;
         }
 
         public static float Remainder(in float x, in float y)
         {
             float result = x % y;
-            if (float.IsNaN(result)) return 0f;
+            if (float.IsNaN(result)) return float.MaxValue;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
-            if (float.IsNegativeInfinity(result)) return float.MinValue;
+            if (float.IsNegativeInfinity(result)) return float.MaxValue;
             return result;
         }
 
@@ -300,7 +318,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static double Multiply(in double x, in double y)
         {
             double result = x * y;
-            if (double.IsNaN(result)) return 0f;
+            if (double.IsNaN(result)) return double.MaxValue;
             if (double.IsPositiveInfinity(result)) return double.MaxValue;
             if (double.IsNegativeInfinity(result)) return double.MinValue;
             return result;
@@ -309,18 +327,18 @@ namespace Jodo.Extensions.CheckedNumerics
         public static double Divide(in double x, in double y)
         {
             double result = x / y;
-            if (double.IsNaN(result)) return 0f;
+            if (double.IsNaN(result)) return double.MaxValue;
             if (double.IsPositiveInfinity(result)) return double.MaxValue;
-            if (double.IsNegativeInfinity(result)) return double.MinValue;
+            if (double.IsNegativeInfinity(result)) return double.MaxValue;
             return result;
         }
 
         public static double Remainder(in double x, in double y)
         {
             double result = x % y;
-            if (double.IsNaN(result)) return 0f;
+            if (double.IsNaN(result)) return double.MaxValue;
             if (double.IsPositiveInfinity(result)) return double.MaxValue;
-            if (double.IsNegativeInfinity(result)) return double.MinValue;
+            if (double.IsNegativeInfinity(result)) return double.MaxValue;
             return result;
         }
     }

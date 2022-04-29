@@ -29,7 +29,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct cint : INumeric<cint>, IComparable<cint>, IEquatable<cint>, IFormattable, IComparable, ISerializable
+    public readonly struct cint : INumeric<cint>, IComparable<cint>, IEquatable<cint>, IComparable<int>, IEquatable<int>, IFormattable, IComparable, ISerializable
     {
         public static readonly cint E = new cint((int)Math.E);
         public static readonly cint Epsilon = new cint(1);
@@ -56,7 +56,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public float Approximate(float offset) => _value + offset;
         public int CompareTo(cint other) => _value.CompareTo(other._value);
         public int CompareTo(object value) => value == null ? 1 : (value is cint other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(cint)}.");
-        public override bool Equals(object? obj) => obj is cint other && _value == other._value;
+        public override bool Equals(object? obj) => (obj is cint other && _value == other._value) || (obj is int other2 && _value == other2);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
@@ -128,6 +128,9 @@ namespace Jodo.Extensions.CheckedNumerics
         int IBitConverter<cint>.Size => sizeof(int);
         cint IBitConverter<cint>.FromBytes(ReadOnlySpan<byte> bytes) => new cint(BitConverter.ToInt32(bytes));
         ReadOnlySpan<byte> IBitConverter<cint>.GetBytes() => BitConverter.GetBytes(_value);
+
+        int IComparable<int>.CompareTo(int other) => _value.CompareTo(other);
+        bool IEquatable<int>.Equals(int other) => _value.Equals(other);
 
         public static explicit operator cint(cfloat value) => new cint((int)value);
         public static explicit operator cint(decimal value) => new cint((int)value);
