@@ -4,13 +4,13 @@ Jodo.Extensions
 
 > Documentation in draft
 
-A collection of simple C# extensions have been useful in my personal projects.
+A collection of useful C# libraries written in the style of the .NET SDK.
 
 CheckedNumerics
 ---------------
-Provides a variety of numeric value types with built-in protection from overflow, designed to have identical usage to primitive numeric types in C#. Useful in systems where it is important not to have unexpected negative, infinite or NaN values.
+Provides a variety of numeric value types with built-in protection from overflow. For use in systems where it is important not to have unexpected negative, infinite or NaN values. Usage is identical to primitive value types, but with different results in cases of overflow and division by zero.
 
-> Note about performance: Checked arithmetic takes additional processor time for many operations, and the `readonly struct` wrappers employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance critical application, please consider profiling to assess the impact on performance. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number crunching or big-data applications.
+> Note: Checked arithmetic takes additional processor time, and wrapper structs employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance critical application, please consider profiling to assess the impact on performance. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number crunching or big-data applications.
 
 The following value types are provided:
 | CheckedNumerics value type | Underlying CLR type | Behaviour |
