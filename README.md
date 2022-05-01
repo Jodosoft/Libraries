@@ -2,15 +2,15 @@ Jodo.Extensions
 ===============
 [![Test](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml) [![CodeQL](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml)
 
-| Documentation in draft
+> Documentation in draft
 
-A collection of simple extensions to the .NET SDK that have been useful in my personal projects.
+A collection of simple C# extensions have been useful in my personal projects.
 
 CheckedNumerics
 ---------------
 Provides a variety of numeric value types with built-in protection from overflow, designed to have identical usage to primitive numeric types in C#. Useful in systems where it is important not to have unexpected negative, infinite or NaN values.
 
-> Note about performance: Checked arithmetic takes more processor time than unchecked for many operations, and the `readonly struct` wrappers employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance critical application, please use a profiler to assess the impact on performance. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number crunching or big-data applications.
+> Note about performance: Checked arithmetic takes additional processor time for many operations, and the `readonly struct` wrappers employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance critical application, please consider profiling to assess the impact on performance. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number crunching or big-data applications.
 
 The following value types are provided:
 | CheckedNumerics value type | Underlying CLR type | Behaviour |
