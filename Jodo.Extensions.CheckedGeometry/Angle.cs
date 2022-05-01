@@ -20,10 +20,12 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public readonly struct Angle<T> : IEquatable<Angle<T>> where T : struct, INumeric<T>
+    public readonly struct Angle<T> : IGeometric<Angle<T>> where T : struct, INumeric<T>
     {
         public static readonly Angle<T> Zero = default;
         public static readonly Angle<T> C90Degrees = FromDegrees(90);
@@ -46,11 +48,42 @@ namespace Jodo.Extensions.CheckedGeometry
             Degrees = degrees;
         }
 
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(Degrees), Degrees, typeof(T));
+        private Angle(SerializationInfo info, StreamingContext _) : this((T)info.GetValue(nameof(Degrees), typeof(T))) { }
+
         public Angle<cfloat> Approximate(float offset) => new Angle<cfloat>(Degrees.Approximate(offset));
         public bool Equals(Angle<T> other) => Degrees.Equals(other.Degrees);
         public override bool Equals(object? obj) => obj is Angle<T> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
         public override string ToString() => TypeString.Combine(GetType(), Degrees);
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IBitConverter<Angle<T>>.SizeOfValue => BitConverter<T>.Size;
+
+        Angle<T> IBitConverter<Angle<T>>.FromBytes(in ReadOnlySpan<byte> bytes)
+            => Angle<T>.FromDegrees(BitConverter<T>.FromBytes(bytes));
+
+        ReadOnlySpan<byte> IBitConverter<Angle<T>>.GetBytes()
+            => BitConverter<T>.GetBytes(Degrees);
+
+        Angle<T> IRandomGenerator<Angle<T>>.GetNext(Random random)
+            => Angle<T>.FromDegrees(random.NextNumeric<T>());
+
+        Angle<T> IRandomGenerator<Angle<T>>.GetNext(Random random, in Angle<T> bound1, in Angle<T> bound2)
+            => Angle<T>.FromDegrees(random.NextRandomizable(bound1.Degrees, bound2.Degrees));
+
+
+
+        Angle<T> IStringFormatter<Angle<T>>.Parse(in string s) => Parse(s);
+
+        Angle<T> IStringFormatter<Angle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
 
         public static Angle<T> FromDegrees(T degrees) => new Angle<T>(degrees);
         public static Angle<T> FromDegrees(byte degrees) => new Angle<T>(Math<T>.Convert(degrees));
@@ -76,20 +109,20 @@ namespace Jodo.Extensions.CheckedGeometry
         public static Angle<T> Parse(string value)
         {
             var trimmed = value.Trim();
-            if (trimmed.EndsWith("Degrees", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(Math<T>.Parse(trimmed[0..^7]));
-            else if (trimmed.EndsWith("Degree", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(Math<T>.Parse(trimmed[0..^6]));
-            else if (trimmed.EndsWith("Radians", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(Math<T>.Parse(trimmed[0..^7]));
-            else if (trimmed.EndsWith("Radian", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(Math<T>.Parse(trimmed[0..^6]));
-            else if (trimmed.EndsWith("Turns", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(Math<T>.Parse(trimmed[0..^5]));
-            else if (trimmed.EndsWith("Turn", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(Math<T>.Parse(trimmed[0..^4]));
-            else if (trimmed.EndsWith("Deg", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(Math<T>.Parse(trimmed[0..^3]));
-            else if (trimmed.EndsWith("Rad", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(Math<T>.Parse(trimmed[0..^3]));
-            else if (trimmed.EndsWith("PLA", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(Math<T>.Parse(trimmed[0..^3]));
-            else if (trimmed.EndsWith("TR", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(Math<T>.Parse(trimmed[0..^2]));
-            else if (trimmed.EndsWith("°", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(Math<T>.Parse(trimmed[0..^1]));
-            else if (trimmed.EndsWith("C", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(Math<T>.Parse(trimmed[0..^1]));
-            else if (trimmed.EndsWith("R", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(Math<T>.Parse(trimmed[0..^1]));
-            else return Angle<T>.FromDegrees(Math<T>.Parse(trimmed));
+            if (trimmed.EndsWith("Degrees", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringFormatter<T>.Parse(trimmed[0..^7]));
+            else if (trimmed.EndsWith("Degree", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringFormatter<T>.Parse(trimmed[0..^6]));
+            else if (trimmed.EndsWith("Radians", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringFormatter<T>.Parse(trimmed[0..^7]));
+            else if (trimmed.EndsWith("Radian", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringFormatter<T>.Parse(trimmed[0..^6]));
+            else if (trimmed.EndsWith("Turns", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(StringFormatter<T>.Parse(trimmed[0..^5]));
+            else if (trimmed.EndsWith("Turn", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(StringFormatter<T>.Parse(trimmed[0..^4]));
+            else if (trimmed.EndsWith("Deg", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringFormatter<T>.Parse(trimmed[0..^3]));
+            else if (trimmed.EndsWith("Rad", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringFormatter<T>.Parse(trimmed[0..^3]));
+            else if (trimmed.EndsWith("PLA", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(StringFormatter<T>.Parse(trimmed[0..^3]));
+            else if (trimmed.EndsWith("TR", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(StringFormatter<T>.Parse(trimmed[0..^2]));
+            else if (trimmed.EndsWith("°", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringFormatter<T>.Parse(trimmed[0..^1]));
+            else if (trimmed.EndsWith("C", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringFormatter<T>.Parse(trimmed[0..^1]));
+            else if (trimmed.EndsWith("R", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringFormatter<T>.Parse(trimmed[0..^1]));
+            else return Angle<T>.FromDegrees(StringFormatter<T>.Parse(trimmed));
         }
 
         public static Angle<T> operator -(Angle<T> value) => FromDegrees(-value.Degrees);

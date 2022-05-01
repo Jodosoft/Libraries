@@ -20,10 +20,12 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public readonly struct Vector2<T> : IEquatable<Vector2<T>> where T : struct, INumeric<T>
+    public readonly struct Vector2<T> : IGeometric<Vector2<T>> where T : struct, INumeric<T>
     {
         public readonly T X;
         public readonly T Y;
@@ -39,6 +41,15 @@ namespace Jodo.Extensions.CheckedGeometry
             X = x;
             Y = y;
         }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+        {
+            info.AddValue(nameof(X), X, typeof(T));
+            info.AddValue(nameof(Y), Y, typeof(T));
+        }
+
+        private Vector2(SerializationInfo info, StreamingContext _)
+            : this((T)info.GetValue(nameof(X), typeof(T)), (T)info.GetValue(nameof(Y), typeof(T))) { }
 
         public Vector2<T> RotateAround(in Vector2<T> pivot, in Angle<T> angle)
         {
@@ -63,6 +74,11 @@ namespace Jodo.Extensions.CheckedGeometry
         public Vector2<TOther> Convert<TOther>(Func<T, TOther> convert) where TOther : struct, INumeric<TOther> => (convert(X), convert(Y));
         public Vector2<cfloat> Approximate(float offset) => new Vector2<cfloat>(X.Approximate(offset), Y.Approximate(offset));
 
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
+
         public static bool TryParse(string value, out Vector2<T> result)
         {
             try
@@ -82,7 +98,45 @@ namespace Jodo.Extensions.CheckedGeometry
             value = value.Replace(TypeString.Combine(typeof(Vector2<T>)), string.Empty);
             var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
             if (args.Length != 2) throw new FormatException(""); // jjs
-            return new Vector2<T>(Math<T>.Parse(args[0].Trim()), Math<T>.Parse(args[1].Trim()));
+            return new Vector2<T>(StringFormatter<T>.Parse(args[0].Trim()), StringFormatter<T>.Parse(args[1].Trim()));
+        }
+
+        int IBitConverter<Vector2<T>>.SizeOfValue => BitConverter<T>.Size * 2;
+
+        Vector2<T> IBitConverter<Vector2<T>>.FromBytes(in ReadOnlySpan<byte> bytes)
+        {
+            return new Vector2<T>(
+                BitConverter<T>.FromBytes(bytes.Slice(0, BitConverter<T>.Size)),
+                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size, BitConverter<T>.Size)));
+        }
+
+        ReadOnlySpan<byte> IBitConverter<Vector2<T>>.GetBytes()
+        {
+            var result = new byte[BitConverter<T>.Size * 3];
+            BitConverter<T>.GetBytes(X).CopyTo(new Span<byte>(result, 0, BitConverter<T>.Size));
+            BitConverter<T>.GetBytes(Y).CopyTo(new Span<byte>(result, BitConverter<T>.Size, BitConverter<T>.Size));
+            return result;
+        }
+
+        Vector2<T> IRandomGenerator<Vector2<T>>.GetNext(Random random)
+        {
+            return new Vector2<T>(
+                random.NextNumeric<T>(),
+                random.NextNumeric<T>());
+        }
+
+        Vector2<T> IRandomGenerator<Vector2<T>>.GetNext(Random random, in Vector2<T> bound1, in Vector2<T> bound2)
+        {
+            return new Vector2<T>(
+                random.NextRandomizable(bound1.X, bound2.X),
+                random.NextRandomizable(bound1.Y, bound2.Y));
+        }
+
+        Vector2<T> IStringFormatter<Vector2<T>>.Parse(in string s) => Parse(s);
+
+        Vector2<T> IStringFormatter<Vector2<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
         }
 
         public static Vector2<T> operator -(Vector2<T> value) => new Vector2<T>(-value.X, -value.Y);

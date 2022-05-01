@@ -1,2 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Extensions.CheckedGeometry\Jodo.Extensions.CheckedGeometry.csproj" />
+  </ItemGroup>
 </Project>

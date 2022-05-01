@@ -20,10 +20,12 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public readonly struct Vector3<T> : IEquatable<Vector3<T>>, IBitConverter<Vector3<T>> where T : struct, INumeric<T>, IBitConverter<T>
+    public readonly struct Vector3<T> : IGeometric<Vector3<T>> where T : struct, INumeric<T>, IBitConverter<T>
     {
         public readonly T X;
         public readonly T Y;
@@ -38,10 +40,74 @@ namespace Jodo.Extensions.CheckedGeometry
             Z = z;
         }
 
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+        {
+            info.AddValue(nameof(X), X, typeof(T));
+            info.AddValue(nameof(Y), Y, typeof(T));
+            info.AddValue(nameof(Z), Z, typeof(T));
+        }
+
+        private Vector3(SerializationInfo info, StreamingContext _)
+            : this((T)info.GetValue(nameof(X), typeof(T)), (T)info.GetValue(nameof(Y), typeof(T)), (T)info.GetValue(nameof(Z), typeof(T))) { }
+
+
         public bool Equals(Vector3<T> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         public override bool Equals(object? obj) => obj is Vector3<T> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
         public override string ToString() => TypeString.Combine(GetType(), X, Y, Z);
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IEquatable<Vector3<T>>.Equals(Vector3<T> other)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        int IBitConverter<Vector3<T>>.SizeOfValue => BitConverter<T>.Size * 3;
+
+        Vector3<T> IBitConverter<Vector3<T>>.FromBytes(in ReadOnlySpan<byte> bytes)
+        {
+            return new Vector3<T>(
+                BitConverter<T>.FromBytes(bytes.Slice(0, BitConverter<T>.Size)),
+                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size, BitConverter<T>.Size)),
+                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size * 2, BitConverter<T>.Size)));
+        }
+
+        ReadOnlySpan<byte> IBitConverter<Vector3<T>>.GetBytes()
+        {
+            var result = new byte[BitConverter<T>.Size * 3];
+            BitConverter<T>.GetBytes(X).CopyTo(new Span<byte>(result, 0, BitConverter<T>.Size));
+            BitConverter<T>.GetBytes(Y).CopyTo(new Span<byte>(result, BitConverter<T>.Size, BitConverter<T>.Size));
+            BitConverter<T>.GetBytes(Z).CopyTo(new Span<byte>(result, BitConverter<T>.Size * 2, BitConverter<T>.Size));
+            return result;
+        }
+
+        Vector3<T> IRandomGenerator<Vector3<T>>.GetNext(Random random)
+        {
+            return new Vector3<T>(
+                random.NextNumeric<T>(),
+                random.NextNumeric<T>(),
+                random.NextNumeric<T>());
+        }
+
+        Vector3<T> IRandomGenerator<Vector3<T>>.GetNext(Random random, in Vector3<T> bound1, in Vector3<T> bound2)
+        {
+            return new Vector3<T>(
+                random.NextRandomizable(bound1.X, bound2.X),
+                random.NextRandomizable(bound1.Y, bound2.Y),
+                random.NextRandomizable(bound1.Z, bound2.Z));
+        }
+
+        Vector3<T> IStringFormatter<Vector3<T>>.Parse(in string s) => Parse(s);
+
+        Vector3<T> IStringFormatter<Vector3<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
 
         public static bool TryParse(string value, out Vector3<T> result)
         {
@@ -62,27 +128,12 @@ namespace Jodo.Extensions.CheckedGeometry
             value = value.Replace(TypeString.Combine(typeof(Vector3<T>)), string.Empty);
             var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
             if (args.Length != 3) throw new FormatException(""); // todo
-            return new Vector3<T>(Math<T>.Parse(args[0].Trim()), Math<T>.Parse(args[1].Trim()), Math<T>.Parse(args[2].Trim()));
-        }
-
-        int IBitConverter<Vector3<T>>.Size => BitConverter<T>.Size * 3;
-
-        Vector3<T> IBitConverter<Vector3<T>>.FromBytes(ReadOnlySpan<byte> bytes)
-        {
             return new Vector3<T>(
-                BitConverter<T>.FromBytes(bytes.Slice(0, BitConverter<T>.Size)),
-                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size, BitConverter<T>.Size)),
-                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size * 2, BitConverter<T>.Size)));
+                StringFormatter<T>.Parse(args[0].Trim()),
+                StringFormatter<T>.Parse(args[1].Trim()),
+                StringFormatter<T>.Parse(args[2].Trim()));
         }
 
-        ReadOnlySpan<byte> IBitConverter<Vector3<T>>.GetBytes()
-        {
-            var result = new byte[BitConverter<T>.Size * 3];
-            BitConverter<T>.GetBytes(X).CopyTo(new Span<byte>(result, 0, BitConverter<T>.Size));
-            BitConverter<T>.GetBytes(Y).CopyTo(new Span<byte>(result, BitConverter<T>.Size, BitConverter<T>.Size));
-            BitConverter<T>.GetBytes(Z).CopyTo(new Span<byte>(result, BitConverter<T>.Size * 2, BitConverter<T>.Size));
-            return result;
-        }
 
         public static Vector3<T> operator -(Vector3<T> value) => new Vector3<T>(-value.X, -value.Y, -value.Z);
         public static Vector3<T> operator -(Vector3<T> value1, Vector3<T> value2) => new Vector3<T>(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);

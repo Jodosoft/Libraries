@@ -17,29 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedNumerics;
+using System;
+using System.Globalization;
 
-namespace System
+namespace Jodo.Extensions.Primitives
 {
-    public static class RandomExtensions
+    public static class StringFormatter<T> where T : IStringFormatter<T>, new()
     {
-        public static T NextNumeric<T>(this Random random) where T : struct, INumeric<T>
-            => default(T).GetNext(random, default(T).MinValue, default(T).MaxValue);
+        private static readonly T DefaultInstance = new T();
 
-        public static T NextNumeric<T>(this Random random, T bound1, T bound2) where T : struct, INumeric<T>
-            => default(T).GetNext(random, bound1, bound2);
+        public static string ToString(T value, string format, IFormatProvider formatProvider)
+            => value.ToString(format, formatProvider);
 
-        public static fix64 NextFix64(this Random random, fix64 minValue, fix64 maxValue)
-        {
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");
-            if (minValue == maxValue) return minValue;
+        public static T Parse(in string s)
+            => DefaultInstance.Parse(s);
 
-            return fix64.FromInternalRepresentation(
-                random.NextInt64(fix64.GetInternalRepresentation(minValue), fix64.GetInternalRepresentation(maxValue)));
-        }
-
-        public static fix64 NextFix64(this Random random)
-            => fix64.FromBytes(random.NextBytes(64));
-
+        public static T Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+            => DefaultInstance.Parse(s, numberStyles, formatProvider);
     }
 }

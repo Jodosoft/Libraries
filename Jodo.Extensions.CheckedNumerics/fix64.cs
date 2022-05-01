@@ -29,7 +29,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct fix64 : INumeric<fix64>, IComparable<fix64>, IEquatable<fix64>, IFormattable, IComparable, ISerializable
+    public readonly struct fix64 : INumeric<fix64>
     {
         public static readonly fix64 E = new fix64(CheckedMath.ToInt64(Math.E * ScalingFactor));
         public static readonly fix64 Epsilon = new fix64(1);
@@ -66,6 +66,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override string ToString() => ConversionValue.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => ConversionValue.ToString(format, formatProvider);
 
+        fix64 INumeric<fix64>.Value => this;
         fix64 INumeric<fix64>.E => E;
         fix64 INumeric<fix64>.Epsilon => Epsilon;
         fix64 INumeric<fix64>.MaxValue => MaxValue;
@@ -92,6 +93,7 @@ namespace Jodo.Extensions.CheckedNumerics
         fix64 INumeric<fix64>.Atanh() => new fix64(CheckedMath.ToInt64(Math.Atanh(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.Cbrt() => new fix64(CheckedMath.ToInt64(Math.Cbrt(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.Ceiling() => new fix64(CheckedMath.ToInt64(Math.Ceiling(ConversionValue) * ScalingFactor));
+        fix64 INumeric<fix64>.Convert(byte value) => new fix64(value * ScalingFactor);
         fix64 INumeric<fix64>.Cos() => new fix64(CheckedMath.ToInt64(Math.Cos(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.Cosh() => new fix64(CheckedMath.ToInt64(Math.Cosh(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.DegreesToRadians() => new fix64(CheckedMath.ToInt64(CheckedMath.DegreesToRadians(ConversionValue) * ScalingFactor));
@@ -104,8 +106,8 @@ namespace Jodo.Extensions.CheckedNumerics
         fix64 INumeric<fix64>.Log10() => new fix64(CheckedMath.ToInt64(Math.Log10(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.Max(fix64 y) => _scaledValue > y._scaledValue ? this : y;
         fix64 INumeric<fix64>.Min(fix64 y) => _scaledValue < y._scaledValue ? this : y;
-        fix64 INumeric<fix64>.Negative() => -this;
         fix64 INumeric<fix64>.Multiply(fix64 value2) => this * value2;
+        fix64 INumeric<fix64>.Negative() => -this;
         fix64 INumeric<fix64>.Positive() => this;
         fix64 INumeric<fix64>.Pow(fix64 y) => new fix64(CheckedMath.ToInt64(Math.Pow(ConversionValue, y.ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.RadiansToDegrees() => new fix64(CheckedMath.ToInt64(CheckedMath.RadiansToDegrees(ConversionValue) * ScalingFactor));
@@ -123,24 +125,16 @@ namespace Jodo.Extensions.CheckedNumerics
         fix64 INumeric<fix64>.Tanh() => new fix64(CheckedMath.ToInt64(Math.Tanh(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.TurnsToDegrees() => new fix64(CheckedMath.ToInt64(CheckedMath.TurnsToDegrees(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.TurnsToRadians() => new fix64(CheckedMath.ToInt64(CheckedMath.TurnsToRadians(ConversionValue) * ScalingFactor));
-        fix64 INumeric<fix64>.Convert(byte value) => new fix64(value * ScalingFactor);
-        fix64 INumeric<fix64>.Parse(string s) => Parse(s);
-        fix64 INumeric<fix64>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-        fix64 INumeric<fix64>.Parse(string s, NumberStyles style) => Parse(s, style);
-        fix64 INumeric<fix64>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
 
-        fix64 INumeric<fix64>.Next(Random random, fix64 minInclusive, fix64 maxInclusive)
-        {
-            if (minInclusive > maxInclusive) throw new ArgumentOutOfRangeException(nameof(minInclusive), minInclusive, $"{nameof(minInclusive)}' cannot be greater than {nameof(maxInclusive)}");
-            if (minInclusive == maxInclusive) return minInclusive;
-            return FromInternalRepresentation(random.NextInt64(
-                    GetInternalRepresentation(minInclusive),
-                    GetInternalRepresentation(maxInclusive)));
-        }
-
-        int IBitConverter<fix64>.Size => sizeof(long);
-        fix64 IBitConverter<fix64>.FromBytes(ReadOnlySpan<byte> bytes) => new fix64(BitConverter.ToInt64(bytes));
+        int IBitConverter<fix64>.SizeOfValue => sizeof(long);
+        fix64 IBitConverter<fix64>.FromBytes(in ReadOnlySpan<byte> bytes) => new fix64(BitConverter.ToInt64(bytes));
         ReadOnlySpan<byte> IBitConverter<fix64>.GetBytes() => BitConverter.GetBytes(_scaledValue);
+
+        fix64 IRandomGenerator<fix64>.GetNext(Random random) => new fix64(random.NextInt64());
+        fix64 IRandomGenerator<fix64>.GetNext(Random random, in fix64 bound1, in fix64 bound2) => new fix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
+
+        fix64 IStringFormatter<fix64>.Parse(in string s) => throw new NotImplementedException();
+        fix64 IStringFormatter<fix64>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public static bool TryParse(string s, IFormatProvider provider, out fix64 result) => Try.Run(Parse, s, provider, out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out fix64 result) => Try.Run(Parse, s, style, provider, out result);

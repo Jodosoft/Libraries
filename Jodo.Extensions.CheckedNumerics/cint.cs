@@ -29,7 +29,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct cint : INumeric<cint>, IComparable<cint>, IEquatable<cint>, IComparable<int>, IEquatable<int>, IFormattable, IComparable, ISerializable
+    public readonly struct cint : INumeric<cint>
     {
         public static readonly cint E = new cint((int)Math.E);
         public static readonly cint Epsilon = new cint(1);
@@ -61,6 +61,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
+        cint INumeric<cint>.Value => this;
         cint INumeric<cint>.E => E;
         cint INumeric<cint>.Epsilon => Epsilon;
         cint INumeric<cint>.MaxUnit => MaxUnit;
@@ -102,10 +103,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.Min(cint y) => new cint(Math.Min(_value, y));
         cint INumeric<cint>.Multiply(cint value2) => this * value2;
         cint INumeric<cint>.Negative() => -this;
-        cint INumeric<cint>.Parse(string s) => new cint(int.Parse(s));
-        cint INumeric<cint>.Parse(string s, IFormatProvider provider) => new cint(int.Parse(s, provider));
-        cint INumeric<cint>.Parse(string s, NumberStyles style) => new cint(int.Parse(s, style));
-        cint INumeric<cint>.Parse(string s, NumberStyles style, IFormatProvider provider) => new cint(int.Parse(s, style, provider));
         cint INumeric<cint>.Positive() => this;
         cint INumeric<cint>.Pow(cint value2) => new cint(CheckedMath.Pow(_value, value2._value));
         cint INumeric<cint>.RadiansToDegrees() => new cint((int)CheckedMath.RadiansToDegrees(this));
@@ -123,14 +120,16 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.Tanh() => new cint((int)Math.Tanh(_value));
         cint INumeric<cint>.TurnsToDegrees() => new cint((int)CheckedMath.TurnsToDegrees(this));
         cint INumeric<cint>.TurnsToRadians() => new cint((int)CheckedMath.TurnsToRadians(this));
-        cint INumeric<cint>.Next(Random random, cint minInclusive, cint maxInclusive) => new cint(random.NextInt32(minInclusive, maxInclusive));
 
-        int IBitConverter<cint>.Size => sizeof(int);
-        cint IBitConverter<cint>.FromBytes(ReadOnlySpan<byte> bytes) => new cint(BitConverter.ToInt32(bytes));
+        int IBitConverter<cint>.SizeOfValue => sizeof(int);
+        cint IBitConverter<cint>.FromBytes(in ReadOnlySpan<byte> bytes) => new cint(BitConverter.ToInt32(bytes));
         ReadOnlySpan<byte> IBitConverter<cint>.GetBytes() => BitConverter.GetBytes(_value);
 
-        int IComparable<int>.CompareTo(int other) => _value.CompareTo(other);
-        bool IEquatable<int>.Equals(int other) => _value.Equals(other);
+        cint IRandomGenerator<cint>.GetNext(Random random) => new cint(random.NextInt32());
+        cint IRandomGenerator<cint>.GetNext(Random random, in cint bound1, in cint bound2) => new cint(random.NextInt32(bound1._value, bound2._value));
+
+        cint IStringFormatter<cint>.Parse(in string s) => new cint(int.Parse(s));
+        cint IStringFormatter<cint>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => new cint(int.Parse(s, numberStyles, formatProvider));
 
         public static explicit operator cint(cfloat value) => new cint((int)value);
         public static explicit operator cint(decimal value) => new cint((int)value);

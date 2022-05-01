@@ -21,12 +21,12 @@ using System;
 
 namespace Jodo.Extensions.Primitives
 {
-    public static class BitConverter<T> where T : struct, IBitConverter<T>
+    public static class BitConverter<T> where T : IBitConverter<T>, new()
     {
-        private static readonly T Default = default;
+        private static readonly T DefaultInstance = new T();
 
-        public static int Size => Default.Size;
-        public static ReadOnlySpan<byte> GetBytes(T value) => value.GetBytes();
-        public static T FromBytes(ReadOnlySpan<byte> bytes) => Default.FromBytes(bytes);
+        public static int Size => DefaultInstance.SizeOfValue;
+        public static ReadOnlySpan<byte> GetBytes(in T value) => value.GetBytes();
+        public static T FromBytes(in ReadOnlySpan<byte> bytes) => DefaultInstance.FromBytes(bytes);
     }
 }

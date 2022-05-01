@@ -19,12 +19,14 @@
 
 using Jodo.Extensions.Primitives;
 using System;
-using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
-    public interface INumeric<T> : IBitConverter<T> where T : struct, INumeric<T>
+    public interface INumeric<T> : IStringFormatter<T>, IBitConverter<T>, IRandomGenerator<T>, IComparable<T>, IEquatable<T>, IComparable, ISerializable where T : struct, INumeric<T>
     {
+        T Value { get; }
+
         T E { get; }
         T Epsilon { get; }
         T MaxValue { get; }
@@ -87,11 +89,6 @@ namespace Jodo.Extensions.CheckedNumerics
         T TurnsToRadians();
 
         T Convert(byte value);
-        T Parse(string s);
-        T Parse(string s, IFormatProvider provider);
-        T Parse(string s, NumberStyles style);
-        T Parse(string s, NumberStyles style, IFormatProvider provider);
-        T Next(Random random, T minInclusive, T maxInclusive);
 
         public static bool operator <(INumeric<T> n, INumeric<T> t) => n.LessThan((T)t);
         public static bool operator <=(INumeric<T> n, INumeric<T> t) => n.LessThanOrEqualTo((T)t);

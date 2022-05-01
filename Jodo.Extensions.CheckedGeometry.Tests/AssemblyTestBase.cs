@@ -17,29 +17,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedNumerics;
+using AutoFixture;
+using NUnit.Framework;
+using System;
 
-namespace System
+namespace Jodo.Extensions.CheckedGeometry.Tests
 {
-    public static class RandomExtensions
+    public abstract class AssemblyTestBase
     {
-        public static T NextNumeric<T>(this Random random) where T : struct, INumeric<T>
-            => default(T).GetNext(random, default(T).MinValue, default(T).MaxValue);
+        protected Random Random;
+        protected Fixture Fixture;
+        protected Exception Exception;
 
-        public static T NextNumeric<T>(this Random random, T bound1, T bound2) where T : struct, INumeric<T>
-            => default(T).GetNext(random, bound1, bound2);
-
-        public static fix64 NextFix64(this Random random, fix64 minValue, fix64 maxValue)
+        [SetUp]
+        public void SetUp()
         {
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");
-            if (minValue == maxValue) return minValue;
-
-            return fix64.FromInternalRepresentation(
-                random.NextInt64(fix64.GetInternalRepresentation(minValue), fix64.GetInternalRepresentation(maxValue)));
+            Random = new Random();
+            Fixture = new Fixture();
+            Exception = Fixture.Create<Exception>();
         }
-
-        public static fix64 NextFix64(this Random random)
-            => fix64.FromBytes(random.NextBytes(64));
-
     }
 }

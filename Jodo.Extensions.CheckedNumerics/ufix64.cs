@@ -29,7 +29,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct ufix64 : INumeric<ufix64>, IComparable<ufix64>, IEquatable<ufix64>, IFormattable, IComparable, ISerializable
+    public readonly struct ufix64 : INumeric<ufix64>
     {
         public static readonly ufix64 E = new ufix64(CheckedMath.ToUInt64(Math.E * ScalingFactor));
         public static readonly ufix64 Epsilon = new ufix64(1);
@@ -65,6 +65,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override string ToString() => ConversionValue.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => ConversionValue.ToString(format, formatProvider);
 
+        ufix64 INumeric<ufix64>.Value => this;
         ufix64 INumeric<ufix64>.E => E;
         ufix64 INumeric<ufix64>.Epsilon => Epsilon;
         ufix64 INumeric<ufix64>.MaxValue => MaxValue;
@@ -74,8 +75,8 @@ namespace Jodo.Extensions.CheckedNumerics
         ufix64 INumeric<ufix64>.Zero => Zero;
         ufix64 INumeric<ufix64>.One => One;
         ufix64 INumeric<ufix64>.Pi => Pi;
-        bool INumeric<ufix64>.IsSigned => false;
         bool INumeric<ufix64>.HasMantissa => true;
+        bool INumeric<ufix64>.IsSigned => false;
         bool INumeric<ufix64>.GreaterThan(ufix64 value2) => _scaledValue > value2._scaledValue;
         bool INumeric<ufix64>.GreaterThanOrEqualTo(ufix64 value2) => _scaledValue >= value2._scaledValue;
         bool INumeric<ufix64>.LessThan(ufix64 value2) => _scaledValue < value2._scaledValue;
@@ -91,6 +92,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ufix64 INumeric<ufix64>.Atanh() => new ufix64(CheckedMath.ToUInt64(Math.Atanh(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.Cbrt() => new ufix64(CheckedMath.ToUInt64(Math.Cbrt(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.Ceiling() => new ufix64(CheckedMath.ToUInt64(Math.Ceiling(ConversionValue) * ScalingFactor));
+        ufix64 INumeric<ufix64>.Convert(byte value) => new ufix64(value * ScalingFactor);
         ufix64 INumeric<ufix64>.Cos() => new ufix64(CheckedMath.ToUInt64(Math.Cos(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.Cosh() => new ufix64(CheckedMath.ToUInt64(Math.Cosh(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.DegreesToRadians() => new ufix64(CheckedMath.ToUInt64(CheckedMath.DegreesToRadians(ConversionValue) * ScalingFactor));
@@ -103,8 +105,8 @@ namespace Jodo.Extensions.CheckedNumerics
         ufix64 INumeric<ufix64>.Log10() => new ufix64(CheckedMath.ToUInt64(Math.Log10(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.Max(ufix64 y) => _scaledValue > y._scaledValue ? this : y;
         ufix64 INumeric<ufix64>.Min(ufix64 y) => _scaledValue < y._scaledValue ? this : y;
-        ufix64 INumeric<ufix64>.Negative() => MinValue;
         ufix64 INumeric<ufix64>.Multiply(ufix64 value2) => this * value2;
+        ufix64 INumeric<ufix64>.Negative() => MinValue;
         ufix64 INumeric<ufix64>.Positive() => this;
         ufix64 INumeric<ufix64>.Pow(ufix64 y) => new ufix64(CheckedMath.ToUInt64(Math.Pow(ConversionValue, y.ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.RadiansToDegrees() => new ufix64(CheckedMath.ToUInt64(CheckedMath.RadiansToDegrees(ConversionValue) * ScalingFactor));
@@ -122,24 +124,16 @@ namespace Jodo.Extensions.CheckedNumerics
         ufix64 INumeric<ufix64>.Tanh() => new ufix64(CheckedMath.ToUInt64(Math.Tanh(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.TurnsToDegrees() => new ufix64(CheckedMath.ToUInt64(CheckedMath.TurnsToDegrees(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.TurnsToRadians() => new ufix64(CheckedMath.ToUInt64(CheckedMath.TurnsToRadians(ConversionValue) * ScalingFactor));
-        ufix64 INumeric<ufix64>.Convert(byte value) => new ufix64(value * ScalingFactor);
-        ufix64 INumeric<ufix64>.Parse(string s) => Parse(s);
-        ufix64 INumeric<ufix64>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-        ufix64 INumeric<ufix64>.Parse(string s, NumberStyles style) => Parse(s, style);
-        ufix64 INumeric<ufix64>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
 
-        int IBitConverter<ufix64>.Size => sizeof(ulong);
-        ufix64 IBitConverter<ufix64>.FromBytes(ReadOnlySpan<byte> bytes) => new ufix64(BitConverter.ToUInt64(bytes));
+        int IBitConverter<ufix64>.SizeOfValue => sizeof(ulong);
+        ufix64 IBitConverter<ufix64>.FromBytes(in ReadOnlySpan<byte> bytes) => new ufix64(BitConverter.ToUInt64(bytes));
         ReadOnlySpan<byte> IBitConverter<ufix64>.GetBytes() => BitConverter.GetBytes(_scaledValue);
 
-        ufix64 INumeric<ufix64>.Next(Random random, ufix64 minInclusive, ufix64 maxInclusive)
-        {
-            if (minInclusive > maxInclusive) throw new ArgumentOutOfRangeException(nameof(minInclusive), minInclusive, $"{nameof(minInclusive)}' cannot be greater than {nameof(maxInclusive)}");
-            if (minInclusive == maxInclusive) return minInclusive;
-            return FromInternalRepresentation(random.NextUInt64(
-                    GetInternalRepresentation(minInclusive),
-                    GetInternalRepresentation(maxInclusive)));
-        }
+        ufix64 IRandomGenerator<ufix64>.GetNext(Random random) => new ufix64(random.NextUInt64());
+        ufix64 IRandomGenerator<ufix64>.GetNext(Random random, in ufix64 bound1, in ufix64 bound2) => new ufix64(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
+
+        ufix64 IStringFormatter<ufix64>.Parse(in string s) => throw new NotImplementedException();
+        ufix64 IStringFormatter<ufix64>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public static bool TryParse(string s, IFormatProvider provider, out ufix64 result) => Try.Run(Parse, s, provider, out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ufix64 result) => Try.Run(Parse, s, style, provider, out result);

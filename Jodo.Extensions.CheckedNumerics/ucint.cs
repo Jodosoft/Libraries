@@ -29,7 +29,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct ucint : INumeric<ucint>, IComparable<ucint>, IEquatable<ucint>, IFormattable, IComparable, ISerializable
+    public readonly struct ucint : INumeric<ucint>
     {
         public static readonly ucint E = new ucint((int)Math.E);
         public static readonly ucint Epsilon = new ucint(1);
@@ -61,6 +61,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
+        ucint INumeric<ucint>.Value => this;
         ucint INumeric<ucint>.E => E;
         ucint INumeric<ucint>.Epsilon => Epsilon;
         ucint INumeric<ucint>.MaxUnit => MaxUnit;
@@ -102,10 +103,6 @@ namespace Jodo.Extensions.CheckedNumerics
         ucint INumeric<ucint>.Min(ucint y) => new ucint(Math.Min(_value, y));
         ucint INumeric<ucint>.Multiply(ucint value2) => this * value2;
         ucint INumeric<ucint>.Negative() => -this;
-        ucint INumeric<ucint>.Parse(string s) => new ucint(uint.Parse(s));
-        ucint INumeric<ucint>.Parse(string s, IFormatProvider provider) => new ucint(uint.Parse(s, provider));
-        ucint INumeric<ucint>.Parse(string s, NumberStyles style) => new ucint(uint.Parse(s, style));
-        ucint INumeric<ucint>.Parse(string s, NumberStyles style, IFormatProvider provider) => new ucint(uint.Parse(s, style, provider));
         ucint INumeric<ucint>.Positive() => this;
         ucint INumeric<ucint>.Pow(ucint value2) => new ucint(CheckedMath.Pow(_value, value2._value));
         ucint INumeric<ucint>.RadiansToDegrees() => new ucint((uint)CheckedMath.RadiansToDegrees(this));
@@ -123,11 +120,16 @@ namespace Jodo.Extensions.CheckedNumerics
         ucint INumeric<ucint>.Tanh() => new ucint((uint)Math.Tanh(_value));
         ucint INumeric<ucint>.TurnsToDegrees() => new ucint((uint)CheckedMath.TurnsToDegrees(this));
         ucint INumeric<ucint>.TurnsToRadians() => new ucint((uint)CheckedMath.TurnsToRadians(this));
-        ucint INumeric<ucint>.Next(Random random, ucint minInclusive, ucint maxInclusive) => new ucint(random.NextUInt32(minInclusive, maxInclusive));
 
-        int IBitConverter<ucint>.Size => sizeof(uint);
-        ucint IBitConverter<ucint>.FromBytes(ReadOnlySpan<byte> bytes) => new ucint(BitConverter.ToUInt32(bytes));
+        int IBitConverter<ucint>.SizeOfValue => sizeof(uint);
+        ucint IBitConverter<ucint>.FromBytes(in ReadOnlySpan<byte> bytes) => new ucint(BitConverter.ToUInt32(bytes));
         ReadOnlySpan<byte> IBitConverter<ucint>.GetBytes() => BitConverter.GetBytes(_value);
+
+        ucint IRandomGenerator<ucint>.GetNext(Random random) => new ucint(random.NextUInt32());
+        ucint IRandomGenerator<ucint>.GetNext(Random random, in ucint bound1, in ucint bound2) => new ucint(random.NextUInt32(bound1._value, bound2._value));
+
+        ucint IStringFormatter<ucint>.Parse(in string s) => new ucint(uint.Parse(s));
+        ucint IStringFormatter<ucint>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => new ucint(uint.Parse(s, numberStyles, formatProvider));
 
         public static explicit operator ucint(cfloat value) => new ucint((uint)value);
         public static explicit operator ucint(decimal value) => new ucint((uint)value);

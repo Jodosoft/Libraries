@@ -21,10 +21,10 @@ using System;
 
 namespace Jodo.Extensions.Primitives
 {
-    public interface IBitConverter<T>
+    public interface IBitConverter<out T>
     {
-        int Size { get; }
-        T FromBytes(ReadOnlySpan<byte> bytes);
+        int SizeOfValue { get; }
+        T FromBytes(in ReadOnlySpan<byte> bytes);
         ReadOnlySpan<byte> GetBytes();
     }
 }

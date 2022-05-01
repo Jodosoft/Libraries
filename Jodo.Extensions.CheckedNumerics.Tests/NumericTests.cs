@@ -34,8 +34,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             default(cdouble),
             default(cint),
             default(ucint),
-            //default(fix64),
-            //default(ufix64),
+            default(fix64),
+            default(ufix64),
         };
 
         [TestCaseSource(nameof(AllNumericTypes))]
@@ -173,32 +173,18 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(Math<T>.MaxValue);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes)), Ignore("WIP")]
+        [TestCaseSource(nameof(AllNumericTypes))]
         public void Add_Random_CorrectResult<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
-            var left = Random.NextByte();
-            var right = Random.NextByte();
+            var left = Random.NextByte(0, 127);
+            var right = Random.NextByte(0, 127);
 
             //act
             var result = Math<T>.Convert(left) + Math<T>.Convert(right);
 
             //assert
-            result.Should().Be(left + right);
-        }
-
-        [TestCaseSource(nameof(AllNumericTypes))]
-        public void Multiply_RandomValues_CorrectResult<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            var left = Random.NextByte();
-            var right = Random.NextByte();
-
-            //act
-            var result = Math<T>.Convert(left) * Math<T>.Convert(right);
-
-            //assert
-            result.Should().Be(left * right);
+            result.Should().Be(Math<T>.Convert((byte)(left + right)));
         }
     }
 }

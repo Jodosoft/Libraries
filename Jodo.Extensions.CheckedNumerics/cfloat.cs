@@ -29,7 +29,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct cfloat : INumeric<cfloat>, IComparable<cfloat>, IEquatable<cfloat>, IFormattable, IComparable, ISerializable
+    public readonly struct cfloat : INumeric<cfloat>
     {
         public static readonly cfloat E = new cfloat(MathF.E);
         public static readonly cfloat Epsilon = new cfloat(float.Epsilon);
@@ -65,6 +65,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
+        cfloat INumeric<cfloat>.Value => this;
         cfloat INumeric<cfloat>.E => E;
         cfloat INumeric<cfloat>.Epsilon => Epsilon;
         cfloat INumeric<cfloat>.MaxUnit => MaxUnit;
@@ -74,8 +75,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.Zero => Zero;
         cfloat INumeric<cfloat>.One => One;
         cfloat INumeric<cfloat>.Pi => Pi;
-        bool INumeric<cfloat>.IsSigned => true;
         bool INumeric<cfloat>.HasMantissa => true;
+        bool INumeric<cfloat>.IsSigned => true;
         bool INumeric<cfloat>.GreaterThan(cfloat value2) => this > value2;
         bool INumeric<cfloat>.GreaterThanOrEqualTo(cfloat value2) => this >= value2;
         bool INumeric<cfloat>.LessThan(cfloat value2) => this < value2;
@@ -106,11 +107,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.Min(cfloat y) => new cfloat(MathF.Min(_value, y._value));
         cfloat INumeric<cfloat>.Multiply(cfloat value2) => this * value2;
         cfloat INumeric<cfloat>.Negative() => -this;
-        cfloat INumeric<cfloat>.Next(Random random, cfloat minInclusive, cfloat maxInclusive) => new cfloat(random.NextSingle(minInclusive._value, maxInclusive._value));
-        cfloat INumeric<cfloat>.Parse(string s) => new cfloat(float.Parse(s));
-        cfloat INumeric<cfloat>.Parse(string s, IFormatProvider provider) => new cfloat(float.Parse(s, provider));
-        cfloat INumeric<cfloat>.Parse(string s, NumberStyles style) => new cfloat(float.Parse(s, style));
-        cfloat INumeric<cfloat>.Parse(string s, NumberStyles style, IFormatProvider provider) => new cfloat(float.Parse(s, style, provider));
         cfloat INumeric<cfloat>.Positive() => this;
         cfloat INumeric<cfloat>.Pow(cfloat value2) => new cfloat(MathF.Pow(_value, value2._value));
         cfloat INumeric<cfloat>.RadiansToDegrees() => new cfloat(CheckedMath.RadiansToDegrees(_value));
@@ -129,9 +125,15 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.TurnsToDegrees() => new cfloat(CheckedMath.TurnsToDegrees(_value));
         cfloat INumeric<cfloat>.TurnsToRadians() => new cfloat(CheckedMath.TurnsToRadians(_value));
 
-        int IBitConverter<cfloat>.Size => sizeof(float);
-        cfloat IBitConverter<cfloat>.FromBytes(ReadOnlySpan<byte> bytes) => new cfloat(BitConverter.ToSingle(bytes));
+        int IBitConverter<cfloat>.SizeOfValue => sizeof(float);
+        cfloat IBitConverter<cfloat>.FromBytes(in ReadOnlySpan<byte> bytes) => new cfloat(BitConverter.ToSingle(bytes));
         ReadOnlySpan<byte> IBitConverter<cfloat>.GetBytes() => BitConverter.GetBytes(_value);
+
+        cfloat IRandomGenerator<cfloat>.GetNext(Random random) => new cfloat(random.NextSingle());
+        cfloat IRandomGenerator<cfloat>.GetNext(Random random, in cfloat bound1, in cfloat bound2) => throw new NotImplementedException();
+
+        cfloat IStringFormatter<cfloat>.Parse(in string s) => new cfloat(float.Parse(s));
+        cfloat IStringFormatter<cfloat>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => new cfloat(float.Parse(s, numberStyles, formatProvider));
 
         public static explicit operator cfloat(decimal value) => new cfloat((float)value);
         public static explicit operator cfloat(double value) => new cfloat((float)value);

@@ -18,11 +18,14 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public readonly struct Unit<T> : IEquatable<Unit<T>> where T : struct, INumeric<T>
+    public readonly struct Unit<T> : IGeometric<Unit<T>> where T : struct, INumeric<T>
     {
         public static Unit<T> Zero = new Unit<T>(Math<T>.Zero);
         public static Unit<T> MaxValue = new Unit<T>(Math<T>.MaxUnit);
@@ -35,12 +38,31 @@ namespace Jodo.Extensions.CheckedGeometry
             Value = Math<T>.Clamp(value, Math<T>.MinUnit, Math<T>.MaxUnit);
         }
 
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(Value), Value, typeof(T));
+        private Unit(SerializationInfo info, StreamingContext _) : this((T)info.GetValue(nameof(Value), typeof(T))) { }
+
         public bool Equals(Unit<T> other) => Value.Equals(other.Value);
         public override bool Equals(object? obj) => obj is Unit<T> unit && Equals(unit);
         public override int GetHashCode() => Value.GetHashCode();
         public override string ToString() => Value.ToString();
         public Unit<cfloat> Approximate(float offset) => new Unit<cfloat>(Value.Approximate(offset));
+        public string ToString(string format, IFormatProvider formatProvider) => Value.ToString(format, formatProvider);
 
+        int IBitConverter<Unit<T>>.SizeOfValue => BitConverter<T>.Size;
+        Unit<T> IBitConverter<Unit<T>>.FromBytes(in ReadOnlySpan<byte> bytes)
+            => new Unit<T>(BitConverter<T>.FromBytes(bytes));
+        ReadOnlySpan<byte> IBitConverter<Unit<T>>.GetBytes()
+            => BitConverter<T>.GetBytes(Value);
+
+        Unit<T> IRandomGenerator<Unit<T>>.GetNext(Random random)
+            => new Unit<T>(random.NextNumeric<T>(Math<T>.MinUnit, Math<T>.MaxUnit));
+        Unit<T> IRandomGenerator<Unit<T>>.GetNext(Random random, in Unit<T> bound1, in Unit<T> bound2)
+            => new Unit<T>(random.NextNumeric<T>(bound1.Value, bound2.Value));
+
+        Unit<T> IStringFormatter<Unit<T>>.Parse(in string s)
+            => new Unit<T>(StringFormatter<T>.Parse(s));
+        Unit<T> IStringFormatter<Unit<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+            => new Unit<T>(StringFormatter<T>.Parse(s, numberStyles, formatProvider));
 
         public static implicit operator T(Unit<T> unit) => unit.Value;
         public static explicit operator Unit<T>(T value) => new Unit<T>(value);

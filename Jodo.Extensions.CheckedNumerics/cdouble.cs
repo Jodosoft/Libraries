@@ -29,7 +29,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct cdouble : INumeric<cdouble>, IComparable<cdouble>, IEquatable<cdouble>, IFormattable, IComparable, ISerializable
+    public readonly struct cdouble : INumeric<cdouble>
     {
         public static readonly cdouble E = new cdouble(Math.E);
         public static readonly cdouble Epsilon = new cdouble(double.Epsilon);
@@ -65,6 +65,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
+        cdouble INumeric<cdouble>.Value => this;
         cdouble INumeric<cdouble>.E => E;
         cdouble INumeric<cdouble>.Epsilon => Epsilon;
         cdouble INumeric<cdouble>.MaxUnit => MaxUnit;
@@ -74,8 +75,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.Zero => Zero;
         cdouble INumeric<cdouble>.One => One;
         cdouble INumeric<cdouble>.Pi => Pi;
-        bool INumeric<cdouble>.IsSigned => true;
         bool INumeric<cdouble>.HasMantissa => true;
+        bool INumeric<cdouble>.IsSigned => true;
         bool INumeric<cdouble>.GreaterThan(cdouble value2) => this > value2;
         bool INumeric<cdouble>.GreaterThanOrEqualTo(cdouble value2) => this >= value2;
         bool INumeric<cdouble>.LessThan(cdouble value2) => this < value2;
@@ -106,11 +107,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.Min(cdouble y) => new cdouble(Math.Min(_value, y._value));
         cdouble INumeric<cdouble>.Multiply(cdouble value2) => this * value2;
         cdouble INumeric<cdouble>.Negative() => -this;
-        cdouble INumeric<cdouble>.Next(Random random, cdouble minInclusive, cdouble maxInclusive) => new cdouble(random.NextDouble(minInclusive._value, maxInclusive._value));
-        cdouble INumeric<cdouble>.Parse(string s) => new cdouble(double.Parse(s));
-        cdouble INumeric<cdouble>.Parse(string s, IFormatProvider provider) => new cdouble(double.Parse(s, provider));
-        cdouble INumeric<cdouble>.Parse(string s, NumberStyles style) => new cdouble(double.Parse(s, style));
-        cdouble INumeric<cdouble>.Parse(string s, NumberStyles style, IFormatProvider provider) => new cdouble(double.Parse(s, style, provider));
         cdouble INumeric<cdouble>.Positive() => this;
         cdouble INumeric<cdouble>.Pow(cdouble value2) => new cdouble(Math.Pow(_value, value2._value));
         cdouble INumeric<cdouble>.RadiansToDegrees() => new cdouble(CheckedMath.RadiansToDegrees(_value));
@@ -129,9 +125,15 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.TurnsToDegrees() => new cdouble(CheckedMath.TurnsToDegrees(_value));
         cdouble INumeric<cdouble>.TurnsToRadians() => new cdouble(CheckedMath.TurnsToRadians(_value));
 
-        int IBitConverter<cdouble>.Size => sizeof(double);
-        cdouble IBitConverter<cdouble>.FromBytes(ReadOnlySpan<byte> bytes) => new cdouble(BitConverter.ToDouble(bytes));
+        int IBitConverter<cdouble>.SizeOfValue => sizeof(double);
+        cdouble IBitConverter<cdouble>.FromBytes(in ReadOnlySpan<byte> bytes) => new cdouble(BitConverter.ToDouble(bytes));
         ReadOnlySpan<byte> IBitConverter<cdouble>.GetBytes() => BitConverter.GetBytes(_value);
+
+        cdouble IRandomGenerator<cdouble>.GetNext(Random random) => throw new NotImplementedException();
+        cdouble IRandomGenerator<cdouble>.GetNext(Random random, in cdouble bound1, in cdouble bound2) => throw new NotImplementedException();
+
+        cdouble IStringFormatter<cdouble>.Parse(in string s) => new cdouble(double.Parse(s));
+        cdouble IStringFormatter<cdouble>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => new cdouble(double.Parse(s, numberStyles, formatProvider));
 
         public static explicit operator cdouble(decimal value) => new cdouble((double)value);
         public static implicit operator cdouble(double value) => new cdouble((double)value);

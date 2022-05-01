@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Globalization;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -37,10 +36,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static readonly T Pi = Default.Pi;
 
         public static T Convert(byte value) => Default.Convert(value);
-        public static T Parse(string s) => Default.Parse(s);
-        public static T Parse(string s, IFormatProvider provider) => Default.Parse(s, provider);
-        public static T Parse(string s, NumberStyles style) => Default.Parse(s, style);
-        public static T Parse(string s, NumberStyles style, IFormatProvider provider) => Default.Parse(s, style, provider);
+        //  public static T Parse(string s) => Default.Parse(s);
+        //  public static T Parse(string s, IFormatProvider provider) => Default.Parse(s, provider);
+        //  public static T Parse(string s, NumberStyles style) => Default.Parse(s, style);
+        //  public static T Parse(string s, NumberStyles style, IFormatProvider provider) => Default.Parse(s, style, provider);
 
         public static T Abs(T value) => value.Abs();
         public static T Acos(T value) => value.Acos();
