@@ -8,11 +8,11 @@ A collection of useful C# libraries written in the style of the .NET SDK.
 
 CheckedNumerics
 ---------------
-Provides a variety of numeric value types with built-in protection from overflow. For use in systems where it is important not to have unexpected negative, infinite or NaN values. Usage is identical to primitive value types, but with different results in cases of overflow and division by zero.
+Provides numeric value types with built-in protection from overflow. For use in systems where it is important not to have unexpected negative, infinite or NaN values. Usage is identical to primitive value types, but with different results in cases of overflow and division by zero.
 
-> Note: Checked arithmetic takes additional processor time, and wrapper structs employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance critical application, please consider profiling to assess the impact on performance. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number crunching or big-data applications.
+> Note: Checked arithmetic takes additional processor time, and the wrapper structs employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance critical application then consider profiling to assess the impact on performance. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number-crunching or big-data applications.
 
-The following value types are provided:
+The following types are provided:
 | CheckedNumerics value type | Underlying CLR type | Behaviour |
 | - | - | - |
 | cint | int | Uses a `checked` context to perform arithmetic. Operations that would overflow do NOT throw a `System.OverflowException`, but return `cint.MinValue` or `cint.MaxValue`. Division by zero does NOT throw a `System.DivideByZeroException`, but returns `cint.MaxValue`. |
@@ -25,7 +25,7 @@ The following value types are provided:
 The following features are provided:
 | Feature | Notes |
 | - | - |
-| Operators `==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/`, `%`  | All CheckedNumerics value types implement custom operators, allowing for easy use in expressions. Additionally, All CheckedNumerics value types have implicit conversions from built-in numeric types, allowing them to be used in expressions with literals. CheckedNumerics value types based on integral primitives have custom `&`, `|`, `^`, `~`, `<<` and `>>` operators. |
+| Operators `==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/`, `%`  | All CheckedNumerics value types implement custom operators, allowing for easy use in expressions. They also have implicit conversions from built-in numeric types, allowing them to be used in expressions with literals. CheckedNumerics value types based on integral primitives have custom `&`, `\|`, `^`, `~`, `<<` and `>>` operators. |
 | `INumeric<T>` | All CheckedNumerics value types implement `INumeric<T>`, allowing for the creation generic numerical systems. Additionally, the `INumeric<T>` interface provides overloads for arithmetic and comparison operators, allowing for limited expressions in a generic context (unfortunately, equality and conversion operators are not supported on interfaces). |
 | `Math<T>` | The static class, `Math<T>`, provides equivalent functions to `System.Math` (e.g. `Log(T)`, `Pow(T)`, `Sqrt(T)`) for all types that implement `INumeric<T>`. |
 | `BitConverter<T>` | The static class ,`BitConverter<T>`, similar to `System.BitConverter`, provides conversion to and from `ReadOnlySpan<byte>` for all types that implement `INumeric<T>`. |
