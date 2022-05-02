@@ -8,11 +8,11 @@ Useful C# libraries written in the style of the .NET SDK.
 
 > Note: This package contains work in progress.
 
-Provides numeric value types and utilities with built-in protection from overflow. Useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
+Provides numeric value types and utilities that have built-in protection from overflow. Useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
 
 ### Numeric value types
 
-> Note: These types increases CPU and memory usage compared to using built-in numeric types. See the [Performance](#performance-considerations) section for more details.
+> Note: These types increases CPU and memory usage compared to using built-in numeric types. See the [Performance considerations](#performance-considerations) section for more details.
 
 Usage is the same as with built-in numeric types, but with different results in cases of overflow and division by zero, as demonstrated by the following code example:
 ```csharp
