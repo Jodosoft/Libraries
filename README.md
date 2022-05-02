@@ -8,9 +8,9 @@ A collection of useful C# libraries written in the style of the .NET SDK.
 
 CheckedNumerics
 ---------------
-Provides numeric value types with built-in protection from overflow. For use in systems where it is necessary to prevent unexpected negative, infinite or NaN values. Usage is identical to primitive value types, but with different results in cases of overflow and division by zero.
+> Note: Checked arithmetic takes additional processor time, and the wrapper structs employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance-sensitive application then consider profiling to assess the impact. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number-crunching or big-data applications.
 
-Example:
+Provides numeric value types with built-in protection from overflow. For use in systems where it is necessary to prevent unexpectedly negative/positive, infinite or `NaN` values. Usage is identical to primitive value types, but with different results in cases of overflow and division by zero, as demonstrated by the flowwing example:
 ```csharp
 var x = cint.MaxValue + 1;
 Console.WriteLine(x);  // output: 2147483647
@@ -18,8 +18,6 @@ Console.WriteLine(x);  // output: 2147483647
 var x = (cfloat)4 / 0;
 Console.WriteLine(x);  // output: 3.402823E+38
 ```
-
-> Note: Checked arithmetic takes additional processor time, and the wrapper structs employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance critical application then consider profiling to assess the impact. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number-crunching or big-data applications.
 
 The following value types are provided:
 | Type | Underlying CLR type | Behaviour |
