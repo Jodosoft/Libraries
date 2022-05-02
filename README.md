@@ -2,9 +2,7 @@
 
 [![Test](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml) [![CodeQL](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml)
 
-> :information_source: **Note**
->
-> This repository is a work in progress
+> **Note:** This repository is a work in progress
 
 Useful C# libraries written in the style of the .NET SDK.
 
@@ -14,13 +12,11 @@ Provides numeric value types and utilities that have built-in protection from ov
 
 ### Numeric value types
 
-> :information_source: **Note**
->
-> These types increase CPU and memory usage compared to using built-in numeric types. See the [Performance considerations](#performance-considerations) section for more details.
+> **Note:** These types increase CPU and memory usage compared to using built-in numeric types. See the [Performance considerations](#performance-considerations) section for more details.
 
 The following table summarizes the types and their behaviour:
 
-| Type | Corresponding CLR type | Difference in behaviour |
+| Jodo Type | Corresponding CLR type | Difference in behaviour |
 | - | - | - |
 | `cint`<br />`ucint` | `int`<br />`uint` | <ul><li>Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow.</li><li>Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`.</li></ul> |
 | `cfloat`<br />`cdouble` | `float`<br />`double` | <ul><li>Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively.</li><li>Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`.</li><li>It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`.</li></ul> |
@@ -37,7 +33,7 @@ Console.WriteLine(x2);  // output: 3.402823E+38
 
 ### Other types
 
-| Type | Description |
+| Jodo Type | Description |
 | - | - |
 | `INumeric<T>` | <ul><li>Implemented by all the [numeric value types](#numeric-value-types).</li><li>Allows for the creation of generic numerical systems.</li><li>Can be implmented to create further user-defined numeric value types.</li></ul> |
 | `Math<T>` | <ul><li>A static class that provides equivalent methods to [Math](https://docs.microsoft.com/en-us/dotnet/api/system.math), e.g. `T Log(T)`, `T Pow(T)` and `T Sqrt(T)`.</li><li>Available for all types that implement `INumeric<T>` including user-defined types.</li></ul> |
@@ -58,9 +54,9 @@ Console.WriteLine(x2);  // output: 3.402823E+38
 
 ### Performance considerations
 
-The [numeric value types](#numeric-value-types) are [readonly structs](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-struct) that wrap built-in value types, and use the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword when performing arithmetic. This means that they have higher CPU and memory usage compared to built-in numeric types.
+The [numeric value types](#numeric-value-types) are [readonly structs](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-struct) that wrap built-in value types and use the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword when performing arithmetic. This means that they have higher CPU and memory usage compared to built-in numeric types.
 
-If developing a performance-sensitive application, consider using a profiler to assess the impact. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in graphical or big-data applications.
+If developing a performance-sensitive application, consider using a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in graphical or big-data applications.
 
 ## Jodo.Extensions.CheckedGeometry
 
@@ -68,7 +64,7 @@ Provides geometric value types that make use of generic maths from CheckedNumeri
 
 | CheckedGeometry type | Notes |
 | - | - |
-| AARectangle\<T\> | Axis aligned rectangle |
+| AARectangle\<T\> | Axis-aligned rectangle |
 | Rectangle\<T\> |  |
 | Circle\<T\> |  |
 | Angle\<T\> |  |
