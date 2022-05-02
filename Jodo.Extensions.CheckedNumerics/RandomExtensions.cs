@@ -28,18 +28,5 @@ namespace System
 
         public static T NextNumeric<T>(this Random random, T bound1, T bound2) where T : struct, INumeric<T>
             => default(T).GetNext(random, bound1, bound2);
-
-        public static fix64 NextFix64(this Random random, fix64 minValue, fix64 maxValue)
-        {
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");
-            if (minValue == maxValue) return minValue;
-
-            return fix64.FromInternalRepresentation(
-                random.NextInt64(fix64.GetInternalRepresentation(minValue), fix64.GetInternalRepresentation(maxValue)));
-        }
-
-        public static fix64 NextFix64(this Random random)
-            => fix64.FromBytes(random.NextBytes(64));
-
     }
 }

@@ -60,10 +60,23 @@ namespace Jodo.Extensions.CheckedNumerics
         public float Approximate(float offset) => _value + offset;
         public int CompareTo(cfloat other) => _value.CompareTo(other._value);
         public int CompareTo(object value) => value == null ? 1 : (value is cfloat other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(cfloat)}.");
-        public override bool Equals(object? obj) => obj is cfloat other && _value == other._value;
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            try
+            {
+                var other = (cfloat)obj;
+                return Equals(other);
+            }
+            catch (InvalidCastException)
+            {
+                return false;
+            }
+        }
 
         cfloat INumeric<cfloat>.Value => this;
         cfloat INumeric<cfloat>.E => E;
@@ -129,8 +142,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat IBitConverter<cfloat>.FromBytes(in ReadOnlySpan<byte> bytes) => new cfloat(BitConverter.ToSingle(bytes));
         ReadOnlySpan<byte> IBitConverter<cfloat>.GetBytes() => BitConverter.GetBytes(_value);
 
-        cfloat IRandomGenerator<cfloat>.GetNext(Random random) => new cfloat(random.NextSingle());
-        cfloat IRandomGenerator<cfloat>.GetNext(Random random, in cfloat bound1, in cfloat bound2) => throw new NotImplementedException();
+        cfloat IRandomGenerator<cfloat>.GetNext(Random random) => new cfloat(random.NextSingle(float.MinValue, float.MaxValue));
+        cfloat IRandomGenerator<cfloat>.GetNext(Random random, in cfloat bound1, in cfloat bound2) => new cfloat(random.NextSingle(bound1._value, bound2._value));
 
         cfloat IStringFormatter<cfloat>.Parse(in string s) => new cfloat(float.Parse(s));
         cfloat IStringFormatter<cfloat>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => new cfloat(float.Parse(s, numberStyles, formatProvider));

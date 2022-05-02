@@ -89,8 +89,6 @@ namespace System
             return BitConverter.Int64BitsToDouble(index < 0 ? long.MinValue - index : index);
         }
 
-
-
         public static uint NextUInt32(this Random random, uint minValue, uint maxValue)
         {
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");

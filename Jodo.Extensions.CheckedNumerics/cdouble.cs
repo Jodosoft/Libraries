@@ -60,10 +60,23 @@ namespace Jodo.Extensions.CheckedNumerics
         public float Approximate(float offset) => (float)_value + offset;
         public int CompareTo(cdouble other) => _value.CompareTo(other._value);
         public int CompareTo(object value) => value == null ? 1 : (value is cdouble other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(cdouble)}.");
-        public override bool Equals(object? obj) => obj is cdouble other && _value == other._value;
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            try
+            {
+                var other = (cdouble)obj;
+                return Equals(other);
+            }
+            catch (InvalidCastException)
+            {
+                return false;
+            }
+        }
 
         cdouble INumeric<cdouble>.Value => this;
         cdouble INumeric<cdouble>.E => E;
@@ -129,8 +142,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble IBitConverter<cdouble>.FromBytes(in ReadOnlySpan<byte> bytes) => new cdouble(BitConverter.ToDouble(bytes));
         ReadOnlySpan<byte> IBitConverter<cdouble>.GetBytes() => BitConverter.GetBytes(_value);
 
-        cdouble IRandomGenerator<cdouble>.GetNext(Random random) => throw new NotImplementedException();
-        cdouble IRandomGenerator<cdouble>.GetNext(Random random, in cdouble bound1, in cdouble bound2) => throw new NotImplementedException();
+        cdouble IRandomGenerator<cdouble>.GetNext(Random random) => new cdouble(random.NextDouble(double.MinValue, double.MaxValue));
+        cdouble IRandomGenerator<cdouble>.GetNext(Random random, in cdouble bound1, in cdouble bound2) => new cdouble(random.NextDouble(bound1._value, bound2._value));
 
         cdouble IStringFormatter<cdouble>.Parse(in string s) => new cdouble(double.Parse(s));
         cdouble IStringFormatter<cdouble>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => new cdouble(double.Parse(s, numberStyles, formatProvider));

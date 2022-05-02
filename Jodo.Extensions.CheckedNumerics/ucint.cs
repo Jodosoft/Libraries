@@ -56,10 +56,23 @@ namespace Jodo.Extensions.CheckedNumerics
         public float Approximate(float offset) => _value + offset;
         public int CompareTo(ucint other) => _value.CompareTo(other._value);
         public int CompareTo(object value) => value == null ? 1 : (value is ucint other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(ucint)}.");
-        public override bool Equals(object? obj) => obj is ucint other && _value == other._value;
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            try
+            {
+                var other = (ucint)obj;
+                return Equals(other);
+            }
+            catch (InvalidCastException)
+            {
+                return false;
+            }
+        }
 
         ucint INumeric<ucint>.Value => this;
         ucint INumeric<ucint>.E => E;

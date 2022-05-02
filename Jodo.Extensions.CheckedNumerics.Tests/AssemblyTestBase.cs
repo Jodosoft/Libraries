@@ -25,6 +25,16 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public abstract class AssemblyTestBase
     {
+        public static readonly object[] AllNumericTypesTestCases =
+        {
+            default(cfloat),
+            default(cdouble),
+            default(cint),
+            default(ucint),
+            default(fix64),
+            default(ufix64),
+        };
+
         protected Random Random;
         protected Fixture Fixture;
         protected Exception Exception;

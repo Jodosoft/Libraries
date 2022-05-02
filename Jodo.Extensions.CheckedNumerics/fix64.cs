@@ -22,6 +22,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Numerics;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedNumerics
@@ -61,10 +62,23 @@ namespace Jodo.Extensions.CheckedNumerics
         public float Approximate(float offset) => (float)((double)(_scaledValue + (offset * ScalingFactor)) / ScalingFactor);
         public int CompareTo(fix64 other) => _scaledValue.CompareTo(other._scaledValue);
         public int CompareTo(object value) => value == null ? 1 : (value is fix64 other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(fix64)}.");
-        public override bool Equals(object? obj) => obj is fix64 other && _scaledValue == other._scaledValue;
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => ConversionValue.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => ConversionValue.ToString(format, formatProvider);
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            try
+            {
+                var other = (fix64)obj;
+                return Equals(other);
+            }
+            catch (InvalidCastException)
+            {
+                return false;
+            }
+        }
 
         fix64 INumeric<fix64>.Value => this;
         fix64 INumeric<fix64>.E => E;
@@ -187,8 +201,8 @@ namespace Jodo.Extensions.CheckedNumerics
         public static fix64 operator -(fix64 left, fix64 right) => new fix64(CheckedMath.Subtract(left._scaledValue, right._scaledValue));
         public static fix64 operator --(fix64 value) => new fix64(value._scaledValue - ScalingFactor);
         public static fix64 operator -(fix64 value) => new fix64(-value._scaledValue);
-        public static fix64 operator *(fix64 left, fix64 right) => new fix64(CheckedMath.ToInt64(left.ConversionValue * right.ConversionValue * ScalingFactor));
-        public static fix64 operator /(fix64 left, fix64 right) => new fix64(CheckedMath.ToInt64(CheckedMath.Divide(left.ConversionValue, right.ConversionValue) * ScalingFactor));
+        public static fix64 operator *(fix64 left, fix64 right) => new fix64(CheckedMath.Multiply(left._scaledValue, right._scaledValue));
+        public static fix64 operator /(fix64 left, fix64 right) => new fix64(right._scaledValue == 0 ? long.MaxValue : (long)(new BigInteger(left._scaledValue) * ScalingFactor / new BigInteger(right._scaledValue)));
         public static fix64 operator ^(fix64 left, fix64 right) => new fix64(left._scaledValue ^ right._scaledValue);
         public static fix64 operator |(fix64 left, fix64 right) => new fix64(left._scaledValue | right._scaledValue);
         public static fix64 operator ~(fix64 value) => new fix64(~value._scaledValue);

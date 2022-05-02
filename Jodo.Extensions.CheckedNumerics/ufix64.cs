@@ -22,6 +22,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Numerics;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedNumerics
@@ -60,10 +61,23 @@ namespace Jodo.Extensions.CheckedNumerics
         public float Approximate(float offset) => (float)(_scaledValue + (offset * ScalingFactor));
         public int CompareTo(ufix64 other) => _scaledValue.CompareTo(other._scaledValue);
         public int CompareTo(object value) => value == null ? 1 : (value is ufix64 other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(ufix64)}.");
-        public override bool Equals(object? obj) => obj is ufix64 other && _scaledValue == other._scaledValue;
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => ConversionValue.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => ConversionValue.ToString(format, formatProvider);
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            try
+            {
+                var other = (ufix64)obj;
+                return Equals(other);
+            }
+            catch (InvalidCastException)
+            {
+                return false;
+            }
+        }
 
         ufix64 INumeric<ufix64>.Value => this;
         ufix64 INumeric<ufix64>.E => E;
@@ -187,7 +201,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ufix64 operator --(ufix64 value) => new ufix64(value._scaledValue - ScalingFactor);
         public static ufix64 operator -(ufix64 _) => Zero;
         public static ufix64 operator *(ufix64 left, ufix64 right) => new ufix64(CheckedMath.ToUInt64(left.ConversionValue * right.ConversionValue * ScalingFactor));
-        public static ufix64 operator /(ufix64 left, ufix64 right) => new ufix64(CheckedMath.ToUInt64(CheckedMath.Divide(left.ConversionValue, right.ConversionValue) * ScalingFactor));
+        public static ufix64 operator /(ufix64 left, ufix64 right) => new ufix64(right._scaledValue == 0 ? ulong.MaxValue : (ulong)(new BigInteger(left._scaledValue) * ScalingFactor / new BigInteger(right._scaledValue)));
         public static ufix64 operator ^(ufix64 left, ufix64 right) => new ufix64(left._scaledValue ^ right._scaledValue);
         public static ufix64 operator |(ufix64 left, ufix64 right) => new ufix64(left._scaledValue | right._scaledValue);
         public static ufix64 operator ~(ufix64 value) => new ufix64(~value._scaledValue);

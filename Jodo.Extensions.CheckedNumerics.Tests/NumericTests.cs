@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
-using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
 using System.IO;
@@ -28,17 +27,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public class NumericTests : AssemblyTestBase
     {
-        static readonly object[] AllNumericTypes =
-        {
-            default(cfloat),
-            default(cdouble),
-            default(cint),
-            default(ucint),
-            default(fix64),
-            default(ufix64),
-        };
-
-        [TestCaseSource(nameof(AllNumericTypes))]
+        [TestCaseSource(nameof(AllNumericTypesTestCases))]
         public void Serialize_RoundTrip_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
@@ -55,60 +44,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(input);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes))]
-        public void GetBytes_RoundTrip_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            var input = Random.NextNumeric<T>();
-
-            //act
-            var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
-
-            //assert
-            result.Should().Be(input);
-        }
-
-        [TestCaseSource(nameof(AllNumericTypes))]
-        public void GetBytes_Random_CorrectSize<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            var input = Random.NextNumeric<T>();
-
-            //act
-            var result = BitConverter<T>.GetBytes(input);
-
-            //assert
-            result.Length.Should().Be(BitConverter<T>.Size);
-        }
-
-        [TestCaseSource(nameof(AllNumericTypes))]
-        public void GetBytes_Zero_AllZero<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            var input = Math<T>.Zero;
-
-            //act
-            var result = BitConverter<T>.GetBytes(input);
-
-            //assert
-            result.ToArray().Should().AllBeEquivalentTo(0);
-        }
-
-        [TestCaseSource(nameof(AllNumericTypes))]
-        public void GetBytes_NonZero_NotAllZero<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            T input;
-            while ((input = Random.NextNumeric<T>()).Equals(Math<T>.Zero)) { }
-
-            //act
-            var result = BitConverter<T>.GetBytes(input);
-
-            //assert
-            result.ToArray().Should().Contain(x => x != 0);
-        }
-
-        [TestCaseSource(nameof(AllNumericTypes))]
+        [TestCaseSource(nameof(AllNumericTypesTestCases))]
         public void Increment_AtMaxValue_ResultIsMaxValue<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
@@ -121,7 +57,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(Math<T>.MaxValue);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes))]
+        [TestCaseSource(nameof(AllNumericTypesTestCases))]
         public void Decrement_AtMinValue_ResultIsMaxValue<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
@@ -134,7 +70,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(Math<T>.MinValue);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes))]
+        [TestCaseSource(nameof(AllNumericTypesTestCases))]
         public void Divide_ByOne_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
@@ -147,7 +83,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(input);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes))]
+        [TestCaseSource(nameof(AllNumericTypesTestCases))]
         public void Multiply_By1_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
@@ -160,7 +96,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(input);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes))]
+        [TestCaseSource(nameof(AllNumericTypesTestCases))]
         public void Divide_ByZero_ReturnsMaxValue<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
@@ -173,7 +109,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             result.Should().Be(Math<T>.MaxValue);
         }
 
-        [TestCaseSource(nameof(AllNumericTypes))]
+        [TestCaseSource(nameof(AllNumericTypesTestCases))]
         public void Add_Random_CorrectResult<T>(T _) where T : struct, INumeric<T>
         {
             //arrange

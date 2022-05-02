@@ -76,8 +76,6 @@ namespace Jodo.Extensions.CheckedGeometry
         Angle<T> IRandomGenerator<Angle<T>>.GetNext(Random random, in Angle<T> bound1, in Angle<T> bound2)
             => Angle<T>.FromDegrees(random.NextRandomizable(bound1.Degrees, bound2.Degrees));
 
-
-
         Angle<T> IStringFormatter<Angle<T>>.Parse(in string s) => Parse(s);
 
         Angle<T> IStringFormatter<Angle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)

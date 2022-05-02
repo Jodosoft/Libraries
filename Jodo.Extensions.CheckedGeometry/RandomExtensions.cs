@@ -18,35 +18,15 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.CheckedGeometry;
-using Jodo.Extensions.CheckedNumerics;
 
 namespace System
 {
     public static class RandomExtensions
     {
-
         public static T NextGeometric<T>(this Random random) where T : struct, IGeometric<T>
-            => throw new NotImplementedException();
+            => default(T).GetNext(random);
 
-        public static Angle<T> NextAngle<T>(this Random random) where T : struct, INumeric<T>
-            => Angle<T>.FromRadians(random.NextNumeric<T>());
-
-        public static Unit<T> NextUnit<T>(this Random random) where T : struct, INumeric<T>
-            => (Unit<T>)random.NextNumeric(Math<T>.MinUnit, Math<T>.MaxUnit);
-
-        public static Circle<T> NextCircle<T>(this Random random) where T : struct, INumeric<T>
-            => new Circle<T>(random.NextNumeric<T>(), random.NextNumeric<T>(), random.NextNumeric<T>());
-
-        public static Vector2<T> NextVector2<T>(this Random random) where T : struct, INumeric<T>
-            => new Vector2<T>(random.NextNumeric<T>(), random.NextNumeric<T>());
-
-        public static Vector2<T> NextVector2<T>(this Random random, T minValue, T maxValue) where T : struct, INumeric<T>
-            => new Vector2<T>(random.NextNumeric(minValue, maxValue), random.NextNumeric(minValue, maxValue));
-
-        public static AARectangle<T> NextAARectangle<T>(this Random random) where T : struct, INumeric<T>
-            => AARectangle<T>.FromCenter((random.NextNumeric<T>(), random.NextNumeric<T>()), (random.NextNumeric<T>(), random.NextNumeric<T>()));
-
-        public static Rectangle<T> NextRectangle<T>(this Random random) where T : struct, INumeric<T>
-            => new Rectangle<T>((random.NextNumeric<T>(), random.NextNumeric<T>()), (random.NextNumeric<T>(), random.NextNumeric<T>()), random.NextAngle<T>());
+        public static T NextGeometric<T>(this Random random, T bound1, T bound2) where T : struct, IGeometric<T>
+            => default(T).GetNext(random, bound1, bound2);
     }
 }
