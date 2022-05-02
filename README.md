@@ -1,8 +1,9 @@
-# Jodo.Extensions
+# Jodo.Extensions <img src="PackageIcon.png" alt="Logo" height="128"/>
 
 [![Test](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml) [![CodeQL](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml)
 
-> Documentation in draft
+
+> Note: This repository is a work in progress.
 
 Useful C# libraries written in the style of the .NET SDK.
 
