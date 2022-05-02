@@ -4,13 +4,13 @@ Jodo.Extensions
 
 > Documentation in draft
 
-A collection of useful C# libraries written in the style of the .NET SDK.
+Useful C# libraries written in the style of the .NET SDK.
 
 CheckedNumerics
 ---------------
 > Note: Checked arithmetic takes additional processor time, and the wrapper structs employed by CheckedNumerics increase memory usage compared to primitive types alone. If you wish to use CheckedNumerics in a performance-sensitive application then consider profiling to assess the impact. As a rule of thumb, the impact is acceptable in business, game, or simulation applications, but not in number-crunching or big-data applications.
 
-Provides numeric value types with built-in protection from overflow. For use in systems where it is necessary to prevent unexpectedly negative/positive, infinite or `NaN` values. Usage is identical to primitive value types, but with different results in cases of overflow and division by zero, as demonstrated by the flowwing example:
+Provides numeric types with built-in protection from overflow. For use in systems where it is necessary to prevent unexpectedly negative/positive, infinite or `NaN` values. Usage is identical to primitive numeric types, but with different results in cases of overflow and division by zero, as demonstrated by the following code example:
 ```csharp
 var x = cint.MaxValue + 1;
 Console.WriteLine(x);  // output: 2147483647
@@ -19,11 +19,10 @@ var x = (cfloat)4 / 0;
 Console.WriteLine(x);  // output: 3.402823E+38
 ```
 
-The following value types are provided:
+The following numeric types are provided:
 | Type | Underlying CLR type | Behaviour |
 | - | - | - |
-| `cint` | `int` | <ul><li>Uses a [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) context to perform arithmetic.</li><li>Operations that would overflow do NOT throw a [OverflowException](https://docs.microsoft.com/en-us/dotnet/api/system.overflowexception), but return `MinValue` or `MaxValue` depending on the direction of the overflow.</li><li>Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception), but returns `MaxValue`.</li></ul> |
-| `ucint` | `uint` | _Same as `cint`._ |
+| `cint`<br />`ucint` | `int`<br />`uint` | <ul><li>Uses a [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) context to perform arithmetic.</li><li>Operations that would overflow do NOT throw an [OverflowException](https://docs.microsoft.com/en-us/dotnet/api/system.overflowexception), but return `MinValue` or `MaxValue` depending on the direction of the overflow.</li><li>Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception), but returns `MaxValue`.</li></ul> |
 | `cfloat` | `float` | <ul><li>Operations that would overflow do NOT return `PositiveInfinity` or `NegativeInfinity`, but return `MaxValue` or `MinValue` respectively.</li><li>Division by zero does NOT return `PositiveInfinity`, `NegativeInfinity` or `NaN`, but returns `MaxValue`.</li><li>It is not possible for values to be `PositiveInfinity`, `NegativeInfinity` or `NaN`.</li></ul> |
 | `cdouble` | `double` | _Same as `cfloat`._ |
 | `fix64` | `long` | A signed fixed-point number with a 40 bit integral part and a 24 bit mantissa. |
