@@ -14,15 +14,6 @@ Provides numeric value types and utilities that have built-in protection from ov
 
 > Note: These types increases CPU and memory usage compared to using built-in numeric types. See the [Performance considerations](#performance-considerations) section for more details.
 
-Usage is the same as with built-in numeric types, but with different results in cases of overflow and division by zero, as demonstrated by the following code example:
-```csharp
-var x = cint.MaxValue + 1;
-Console.WriteLine(x);  // output: 2147483647
-
-var x = (cfloat)4 / 0;
-Console.WriteLine(x);  // output: 3.402823E+38
-```
-
 The following table summarizes the types available and their behaviour:
 
 | Type | Corresponding CLR type | Difference in behaviour |
@@ -30,6 +21,15 @@ The following table summarizes the types available and their behaviour:
 | `cint`<br />`ucint` | `int`<br />`uint` | <ul><li>Uses a [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) context to perform arithmetic.</li><li>Operations that would overflow do NOT throw an [OverflowException](https://docs.microsoft.com/en-us/dotnet/api/system.overflowexception) but return `MinValue` or `MaxValue` depending on the direction of the overflow.</li><li>Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`.</li></ul> |
 | `cfloat`<br />`cdouble` | `float`<br />`double` | <ul><li>Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively.</li><li>Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`.</li><li>It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`.</li></ul> |
 | `fix64`<br />`ufix64` | _N/A_ | <ul><li>A fixed-precision number with a 40 bit integral part and a 24 bit mantissa.</li><li>Useful in systems where high precision is required regardless of magnitude.</li></ul> |
+
+Usage is the same as with built-in numeric types but yields different results as demonstrated by the following code example:
+```csharp
+var x = cint.MaxValue + 1;
+Console.WriteLine(x);  // output: 2147483647
+
+var x = (cfloat)4 / 0;
+Console.WriteLine(x);  // output: 3.402823E+38
+```
 
 ### Other types
 
