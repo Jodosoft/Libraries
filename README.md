@@ -8,7 +8,13 @@ Useful C# libraries written in the style of the .NET SDK.
 
 > Note: This package contains work in progress.
 
-Provides numeric types with built-in protection from overflow. Useful for preventing unexpected negative/positive, infinite or `NaN` values. Usage is the same as with primitive numeric types, but with different results in cases of overflow and division by zero, as demonstrated by the following code example:
+Provides numeric value types and utilities that protect from overflow. Useful for preventing unexpected negative/positive, infinite or `NaN` values. 
+
+### Numeric value types
+
+> Note: These types increases CPU and memory usage compared to using built-in numeric types. See the [Performance](#performance) section for more details.
+
+Usage is the same as with built-in numeric types, but with different results in cases of overflow and division by zero, as demonstrated by the following code example:
 ```csharp
 var x = cint.MaxValue + 1;
 Console.WriteLine(x);  // output: 2147483647
@@ -16,9 +22,8 @@ Console.WriteLine(x);  // output: 2147483647
 var x = (cfloat)4 / 0;
 Console.WriteLine(x);  // output: 3.402823E+38
 ```
-> Note: These types increases CPU and memory usage compared to using built-in numeric types. See the [Performance](#performance) section for more details.
 
-### Numeric value types
+The following table summarizes the types available and their behaviour:
 
 | Type | Underlying CLR type | Behaviour |
 | - | - | - |
