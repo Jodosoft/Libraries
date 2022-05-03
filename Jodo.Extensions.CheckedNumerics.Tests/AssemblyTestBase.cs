@@ -25,12 +25,34 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public abstract class AssemblyTestBase
     {
-        public static readonly object[] AllNumericTypesTestCases =
+        public static readonly object[] TestCases_AllNumericTypes =
         {
             default(cfloat),
             default(cdouble),
             default(cint),
             default(ucint),
+            default(fix64),
+            default(ufix64),
+        };
+
+        public static readonly object[] TestCases_SignedNumericTypes =
+        {
+            default(cfloat),
+            default(cdouble),
+            default(cint),
+            default(fix64),
+        };
+
+        public static readonly object[] TestCases_IntegralTypes =
+        {
+            default(cint),
+            default(ucint)
+        };
+
+        public static readonly object[] TestCases_RealTypes =
+        {
+            default(cfloat),
+            default(cdouble),
             default(fix64),
             default(ufix64),
         };

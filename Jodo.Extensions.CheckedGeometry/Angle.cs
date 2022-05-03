@@ -25,6 +25,7 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
+    [Serializable]
     public readonly struct Angle<T> : IGeometric<Angle<T>> where T : struct, INumeric<T>
     {
         public static readonly Angle<T> Zero = default;
@@ -48,8 +49,12 @@ namespace Jodo.Extensions.CheckedGeometry
             Degrees = degrees;
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(Degrees), Degrees, typeof(T));
-        private Angle(SerializationInfo info, StreamingContext _) : this((T)info.GetValue(nameof(Degrees), typeof(T))) { }
+        private Angle(SerializationInfo info, StreamingContext _) : this(
+            (T)info.GetValue(nameof(Degrees), typeof(T)))
+        { }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+            => info.AddValue(nameof(Degrees), Degrees, typeof(T));
 
         public Angle<cfloat> Approximate(float offset) => new Angle<cfloat>(Degrees.Approximate(offset));
         public bool Equals(Angle<T> other) => Degrees.Equals(other.Degrees);
@@ -62,13 +67,8 @@ namespace Jodo.Extensions.CheckedGeometry
             throw new NotImplementedException();
         }
 
-        int IBitConverter<Angle<T>>.SizeOfValue => BitConverter<T>.Size;
-
-        Angle<T> IBitConverter<Angle<T>>.FromBytes(in ReadOnlySpan<byte> bytes)
-            => Angle<T>.FromDegrees(BitConverter<T>.FromBytes(bytes));
-
-        ReadOnlySpan<byte> IBitConverter<Angle<T>>.GetBytes()
-            => BitConverter<T>.GetBytes(Degrees);
+        Angle<T> IBitConverter<Angle<T>>.Read(in IReadOnlyStream<byte> stream) => Angle<T>.FromDegrees(stream.Read<T>());
+        void IBitConverter<Angle<T>>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(Degrees);
 
         Angle<T> IRandomGenerator<Angle<T>>.GetNext(Random random)
             => Angle<T>.FromDegrees(random.NextNumeric<T>());

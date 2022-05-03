@@ -138,9 +138,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.TurnsToDegrees() => new cdouble(CheckedMath.TurnsToDegrees(_value));
         cdouble INumeric<cdouble>.TurnsToRadians() => new cdouble(CheckedMath.TurnsToRadians(_value));
 
-        int IBitConverter<cdouble>.SizeOfValue => sizeof(double);
-        cdouble IBitConverter<cdouble>.FromBytes(in ReadOnlySpan<byte> bytes) => new cdouble(BitConverter.ToDouble(bytes));
-        ReadOnlySpan<byte> IBitConverter<cdouble>.GetBytes() => BitConverter.GetBytes(_value);
+        cdouble IBitConverter<cdouble>.Read(in IReadOnlyStream<byte> stream) => new cdouble(BitConverter.ToDouble(stream.Read(sizeof(double))));
+        void IBitConverter<cdouble>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(_value));
 
         cdouble IRandomGenerator<cdouble>.GetNext(Random random) => new cdouble(random.NextDouble(double.MinValue, double.MaxValue));
         cdouble IRandomGenerator<cdouble>.GetNext(Random random, in cdouble bound1, in cdouble bound2) => new cdouble(random.NextDouble(bound1._value, bound2._value));
@@ -180,7 +179,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(cdouble left, cdouble right) => left._value == right._value;
         public static bool operator >(cdouble left, cdouble right) => left._value > right._value;
         public static bool operator >=(cdouble left, cdouble right) => left._value >= right._value;
-        public static cdouble operator %(cdouble left, cdouble right) => new cdouble(left._value % right._value);
+        public static cdouble operator %(cdouble left, cdouble right) => new cdouble(CheckedMath.Remainder(left._value, right._value));
         public static cdouble operator -(cdouble left, cdouble right) => new cdouble(CheckedMath.Subtract(left._value, right._value));
         public static cdouble operator --(cdouble value) => new cdouble(CheckedMath.Subtract(value._value, 1));
         public static cdouble operator -(cdouble value) => new cdouble(-value._value);

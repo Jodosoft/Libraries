@@ -21,12 +21,8 @@ using System;
 
 namespace Jodo.Extensions.Primitives
 {
-    public static class BitConverter<T> where T : IBitConverter<T>, new()
+    public interface IWriteOnlyStream<T>
     {
-        private static readonly T DefaultInstance = new T();
-
-        public static int Size => DefaultInstance.SizeOfValue;
-        public static ReadOnlySpan<byte> GetBytes(in T value) => value.GetBytes();
-        public static T FromBytes(in ReadOnlySpan<byte> bytes) => DefaultInstance.FromBytes(bytes);
+        void Write(ReadOnlySpan<T> values);
     }
 }

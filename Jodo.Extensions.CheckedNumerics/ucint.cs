@@ -134,9 +134,8 @@ namespace Jodo.Extensions.CheckedNumerics
         ucint INumeric<ucint>.TurnsToDegrees() => new ucint((uint)CheckedMath.TurnsToDegrees(this));
         ucint INumeric<ucint>.TurnsToRadians() => new ucint((uint)CheckedMath.TurnsToRadians(this));
 
-        int IBitConverter<ucint>.SizeOfValue => sizeof(uint);
-        ucint IBitConverter<ucint>.FromBytes(in ReadOnlySpan<byte> bytes) => new ucint(BitConverter.ToUInt32(bytes));
-        ReadOnlySpan<byte> IBitConverter<ucint>.GetBytes() => BitConverter.GetBytes(_value);
+        ucint IBitConverter<ucint>.Read(in IReadOnlyStream<byte> stream) => new ucint(BitConverter.ToUInt32(stream.Read(sizeof(uint))));
+        void IBitConverter<ucint>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(_value));
 
         ucint IRandomGenerator<ucint>.GetNext(Random random) => new ucint(random.NextUInt32());
         ucint IRandomGenerator<ucint>.GetNext(Random random, in ucint bound1, in ucint bound2) => new ucint(random.NextUInt32(bound1._value, bound2._value));
@@ -176,7 +175,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(ucint left, ucint right) => left._value == right._value;
         public static bool operator >(ucint left, ucint right) => left._value > right._value;
         public static bool operator >=(ucint left, ucint right) => left._value >= right._value;
-        public static ucint operator %(ucint left, ucint right) => new ucint(left._value % right._value);
+        public static ucint operator %(ucint left, ucint right) => new ucint(CheckedMath.Remainder(left._value, right._value));
         public static ucint operator &(ucint left, ucint right) => new ucint(left._value & right._value);
         public static ucint operator -(ucint left, ucint right) => new ucint(CheckedMath.Subtract(left._value, right._value));
         public static ucint operator --(ucint value) => new ucint(CheckedMath.Subtract(value._value, 1));

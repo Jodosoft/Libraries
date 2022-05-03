@@ -59,7 +59,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public bool Equals(fix64 other) => _scaledValue == other._scaledValue;
         public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null) => ConversionValue.TryFormat(destination, out charsWritten, format, provider);
-        public float Approximate(float offset) => (float)((double)(_scaledValue + (offset * ScalingFactor)) / ScalingFactor);
+        public float Approximate(float offset) => ((float)_scaledValue / ScalingFactor) + offset;
         public int CompareTo(fix64 other) => _scaledValue.CompareTo(other._scaledValue);
         public int CompareTo(object value) => value == null ? 1 : (value is fix64 other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(fix64)}.");
         public override int GetHashCode() => _scaledValue.GetHashCode();
@@ -140,9 +140,8 @@ namespace Jodo.Extensions.CheckedNumerics
         fix64 INumeric<fix64>.TurnsToDegrees() => new fix64(CheckedMath.ToInt64(CheckedMath.TurnsToDegrees(ConversionValue) * ScalingFactor));
         fix64 INumeric<fix64>.TurnsToRadians() => new fix64(CheckedMath.ToInt64(CheckedMath.TurnsToRadians(ConversionValue) * ScalingFactor));
 
-        int IBitConverter<fix64>.SizeOfValue => sizeof(long);
-        fix64 IBitConverter<fix64>.FromBytes(in ReadOnlySpan<byte> bytes) => new fix64(BitConverter.ToInt64(bytes));
-        ReadOnlySpan<byte> IBitConverter<fix64>.GetBytes() => BitConverter.GetBytes(_scaledValue);
+        fix64 IBitConverter<fix64>.Read(in IReadOnlyStream<byte> stream) => new fix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
+        void IBitConverter<fix64>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(_scaledValue));
 
         fix64 IRandomGenerator<fix64>.GetNext(Random random) => new fix64(random.NextInt64());
         fix64 IRandomGenerator<fix64>.GetNext(Random random, in fix64 bound1, in fix64 bound2) => new fix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
@@ -196,13 +195,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(fix64 left, fix64 right) => left._scaledValue == right._scaledValue;
         public static bool operator >(fix64 left, fix64 right) => left._scaledValue > right._scaledValue;
         public static bool operator >=(fix64 left, fix64 right) => left._scaledValue >= right._scaledValue;
-        public static fix64 operator %(fix64 left, fix64 right) => new fix64(CheckedMath.ToInt64((left.ConversionValue % right.ConversionValue) * ScalingFactor));
         public static fix64 operator &(fix64 left, fix64 right) => new fix64(left._scaledValue & right._scaledValue);
         public static fix64 operator -(fix64 left, fix64 right) => new fix64(CheckedMath.Subtract(left._scaledValue, right._scaledValue));
         public static fix64 operator --(fix64 value) => new fix64(value._scaledValue - ScalingFactor);
         public static fix64 operator -(fix64 value) => new fix64(-value._scaledValue);
-        public static fix64 operator *(fix64 left, fix64 right) => new fix64(CheckedMath.Multiply(left._scaledValue, right._scaledValue));
-        public static fix64 operator /(fix64 left, fix64 right) => new fix64(right._scaledValue == 0 ? long.MaxValue : (long)(new BigInteger(left._scaledValue) * ScalingFactor / new BigInteger(right._scaledValue)));
         public static fix64 operator ^(fix64 left, fix64 right) => new fix64(left._scaledValue ^ right._scaledValue);
         public static fix64 operator |(fix64 left, fix64 right) => new fix64(left._scaledValue | right._scaledValue);
         public static fix64 operator ~(fix64 value) => new fix64(~value._scaledValue);
@@ -211,5 +207,71 @@ namespace Jodo.Extensions.CheckedNumerics
         public static fix64 operator ++(fix64 value) => new fix64(value._scaledValue + ScalingFactor);
         public static fix64 operator <<(fix64 left, int right) => new fix64(left._scaledValue << right);
         public static fix64 operator >>(fix64 left, int right) => new fix64(left._scaledValue >> right);
+
+        public static fix64 operator *(fix64 left, fix64 right)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return new fix64(left._scaledValue * right._scaledValue / ScalingFactor);
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return new fix64((long)(new BigInteger(left._scaledValue) * new BigInteger(right._scaledValue) / ScalingFactor));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return MaxValue;
+            }
+        }
+
+        public static fix64 operator /(fix64 left, fix64 right)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return new fix64(left._scaledValue * ScalingFactor / right._scaledValue);
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return new fix64((long)(new BigInteger(left._scaledValue) * ScalingFactor / new BigInteger(right._scaledValue)));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return MaxValue;
+            }
+        }
+
+        public static fix64 operator %(fix64 left, fix64 right)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return new fix64(left._scaledValue * ScalingFactor % right._scaledValue);
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return new fix64((long)(new BigInteger(left._scaledValue) * ScalingFactor % new BigInteger(right._scaledValue)));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return MaxValue;
+            }
+        }
     }
 }

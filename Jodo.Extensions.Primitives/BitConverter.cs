@@ -17,11 +17,40 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using System.Collections.Generic;
+
 namespace Jodo.Extensions.Primitives
 {
-    public interface IBitConverter<out T>
+    public static class BitConverter<T> where T : IBitConverter<T>, new()
     {
-        T Read(in IReadOnlyStream<byte> stream);
-        void Write(in IWriteOnlyStream<byte> stream);
+        private static readonly T DefaultInstance = new T();
+
+        public static ReadOnlySpan<byte> GetBytes(in T value)
+        {
+            var list = new List<byte>();
+            value.Write(list.AsWriteOnlyStream());
+            return list.ToArray();
+        }
+
+        public static T FromBytes(in ReadOnlySpan<byte> bytes)
+        {
+            return DefaultInstance.Read(bytes.ToArray().AsReadOnlyStream());
+        }
+
+        public static T FromBytes(in IReadOnlyList<byte> bytes)
+        {
+            return DefaultInstance.Read(bytes.AsReadOnlyStream());
+        }
+
+        public static T Read(in IReadOnlyStream<byte> stream)
+        {
+            return DefaultInstance.Read(stream);
+        }
+
+        public static void Write(in IWriteOnlyStream<byte> stream, in T value)
+        {
+            value.Write(stream);
+        }
     }
 }

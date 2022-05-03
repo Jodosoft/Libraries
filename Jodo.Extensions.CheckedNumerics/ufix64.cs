@@ -39,7 +39,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static readonly ufix64 MaxUnit = new ufix64(ScalingFactor);
         public static readonly ufix64 MinUnit = new ufix64(0);
         public static readonly ufix64 One = new ufix64(ScalingFactor);
-        public static readonly ufix64 Pi = new ufix64(CheckedMath.ToUInt64(Math.PI * ScalingFactor));
+        public static readonly ufix64 Pi = new ufix64((long)(Math.PI * ScalingFactor));
         public static readonly ufix64 Zero = new ufix64(0);
 
         private const ulong ScalingFactor = 0X_FF_FF_FF;
@@ -58,7 +58,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public bool Equals(ufix64 other) => _scaledValue == other._scaledValue;
         public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null) => ConversionValue.TryFormat(destination, out charsWritten, format, provider);
-        public float Approximate(float offset) => (float)(_scaledValue + (offset * ScalingFactor));
+        public float Approximate(float offset) => ((float)_scaledValue / ScalingFactor) + offset;
         public int CompareTo(ufix64 other) => _scaledValue.CompareTo(other._scaledValue);
         public int CompareTo(object value) => value == null ? 1 : (value is ufix64 other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(ufix64)}.");
         public override int GetHashCode() => _scaledValue.GetHashCode();
@@ -139,9 +139,8 @@ namespace Jodo.Extensions.CheckedNumerics
         ufix64 INumeric<ufix64>.TurnsToDegrees() => new ufix64(CheckedMath.ToUInt64(CheckedMath.TurnsToDegrees(ConversionValue) * ScalingFactor));
         ufix64 INumeric<ufix64>.TurnsToRadians() => new ufix64(CheckedMath.ToUInt64(CheckedMath.TurnsToRadians(ConversionValue) * ScalingFactor));
 
-        int IBitConverter<ufix64>.SizeOfValue => sizeof(ulong);
-        ufix64 IBitConverter<ufix64>.FromBytes(in ReadOnlySpan<byte> bytes) => new ufix64(BitConverter.ToUInt64(bytes));
-        ReadOnlySpan<byte> IBitConverter<ufix64>.GetBytes() => BitConverter.GetBytes(_scaledValue);
+        ufix64 IBitConverter<ufix64>.Read(in IReadOnlyStream<byte> stream) => new ufix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong))));
+        void IBitConverter<ufix64>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(_scaledValue));
 
         ufix64 IRandomGenerator<ufix64>.GetNext(Random random) => new ufix64(random.NextUInt64());
         ufix64 IRandomGenerator<ufix64>.GetNext(Random random, in ufix64 bound1, in ufix64 bound2) => new ufix64(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
@@ -195,13 +194,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(ufix64 left, ufix64 right) => left._scaledValue == right._scaledValue;
         public static bool operator >(ufix64 left, ufix64 right) => left._scaledValue > right._scaledValue;
         public static bool operator >=(ufix64 left, ufix64 right) => left._scaledValue >= right._scaledValue;
-        public static ufix64 operator %(ufix64 left, ufix64 right) => new ufix64(CheckedMath.ToUInt64((left.ConversionValue % right.ConversionValue) * ScalingFactor));
         public static ufix64 operator &(ufix64 left, ufix64 right) => new ufix64(left._scaledValue & right._scaledValue);
         public static ufix64 operator -(ufix64 left, ufix64 right) => new ufix64(CheckedMath.Subtract(left._scaledValue, right._scaledValue));
         public static ufix64 operator --(ufix64 value) => new ufix64(value._scaledValue - ScalingFactor);
         public static ufix64 operator -(ufix64 _) => Zero;
-        public static ufix64 operator *(ufix64 left, ufix64 right) => new ufix64(CheckedMath.ToUInt64(left.ConversionValue * right.ConversionValue * ScalingFactor));
-        public static ufix64 operator /(ufix64 left, ufix64 right) => new ufix64(right._scaledValue == 0 ? ulong.MaxValue : (ulong)(new BigInteger(left._scaledValue) * ScalingFactor / new BigInteger(right._scaledValue)));
         public static ufix64 operator ^(ufix64 left, ufix64 right) => new ufix64(left._scaledValue ^ right._scaledValue);
         public static ufix64 operator |(ufix64 left, ufix64 right) => new ufix64(left._scaledValue | right._scaledValue);
         public static ufix64 operator ~(ufix64 value) => new ufix64(~value._scaledValue);
@@ -210,5 +206,71 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ufix64 operator ++(ufix64 value) => new ufix64(value._scaledValue + ScalingFactor);
         public static ufix64 operator <<(ufix64 left, int right) => new ufix64(left._scaledValue << right);
         public static ufix64 operator >>(ufix64 left, int right) => new ufix64(left._scaledValue >> right);
+
+        public static ufix64 operator *(ufix64 left, ufix64 right)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return new ufix64(left._scaledValue * right._scaledValue / ScalingFactor);
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return new ufix64((ulong)(new BigInteger(left._scaledValue) * new BigInteger(right._scaledValue) / ScalingFactor));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return MaxValue;
+            }
+        }
+
+        public static ufix64 operator /(ufix64 left, ufix64 right)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return new ufix64(left._scaledValue * ScalingFactor / right._scaledValue);
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return new ufix64((ulong)(new BigInteger(left._scaledValue) * ScalingFactor / new BigInteger(right._scaledValue)));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return MaxValue;
+            }
+        }
+
+        public static ufix64 operator %(ufix64 left, ufix64 right)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return new ufix64(left._scaledValue * ScalingFactor % right._scaledValue);
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return new ufix64((ulong)(new BigInteger(left._scaledValue) * ScalingFactor % new BigInteger(right._scaledValue)));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return MaxValue;
+            }
+        }
     }
 }

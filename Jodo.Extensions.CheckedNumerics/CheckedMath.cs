@@ -97,7 +97,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y == 0) return 1;
             if (y == 1) return x;
             var result = x;
-            for (byte i = 0; i < y; i++)
+            for (byte i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
                 catch (OverflowException) { return byte.MaxValue; }
@@ -110,7 +110,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y == 0) return 1;
             if (y == 1) return x;
             var result = x;
-            for (ushort i = 0; i < y; i++)
+            for (ushort i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
                 catch (OverflowException) { return ushort.MaxValue; }
@@ -123,7 +123,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y == 0) return 1;
             if (y == 1) return x;
             var result = x;
-            for (uint i = 0; i < y; i++)
+            for (uint i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
                 catch (OverflowException) { return uint.MaxValue; }
@@ -136,7 +136,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y == 0) return 1;
             if (y == 1) return x;
             var result = x;
-            for (ulong i = 0; i < y; i++)
+            for (ulong i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
                 catch (OverflowException) { return ulong.MaxValue; }
@@ -150,7 +150,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y == 0) return 1;
             if (y == 1) return x;
             var result = x;
-            for (short i = 0; i < y; i++)
+            for (short i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
                 catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? short.MaxValue : short.MinValue; }
@@ -164,7 +164,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y == 0) return 1;
             if (y == 1) return x;
             var result = x;
-            for (int i = 0; i < y; i++)
+            for (int i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
                 catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? int.MaxValue : int.MinValue; }
@@ -178,7 +178,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y == 0) return 1;
             if (y == 1) return x;
             var result = x;
-            for (long i = 0; i < y; i++)
+            for (long i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
                 catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? long.MaxValue : long.MinValue; }

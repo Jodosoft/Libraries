@@ -138,9 +138,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.TurnsToDegrees() => new cfloat(CheckedMath.TurnsToDegrees(_value));
         cfloat INumeric<cfloat>.TurnsToRadians() => new cfloat(CheckedMath.TurnsToRadians(_value));
 
-        int IBitConverter<cfloat>.SizeOfValue => sizeof(float);
-        cfloat IBitConverter<cfloat>.FromBytes(in ReadOnlySpan<byte> bytes) => new cfloat(BitConverter.ToSingle(bytes));
-        ReadOnlySpan<byte> IBitConverter<cfloat>.GetBytes() => BitConverter.GetBytes(_value);
+        cfloat IBitConverter<cfloat>.Read(in IReadOnlyStream<byte> stream) => new cfloat(BitConverter.ToSingle(stream.Read(sizeof(float))));
+        void IBitConverter<cfloat>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(_value));
 
         cfloat IRandomGenerator<cfloat>.GetNext(Random random) => new cfloat(random.NextSingle(float.MinValue, float.MaxValue));
         cfloat IRandomGenerator<cfloat>.GetNext(Random random, in cfloat bound1, in cfloat bound2) => new cfloat(random.NextSingle(bound1._value, bound2._value));
@@ -180,7 +179,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(cfloat left, cfloat right) => left._value == right._value;
         public static bool operator >(cfloat left, cfloat right) => left._value > right._value;
         public static bool operator >=(cfloat left, cfloat right) => left._value >= right._value;
-        public static cfloat operator %(cfloat left, cfloat right) => new cfloat(left._value % right._value);
+        public static cfloat operator %(cfloat left, cfloat right) => new cfloat(CheckedMath.Remainder(left._value, right._value));
         public static cfloat operator -(cfloat left, cfloat right) => new cfloat(CheckedMath.Subtract(left._value, right._value));
         public static cfloat operator --(cfloat value) => new cfloat(CheckedMath.Subtract(value._value, 1));
         public static cfloat operator -(cfloat value) => new cfloat(-value._value);

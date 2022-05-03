@@ -20,11 +20,14 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public readonly struct Rectangle<T> : IEquatable<Rectangle<T>> where T : struct, INumeric<T>
+    [Serializable]
+    public readonly struct Rectangle<T> : IGeometric<Rectangle<T>> where T : struct, INumeric<T>
     {
         public readonly Vector2<T> Center;
         public readonly Vector2<T> Dimensions;
@@ -44,6 +47,18 @@ namespace Jodo.Extensions.CheckedGeometry
             Angle = Angle<T>.FromDegrees(degrees);
         }
 
+        private Rectangle(SerializationInfo info, StreamingContext _) : this(
+            (Vector2<T>)info.GetValue(nameof(Center), typeof(Vector2<T>)),
+            (Vector2<T>)info.GetValue(nameof(Dimensions), typeof(Vector2<T>)),
+            (Angle<T>)info.GetValue(nameof(Angle), typeof(Angle<T>)))
+        { }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+        {
+            info.AddValue(nameof(Center), Center, typeof(Vector2<T>));
+            info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<T>));
+            info.AddValue(nameof(Angle), Angle, typeof(Angle<T>));
+        }
 
         public bool Equals(Rectangle<T> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
         public override bool Equals(object? obj) => obj is Rectangle<T> rectangle && Equals(rectangle);
@@ -89,6 +104,21 @@ namespace Jodo.Extensions.CheckedGeometry
         public bool Contains(Rectangle<T> other) => throw new NotImplementedException();
         public bool IntersectsWith(Rectangle<T> other) => throw new NotImplementedException();
 
+        Rectangle<T> IBitConverter<Rectangle<T>>.Read(in IReadOnlyStream<byte> stream)
+        {
+            return new Rectangle<T>(
+                stream.Read<Vector2<T>>(),
+                stream.Read<Vector2<T>>(),
+                stream.Read<Angle<T>>());
+        }
+
+        void IBitConverter<Rectangle<T>>.Write(in IWriteOnlyStream<byte> stream)
+        {
+            stream.Write(Center);
+            stream.Write(Dimensions);
+            stream.Write(Angle);
+        }
+
         public static Rectangle<T> FromCenter(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => new Rectangle<T>(center, dimensions, angle);
         public static Rectangle<T> FromBottomLeft(Vector2<T> bottomLeft, Vector2<T> dimensions, Angle<T> angle) => new Rectangle<T>(GetTopRight(bottomLeft, dimensions, default), dimensions, angle);
         public static Rectangle<T> FromBottomCenter(Vector2<T> bottomLeft, Vector2<T> dimensions, Angle<T> angle) => new Rectangle<T>(GetTopCenter(bottomLeft, dimensions, default), dimensions, angle);
@@ -121,6 +151,34 @@ namespace Jodo.Extensions.CheckedGeometry
         private static Vector2<T> GetTopCenter(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
         private static Vector2<T> GetTopLeft(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
         private static Vector2<T> GetTopRight(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => (center + (dimensions / 2)).RotateAround(center, angle);
+
+        Rectangle<T> IStringFormatter<Rectangle<T>>.Parse(in string s)
+        {
+            throw new NotImplementedException();
+        }
+
+        Rectangle<T> IStringFormatter<Rectangle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
+
+        Rectangle<T> IRandomGenerator<Rectangle<T>>.GetNext(Random random)
+        {
+            return new Rectangle<T>(
+                random.NextGeometric<Vector2<T>>(),
+                random.NextGeometric<Vector2<T>>(),
+                random.NextGeometric<Angle<T>>());
+        }
+
+        Rectangle<T> IRandomGenerator<Rectangle<T>>.GetNext(Random random, in Rectangle<T> bound1, in Rectangle<T> bound2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
 
         public static bool operator ==(Rectangle<T> left, Rectangle<T> right) => left.Equals(right);
         public static bool operator !=(Rectangle<T> left, Rectangle<T> right) => !(left == right);

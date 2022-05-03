@@ -25,6 +25,7 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
+    [Serializable]
     public readonly struct Unit<T> : IGeometric<Unit<T>> where T : struct, INumeric<T>
     {
         public static Unit<T> Zero = new Unit<T>(Math<T>.Zero);
@@ -38,8 +39,12 @@ namespace Jodo.Extensions.CheckedGeometry
             Value = Math<T>.Clamp(value, Math<T>.MinUnit, Math<T>.MaxUnit);
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(Value), Value, typeof(T));
-        private Unit(SerializationInfo info, StreamingContext _) : this((T)info.GetValue(nameof(Value), typeof(T))) { }
+        private Unit(SerializationInfo info, StreamingContext _) : this(
+            (T)info.GetValue(nameof(Value), typeof(T)))
+        { }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+            => info.AddValue(nameof(Value), Value, typeof(T));
 
         public bool Equals(Unit<T> other) => Value.Equals(other.Value);
         public override bool Equals(object? obj) => obj is Unit<T> unit && Equals(unit);
@@ -48,11 +53,8 @@ namespace Jodo.Extensions.CheckedGeometry
         public Unit<cfloat> Approximate(float offset) => new Unit<cfloat>(Value.Approximate(offset));
         public string ToString(string format, IFormatProvider formatProvider) => Value.ToString(format, formatProvider);
 
-        int IBitConverter<Unit<T>>.SizeOfValue => BitConverter<T>.Size;
-        Unit<T> IBitConverter<Unit<T>>.FromBytes(in ReadOnlySpan<byte> bytes)
-            => new Unit<T>(BitConverter<T>.FromBytes(bytes));
-        ReadOnlySpan<byte> IBitConverter<Unit<T>>.GetBytes()
-            => BitConverter<T>.GetBytes(Value);
+        Unit<T> IBitConverter<Unit<T>>.Read(in IReadOnlyStream<byte> stream) => new Unit<T>(stream.Read<T>());
+        void IBitConverter<Unit<T>>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(Value);
 
         Unit<T> IRandomGenerator<Unit<T>>.GetNext(Random random)
             => new Unit<T>(random.NextNumeric<T>(Math<T>.MinUnit, Math<T>.MaxUnit));

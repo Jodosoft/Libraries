@@ -37,12 +37,17 @@ namespace System
         public static ushort NextUInt16(this Random random, in ushort bound1, in ushort bound2) => (ushort)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
         public static int NextInt32(this Random random) => BitConverter.ToInt32(random.NextBytes(4));
-        public static int NextInt32(this Random random, in int bound1, in int bound2)
+        public static int NextInt32(this Random random, int bound1, int bound2)
         {
-            var min = Math.Min(bound1, bound2);
-            var max = Math.Max(bound1, bound2);
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
 
-            var range = new BigInteger(max) - new BigInteger(min);
+            var range = new BigInteger(bound2) - new BigInteger(bound1);
             var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
             var bytes = range.ToByteArray();
             BigInteger result;
@@ -53,7 +58,7 @@ namespace System
                 result = new BigInteger(bytes, true, true);
             } while (result > range);
 
-            return (int)(min + result);
+            return (int)(bound1 + result);
         }
         public static uint NextUInt32(this Random random) => BitConverter.ToUInt32(random.NextBytes(32));
 
@@ -63,38 +68,53 @@ namespace System
 
         public static float NextSingle(this Random random) => random.NextSingle(float.MinValue, float.MaxValue);
 
-        public static float NextSingle(this Random random, float minValue, float maxValue)
+        public static float NextSingle(this Random random, float bound1, float bound2)
         {
-            if (!float.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, "Must be finite.");
-            if (!float.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, "Must be finite.");
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");
-            if (minValue == maxValue) return minValue;
+            if (!float.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, "Must be finite.");
+            if (!float.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, "Must be finite.");
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
 
-            var minBits = BitConverter.SingleToInt32Bits(minValue);
-            var maxBits = BitConverter.SingleToInt32Bits(maxValue);
-            var index = random.Next(minValue < 0 ? int.MinValue - minBits : minBits, (maxValue < 0 ? int.MinValue - maxBits : maxBits) + 1);
+            var minBits = BitConverter.SingleToInt32Bits(bound1);
+            var maxBits = BitConverter.SingleToInt32Bits(bound2);
+            var index = random.Next(bound1 < 0 ? int.MinValue - minBits : minBits, (bound2 < 0 ? int.MinValue - maxBits : maxBits) + 1);
             return BitConverter.Int32BitsToSingle(index < 0 ? int.MinValue - index : index);
         }
 
-        public static double NextDouble(this Random random, double minValue, double maxValue)
+        public static double NextDouble(this Random random, double bound1, double bound2)
         {
-            if (!double.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, "Must be finite.");
-            if (!double.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, "Must be finite.");
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");
-            if (minValue == maxValue) return minValue;
+            if (!double.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, "Must be finite.");
+            if (!double.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, "Must be finite.");
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
 
-            var minBits = BitConverter.DoubleToInt64Bits(minValue);
-            var maxBits = BitConverter.DoubleToInt64Bits(maxValue);
-            var index = random.NextInt64(minValue < 0 ? long.MinValue - minBits : minBits, (maxValue < 0 ? long.MinValue - maxBits : maxBits) + 1);
+            var minBits = BitConverter.DoubleToInt64Bits(bound1);
+            var maxBits = BitConverter.DoubleToInt64Bits(bound2);
+            var index = random.NextInt64(bound1 < 0 ? long.MinValue - minBits : minBits, (bound2 < 0 ? long.MinValue - maxBits : maxBits) + 1);
             return BitConverter.Int64BitsToDouble(index < 0 ? long.MinValue - index : index);
         }
 
-        public static uint NextUInt32(this Random random, uint minValue, uint maxValue)
+        public static uint NextUInt32(this Random random, uint bound1, uint bound2)
         {
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");
-            if (minValue == maxValue) return minValue;
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
 
-            var range = new BigInteger(maxValue) - new BigInteger(minValue);
+            var range = new BigInteger(bound2) - new BigInteger(bound1);
             var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
             var bytes = range.ToByteArray();
             BigInteger result;
@@ -105,15 +125,20 @@ namespace System
                 result = new BigInteger(bytes, true, true);
             } while (result > range);
 
-            return (uint)(minValue + result);
+            return (uint)(bound1 + result);
         }
 
-        public static long NextInt64(this Random random, long minValue, long maxValue)
+        public static long NextInt64(this Random random, long bound1, long bound2)
         {
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");
-            if (minValue == maxValue) return minValue;
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
 
-            var range = new BigInteger(maxValue) - new BigInteger(minValue);
+            var range = new BigInteger(bound2) - new BigInteger(bound1);
             var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
             var bytes = range.ToByteArray();
             BigInteger result;
@@ -124,15 +149,20 @@ namespace System
                 result = new BigInteger(bytes, true, true);
             } while (result > range);
 
-            return (long)(minValue + result);
+            return (long)(bound1 + result);
         }
 
-        public static ulong NextUInt64(this Random random, ulong minValue, ulong maxValue)
+        public static ulong NextUInt64(this Random random, ulong bound1, ulong bound2)
         {
-            if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, $"{nameof(minValue)}' cannot be greater than {nameof(maxValue)}");
-            if (minValue == maxValue) return minValue;
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
 
-            var range = new BigInteger(maxValue) - new BigInteger(minValue);
+            var range = new BigInteger(bound2) - new BigInteger(bound1);
             var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
             var bytes = range.ToByteArray();
             BigInteger result;
@@ -143,7 +173,7 @@ namespace System
                 result = new BigInteger(bytes, true, true);
             } while (result > range);
 
-            return (ulong)(minValue + result);
+            return (ulong)(bound1 + result);
         }
 
         public static T NextElement<T>(this Random random, IReadOnlyList<T> list) => list[random.Next(0, list.Count)];

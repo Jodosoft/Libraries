@@ -20,10 +20,13 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public readonly struct AARectangle<T> : IEquatable<AARectangle<T>> where T : struct, INumeric<T>
+    [Serializable]
+    public readonly struct AARectangle<T> : IGeometric<AARectangle<T>> where T : struct, INumeric<T>
     {
         public readonly Vector2<T> Center;
         public readonly Vector2<T> Dimensions;
@@ -55,6 +58,17 @@ namespace Jodo.Extensions.CheckedGeometry
         {
             Center = new Vector2<T>(centerX, centerY);
             Dimensions = new Vector2<T>(width, height);
+        }
+
+        private AARectangle(SerializationInfo info, StreamingContext _) : this(
+            (Vector2<T>)info.GetValue(nameof(Center), typeof(Vector2<T>)),
+            (Vector2<T>)info.GetValue(nameof(Dimensions), typeof(Vector2<T>)))
+        { }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+        {
+            info.AddValue(nameof(Center), Center, typeof(Vector2<T>));
+            info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<T>));
         }
 
         public AARectangle<T> Grow(Vector2<T> delta) => new AARectangle<T>(Center, Dimensions + delta);
@@ -89,6 +103,19 @@ namespace Jodo.Extensions.CheckedGeometry
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions);
         public override string ToString() => TypeString.Combine(GetType(), Center, Dimensions);
 
+        AARectangle<T> IBitConverter<AARectangle<T>>.Read(in IReadOnlyStream<byte> stream)
+        {
+            return new AARectangle<T>(
+                stream.Read<Vector2<T>>(),
+                stream.Read<Vector2<T>>());
+        }
+
+        void IBitConverter<AARectangle<T>>.Write(in IWriteOnlyStream<byte> stream)
+        {
+            stream.Write(Center);
+            stream.Write(Dimensions);
+        }
+
         public static AARectangle<T> FromCenter(Vector2<T> center, Vector2<T> dimensions) => new AARectangle<T>(center, dimensions);
         public static AARectangle<T> FromBottomLeft(Vector2<T> bottomLeft, Vector2<T> dimensions) => new AARectangle<T>(GetTopRight(bottomLeft, dimensions), dimensions);
         public static AARectangle<T> FromBottomCenter(Vector2<T> bottomLeft, Vector2<T> dimensions) => new AARectangle<T>(GetTopCenter(bottomLeft, dimensions), dimensions);
@@ -100,14 +127,40 @@ namespace Jodo.Extensions.CheckedGeometry
         public static AARectangle<T> FromTopRight(Vector2<T> bottomLeft, Vector2<T> dimensions) => new AARectangle<T>(GetBottomLeft(bottomLeft, dimensions), dimensions);
 
         private static Vector2<T> GetBottomCenter(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2));
-        private static Vector2<T> GetBottomLeft(in Vector2<T> center, in Vector2<T> dimensions) => (center - (dimensions / 2));
+        private static Vector2<T> GetBottomLeft(in Vector2<T> center, in Vector2<T> dimensions) => center - (dimensions / 2);
         private static Vector2<T> GetBottomRight(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y - (dimensions.Y / 2));
         private static Vector2<T> GetLeftCenter(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y);
         private static Vector2<T> GetRightCenter(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y);
         private static Vector2<T> GetTopCenter(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2));
         private static Vector2<T> GetTopLeft(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2));
-        private static Vector2<T> GetTopRight(in Vector2<T> center, in Vector2<T> dimensions) => (center + (dimensions / 2));
+        private static Vector2<T> GetTopRight(in Vector2<T> center, in Vector2<T> dimensions) => center + (dimensions / 2);
 
+        AARectangle<T> IStringFormatter<AARectangle<T>>.Parse(in string s)
+        {
+            throw new NotImplementedException();
+        }
+
+        AARectangle<T> IStringFormatter<AARectangle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
+
+        AARectangle<T> IRandomGenerator<AARectangle<T>>.GetNext(Random random)
+        {
+            return new AARectangle<T>(
+                random.NextGeometric<Vector2<T>>(),
+                random.NextGeometric<Vector2<T>>());
+        }
+
+        AARectangle<T> IRandomGenerator<AARectangle<T>>.GetNext(Random random, in AARectangle<T> bound1, in AARectangle<T> bound2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            throw new NotImplementedException();
+        }
 
         public static bool operator ==(AARectangle<T> left, AARectangle<T> right) => left.Equals(right);
         public static bool operator !=(AARectangle<T> left, AARectangle<T> right) => !(left == right);

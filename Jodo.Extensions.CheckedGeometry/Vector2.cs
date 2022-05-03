@@ -25,6 +25,7 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
+    [Serializable]
     public readonly struct Vector2<T> : IGeometric<Vector2<T>> where T : struct, INumeric<T>
     {
         public readonly T X;
@@ -42,14 +43,16 @@ namespace Jodo.Extensions.CheckedGeometry
             Y = y;
         }
 
+        private Vector2(SerializationInfo info, StreamingContext _) : this(
+            (T)info.GetValue(nameof(X), typeof(T)),
+            (T)info.GetValue(nameof(Y), typeof(T)))
+        { }
+
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
         {
             info.AddValue(nameof(X), X, typeof(T));
             info.AddValue(nameof(Y), Y, typeof(T));
         }
-
-        private Vector2(SerializationInfo info, StreamingContext _)
-            : this((T)info.GetValue(nameof(X), typeof(T)), (T)info.GetValue(nameof(Y), typeof(T))) { }
 
         public Vector2<T> RotateAround(in Vector2<T> pivot, in Angle<T> angle)
         {
@@ -79,6 +82,19 @@ namespace Jodo.Extensions.CheckedGeometry
             throw new NotImplementedException();
         }
 
+        Vector2<T> IBitConverter<Vector2<T>>.Read(in IReadOnlyStream<byte> stream)
+        {
+            return new Vector2<T>(
+                stream.Read<T>(),
+                stream.Read<T>());
+        }
+
+        void IBitConverter<Vector2<T>>.Write(in IWriteOnlyStream<byte> stream)
+        {
+            stream.Write(X);
+            stream.Write(Y);
+        }
+
         public static bool TryParse(string value, out Vector2<T> result)
         {
             try
@@ -101,22 +117,7 @@ namespace Jodo.Extensions.CheckedGeometry
             return new Vector2<T>(StringFormatter<T>.Parse(args[0].Trim()), StringFormatter<T>.Parse(args[1].Trim()));
         }
 
-        int IBitConverter<Vector2<T>>.SizeOfValue => BitConverter<T>.Size * 2;
 
-        Vector2<T> IBitConverter<Vector2<T>>.FromBytes(in ReadOnlySpan<byte> bytes)
-        {
-            return new Vector2<T>(
-                BitConverter<T>.FromBytes(bytes.Slice(0, BitConverter<T>.Size)),
-                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size, BitConverter<T>.Size)));
-        }
-
-        ReadOnlySpan<byte> IBitConverter<Vector2<T>>.GetBytes()
-        {
-            var result = new byte[BitConverter<T>.Size * 3];
-            BitConverter<T>.GetBytes(X).CopyTo(new Span<byte>(result, 0, BitConverter<T>.Size));
-            BitConverter<T>.GetBytes(Y).CopyTo(new Span<byte>(result, BitConverter<T>.Size, BitConverter<T>.Size));
-            return result;
-        }
 
         Vector2<T> IRandomGenerator<Vector2<T>>.GetNext(Random random)
         {

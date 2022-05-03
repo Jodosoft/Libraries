@@ -18,52 +18,30 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
-using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public class BitConverterTests : AssemblyTestBase
+    public class SerializationTests : AssemblyTestBase
     {
         [TestCaseSource(nameof(TestCases_AllNumericTypes))]
-        public void GetBytes_RoundTrip_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
+        public void Serialize_RoundTrip_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
         {
             //arrange
             var input = Random.NextNumeric<T>();
+            var formatter = new BinaryFormatter();
 
             //act
-            var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
+            using var stream = new MemoryStream();
+            formatter.Serialize(stream, input);
+            stream.Position = 0;
+            var result = (T)formatter.Deserialize(stream);
 
             //assert
             result.Should().Be(input);
-        }
-
-        [TestCaseSource(nameof(TestCases_AllNumericTypes))]
-        public void GetBytes_Zero_AllZero<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            var input = Math<T>.Zero;
-
-            //act
-            var result = BitConverter<T>.GetBytes(input);
-
-            //assert
-            result.ToArray().Should().AllBeEquivalentTo(0);
-        }
-
-        [TestCaseSource(nameof(TestCases_AllNumericTypes))]
-        public void GetBytes_NonZero_NotAllZero<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            T input;
-            while ((input = Random.NextNumeric<T>()).Equals(Math<T>.Zero)) { }
-
-            //act
-            var result = BitConverter<T>.GetBytes(input);
-
-            //assert
-            result.ToArray().Should().Contain(x => x != 0);
         }
     }
 }

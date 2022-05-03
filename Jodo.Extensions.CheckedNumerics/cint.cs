@@ -134,9 +134,8 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.TurnsToDegrees() => new cint((int)CheckedMath.TurnsToDegrees(this));
         cint INumeric<cint>.TurnsToRadians() => new cint((int)CheckedMath.TurnsToRadians(this));
 
-        int IBitConverter<cint>.SizeOfValue => sizeof(int);
-        cint IBitConverter<cint>.FromBytes(in ReadOnlySpan<byte> bytes) => new cint(BitConverter.ToInt32(bytes));
-        ReadOnlySpan<byte> IBitConverter<cint>.GetBytes() => BitConverter.GetBytes(_value);
+        cint IBitConverter<cint>.Read(in IReadOnlyStream<byte> stream) => new cint(BitConverter.ToInt32(stream.Read(sizeof(int))));
+        void IBitConverter<cint>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(_value));
 
         cint IRandomGenerator<cint>.GetNext(Random random) => new cint(random.NextInt32());
         cint IRandomGenerator<cint>.GetNext(Random random, in cint bound1, in cint bound2) => new cint(random.NextInt32(bound1._value, bound2._value));
@@ -175,7 +174,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(cint left, cint right) => left._value == right._value;
         public static bool operator >(cint left, cint right) => left._value > right._value;
         public static bool operator >=(cint left, cint right) => left._value >= right._value;
-        public static cint operator %(cint left, cint right) => new cint(left._value % right._value);
+        public static cint operator %(cint left, cint right) => new cint(CheckedMath.Remainder(left._value, right._value));
         public static cint operator &(cint left, cint right) => new cint(left._value & right._value);
         public static cint operator -(cint left, cint right) => new cint(CheckedMath.Subtract(left._value, right._value));
         public static cint operator --(cint value) => new cint(CheckedMath.Subtract(value._value, 1));

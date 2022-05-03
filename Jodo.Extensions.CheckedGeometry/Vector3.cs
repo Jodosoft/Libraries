@@ -25,7 +25,8 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public readonly struct Vector3<T> : IGeometric<Vector3<T>> where T : struct, INumeric<T>, IBitConverter<T>
+    [Serializable]
+    public readonly struct Vector3<T> : IGeometric<Vector3<T>> where T : struct, INumeric<T>
     {
         public readonly T X;
         public readonly T Y;
@@ -40,16 +41,18 @@ namespace Jodo.Extensions.CheckedGeometry
             Z = z;
         }
 
+        private Vector3(SerializationInfo info, StreamingContext _) : this(
+            (T)info.GetValue(nameof(X), typeof(T)),
+            (T)info.GetValue(nameof(Y), typeof(T)),
+            (T)info.GetValue(nameof(Z), typeof(T)))
+        { }
+
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
         {
             info.AddValue(nameof(X), X, typeof(T));
             info.AddValue(nameof(Y), Y, typeof(T));
             info.AddValue(nameof(Z), Z, typeof(T));
         }
-
-        private Vector3(SerializationInfo info, StreamingContext _)
-            : this((T)info.GetValue(nameof(X), typeof(T)), (T)info.GetValue(nameof(Y), typeof(T)), (T)info.GetValue(nameof(Z), typeof(T))) { }
-
 
         public bool Equals(Vector3<T> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         public override bool Equals(object? obj) => obj is Vector3<T> vector && Equals(vector);
@@ -61,29 +64,19 @@ namespace Jodo.Extensions.CheckedGeometry
             throw new NotImplementedException();
         }
 
-        bool IEquatable<Vector3<T>>.Equals(Vector3<T> other)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        int IBitConverter<Vector3<T>>.SizeOfValue => BitConverter<T>.Size * 3;
-
-        Vector3<T> IBitConverter<Vector3<T>>.FromBytes(in ReadOnlySpan<byte> bytes)
+        Vector3<T> IBitConverter<Vector3<T>>.Read(in IReadOnlyStream<byte> stream)
         {
             return new Vector3<T>(
-                BitConverter<T>.FromBytes(bytes.Slice(0, BitConverter<T>.Size)),
-                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size, BitConverter<T>.Size)),
-                BitConverter<T>.FromBytes(bytes.Slice(BitConverter<T>.Size * 2, BitConverter<T>.Size)));
+                stream.Read<T>(),
+                stream.Read<T>(),
+                stream.Read<T>());
         }
 
-        ReadOnlySpan<byte> IBitConverter<Vector3<T>>.GetBytes()
+        void IBitConverter<Vector3<T>>.Write(in IWriteOnlyStream<byte> stream)
         {
-            var result = new byte[BitConverter<T>.Size * 3];
-            BitConverter<T>.GetBytes(X).CopyTo(new Span<byte>(result, 0, BitConverter<T>.Size));
-            BitConverter<T>.GetBytes(Y).CopyTo(new Span<byte>(result, BitConverter<T>.Size, BitConverter<T>.Size));
-            BitConverter<T>.GetBytes(Z).CopyTo(new Span<byte>(result, BitConverter<T>.Size * 2, BitConverter<T>.Size));
-            return result;
+            stream.Write(X);
+            stream.Write(Y);
+            stream.Write(Z);
         }
 
         Vector3<T> IRandomGenerator<Vector3<T>>.GetNext(Random random)
@@ -133,7 +126,6 @@ namespace Jodo.Extensions.CheckedGeometry
                 StringFormatter<T>.Parse(args[1].Trim()),
                 StringFormatter<T>.Parse(args[2].Trim()));
         }
-
 
         public static Vector3<T> operator -(Vector3<T> value) => new Vector3<T>(-value.X, -value.Y, -value.Z);
         public static Vector3<T> operator -(Vector3<T> value1, Vector3<T> value2) => new Vector3<T>(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);

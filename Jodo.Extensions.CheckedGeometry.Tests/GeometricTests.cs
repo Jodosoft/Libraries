@@ -31,17 +31,18 @@ namespace Jodo.Extensions.CheckedGeometry.Tests
     {
         static readonly object[] AllGeometricTypes =
         {
-            default(AARectangle<cfloat>),
-            default(Angle<cfloat>),
-            default(Circle<cfloat>),
-            default(Rectangle<cfloat>),
-            default(Unit<cfloat>),
-            default(Vector2<cfloat>),
-            default(Vector3<cfloat>),
+            typeof(AARectangle<cfloat>),
+            typeof(Angle<cfloat>),
+            typeof(Circle<cfloat>),
+            typeof(Rectangle<cfloat>),
+            typeof(Unit<cfloat>),
+            typeof(Vector2<cfloat>),
+            typeof(Vector3<cfloat>),
         };
 
         [TestCaseSource(nameof(AllGeometricTypes))]
-        public void Serialize_RoundTrip_SameAsOriginal<T>(T _) where T : struct, IGeometric<T>
+        public void Serialize_RoundTrip_SameAsOriginal(Type type) => GetType().GetMethod(nameof(Serialize_RoundTrip_SameAsOriginal1)).MakeGenericMethod(type).Invoke(this, null);
+        public void Serialize_RoundTrip_SameAsOriginal1<T>() where T : struct, IGeometric<T>
         {
             //arrange
             var input = Random.NextGeometric<T>();
@@ -58,7 +59,8 @@ namespace Jodo.Extensions.CheckedGeometry.Tests
         }
 
         [TestCaseSource(nameof(AllGeometricTypes))]
-        public void GetBytes_RoundTrip_SameAsOriginal<T>(T _) where T : struct, IGeometric<T>
+        public void GetBytes_RoundTrip_SameAsOriginal(Type type) => GetType().GetMethod(nameof(GetBytes_RoundTrip_SameAsOriginal1)).MakeGenericMethod(type).Invoke(this, null);
+        public void GetBytes_RoundTrip_SameAsOriginal1<T>() where T : struct, IGeometric<T>
         {
             //arrange
             var input = Random.NextGeometric<T>();
@@ -69,20 +71,5 @@ namespace Jodo.Extensions.CheckedGeometry.Tests
             //assert
             result.Should().Be(input);
         }
-
-        [TestCaseSource(nameof(AllGeometricTypes))]
-        public void GetBytes_Random_CorrectSize<T>(T _) where T : struct, IGeometric<T>
-        {
-            //arrange
-            var input = Random.NextGeometric<T>();
-
-            //act
-            var result = BitConverter<T>.GetBytes(input);
-
-            //assert
-            result.Length.Should().Be(BitConverter<T>.Size);
-        }
-
-
     }
 }
