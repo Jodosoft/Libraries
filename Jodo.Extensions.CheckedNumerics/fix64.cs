@@ -195,7 +195,7 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Subtract(in fix64 x, in fix64 y) => x - y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Tan(in fix64 x) => (fix64)Math.Tan((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Tanh(in fix64 x) => (fix64)Math.Tanh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Truncate(in fix64 x) => x._scaledValue < 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor - ScalingFactor) + ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Truncate(in fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToDegrees(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.DegreesPerTurn);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToRadians(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<fix64>.ToSingle(in fix64 x, in float offset) => CheckedMath.Add((float)x, offset);
