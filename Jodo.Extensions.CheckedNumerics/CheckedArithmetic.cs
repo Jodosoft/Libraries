@@ -22,7 +22,7 @@ using System.Numerics;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
-    public static class CheckedMath
+    public static class CheckedArithmetic
     {
         public static byte Add(byte x, byte y) { try { checked { return (byte)(x + y); } } catch (OverflowException) { return byte.MaxValue; } }
         public static byte Subtract(byte x, byte y) { try { checked { return (byte)(x - y); } } catch (OverflowException) { return byte.MinValue; } }

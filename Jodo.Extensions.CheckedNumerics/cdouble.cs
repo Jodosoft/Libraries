@@ -102,13 +102,13 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(cdouble left, cdouble right) => left._value == right._value;
         public static bool operator >(cdouble left, cdouble right) => left._value > right._value;
         public static bool operator >=(cdouble left, cdouble right) => left._value >= right._value;
-        public static cdouble operator %(cdouble left, cdouble right) => CheckedMath.Remainder(left._value, right._value);
-        public static cdouble operator -(cdouble left, cdouble right) => CheckedMath.Subtract(left._value, right._value);
+        public static cdouble operator %(cdouble left, cdouble right) => CheckedArithmetic.Remainder(left._value, right._value);
+        public static cdouble operator -(cdouble left, cdouble right) => CheckedArithmetic.Subtract(left._value, right._value);
         public static cdouble operator --(cdouble value) => value - 1;
         public static cdouble operator -(cdouble value) => -value._value;
-        public static cdouble operator *(cdouble left, cdouble right) => CheckedMath.Multiply(left._value, right._value);
-        public static cdouble operator /(cdouble left, cdouble right) => CheckedMath.Divide(left._value, right._value);
-        public static cdouble operator +(cdouble left, cdouble right) => CheckedMath.Add(left._value, right._value);
+        public static cdouble operator *(cdouble left, cdouble right) => CheckedArithmetic.Multiply(left._value, right._value);
+        public static cdouble operator /(cdouble left, cdouble right) => CheckedArithmetic.Divide(left._value, right._value);
+        public static cdouble operator +(cdouble left, cdouble right) => CheckedArithmetic.Add(left._value, right._value);
         public static cdouble operator +(cdouble value) => value;
         public static cdouble operator ++(cdouble value) => value + 1;
 
@@ -184,8 +184,8 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] cdouble IMath<cdouble>.Truncate(in cdouble x) => Math.Truncate(x._value);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] cdouble IMath<cdouble>.TurnsToDegrees(in cdouble x) => x._value * Constants.DegreesPerTurnF;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] cdouble IMath<cdouble>.TurnsToRadians(in cdouble x) => x._value * Constants.RadiansPerTurnF;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<cdouble>.ToDouble(in cdouble x, in double offset) => CheckedMath.Add(x._value, offset);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<cdouble>.ToSingle(in cdouble x, in float offset) => CheckedMath.Add((float)x, offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<cdouble>.ToDouble(in cdouble x, in double offset) => CheckedArithmetic.Add(x._value, offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<cdouble>.ToSingle(in cdouble x, in float offset) => CheckedArithmetic.Add((float)x, offset);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] int IMath<cdouble>.Sign(in cdouble x) => Math.Sign(x._value);
 
             cdouble IBitConverter<cdouble>.Read(in IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)));

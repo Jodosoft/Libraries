@@ -80,7 +80,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static fix64 Parse(string s, NumberStyles style, IFormatProvider provider) => new fix64(CheckedConvert.ToInt64(double.Parse(s, style, provider) * ScalingFactor));
 
         public static explicit operator fix64(in decimal value) => new fix64(CheckedConvert.ToInt64(value * ScalingFactor));
-        public static explicit operator fix64(in double value) => new fix64(CheckedConvert.ToInt64(CheckedMath.Multiply(value, ScalingFactor)));
+        public static explicit operator fix64(in double value) => new fix64(CheckedConvert.ToInt64(CheckedArithmetic.Multiply(value, ScalingFactor)));
         public static explicit operator fix64(in long value) => new fix64(value * ScalingFactor);
         public static explicit operator fix64(in ulong value) => new fix64(CheckedConvert.ToInt64(value * ScalingFactor));
         public static implicit operator fix64(in byte value) => new fix64(value * ScalingFactor);
@@ -109,17 +109,17 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(in fix64 left, in fix64 right) => left._scaledValue == right._scaledValue;
         public static bool operator >(in fix64 left, in fix64 right) => left._scaledValue > right._scaledValue;
         public static bool operator >=(in fix64 left, in fix64 right) => left._scaledValue >= right._scaledValue;
-        public static fix64 operator %(in fix64 left, in fix64 right) => new fix64(CheckedMath.ScaledRemainder(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static fix64 operator %(in fix64 left, in fix64 right) => new fix64(CheckedArithmetic.ScaledRemainder(left._scaledValue, right._scaledValue, ScalingFactor));
         public static fix64 operator &(in fix64 left, in fix64 right) => new fix64(left._scaledValue & right._scaledValue);
-        public static fix64 operator -(in fix64 left, in fix64 right) => new fix64(CheckedMath.Subtract(left._scaledValue, right._scaledValue));
+        public static fix64 operator -(in fix64 left, in fix64 right) => new fix64(CheckedArithmetic.Subtract(left._scaledValue, right._scaledValue));
         public static fix64 operator --(in fix64 value) => new fix64(value._scaledValue - ScalingFactor);
         public static fix64 operator -(in fix64 value) => new fix64(-value._scaledValue);
-        public static fix64 operator *(in fix64 left, in fix64 right) => new fix64(CheckedMath.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
-        public static fix64 operator /(in fix64 left, in fix64 right) => new fix64(CheckedMath.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static fix64 operator *(in fix64 left, in fix64 right) => new fix64(CheckedArithmetic.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static fix64 operator /(in fix64 left, in fix64 right) => new fix64(CheckedArithmetic.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
         public static fix64 operator ^(in fix64 left, in fix64 right) => new fix64(left._scaledValue ^ right._scaledValue);
         public static fix64 operator |(in fix64 left, in fix64 right) => new fix64(left._scaledValue | right._scaledValue);
         public static fix64 operator ~(in fix64 value) => new fix64(~value._scaledValue);
-        public static fix64 operator +(in fix64 left, in fix64 right) => new fix64(CheckedMath.Add(left._scaledValue, right._scaledValue));
+        public static fix64 operator +(in fix64 left, in fix64 right) => new fix64(CheckedArithmetic.Add(left._scaledValue, right._scaledValue));
         public static fix64 operator +(in fix64 value) => value;
         public static fix64 operator ++(in fix64 value) => new fix64(value._scaledValue + ScalingFactor);
         public static fix64 operator <<(in fix64 left, int right) => new fix64(left._scaledValue << right);
@@ -150,7 +150,7 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<fix64>.IsGreaterThanOrEqualTo(in fix64 x, in fix64 y) => x >= y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<fix64>.IsLessThan(in fix64 x, in fix64 y) => x < y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<fix64>.IsLessThanOrEqualTo(in fix64 x, in fix64 y) => x <= y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<fix64>.ToDouble(in fix64 x, in double offset) => CheckedMath.Add((double)x, offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<fix64>.ToDouble(in fix64 x, in double offset) => CheckedArithmetic.Add((double)x, offset);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Abs(in fix64 x) => x._scaledValue < 0 ? -x : x;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Acos(in fix64 x) => (fix64)Math.Acos((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Acosh(in fix64 x) => (fix64)Math.Acosh((double)x);
@@ -166,8 +166,8 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Convert(in byte value) => value;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Cos(in fix64 x) => (fix64)Math.Cos((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Cosh(in fix64 x) => (fix64)Math.Cosh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.DegreesToRadians(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.RadiansPerDegree);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.DegreesToTurns(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.TurnsPerDegree);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.DegreesToRadians(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.RadiansPerDegree);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.DegreesToTurns(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerDegree);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Divide(in fix64 x, in fix64 y) => x / y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Exp(in fix64 x) => (fix64)Math.Exp((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Floor(in fix64 x) => x._scaledValue < 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor * ScalingFactor) - ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
@@ -182,8 +182,8 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Positive(in fix64 x) => +x;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Pow(in fix64 x, in byte y) => (fix64)Math.Pow((double)x, y);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Pow(in fix64 x, in fix64 y) => (fix64)Math.Pow((double)x, (double)y);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.RadiansToDegrees(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.RadiansToTurns(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.TurnsPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.RadiansToDegrees(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.RadiansToTurns(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerRadian);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Remainder(in fix64 x, in fix64 y) => x % y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x) => (fix64)Math.Round((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x, in int digits) => (fix64)Math.Round((double)x, digits);
@@ -196,9 +196,9 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Tan(in fix64 x) => (fix64)Math.Tan((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Tanh(in fix64 x) => (fix64)Math.Tanh((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Truncate(in fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToDegrees(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.DegreesPerTurn);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToRadians(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<fix64>.ToSingle(in fix64 x, in float offset) => CheckedMath.Add((float)x, offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToDegrees(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerTurn);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToRadians(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<fix64>.ToSingle(in fix64 x, in float offset) => CheckedArithmetic.Add((float)x, offset);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] int IMath<fix64>.Sign(in fix64 x) => Math.Sign(x._scaledValue);
 
             fix64 IBitConverter<fix64>.Read(in IReadOnlyStream<byte> stream) => new fix64(BitConverter.ToInt64(stream.Read(sizeof(long))));

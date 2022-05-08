@@ -120,17 +120,17 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(in ufix64 left, in ufix64 right) => left._scaledValue == right._scaledValue;
         public static bool operator >(in ufix64 left, in ufix64 right) => left._scaledValue > right._scaledValue;
         public static bool operator >=(in ufix64 left, in ufix64 right) => left._scaledValue >= right._scaledValue;
-        public static ufix64 operator %(in ufix64 left, in ufix64 right) => new ufix64(CheckedMath.ScaledRemainder(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static ufix64 operator %(in ufix64 left, in ufix64 right) => new ufix64(CheckedArithmetic.ScaledRemainder(left._scaledValue, right._scaledValue, ScalingFactor));
         public static ufix64 operator &(in ufix64 left, in ufix64 right) => new ufix64(left._scaledValue & right._scaledValue);
         public static ufix64 operator -(in ufix64 _) => Zero;
-        public static ufix64 operator -(in ufix64 left, in ufix64 right) => new ufix64(CheckedMath.Subtract(left._scaledValue, right._scaledValue));
+        public static ufix64 operator -(in ufix64 left, in ufix64 right) => new ufix64(CheckedArithmetic.Subtract(left._scaledValue, right._scaledValue));
         public static ufix64 operator --(in ufix64 value) => new ufix64(value._scaledValue - ScalingFactor);
-        public static ufix64 operator *(in ufix64 left, in ufix64 right) => new ufix64(CheckedMath.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
-        public static ufix64 operator /(in ufix64 left, in ufix64 right) => new ufix64(CheckedMath.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static ufix64 operator *(in ufix64 left, in ufix64 right) => new ufix64(CheckedArithmetic.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static ufix64 operator /(in ufix64 left, in ufix64 right) => new ufix64(CheckedArithmetic.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
         public static ufix64 operator ^(in ufix64 left, in ufix64 right) => new ufix64(left._scaledValue ^ right._scaledValue);
         public static ufix64 operator |(in ufix64 left, in ufix64 right) => new ufix64(left._scaledValue | right._scaledValue);
         public static ufix64 operator ~(in ufix64 value) => new ufix64(~value._scaledValue);
-        public static ufix64 operator +(in ufix64 left, in ufix64 right) => new ufix64(CheckedMath.Add(left._scaledValue, right._scaledValue));
+        public static ufix64 operator +(in ufix64 left, in ufix64 right) => new ufix64(CheckedArithmetic.Add(left._scaledValue, right._scaledValue));
         public static ufix64 operator +(in ufix64 value) => value;
         public static ufix64 operator ++(in ufix64 value) => new ufix64(value._scaledValue + ScalingFactor);
         public static ufix64 operator <<(in ufix64 left, in int right) => new ufix64(left._scaledValue << right);
@@ -161,8 +161,8 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<ufix64>.IsGreaterThanOrEqualTo(in ufix64 x, in ufix64 y) => x >= y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<ufix64>.IsLessThan(in ufix64 x, in ufix64 y) => x < y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<ufix64>.IsLessThanOrEqualTo(in ufix64 x, in ufix64 y) => x <= y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<ufix64>.ToDouble(in ufix64 x, in double offset) => CheckedMath.Add((double)x, offset);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<ufix64>.ToSingle(in ufix64 x, in float offset) => CheckedMath.Add((float)x, offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<ufix64>.ToDouble(in ufix64 x, in double offset) => CheckedArithmetic.Add((double)x, offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<ufix64>.ToSingle(in ufix64 x, in float offset) => CheckedArithmetic.Add((float)x, offset);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] int IMath<ufix64>.Sign(in ufix64 x) => x._scaledValue == 0 ? 0 : 1;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Abs(in ufix64 x) => x;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Acos(in ufix64 x) => (ufix64)Math.Acos((double)x);
@@ -179,8 +179,8 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Convert(in byte value) => value;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Cos(in ufix64 x) => (ufix64)Math.Cos((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Cosh(in ufix64 x) => (ufix64)Math.Cosh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.DegreesToRadians(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.RadiansPerDegree);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.DegreesToTurns(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.TurnsPerDegree);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.DegreesToRadians(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.RadiansPerDegree);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.DegreesToTurns(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerDegree);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Divide(in ufix64 x, in ufix64 y) => x / y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Exp(in ufix64 x) => (ufix64)Math.Exp((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Floor(in ufix64 x) => new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
@@ -195,8 +195,8 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Positive(in ufix64 x) => +x;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Pow(in ufix64 x, in byte y) => (ufix64)Math.Pow((double)x, y);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Pow(in ufix64 x, in ufix64 y) => (ufix64)Math.Pow((double)x, (double)y);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.RadiansToDegrees(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.RadiansToTurns(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.TurnsPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.RadiansToDegrees(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.RadiansToTurns(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerRadian);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Remainder(in ufix64 x, in ufix64 y) => x % y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Round(in ufix64 x) => (ufix64)Math.Round((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Round(in ufix64 x, in int digits) => (ufix64)Math.Round((double)x, digits);
@@ -209,8 +209,8 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Tan(in ufix64 x) => (ufix64)Math.Tan((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Tanh(in ufix64 x) => (ufix64)Math.Tanh((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Truncate(in ufix64 x) => new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.TurnsToDegrees(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.DegreesPerTurn);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.TurnsToRadians(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.TurnsToDegrees(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerTurn);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.TurnsToRadians(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
 
             ufix64 IBitConverter<ufix64>.Read(in IReadOnlyStream<byte> stream) => new ufix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong))));
             void IBitConverter<ufix64>.Write(ufix64 value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
