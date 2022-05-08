@@ -23,7 +23,7 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
 {
-    public interface IGeometric<T> : IStringFormatter<T>, IBitConverter<T>, IRandomGenerator<T>, IEquatable<T>, IFormattable, ISerializable where T : struct, IGeometric<T>
+    public interface IGeometric<T> : IBitConvertible<T>, IRandomisable<T>, IStringRepresentable<T>, IEquatable<T>, ISerializable, IFormattable where T : struct, IGeometric<T>
     {
     }
 }

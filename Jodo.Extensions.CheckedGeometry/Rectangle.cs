@@ -20,7 +20,6 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -78,6 +77,12 @@ namespace Jodo.Extensions.CheckedGeometry
         public Vector2<T> TopLeft => GetTopLeft(Center, Dimensions, Angle);
         public Vector2<T> TopRight => GetTopRight(Center, Dimensions, Angle);
 
+        IBitConverter<Rectangle<T>> IBitConvertible<Rectangle<T>>.BitConverter => throw new NotImplementedException();
+
+        IRandom<Rectangle<T>> IRandomisable<Rectangle<T>>.Random => throw new NotImplementedException();
+
+        IStringParser<Rectangle<T>> IStringRepresentable<Rectangle<T>>.StringParser => throw new NotImplementedException();
+
         public Rectangle<T> Grow((T, T) delta) => Grow((Vector2<T>)delta);
         public Rectangle<T> Grow(T delta) => Grow(new Vector2<T>(delta, delta));
         public Rectangle<T> Grow(T deltaX, T deltaY) => Grow(new Vector2<T>(deltaX, deltaY));
@@ -104,20 +109,20 @@ namespace Jodo.Extensions.CheckedGeometry
         public bool Contains(Rectangle<T> other) => throw new NotImplementedException();
         public bool IntersectsWith(Rectangle<T> other) => throw new NotImplementedException();
 
-        Rectangle<T> IBitConverter<Rectangle<T>>.Read(in IReadOnlyStream<byte> stream)
-        {
-            return new Rectangle<T>(
-                stream.Read<Vector2<T>>(),
-                stream.Read<Vector2<T>>(),
-                stream.Read<Angle<T>>());
-        }
-
-        void IBitConverter<Rectangle<T>>.Write(in IWriteOnlyStream<byte> stream)
-        {
-            stream.Write(Center);
-            stream.Write(Dimensions);
-            stream.Write(Angle);
-        }
+        //  Rectangle<T> IBitConverter<Rectangle<T>>.Read(in IReadOnlyStream<byte> stream)
+        //  {
+        //      return new Rectangle<T>(
+        //          stream.Read<Vector2<T>>(),
+        //          stream.Read<Vector2<T>>(),
+        //          stream.Read<Angle<T>>());
+        //  }
+        //
+        //  void IBitConverter<Rectangle<T>>.Write(in IWriteOnlyStream<byte> stream)
+        //  {
+        //      stream.Write(Center);
+        //      stream.Write(Dimensions);
+        //      stream.Write(Angle);
+        //  }
 
         public static Rectangle<T> FromCenter(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => new Rectangle<T>(center, dimensions, angle);
         public static Rectangle<T> FromBottomLeft(Vector2<T> bottomLeft, Vector2<T> dimensions, Angle<T> angle) => new Rectangle<T>(GetTopRight(bottomLeft, dimensions, default), dimensions, angle);
@@ -152,33 +157,38 @@ namespace Jodo.Extensions.CheckedGeometry
         private static Vector2<T> GetTopLeft(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
         private static Vector2<T> GetTopRight(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => (center + (dimensions / 2)).RotateAround(center, angle);
 
-        Rectangle<T> IStringFormatter<Rectangle<T>>.Parse(in string s)
+        string IFormattable.ToString(string format, IFormatProvider formatProvider)
         {
             throw new NotImplementedException();
         }
 
-        Rectangle<T> IStringFormatter<Rectangle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
-
-        Rectangle<T> IRandomGenerator<Rectangle<T>>.GetNext(Random random)
-        {
-            return new Rectangle<T>(
-                random.NextGeometric<Vector2<T>>(),
-                random.NextGeometric<Vector2<T>>(),
-                random.NextGeometric<Angle<T>>());
-        }
-
-        Rectangle<T> IRandomGenerator<Rectangle<T>>.GetNext(Random random, in Rectangle<T> bound1, in Rectangle<T> bound2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
+        //   Rectangle<T> IStringParser<Rectangle<T>>.Parse(in string s)
+        //   {
+        //       throw new NotImplementedException();
+        //   }
+        //
+        //   Rectangle<T> IStringParser<Rectangle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        //   {
+        //       throw new NotImplementedException();
+        //   }
+        //
+        //   Rectangle<T> IRandom<Rectangle<T>>.GetNext(Random random)
+        //   {
+        //       return new Rectangle<T>(
+        //           random.NextGeometric<Vector2<T>>(),
+        //           random.NextGeometric<Vector2<T>>(),
+        //           random.NextGeometric<Angle<T>>());
+        //   }
+        //
+        //   Rectangle<T> IRandom<Rectangle<T>>.GetNext(Random random, in Rectangle<T> bound1, in Rectangle<T> bound2)
+        //   {
+        //       throw new NotImplementedException();
+        //   }
+        //
+        //   public string ToString(string format, IFormatProvider formatProvider)
+        //   {
+        //       throw new NotImplementedException();
+        //   }
 
         public static bool operator ==(Rectangle<T> left, Rectangle<T> right) => left.Equals(right);
         public static bool operator !=(Rectangle<T> left, Rectangle<T> right) => !(left == right);

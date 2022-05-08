@@ -20,7 +20,6 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
-using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -32,6 +31,12 @@ namespace Jodo.Extensions.CheckedGeometry
         public readonly T Y;
 
         public T Length => Math<T>.Sqrt((X * X) + (Y * Y));
+
+        IBitConverter<Vector2<T>> IBitConvertible<Vector2<T>>.BitConverter => throw new NotImplementedException();
+
+        IRandom<Vector2<T>> IRandomisable<Vector2<T>>.Random => throw new NotImplementedException();
+
+        IStringParser<Vector2<T>> IStringRepresentable<Vector2<T>>.StringParser => throw new NotImplementedException();
 
         public Vector2(byte x, T y) : this(Math<T>.Convert(x), y) { }
         public Vector2(T x, byte y) : this(x, Math<T>.Convert(y)) { }
@@ -75,25 +80,24 @@ namespace Jodo.Extensions.CheckedGeometry
         public override string ToString() => TypeString.Combine(GetType(), X, Y);
         public (T, T) Convert() => this;
         public Vector2<TOther> Convert<TOther>(Func<T, TOther> convert) where TOther : struct, INumeric<TOther> => (convert(X), convert(Y));
-        public Vector2<cfloat> Approximate(float offset) => new Vector2<cfloat>(X.Approximate(offset), Y.Approximate(offset));
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
             throw new NotImplementedException();
         }
 
-        Vector2<T> IBitConverter<Vector2<T>>.Read(in IReadOnlyStream<byte> stream)
-        {
-            return new Vector2<T>(
-                stream.Read<T>(),
-                stream.Read<T>());
-        }
-
-        void IBitConverter<Vector2<T>>.Write(in IWriteOnlyStream<byte> stream)
-        {
-            stream.Write(X);
-            stream.Write(Y);
-        }
+        //   Vector2<T> IBitConverter<Vector2<T>>.Read(in IReadOnlyStream<byte> stream)
+        //   {
+        //       return new Vector2<T>(
+        //           stream.Read<T>(),
+        //           stream.Read<T>());
+        //   }
+        //
+        //   void IBitConverter<Vector2<T>>.Write(in IWriteOnlyStream<byte> stream)
+        //   {
+        //       stream.Write(X);
+        //       stream.Write(Y);
+        //   }
 
         public static bool TryParse(string value, out Vector2<T> result)
         {
@@ -119,26 +123,26 @@ namespace Jodo.Extensions.CheckedGeometry
 
 
 
-        Vector2<T> IRandomGenerator<Vector2<T>>.GetNext(Random random)
-        {
-            return new Vector2<T>(
-                random.NextNumeric<T>(),
-                random.NextNumeric<T>());
-        }
-
-        Vector2<T> IRandomGenerator<Vector2<T>>.GetNext(Random random, in Vector2<T> bound1, in Vector2<T> bound2)
-        {
-            return new Vector2<T>(
-                random.NextRandomizable(bound1.X, bound2.X),
-                random.NextRandomizable(bound1.Y, bound2.Y));
-        }
-
-        Vector2<T> IStringFormatter<Vector2<T>>.Parse(in string s) => Parse(s);
-
-        Vector2<T> IStringFormatter<Vector2<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
+        //  Vector2<T> IRandom<Vector2<T>>.GetNext(Random random)
+        //  {
+        //      return new Vector2<T>(
+        //          random.NextNumeric<T>(),
+        //          random.NextNumeric<T>());
+        //  }
+        //
+        //  Vector2<T> IRandom<Vector2<T>>.GetNext(Random random, in Vector2<T> bound1, in Vector2<T> bound2)
+        //  {
+        //      return new Vector2<T>(
+        //          random.NextRandomizable(bound1.X, bound2.X),
+        //          random.NextRandomizable(bound1.Y, bound2.Y));
+        //  }
+        //
+        //  Vector2<T> IStringParser<Vector2<T>>.Parse(in string s) => Parse(s);
+        //
+        //  Vector2<T> IStringParser<Vector2<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        //  {
+        //      throw new NotImplementedException();
+        //  }
 
         public static Vector2<T> operator -(Vector2<T> value) => new Vector2<T>(-value.X, -value.Y);
         public static Vector2<T> operator -(Vector2<T> value1, Vector2<T> value2) => new Vector2<T>(value1.X - value2.X, value1.Y - value2.Y);

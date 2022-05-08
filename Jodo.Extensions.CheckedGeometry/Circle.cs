@@ -21,7 +21,6 @@ using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -33,8 +32,14 @@ namespace Jodo.Extensions.CheckedGeometry
         public readonly T Radius;
 
         public T Diameter => 2 * Radius;
-        public T Area => Math<T>.Pi * Math<T>.Pow(Radius, 2);
-        public T Circumeference => 2 * Math<T>.Pi * Radius;
+        public T Area => Math<T>.PI * Math<T>.Pow(Radius, 2);
+        public T Circumeference => 2 * Math<T>.PI * Radius;
+
+        IBitConverter<Circle<T>> IBitConvertible<Circle<T>>.BitConverter => throw new NotImplementedException();
+
+        IRandom<Circle<T>> IRandomisable<Circle<T>>.Random => throw new NotImplementedException();
+
+        IStringParser<Circle<T>> IStringRepresentable<Circle<T>>.StringParser => throw new NotImplementedException();
 
         public Circle(Vector2<T> center, T radius)
         {
@@ -70,43 +75,32 @@ namespace Jodo.Extensions.CheckedGeometry
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
         public override string ToString() => TypeString.Combine(GetType(), Center, Radius);
 
-        Circle<T> IBitConverter<Circle<T>>.Read(in IReadOnlyStream<byte> stream)
-        {
-            return new Circle<T>(
-                stream.Read<Vector2<T>>(),
-                stream.Read<T>());
-        }
-
-        void IBitConverter<Circle<T>>.Write(in IWriteOnlyStream<byte> stream)
-        {
-            stream.Write(Center);
-            stream.Write(Radius);
-        }
-
-        Circle<T> IStringFormatter<Circle<T>>.Parse(in string s)
-        {
-            throw new NotImplementedException();
-        }
-
-        Circle<T> IStringFormatter<Circle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
-
-        Circle<T> IRandomGenerator<Circle<T>>.GetNext(Random random)
-        {
-            return new Circle<T>(random.NextGeometric<Vector2<T>>(), random.NextNumeric<T>());
-        }
-
-        Circle<T> IRandomGenerator<Circle<T>>.GetNext(Random random, in Circle<T> bound1, in Circle<T> bound2)
-        {
-            throw new NotImplementedException();
-        }
-
         string IFormattable.ToString(string format, IFormatProvider formatProvider)
         {
             throw new NotImplementedException();
         }
+
+        // Circle<T> IBitConverter<Circle<T>>.Read(in IReadOnlyStream<byte> stream)
+        // {
+        //     return new Circle<T>(
+        //         stream.Read<Vector2<T>>(),
+        //         stream.Read<T>());
+        // }
+        //
+        // void IBitConverter<Circle<T>>.Write(in IWriteOnlyStream<byte> stream)
+        // {
+        //     stream.Write(Center);
+        //     stream.Write(Radius);
+        // }
+        // Circle<T> IRandom<Circle<T>>.GetNext(Random random)
+        // {
+        //     return new Circle<T>(random.NextGeometric<Vector2<T>>(), random.NextNumeric<T>());
+        // }
+        //
+        // Circle<T> IRandom<Circle<T>>.GetNext(Random random, in Circle<T> bound1, in Circle<T> bound2)
+        // {
+        //     throw new NotImplementedException();
+        // }
 
         public static bool operator ==(Circle<T> left, Circle<T> right) => left.Equals(right);
         public static bool operator !=(Circle<T> left, Circle<T> right) => !(left == right);

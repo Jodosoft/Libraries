@@ -25,23 +25,33 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public class SerializationTests : AssemblyTestBase
+    public static class SerializationTests
     {
-        [TestCaseSource(nameof(TestCases_AllNumericTypes))]
-        public void Serialize_RoundTrip_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
+        public class CInt : Base<cint> { }
+        public class UCInt : Base<ucint> { }
+        public class CFloat : Base<cfloat> { }
+        public class CDouble : Base<cdouble> { }
+        public class Fix64 : Base<fix64> { }
+        public class UFix64 : Base<ufix64> { }
+
+        public abstract class Base<T> : AssemblyTestBase where T : struct, INumeric<T>
         {
-            //arrange
-            var input = Random.NextNumeric<T>();
-            var formatter = new BinaryFormatter();
+            [TestCase]
+            public void Serialize_RoundTrip_SameAsOriginal()
+            {
+                //arrange
+                var input = Random.NextNumeric<T>();
+                var formatter = new BinaryFormatter();
 
-            //act
-            using var stream = new MemoryStream();
-            formatter.Serialize(stream, input);
-            stream.Position = 0;
-            var result = (T)formatter.Deserialize(stream);
+                //act
+                using var stream = new MemoryStream();
+                formatter.Serialize(stream, input);
+                stream.Position = 0;
+                var result = (T)formatter.Deserialize(stream);
 
-            //assert
-            result.Should().Be(input);
+                //assert
+                result.Should().Be(input);
+            }
         }
     }
 }

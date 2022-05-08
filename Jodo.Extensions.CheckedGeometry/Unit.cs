@@ -20,7 +20,6 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
-using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -33,6 +32,10 @@ namespace Jodo.Extensions.CheckedGeometry
         public static Unit<T> MinValue = new Unit<T>(Math<T>.MinUnit);
 
         public readonly T Value { get; }
+
+        IBitConverter<Unit<T>> IBitConvertible<Unit<T>>.BitConverter => throw new NotImplementedException();
+        IRandom<Unit<T>> IRandomisable<Unit<T>>.Random => throw new NotImplementedException();
+        IStringParser<Unit<T>> IStringRepresentable<Unit<T>>.StringParser => throw new NotImplementedException();
 
         public Unit(T value)
         {
@@ -50,21 +53,20 @@ namespace Jodo.Extensions.CheckedGeometry
         public override bool Equals(object? obj) => obj is Unit<T> unit && Equals(unit);
         public override int GetHashCode() => Value.GetHashCode();
         public override string ToString() => Value.ToString();
-        public Unit<cfloat> Approximate(float offset) => new Unit<cfloat>(Value.Approximate(offset));
         public string ToString(string format, IFormatProvider formatProvider) => Value.ToString(format, formatProvider);
 
-        Unit<T> IBitConverter<Unit<T>>.Read(in IReadOnlyStream<byte> stream) => new Unit<T>(stream.Read<T>());
-        void IBitConverter<Unit<T>>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(Value);
-
-        Unit<T> IRandomGenerator<Unit<T>>.GetNext(Random random)
-            => new Unit<T>(random.NextNumeric<T>(Math<T>.MinUnit, Math<T>.MaxUnit));
-        Unit<T> IRandomGenerator<Unit<T>>.GetNext(Random random, in Unit<T> bound1, in Unit<T> bound2)
-            => new Unit<T>(random.NextNumeric<T>(bound1.Value, bound2.Value));
-
-        Unit<T> IStringFormatter<Unit<T>>.Parse(in string s)
-            => new Unit<T>(StringFormatter<T>.Parse(s));
-        Unit<T> IStringFormatter<Unit<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
-            => new Unit<T>(StringFormatter<T>.Parse(s, numberStyles, formatProvider));
+        //  Unit<T> IBitConverter<Unit<T>>.Read(in IReadOnlyStream<byte> stream) => new Unit<T>(stream.Read<T>());
+        //  void IBitConverter<Unit<T>>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(Value);
+        //
+        //  Unit<T> IRandom<Unit<T>>.GetNext(Random random)
+        //      => new Unit<T>(random.NextNumeric(Math<T>.MinUnit, Math<T>.MaxUnit));
+        //  Unit<T> IRandom<Unit<T>>.GetNext(Random random, in Unit<T> bound1, in Unit<T> bound2)
+        //      => new Unit<T>(random.NextNumeric(bound1.Value, bound2.Value));
+        //
+        //  Unit<T> IStringParser<Unit<T>>.Parse(in string s)
+        //      => new Unit<T>(StringFormatter<T>.Parse(s));
+        //  Unit<T> IStringParser<Unit<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        //      => new Unit<T>(StringFormatter<T>.Parse(s, numberStyles, formatProvider));
 
         public static implicit operator T(Unit<T> unit) => unit.Value;
         public static explicit operator Unit<T>(T value) => new Unit<T>(value);

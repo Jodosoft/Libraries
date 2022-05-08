@@ -22,24 +22,18 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
     [Serializable]
-    [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
+    [SuppressMessage("Style", "IDE1006:Naming Styles")]
     public readonly struct cint : INumeric<cint>
     {
-        public static readonly cint E = new cint((int)Math.E);
-        public static readonly cint Epsilon = new cint(1);
-        public static readonly cint MaxUnit = new cint(1);
         public static readonly cint MaxValue = new cint(int.MaxValue);
-        public static readonly cint MinUnit = new cint(-1);
         public static readonly cint MinValue = new cint(int.MinValue);
-        public static readonly cint One = new cint(1);
-        public static readonly cint Pi = new cint((int)Math.PI);
-        public static readonly cint Zero = new cint(0);
 
         private readonly int _value;
 
@@ -48,146 +42,161 @@ namespace Jodo.Extensions.CheckedNumerics
             _value = value;
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(cint), _value);
         private cint(SerializationInfo info, StreamingContext _) : this(info.GetInt32(nameof(cint))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(cint), _value);
 
         public bool Equals(cint other) => _value == other._value;
         public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null) => _value.TryFormat(destination, out charsWritten, format, provider);
-        public float Approximate(float offset) => _value + offset;
+        public float Approximate(in float offset) => _value + offset;
         public int CompareTo(cint other) => _value.CompareTo(other._value);
-        public int CompareTo(object value) => value == null ? 1 : (value is cint other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(cint)}.");
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
+        public int CompareTo(object? obj)
+        {
+            if (obj == null) return 1;
+            try { return CompareTo((cint)obj); }
+            catch (InvalidCastException) { return 1; }
+        }
+
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
-            try
-            {
-                var other = (cint)obj;
-                return Equals(other);
-            }
-            catch (InvalidCastException)
-            {
-                return false;
-            }
+            try { return Equals((cint)obj); }
+            catch (InvalidCastException) { return false; }
         }
 
-        cint INumeric<cint>.Value => this;
-        cint INumeric<cint>.E => E;
-        cint INumeric<cint>.Epsilon => Epsilon;
-        cint INumeric<cint>.MaxUnit => MaxUnit;
-        cint INumeric<cint>.MaxValue => MaxValue;
-        cint INumeric<cint>.MinUnit => MinUnit;
-        cint INumeric<cint>.MinValue => MinValue;
-        cint INumeric<cint>.Zero => Zero;
-        cint INumeric<cint>.One => One;
-        cint INumeric<cint>.Pi => Pi;
-        bool INumeric<cint>.IsSigned => true;
-        bool INumeric<cint>.HasMantissa => false;
-        bool INumeric<cint>.GreaterThan(cint value2) => this > value2;
-        bool INumeric<cint>.GreaterThanOrEqualTo(cint value2) => this >= value2;
-        bool INumeric<cint>.LessThan(cint value2) => this < value2;
-        bool INumeric<cint>.LessThanOrEqualTo(cint value2) => this <= value2;
-        cint INumeric<cint>.Abs() => new cint(Math.Abs(_value));
-        cint INumeric<cint>.Acos() => new cint((int)Math.Acos(_value));
-        cint INumeric<cint>.Acosh() => new cint((int)Math.Acosh(_value));
-        cint INumeric<cint>.Addition(cint value2) => this + value2;
-        cint INumeric<cint>.Asin() => new cint((int)Math.Asin(_value));
-        cint INumeric<cint>.Asinh() => new cint((int)Math.Asinh(_value));
-        cint INumeric<cint>.Atan() => new cint((int)Math.Atan(_value));
-        cint INumeric<cint>.Atan2(cint x) => new cint((int)Math.Atan2(_value, x));
-        cint INumeric<cint>.Atanh() => new cint((int)Math.Atanh(_value));
-        cint INumeric<cint>.Cbrt() => new cint((int)Math.Cbrt(_value));
-        cint INumeric<cint>.Ceiling() => this;
-        cint INumeric<cint>.Convert(byte value) => new cint(value);
-        cint INumeric<cint>.Cos() => new cint((int)Math.Cos(_value));
-        cint INumeric<cint>.Cosh() => new cint((int)Math.Cosh(_value));
-        cint INumeric<cint>.DegreesToRadians() => new cint((int)CheckedMath.DegreesToRadians(this));
-        cint INumeric<cint>.DegreesToTurns() => new cint((int)CheckedMath.DegreesToTurns(this));
-        cint INumeric<cint>.Divide(cint value2) => this / value2;
-        cint INumeric<cint>.Exp() => new cint((int)Math.Exp(_value));
-        cint INumeric<cint>.Floor() => this;
-        cint INumeric<cint>.Log() => new cint((int)Math.Log(_value));
-        cint INumeric<cint>.Log(cint newBase) => new cint((int)Math.Log(_value, newBase));
-        cint INumeric<cint>.Log10() => new cint((int)Math.Log10(_value));
-        cint INumeric<cint>.Max(cint y) => new cint(Math.Max(_value, y));
-        cint INumeric<cint>.Min(cint y) => new cint(Math.Min(_value, y));
-        cint INumeric<cint>.Multiply(cint value2) => this * value2;
-        cint INumeric<cint>.Negative() => -this;
-        cint INumeric<cint>.Positive() => this;
-        cint INumeric<cint>.Pow(cint value2) => new cint(CheckedMath.Pow(_value, value2._value));
-        cint INumeric<cint>.RadiansToDegrees() => new cint((int)CheckedMath.RadiansToDegrees(this));
-        cint INumeric<cint>.RadiansToTurns() => new cint((int)CheckedMath.RadiansToTurns(this));
-        cint INumeric<cint>.Remainder(cint value2) => this % value2;
-        cint INumeric<cint>.Round() => this;
-        cint INumeric<cint>.Round(byte digits) => this;
-        cint INumeric<cint>.Round(byte digits, MidpointRounding mode) => this;
-        cint INumeric<cint>.Round(MidpointRounding mode) => this;
-        cint INumeric<cint>.Sin() => new cint((int)Math.Sin(_value));
-        cint INumeric<cint>.Sinh() => new cint((int)Math.Sinh(_value));
-        cint INumeric<cint>.Sqrt() => new cint((int)Math.Sqrt(_value));
-        cint INumeric<cint>.Subtract(cint value2) => this - value2;
-        cint INumeric<cint>.Tan() => new cint((int)Math.Tan(_value));
-        cint INumeric<cint>.Tanh() => new cint((int)Math.Tanh(_value));
-        cint INumeric<cint>.TurnsToDegrees() => new cint((int)CheckedMath.TurnsToDegrees(this));
-        cint INumeric<cint>.TurnsToRadians() => new cint((int)CheckedMath.TurnsToRadians(this));
+        public static explicit operator cint(in decimal value) => new cint(CheckedConvert.ToInt32(value));
+        public static explicit operator cint(in double value) => new cint(CheckedConvert.ToInt32(value));
+        public static explicit operator cint(in float value) => new cint(CheckedConvert.ToInt32(value));
+        public static explicit operator cint(in long value) => new cint(CheckedConvert.ToInt32(value));
+        public static explicit operator cint(in uint value) => new cint(CheckedConvert.ToInt32(value));
+        public static explicit operator cint(in ulong value) => new cint(CheckedConvert.ToInt32(value));
+        public static implicit operator cint(in byte value) => new cint(value);
+        public static implicit operator cint(in int value) => new cint(value);
+        public static implicit operator cint(in sbyte value) => new cint(value);
+        public static implicit operator cint(in short value) => new cint(value);
+        public static implicit operator cint(in ushort value) => new cint(value);
 
-        cint IBitConverter<cint>.Read(in IReadOnlyStream<byte> stream) => new cint(BitConverter.ToInt32(stream.Read(sizeof(int))));
-        void IBitConverter<cint>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(_value));
+        public static explicit operator byte(in cint value) => CheckedConvert.ToByte(value._value);
+        public static explicit operator sbyte(in cint value) => CheckedConvert.ToSByte(value._value);
+        public static explicit operator short(in cint value) => CheckedConvert.ToInt16(value._value);
+        public static explicit operator uint(in cint value) => CheckedConvert.ToUInt32(value._value);
+        public static explicit operator ulong(in cint value) => CheckedConvert.ToUInt64(value._value);
+        public static explicit operator ushort(in cint value) => CheckedConvert.ToUInt16(value._value);
+        public static implicit operator decimal(in cint value) => value._value;
+        public static implicit operator double(in cint value) => value._value;
+        public static implicit operator float(in cint value) => value._value;
+        public static implicit operator int(in cint value) => value._value;
+        public static implicit operator long(in cint value) => value._value;
 
-        cint IRandomGenerator<cint>.GetNext(Random random) => new cint(random.NextInt32());
-        cint IRandomGenerator<cint>.GetNext(Random random, in cint bound1, in cint bound2) => new cint(random.NextInt32(bound1._value, bound2._value));
+        public static bool operator !=(in cint left, in cint right) => left._value != right._value;
+        public static bool operator <(in cint left, in cint right) => left._value < right._value;
+        public static bool operator <=(in cint left, in cint right) => left._value <= right._value;
+        public static bool operator ==(in cint left, in cint right) => left._value == right._value;
+        public static bool operator >(in cint left, in cint right) => left._value > right._value;
+        public static bool operator >=(in cint left, in cint right) => left._value >= right._value;
+        public static cint operator %(in cint left, in cint right) => CheckedMath.Remainder(left._value, right._value);
+        public static cint operator &(in cint left, in cint right) => left._value & right._value;
+        public static cint operator -(in cint left, in cint right) => CheckedMath.Subtract(left._value, right._value);
+        public static cint operator --(in cint value) => value - 1;
+        public static cint operator -(in cint value) => -value._value;
+        public static cint operator *(in cint left, in cint right) => CheckedMath.Multiply(left._value, right._value);
+        public static cint operator /(in cint left, in cint right) => CheckedMath.Divide(left._value, right._value);
+        public static cint operator ^(in cint left, in cint right) => left._value ^ right._value;
+        public static cint operator |(in cint left, in cint right) => left._value | right._value;
+        public static cint operator ~(in cint value) => ~value._value;
+        public static cint operator +(in cint left, in cint right) => CheckedMath.Add(left._value, right._value);
+        public static cint operator +(in cint value) => value;
+        public static cint operator ++(in cint value) => value + 1;
+        public static cint operator <<(in cint left, in int right) => left._value << right;
+        public static cint operator >>(in cint left, in int right) => left._value >> right;
 
-        cint IStringFormatter<cint>.Parse(in string s) => new cint(int.Parse(s));
-        cint IStringFormatter<cint>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => new cint(int.Parse(s, numberStyles, formatProvider));
+        IBitConverter<cint> IBitConvertible<cint>.BitConverter => Utilities.Instance;
+        IMath<cint> INumeric<cint>.Math => Utilities.Instance;
+        IRandom<cint> IRandomisable<cint>.Random => Utilities.Instance;
+        IStringParser<cint> IStringRepresentable<cint>.StringParser => Utilities.Instance;
 
-        public static explicit operator cint(cfloat value) => new cint((int)value);
-        public static explicit operator cint(decimal value) => new cint((int)value);
-        public static explicit operator cint(double value) => new cint((int)value);
-        public static explicit operator cint(fix64 value) => new cint((int)value);
-        public static explicit operator cint(float value) => new cint((int)value);
-        public static explicit operator cint(long value) => new cint((int)value);
-        public static explicit operator cint(ufix64 value) => new cint((int)value);
-        public static explicit operator cint(uint value) => new cint((int)value);
-        public static explicit operator cint(ulong value) => new cint((int)value);
-        public static implicit operator cint(byte value) => new cint(value);
-        public static implicit operator cint(int value) => new cint(value);
-        public static implicit operator cint(short value) => new cint(value);
-        public static implicit operator cint(ushort value) => new cint(value);
+        private sealed class Utilities : IMath<cint>, IBitConverter<cint>, IRandom<cint>, IStringParser<cint>
+        {
+            public readonly static Utilities Instance = new Utilities();
 
-        public static explicit operator byte(cint value) => (byte)value._value;
-        public static explicit operator short(cint value) => (short)value._value;
-        public static explicit operator uint(cint value) => (uint)value._value;
-        public static explicit operator ulong(cint value) => (ulong)value._value;
-        public static explicit operator ushort(cint value) => (ushort)value._value;
-        public static implicit operator decimal(cint value) => value._value;
-        public static implicit operator double(cint value) => value._value;
-        public static implicit operator float(cint value) => value._value;
-        public static implicit operator int(cint value) => value._value;
-        public static implicit operator long(cint value) => value._value;
+            cint IMath<cint>.E { get; } = 3;
+            cint IMath<cint>.PI { get; } = 3;
+            cint IMath<cint>.Epsilon { get; } = 1;
+            cint IMath<cint>.MaxValue => MaxValue;
+            cint IMath<cint>.MinValue => MinValue;
+            cint IMath<cint>.MaxUnit { get; } = 1;
+            cint IMath<cint>.MinUnit { get; } = -1;
+            cint IMath<cint>.Zero { get; } = 0;
+            cint IMath<cint>.One { get; } = 1;
+            bool IMath<cint>.IsSigned { get; } = true;
+            bool IMath<cint>.IsReal { get; } = false;
 
-        public static bool operator !=(cint left, cint right) => left._value != right._value;
-        public static bool operator <(cint left, cint right) => left._value < right._value;
-        public static bool operator <=(cint left, cint right) => left._value <= right._value;
-        public static bool operator ==(cint left, cint right) => left._value == right._value;
-        public static bool operator >(cint left, cint right) => left._value > right._value;
-        public static bool operator >=(cint left, cint right) => left._value >= right._value;
-        public static cint operator %(cint left, cint right) => new cint(CheckedMath.Remainder(left._value, right._value));
-        public static cint operator &(cint left, cint right) => new cint(left._value & right._value);
-        public static cint operator -(cint left, cint right) => new cint(CheckedMath.Subtract(left._value, right._value));
-        public static cint operator --(cint value) => new cint(CheckedMath.Subtract(value._value, 1));
-        public static cint operator -(cint value) => new cint(-value._value);
-        public static cint operator *(cint left, cint right) => new cint(CheckedMath.Multiply(left._value, right._value));
-        public static cint operator /(cint left, cint right) => new cint(CheckedMath.Divide(left._value, right._value));
-        public static cint operator ^(cint left, cint right) => new cint(left._value ^ right._value);
-        public static cint operator |(cint left, cint right) => new cint(left._value | right._value);
-        public static cint operator ~(cint value) => new cint(~value._value);
-        public static cint operator +(cint left, cint right) => new cint(CheckedMath.Add(left._value, right._value));
-        public static cint operator +(cint value) => value;
-        public static cint operator ++(cint value) => new cint(CheckedMath.Add(value._value, 1));
-        public static cint operator <<(cint left, int right) => new cint(left._value << right);
-        public static cint operator >>(cint left, int right) => new cint(left._value >> right);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<cint>.IsGreaterThan(in cint x, in cint y) => x > y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<cint>.IsGreaterThanOrEqualTo(in cint x, in cint y) => x >= y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<cint>.IsLessThan(in cint x, in cint y) => x < y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<cint>.IsLessThanOrEqualTo(in cint x, in cint y) => x <= y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Abs(in cint x) => Math.Abs(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Acos(in cint x) => (cint)Math.Acos(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Acosh(in cint x) => (cint)Math.Acosh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Add(in cint x, in cint y) => x + y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Asin(in cint x) => (cint)Math.Asin(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Asinh(in cint x) => (cint)Math.Asinh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Atan(in cint x) => (cint)Math.Atan(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Atan2(in cint x, in cint y) => (cint)Math.Atan2(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Atanh(in cint x) => (cint)Math.Atanh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Cbrt(in cint x) => (cint)Math.Cbrt(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Ceiling(in cint x) => x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Clamp(in cint x, in cint bound1, in cint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Convert(in byte value) => value;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Cos(in cint x) => (cint)Math.Cos(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Cosh(in cint x) => (cint)Math.Cosh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.DegreesToRadians(in cint x) => (cint)CheckedMath.Multiply(x, Constants.RadiansPerDegree);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.DegreesToTurns(in cint x) => (cint)CheckedMath.Multiply(x, Constants.TurnsPerDegree);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Divide(in cint x, in cint y) => x / y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Exp(in cint x) => (cint)Math.Exp(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Floor(in cint x) => x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.IEEERemainder(in cint x, in cint y) => (cint)Math.IEEERemainder(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Log(in cint x) => (cint)Math.Log(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Log(in cint x, in cint y) => (cint)Math.Log(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Log10(in cint x) => (cint)Math.Log10(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Max(in cint x, in cint y) => Math.Max(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Min(in cint x, in cint y) => Math.Min(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Multiply(in cint x, in cint y) => x * y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Negative(in cint x) => -x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Positive(in cint x) => +x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Pow(in cint x, in byte y) => CheckedMath.Pow(x._value, y);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Pow(in cint x, in cint y) => CheckedMath.Pow(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.RadiansToDegrees(in cint x) => (cint)CheckedMath.Multiply(x, Constants.DegreesPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.RadiansToTurns(in cint x) => (cint)CheckedMath.Multiply(x, Constants.TurnsPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Remainder(in cint x, in cint y) => x % y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Round(in cint x) => x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Round(in cint x, in int digits) => x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Round(in cint x, in int digits, in MidpointRounding mode) => x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Round(in cint x, in MidpointRounding mode) => x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Sin(in cint x) => (cint)Math.Sin(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Sinh(in cint x) => (cint)Math.Sinh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Sqrt(in cint x) => (cint)Math.Sqrt(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Subtract(in cint x, in cint y) => x - y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Tan(in cint x) => (cint)Math.Tan(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Tanh(in cint x) => (cint)Math.Tanh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.Truncate(in cint x) => x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.TurnsToDegrees(in cint x) => (cint)CheckedMath.Multiply(x, Constants.DegreesPerTurn);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cint IMath<cint>.TurnsToRadians(in cint x) => (cint)CheckedMath.Multiply(x, Constants.DegreesPerRadian);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<cint>.ToDouble(in cint x, in double offset) => CheckedMath.Add(CheckedConvert.ToSingle(x._value), offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<cint>.ToSingle(in cint x, in float offset) => CheckedMath.Add(CheckedConvert.ToSingle(x._value), offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] int IMath<cint>.Sign(in cint x) => Math.Sign(x._value);
+
+            cint IBitConverter<cint>.Read(in IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)));
+            void IBitConverter<cint>.Write(cint value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+
+            cint IRandom<cint>.GetNext(Random random) => random.NextInt32();
+            cint IRandom<cint>.GetNext(Random random, in cint bound1, in cint bound2) => random.NextInt32(bound1._value, bound2._value);
+
+            cint IStringParser<cint>.Parse(in string s) => int.Parse(s);
+            cint IStringParser<cint>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => int.Parse(s, numberStyles, formatProvider);
+        }
     }
 }

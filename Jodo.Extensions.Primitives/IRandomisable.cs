@@ -17,14 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Globalization;
-
 namespace Jodo.Extensions.Primitives
 {
-    public interface IStringFormatter<out T> : IFormattable
+    public interface IRandomisable<T> where T : IRandomisable<T>, new()
     {
-        T Parse(in string s);
-        T Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider);
+        static IRandom<T> Instance = new T().Random;
+
+        IRandom<T> Random { get; }
     }
 }

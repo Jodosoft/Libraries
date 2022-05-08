@@ -30,6 +30,9 @@ namespace System
         public static byte NextByte(this Random random) => (byte)random.Next(256);
         public static byte NextByte(this Random random, in byte bound1, in byte bound2) => (byte)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
+        public static sbyte NextSByte(this Random random) => (sbyte)random.Next(sbyte.MinValue, sbyte.MaxValue + 1);
+        public static sbyte NextSByte(this Random random, in sbyte bound1, in sbyte bound2) => (sbyte)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
+
         public static short NextInt16(this Random random) => NextInt16(random, short.MinValue, short.MaxValue);
         public static short NextInt16(this Random random, in short bound1, in short bound2) => (short)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
@@ -203,14 +206,14 @@ namespace System
             return new ReadOnlySpan<byte>(bytes);
         }
 
-        public static T NextRandomizable<T>(this Random random) where T : IRandomGenerator<T>, new()
+        public static T NextRandomizable<T>(this Random random) where T : IRandomisable<T>, new()
         {
-            return new T().GetNext(random);
+            return IRandomisable<T>.Instance.GetNext(random);
         }
 
-        public static T NextRandomizable<T>(this Random random, T bound1, T bound2) where T : IRandomGenerator<T>, new()
+        public static T NextRandomizable<T>(this Random random, in T bound1, in T bound2) where T : IRandomisable<T>, new()
         {
-            return new T().GetNext(random, bound1, bound2);
+            return IRandomisable<T>.Instance.GetNext(random, bound1, bound2);
         }
     }
 }

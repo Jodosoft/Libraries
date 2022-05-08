@@ -18,71 +18,79 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
     public static class Math<T> where T : struct, INumeric<T>
     {
-        private static readonly T Default = default;
+        private static readonly IMath<T> Instance = default(T).Math;
 
-        public static readonly T E = Default.E;
-        public static readonly T Epsilon = Default.Epsilon;
-        public static readonly T MaxUnit = Default.MaxUnit;
-        public static readonly T MaxValue = Default.MaxValue;
-        public static readonly T MinUnit = Default.MinUnit;
-        public static readonly T MinValue = Default.MinValue;
-        public static readonly T Zero = Default.Zero;
-        public static readonly T One = Default.One;
-        public static readonly T Pi = Default.Pi;
+        public static readonly T E = Instance.E;
+        public static readonly T PI = Instance.PI;
+        public static readonly T Epsilon = Instance.Epsilon;
+        public static readonly T MaxValue = Instance.MaxValue;
+        public static readonly T MinValue = Instance.MinValue;
+        public static readonly T MaxUnit = Instance.MaxUnit;
+        public static readonly T MinUnit = Instance.MinUnit;
+        public static readonly T Zero = Instance.Zero;
+        public static readonly T One = Instance.One;
+        public static readonly bool IsSigned = Instance.IsSigned;
+        public static readonly bool IsReal = Instance.IsReal;
 
-        public static T Convert(byte value) => Default.Convert(value);
-        //  public static T Parse(string s) => Default.Parse(s);
-        //  public static T Parse(string s, IFormatProvider provider) => Default.Parse(s, provider);
-        //  public static T Parse(string s, NumberStyles style) => Default.Parse(s, style);
-        //  public static T Parse(string s, NumberStyles style, IFormatProvider provider) => Default.Parse(s, style, provider);
-
-        public static T Abs(T value) => value.Abs();
-        public static T Acos(T value) => value.Acos();
-        public static T Acosh(T value) => value.Acosh();
-        public static T Asin(T value) => value.Asin();
-        public static T Asinh(T value) => value.Asinh();
-        public static T Atan(T value) => value.Atan();
-        public static T Atan2(T x, T value) => x.Atan2(value);
-        public static T Atan2(T x, byte value) => x.Atan2(Convert(value));
-        public static T Atanh(T value) => value.Atanh();
-        public static T Cbrt(T value) => value.Cbrt();
-        public static T Ceiling(T value) => value.Ceiling();
-        public static T Clamp(T value, T minInclusive, T maxInclusive) => Math<T>.Min(Math<T>.Max(value, minInclusive), maxInclusive);
-        public static T Cos(T value) => value.Cos();
-        public static T Cosh(T value) => value.Cosh();
-        public static T DegreesToRadians(T value) => value.DegreesToRadians();
-        public static T DegreesToTurns(T value) => value.DegreesToTurns();
-        public static T Division(T value1, T value2) => value1.Divide(value2);
-        public static T Division(T value1, byte value2) => value1.Divide(Convert(value2));
-        public static T Exp(T value) => value.Exp();
-        public static T Floor(T value) => value.Floor();
-        public static T Log(T value) => value.Log();
-        public static T Log(T value1, T value2) => value1.Log(value2);
-        public static T Log(T value1, byte value2) => value1.Log(Convert(value2));
-        public static T Log10(T value) => value.Log10();
-        public static T Max(T value1, T value2) => value1 > value2 ? value1 : value2;
-        public static T Max(T value1, byte value2) => value1 > Convert(value2) ? value1 : Convert(value2);
-        public static T Min(T value1, T value2) => value1 < value2 ? value1 : value2;
-        public static T Min(T value1, byte value2) => value1 < Convert(value2) ? value1 : Convert(value2);
-        public static T Pow(T value1, byte value2) => value1.Pow(Convert(value2));
-        public static T Pow(T value1, T value2) => value1.Pow(value2);
-        public static T RadiansToDegrees(T value) => value.RadiansToDegrees();
-        public static T RadiansToTurns(T value) => value.RadiansToTurns();
-        public static T Round(T value, byte digits) => value.Round(digits);
-        public static T Round(T value, byte digits, MidpointRounding mode) => value.Round(digits, mode);
-        public static T Round(T value, MidpointRounding mode) => value.Round(mode);
-        public static T Round(T value1) => value1.Round();
-        public static T Sin(T value) => value.Sin();
-        public static T Sinh(T value) => value.Sinh();
-        public static T Sqrt(T value) => value.Sqrt();
-        public static T Tan(T value) => value.Tan();
-        public static T Tanh(T value) => value.Tanh();
-        public static T TurnsToDegrees(T value) => value.TurnsToDegrees();
-        public static T TurnsToRadians(T value) => value.TurnsToRadians();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsGreaterThan(in T x, in T y) => Instance.IsGreaterThan(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsGreaterThanOrEqualTo(in T x, in T y) => Instance.IsGreaterThanOrEqualTo(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsLessThan(in T x, in T y) => Instance.IsLessThan(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static bool IsLessThanOrEqualTo(in T x, in T y) => Instance.IsLessThanOrEqualTo(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static double ToDouble(in T x, in double offset) => Instance.ToDouble(x, offset);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static float ToSingle(in T x, in float offset) => Instance.ToSingle(x, offset);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static int Sign(in T x) => Instance.Sign(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Abs(in T x) => Instance.Abs(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Acos(in T x) => Instance.Acos(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Acosh(in T x) => Instance.Acosh(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Add(in T x, in T y) => Instance.Add(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Asin(in T x) => Instance.Asin(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Asinh(in T x) => Instance.Asinh(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Atan(in T x) => Instance.Atan(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Atan2(in T x, in T y) => Instance.Atan2(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Atanh(in T x) => Instance.Atanh(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Cbrt(in T x) => Instance.Cbrt(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Ceiling(in T x) => Instance.Ceiling(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Clamp(in T x, in T bound1, in T bound2) => Instance.Clamp(x, bound1, bound2);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Convert(in byte value) => Instance.Convert(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Cos(in T x) => Instance.Cos(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Cosh(in T x) => Instance.Cosh(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T DegreesToRadians(in T x) => Instance.DegreesToRadians(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T DegreesToTurns(in T x) => Instance.DegreesToTurns(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Divide(in T x, in T y) => Instance.Divide(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Exp(in T x) => Instance.Exp(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Floor(in T x) => Instance.Floor(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T IEEERemainder(in T x, in T y) => Instance.IEEERemainder(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Log(in T x) => Instance.Log(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Log(in T x, in T y) => Instance.Log(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Log10(in T x) => Instance.Log10(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Max(in T x, in T y) => Instance.Max(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Min(in T x, in T y) => Instance.Min(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Multiply(in T x, in T y) => Instance.Multiply(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Negative(in T x) => Instance.Negative(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Positive(in T x) => Instance.Positive(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Pow(in T x, in byte y) => Instance.Pow(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Pow(in T x, in T y) => Instance.Pow(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T RadiansToDegrees(in T x) => Instance.RadiansToDegrees(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T RadiansToTurns(in T x) => Instance.RadiansToTurns(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Remainder(in T x, in T y) => Instance.Remainder(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Round(in T x) => Instance.Round(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Round(in T x, in int digits) => Instance.Round(x, digits);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Round(in T x, in int digits, in MidpointRounding mode) => Instance.Round(x, digits, mode);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Round(in T x, in MidpointRounding mode) => Instance.Round(x, mode);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Sin(in T x) => Instance.Sin(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Sinh(in T x) => Instance.Sinh(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Sqrt(in T x) => Instance.Sqrt(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Subtract(in T x, in T y) => Instance.Subtract(x, y);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Tan(in T x) => Instance.Tan(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Tanh(in T x) => Instance.Tanh(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T Truncate(in T x) => Instance.Truncate(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T TurnsToDegrees(in T x) => Instance.TurnsToDegrees(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] public static T TurnsToRadians(in T x) => Instance.TurnsToRadians(x);
     }
 }

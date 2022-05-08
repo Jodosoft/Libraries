@@ -20,7 +20,6 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
-using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -44,6 +43,12 @@ namespace Jodo.Extensions.CheckedGeometry
         public T Sine => Math<T>.Sin(Radians);
         public T Tangent => Math<T>.Tan(Radians);
 
+        IBitConverter<Angle<T>> IBitConvertible<Angle<T>>.BitConverter => throw new NotImplementedException();
+
+        IRandom<Angle<T>> IRandomisable<Angle<T>>.Random => throw new NotImplementedException();
+
+        IStringParser<Angle<T>> IStringRepresentable<Angle<T>>.StringParser => throw new NotImplementedException();
+
         public Angle(T degrees)
         {
             Degrees = degrees;
@@ -56,7 +61,6 @@ namespace Jodo.Extensions.CheckedGeometry
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
             => info.AddValue(nameof(Degrees), Degrees, typeof(T));
 
-        public Angle<cfloat> Approximate(float offset) => new Angle<cfloat>(Degrees.Approximate(offset));
         public bool Equals(Angle<T> other) => Degrees.Equals(other.Degrees);
         public override bool Equals(object? obj) => obj is Angle<T> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
@@ -67,21 +71,21 @@ namespace Jodo.Extensions.CheckedGeometry
             throw new NotImplementedException();
         }
 
-        Angle<T> IBitConverter<Angle<T>>.Read(in IReadOnlyStream<byte> stream) => Angle<T>.FromDegrees(stream.Read<T>());
-        void IBitConverter<Angle<T>>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(Degrees);
-
-        Angle<T> IRandomGenerator<Angle<T>>.GetNext(Random random)
-            => Angle<T>.FromDegrees(random.NextNumeric<T>());
-
-        Angle<T> IRandomGenerator<Angle<T>>.GetNext(Random random, in Angle<T> bound1, in Angle<T> bound2)
-            => Angle<T>.FromDegrees(random.NextRandomizable(bound1.Degrees, bound2.Degrees));
-
-        Angle<T> IStringFormatter<Angle<T>>.Parse(in string s) => Parse(s);
-
-        Angle<T> IStringFormatter<Angle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
+        //  Angle<T> IBitConverter<Angle<T>>.Read(in IReadOnlyStream<byte> stream) => Angle<T>.FromDegrees(stream.Read<T>());
+        //  void IBitConverter<Angle<T>>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(Degrees);
+        //
+        //  Angle<T> IRandom<Angle<T>>.GetNext(Random random)
+        //      => Angle<T>.FromDegrees(random.NextNumeric<T>());
+        //
+        //  Angle<T> IRandom<Angle<T>>.GetNext(Random random, in Angle<T> bound1, in Angle<T> bound2)
+        //      => Angle<T>.FromDegrees(random.NextRandomizable(bound1.Degrees, bound2.Degrees));
+        //
+        //  Angle<T> IStringParser<Angle<T>>.Parse(in string s) => Parse(s);
+        //
+        //  Angle<T> IStringParser<Angle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        //  {
+        //      throw new NotImplementedException();
+        //  }
 
         public static Angle<T> FromDegrees(T degrees) => new Angle<T>(degrees);
         public static Angle<T> FromDegrees(byte degrees) => new Angle<T>(Math<T>.Convert(degrees));

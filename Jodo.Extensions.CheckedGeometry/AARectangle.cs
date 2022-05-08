@@ -20,7 +20,6 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
-using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -47,6 +46,12 @@ namespace Jodo.Extensions.CheckedGeometry
         public Vector2<T> TopCenter => GetTopCenter(Center, Dimensions);
         public Vector2<T> TopLeft => GetTopLeft(Center, Dimensions);
         public Vector2<T> TopRight => GetTopRight(Center, Dimensions);
+
+        IBitConverter<AARectangle<T>> IBitConvertible<AARectangle<T>>.BitConverter => throw new NotImplementedException();
+
+        IRandom<AARectangle<T>> IRandomisable<AARectangle<T>>.Random => throw new NotImplementedException();
+
+        IStringParser<AARectangle<T>> IStringRepresentable<AARectangle<T>>.StringParser => throw new NotImplementedException();
 
         private AARectangle(Vector2<T> center, Vector2<T> dimensions)
         {
@@ -103,18 +108,18 @@ namespace Jodo.Extensions.CheckedGeometry
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions);
         public override string ToString() => TypeString.Combine(GetType(), Center, Dimensions);
 
-        AARectangle<T> IBitConverter<AARectangle<T>>.Read(in IReadOnlyStream<byte> stream)
-        {
-            return new AARectangle<T>(
-                stream.Read<Vector2<T>>(),
-                stream.Read<Vector2<T>>());
-        }
-
-        void IBitConverter<AARectangle<T>>.Write(in IWriteOnlyStream<byte> stream)
-        {
-            stream.Write(Center);
-            stream.Write(Dimensions);
-        }
+        //    AARectangle<T> IBitConverter<AARectangle<T>>.Read(in IReadOnlyStream<byte> stream)
+        //    {
+        //        return new AARectangle<T>(
+        //            stream.Read<Vector2<T>>(),
+        //            stream.Read<Vector2<T>>());
+        //    }
+        //
+        //    void IBitConverter<AARectangle<T>>.Write(in IWriteOnlyStream<byte> stream)
+        //    {
+        //        stream.Write(Center);
+        //        stream.Write(Dimensions);
+        //    }
 
         public static AARectangle<T> FromCenter(Vector2<T> center, Vector2<T> dimensions) => new AARectangle<T>(center, dimensions);
         public static AARectangle<T> FromBottomLeft(Vector2<T> bottomLeft, Vector2<T> dimensions) => new AARectangle<T>(GetTopRight(bottomLeft, dimensions), dimensions);
@@ -135,27 +140,27 @@ namespace Jodo.Extensions.CheckedGeometry
         private static Vector2<T> GetTopLeft(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2));
         private static Vector2<T> GetTopRight(in Vector2<T> center, in Vector2<T> dimensions) => center + (dimensions / 2);
 
-        AARectangle<T> IStringFormatter<AARectangle<T>>.Parse(in string s)
-        {
-            throw new NotImplementedException();
-        }
-
-        AARectangle<T> IStringFormatter<AARectangle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
-
-        AARectangle<T> IRandomGenerator<AARectangle<T>>.GetNext(Random random)
-        {
-            return new AARectangle<T>(
-                random.NextGeometric<Vector2<T>>(),
-                random.NextGeometric<Vector2<T>>());
-        }
-
-        AARectangle<T> IRandomGenerator<AARectangle<T>>.GetNext(Random random, in AARectangle<T> bound1, in AARectangle<T> bound2)
-        {
-            throw new NotImplementedException();
-        }
+        //   AARectangle<T> IStringParser<AARectangle<T>>.Parse(in string s)
+        //   {
+        //       throw new NotImplementedException();
+        //   }
+        //
+        //   AARectangle<T> IStringParser<AARectangle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        //   {
+        //       throw new NotImplementedException();
+        //   }
+        //
+        //   AARectangle<T> IRandom<AARectangle<T>>.GetNext(Random random)
+        //   {
+        //       return new AARectangle<T>(
+        //           random.NextGeometric<Vector2<T>>(),
+        //           random.NextGeometric<Vector2<T>>());
+        //   }
+        //
+        //   AARectangle<T> IRandom<AARectangle<T>>.GetNext(Random random, in AARectangle<T> bound1, in AARectangle<T> bound2)
+        //   {
+        //       throw new NotImplementedException();
+        //   }
 
         public string ToString(string format, IFormatProvider formatProvider)
         {

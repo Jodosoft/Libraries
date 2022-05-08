@@ -22,156 +22,79 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
     [Serializable]
-    [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [DebuggerDisplay("{ToString(),nq}")]
+    [SuppressMessage("Style", "IDE1006:Naming Styles")]
     public readonly struct cfloat : INumeric<cfloat>
     {
-        public static readonly cfloat E = new cfloat(MathF.E);
         public static readonly cfloat Epsilon = new cfloat(float.Epsilon);
         public static readonly cfloat MaxValue = new cfloat(float.MaxValue);
         public static readonly cfloat MinValue = new cfloat(float.MinValue);
-        public static readonly cfloat MaxUnit = new cfloat(1);
-        public static readonly cfloat MinUnit = new cfloat(-1);
-        public static readonly cfloat One = new cfloat(1);
-        public static readonly cfloat Pi = new cfloat(MathF.PI);
-        public static readonly cfloat Zero = new cfloat(0);
 
         private readonly float _value;
 
         public cfloat(float value)
         {
             _value =
-                value == float.NaN ? 0 :
-                value < float.MinValue ? float.MinValue :
-                value > float.MaxValue ? float.MaxValue :
-                value;
+                float.IsFinite(value) ? value :
+                float.IsPositiveInfinity(value) ? float.MaxValue :
+                float.IsNegativeInfinity(value) ? float.MinValue :
+                0f;
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(cfloat), _value);
         private cfloat(SerializationInfo info, StreamingContext _) : this(info.GetSingle(nameof(cfloat))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(cfloat), _value);
 
         public bool Equals(cfloat other) => _value == other._value;
         public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null) => _value.TryFormat(destination, out charsWritten, format, provider);
-        public float Approximate(float offset) => _value + offset;
+        public float Approximate(in float offset) => _value + offset;
         public int CompareTo(cfloat other) => _value.CompareTo(other._value);
-        public int CompareTo(object value) => value == null ? 1 : (value is cfloat other) ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(cfloat)}.");
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
+        public int CompareTo(object? obj)
+        {
+            if (obj == null) return 1;
+            try { return CompareTo((cfloat)obj); }
+            catch (InvalidCastException) { return 1; }
+        }
+
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
-            try
-            {
-                var other = (cfloat)obj;
-                return Equals(other);
-            }
-            catch (InvalidCastException)
-            {
-                return false;
-            }
+            try { return Equals((cfloat)obj); }
+            catch (InvalidCastException) { return false; }
         }
 
-        cfloat INumeric<cfloat>.Value => this;
-        cfloat INumeric<cfloat>.E => E;
-        cfloat INumeric<cfloat>.Epsilon => Epsilon;
-        cfloat INumeric<cfloat>.MaxUnit => MaxUnit;
-        cfloat INumeric<cfloat>.MaxValue => MaxValue;
-        cfloat INumeric<cfloat>.MinUnit => MinUnit;
-        cfloat INumeric<cfloat>.MinValue => MinValue;
-        cfloat INumeric<cfloat>.Zero => Zero;
-        cfloat INumeric<cfloat>.One => One;
-        cfloat INumeric<cfloat>.Pi => Pi;
-        bool INumeric<cfloat>.HasMantissa => true;
-        bool INumeric<cfloat>.IsSigned => true;
-        bool INumeric<cfloat>.GreaterThan(cfloat value2) => this > value2;
-        bool INumeric<cfloat>.GreaterThanOrEqualTo(cfloat value2) => this >= value2;
-        bool INumeric<cfloat>.LessThan(cfloat value2) => this < value2;
-        bool INumeric<cfloat>.LessThanOrEqualTo(cfloat value2) => this <= value2;
-        cfloat INumeric<cfloat>.Abs() => new cfloat(MathF.Abs(_value));
-        cfloat INumeric<cfloat>.Acos() => new cfloat(MathF.Acos(_value));
-        cfloat INumeric<cfloat>.Acosh() => new cfloat(MathF.Acosh(_value));
-        cfloat INumeric<cfloat>.Addition(cfloat value2) => this + value2;
-        cfloat INumeric<cfloat>.Asin() => new cfloat(MathF.Asin(_value));
-        cfloat INumeric<cfloat>.Asinh() => new cfloat(MathF.Asinh(_value));
-        cfloat INumeric<cfloat>.Atan() => new cfloat(MathF.Atan(_value));
-        cfloat INumeric<cfloat>.Atan2(cfloat x) => new cfloat(MathF.Atan2(_value, x._value));
-        cfloat INumeric<cfloat>.Atanh() => new cfloat(MathF.Atanh(_value));
-        cfloat INumeric<cfloat>.Cbrt() => new cfloat(MathF.Cbrt(_value));
-        cfloat INumeric<cfloat>.Ceiling() => new cfloat(MathF.Ceiling(_value));
-        cfloat INumeric<cfloat>.Convert(byte value) => new cfloat(value);
-        cfloat INumeric<cfloat>.Cos() => new cfloat(MathF.Cos(_value));
-        cfloat INumeric<cfloat>.Cosh() => new cfloat(MathF.Cosh(_value));
-        cfloat INumeric<cfloat>.DegreesToRadians() => new cfloat(CheckedMath.DegreesToRadians(_value));
-        cfloat INumeric<cfloat>.DegreesToTurns() => new cfloat(CheckedMath.DegreesToTurns(_value));
-        cfloat INumeric<cfloat>.Divide(cfloat value2) => this / value2;
-        cfloat INumeric<cfloat>.Exp() => new cfloat(MathF.Exp(_value));
-        cfloat INumeric<cfloat>.Floor() => new cfloat(MathF.Floor(_value));
-        cfloat INumeric<cfloat>.Log() => new cfloat(MathF.Log(_value));
-        cfloat INumeric<cfloat>.Log(cfloat newBase) => new cfloat(MathF.Log(_value, newBase._value));
-        cfloat INumeric<cfloat>.Log10() => new cfloat(MathF.Log10(_value));
-        cfloat INumeric<cfloat>.Max(cfloat y) => new cfloat(MathF.Max(_value, y._value));
-        cfloat INumeric<cfloat>.Min(cfloat y) => new cfloat(MathF.Min(_value, y._value));
-        cfloat INumeric<cfloat>.Multiply(cfloat value2) => this * value2;
-        cfloat INumeric<cfloat>.Negative() => -this;
-        cfloat INumeric<cfloat>.Positive() => this;
-        cfloat INumeric<cfloat>.Pow(cfloat value2) => new cfloat(MathF.Pow(_value, value2._value));
-        cfloat INumeric<cfloat>.RadiansToDegrees() => new cfloat(CheckedMath.RadiansToDegrees(_value));
-        cfloat INumeric<cfloat>.RadiansToTurns() => new cfloat(CheckedMath.RadiansToTurns(_value));
-        cfloat INumeric<cfloat>.Remainder(cfloat value2) => this % value2;
-        cfloat INumeric<cfloat>.Round() => new cfloat(MathF.Round(_value));
-        cfloat INumeric<cfloat>.Round(byte digits) => new cfloat(MathF.Round(_value, digits));
-        cfloat INumeric<cfloat>.Round(byte digits, MidpointRounding mode) => new cfloat(MathF.Round(_value, digits, mode));
-        cfloat INumeric<cfloat>.Round(MidpointRounding mode) => new cfloat(MathF.Round(_value, mode));
-        cfloat INumeric<cfloat>.Sin() => new cfloat(MathF.Sin(_value));
-        cfloat INumeric<cfloat>.Sinh() => new cfloat(MathF.Sinh(_value));
-        cfloat INumeric<cfloat>.Sqrt() => new cfloat(MathF.Sqrt(_value));
-        cfloat INumeric<cfloat>.Subtract(cfloat value2) => this - value2;
-        cfloat INumeric<cfloat>.Tan() => new cfloat(MathF.Tan(_value));
-        cfloat INumeric<cfloat>.Tanh() => new cfloat(MathF.Tanh(_value));
-        cfloat INumeric<cfloat>.TurnsToDegrees() => new cfloat(CheckedMath.TurnsToDegrees(_value));
-        cfloat INumeric<cfloat>.TurnsToRadians() => new cfloat(CheckedMath.TurnsToRadians(_value));
-
-        cfloat IBitConverter<cfloat>.Read(in IReadOnlyStream<byte> stream) => new cfloat(BitConverter.ToSingle(stream.Read(sizeof(float))));
-        void IBitConverter<cfloat>.Write(in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(_value));
-
-        cfloat IRandomGenerator<cfloat>.GetNext(Random random) => new cfloat(random.NextSingle(float.MinValue, float.MaxValue));
-        cfloat IRandomGenerator<cfloat>.GetNext(Random random, in cfloat bound1, in cfloat bound2) => new cfloat(random.NextSingle(bound1._value, bound2._value));
-
-        cfloat IStringFormatter<cfloat>.Parse(in string s) => new cfloat(float.Parse(s));
-        cfloat IStringFormatter<cfloat>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => new cfloat(float.Parse(s, numberStyles, formatProvider));
-
-        public static explicit operator cfloat(decimal value) => new cfloat((float)value);
-        public static explicit operator cfloat(double value) => new cfloat((float)value);
-        public static explicit operator cfloat(fix64 value) => new cfloat((float)value);
-        public static explicit operator cfloat(ufix64 value) => new cfloat((float)value);
+        public static explicit operator cfloat(decimal value) => new cfloat(CheckedConvert.ToSingle(value));
+        public static explicit operator cfloat(double value) => new cfloat(CheckedConvert.ToSingle(value));
         public static implicit operator cfloat(byte value) => new cfloat(value);
-        public static implicit operator cfloat(cint value) => new cfloat(value);
+        public static implicit operator cfloat(sbyte value) => new cfloat(value);
         public static implicit operator cfloat(float value) => new cfloat(value);
         public static implicit operator cfloat(int value) => new cfloat(value);
         public static implicit operator cfloat(long value) => new cfloat(value);
         public static implicit operator cfloat(short value) => new cfloat(value);
         public static implicit operator cfloat(uint value) => new cfloat(value);
-        public static implicit operator cfloat(ucint value) => new cfloat(value);
         public static implicit operator cfloat(ulong value) => new cfloat(value);
         public static implicit operator cfloat(ushort value) => new cfloat(value);
 
-        public static explicit operator byte(cfloat value) => (byte)value._value;
-        public static explicit operator decimal(cfloat value) => (decimal)value._value;
-        public static explicit operator int(cfloat value) => (int)value._value;
-        public static explicit operator long(cfloat value) => (long)value._value;
-        public static explicit operator short(cfloat value) => (short)value._value;
-        public static explicit operator uint(cfloat value) => (uint)value._value;
-        public static explicit operator ulong(cfloat value) => (ulong)value._value;
-        public static explicit operator ushort(cfloat value) => (ushort)value._value;
+        public static explicit operator byte(cfloat value) => CheckedConvert.ToByte(value._value);
+        public static explicit operator decimal(cfloat value) => CheckedConvert.ToDecimal(value._value);
+        public static explicit operator int(cfloat value) => CheckedConvert.ToInt32(value._value);
+        public static explicit operator long(cfloat value) => CheckedConvert.ToInt64(value._value);
+        public static explicit operator sbyte(cfloat value) => CheckedConvert.ToSByte(value._value);
+        public static explicit operator short(cfloat value) => CheckedConvert.ToInt16(value._value);
+        public static explicit operator uint(cfloat value) => CheckedConvert.ToUInt32(value._value);
+        public static explicit operator ulong(cfloat value) => CheckedConvert.ToUInt64(value._value);
+        public static explicit operator ushort(cfloat value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator double(cfloat value) => value._value;
-        public static explicit operator float(cfloat value) => value._value;
+        public static implicit operator float(cfloat value) => value._value;
 
         public static bool operator !=(cfloat left, cfloat right) => left._value != right._value;
         public static bool operator <(cfloat left, cfloat right) => left._value < right._value;
@@ -179,14 +102,100 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(cfloat left, cfloat right) => left._value == right._value;
         public static bool operator >(cfloat left, cfloat right) => left._value > right._value;
         public static bool operator >=(cfloat left, cfloat right) => left._value >= right._value;
-        public static cfloat operator %(cfloat left, cfloat right) => new cfloat(CheckedMath.Remainder(left._value, right._value));
-        public static cfloat operator -(cfloat left, cfloat right) => new cfloat(CheckedMath.Subtract(left._value, right._value));
-        public static cfloat operator --(cfloat value) => new cfloat(CheckedMath.Subtract(value._value, 1));
-        public static cfloat operator -(cfloat value) => new cfloat(-value._value);
-        public static cfloat operator *(cfloat left, cfloat right) => new cfloat(CheckedMath.Multiply(left._value, right._value));
-        public static cfloat operator /(cfloat left, cfloat right) => new cfloat(CheckedMath.Divide(left._value, right._value));
-        public static cfloat operator +(cfloat left, cfloat right) => new cfloat(CheckedMath.Add(left._value, right._value));
+        public static cfloat operator %(cfloat left, cfloat right) => CheckedMath.Remainder(left._value, right._value);
+        public static cfloat operator -(cfloat left, cfloat right) => CheckedMath.Subtract(left._value, right._value);
+        public static cfloat operator --(cfloat value) => value - 1;
+        public static cfloat operator -(cfloat value) => -value._value;
+        public static cfloat operator *(cfloat left, cfloat right) => CheckedMath.Multiply(left._value, right._value);
+        public static cfloat operator /(cfloat left, cfloat right) => CheckedMath.Divide(left._value, right._value);
+        public static cfloat operator +(cfloat left, cfloat right) => CheckedMath.Add(left._value, right._value);
         public static cfloat operator +(cfloat value) => value;
-        public static cfloat operator ++(cfloat value) => new cfloat(CheckedMath.Add(value._value, 1));
+        public static cfloat operator ++(cfloat value) => value + 1;
+
+        IBitConverter<cfloat> IBitConvertible<cfloat>.BitConverter => Utilities.Instance;
+        IMath<cfloat> INumeric<cfloat>.Math => Utilities.Instance;
+        IRandom<cfloat> IRandomisable<cfloat>.Random => Utilities.Instance;
+        IStringParser<cfloat> IStringRepresentable<cfloat>.StringParser => Utilities.Instance;
+
+        private sealed class Utilities : IMath<cfloat>, IBitConverter<cfloat>, IRandom<cfloat>, IStringParser<cfloat>
+        {
+            public readonly static Utilities Instance = new Utilities();
+
+            cfloat IMath<cfloat>.E { get; } = MathF.E;
+            cfloat IMath<cfloat>.PI { get; } = MathF.PI;
+            cfloat IMath<cfloat>.Epsilon => Epsilon;
+            cfloat IMath<cfloat>.MaxValue => MaxValue;
+            cfloat IMath<cfloat>.MinValue => MinValue;
+            cfloat IMath<cfloat>.MaxUnit { get; } = 1;
+            cfloat IMath<cfloat>.MinUnit { get; } = -1;
+            cfloat IMath<cfloat>.Zero { get; } = 0;
+            cfloat IMath<cfloat>.One { get; } = 1;
+            bool IMath<cfloat>.IsSigned { get; } = true;
+            bool IMath<cfloat>.IsReal { get; } = true;
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<cfloat>.IsGreaterThan(in cfloat x, in cfloat y) => x > y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<cfloat>.IsGreaterThanOrEqualTo(in cfloat x, in cfloat y) => x >= y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<cfloat>.IsLessThan(in cfloat x, in cfloat y) => x < y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<cfloat>.IsLessThanOrEqualTo(in cfloat x, in cfloat y) => x <= y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Abs(in cfloat x) => MathF.Abs(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Acos(in cfloat x) => MathF.Acos(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Acosh(in cfloat x) => MathF.Acosh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Add(in cfloat x, in cfloat y) => x + y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Asin(in cfloat x) => MathF.Asin(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Asinh(in cfloat x) => MathF.Asinh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Atan(in cfloat x) => MathF.Atan(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Atan2(in cfloat x, in cfloat y) => MathF.Atan2(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Atanh(in cfloat x) => MathF.Atanh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Cbrt(in cfloat x) => MathF.Cbrt(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Ceiling(in cfloat x) => MathF.Ceiling(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Clamp(in cfloat x, in cfloat bound1, in cfloat bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Convert(in byte value) => value;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Cos(in cfloat x) => MathF.Cos(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Cosh(in cfloat x) => MathF.Cosh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.DegreesToRadians(in cfloat x) => x._value * Constants.RadiansPerDegreeF;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.DegreesToTurns(in cfloat x) => x._value * Constants.TurnsPerDegreeF;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Divide(in cfloat x, in cfloat y) => x / y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Exp(in cfloat x) => MathF.Exp(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Floor(in cfloat x) => MathF.Floor(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.IEEERemainder(in cfloat x, in cfloat y) => MathF.IEEERemainder(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Log(in cfloat x) => MathF.Log(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Log(in cfloat x, in cfloat y) => MathF.Log(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Log10(in cfloat x) => MathF.Log10(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Max(in cfloat x, in cfloat y) => MathF.Max(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Min(in cfloat x, in cfloat y) => MathF.Min(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Multiply(in cfloat x, in cfloat y) => x * y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Negative(in cfloat x) => -x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Positive(in cfloat x) => +x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Pow(in cfloat x, in byte y) => MathF.Pow(x._value, y);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Pow(in cfloat x, in cfloat y) => MathF.Pow(x._value, y._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.RadiansToDegrees(in cfloat x) => x._value * Constants.DegreesPerRadianF;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.RadiansToTurns(in cfloat x) => x._value * Constants.TurnsPerRadianF;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Remainder(in cfloat x, in cfloat y) => x % y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Round(in cfloat x) => MathF.Round(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Round(in cfloat x, in int digits) => MathF.Round(x._value, digits);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Round(in cfloat x, in int digits, in MidpointRounding mode) => MathF.Round(x._value, digits, mode);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Round(in cfloat x, in MidpointRounding mode) => MathF.Round(x._value, mode);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Sin(in cfloat x) => MathF.Sin(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Sinh(in cfloat x) => MathF.Sinh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Sqrt(in cfloat x) => MathF.Sqrt(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Subtract(in cfloat x, in cfloat y) => x - y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Tan(in cfloat x) => MathF.Tan(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Tanh(in cfloat x) => MathF.Tanh(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.Truncate(in cfloat x) => MathF.Truncate(x._value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.TurnsToDegrees(in cfloat x) => x._value * Constants.DegreesPerTurnF;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] cfloat IMath<cfloat>.TurnsToRadians(in cfloat x) => x._value * Constants.RadiansPerTurnF;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<cfloat>.ToDouble(in cfloat x, in double offset) => CheckedMath.Add(x._value, offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<cfloat>.ToSingle(in cfloat x, in float offset) => CheckedMath.Add(x._value, offset);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] int IMath<cfloat>.Sign(in cfloat x) => MathF.Sign(x._value);
+
+            cfloat IBitConverter<cfloat>.Read(in IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)));
+            void IBitConverter<cfloat>.Write(cfloat value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+
+            cfloat IRandom<cfloat>.GetNext(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
+            cfloat IRandom<cfloat>.GetNext(Random random, in cfloat bound1, in cfloat bound2) => random.NextSingle(bound1._value, bound2._value);
+
+            cfloat IStringParser<cfloat>.Parse(in string s) => float.Parse(s);
+            cfloat IStringParser<cfloat>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => float.Parse(s, numberStyles, formatProvider);
+        }
     }
 }

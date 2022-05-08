@@ -20,56 +20,53 @@
 using FluentAssertions;
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
-using NUnit.Framework;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Jodo.Extensions.CheckedGeometry.Tests
 {
-    public class GeometricTests : AssemblyTestBase
+    public static class GeometricTests
     {
-        static readonly object[] AllGeometricTypes =
+        public class AARectangle : Base<AARectangle<cfloat>> { }
+        public class Angle : Base<Angle<cfloat>> { }
+        public class Circle : Base<Circle<cfloat>> { }
+        public class Rectangle : Base<Rectangle<cfloat>> { }
+        public class Unit : Base<Unit<cfloat>> { }
+        public class Vector2 : Base<Vector2<cfloat>> { }
+        public class Vector3 : Base<Vector3<cfloat>> { }
+
+        public abstract class Base<T> : AssemblyTestBase where T : struct, IGeometric<T>
         {
-            typeof(AARectangle<cfloat>),
-            typeof(Angle<cfloat>),
-            typeof(Circle<cfloat>),
-            typeof(Rectangle<cfloat>),
-            typeof(Unit<cfloat>),
-            typeof(Vector2<cfloat>),
-            typeof(Vector3<cfloat>),
-        };
+            //[Test]
+            public void Serialize_RoundTrip_SameAsOriginal()
+            {
+                //arrange
+                var input = Random.NextGeometric<T>();
+                var formatter = new BinaryFormatter();
 
-        [TestCaseSource(nameof(AllGeometricTypes))]
-        public void Serialize_RoundTrip_SameAsOriginal(Type type) => GetType().GetMethod(nameof(Serialize_RoundTrip_SameAsOriginal1)).MakeGenericMethod(type).Invoke(this, null);
-        public void Serialize_RoundTrip_SameAsOriginal1<T>() where T : struct, IGeometric<T>
-        {
-            //arrange
-            var input = Random.NextGeometric<T>();
-            var formatter = new BinaryFormatter();
+                //act
+                using var stream = new MemoryStream();
+                formatter.Serialize(stream, input);
+                stream.Position = 0;
+                var result = (T)formatter.Deserialize(stream);
 
-            //act
-            using var stream = new MemoryStream();
-            formatter.Serialize(stream, input);
-            stream.Position = 0;
-            var result = (T)formatter.Deserialize(stream);
+                //assert
+                result.Should().Be(input);
+            }
 
-            //assert
-            result.Should().Be(input);
-        }
+            //[Test]
+            public void GetBytes_RoundTrip_SameAsOriginal()
+            {
+                //arrange
+                var input = Random.NextGeometric<T>();
 
-        [TestCaseSource(nameof(AllGeometricTypes))]
-        public void GetBytes_RoundTrip_SameAsOriginal(Type type) => GetType().GetMethod(nameof(GetBytes_RoundTrip_SameAsOriginal1)).MakeGenericMethod(type).Invoke(this, null);
-        public void GetBytes_RoundTrip_SameAsOriginal1<T>() where T : struct, IGeometric<T>
-        {
-            //arrange
-            var input = Random.NextGeometric<T>();
+                //act
+                var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
 
-            //act
-            var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
-
-            //assert
-            result.Should().Be(input);
+                //assert
+                result.Should().Be(input);
+            }
         }
     }
 }

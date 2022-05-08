@@ -17,13 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-
 namespace Jodo.Extensions.Primitives
 {
-    public interface IRandomGenerator<T>
+    public interface IStringRepresentable<T> where T : IStringRepresentable<T>, new()
     {
-        T GetNext(Random random);
-        T GetNext(Random random, in T bound1, in T bound2);
+        IStringParser<T> StringParser { get; }
     }
 }

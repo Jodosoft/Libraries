@@ -18,79 +18,59 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Numerics;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
     public static class CheckedMath
     {
-        private const float DegreesPerRadianF = 180 / MathF.PI;
-        private const float DegreesPerTurnF = 360;
-        private const float TurnsPerDegreeF = 1 / DegreesPerTurnF;
-        private const float TurnsPerRadianF = 1 / RadiansPerTurnF;
-        private const float RadiansPerDegreeF = MathF.PI / 180;
-        private const float RadiansPerTurnF = 2 * MathF.PI;
-
-        private const double DegreesPerRadian = 180 / Math.PI;
-        private const double DegreesPerTurn = 360;
-        private const double TurnsPerDegree = 1 / DegreesPerTurn;
-        private const double TurnsPerRadian = 1 / RadiansPerTurn;
-        private const double RadiansPerDegree = Math.PI / 180;
-        private const double RadiansPerTurn = 2 * Math.PI;
-
-        internal static float DegreesToRadians(float degrees) => degrees * RadiansPerDegreeF;
-        internal static float DegreesToTurns(float degrees) => degrees * TurnsPerDegreeF;
-        internal static float RadiansToDegrees(float radians) => radians * DegreesPerRadianF;
-        internal static float RadiansToTurns(float radians) => radians * TurnsPerRadianF;
-        internal static float TurnsToDegrees(float turns) => turns * DegreesPerTurnF;
-        internal static float TurnsToRadians(float turns) => turns * RadiansPerTurnF;
-        internal static double DegreesToRadians(double degrees) => degrees * RadiansPerDegree;
-        internal static double DegreesToTurns(double degrees) => degrees * TurnsPerDegree;
-        internal static double RadiansToDegrees(double radians) => radians * DegreesPerRadian;
-        internal static double RadiansToTurns(double radians) => radians * TurnsPerRadian;
-        internal static double TurnsToDegrees(double turns) => turns * DegreesPerTurn;
-        internal static double TurnsToRadians(double turns) => turns * RadiansPerTurn;
-
         public static byte Add(byte x, byte y) { try { checked { return (byte)(x + y); } } catch (OverflowException) { return byte.MaxValue; } }
         public static byte Subtract(byte x, byte y) { try { checked { return (byte)(x - y); } } catch (OverflowException) { return byte.MinValue; } }
         public static byte Multiply(byte x, byte y) { try { checked { return (byte)(x * y); } } catch (OverflowException) { return byte.MaxValue; } }
         public static byte Divide(byte x, byte y) { try { return (byte)(x / y); } catch (DivideByZeroException) { return byte.MaxValue; } }
-        public static byte Remainder(byte x, byte y) { try { return (byte)(x % y); } catch (DivideByZeroException) { return byte.MaxValue; } }
+        public static byte Remainder(byte x, byte y) { try { return (byte)(x % y); } catch (DivideByZeroException) { return 0; } }
 
         public static ushort Add(ushort x, ushort y) { try { checked { return (ushort)(x + y); } } catch (OverflowException) { return ushort.MaxValue; } }
         public static ushort Subtract(ushort x, ushort y) { try { checked { return (ushort)(x - y); } } catch (OverflowException) { return ushort.MinValue; } }
         public static ushort Multiply(ushort x, ushort y) { try { checked { return (ushort)(x * y); } } catch (OverflowException) { return ushort.MaxValue; } }
         public static ushort Divide(ushort x, ushort y) { try { return (ushort)(x / y); } catch (DivideByZeroException) { return ushort.MaxValue; } }
-        public static ushort Remainder(ushort x, ushort y) { try { return (ushort)(x % y); } catch (DivideByZeroException) { return ushort.MaxValue; } }
+        public static ushort Remainder(ushort x, ushort y) { try { return (ushort)(x % y); } catch (DivideByZeroException) { return 0; } }
 
         public static uint Add(uint x, uint y) { try { checked { return x + y; } } catch (OverflowException) { return uint.MaxValue; } }
         public static uint Subtract(uint x, uint y) { try { checked { return x - y; } } catch (OverflowException) { return uint.MinValue; } }
         public static uint Multiply(uint x, uint y) { try { checked { return x * y; } } catch (OverflowException) { return uint.MaxValue; } }
         public static uint Divide(uint x, uint y) { try { return x / y; } catch (DivideByZeroException) { return uint.MaxValue; } }
-        public static uint Remainder(uint x, uint y) { try { return x % y; } catch (DivideByZeroException) { return uint.MaxValue; } }
+        public static uint Remainder(uint x, uint y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
 
         public static ulong Add(ulong x, ulong y) { try { checked { return x + y; } } catch (OverflowException) { return ulong.MaxValue; } }
         public static ulong Subtract(ulong x, ulong y) { try { checked { return x - y; } } catch (OverflowException) { return ulong.MinValue; } }
         public static ulong Multiply(ulong x, ulong y) { try { checked { return x * y; } } catch (OverflowException) { return ulong.MaxValue; } }
         public static ulong Divide(ulong x, ulong y) { try { return x / y; } catch (DivideByZeroException) { return ulong.MaxValue; } }
-        public static ulong Remainder(ulong x, ulong y) { try { return x % y; } catch (DivideByZeroException) { return ulong.MaxValue; } }
+        public static ulong Remainder(ulong x, ulong y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
+
+        public static sbyte Add(sbyte x, sbyte y) { try { checked { return (sbyte)(x + y); } } catch (OverflowException) { return y > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte Subtract(sbyte x, sbyte y) { try { checked { return (sbyte)(x - y); } } catch (OverflowException) { return y < 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte Multiply(sbyte x, sbyte y) { try { checked { return (sbyte)(x * y); } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte Divide(sbyte x, sbyte y) { try { return (sbyte)(x / y); } catch (DivideByZeroException) { return sbyte.MaxValue; } }
+        public static sbyte Remainder(sbyte x, sbyte y) { try { return (sbyte)(x % y); } catch (DivideByZeroException) { return 0; } }
 
         public static short Add(short x, short y) { try { checked { return (short)(x + y); } } catch (OverflowException) { return y > 0 ? short.MaxValue : short.MinValue; } }
         public static short Subtract(short x, short y) { try { checked { return (short)(x - y); ; } } catch (OverflowException) { return y < 0 ? short.MaxValue : short.MinValue; } }
         public static short Multiply(short x, short y) { try { checked { return (short)(x * y); ; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? short.MaxValue : short.MinValue; } }
         public static short Divide(short x, short y) { try { return (short)(x / y); ; } catch (DivideByZeroException) { return short.MaxValue; } }
-        public static short Remainder(short x, short y) { try { return (short)(x % y); ; } catch (DivideByZeroException) { return short.MaxValue; } }
+        public static short Remainder(short x, short y) { try { return (short)(x % y); ; } catch (DivideByZeroException) { return 0; } }
 
         public static int Add(int x, int y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? int.MaxValue : int.MinValue; } }
         public static int Subtract(int x, int y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? int.MaxValue : int.MinValue; } }
         public static int Multiply(int x, int y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? int.MaxValue : int.MinValue; } }
         public static int Divide(int x, int y) { try { return x / y; } catch (DivideByZeroException) { return int.MaxValue; } }
-        public static int Remainder(int x, int y) { try { return x % y; } catch (DivideByZeroException) { return int.MaxValue; } }
+        public static int Remainder(int x, int y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
 
         public static long Add(long x, long y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? long.MaxValue : long.MinValue; } }
         public static long Subtract(long x, long y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? long.MaxValue : long.MinValue; } }
         public static long Multiply(long x, long y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? long.MaxValue : long.MinValue; } }
         public static long Divide(long x, long y) { try { return x / y; } catch (DivideByZeroException) { return long.MaxValue; } }
-        public static long Remainder(long x, long y) { try { return x % y; } catch (DivideByZeroException) { return long.MaxValue; } }
+        public static long Remainder(long x, long y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
 
         public static byte Pow(byte x, byte y)
         {
@@ -144,6 +124,20 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        public static sbyte Pow(sbyte x, sbyte y)
+        {
+            if (y < 0) return 0;
+            if (y == 0) return 1;
+            if (y == 1) return x;
+            var result = x;
+            for (sbyte i = 1; i < y; i++)
+            {
+                try { checked { result *= x; } }
+                catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? sbyte.MaxValue : sbyte.MinValue; }
+            }
+            return result;
+        }
+
         public static short Pow(short x, short y)
         {
             if (y < 0) return 0;
@@ -189,7 +183,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static float Pow(float x, float y)
         {
             var result = MathF.Pow(x, y);
-            if (float.IsNaN(result)) return float.MaxValue;
+            if (float.IsNaN(result)) return 0f;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
             if (float.IsNegativeInfinity(result)) return float.MinValue;
             return result;
@@ -198,58 +192,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static double Pow(double x, double y)
         {
             var result = Math.Pow(x, y);
-            if (double.IsNaN(result)) return double.MaxValue;
+            if (double.IsNaN(result)) return 0d;
             if (double.IsPositiveInfinity(result)) return double.MaxValue;
             if (double.IsNegativeInfinity(result)) return double.MinValue;
             return result;
-        }
-
-        public static long ToInt64(double x)
-        {
-            try { checked { return Convert.ToInt64(x); } }
-            catch { return x > 0 ? long.MaxValue : long.MinValue; }
-        }
-
-        public static long ToInt64(decimal x)
-        {
-            try { checked { return Convert.ToInt64(x); } }
-            catch { return x > 0 ? long.MaxValue : long.MinValue; }
-        }
-
-        public static long ToInt64(float x)
-        {
-            try { checked { return Convert.ToInt64(x); } }
-            catch { return x > 0 ? long.MaxValue : long.MinValue; }
-        }
-
-        public static long ToInt64(ulong x)
-        {
-            try { checked { return Convert.ToInt64(x); } }
-            catch { return x > 0 ? long.MaxValue : long.MinValue; }
-        }
-
-        public static ulong ToUInt64(double x)
-        {
-            try { checked { return Convert.ToUInt64(x); } }
-            catch { return x > 0 ? ulong.MaxValue : ulong.MinValue; }
-        }
-
-        public static ulong ToUInt64(decimal x)
-        {
-            try { checked { return Convert.ToUInt64(x); } }
-            catch { return x > 0 ? ulong.MaxValue : ulong.MinValue; }
-        }
-
-        public static ulong ToUInt64(float x)
-        {
-            try { checked { return Convert.ToUInt64(x); } }
-            catch { return x > 0 ? ulong.MaxValue : ulong.MinValue; }
-        }
-
-        public static ulong ToUInt64(long x)
-        {
-            try { checked { return Convert.ToUInt64(x); } }
-            catch { return x > 0 ? ulong.MaxValue : ulong.MinValue; }
         }
 
         public static float Add(in float x, in float y)
@@ -273,7 +219,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static float Multiply(in float x, in float y)
         {
             float result = x * y;
-            if (float.IsNaN(result)) return float.MaxValue;
+            if (double.IsNaN(result)) return 0f;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
             if (float.IsNegativeInfinity(result)) return float.MinValue;
             return result;
@@ -282,7 +228,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static float Divide(in float x, in float y)
         {
             float result = x / y;
-            if (float.IsNaN(result)) return float.MaxValue;
+            if (double.IsNaN(result)) return 0f;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
             if (float.IsNegativeInfinity(result)) return float.MaxValue;
             return result;
@@ -291,7 +237,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static float Remainder(in float x, in float y)
         {
             float result = x % y;
-            if (float.IsNaN(result)) return float.MaxValue;
+            if (double.IsNaN(result)) return 0f;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
             if (float.IsNegativeInfinity(result)) return float.MaxValue;
             return result;
@@ -318,7 +264,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static double Multiply(in double x, in double y)
         {
             double result = x * y;
-            if (double.IsNaN(result)) return double.MaxValue;
+            if (double.IsNaN(result)) return 0d;
             if (double.IsPositiveInfinity(result)) return double.MaxValue;
             if (double.IsNegativeInfinity(result)) return double.MinValue;
             return result;
@@ -327,7 +273,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static double Divide(in double x, in double y)
         {
             double result = x / y;
-            if (double.IsNaN(result)) return double.MaxValue;
+            if (double.IsNaN(result)) return 0d;
             if (double.IsPositiveInfinity(result)) return double.MaxValue;
             if (double.IsNegativeInfinity(result)) return double.MaxValue;
             return result;
@@ -336,10 +282,142 @@ namespace Jodo.Extensions.CheckedNumerics
         public static double Remainder(in double x, in double y)
         {
             double result = x % y;
-            if (double.IsNaN(result)) return double.MaxValue;
+            if (double.IsNaN(result)) return 0d;
             if (double.IsPositiveInfinity(result)) return double.MaxValue;
             if (double.IsNegativeInfinity(result)) return double.MaxValue;
             return result;
+        }
+
+        public static long ScaledMultiply(in long left, in long right, in long scalingFactor)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return left * right / scalingFactor;
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return (long)(new BigInteger(left) * new BigInteger(right) / scalingFactor);
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return long.MaxValue;
+            }
+        }
+
+        public static long ScaledDivide(in long left, in long right, in long scalingFactor)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return left * scalingFactor / right;
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return (long)(new BigInteger(left) * scalingFactor / new BigInteger(right));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return long.MaxValue;
+            }
+        }
+
+        public static long ScaledRemainder(in long left, in long right, in long scalingFactor)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return left * scalingFactor % right;
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return (long)(new BigInteger(left) * scalingFactor % new BigInteger(right));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return 0;
+            }
+        }
+
+        public static ulong ScaledMultiply(in ulong left, in ulong right, in ulong scalingFactor)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return left * right / scalingFactor;
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return (ulong)(new BigInteger(left) * new BigInteger(right) / scalingFactor);
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return ulong.MaxValue;
+            }
+        }
+
+        public static ulong ScaledDivide(in ulong left, in ulong right, in ulong scalingFactor)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return left * scalingFactor / right;
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return (ulong)(new BigInteger(left) * scalingFactor / new BigInteger(right));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return ulong.MaxValue;
+            }
+        }
+
+        public static ulong ScaledRemainder(in ulong left, in ulong right, in ulong scalingFactor)
+        {
+            try
+            {
+                try
+                {
+                    checked
+                    {
+                        return left * scalingFactor % right;
+                    }
+                }
+                catch (OverflowException)
+                {
+                    return (ulong)(new BigInteger(left) * scalingFactor % new BigInteger(right));
+                }
+            }
+            catch (DivideByZeroException)
+            {
+                return 0;
+            }
         }
     }
 }

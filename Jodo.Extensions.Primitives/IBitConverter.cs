@@ -19,9 +19,9 @@
 
 namespace Jodo.Extensions.Primitives
 {
-    public interface IBitConverter<out T>
+    public interface IBitConverter<T>
     {
         T Read(in IReadOnlyStream<byte> stream);
-        void Write(in IWriteOnlyStream<byte> stream);
+        void Write(T value, in IWriteOnlyStream<byte> stream);
     }
 }

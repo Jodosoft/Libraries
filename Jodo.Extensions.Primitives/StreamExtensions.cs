@@ -24,15 +24,16 @@ namespace Jodo.Extensions.Primitives
 {
     public static class StreamExtensions
     {
-        public static T Read<T>(this IReadOnlyStream<byte> stream) where T : IBitConverter<T>, new()
+        public static T Read<T>(this IReadOnlyStream<byte> stream) where T : IBitConvertible<T>, new()
         {
             return BitConverter<T>.Read(stream);
         }
 
-        public static void Write<T>(this IWriteOnlyStream<byte> stream, in T value) where T : IBitConverter<T>, new()
+        public static void Write<T>(this IWriteOnlyStream<byte> stream, in T value) where T : IBitConvertible<T>, new()
         {
             BitConverter<T>.Write(stream, value);
         }
+
         public static IWriteOnlyStream<T> AsWriteOnlyStream<T>(this ICollection<T> collection)
            => new CollectionWriteOnlyStream<T>(collection);
 

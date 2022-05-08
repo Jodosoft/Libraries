@@ -20,7 +20,6 @@
 using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using System;
-using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedGeometry
@@ -33,6 +32,12 @@ namespace Jodo.Extensions.CheckedGeometry
         public readonly T Z;
 
         public T Length => Math<T>.Sqrt((X * X) + (Y * Y) + (Z * Z));
+
+        IBitConverter<Vector3<T>> IBitConvertible<Vector3<T>>.BitConverter => throw new NotImplementedException();
+
+        IRandom<Vector3<T>> IRandomisable<Vector3<T>>.Random => throw new NotImplementedException();
+
+        IStringParser<Vector3<T>> IStringRepresentable<Vector3<T>>.StringParser => throw new NotImplementedException();
 
         public Vector3(T x, T y, T z)
         {
@@ -64,43 +69,43 @@ namespace Jodo.Extensions.CheckedGeometry
             throw new NotImplementedException();
         }
 
-        Vector3<T> IBitConverter<Vector3<T>>.Read(in IReadOnlyStream<byte> stream)
-        {
-            return new Vector3<T>(
-                stream.Read<T>(),
-                stream.Read<T>(),
-                stream.Read<T>());
-        }
-
-        void IBitConverter<Vector3<T>>.Write(in IWriteOnlyStream<byte> stream)
-        {
-            stream.Write(X);
-            stream.Write(Y);
-            stream.Write(Z);
-        }
-
-        Vector3<T> IRandomGenerator<Vector3<T>>.GetNext(Random random)
-        {
-            return new Vector3<T>(
-                random.NextNumeric<T>(),
-                random.NextNumeric<T>(),
-                random.NextNumeric<T>());
-        }
-
-        Vector3<T> IRandomGenerator<Vector3<T>>.GetNext(Random random, in Vector3<T> bound1, in Vector3<T> bound2)
-        {
-            return new Vector3<T>(
-                random.NextRandomizable(bound1.X, bound2.X),
-                random.NextRandomizable(bound1.Y, bound2.Y),
-                random.NextRandomizable(bound1.Z, bound2.Z));
-        }
-
-        Vector3<T> IStringFormatter<Vector3<T>>.Parse(in string s) => Parse(s);
-
-        Vector3<T> IStringFormatter<Vector3<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
+        //  Vector3<T> IBitConverter<Vector3<T>>.Read(in IReadOnlyStream<byte> stream)
+        //  {
+        //      return new Vector3<T>(
+        //          stream.Read<T>(),
+        //          stream.Read<T>(),
+        //          stream.Read<T>());
+        //  }
+        //
+        //  void IBitConverter<Vector3<T>>.Write(in IWriteOnlyStream<byte> stream)
+        //  {
+        //      stream.Write(X);
+        //      stream.Write(Y);
+        //      stream.Write(Z);
+        //  }
+        //
+        //  Vector3<T> IRandom<Vector3<T>>.GetNext(Random random)
+        //  {
+        //      return new Vector3<T>(
+        //          random.NextNumeric<T>(),
+        //          random.NextNumeric<T>(),
+        //          random.NextNumeric<T>());
+        //  }
+        //
+        //  Vector3<T> IRandom<Vector3<T>>.GetNext(Random random, in Vector3<T> bound1, in Vector3<T> bound2)
+        //  {
+        //      return new Vector3<T>(
+        //          random.NextRandomizable(bound1.X, bound2.X),
+        //          random.NextRandomizable(bound1.Y, bound2.Y),
+        //          random.NextRandomizable(bound1.Z, bound2.Z));
+        //  }
+        //
+        //  Vector3<T> IStringParser<Vector3<T>>.Parse(in string s) => Parse(s);
+        //
+        //  Vector3<T> IStringParser<Vector3<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        //  {
+        //      throw new NotImplementedException();
+        //  }
 
         public static bool TryParse(string value, out Vector3<T> result)
         {

@@ -24,46 +24,56 @@ using System;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public class BitConverterTests : AssemblyTestBase
+    public static class BitConverterTests
     {
-        [TestCaseSource(nameof(TestCases_AllNumericTypes))]
-        public void GetBytes_RoundTrip_SameAsOriginal<T>(T _) where T : struct, INumeric<T>
+        public class CInt : Base<cint> { }
+        public class UCInt : Base<ucint> { }
+        public class CFloat : Base<cfloat> { }
+        public class CDouble : Base<cdouble> { }
+        public class Fix64 : Base<fix64> { }
+        public class UFix64 : Base<ufix64> { }
+
+        public abstract class Base<T> : AssemblyTestBase where T : struct, INumeric<T>
         {
-            //arrange
-            var input = Random.NextNumeric<T>();
+            [Test]
+            public void GetBytes_RoundTrip_SameAsOriginal()
+            {
+                //arrange
+                var input = Random.NextNumeric<T>();
 
-            //act
-            var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
+                //act
+                var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
 
-            //assert
-            result.Should().Be(input);
-        }
+                //assert
+                result.Should().Be(input);
+            }
 
-        [TestCaseSource(nameof(TestCases_AllNumericTypes))]
-        public void GetBytes_Zero_AllZero<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            var input = Math<T>.Zero;
+            [Test]
+            public void GetBytes_Zero_AllZero()
+            {
+                //arrange
+                var input = Math<T>.Zero;
 
-            //act
-            var result = BitConverter<T>.GetBytes(input);
+                //act
+                var result = BitConverter<T>.GetBytes(input);
 
-            //assert
-            result.ToArray().Should().AllBeEquivalentTo(0);
-        }
+                //assert
+                result.ToArray().Should().AllBeEquivalentTo(0);
+            }
 
-        [TestCaseSource(nameof(TestCases_AllNumericTypes))]
-        public void GetBytes_NonZero_NotAllZero<T>(T _) where T : struct, INumeric<T>
-        {
-            //arrange
-            T input;
-            while ((input = Random.NextNumeric<T>()).Equals(Math<T>.Zero)) { }
+            [Test]
+            public void GetBytes_NonZero_NotAllZero()
+            {
+                //arrange
+                T input;
+                while ((input = Random.NextNumeric<T>()).Equals(Math<T>.Zero)) { }
 
-            //act
-            var result = BitConverter<T>.GetBytes(input);
+                //act
+                var result = BitConverter<T>.GetBytes(input);
 
-            //assert
-            result.ToArray().Should().Contain(x => x != 0);
+                //assert
+                result.ToArray().Should().Contain(x => x != 0);
+            }
         }
     }
 }

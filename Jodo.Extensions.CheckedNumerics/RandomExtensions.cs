@@ -24,9 +24,12 @@ namespace System
     public static class RandomExtensions
     {
         public static T NextNumeric<T>(this Random random) where T : struct, INumeric<T>
-            => default(T).GetNext(random, default(T).MinValue, default(T).MaxValue);
+            => default(T).Random.GetNext(random, Math<T>.MinValue, Math<T>.MaxValue);
 
         public static T NextNumeric<T>(this Random random, T bound1, T bound2) where T : struct, INumeric<T>
-            => default(T).GetNext(random, bound1, bound2);
+            => default(T).Random.GetNext(random, bound1, bound2);
+
+        public static T NextNumeric<T>(this Random random, byte bound1, byte bound2) where T : struct, INumeric<T>
+            => default(T).Random.GetNext(random, Math<T>.Convert(bound1), Math<T>.Convert(bound2));
     }
 }

@@ -24,9 +24,9 @@ namespace System
     public static class RandomExtensions
     {
         public static T NextGeometric<T>(this Random random) where T : struct, IGeometric<T>
-            => default(T).GetNext(random);
+            => default(T).Random.GetNext(random);
 
         public static T NextGeometric<T>(this Random random, T bound1, T bound2) where T : struct, IGeometric<T>
-            => default(T).GetNext(random, bound1, bound2);
+            => default(T).Random.GetNext(random, bound1, bound2);
     }
 }

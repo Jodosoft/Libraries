@@ -22,12 +22,10 @@ using System.Globalization;
 
 namespace Jodo.Extensions.Primitives
 {
-    public static class StringFormatter<T> where T : IStringFormatter<T>, new()
+    public static class StringFormatter<T> where T : IStringRepresentable<T>, new()
     {
-        private static readonly T DefaultInstance = new T();
+        private static readonly IStringParser<T> DefaultInstance = new T().StringParser;
 
-        public static string ToString(T value, string format, IFormatProvider formatProvider)
-            => value.ToString(format, formatProvider);
 
         public static T Parse(in string s)
             => DefaultInstance.Parse(s);

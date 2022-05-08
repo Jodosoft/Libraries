@@ -18,39 +18,13 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 
 namespace Jodo.Extensions.Primitives
 {
-    public static class BitConverter<T> where T : IBitConvertible<T>, new()
+    public interface IStringParser<out T>
     {
-        private static readonly IBitConverter<T> DefaultInstance = new T().BitConverter;
-
-        public static ReadOnlySpan<byte> GetBytes(in T value)
-        {
-            var list = new List<byte>();
-            DefaultInstance.Write(value, list.AsWriteOnlyStream());
-            return list.ToArray();
-        }
-
-        public static T FromBytes(in ReadOnlySpan<byte> bytes)
-        {
-            return DefaultInstance.Read(bytes.ToArray().AsReadOnlyStream());
-        }
-
-        public static T FromBytes(in IReadOnlyList<byte> bytes)
-        {
-            return DefaultInstance.Read(bytes.AsReadOnlyStream());
-        }
-
-        public static T Read(in IReadOnlyStream<byte> stream)
-        {
-            return DefaultInstance.Read(stream);
-        }
-
-        public static void Write(in IWriteOnlyStream<byte> stream, in T value)
-        {
-            DefaultInstance.Write(value, stream);
-        }
+        T Parse(in string s);
+        T Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider);
     }
 }
