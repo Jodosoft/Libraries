@@ -86,8 +86,8 @@ namespace FluentAssertions
             }
             else
             {
-                var expectedValue = Math.Round(expected, 5);
-                var actualValue = Math.Round(actual, 5);
+                var expectedValue = Math.Round(expected, 2);
+                var actualValue = Math.Round(actual, 2);
                 Execute.Assertion
                     .ForCondition(actualValue == expectedValue)
                     .BecauseOf(because, becauseArgs)

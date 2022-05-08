@@ -174,7 +174,7 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Atan2(in ufix64 x, in ufix64 y) => (ufix64)Math.Atan2((double)x, (double)y);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Atanh(in ufix64 x) => (ufix64)Math.Atanh((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Cbrt(in ufix64 x) => (ufix64)Math.Cbrt((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Ceiling(in ufix64 x) => x._scaledValue % ScalingFactor > 0 ? new ufix64(x._scaledValue / ScalingFactor * ScalingFactor + ScalingFactor) : new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Ceiling(in ufix64 x) => x._scaledValue % ScalingFactor != 0 ? new ufix64((x._scaledValue / ScalingFactor * ScalingFactor) + ScalingFactor) : new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Clamp(in ufix64 x, in ufix64 bound1, in ufix64 bound2) => bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Convert(in byte value) => value;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Cos(in ufix64 x) => (ufix64)Math.Cos((double)x);
@@ -193,11 +193,15 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Multiply(in ufix64 x, in ufix64 y) => x * y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Negative(in ufix64 x) => -x;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Positive(in ufix64 x) => +x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Pow(in ufix64 x, in byte y) => new ufix64(CheckedMath.Pow(x._scaledValue, y));
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Pow(in ufix64 x, in ufix64 y) => new ufix64(CheckedMath.Pow(x._scaledValue, y._scaledValue));
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Pow(in ufix64 x, in byte y) => (ufix64)Math.Pow((double)x, y);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Pow(in ufix64 x, in ufix64 y) => (ufix64)Math.Pow((double)x, (double)y);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.RadiansToDegrees(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.RadiansToTurns(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.TurnsPerRadian);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Remainder(in ufix64 x, in ufix64 y) => x % y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Round(in ufix64 x) => (ufix64)Math.Round((double)x);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Round(in ufix64 x, in int digits) => (ufix64)Math.Round((double)x, digits);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Round(in ufix64 x, in int digits, in MidpointRounding mode) => (ufix64)Math.Round((double)x, digits, mode);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Round(in ufix64 x, in MidpointRounding mode) => (ufix64)Math.Round((double)x, mode);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Sin(in ufix64 x) => (ufix64)Math.Sin((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Sinh(in ufix64 x) => (ufix64)Math.Sinh((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Sqrt(in ufix64 x) => (ufix64)Math.Sqrt((double)x);
@@ -207,8 +211,6 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Truncate(in ufix64 x) => new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.TurnsToDegrees(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.DegreesPerTurn);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.TurnsToRadians(in ufix64 x) => (ufix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ufix64 IMath<ufix64>.Round(in ufix64 x) => new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
-
 
             ufix64 IBitConverter<ufix64>.Read(in IReadOnlyStream<byte> stream) => new ufix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong))));
             void IBitConverter<ufix64>.Write(ufix64 value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
@@ -218,21 +220,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             ufix64 IStringParser<ufix64>.Parse(in string s) => ulong.Parse(s);
             ufix64 IStringParser<ufix64>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => ulong.Parse(s, numberStyles, formatProvider);
-
-            public ufix64 Round(in ufix64 x, in int digits)
-            {
-                throw new NotImplementedException();
-            }
-
-            public ufix64 Round(in ufix64 x, in int digits, in MidpointRounding mode)
-            {
-                throw new NotImplementedException();
-            }
-
-            public ufix64 Round(in ufix64 x, in MidpointRounding mode)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

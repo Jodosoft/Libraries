@@ -161,7 +161,7 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Atan2(in fix64 x, in fix64 y) => (fix64)Math.Atan2((double)x, (double)y);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Atanh(in fix64 x) => (fix64)Math.Atanh((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Cbrt(in fix64 x) => (fix64)Math.Cbrt((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Ceiling(in fix64 x) => x._scaledValue % ScalingFactor > 0 ? new fix64(x._scaledValue / ScalingFactor * ScalingFactor + ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Ceiling(in fix64 x) => x._scaledValue > 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor * ScalingFactor) + ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Clamp(in fix64 x, in fix64 bound1, in fix64 bound2) => bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Convert(in byte value) => value;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Cos(in fix64 x) => (fix64)Math.Cos((double)x);
@@ -170,7 +170,7 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.DegreesToTurns(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.TurnsPerDegree);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Divide(in fix64 x, in fix64 y) => x / y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Exp(in fix64 x) => (fix64)Math.Exp((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Floor(in fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Floor(in fix64 x) => x._scaledValue < 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor * ScalingFactor) - ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.IEEERemainder(in fix64 x, in fix64 y) => (fix64)Math.IEEERemainder((double)x, (double)y);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Log(in fix64 x) => (fix64)Math.Log((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Log(in fix64 x, in fix64 y) => (fix64)Math.Log((double)x, (double)y);
@@ -180,24 +180,26 @@ namespace Jodo.Extensions.CheckedNumerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Multiply(in fix64 x, in fix64 y) => x * y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Negative(in fix64 x) => -x;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Positive(in fix64 x) => +x;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Pow(in fix64 x, in byte y) => (fix64)Math.Pow((double)x, y);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Pow(in fix64 x, in fix64 y) => (fix64)Math.Pow((double)x, (double)y);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.RadiansToDegrees(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.RadiansToTurns(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.TurnsPerRadian);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Remainder(in fix64 x, in fix64 y) => x % y;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x) => (fix64)Math.Round((double)x);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x, in int digits) => (fix64)Math.Round((double)x, digits);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x, in int digits, in MidpointRounding mode) => (fix64)Math.Round((double)x, digits, mode);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x, in MidpointRounding mode) => (fix64)Math.Round((double)x, mode);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Sin(in fix64 x) => (fix64)Math.Sin((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Sinh(in fix64 x) => (fix64)Math.Sinh((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Sqrt(in fix64 x) => (fix64)Math.Sqrt((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Subtract(in fix64 x, in fix64 y) => x - y;
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Tan(in fix64 x) => (fix64)Math.Tan((double)x);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Tanh(in fix64 x) => (fix64)Math.Tanh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Truncate(in fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Truncate(in fix64 x) => x._scaledValue < 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor - ScalingFactor) + ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToDegrees(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.DegreesPerTurn);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToRadians(in fix64 x) => (fix64)CheckedMath.Multiply((double)x, Constants.DegreesPerRadian);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<fix64>.ToSingle(in fix64 x, in float offset) => CheckedMath.Add((float)x, offset);
             [MethodImpl(MethodImplOptions.AggressiveInlining)] int IMath<fix64>.Sign(in fix64 x) => Math.Sign(x._scaledValue);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Pow(in fix64 x, in byte y) => new fix64(CheckedMath.Pow(x._scaledValue, y));
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Pow(in fix64 x, in fix64 y) => new fix64(CheckedMath.Pow(x._scaledValue, y._scaledValue));
-
 
             fix64 IBitConverter<fix64>.Read(in IReadOnlyStream<byte> stream) => new fix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
             void IBitConverter<fix64>.Write(fix64 value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
@@ -207,21 +209,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             fix64 IStringParser<fix64>.Parse(in string s) => long.Parse(s);
             fix64 IStringParser<fix64>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => long.Parse(s, numberStyles, formatProvider);
-
-            public fix64 Round(in fix64 x, in int digits)
-            {
-                throw new NotImplementedException();
-            }
-
-            public fix64 Round(in fix64 x, in int digits, in MidpointRounding mode)
-            {
-                throw new NotImplementedException();
-            }
-
-            public fix64 Round(in fix64 x, in MidpointRounding mode)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

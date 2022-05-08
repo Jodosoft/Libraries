@@ -36,15 +36,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         {
             private T NextInput()
             {
-                T result;
-                if (Random.NextBoolean())
-                {
-                    result = Random.NextNumeric<T>(0, 10);
-                }
-                else
-                {
-                    result = Random.NextNumeric<T>();
-                }
+                T result = Random.NextNumeric<T>(0, 20);
 
                 if (Math<T>.IsSigned && Random.NextBoolean())
                 {
@@ -114,7 +106,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             public void Acosh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = NextInput();
+                var input = Random.NextNumeric<T>(0, 3);
                 var expected = Math.Acosh(Math<T>.ToDouble(input, 0));
 
                 //act
@@ -142,7 +134,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             public void Asinh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = NextInput();
+                var input = Random.NextNumeric<T>(0, 3);
                 var expected = Math.Asinh(Math<T>.ToDouble(input, 0));
 
                 //act
@@ -185,7 +177,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             public void Atanh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = NextInput();
+                var input = Random.NextNumeric<T>(0, 3);
                 var expected = Math.Atanh(Math<T>.ToDouble(input, 0));
 
                 //act
@@ -241,7 +233,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             public void Cosh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = NextInput();
+                var input = Random.NextNumeric<T>(0, 3);
                 var expected = Math.Cosh(Math<T>.ToDouble(input, 0));
 
                 //act
@@ -268,7 +260,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             public void Exp_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = NextInput();
+                var input = Random.NextNumeric<T>(0, 3);
                 var expected = Math.Exp(Math<T>.ToDouble(input, 0));
 
                 //act
@@ -427,7 +419,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             {
                 //arrange
                 var input = NextInput();
-                var digits = Random.NextByte(0, 5);
+                var digits = Random.NextByte(3, 5);
                 var expected = Math.Round(Math<T>.ToDouble(input, 0), digits);
 
                 //act
@@ -457,7 +449,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             {
                 //arrange
                 var input = NextInput();
-                var digits = Random.NextByte(0, 5);
+                var digits = Random.NextByte(3, 5);
                 var midpointRounding = Random.NextEnum<MidpointRounding>();
                 var expected = Math.Round(Math<T>.ToDouble(input, 0), digits, midpointRounding);
 
@@ -486,7 +478,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             public void Sinh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = NextInput();
+                var input = Random.NextNumeric<T>(0, 3);
                 var expected = Math.Sinh(Math<T>.ToDouble(input, 0));
 
                 //act
@@ -528,7 +520,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             public void Tanh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = NextInput();
+                var input = Random.NextNumeric<T>(0, 3);
                 var expected = Math.Tanh(Math<T>.ToDouble(input, 0));
 
                 //act
