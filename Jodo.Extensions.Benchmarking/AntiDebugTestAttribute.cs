@@ -25,7 +25,7 @@ using System.Diagnostics;
 namespace Jodo.Extensions
 {
 #if DEBUG
-    public sealed class TestAttribute
+    public sealed class TestAttribute : Attribute
 #else
     public sealed class TestAttribute : NUnit.Framework.TestAttribute
 #endif
