@@ -57,9 +57,9 @@ Console.WriteLine(x2);  // output: 3.402823E+38
 
 The [numeric value types](#numeric-value-types) are [readonly structs](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-struct) that wrap built-in numeric types, and they use the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword when performing arithmetic. This means that they have higher CPU and memory usage compared to built-in numeric types.
 
-If developing a performance-sensitive application, consider using a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive application, such as graphics or big-data applications.
+If developing a performance-sensitive application, consider using a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive applications, such as graphics or big-data.
 
-For those interesed in the comparison to built-in numeric types, benchmarks are provided with this repository. To run the benchmarks, clone the repository and run the following:
+Benchmarks are provided with this repository to allow comparison to the built-in numeric types. To run the benchmarks, clone the repository and run the following:
 
 ```powershell
 dotnet test Jodo.Extensions.CheckedNumerics.Benchmarks -c RELEASE
