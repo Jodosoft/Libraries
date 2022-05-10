@@ -1,14 +1,12 @@
-name: Tests
+name: Benchmarks
 
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
     
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  schedule:
+    - cron: "0 4 * * 0"
 
 jobs:
   build:
@@ -26,4 +24,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal --filter .Tests
+      run: dotnet test --no-build --verbosity normal --filter .Benchmarks
