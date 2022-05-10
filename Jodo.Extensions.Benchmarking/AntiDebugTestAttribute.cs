@@ -20,21 +20,19 @@
 using AutoFixture;
 using NUnit.Framework;
 using System;
+using System.Diagnostics;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions
 {
-    public abstract class AssemblyTestBase
+#if DEBUG
+    public sealed class TestAttribute
+#else
+    public sealed class TestAttribute : NUnit.Framework.TestAttribute
+#endif
     {
-        protected Random Random;
-        protected Fixture Fixture;
-        protected Exception Exception;
-
-        [SetUp]
-        public void SetUp()
+        public TestAttribute() : base()
         {
-            Random = new Random();
-            Fixture = new Fixture();
-            Exception = Fixture.Create<Exception>();
+            if (Debugger.IsAttached) throw new InvalidOperationException("Benchmarks are not valid with a debugger attached.");
         }
     }
 }

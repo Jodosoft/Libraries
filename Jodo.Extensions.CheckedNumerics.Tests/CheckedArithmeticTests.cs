@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -25,7 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     [SuppressMessage("Style", "IDE0004:Cast is redundant")]
-    public class CheckedArithmeticTests : AssemblyTestBase
+    public class CheckedArithmeticTests : GlobalTestBase
     {
         [Test] public void ByteAdd_SmokeTest_CorrectResult() => CheckedArithmetic.Add((byte)12, (byte)12).Should().Be(24);
         [Test] public void ByteAdd_OverflowFromMaxValue_ReturnsMaxValue() => CheckedArithmetic.Add(byte.MaxValue, byte.MaxValue).Should().Be(byte.MaxValue);

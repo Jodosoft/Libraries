@@ -19,6 +19,7 @@
 
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
@@ -33,7 +34,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class Fix64 : Base<fix64> { }
         public class UFix64 : Base<ufix64> { }
 
-        public abstract class Base<T> : AssemblyTestBase where T : struct, INumeric<T>
+        public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
         {
             [Test]
             public void GetBytes_RoundTrip_SameAsOriginal()

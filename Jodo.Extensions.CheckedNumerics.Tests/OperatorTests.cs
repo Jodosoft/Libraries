@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
@@ -25,14 +26,14 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public static class OperatorTests
     {
-        public class CInt : Base<cint> { }
-        public class UCInt : Base<ucint> { }
-        public class CFloat : Base<cfloat> { }
         public class CDouble : Base<cdouble> { }
+        public class CFloat : Base<cfloat> { }
+        public class CInt : Base<cint> { }
         public class Fix64 : Base<fix64> { }
+        public class UCInt : Base<ucint> { }
         public class UFix64 : Base<ufix64> { }
 
-        public abstract class Base<T> : AssemblyTestBase where T : struct, INumeric<T>
+        public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
         {
             [Test]
             public void Add_Random_CorrectResult()

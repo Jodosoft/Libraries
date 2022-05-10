@@ -22,7 +22,6 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedNumerics
@@ -46,27 +45,21 @@ namespace Jodo.Extensions.CheckedNumerics
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(ucint), _value);
 
         public bool Equals(ucint other) => _value == other._value;
-        public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null) => _value.TryFormat(destination, out charsWritten, format, provider);
-        public float Approximate(in float offset) => _value + offset;
-
+        public int CompareTo(object? obj) => obj is ucint other ? CompareTo(other) : 1;
         public int CompareTo(ucint other) => _value.CompareTo(other._value);
+        public override bool Equals(object? obj) => obj is ucint other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public int CompareTo(object? obj)
-        {
-            if (obj == null) return 1;
-            try { return CompareTo((ucint)obj); }
-            catch (InvalidCastException) { return 1; }
-        }
-
-        public override bool Equals(object? obj)
-        {
-            if (obj == null) return false;
-            try { return Equals((ucint)obj); }
-            catch (InvalidCastException) { return false; }
-        }
+        public static bool TryParse(string s, IFormatProvider provider, out ucint result) => Try.Run(Parse, s, provider, out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ucint result) => Try.Run(Parse, s, style, provider, out result);
+        public static bool TryParse(string s, NumberStyles style, out ucint result) => Try.Run(Parse, s, style, out result);
+        public static bool TryParse(string s, out ucint result) => Try.Function(Parse, s, out result);
+        public static ucint Parse(string s) => uint.Parse(s);
+        public static ucint Parse(string s, IFormatProvider provider) => uint.Parse(s, provider);
+        public static ucint Parse(string s, NumberStyles style) => uint.Parse(s, style);
+        public static ucint Parse(string s, NumberStyles style, IFormatProvider provider) => uint.Parse(s, style, provider);
 
         public static explicit operator ucint(decimal value) => new ucint(CheckedConvert.ToUInt32(value));
         public static explicit operator ucint(double value) => new ucint(CheckedConvert.ToUInt32(value));
@@ -81,19 +74,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public static implicit operator ucint(ushort value) => new ucint(value);
 
         public static explicit operator byte(ucint value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator cint(ucint value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator int(ucint value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator short(ucint value) => CheckedConvert.ToInt16(value._value);
         public static explicit operator ushort(ucint value) => CheckedConvert.ToUInt16(value._value);
         public static explicit operator sbyte(ucint value) => CheckedConvert.ToSByte(value._value);
-        public static implicit operator cdouble(ucint value) => value._value;
-        public static implicit operator cfloat(ucint value) => value._value;
         public static implicit operator decimal(ucint value) => value._value;
         public static implicit operator double(ucint value) => value._value;
-        public static implicit operator fix64(ucint value) => value._value;
         public static implicit operator float(ucint value) => value._value;
         public static implicit operator long(ucint value) => value._value;
-        public static implicit operator ufix64(ucint value) => value._value;
         public static implicit operator uint(ucint value) => value._value;
         public static implicit operator ulong(ucint value) => value._value;
 
@@ -140,60 +128,60 @@ namespace Jodo.Extensions.CheckedNumerics
             bool IMath<ucint>.IsSigned { get; } = false;
             bool IMath<ucint>.IsReal { get; } = false;
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<ucint>.IsGreaterThan(in ucint x, in ucint y) => x > y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<ucint>.IsGreaterThanOrEqualTo(in ucint x, in ucint y) => x >= y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<ucint>.IsLessThan(in ucint x, in ucint y) => x < y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<ucint>.IsLessThanOrEqualTo(in ucint x, in ucint y) => x <= y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<ucint>.ToDouble(in ucint x, in double offset) => CheckedArithmetic.Add(x._value, offset);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<ucint>.ToSingle(in ucint x, in float offset) => CheckedArithmetic.Add(x._value, offset);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] int IMath<ucint>.Sign(in ucint x) => 1;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Abs(in ucint x) => x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Acos(in ucint x) => (ucint)Math.Acos(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Acosh(in ucint x) => (ucint)Math.Acosh(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Add(in ucint x, in ucint y) => x + y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Asin(in ucint x) => (ucint)Math.Asin(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Asinh(in ucint x) => (ucint)Math.Asinh(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Atan(in ucint x) => (ucint)Math.Atan(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Atan2(in ucint x, in ucint y) => (ucint)Math.Atan2(x._value, y._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Atanh(in ucint x) => (ucint)Math.Atanh(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Cbrt(in ucint x) => (ucint)Math.Cbrt(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Ceiling(in ucint x) => x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Clamp(in ucint x, in ucint bound1, in ucint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Convert(in byte value) => value;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Cos(in ucint x) => (ucint)Math.Cos(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Cosh(in ucint x) => (ucint)Math.Cosh(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.DegreesToRadians(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.RadiansPerDegree);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.DegreesToTurns(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.TurnsPerDegree);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Divide(in ucint x, in ucint y) => x / y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Exp(in ucint x) => (ucint)Math.Exp(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Floor(in ucint x) => x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.IEEERemainder(in ucint x, in ucint y) => (ucint)Math.IEEERemainder(x._value, y._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Log(in ucint x) => (ucint)Math.Log(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Log(in ucint x, in ucint y) => (ucint)Math.Log(x._value, y._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Log10(in ucint x) => (ucint)Math.Log10(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Max(in ucint x, in ucint y) => Math.Max(x._value, y._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Min(in ucint x, in ucint y) => Math.Min(x._value, y._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Multiply(in ucint x, in ucint y) => x * y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Negative(in ucint x) => -x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Positive(in ucint x) => +x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Pow(in ucint x, in byte y) => CheckedArithmetic.Pow(x._value, y);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Pow(in ucint x, in ucint y) => CheckedArithmetic.Pow(x._value, y._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.RadiansToDegrees(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.RadiansToTurns(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.TurnsPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Remainder(in ucint x, in ucint y) => x % y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Round(in ucint x) => x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Round(in ucint x, in int digits) => x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Round(in ucint x, in int digits, in MidpointRounding mode) => x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Round(in ucint x, in MidpointRounding mode) => x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Sin(in ucint x) => (ucint)Math.Sin(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Sinh(in ucint x) => (ucint)Math.Sinh(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Sqrt(in ucint x) => (ucint)Math.Sqrt(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Subtract(in ucint x, in ucint y) => x - y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Tan(in ucint x) => (ucint)Math.Tan(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Tanh(in ucint x) => (ucint)Math.Tanh(x._value);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.Truncate(in ucint x) => x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.TurnsToDegrees(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerTurn);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] ucint IMath<ucint>.TurnsToRadians(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerRadian);
+            bool IMath<ucint>.IsGreaterThan(in ucint x, in ucint y) => x > y;
+            bool IMath<ucint>.IsGreaterThanOrEqualTo(in ucint x, in ucint y) => x >= y;
+            bool IMath<ucint>.IsLessThan(in ucint x, in ucint y) => x < y;
+            bool IMath<ucint>.IsLessThanOrEqualTo(in ucint x, in ucint y) => x <= y;
+            double IMath<ucint>.ToDouble(in ucint x, in double offset) => CheckedArithmetic.Add(x._value, offset);
+            float IMath<ucint>.ToSingle(in ucint x, in float offset) => CheckedArithmetic.Add(x._value, offset);
+            int IMath<ucint>.Sign(in ucint x) => 1;
+            ucint IMath<ucint>.Abs(in ucint x) => x;
+            ucint IMath<ucint>.Acos(in ucint x) => (ucint)Math.Acos(x._value);
+            ucint IMath<ucint>.Acosh(in ucint x) => (ucint)Math.Acosh(x._value);
+            ucint IMath<ucint>.Add(in ucint x, in ucint y) => x + y;
+            ucint IMath<ucint>.Asin(in ucint x) => (ucint)Math.Asin(x._value);
+            ucint IMath<ucint>.Asinh(in ucint x) => (ucint)Math.Asinh(x._value);
+            ucint IMath<ucint>.Atan(in ucint x) => (ucint)Math.Atan(x._value);
+            ucint IMath<ucint>.Atan2(in ucint x, in ucint y) => (ucint)Math.Atan2(x._value, y._value);
+            ucint IMath<ucint>.Atanh(in ucint x) => (ucint)Math.Atanh(x._value);
+            ucint IMath<ucint>.Cbrt(in ucint x) => (ucint)Math.Cbrt(x._value);
+            ucint IMath<ucint>.Ceiling(in ucint x) => x;
+            ucint IMath<ucint>.Clamp(in ucint x, in ucint bound1, in ucint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
+            ucint IMath<ucint>.Convert(in byte value) => value;
+            ucint IMath<ucint>.Cos(in ucint x) => (ucint)Math.Cos(x._value);
+            ucint IMath<ucint>.Cosh(in ucint x) => (ucint)Math.Cosh(x._value);
+            ucint IMath<ucint>.DegreesToRadians(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.RadiansPerDegree);
+            ucint IMath<ucint>.DegreesToTurns(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.TurnsPerDegree);
+            ucint IMath<ucint>.Divide(in ucint x, in ucint y) => x / y;
+            ucint IMath<ucint>.Exp(in ucint x) => (ucint)Math.Exp(x._value);
+            ucint IMath<ucint>.Floor(in ucint x) => x;
+            ucint IMath<ucint>.IEEERemainder(in ucint x, in ucint y) => (ucint)Math.IEEERemainder(x._value, y._value);
+            ucint IMath<ucint>.Log(in ucint x) => (ucint)Math.Log(x._value);
+            ucint IMath<ucint>.Log(in ucint x, in ucint y) => (ucint)Math.Log(x._value, y._value);
+            ucint IMath<ucint>.Log10(in ucint x) => (ucint)Math.Log10(x._value);
+            ucint IMath<ucint>.Max(in ucint x, in ucint y) => Math.Max(x._value, y._value);
+            ucint IMath<ucint>.Min(in ucint x, in ucint y) => Math.Min(x._value, y._value);
+            ucint IMath<ucint>.Multiply(in ucint x, in ucint y) => x * y;
+            ucint IMath<ucint>.Negative(in ucint x) => -x;
+            ucint IMath<ucint>.Positive(in ucint x) => +x;
+            ucint IMath<ucint>.Pow(in ucint x, in byte y) => CheckedArithmetic.Pow(x._value, y);
+            ucint IMath<ucint>.Pow(in ucint x, in ucint y) => CheckedArithmetic.Pow(x._value, y._value);
+            ucint IMath<ucint>.RadiansToDegrees(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerRadian);
+            ucint IMath<ucint>.RadiansToTurns(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.TurnsPerRadian);
+            ucint IMath<ucint>.Remainder(in ucint x, in ucint y) => x % y;
+            ucint IMath<ucint>.Round(in ucint x) => x;
+            ucint IMath<ucint>.Round(in ucint x, in int digits) => x;
+            ucint IMath<ucint>.Round(in ucint x, in int digits, in MidpointRounding mode) => x;
+            ucint IMath<ucint>.Round(in ucint x, in MidpointRounding mode) => x;
+            ucint IMath<ucint>.Sin(in ucint x) => (ucint)Math.Sin(x._value);
+            ucint IMath<ucint>.Sinh(in ucint x) => (ucint)Math.Sinh(x._value);
+            ucint IMath<ucint>.Sqrt(in ucint x) => (ucint)Math.Sqrt(x._value);
+            ucint IMath<ucint>.Subtract(in ucint x, in ucint y) => x - y;
+            ucint IMath<ucint>.Tan(in ucint x) => (ucint)Math.Tan(x._value);
+            ucint IMath<ucint>.Tanh(in ucint x) => (ucint)Math.Tanh(x._value);
+            ucint IMath<ucint>.Truncate(in ucint x) => x;
+            ucint IMath<ucint>.TurnsToDegrees(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerTurn);
+            ucint IMath<ucint>.TurnsToRadians(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerRadian);
 
             ucint IBitConverter<ucint>.Read(in IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
             void IBitConverter<ucint>.Write(ucint value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -201,8 +189,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IRandom<ucint>.GetNext(Random random) => random.NextUInt32();
             ucint IRandom<ucint>.GetNext(Random random, in ucint bound1, in ucint bound2) => random.NextUInt32(bound1._value, bound2._value);
 
-            ucint IStringParser<ucint>.Parse(in string s) => uint.Parse(s);
-            ucint IStringParser<ucint>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => uint.Parse(s, numberStyles, formatProvider);
+            ucint IStringParser<ucint>.Parse(in string s) => Parse(s);
+            ucint IStringParser<ucint>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
         }
     }
 }

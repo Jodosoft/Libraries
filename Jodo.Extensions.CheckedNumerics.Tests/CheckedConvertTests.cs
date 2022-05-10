@@ -18,13 +18,14 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     [SuppressMessage("Style", "IDE0004:Cast is redundant")]
-    public class CheckedConvertTests : AssemblyTestBase
+    public class CheckedConvertTests : GlobalTestBase
     {
         [Test] public void SingleToUInt32_SmokeTest_CorrectResult() => CheckedConvert.ToUInt32((float)999999).Should().Be(999999);
         [Test] public void SingleToUInt32_PositiveMaximumPrecision_CorrectResult() => CheckedConvert.ToUInt32(4294967167f).Should().Be(4294967040);

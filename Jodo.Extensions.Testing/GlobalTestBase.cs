@@ -17,42 +17,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using FluentAssertions;
-using Jodo.Extensions.Testing;
+using AutoFixture;
 using NUnit.Framework;
 using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Testing
 {
-    public static class SerializationTests
+    public abstract class GlobalTestBase
     {
-        public class CDouble : Base<cdouble> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class Fix64 : Base<fix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UFix64 : Base<ufix64> { }
+        public Random Random { get; private set; }
+        public Fixture Fixture { get; private set; }
+        public Exception Exception { get; private set; }
 
-        public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
+        [SetUp]
+        public void SetUp()
         {
-            [TestCase]
-            public void Serialize_RoundTrip_SameAsOriginal()
-            {
-                //arrange
-                var input = Random.NextNumeric<T>();
-                var formatter = new BinaryFormatter();
-
-                //act
-                using var stream = new MemoryStream();
-                formatter.Serialize(stream, input);
-                stream.Position = 0;
-                var result = (T)formatter.Deserialize(stream);
-
-                //assert
-                result.Should().Be(input);
-            }
+            Random = new Random();
+            Fixture = new Fixture();
+            Exception = Fixture.Create<Exception>();
         }
     }
 }

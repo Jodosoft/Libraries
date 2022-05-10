@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <Choose>
-    <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing')) or $(MSBuildProjectName.EndsWith('Benchmarks'))">
+    <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing')) or $(MSBuildProjectName.EndsWith('Benchmarks')) or $(MSBuildProjectName.EndsWith('Benchmarking'))">
       <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
       </PropertyGroup>

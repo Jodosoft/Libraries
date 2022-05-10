@@ -22,7 +22,6 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.CheckedNumerics
@@ -49,35 +48,21 @@ namespace Jodo.Extensions.CheckedNumerics
         private fix64(SerializationInfo info, StreamingContext _) : this(info.GetInt64(nameof(fix64))) { }
 
         public bool Equals(fix64 other) => _scaledValue == other._scaledValue;
-        public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null) => ((double)this).TryFormat(destination, out charsWritten, format, provider);
-        public float Approximate(in float offset) => ((float)_scaledValue / ScalingFactor) + offset;
         public int CompareTo(fix64 other) => _scaledValue.CompareTo(other._scaledValue);
+        public int CompareTo(object? obj) => obj is fix64 other ? CompareTo(other) : 1;
+        public override bool Equals(object? obj) => obj is fix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => ((double)this).ToString();
         public string ToString(string format, IFormatProvider formatProvider) => ((double)this).ToString(format, formatProvider);
-
-        public int CompareTo(object? obj)
-        {
-            if (obj == null) return 1;
-            try { return CompareTo((fix64)obj); }
-            catch (InvalidCastException) { return 1; }
-        }
-
-        public override bool Equals(object? obj)
-        {
-            if (obj == null) return false;
-            try { return Equals((fix64)obj); }
-            catch (InvalidCastException) { return false; }
-        }
 
         public static bool TryParse(string s, IFormatProvider provider, out fix64 result) => Try.Run(Parse, s, provider, out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out fix64 result) => Try.Run(Parse, s, style, provider, out result);
         public static bool TryParse(string s, NumberStyles style, out fix64 result) => Try.Run(Parse, s, style, out result);
         public static bool TryParse(string s, out fix64 result) => Try.Function(Parse, s, out result);
-        public static fix64 Parse(string s) => new fix64(CheckedConvert.ToInt64(double.Parse(s) * ScalingFactor));
-        public static fix64 Parse(string s, IFormatProvider provider) => new fix64(CheckedConvert.ToInt64(double.Parse(s, provider) * ScalingFactor));
-        public static fix64 Parse(string s, NumberStyles style) => new fix64(CheckedConvert.ToInt64(double.Parse(s, style) * ScalingFactor));
-        public static fix64 Parse(string s, NumberStyles style, IFormatProvider provider) => new fix64(CheckedConvert.ToInt64(double.Parse(s, style, provider) * ScalingFactor));
+        public static fix64 Parse(string s) => (fix64)double.Parse(s);
+        public static fix64 Parse(string s, IFormatProvider provider) => (fix64)double.Parse(s, provider);
+        public static fix64 Parse(string s, NumberStyles style) => (fix64)double.Parse(s, style);
+        public static fix64 Parse(string s, NumberStyles style, IFormatProvider provider) => (fix64)double.Parse(s, style, provider);
 
         public static explicit operator fix64(in decimal value) => new fix64(CheckedConvert.ToInt64(value * ScalingFactor));
         public static explicit operator fix64(in double value) => new fix64(CheckedConvert.ToInt64(CheckedArithmetic.Multiply(value, ScalingFactor)));
@@ -146,60 +131,60 @@ namespace Jodo.Extensions.CheckedNumerics
             bool IMath<fix64>.IsSigned { get; } = true;
             bool IMath<fix64>.IsReal { get; } = true;
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<fix64>.IsGreaterThan(in fix64 x, in fix64 y) => x > y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<fix64>.IsGreaterThanOrEqualTo(in fix64 x, in fix64 y) => x >= y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<fix64>.IsLessThan(in fix64 x, in fix64 y) => x < y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] bool IMath<fix64>.IsLessThanOrEqualTo(in fix64 x, in fix64 y) => x <= y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] double IMath<fix64>.ToDouble(in fix64 x, in double offset) => CheckedArithmetic.Add((double)x, offset);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Abs(in fix64 x) => x._scaledValue < 0 ? -x : x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Acos(in fix64 x) => (fix64)Math.Acos((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Acosh(in fix64 x) => (fix64)Math.Acosh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Add(in fix64 x, in fix64 y) => x + y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Asin(in fix64 x) => (fix64)Math.Asin((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Asinh(in fix64 x) => (fix64)Math.Asinh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Atan(in fix64 x) => (fix64)Math.Atan((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Atan2(in fix64 x, in fix64 y) => (fix64)Math.Atan2((double)x, (double)y);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Atanh(in fix64 x) => (fix64)Math.Atanh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Cbrt(in fix64 x) => (fix64)Math.Cbrt((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Ceiling(in fix64 x) => x._scaledValue > 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor * ScalingFactor) + ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Clamp(in fix64 x, in fix64 bound1, in fix64 bound2) => bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Convert(in byte value) => value;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Cos(in fix64 x) => (fix64)Math.Cos((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Cosh(in fix64 x) => (fix64)Math.Cosh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.DegreesToRadians(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.RadiansPerDegree);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.DegreesToTurns(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerDegree);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Divide(in fix64 x, in fix64 y) => x / y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Exp(in fix64 x) => (fix64)Math.Exp((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Floor(in fix64 x) => x._scaledValue < 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor * ScalingFactor) - ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.IEEERemainder(in fix64 x, in fix64 y) => (fix64)Math.IEEERemainder((double)x, (double)y);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Log(in fix64 x) => (fix64)Math.Log((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Log(in fix64 x, in fix64 y) => (fix64)Math.Log((double)x, (double)y);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Log10(in fix64 x) => (fix64)Math.Log10((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Max(in fix64 x, in fix64 y) => new fix64(Math.Max(x._scaledValue, y._scaledValue));
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Min(in fix64 x, in fix64 y) => new fix64(Math.Min(x._scaledValue, y._scaledValue));
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Multiply(in fix64 x, in fix64 y) => x * y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Negative(in fix64 x) => -x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Positive(in fix64 x) => +x;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Pow(in fix64 x, in byte y) => (fix64)Math.Pow((double)x, y);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Pow(in fix64 x, in fix64 y) => (fix64)Math.Pow((double)x, (double)y);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.RadiansToDegrees(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.RadiansToTurns(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Remainder(in fix64 x, in fix64 y) => x % y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x) => (fix64)Math.Round((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x, in int digits) => (fix64)Math.Round((double)x, digits);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x, in int digits, in MidpointRounding mode) => (fix64)Math.Round((double)x, digits, mode);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Round(in fix64 x, in MidpointRounding mode) => (fix64)Math.Round((double)x, mode);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Sin(in fix64 x) => (fix64)Math.Sin((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Sinh(in fix64 x) => (fix64)Math.Sinh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Sqrt(in fix64 x) => (fix64)Math.Sqrt((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Subtract(in fix64 x, in fix64 y) => x - y;
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Tan(in fix64 x) => (fix64)Math.Tan((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Tanh(in fix64 x) => (fix64)Math.Tanh((double)x);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.Truncate(in fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToDegrees(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerTurn);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] fix64 IMath<fix64>.TurnsToRadians(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] float IMath<fix64>.ToSingle(in fix64 x, in float offset) => CheckedArithmetic.Add((float)x, offset);
-            [MethodImpl(MethodImplOptions.AggressiveInlining)] int IMath<fix64>.Sign(in fix64 x) => Math.Sign(x._scaledValue);
+            bool IMath<fix64>.IsGreaterThan(in fix64 x, in fix64 y) => x > y;
+            bool IMath<fix64>.IsGreaterThanOrEqualTo(in fix64 x, in fix64 y) => x >= y;
+            bool IMath<fix64>.IsLessThan(in fix64 x, in fix64 y) => x < y;
+            bool IMath<fix64>.IsLessThanOrEqualTo(in fix64 x, in fix64 y) => x <= y;
+            double IMath<fix64>.ToDouble(in fix64 x, in double offset) => CheckedArithmetic.Add((double)x, offset);
+            fix64 IMath<fix64>.Abs(in fix64 x) => x._scaledValue < 0 ? -x : x;
+            fix64 IMath<fix64>.Acos(in fix64 x) => (fix64)Math.Acos((double)x);
+            fix64 IMath<fix64>.Acosh(in fix64 x) => (fix64)Math.Acosh((double)x);
+            fix64 IMath<fix64>.Add(in fix64 x, in fix64 y) => x + y;
+            fix64 IMath<fix64>.Asin(in fix64 x) => (fix64)Math.Asin((double)x);
+            fix64 IMath<fix64>.Asinh(in fix64 x) => (fix64)Math.Asinh((double)x);
+            fix64 IMath<fix64>.Atan(in fix64 x) => (fix64)Math.Atan((double)x);
+            fix64 IMath<fix64>.Atan2(in fix64 x, in fix64 y) => (fix64)Math.Atan2((double)x, (double)y);
+            fix64 IMath<fix64>.Atanh(in fix64 x) => (fix64)Math.Atanh((double)x);
+            fix64 IMath<fix64>.Cbrt(in fix64 x) => (fix64)Math.Cbrt((double)x);
+            fix64 IMath<fix64>.Ceiling(in fix64 x) => x._scaledValue > 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor * ScalingFactor) + ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            fix64 IMath<fix64>.Clamp(in fix64 x, in fix64 bound1, in fix64 bound2) => bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
+            fix64 IMath<fix64>.Convert(in byte value) => value;
+            fix64 IMath<fix64>.Cos(in fix64 x) => (fix64)Math.Cos((double)x);
+            fix64 IMath<fix64>.Cosh(in fix64 x) => (fix64)Math.Cosh((double)x);
+            fix64 IMath<fix64>.DegreesToRadians(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.RadiansPerDegree);
+            fix64 IMath<fix64>.DegreesToTurns(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerDegree);
+            fix64 IMath<fix64>.Divide(in fix64 x, in fix64 y) => x / y;
+            fix64 IMath<fix64>.Exp(in fix64 x) => (fix64)Math.Exp((double)x);
+            fix64 IMath<fix64>.Floor(in fix64 x) => x._scaledValue < 0 && x._scaledValue % ScalingFactor != 0 ? new fix64((x._scaledValue / ScalingFactor * ScalingFactor) - ScalingFactor) : new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            fix64 IMath<fix64>.IEEERemainder(in fix64 x, in fix64 y) => (fix64)Math.IEEERemainder((double)x, (double)y);
+            fix64 IMath<fix64>.Log(in fix64 x) => (fix64)Math.Log((double)x);
+            fix64 IMath<fix64>.Log(in fix64 x, in fix64 y) => (fix64)Math.Log((double)x, (double)y);
+            fix64 IMath<fix64>.Log10(in fix64 x) => (fix64)Math.Log10((double)x);
+            fix64 IMath<fix64>.Max(in fix64 x, in fix64 y) => new fix64(Math.Max(x._scaledValue, y._scaledValue));
+            fix64 IMath<fix64>.Min(in fix64 x, in fix64 y) => new fix64(Math.Min(x._scaledValue, y._scaledValue));
+            fix64 IMath<fix64>.Multiply(in fix64 x, in fix64 y) => x * y;
+            fix64 IMath<fix64>.Negative(in fix64 x) => -x;
+            fix64 IMath<fix64>.Positive(in fix64 x) => +x;
+            fix64 IMath<fix64>.Pow(in fix64 x, in byte y) => (fix64)Math.Pow((double)x, y);
+            fix64 IMath<fix64>.Pow(in fix64 x, in fix64 y) => (fix64)Math.Pow((double)x, (double)y);
+            fix64 IMath<fix64>.RadiansToDegrees(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
+            fix64 IMath<fix64>.RadiansToTurns(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerRadian);
+            fix64 IMath<fix64>.Remainder(in fix64 x, in fix64 y) => x % y;
+            fix64 IMath<fix64>.Round(in fix64 x) => (fix64)Math.Round((double)x);
+            fix64 IMath<fix64>.Round(in fix64 x, in int digits) => (fix64)Math.Round((double)x, digits);
+            fix64 IMath<fix64>.Round(in fix64 x, in int digits, in MidpointRounding mode) => (fix64)Math.Round((double)x, digits, mode);
+            fix64 IMath<fix64>.Round(in fix64 x, in MidpointRounding mode) => (fix64)Math.Round((double)x, mode);
+            fix64 IMath<fix64>.Sin(in fix64 x) => (fix64)Math.Sin((double)x);
+            fix64 IMath<fix64>.Sinh(in fix64 x) => (fix64)Math.Sinh((double)x);
+            fix64 IMath<fix64>.Sqrt(in fix64 x) => (fix64)Math.Sqrt((double)x);
+            fix64 IMath<fix64>.Subtract(in fix64 x, in fix64 y) => x - y;
+            fix64 IMath<fix64>.Tan(in fix64 x) => (fix64)Math.Tan((double)x);
+            fix64 IMath<fix64>.Tanh(in fix64 x) => (fix64)Math.Tanh((double)x);
+            fix64 IMath<fix64>.Truncate(in fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            fix64 IMath<fix64>.TurnsToDegrees(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerTurn);
+            fix64 IMath<fix64>.TurnsToRadians(in fix64 x) => (fix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
+            float IMath<fix64>.ToSingle(in fix64 x, in float offset) => CheckedArithmetic.Add((float)x, offset);
+            int IMath<fix64>.Sign(in fix64 x) => Math.Sign(x._scaledValue);
 
             fix64 IBitConverter<fix64>.Read(in IReadOnlyStream<byte> stream) => new fix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
             void IBitConverter<fix64>.Write(fix64 value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
@@ -207,8 +192,8 @@ namespace Jodo.Extensions.CheckedNumerics
             fix64 IRandom<fix64>.GetNext(Random random) => new fix64(random.NextInt64());
             fix64 IRandom<fix64>.GetNext(Random random, in fix64 bound1, in fix64 bound2) => new fix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
 
-            fix64 IStringParser<fix64>.Parse(in string s) => long.Parse(s);
-            fix64 IStringParser<fix64>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => long.Parse(s, numberStyles, formatProvider);
+            fix64 IStringParser<fix64>.Parse(in string s) => Parse(s);
+            fix64 IStringParser<fix64>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
         }
     }
 }
