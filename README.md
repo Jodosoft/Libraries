@@ -39,7 +39,8 @@ Console.WriteLine(x2);  // output: 3.402823E+38
 | `Math<T>` | <ul><li>A static class that provides equivalent methods to [Math](https://docs.microsoft.com/en-us/dotnet/api/system.math), e.g. `T Log(T)`, `T Pow(T)` and `T Sqrt(T)`.</li><li>Available for all types that implement `INumeric<T>` including user-defined types.</li></ul> |
 | `BitConverter<T>` | <ul><li>A static class that provides equivalent methods to [BitConverter](https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter).</li><li>Allows conversion to and from `ReadOnlySpan<byte>`.</li><li>Available for all types that implement `INumeric<T>` including user-defined types.</li></ul> |
 | `StringFormatter<T>` | <ul><li>A static class that provides string parsing and formatting methods.</li><li>Available for all types that implement `INumeric<T>` including user-defined types.</li></ul> |
-| `CheckedMath` | <ul><li>A static class that provides checked arithmetic methods for the built-in numeric types.</li></ul> |
+| `CheckedArithmetic` | <ul><li>A static class that provides checked arithmetic methods for the built-in numeric types.</li></ul> |
+| `CheckedConvert` | <ul><li>A static class, similar to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert), that provides checked conversion between the built-in numeric types.</li></ul> |
 
 ### Other features
 
@@ -56,7 +57,39 @@ Console.WriteLine(x2);  // output: 3.402823E+38
 
 The [numeric value types](#numeric-value-types) are [readonly structs](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-struct) that wrap built-in numeric types, and they use the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword when performing arithmetic. This means that they have higher CPU and memory usage compared to built-in numeric types.
 
-If developing a performance-sensitive application, consider using a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in graphical or big-data applications.
+If developing a performance-sensitive application, consider using a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive application, such as graphics or big-data applications.
+
+For those interesed in the comparison to built-in numeric types, benchmarks are provided with this repository. To run the benchmarks, clone the repository and run the following:
+
+```powershell
+dotnet test Jodo.Extensions.CheckedNumerics.Benchmarks -c RELEASE
+```
+
+Sample output can be seen below:
+
+<details>
+  <summary>
+    <em>Benchmark results 2022-05-10</em>
+  </summary>
+ 
+> * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
+> * **RAM:** 16.0 GB
+> * **System type:** x64-based processor
+> * **OS Name:** Windows 10 (64-bit)
+
+| Name | Iterations | Function time /seconds | Baseline time /seconds | Observation |
+| --- | --- | --- | --- | --- |
+| CInt_Versus_Int32_ConversionToFloat | 183,190,190 | 1.0122 | 0.7067 | **1.4x slower** |
+| CInt_Versus_Int32_Division | 219,328,320 | 1.3471 | 0.9087 | **1.5x slower** |
+| CInt_Versus_Int32_Negation | 219,783,024 | 1.0652 | 0.9069 | **1.2x slower** |
+| Fix64_Versus_Int64_ConversionToFloat | 211,512,133 | 1.1389 | 0.9693 | **1.2x slower** |
+| Fix64_Versus_Int64_Division | 194,180,058 | 3.1439 | 0.5965 | **5.3x slower** |
+| Fix64_Versus_Int64_Negation | 211,911,039 | 0.9567 | 0.5907 | **1.6x slower** |
+| UFix64_Versus_Int64_ConversionToFloat | 210,007,970 | 1.4951 | 1.0256 | **1.5x slower** |
+| UFix64_Versus_Int64_Division | 196,146,447 | 3.4610 | 0.9762 | **3.5x slower** |
+| UFix64_Versus_Int64_Negation | 218,497,658 | 1.1813 | 0.9284 | **1.3x slower** |
+
+</details>
 
 ## Jodo.Extensions.CheckedGeometry
 
