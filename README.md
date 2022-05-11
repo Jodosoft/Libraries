@@ -11,7 +11,8 @@
 
 > **Note:** This repository is a work in progress
 
-## Jodo.Extensions.Numerics
+<details>
+  <summary><h2>Jodo.Extensions.Numerics</h2></summary>
 
 Provides the interface `INumeric<N>` and accompanying utilities classes, allowing for the creation of numeric types that can used interchangeably with generics.
 
@@ -46,8 +47,10 @@ Benchmarks are provided with this repository to facilitate comparison the built-
 Sample output can be seen below:
   
 *tbc*
+</details>
 
-## Jodo.Extensions.CheckedNumerics
+<details>
+  <summary><h2>Jodo.Extensions.CheckedNumerics</summary>
 
 Provides numeric value types that [INumeric\<N\>](#numeric-value-types) with built-in protection from overflow. Useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
 
@@ -89,31 +92,30 @@ If developing a performance-sensitive application, use a profiler to assess the 
 Benchmarks are provided with this repository to facilitate comparison with the built-in numeric types. To run the benchmarks, clone the repository then build and run `Jodo.Extensions.CheckedNumerics.Benchmarks` in RELEASE mode.
 
 Sample output can be seen below:
+  <details>
+  <summary><em>Jodo.Extensions.CheckedNumerics.Benchmarks - Results from 2022-05-11T18:11:17.8665440Z</em></summary>
 
+  > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
+  > * **Architecture:** x64-based processor
+  > * **RAM:** 16.0 GB
+  > * **OS:** Windows 10 (64-bit)
+  > * **Seconds per Benchmark:** 10.0
+
+  | Name | Baseline Ops Per Second | Baseline Time | Subject Ops Per Second | Subject Time | Observation |
+  | --- | --- | --- | --- | --- | --- |
+  | CInt_Negation_Vs_Int | 2.172E+08 | *<1μs* | 1.131E+08 | *<1μs* | 1.92x slower |
+  | CInt_Division_Vs_Int | 3.417E+08 | *<1μs* | 1.112E+08 | *<1μs* | 3.074x slower |
+  | CInt_ConversionToFloat_Vs_Int | 3.815E+08 | *<1μs* | 2.487E+08 | *<1μs* | 1.534x slower |
+  | CInt_StringParsing_Vs_Int | 7.443E+07 | *<1μs* | 5.885E+07 | *<1μs* | 1.265x slower |
+  | **CInt_MultiplicationOverflow_Vs_Int** | **3.725E+08** | ***<1μs*** | **1.453E+05** | **6.8μs** | **2563x slower** |
+
+  </details>
 </details>
-
+    
 <details>
-<summary><em>Jodo.Extensions.CheckedNumerics.Benchmarks - Results from 2022-05-11T18:11:17.8665440Z</em></summary>
+  <summary><h2>Jodo.Extensions.Geometry</summary>
 
-> * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
-> * **Architecture:** x64-based processor
-> * **RAM:** 16.0 GB
-> * **OS:** Windows 10 (64-bit)
-> * **Seconds per Benchmark:** 10.0
-
-| Name | Baseline Ops Per Second | Baseline Time | Subject Ops Per Second | Subject Time | Observation |
-| --- | --- | --- | --- | --- | --- |
-| CInt_Negation_Vs_Int | 2.172E+08 | *<1μs* | 1.131E+08 | *<1μs* | 1.92x slower |
-| CInt_Division_Vs_Int | 3.417E+08 | *<1μs* | 1.112E+08 | *<1μs* | 3.074x slower |
-| CInt_ConversionToFloat_Vs_Int | 3.815E+08 | *<1μs* | 2.487E+08 | *<1μs* | 1.534x slower |
-| CInt_StringParsing_Vs_Int | 7.443E+07 | *<1μs* | 5.885E+07 | *<1μs* | 1.265x slower |
-| **CInt_MultiplicationOverflow_Vs_Int** | **3.725E+08** | ***<1μs*** | **1.453E+05** | **6.8μs** | **2563x slower** |
-
-</details>
-
-## Jodo.Extensions.CheckedGeometry
-
-Provides geometric value types that make use of generic maths from CheckedNumerics.
+Provides geometric value types.
 
 | CheckedGeometry type | Notes |
 | - | - |
@@ -125,4 +127,9 @@ Provides geometric value types that make use of generic maths from CheckedNumeri
 | Vector2\<T\> |  |
 | Vector3\<T\> |  |
 
-## Jodo.Extensions.Collections
+</details>
+
+<details>
+  <summary><h2>Jodo.Extensions.Collections</summary>
+
+</details>
