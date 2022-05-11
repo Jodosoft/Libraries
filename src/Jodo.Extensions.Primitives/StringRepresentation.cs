@@ -17,43 +17,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using FluentAssertions;
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Testing;
-using NUnit.Framework;
 using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Primitives
 {
-    public static class SerializationTests
+    public static class StringRepresentation
     {
-        public class CDouble : Base<cdouble> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class Fix64 : Base<fix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UFix64 : Base<ufix64> { }
-
-        public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
+        public static string Combine(Type type, params object[] properties)
         {
-            [TestCase]
-            public void Serialize_RoundTrip_SameAsOriginal()
+            if (properties?.Length > 0)
             {
-                //arrange
-                var input = Random.NextNumeric<T>();
-                var formatter = new BinaryFormatter();
-
-                //act
-                using var stream = new MemoryStream();
-                formatter.Serialize(stream, input);
-                stream.Position = 0;
-                var result = (T)formatter.Deserialize(stream);
-
-                //assert
-                result.Should().Be(input);
+                var names = properties.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}");
+                return $"{type.GetDisplayName()}({names})";
             }
+            return type.GetDisplayName();
         }
     }
 }

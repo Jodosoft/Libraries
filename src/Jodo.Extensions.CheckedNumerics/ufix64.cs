@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
@@ -159,8 +160,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ufix64 IMath<ufix64>.Convert(in byte value) => value;
             ufix64 IMath<ufix64>.Cos(in ufix64 x) => (ufix64)Math.Cos((double)x);
             ufix64 IMath<ufix64>.Cosh(in ufix64 x) => (ufix64)Math.Cosh((double)x);
-            ufix64 IMath<ufix64>.DegreesToRadians(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.RadiansPerDegree);
-            ufix64 IMath<ufix64>.DegreesToTurns(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerDegree);
+            ufix64 IMath<ufix64>.DegreesToRadians(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, AngleConstants.RadiansPerDegree);
+            ufix64 IMath<ufix64>.DegreesToTurns(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, AngleConstants.TurnsPerDegree);
             ufix64 IMath<ufix64>.Divide(in ufix64 x, in ufix64 y) => x / y;
             ufix64 IMath<ufix64>.Exp(in ufix64 x) => (ufix64)Math.Exp((double)x);
             ufix64 IMath<ufix64>.Floor(in ufix64 x) => new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
@@ -175,8 +176,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ufix64 IMath<ufix64>.Positive(in ufix64 x) => +x;
             ufix64 IMath<ufix64>.Pow(in ufix64 x, in byte y) => (ufix64)Math.Pow((double)x, y);
             ufix64 IMath<ufix64>.Pow(in ufix64 x, in ufix64 y) => (ufix64)Math.Pow((double)x, (double)y);
-            ufix64 IMath<ufix64>.RadiansToDegrees(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
-            ufix64 IMath<ufix64>.RadiansToTurns(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.TurnsPerRadian);
+            ufix64 IMath<ufix64>.RadiansToDegrees(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, AngleConstants.DegreesPerRadian);
+            ufix64 IMath<ufix64>.RadiansToTurns(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, AngleConstants.TurnsPerRadian);
             ufix64 IMath<ufix64>.Remainder(in ufix64 x, in ufix64 y) => x % y;
             ufix64 IMath<ufix64>.Round(in ufix64 x) => (ufix64)Math.Round((double)x);
             ufix64 IMath<ufix64>.Round(in ufix64 x, in int digits) => (ufix64)Math.Round((double)x, digits);
@@ -189,8 +190,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ufix64 IMath<ufix64>.Tan(in ufix64 x) => (ufix64)Math.Tan((double)x);
             ufix64 IMath<ufix64>.Tanh(in ufix64 x) => (ufix64)Math.Tanh((double)x);
             ufix64 IMath<ufix64>.Truncate(in ufix64 x) => new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            ufix64 IMath<ufix64>.TurnsToDegrees(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerTurn);
-            ufix64 IMath<ufix64>.TurnsToRadians(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, Constants.DegreesPerRadian);
+            ufix64 IMath<ufix64>.TurnsToDegrees(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, AngleConstants.DegreesPerTurn);
+            ufix64 IMath<ufix64>.TurnsToRadians(in ufix64 x) => (ufix64)CheckedArithmetic.Multiply((double)x, AngleConstants.DegreesPerRadian);
 
             ufix64 IBitConverter<ufix64>.Read(in IReadOnlyStream<byte> stream) => new ufix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong))));
             void IBitConverter<ufix64>.Write(ufix64 value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));

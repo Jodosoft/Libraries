@@ -19,42 +19,43 @@
 
 using Jodo.Extensions.Benchmarking;
 using System;
+using System.Threading.Tasks;
 
-namespace Jodo.Extensions.CheckedNumerics.Benchmarks
+namespace Jodo.Extensions.Numerics.Benchmarks
 {
-    public static class CIntBenchmarks
+    public static class IntxBenchmarks
     {
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static void CInt_Negation_Vs_Int()
+        public static void Intx_Versus_Int32_Negation()
         {
-            var baseline = Random.NextInt32(100, 1000);
-            var sut = (cint)baseline;
+            var baselineInput = Random.NextInt32(100, 1000);
+            var subjectInput = (shortx)baselineInput;
 
             Benchmark.Run(
-                () => -sut,
-                () => -baseline);
+                () => -subjectInput,
+                () => -baselineInput);
         }
 
         [Benchmark]
-        public static void CInt_Division_Vs_Int()
+        public static void Intx_Versus_Int32_Division()
         {
-            var baselineLeft = Random.NextInt32(100, 1000);
-            var baselineRight = Random.NextInt32(2, 10);
-            var sutLeft = (cint)baselineLeft;
-            var sutRight = (cint)baselineRight;
+            var baselineInput1 = Random.NextInt32(100, 1000);
+            var baselineInput2 = Random.NextInt32(2, 10);
+            var subjectInput1 = (shortx)baselineInput1;
+            var subjectInput2 = (shortx)baselineInput2;
 
             Benchmark.Run(
-                () => sutLeft / sutRight,
-                () => baselineLeft / baselineRight);
+                () => subjectInput1 / subjectInput2,
+                () => baselineInput1 / baselineInput2);
         }
 
         [Benchmark]
-        public static void CInt_ConversionToFloat_Vs_Int()
+        public static void Intx_Versus_Int32_ConversionToFloat()
         {
             var baseline = Random.NextInt32(100, 1000);
-            var sut = (cint)baseline;
+            var sut = (shortx)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -62,23 +63,23 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         }
 
         [Benchmark]
-        public static void CInt_StringParsing_Vs_Int()
+        public static void Intx_Versus_Int32_StringParsing()
         {
-            var input = Random.NextInt32(-100, 100).ToString();
+            var stringInput = Random.NextInt32(-100, 100).ToString();
 
             Benchmark.Run(
-                () => cint.Parse(input),
-                () => int.Parse(input));
+                () => shortx.Parse(stringInput),
+                () => short.Parse(stringInput));
         }
 
         [Benchmark]
-        public static void CInt_MultiplicationOverflow_Vs_Int()
+        public static void Intx_Versus_Int32_Overflow()
         {
-            var functionInput = cint.MaxValue;
-            var baselineInput = int.MaxValue;
+            var subjectInput = shortx.MaxValue;
+            var baselineInput = short.MaxValue;
 
             Benchmark.Run(
-                () => functionInput * functionInput,
+                () => { Task.Delay(1).Wait(); return subjectInput * subjectInput; },
                 () => baselineInput * baselineInput);
         }
     }

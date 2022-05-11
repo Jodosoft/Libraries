@@ -19,7 +19,7 @@
 
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
-using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Numerics;
 using System;
 
 namespace FluentAssertions

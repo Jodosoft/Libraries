@@ -17,82 +17,40 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Extensions.Benchmarking.Internals;
 using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace Jodo.Extensions.Benchmarking
 {
     public static class Benchmark
     {
-        private static readonly object BaselineObj = new object();
-        private static readonly object CheckObj = new object();
+        public const int DurationInSeconds = 10;
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static BenchmarkCompareResult Compare(Func<object> function, Func<object> baseline, byte durationInSeconds)
+        public static void Run(Func<object> subjectFunction, Func<object> baselineFunction)
         {
-            var internalBaseline = new Func<object>(() => BaselineObj);
-            var internalBaselineStopwatch = new Stopwatch();
-            var baselineStopwatch = new Stopwatch();
-            var functionStopwatch = new Stopwatch();
+            var voidObj = new object();
+            var voidFunction = new Func<object>(() => voidObj);
 
-            ulong iterations = 0;
-            object obj;
+            var trialTime = TimeSpan.FromSeconds(DurationInSeconds / 4.0);
+            var subjectMeasurement = Measurer.Measure(subjectFunction, trialTime);
+            var baselineMeasurement = Measurer.Measure(baselineFunction, trialTime);
+            var voidMeasurement = Measurer.Measure(voidFunction, trialTime);
 
-            var benchmarkStopwatch = Stopwatch.StartNew();
+            subjectMeasurement = Adjust(subjectMeasurement, voidMeasurement);
+            baselineMeasurement = Adjust(baselineMeasurement, voidMeasurement);
 
-            do
+            Writer.Write(new StackTrace().GetFrame(1).GetMethod().Name, subjectMeasurement, baselineMeasurement);
+        }
+
+        private static Measurement Adjust(Measurement measurement, Measurement voidMeasurement)
+        {
+            var subjectAdjustment = measurement.Count * voidMeasurement.TotalTime.TotalSeconds / (long)voidMeasurement.Count;
+            if (double.IsFinite(subjectAdjustment) && subjectAdjustment > 0)
             {
-                internalBaselineStopwatch.Start();
-                obj = internalBaseline();
-                internalBaselineStopwatch.Stop();
-                if (ReferenceEquals(obj, CheckObj)) throw new InvalidOperationException();
-
-                baselineStopwatch.Start();
-                obj = baseline();
-                baselineStopwatch.Stop();
-                if (ReferenceEquals(obj, CheckObj)) throw new InvalidOperationException();
-
-                functionStopwatch.Start();
-                obj = function();
-                functionStopwatch.Stop();
-                if (ReferenceEquals(obj, CheckObj)) throw new InvalidOperationException();
-
-            } while (benchmarkStopwatch.Elapsed.TotalSeconds < 1);
-
-            internalBaselineStopwatch.Reset();
-            baselineStopwatch.Reset();
-            functionStopwatch.Reset();
-
-            do
-            {
-                internalBaselineStopwatch.Start();
-                obj = internalBaseline();
-                internalBaselineStopwatch.Stop();
-                if (ReferenceEquals(obj, CheckObj)) throw new InvalidOperationException();
-
-                baselineStopwatch.Start();
-                obj = baseline();
-                baselineStopwatch.Stop();
-                if (ReferenceEquals(obj, CheckObj)) throw new InvalidOperationException();
-
-                functionStopwatch.Start();
-                obj = function();
-                functionStopwatch.Stop();
-                if (ReferenceEquals(obj, CheckObj)) throw new InvalidOperationException();
-
-                iterations++;
-
-            } while (benchmarkStopwatch.Elapsed.TotalSeconds < durationInSeconds);
-
-            var result = new BenchmarkCompareResult(
-                iterations,
-                baselineStopwatch.Elapsed - internalBaselineStopwatch.Elapsed,
-                functionStopwatch.Elapsed - internalBaselineStopwatch.Elapsed);
-
-            ResultsWriter.Write(new StackTrace().GetFrame(1).GetMethod().Name, result);
-
-            return result;
+                return new Measurement(measurement.Count, TimeSpan.FromSeconds(measurement.TotalTime.TotalSeconds - subjectAdjustment));
+            }
+            return measurement;
         }
     }
 }

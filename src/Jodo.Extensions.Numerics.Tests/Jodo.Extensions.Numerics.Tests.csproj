@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Extensions.Numerics\Jodo.Extensions.Numerics.csproj" />
+    <ProjectReference Include="..\Jodo.Extensions.Testing\Jodo.Extensions.Testing.csproj" />
+  </ItemGroup>
+</Project>

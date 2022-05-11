@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;

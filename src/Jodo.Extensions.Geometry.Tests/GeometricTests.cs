@@ -18,63 +18,55 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
-using Jodo.Extensions.Numerics;
+using Jodo.Extensions.CheckedNumerics;
 using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
-using NUnit.Framework;
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Geometry.Tests
 {
-    public static class BitConverterTests
+    public static class GeometricTests
     {
-        public class CInt : Base<cint> { }
-        public class UCInt : Base<ucint> { }
-        public class CFloat : Base<cfloat> { }
-        public class CDouble : Base<cdouble> { }
-        public class Fix64 : Base<fix64> { }
-        public class UFix64 : Base<ufix64> { }
+        public class AARectangle : Base<AARectangle<cfloat>> { }
+        public class Angle : Base<Angle<cfloat>> { }
+        public class Circle : Base<Circle<cfloat>> { }
+        public class Rectangle : Base<Rectangle<cfloat>> { }
+        public class Unit : Base<Unit<cfloat>> { }
+        public class Vector2 : Base<Vector2<cfloat>> { }
+        public class Vector3 : Base<Vector3<cfloat>> { }
 
-        public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
+        public abstract class Base<T> : GlobalTestBase where T : struct, IGeometric<T>
         {
-            [Test]
+            //[Test]
+            public void Serialize_RoundTrip_SameAsOriginal()
+            {
+                //arrange
+                var input = Random.NextGeometric<T>();
+                var formatter = new BinaryFormatter();
+
+                //act
+                using var stream = new MemoryStream();
+                formatter.Serialize(stream, input);
+                stream.Position = 0;
+                var result = (T)formatter.Deserialize(stream);
+
+                //assert
+                result.Should().Be(input);
+            }
+
+            //[Test]
             public void GetBytes_RoundTrip_SameAsOriginal()
             {
                 //arrange
-                var input = Random.NextNumeric<T>();
+                var input = Random.NextGeometric<T>();
 
                 //act
                 var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
 
                 //assert
                 result.Should().Be(input);
-            }
-
-            [Test]
-            public void GetBytes_Zero_AllZero()
-            {
-                //arrange
-                var input = Math<T>.Zero;
-
-                //act
-                var result = BitConverter<T>.GetBytes(input);
-
-                //assert
-                result.ToArray().Should().AllBeEquivalentTo(0);
-            }
-
-            [Test]
-            public void GetBytes_NonZero_NotAllZero()
-            {
-                //arrange
-                T input;
-                while ((input = Random.NextNumeric<T>()).Equals(Math<T>.Zero)) { }
-
-                //act
-                var result = BitConverter<T>.GetBytes(input);
-
-                //assert
-                result.ToArray().Should().Contain(x => x != 0);
             }
         }
     }

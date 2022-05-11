@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Jodo.Extensions.CheckedGeometry</AssemblyName>
+    <AssemblyTitle>Jodo.Extensions.CheckedGeometry</AssemblyTitle>
+    <Description>Reusable geometric types with protection from overflow</Description>
+    <PackageId>Jodo.Extensions.CheckedGeometry</PackageId>
+    <PackageTags>collections</PackageTags>
+    <RootNamespace>Jodo.Extensions.CheckedGeometry</RootNamespace>
+    <Summary>Reusable geometric types with protection from overflow</Summary>
+    <Title>Jodo.Extensions.CheckedGeometry</Title>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Extensions.CheckedNumerics\Jodo.Extensions.CheckedNumerics.csproj" />
+  </ItemGroup>
+</Project>

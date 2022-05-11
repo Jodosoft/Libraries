@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
@@ -150,8 +151,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IMath<ucint>.Convert(in byte value) => value;
             ucint IMath<ucint>.Cos(in ucint x) => (ucint)Math.Cos(x._value);
             ucint IMath<ucint>.Cosh(in ucint x) => (ucint)Math.Cosh(x._value);
-            ucint IMath<ucint>.DegreesToRadians(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.RadiansPerDegree);
-            ucint IMath<ucint>.DegreesToTurns(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.TurnsPerDegree);
+            ucint IMath<ucint>.DegreesToRadians(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, AngleConstants.RadiansPerDegree);
+            ucint IMath<ucint>.DegreesToTurns(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerDegree);
             ucint IMath<ucint>.Divide(in ucint x, in ucint y) => x / y;
             ucint IMath<ucint>.Exp(in ucint x) => (ucint)Math.Exp(x._value);
             ucint IMath<ucint>.Floor(in ucint x) => x;
@@ -166,8 +167,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IMath<ucint>.Positive(in ucint x) => +x;
             ucint IMath<ucint>.Pow(in ucint x, in byte y) => CheckedArithmetic.Pow(x._value, y);
             ucint IMath<ucint>.Pow(in ucint x, in ucint y) => CheckedArithmetic.Pow(x._value, y._value);
-            ucint IMath<ucint>.RadiansToDegrees(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerRadian);
-            ucint IMath<ucint>.RadiansToTurns(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.TurnsPerRadian);
+            ucint IMath<ucint>.RadiansToDegrees(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
+            ucint IMath<ucint>.RadiansToTurns(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerRadian);
             ucint IMath<ucint>.Remainder(in ucint x, in ucint y) => x % y;
             ucint IMath<ucint>.Round(in ucint x) => x;
             ucint IMath<ucint>.Round(in ucint x, in int digits) => x;
@@ -180,8 +181,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IMath<ucint>.Tan(in ucint x) => (ucint)Math.Tan(x._value);
             ucint IMath<ucint>.Tanh(in ucint x) => (ucint)Math.Tanh(x._value);
             ucint IMath<ucint>.Truncate(in ucint x) => x;
-            ucint IMath<ucint>.TurnsToDegrees(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerTurn);
-            ucint IMath<ucint>.TurnsToRadians(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, Constants.DegreesPerRadian);
+            ucint IMath<ucint>.TurnsToDegrees(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerTurn);
+            ucint IMath<ucint>.TurnsToRadians(in ucint x) => (ucint)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
 
             ucint IBitConverter<ucint>.Read(in IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
             void IBitConverter<ucint>.Write(ucint value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

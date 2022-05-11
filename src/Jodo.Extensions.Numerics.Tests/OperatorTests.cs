@@ -18,21 +18,15 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
-using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Numerics.Tests
 {
     public static class OperatorTests
     {
-        public class CDouble : Base<cdouble> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class Fix64 : Base<fix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UFix64 : Base<ufix64> { }
+        public class Shortx : Base<shortx> { }
 
         public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
         {
@@ -48,34 +42,6 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
 
                 //assert
                 result.Should().Be(Math<T>.Convert((byte)(left + right)));
-            }
-
-            [Test]
-            public void Add_AtMaxValue_ResultIsMaxValue()
-            {
-                //arrange
-                var left = Math<T>.MaxValue;
-                var right = Random.NextNumeric(Math<T>.One, Math<T>.MaxValue);
-
-                //act
-                var result = left + right;
-
-                //assert
-                result.Should().Be(Math<T>.MaxValue);
-            }
-
-            [Test]
-            public void Subtract_AtMinValue_ResultIsMinValue()
-            {
-                //arrange
-                var left = Math<T>.MinValue;
-                var right = Random.NextNumeric(Math<T>.One, Math<T>.MaxValue);
-
-                //act
-                var result = left - right;
-
-                //assert
-                result.Should().Be(Math<T>.MinValue);
             }
 
             [Test]
@@ -173,19 +139,6 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             }
 
             [Test]
-            public void Divide_ByZero_ReturnsMaxValue()
-            {
-                //arrange
-                var input = Random.NextNumeric<T>();
-
-                //act
-                var result = input / 0;
-
-                //assert
-                result.Should().Be(Math<T>.MaxValue);
-            }
-
-            [Test]
             public void Divide_RandomValues_CorrectResult()
             {
                 //arrange
@@ -211,19 +164,6 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
 
                 //assert
                 result.Should().Be(Math<T>.Convert((byte)(left % right)));
-            }
-
-            [Test]
-            public void Remainder_ByZero_ReturnsZero()
-            {
-                //arrange
-                var input = Random.NextNumeric<T>();
-
-                //act
-                var result = input % 0;
-
-                //assert
-                result.Should().Be(Math<T>.Zero);
             }
         }
     }

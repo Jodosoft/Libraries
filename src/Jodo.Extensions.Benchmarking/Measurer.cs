@@ -17,43 +17,32 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using FluentAssertions;
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Testing;
-using NUnit.Framework;
+using Jodo.Extensions.Benchmarking.Internals;
 using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Benchmarking
 {
-    public static class SerializationTests
+    public static class Measurer
     {
-        public class CDouble : Base<cdouble> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class Fix64 : Base<fix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UFix64 : Base<ufix64> { }
-
-        public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
+        [MethodImpl(MethodImplOptions.NoOptimization)]
+        public static Measurement Measure(Func<object> function, TimeSpan duration)
         {
-            [TestCase]
-            public void Serialize_RoundTrip_SameAsOriginal()
+            var checkObj = new object();
+            var stopwatch = new Stopwatch();
+            var maxTicks = duration.TotalSeconds * Stopwatch.Frequency;
+            ulong iterations = 0;
+            object obj;
+            stopwatch.Start();
+            do
             {
-                //arrange
-                var input = Random.NextNumeric<T>();
-                var formatter = new BinaryFormatter();
-
-                //act
-                using var stream = new MemoryStream();
-                formatter.Serialize(stream, input);
-                stream.Position = 0;
-                var result = (T)formatter.Deserialize(stream);
-
-                //assert
-                result.Should().Be(input);
-            }
+                obj = function();
+                iterations++;
+            } while (stopwatch.ElapsedTicks < maxTicks);
+            stopwatch.Stop();
+            if (ReferenceEquals(obj, checkObj)) throw new InvalidOperationException();
+            return new Measurement(iterations, stopwatch.Elapsed);
         }
     }
 }

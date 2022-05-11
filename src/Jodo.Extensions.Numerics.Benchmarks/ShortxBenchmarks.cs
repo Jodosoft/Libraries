@@ -20,17 +20,17 @@
 using Jodo.Extensions.Benchmarking;
 using System;
 
-namespace Jodo.Extensions.CheckedNumerics.Benchmarks
+namespace Jodo.Extensions.Numerics.Benchmarks
 {
-    public static class CIntBenchmarks
+    public static class ShortxBenchmarks
     {
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static void CInt_Negation_Vs_Int()
+        public static void Shortx_Versus_Int16_Negation()
         {
-            var baseline = Random.NextInt32(100, 1000);
-            var sut = (cint)baseline;
+            var baseline = Random.NextInt16(100, 1000);
+            var sut = (shortx)baseline;
 
             Benchmark.Run(
                 () => -sut,
@@ -38,12 +38,12 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         }
 
         [Benchmark]
-        public static void CInt_Division_Vs_Int()
+        public static void Shortx_Versus_Int16_Division()
         {
-            var baselineLeft = Random.NextInt32(100, 1000);
-            var baselineRight = Random.NextInt32(2, 10);
-            var sutLeft = (cint)baselineLeft;
-            var sutRight = (cint)baselineRight;
+            var baselineLeft = Random.NextInt16(100, 1000);
+            var baselineRight = Random.NextInt16(2, 10);
+            var sutLeft = (shortx)baselineLeft;
+            var sutRight = (shortx)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -51,10 +51,10 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         }
 
         [Benchmark]
-        public static void CInt_ConversionToFloat_Vs_Int()
+        public static void Shortx_Versus_Int16_ConversionToFloat()
         {
-            var baseline = Random.NextInt32(100, 1000);
-            var sut = (cint)baseline;
+            var baseline = Random.NextInt16(100, 1000);
+            var sut = (shortx)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -62,20 +62,20 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         }
 
         [Benchmark]
-        public static void CInt_StringParsing_Vs_Int()
+        public static void Shortx_Versus_Int16_StringParsing()
         {
-            var input = Random.NextInt32(-100, 100).ToString();
+            var input = Random.NextInt16(-100, 100).ToString();
 
             Benchmark.Run(
-                () => cint.Parse(input),
-                () => int.Parse(input));
+                () => shortx.Parse(input),
+                () => short.Parse(input));
         }
 
         [Benchmark]
-        public static void CInt_MultiplicationOverflow_Vs_Int()
+        public static void Shortx_Versus_Int16_Overflow()
         {
-            var functionInput = cint.MaxValue;
-            var baselineInput = int.MaxValue;
+            var functionInput = shortx.MaxValue;
+            var baselineInput = short.MaxValue;
 
             Benchmark.Run(
                 () => functionInput * functionInput,

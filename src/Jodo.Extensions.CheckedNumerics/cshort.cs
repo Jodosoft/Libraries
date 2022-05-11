@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
@@ -147,8 +148,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Convert(in byte value) => value;
             cshort IMath<cshort>.Cos(in cshort x) => (cshort)Math.Cos(x._value);
             cshort IMath<cshort>.Cosh(in cshort x) => (cshort)Math.Cosh(x._value);
-            cshort IMath<cshort>.DegreesToRadians(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, Constants.RadiansPerDegree);
-            cshort IMath<cshort>.DegreesToTurns(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, Constants.TurnsPerDegree);
+            cshort IMath<cshort>.DegreesToRadians(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, AngleConstants.RadiansPerDegree);
+            cshort IMath<cshort>.DegreesToTurns(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerDegree);
             cshort IMath<cshort>.Divide(in cshort x, in cshort y) => x / y;
             cshort IMath<cshort>.Exp(in cshort x) => (cshort)Math.Exp(x._value);
             cshort IMath<cshort>.Floor(in cshort x) => x;
@@ -163,8 +164,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Positive(in cshort x) => +x;
             cshort IMath<cshort>.Pow(in cshort x, in byte y) => CheckedArithmetic.Pow(x._value, y);
             cshort IMath<cshort>.Pow(in cshort x, in cshort y) => CheckedArithmetic.Pow(x._value, y._value);
-            cshort IMath<cshort>.RadiansToDegrees(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, Constants.DegreesPerRadian);
-            cshort IMath<cshort>.RadiansToTurns(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, Constants.TurnsPerRadian);
+            cshort IMath<cshort>.RadiansToDegrees(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
+            cshort IMath<cshort>.RadiansToTurns(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerRadian);
             cshort IMath<cshort>.Remainder(in cshort x, in cshort y) => x % y;
             cshort IMath<cshort>.Round(in cshort x) => x;
             cshort IMath<cshort>.Round(in cshort x, in int digits) => x;
@@ -177,8 +178,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Tan(in cshort x) => (cshort)Math.Tan(x._value);
             cshort IMath<cshort>.Tanh(in cshort x) => (cshort)Math.Tanh(x._value);
             cshort IMath<cshort>.Truncate(in cshort x) => x;
-            cshort IMath<cshort>.TurnsToDegrees(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, Constants.DegreesPerTurn);
-            cshort IMath<cshort>.TurnsToRadians(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, Constants.DegreesPerRadian);
+            cshort IMath<cshort>.TurnsToDegrees(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerTurn);
+            cshort IMath<cshort>.TurnsToRadians(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
             double IMath<cshort>.ToDouble(in cshort x, in double offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             float IMath<cshort>.ToSingle(in cshort x, in float offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             int IMath<cshort>.Sign(in cshort x) => Math.Sign(x._value);

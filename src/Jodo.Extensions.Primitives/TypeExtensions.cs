@@ -17,43 +17,39 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using FluentAssertions;
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Testing;
-using NUnit.Framework;
 using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Concurrent;
+using System.Linq;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Primitives
 {
-    public static class SerializationTests
+    public static class TypeExtensions
     {
-        public class CDouble : Base<cdouble> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class Fix64 : Base<fix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UFix64 : Base<ufix64> { }
+        private static readonly ConcurrentDictionary<Type, string> DisplayNamesByType;
 
-        public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
+        static TypeExtensions()
         {
-            [TestCase]
-            public void Serialize_RoundTrip_SameAsOriginal()
+            DisplayNamesByType = new ConcurrentDictionary<Type, string>();
+        }
+
+        public static string GetDisplayName(this Type type)
+        {
+            return DisplayNamesByType.GetOrAdd(type, CreateDisplayName);
+        }
+
+        private static string CreateDisplayName(this Type type)
+        {
+            if (type.IsGenericType)
             {
-                //arrange
-                var input = Random.NextNumeric<T>();
-                var formatter = new BinaryFormatter();
+                var parameterNames = type
+                    .GetGenericArguments()
+                    .Select(x => CreateDisplayName(x))
+                    .Aggregate((x, y) => $"{x}, {y}");
 
-                //act
-                using var stream = new MemoryStream();
-                formatter.Serialize(stream, input);
-                stream.Position = 0;
-                var result = (T)formatter.Deserialize(stream);
-
-                //assert
-                result.Should().Be(input);
+                var name = type.Name.Substring(0, type.Name.IndexOf("`"));
+                return $"{name}<{parameterNames}>";
             }
+            return type.Name;
         }
     }
 }
