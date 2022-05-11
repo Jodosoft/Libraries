@@ -24,7 +24,7 @@ using System.Numerics;
 namespace Jodo.Extensions.CheckedNumerics
 {
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-    [SuppressMessage("SonarCloud", "csharpsquid:S3358")]
+    [SuppressMessage("csharpsquid", "S3358")]
     public static class CheckedArithmetic
     {
         public static byte Add(byte x, byte y) { try { checked { return (byte)(x + y); } } catch (OverflowException) { return byte.MaxValue; } }

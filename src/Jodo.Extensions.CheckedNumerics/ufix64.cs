@@ -31,7 +31,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
+    [SuppressMessage("csharpsquid", "S101")]
     public readonly struct ufix64 : INumeric<ufix64>
     {
         public static readonly ufix64 E = new ufix64(CheckedConvert.ToUInt64(Math.E * ScalingFactor));

@@ -31,7 +31,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
+    [SuppressMessage("csharpsquid", "S101")]
     public readonly struct fix64 : INumeric<fix64>
     {
         public static readonly fix64 Epsilon = new fix64(1);

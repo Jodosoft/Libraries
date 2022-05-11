@@ -31,7 +31,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
+    [SuppressMessage("csharpsquid", "S101")]
     public readonly struct cshort : INumeric<cshort>
     {
         public static readonly cshort MaxValue = new cshort(short.MaxValue);
