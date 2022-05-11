@@ -55,41 +55,36 @@ Console.WriteLine(x2);  // output: 3.402823E+38
 
 ### Performance considerations
 
-The [numeric value types](#numeric-value-types) are [readonly structs](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-struct) that wrap built-in numeric types, and they use the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword when performing arithmetic. This means that they have higher CPU and memory usage compared to built-in numeric types.
+The [numeric value types](#numeric-value-types) are [readonly structs](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-struct) that wrap built-in numeric types, and they use the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword when performing arithmetic. Therefore they have higher CPU and memory usage compared to built-in numeric types.
 
-If developing a performance-sensitive application, consider using a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive applications, such as graphics or big-data.
+If developing a performance-sensitive application, use a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive applications, such as graphics or big-data.
 
-Benchmarks are provided with this repository to allow comparison to the built-in numeric types. To run the benchmarks, clone the repository and run the following:
-
-```powershell
-dotnet test Jodo.Extensions.CheckedNumerics.Benchmarks -c RELEASE
-```
+Benchmarks are provided with this repository to allow comparison to the built-in numeric types. To run the benchmarks, clone the repository then build and run `Jodo.Extensions.CheckedNumerics.Benchmarks` in RELEASE mode.
 
 Sample output can be seen below:
 
-<details>
-  <summary>
-    <em>Benchmark results 2022-05-10</em>
-  </summary>
- 
-> * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
-> * **RAM:** 16.0 GB
-> * **System type:** x64-based processor
-> * **OS Name:** Windows 10 (64-bit)
+</details>
 
-| Name | Iterations | Function time /seconds | Baseline time /seconds | Observation |
-| --- | --- | --- | --- | --- |
-| CInt_Versus_Int32_ConversionToFloat | 183,190,190 | 1.0122 | 0.7067 | **1.4x slower** |
-| CInt_Versus_Int32_Division | 219,328,320 | 1.3471 | 0.9087 | **1.5x slower** |
-| CInt_Versus_Int32_Negation | 219,783,024 | 1.0652 | 0.9069 | **1.2x slower** |
-| Fix64_Versus_Int64_ConversionToFloat | 211,512,133 | 1.1389 | 0.9693 | **1.2x slower** |
-| Fix64_Versus_Int64_Division | 194,180,058 | 3.1439 | 0.5965 | **5.3x slower** |
-| Fix64_Versus_Int64_Negation | 211,911,039 | 0.9567 | 0.5907 | **1.6x slower** |
-| UFix64_Versus_Int64_ConversionToFloat | 210,007,970 | 1.4951 | 1.0256 | **1.5x slower** |
-| UFix64_Versus_Int64_Division | 196,146,447 | 3.4610 | 0.9762 | **3.5x slower** |
-| UFix64_Versus_Int64_Negation | 218,497,658 | 1.1813 | 0.9284 | **1.3x slower** |
+<details>
+<summary><em>Jodo.Extensions.CheckedNumerics.Benchmarks - Results from 2022-05-11T18:11:17.8665440Z</em></summary>
+
+> * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
+> * **Architecture:** x64-based processor
+> * **RAM:** 16.0 GB
+> * **OS:** Windows 10 (64-bit)
+> * **Seconds per Benchmark:** 10.0
+
+| Name | Baseline Ops Per Second | Baseline Time | Subject Ops Per Second | Subject Time | Observation |
+| --- | --- | --- | --- | --- | --- |
+| CInt_Negation_Vs_Int | 2.172E+08 | *<1μs* | 1.131E+08 | *<1μs* | 1.92x slower |
+| CInt_Division_Vs_Int | 3.417E+08 | *<1μs* | 1.112E+08 | *<1μs* | 3.074x slower |
+| CInt_ConversionToFloat_Vs_Int | 3.815E+08 | *<1μs* | 2.487E+08 | *<1μs* | 1.534x slower |
+| CInt_StringParsing_Vs_Int | 7.443E+07 | *<1μs* | 5.885E+07 | *<1μs* | 1.265x slower |
+| **CInt_MultiplicationOverflow_Vs_Int** | **3.725E+08** | ***<1μs*** | **1.453E+05** | **6.8μs** | **2563x slower** |
 
 </details>
+
+
 
 ## Jodo.Extensions.CheckedGeometry
 
