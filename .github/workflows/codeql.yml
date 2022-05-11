@@ -3,19 +3,25 @@ name: "CodeQL"
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+    
 on:
   push:
     branches: [ main ]
+    paths:
+      - src/**
+      - .github/workflows/codeql.yml
   pull_request:
     branches: [ main ]
-  schedule:
-    - cron: '15 21 * * 5'
 
 jobs:
   analyze:
     name: Analyze
+    
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+        
     permissions:
       actions: read
       contents: read
@@ -37,17 +43,6 @@ jobs:
         
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
-
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
-
-    #- run: |
-    #   make bootstrap
-    #   make release
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
