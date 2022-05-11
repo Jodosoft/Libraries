@@ -3,19 +3,24 @@ name: "CodeQL"
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+    
 on:
   push:
     branches: [ main ]
+    paths:
+      - src/**
   pull_request:
     branches: [ main ]
-  schedule:
-    - cron: '15 21 * * 5'
 
 jobs:
   analyze:
     name: Analyze
+    
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+        
     permissions:
       actions: read
       contents: read
