@@ -1,4 +1,6 @@
-# Jodo.Extensions <img src="src/PackageIcon.png" alt="Logo" height="128"/>
+<img src="RepositoryBanner.png" alt="Logo" height="128"/>
+
+# Jodo.Extensions
 
 [![Test](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml) [![CodeQL](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml)
 
