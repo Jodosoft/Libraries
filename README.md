@@ -7,9 +7,9 @@
   <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml/badge.svg" alt="CodeQL"/></a>
 </p>
 
-> **Note:** This repository is a work in progress
+<p align="center">Useful C# libraries written in the style of the .NET SDK.</p>
 
-Useful C# libraries written in the style of the .NET SDK.
+> **Note:** This repository is a work in progress
 
 ## Jodo.Extensions.CheckedNumerics
 
