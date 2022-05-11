@@ -37,7 +37,9 @@ namespace Jodo.Extensions.Primitives.Internals
 
             public ReadOnlySpan<T> Read(int count)
             {
-                if (_position + count > _list.Count) throw new ArgumentOutOfRangeException();
+                if (_position + count > _list.Count) throw new ArgumentOutOfRangeException(
+                    nameof(count), count, "There are not enough bytes left in the stream.");
+
                 var results = new T[count];
                 for (int i = 0; i < count; i++)
                 {
