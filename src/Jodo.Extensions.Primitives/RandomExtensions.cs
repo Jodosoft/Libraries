@@ -63,14 +63,83 @@ namespace System
 
             return (int)(bound1 + result);
         }
+
         public static uint NextUInt32(this Random random) => BitConverter.ToUInt32(random.NextBytes(32));
+        public static uint NextUInt32(this Random random, uint bound1, uint bound2)
+        {
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
+
+            var range = new BigInteger(bound2) - new BigInteger(bound1);
+            var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
+            var bytes = range.ToByteArray();
+            BigInteger result;
+            do
+            {
+                random.NextBytes(bytes);
+                bytes[0] = (byte)(bytes[0] & mask);
+                result = new BigInteger(bytes, true, true);
+            } while (result > range);
+
+            return (uint)(bound1 + result);
+        }
 
         public static long NextInt64(this Random random) => BitConverter.ToInt64(random.NextBytes(64));
+        public static long NextInt64(this Random random, long bound1, long bound2)
+        {
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
+
+            var range = new BigInteger(bound2) - new BigInteger(bound1);
+            var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
+            var bytes = range.ToByteArray();
+            BigInteger result;
+            do
+            {
+                random.NextBytes(bytes);
+                bytes[0] = (byte)(bytes[0] & mask);
+                result = new BigInteger(bytes, true, true);
+            } while (result > range);
+
+            return (long)(bound1 + result);
+        }
 
         public static ulong NextUInt64(this Random random) => BitConverter.ToUInt64(random.NextBytes(64));
+        public static ulong NextUInt64(this Random random, ulong bound1, ulong bound2)
+        {
+            if (bound1 > bound2)
+            {
+                var t = bound1;
+                bound1 = bound2;
+                bound2 = t;
+            }
+            if (bound1 == bound2) return bound1;
+
+            var range = new BigInteger(bound2) - new BigInteger(bound1);
+            var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
+            var bytes = range.ToByteArray();
+            BigInteger result;
+            do
+            {
+                random.NextBytes(bytes);
+                bytes[0] = (byte)(bytes[0] & mask);
+                result = new BigInteger(bytes, true, true);
+            } while (result > range);
+
+            return (ulong)(bound1 + result);
+        }
 
         public static float NextSingle(this Random random) => random.NextSingle(float.MinValue, float.MaxValue);
-
         public static float NextSingle(this Random random, float bound1, float bound2)
         {
             if (!float.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, "Must be finite.");
@@ -105,78 +174,6 @@ namespace System
             var maxBits = BitConverter.DoubleToInt64Bits(bound2);
             var index = random.NextInt64(bound1 < 0 ? long.MinValue - minBits : minBits, (bound2 < 0 ? long.MinValue - maxBits : maxBits) + 1);
             return BitConverter.Int64BitsToDouble(index < 0 ? long.MinValue - index : index);
-        }
-
-        public static uint NextUInt32(this Random random, uint bound1, uint bound2)
-        {
-            if (bound1 > bound2)
-            {
-                var t = bound1;
-                bound1 = bound2;
-                bound2 = t;
-            }
-            if (bound1 == bound2) return bound1;
-
-            var range = new BigInteger(bound2) - new BigInteger(bound1);
-            var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
-            var bytes = range.ToByteArray();
-            BigInteger result;
-            do
-            {
-                random.NextBytes(bytes);
-                bytes[0] = (byte)(bytes[0] & mask);
-                result = new BigInteger(bytes, true, true);
-            } while (result > range);
-
-            return (uint)(bound1 + result);
-        }
-
-        public static long NextInt64(this Random random, long bound1, long bound2)
-        {
-            if (bound1 > bound2)
-            {
-                var t = bound1;
-                bound1 = bound2;
-                bound2 = t;
-            }
-            if (bound1 == bound2) return bound1;
-
-            var range = new BigInteger(bound2) - new BigInteger(bound1);
-            var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
-            var bytes = range.ToByteArray();
-            BigInteger result;
-            do
-            {
-                random.NextBytes(bytes);
-                bytes[0] = (byte)(bytes[0] & mask);
-                result = new BigInteger(bytes, true, true);
-            } while (result > range);
-
-            return (long)(bound1 + result);
-        }
-
-        public static ulong NextUInt64(this Random random, ulong bound1, ulong bound2)
-        {
-            if (bound1 > bound2)
-            {
-                var t = bound1;
-                bound1 = bound2;
-                bound2 = t;
-            }
-            if (bound1 == bound2) return bound1;
-
-            var range = new BigInteger(bound2) - new BigInteger(bound1);
-            var mask = (byte)(Math.Pow(2, 1 + (Math.Ceiling(BigInteger.Log(range, 2)) % 8)) - 1);
-            var bytes = range.ToByteArray();
-            BigInteger result;
-            do
-            {
-                random.NextBytes(bytes);
-                bytes[0] = (byte)(bytes[0] & mask);
-                result = new BigInteger(bytes, true, true);
-            } while (result > range);
-
-            return (ulong)(bound1 + result);
         }
 
         public static T NextElement<T>(this Random random, IReadOnlyList<T> list) => list[random.Next(0, list.Count)];
