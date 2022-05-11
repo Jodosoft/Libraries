@@ -6,6 +6,11 @@
   <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg" alt="Test"/></a>
   <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"/></a>
   <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/sonarcloud.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/sonarcloud.yml/badge.svg" alt="SonarCloud"/></a>
+  <br />
+  <a href="https://sonarcloud.io/summary/new_code?id=JosephJShort_Jodo.Extensions"><img src="https://sonarcloud.io/api/project_badges/measure?project=JosephJShort_Jodo.Extensions&amp;metric=reliability_rating" alt="Reliability Rating"></a>
+  <a href="https://sonarcloud.io/summary/new_code?id=JosephJShort_Jodo.Extensions"><img src="https://sonarcloud.io/api/project_badges/measure?project=JosephJShort_Jodo.Extensions&amp;metric=sqale_rating" alt="Maintainability Rating"></a>
+  <a href="https://sonarcloud.io/summary/new_code?id=JosephJShort_Jodo.Extensions"><img src="https://sonarcloud.io/api/project_badges/measure?project=JosephJShort_Jodo.Extensions&amp;metric=security_rating" alt="Security Rating"></a>
+
 </p>
 
 <p align="center">C# extension libraries written in the style of the .NET SDK.</p>
