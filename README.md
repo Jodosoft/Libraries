@@ -4,7 +4,8 @@
 
 <p align="center">
   <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg" alt="Test"/></a>
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml/badge.svg" alt="CodeQL"/></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"/></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/sonarcloud.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/sonarcloud.yml/badge.svg" alt="SonarCloud"/></a>
 </p>
 
 <p align="center">C# extension libraries written in the style of the .NET SDK.</p>
