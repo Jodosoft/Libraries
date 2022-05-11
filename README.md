@@ -1,8 +1,11 @@
-<img src="RepositoryBanner.png" alt="Logo" height="128"/>
+<p align="center"><img src="RepositoryBanner.png" alt="Logo" height="128"/></p>
 
-# Jodo.Extensions
+<h1 align="center">Jodo.Extensions</h1>
 
-[![Test](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml) [![CodeQL](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml)
+<p align="center">
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg" alt="Test"/></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql-analysis.yml/badge.svg" alt="CodeQL"/></a>
+</p>
 
 > **Note:** This repository is a work in progress
 
