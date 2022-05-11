@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - src/**
+      - .github/workflows/codeql.yml
   pull_request:
     branches: [ main ]
 
