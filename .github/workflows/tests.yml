@@ -9,7 +9,7 @@ on:
     branches: [ main ]
     paths:
       - src/**
-      - workflows/tests.yml
+      - .github/workflows/tests.yml
   pull_request:
     branches: [ main ]
 
