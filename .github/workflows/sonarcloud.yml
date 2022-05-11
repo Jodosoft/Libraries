@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - src/**
+      - .github/workflows/sonarcloud.yml
   pull_request:
     branches: [ main ]
 
