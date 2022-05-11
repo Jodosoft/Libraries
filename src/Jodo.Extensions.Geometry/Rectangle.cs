@@ -46,13 +46,13 @@ namespace Jodo.Extensions.Geometry
             Angle = Angle<T>.FromDegrees(degrees);
         }
 
-        private Rectangle(SerializationInfo info, StreamingContext _) : this(
+        private Rectangle(SerializationInfo info, StreamingContext context) : this(
             (Vector2<T>)info.GetValue(nameof(Center), typeof(Vector2<T>)),
             (Vector2<T>)info.GetValue(nameof(Dimensions), typeof(Vector2<T>)),
             (Angle<T>)info.GetValue(nameof(Angle), typeof(Angle<T>)))
         { }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Center), Center, typeof(Vector2<T>));
             info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<T>));
@@ -63,6 +63,7 @@ namespace Jodo.Extensions.Geometry
         public override bool Equals(object? obj) => obj is Rectangle<T> rectangle && Equals(rectangle);
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions, Angle);
         public override string ToString() => StringRepresentation.Combine(GetType(), Center, Dimensions, Angle);
+        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public T Area => Math<T>.Abs(Width * Height);
         public T Height => Dimensions.Y;
@@ -141,39 +142,6 @@ namespace Jodo.Extensions.Geometry
         private static Vector2<T> GetTopCenter(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
         private static Vector2<T> GetTopLeft(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
         private static Vector2<T> GetTopRight(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => (center + (dimensions / 2)).RotateAround(center, angle);
-
-        string IFormattable.ToString(string format, IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
-
-        //   Rectangle<T> IStringParser<Rectangle<T>>.Parse(in string s)
-        //   {
-        //       throw new NotImplementedException();
-        //   }
-        //
-        //   Rectangle<T> IStringParser<Rectangle<T>>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
-        //   {
-        //       throw new NotImplementedException();
-        //   }
-        //
-        //   Rectangle<T> IRandom<Rectangle<T>>.GetNext(Random random)
-        //   {
-        //       return new Rectangle<T>(
-        //           random.NextGeometric<Vector2<T>>(),
-        //           random.NextGeometric<Vector2<T>>(),
-        //           random.NextGeometric<Angle<T>>());
-        //   }
-        //
-        //   Rectangle<T> IRandom<Rectangle<T>>.GetNext(Random random, in Rectangle<T> bound1, in Rectangle<T> bound2)
-        //   {
-        //       throw new NotImplementedException();
-        //   }
-        //
-        //   public string ToString(string format, IFormatProvider formatProvider)
-        //   {
-        //       throw new NotImplementedException();
-        //   }
 
         public static bool operator ==(Rectangle<T> left, Rectangle<T> right) => left.Equals(right);
         public static bool operator !=(Rectangle<T> left, Rectangle<T> right) => !(left == right);

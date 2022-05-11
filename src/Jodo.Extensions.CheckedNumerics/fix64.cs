@@ -30,6 +30,8 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
     public readonly struct fix64 : INumeric<fix64>
     {
         public static readonly fix64 Epsilon = new fix64(1);
@@ -45,21 +47,21 @@ namespace Jodo.Extensions.CheckedNumerics
             _scaledValue = scaledValue;
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(fix64), _scaledValue);
-        private fix64(SerializationInfo info, StreamingContext _) : this(info.GetInt64(nameof(fix64))) { }
+        private fix64(SerializationInfo info, StreamingContext context) : this(info.GetInt64(nameof(fix64))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(fix64), _scaledValue);
 
-        public bool Equals(fix64 other) => _scaledValue == other._scaledValue;
         public int CompareTo(fix64 other) => _scaledValue.CompareTo(other._scaledValue);
         public int CompareTo(object? obj) => obj is fix64 other ? CompareTo(other) : 1;
+        public bool Equals(fix64 other) => _scaledValue == other._scaledValue;
         public override bool Equals(object? obj) => obj is fix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => ((double)this).ToString();
         public string ToString(string format, IFormatProvider formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out fix64 result) => Try.Run(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out fix64 result) => Try.Run(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out fix64 result) => Try.Run(Parse, s, style, out result);
-        public static bool TryParse(string s, out fix64 result) => Try.Function(Parse, s, out result);
+        public static bool TryParse(string s, IFormatProvider provider, out fix64 result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out fix64 result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out fix64 result) => Try.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out fix64 result) => Try.Run(() => Parse(s), out result);
         public static fix64 Parse(string s) => (fix64)double.Parse(s);
         public static fix64 Parse(string s, IFormatProvider provider) => (fix64)double.Parse(s, provider);
         public static fix64 Parse(string s, NumberStyles style) => (fix64)double.Parse(s, style);

@@ -22,59 +22,68 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-public static class Program
+namespace Jodo.Extensions.Benchmarking
 {
+    public static class Program
+    {
 
 #if DEBUG
         public static This_compile_prevents_benchmarks_being_built_in_debug _;
 #endif
-    static Program()
-    {
-        if (Debugger.IsAttached) throw new InvalidOperationException(
-            "This exception precents benchmarks from being run with a debugger attached.");
-    }
 
-    public static void Main(string[] _)
-    {
-        Console.WriteLine("Scanning loaded assemblies...");
-
-        var benchmarkMethods = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .SelectMany(a => a.GetTypes())
-            .SelectMany(t => t.GetMethods())
-            .Where(m => m.CustomAttributes.Any(c => c.AttributeType == typeof(BenchmarkAttribute)))
-            .ToArray();
-
-        Console.WriteLine($"Found {benchmarkMethods.Length} method(s) with the {nameof(BenchmarkAttribute)}.");
-
-        if (benchmarkMethods.Any())
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Executing benchmarks...");
-            Console.WriteLine();
-
-            Writer.WriteHeader();
-
-            foreach (var method in benchmarkMethods)
+            if (Debugger.IsAttached && args?.SingleOrDefault(x => x == "-fd") == null)
             {
-                if (method.IsStatic &&
-                    !method.GetParameters().Any() &&
-                    !method.ContainsGenericParameters &&
-                    !method.ReflectedType.ContainsGenericParameters)
-                {
-                    method.Invoke(null, Array.Empty<object>());
-                }
-                else
-                {
-                    Console.Error.WriteLine($"{method} cannot be run. " +
-                        "Benchmark methods must be public, static, parameterless and non-generic");
-                }
+                Console.WriteLine(
+                    "Benchmarks are disabled with a debugger attached." +
+                    " Use the -fd flag to override this behaviour.");
+                Console.WriteLine();
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+                Environment.Exit(-1);
             }
 
-            Writer.WriteFooter();
-        }
+            Console.WriteLine("Scanning loaded assemblies...");
 
-        Console.WriteLine();
-        Console.WriteLine("Press any key to exit...");
-        Console.ReadKey();
+            var benchmarkMethods = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .SelectMany(t => t.GetMethods())
+                .Where(m => m.CustomAttributes.Any(c => c.AttributeType == typeof(BenchmarkAttribute)))
+                .ToArray();
+
+            Console.WriteLine($"Found {benchmarkMethods.Length} method(s) with the {nameof(BenchmarkAttribute)}.");
+
+            if (benchmarkMethods.Any())
+            {
+                Console.WriteLine("Executing benchmarks...");
+                Console.WriteLine();
+
+                Writer.WriteHeader();
+
+                foreach (var method in benchmarkMethods)
+                {
+                    if (method.IsStatic &&
+                        !method.GetParameters().Any() &&
+                        !method.ContainsGenericParameters &&
+                        !method.ReflectedType.ContainsGenericParameters)
+                    {
+                        method.Invoke(null, Array.Empty<object>());
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine($"{method} cannot be run. " +
+                            "Benchmark methods must be public, static, parameterless and non-generic");
+                    }
+                }
+
+                Writer.WriteFooter();
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+        }
     }
 }

@@ -30,6 +30,8 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
     public readonly struct cdouble : INumeric<cdouble>
     {
         public static readonly cdouble Epsilon = new cdouble(double.Epsilon);
@@ -40,19 +42,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public cdouble(double value)
         {
-            _value =
-             double.IsFinite(value) ? value :
-             double.IsPositiveInfinity(value) ? double.MaxValue :
-             double.IsNegativeInfinity(value) ? double.MinValue :
-             0d;
+            if (double.IsFinite(value)) _value = value;
+            else if (double.IsPositiveInfinity(value)) _value = double.MaxValue;
+            else if (double.IsNegativeInfinity(value)) _value = double.MinValue;
+            else _value = 0d;
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(cdouble), _value);
-        private cdouble(SerializationInfo info, StreamingContext _) : this(info.GetDouble(nameof(cdouble))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(cdouble), _value);
+        private cdouble(SerializationInfo info, StreamingContext context) : this(info.GetDouble(nameof(cdouble))) { }
 
-        public bool Equals(cdouble other) => _value == other._value;
         public int CompareTo(cdouble other) => _value.CompareTo(other._value);
         public int CompareTo(object? obj) => obj is cdouble other ? CompareTo(other) : 1;
+        public bool Equals(cdouble other) => _value == other._value;
         public override bool Equals(object? obj) => obj is cdouble other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
@@ -60,10 +61,10 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static bool IsNormal(cdouble d) => double.IsNormal(d._value);
         public static bool IsSubnormal(cdouble d) => double.IsSubnormal(d._value);
-        public static bool TryParse(string s, IFormatProvider provider, out cdouble result) => Try.Run(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cdouble result) => Try.Run(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out cdouble result) => Try.Run(Parse, s, style, out result);
-        public static bool TryParse(string s, out cdouble result) => Try.Function(Parse, s, out result);
+        public static bool TryParse(string s, IFormatProvider provider, out cdouble result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cdouble result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out cdouble result) => Try.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out cdouble result) => Try.Run(() => Parse(s), out result);
         public static cdouble Parse(string s) => double.Parse(s);
         public static cdouble Parse(string s, IFormatProvider provider) => double.Parse(s, provider);
         public static cdouble Parse(string s, NumberStyles style) => double.Parse(s, style);

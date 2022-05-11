@@ -25,12 +25,8 @@ namespace Jodo.Extensions.Primitives
 {
     public static class TypeExtensions
     {
-        private static readonly ConcurrentDictionary<Type, string> DisplayNamesByType;
-
-        static TypeExtensions()
-        {
-            DisplayNamesByType = new ConcurrentDictionary<Type, string>();
-        }
+        private static readonly ConcurrentDictionary<Type, string> DisplayNamesByType
+            = new ConcurrentDictionary<Type, string>();
 
         public static string GetDisplayName(this Type type)
         {

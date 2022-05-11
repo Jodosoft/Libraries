@@ -30,6 +30,8 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
     public readonly struct ucint : INumeric<ucint>
     {
         public static readonly ucint MaxValue = new ucint(uint.MaxValue);
@@ -42,21 +44,21 @@ namespace Jodo.Extensions.CheckedNumerics
             _value = value;
         }
 
-        private ucint(SerializationInfo info, StreamingContext _) : this(info.GetUInt32(nameof(ucint))) { }
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(ucint), _value);
+        private ucint(SerializationInfo info, StreamingContext context) : this(info.GetUInt32(nameof(ucint))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(ucint), _value);
 
-        public bool Equals(ucint other) => _value == other._value;
         public int CompareTo(object? obj) => obj is ucint other ? CompareTo(other) : 1;
         public int CompareTo(ucint other) => _value.CompareTo(other._value);
+        public bool Equals(ucint other) => _value == other._value;
         public override bool Equals(object? obj) => obj is ucint other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out ucint result) => Try.Run(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ucint result) => Try.Run(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out ucint result) => Try.Run(Parse, s, style, out result);
-        public static bool TryParse(string s, out ucint result) => Try.Function(Parse, s, out result);
+        public static bool TryParse(string s, IFormatProvider provider, out ucint result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ucint result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out ucint result) => Try.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out ucint result) => Try.Run(() => Parse(s), out result);
         public static ucint Parse(string s) => uint.Parse(s);
         public static ucint Parse(string s, IFormatProvider provider) => uint.Parse(s, provider);
         public static ucint Parse(string s, NumberStyles style) => uint.Parse(s, style);

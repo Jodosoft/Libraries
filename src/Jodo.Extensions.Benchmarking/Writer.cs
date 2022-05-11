@@ -90,17 +90,17 @@ namespace Jodo.Extensions.Benchmarking
             var timesSlower = baseline.PerSecond / subject.PerSecond;
             var timesFaster = subject.PerSecond / baseline.PerSecond;
 
-            return
-                    timesSlower >= 10 ? $"{timesSlower:G4}x slower" :
-                    timesFaster >= 10 ? $"{timesFaster:G4}x faster" :
-                    timesSlower >= 1.1 ? $"{timesSlower:G4}x slower" :
-                    timesFaster >= 1.1 ? $"{timesFaster:G4}x faster" :
-                    "*Marginal difference*";
+            if (timesSlower >= 10) return $"{timesSlower:G4}x slower";
+            if (timesFaster >= 10) return $"{timesFaster:G4}x faster";
+            if (timesSlower >= 1.1) return $"{timesSlower:G4}x slower";
+            if (timesFaster >= 1.1) return $"{timesFaster:G4}x faster";
+            return "*Marginal difference*";
         }
 
         private static string GetTimeWithUnits(TimeSpan timeSpan)
         {
             var log10 = Math.Log10(timeSpan.Ticks);
+
             if (!double.IsFinite(log10) || log10 < 1) return "*<1μs*";
             if (log10 < 4) return $"{timeSpan.Ticks / 10.0:N1}μs";
             if (log10 < 7) return $"{timeSpan.Ticks / 10_000.0:N1}ms";

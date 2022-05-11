@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
+using Jodo.Extensions.Primitives.Internals;
 using System.Collections.Generic;
 
 namespace Jodo.Extensions.Primitives
@@ -35,51 +35,9 @@ namespace Jodo.Extensions.Primitives
         }
 
         public static IWriteOnlyStream<T> AsWriteOnlyStream<T>(this ICollection<T> collection)
-           => new CollectionWriteOnlyStream<T>(collection);
+           => new StreamWrappers.CollectionWriteOnly<T>(collection);
 
         public static IReadOnlyStream<T> AsReadOnlyStream<T>(this IReadOnlyList<T> collection)
-            => new ReadOnlyListReadOnlyStream<T>(collection);
-
-        private class ReadOnlyListReadOnlyStream<T> : IReadOnlyStream<T>
-        {
-            private readonly IReadOnlyList<T> _list;
-            private int _position;
-
-            public ReadOnlyListReadOnlyStream(IReadOnlyList<T> list)
-            {
-                _list = list ?? throw new ArgumentNullException(nameof(list));
-                _position = 0;
-            }
-
-            public ReadOnlySpan<T> Read(int count)
-            {
-                if (_position + count > _list.Count) throw new IndexOutOfRangeException();
-                var results = new T[count];
-                for (int i = 0; i < count; i++)
-                {
-                    results[i] = _list[_position + i];
-                }
-                _position += count;
-                return results;
-            }
-        }
-
-        private class CollectionWriteOnlyStream<T> : IWriteOnlyStream<T>
-        {
-            private readonly ICollection<T> _collection;
-
-            public CollectionWriteOnlyStream(ICollection<T> collection)
-            {
-                _collection = collection ?? throw new ArgumentNullException(nameof(collection));
-            }
-
-            public void Write(ReadOnlySpan<T> values)
-            {
-                foreach (var value in values)
-                {
-                    _collection.Add(value);
-                }
-            }
-        }
+            => new StreamWrappers.ListReadOnly<T>(collection);
     }
 }

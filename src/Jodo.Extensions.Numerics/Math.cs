@@ -26,17 +26,17 @@ namespace Jodo.Extensions.Numerics
     {
         private static readonly IMath<T> Instance = default(T).Math;
 
-        public static readonly T E = Instance.E;
-        public static readonly T PI = Instance.PI;
-        public static readonly T Epsilon = Instance.Epsilon;
-        public static readonly T MaxValue = Instance.MaxValue;
-        public static readonly T MinValue = Instance.MinValue;
-        public static readonly T MaxUnit = Instance.MaxUnit;
-        public static readonly T MinUnit = Instance.MinUnit;
-        public static readonly T Zero = Instance.Zero;
-        public static readonly T One = Instance.One;
-        public static readonly bool IsSigned = Instance.IsSigned;
-        public static readonly bool IsReal = Instance.IsReal;
+        public static T E => Instance.E;
+        public static T PI => Instance.PI;
+        public static T Epsilon => Instance.Epsilon;
+        public static T MaxValue => Instance.MaxValue;
+        public static T MinValue => Instance.MinValue;
+        public static T MaxUnit => Instance.MaxUnit;
+        public static T MinUnit => Instance.MinUnit;
+        public static T Zero => Instance.Zero;
+        public static T One => Instance.One;
+        public static bool IsSigned => Instance.IsSigned;
+        public static bool IsReal => Instance.IsReal;
 
         [DebuggerStepThrough]
         public static bool IsGreaterThan(in T x, in T y) => Instance.IsGreaterThan(x, y);

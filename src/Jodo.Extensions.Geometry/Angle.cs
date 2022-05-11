@@ -54,22 +54,18 @@ namespace Jodo.Extensions.Geometry
             Degrees = degrees;
         }
 
-        private Angle(SerializationInfo info, StreamingContext _) : this(
+        private Angle(SerializationInfo info, StreamingContext context) : this(
             (T)info.GetValue(nameof(Degrees), typeof(T)))
         { }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
             => info.AddValue(nameof(Degrees), Degrees, typeof(T));
 
         public bool Equals(Angle<T> other) => Degrees.Equals(other.Degrees);
         public override bool Equals(object? obj) => obj is Angle<T> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
         public override string ToString() => StringRepresentation.Combine(GetType(), Degrees);
-
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
+        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public static Angle<T> FromDegrees(T degrees) => new Angle<T>(degrees);
         public static Angle<T> FromDegrees(byte degrees) => new Angle<T>(Math<T>.Convert(degrees));

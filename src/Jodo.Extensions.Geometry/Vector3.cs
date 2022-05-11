@@ -46,13 +46,13 @@ namespace Jodo.Extensions.Geometry
             Z = z;
         }
 
-        private Vector3(SerializationInfo info, StreamingContext _) : this(
+        private Vector3(SerializationInfo info, StreamingContext context) : this(
             (T)info.GetValue(nameof(X), typeof(T)),
             (T)info.GetValue(nameof(Y), typeof(T)),
             (T)info.GetValue(nameof(Z), typeof(T)))
         { }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(X), X, typeof(T));
             info.AddValue(nameof(Y), Y, typeof(T));
@@ -63,12 +63,7 @@ namespace Jodo.Extensions.Geometry
         public override bool Equals(object? obj) => obj is Vector3<T> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
         public override string ToString() => StringRepresentation.Combine(GetType(), X, Y, Z);
-
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
-
+        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public static bool TryParse(string value, out Vector3<T> result)
         {
@@ -88,7 +83,7 @@ namespace Jodo.Extensions.Geometry
         {
             value = value.Replace(StringRepresentation.Combine(typeof(Vector3<T>)), string.Empty);
             var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
-            if (args.Length != 3) throw new FormatException(""); // todo
+            if (args.Length != 3) throw new FormatException();
             return new Vector3<T>(
                 StringParser<T>.Parse(args[0].Trim()),
                 StringParser<T>.Parse(args[1].Trim()),

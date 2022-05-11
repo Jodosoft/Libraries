@@ -29,6 +29,8 @@ namespace Jodo.Extensions.Numerics
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
     public readonly struct intx : INumeric<intx>
     {
         public static readonly intx MaxValue = new intx(int.MaxValue);
@@ -41,21 +43,21 @@ namespace Jodo.Extensions.Numerics
             _value = value;
         }
 
-        private intx(SerializationInfo info, StreamingContext _) : this(info.GetInt32(nameof(intx))) { }
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(intx), _value);
+        private intx(SerializationInfo info, StreamingContext context) : this(info.GetInt32(nameof(intx))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(intx), _value);
 
-        public bool Equals(intx other) => _value == other._value;
         public int CompareTo(intx other) => _value.CompareTo(other._value);
         public int CompareTo(object? obj) => obj is intx other ? CompareTo(other) : 1;
+        public bool Equals(intx other) => _value == other._value;
         public override bool Equals(object? obj) => obj is intx other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out intx result) => Try.Run(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out intx result) => Try.Run(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out intx result) => Try.Run(Parse, s, style, out result);
-        public static bool TryParse(string s, out intx result) => Try.Function(Parse, s, out result);
+        public static bool TryParse(string s, IFormatProvider provider, out intx result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out intx result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out intx result) => Try.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out intx result) => Try.Run(() => Parse(s), out result);
         public static intx Parse(string s) => int.Parse(s);
         public static intx Parse(string s, IFormatProvider provider) => int.Parse(s, provider);
         public static intx Parse(string s, NumberStyles style) => int.Parse(s, style);

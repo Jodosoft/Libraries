@@ -53,12 +53,12 @@ namespace Jodo.Extensions.Geometry
             Radius = radius;
         }
 
-        private Circle(SerializationInfo info, StreamingContext _) : this(
+        private Circle(SerializationInfo info, StreamingContext context) : this(
             (Vector2<T>)info.GetValue(nameof(Center), typeof(Vector2<T>)),
             (T)info.GetValue(nameof(Radius), typeof(T)))
         { }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _)
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Center), Center, typeof(Vector2<T>));
             info.AddValue(nameof(Radius), Radius, typeof(T));
@@ -74,33 +74,7 @@ namespace Jodo.Extensions.Geometry
         public override bool Equals(object? obj) => obj is Circle<T> circle && Equals(circle);
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
         public override string ToString() => StringRepresentation.Combine(GetType(), Center, Radius);
-
-        string IFormattable.ToString(string format, IFormatProvider formatProvider)
-        {
-            throw new NotImplementedException();
-        }
-
-        // Circle<T> IBitConverter<Circle<T>>.Read(in IReadOnlyStream<byte> stream)
-        // {
-        //     return new Circle<T>(
-        //         stream.Read<Vector2<T>>(),
-        //         stream.Read<T>());
-        // }
-        //
-        // void IBitConverter<Circle<T>>.Write(in IWriteOnlyStream<byte> stream)
-        // {
-        //     stream.Write(Center);
-        //     stream.Write(Radius);
-        // }
-        // Circle<T> IRandom<Circle<T>>.GetNext(Random random)
-        // {
-        //     return new Circle<T>(random.NextGeometric<Vector2<T>>(), random.NextNumeric<T>());
-        // }
-        //
-        // Circle<T> IRandom<Circle<T>>.GetNext(Random random, in Circle<T> bound1, in Circle<T> bound2)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public static bool operator ==(Circle<T> left, Circle<T> right) => left.Equals(right);
         public static bool operator !=(Circle<T> left, Circle<T> right) => !(left == right);

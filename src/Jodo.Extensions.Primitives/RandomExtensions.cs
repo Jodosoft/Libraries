@@ -208,12 +208,12 @@ namespace System
 
         public static T NextRandomizable<T>(this Random random) where T : IRandomisable<T>, new()
         {
-            return IRandomisable<T>.Instance.GetNext(random);
+            return IRandomisable<T>.DefaultInstance.GetNext(random);
         }
 
         public static T NextRandomizable<T>(this Random random, in T bound1, in T bound2) where T : IRandomisable<T>, new()
         {
-            return IRandomisable<T>.Instance.GetNext(random, bound1, bound2);
+            return IRandomisable<T>.DefaultInstance.GetNext(random, bound1, bound2);
         }
     }
 }

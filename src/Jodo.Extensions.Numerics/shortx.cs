@@ -29,6 +29,8 @@ namespace Jodo.Extensions.Numerics
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
     public readonly struct shortx : INumeric<shortx>
     {
         public static readonly shortx MaxValue = new shortx(short.MaxValue);
@@ -41,21 +43,21 @@ namespace Jodo.Extensions.Numerics
             _value = value;
         }
 
-        private shortx(SerializationInfo info, StreamingContext _) : this(info.GetInt16(nameof(shortx))) { }
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(shortx), _value);
+        private shortx(SerializationInfo info, StreamingContext context) : this(info.GetInt16(nameof(shortx))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(shortx), _value);
 
-        public bool Equals(shortx other) => _value == other._value;
         public int CompareTo(shortx other) => _value.CompareTo(other._value);
         public int CompareTo(object? obj) => obj is shortx other ? CompareTo(other) : 1;
+        public bool Equals(shortx other) => _value == other._value;
         public override bool Equals(object? obj) => obj is shortx other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out shortx result) => Try.Run(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out shortx result) => Try.Run(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out shortx result) => Try.Run(Parse, s, style, out result);
-        public static bool TryParse(string s, out shortx result) => Try.Function(Parse, s, out result);
+        public static bool TryParse(string s, IFormatProvider provider, out shortx result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out shortx result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out shortx result) => Try.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out shortx result) => Try.Run(() => Parse(s), out result);
         public static shortx Parse(string s) => short.Parse(s);
         public static shortx Parse(string s, IFormatProvider provider) => short.Parse(s, provider);
         public static shortx Parse(string s, NumberStyles style) => short.Parse(s, style);

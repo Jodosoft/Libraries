@@ -30,6 +30,8 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
     public readonly struct ufix64 : INumeric<ufix64>
     {
         public static readonly ufix64 E = new ufix64(CheckedConvert.ToUInt64(Math.E * ScalingFactor));
@@ -51,21 +53,21 @@ namespace Jodo.Extensions.CheckedNumerics
             _scaledValue = scaledValue;
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(ufix64), _scaledValue);
-        private ufix64(SerializationInfo info, StreamingContext _) : this(info.GetUInt64(nameof(ufix64))) { }
+        private ufix64(SerializationInfo info, StreamingContext context) : this(info.GetUInt64(nameof(ufix64))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(ufix64), _scaledValue);
 
-        public bool Equals(ufix64 other) => _scaledValue == other._scaledValue;
         public int CompareTo(object? obj) => obj is ufix64 other ? CompareTo(other) : 1;
         public int CompareTo(ufix64 other) => _scaledValue.CompareTo(other._scaledValue);
+        public bool Equals(ufix64 other) => _scaledValue == other._scaledValue;
         public override bool Equals(object? obj) => obj is ufix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => ((double)this).ToString();
         public string ToString(string format, IFormatProvider formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out ufix64 result) => Try.Run(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ufix64 result) => Try.Run(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out ufix64 result) => Try.Run(Parse, s, style, out result);
-        public static bool TryParse(string s, out ufix64 result) => Try.Function(Parse, s, out result);
+        public static bool TryParse(string s, IFormatProvider provider, out ufix64 result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ufix64 result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out ufix64 result) => Try.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out ufix64 result) => Try.Run(() => Parse(s), out result);
         public static ufix64 Parse(string s) => (ufix64)double.Parse(s);
         public static ufix64 Parse(string s, IFormatProvider provider) => (ufix64)double.Parse(s, provider);
         public static ufix64 Parse(string s, NumberStyles style) => (ufix64)double.Parse(s, style);

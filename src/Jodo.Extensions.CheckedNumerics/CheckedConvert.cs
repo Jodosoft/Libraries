@@ -18,9 +18,12 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("SonarCloud", "csharpsquid:S3358")]
     public static class CheckedConvert
     {
         public static byte ToByte(decimal x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }

@@ -38,53 +38,5 @@ namespace Jodo.Extensions.Primitives
                 return false;
             }
         }
-
-        public static bool Function<T, TResult>(Func<T, TResult> function, T arg, out TResult result)
-        {
-            try
-            {
-                result = function(arg);
-                return true;
-            }
-            catch (Exception)
-            {
-#nullable disable
-                result = default;
-#nullable restore
-                return false;
-            }
-        }
-
-        public static bool Run<T1, T2, TResult>(Func<T1, T2, TResult> function, T1 arg1, T2 arg2, out TResult result)
-        {
-            try
-            {
-                result = function(arg1, arg2);
-                return true;
-            }
-            catch (Exception)
-            {
-#nullable disable
-                result = default;
-#nullable restore
-                return false;
-            }
-        }
-
-        public static bool Run<T1, T2, T3, TResult>(Func<T1, T2, T3, TResult> function, T1 arg1, T2 arg2, T3 arg3, out TResult result)
-        {
-            try
-            {
-                result = function(arg1, arg2, arg3);
-                return true;
-            }
-            catch (Exception)
-            {
-#nullable disable
-                result = default;
-#nullable restore
-                return false;
-            }
-        }
     }
 }

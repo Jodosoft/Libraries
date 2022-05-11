@@ -30,6 +30,8 @@ namespace Jodo.Extensions.CheckedNumerics
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("SonarCloud", "csharpsquid:S101")]
     public readonly struct cfloat : INumeric<cfloat>
     {
         public static readonly cfloat Epsilon = new cfloat(float.Epsilon);
@@ -40,19 +42,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public cfloat(float value)
         {
-            _value =
-                float.IsFinite(value) ? value :
-                float.IsPositiveInfinity(value) ? float.MaxValue :
-                float.IsNegativeInfinity(value) ? float.MinValue :
-                0f;
+            if (float.IsFinite(value)) _value = value;
+            else if (float.IsPositiveInfinity(value)) _value = float.MaxValue;
+            else if (float.IsNegativeInfinity(value)) _value = float.MinValue;
+            else _value = 0f;
         }
 
-        private cfloat(SerializationInfo info, StreamingContext _) : this(info.GetSingle(nameof(cfloat))) { }
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext _) => info.AddValue(nameof(cfloat), _value);
+        private cfloat(SerializationInfo info, StreamingContext context) : this(info.GetSingle(nameof(cfloat))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(cfloat), _value);
 
-        public bool Equals(cfloat other) => _value == other._value;
         public int CompareTo(cfloat other) => _value.CompareTo(other._value);
         public int CompareTo(object? obj) => obj is cfloat other ? CompareTo(other) : 1;
+        public bool Equals(cfloat other) => _value == other._value;
         public override bool Equals(object? obj) => obj is cfloat other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
@@ -60,10 +61,10 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static bool IsNormal(cfloat d) => float.IsNormal(d._value);
         public static bool IsSubnormal(cfloat d) => float.IsSubnormal(d._value);
-        public static bool TryParse(string s, IFormatProvider provider, out cfloat result) => Try.Run(Parse, s, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cfloat result) => Try.Run(Parse, s, style, provider, out result);
-        public static bool TryParse(string s, NumberStyles style, out cfloat result) => Try.Run(Parse, s, style, out result);
-        public static bool TryParse(string s, out cfloat result) => Try.Function(Parse, s, out result);
+        public static bool TryParse(string s, IFormatProvider provider, out cfloat result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cfloat result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out cfloat result) => Try.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out cfloat result) => Try.Run(() => Parse(s), out result);
         public static cfloat Parse(string s) => float.Parse(s);
         public static cfloat Parse(string s, IFormatProvider provider) => float.Parse(s, provider);
         public static cfloat Parse(string s, NumberStyles style) => float.Parse(s, style);
