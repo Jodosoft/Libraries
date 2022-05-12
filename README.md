@@ -4,6 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/JosephJShort/Jodo.Extensions/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo.Extensions"></a>
+  <a href="https://www.nuget.org/profiles/joseph.j.short"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Extensions.Primitives?label=version&logo=nuget"></a>
   <a href="https://github.com/JosephJShort/Jodo.Extensions/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/JosephJShort/Jodo.Extensions/Tests?label=build&logo=github" /></a>  
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?label=coverage&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io" /></a>
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?label=issues&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io" /></a>
