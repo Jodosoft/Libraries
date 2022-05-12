@@ -3,19 +3,14 @@
 <h1 align="center">Jodo.Extensions</h1>
 
 <p align="center">
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/tests.yml/badge.svg" alt="Test"/></a>
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"/></a>
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/sonarcloud.yml"><img src="https://github.com/JosephJShort/Jodo.Extensions/actions/workflows/sonarcloud.yml/badge.svg" alt="SonarCloud"/></a>
-  <br />
-  <a href="https://sonarcloud.io/summary/new_code?id=JosephJShort_Jodo.Extensions"><img src="https://sonarcloud.io/api/project_badges/measure?project=JosephJShort_Jodo.Extensions&amp;metric=reliability_rating" alt="Reliability Rating"></a>
-  <a href="https://sonarcloud.io/summary/new_code?id=JosephJShort_Jodo.Extensions"><img src="https://sonarcloud.io/api/project_badges/measure?project=JosephJShort_Jodo.Extensions&amp;metric=sqale_rating" alt="Maintainability Rating"></a>
-  <a href="https://sonarcloud.io/summary/new_code?id=JosephJShort_Jodo.Extensions"><img src="https://sonarcloud.io/api/project_badges/measure?project=JosephJShort_Jodo.Extensions&amp;metric=security_rating" alt="Security Rating"></a>
-
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo.Extensions"></a>
+  <a href="https://www.nuget.org/packages?q=Jodo.Extensions"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Extensions.Primitives?label=version&logo=nuget"></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/JosephJShort/Jodo.Extensions/Tests?label=build&logo=github" /></a>  
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?label=issues&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io" /></a>
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?label=coverage&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io" /></a>
 </p>
 
 <p align="center">C# extension libraries written in the style of the .NET SDK.</p>
-
-> **Note:** This repository is a work in progress
 
 <details>
   <summary><h2>Jodo.Extensions.Numerics</h2></summary>
