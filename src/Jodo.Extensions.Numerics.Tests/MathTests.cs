@@ -18,22 +18,16 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
-using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Numerics.Tests
 {
     public static class MathTests
     {
-        public class CDouble : Base<cdouble> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class CShort : Base<cshort> { }
-        public class Fix64 : Base<fix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UFix64 : Base<ufix64> { }
+        public class GShort : Base<gshort> { }
+        public class GInt : Base<gint> { }
 
         public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
         {
@@ -62,7 +56,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Zero;
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(0);
+                result.Should().BeNumericEquivalentTo(0);
             }
 
             [Test]
@@ -88,7 +82,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Abs(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -102,21 +96,21 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Acos(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Acosh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<T>(0, 255);
+                var input = Random.NextNumeric<T>(1, 255);
                 var expected = Math.Acosh(Math<T>.ToDouble(input, 0));
 
                 //act
                 var result = Math<T>.Acosh(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -130,7 +124,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Asin(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -144,7 +138,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Asinh(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -158,50 +152,51 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Atan(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Atan2_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextNumeric<T>(0, 4);
-                var input2 = Random.NextNumeric<T>(0, 4);
+                var input1 = Random.NextNumeric<T>(1, 4);
+                var input2 = Random.NextNumeric<T>(1, 4);
                 var expected = Math.Atan2(Math<T>.ToDouble(input1, 0), Math<T>.ToDouble(input2, 0));
 
                 //act
                 var result = Math<T>.Atan2(input1, input2);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Atanh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<T>(0, 1);
+                T input;
+                do { input = Random.NextNumeric<T>(0, 1); } while (input.Equals(Math<T>.One));
                 var expected = Math.Atanh(Math<T>.ToDouble(input, 0));
 
                 //act
                 var result = Math<T>.Atanh(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Cbrt_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<T>(0, 255);
+                var input = Random.NextNumeric<T>(1, 255);
                 var expected = Math.Cbrt(Math<T>.ToDouble(input, 0));
 
                 //act
                 var result = Math<T>.Cbrt(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -215,7 +210,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Ceiling(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -229,7 +224,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Cos(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -243,7 +238,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Cosh(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -256,21 +251,21 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.E;
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Exp_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<T>(0, 3);
+                var input = Random.NextNumeric<T>(1, 3);
                 var expected = Math.Exp(Math<T>.ToDouble(input, 0));
 
                 //act
                 var result = Math<T>.Exp(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -284,7 +279,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Floor(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -299,50 +294,50 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.IEEERemainder(input1, input2);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Log_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<T>(0, 255);
+                var input = Random.NextNumeric<T>(1, 255);
                 var expected = Math.Log(Math<T>.ToDouble(input, 0));
 
                 //act
                 var result = Math<T>.Log(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void LogN_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextNumeric<T>(0, 255);
-                var input2 = Random.NextNumeric<T>(0, 10);
+                var input1 = Random.NextNumeric<T>(1, 255);
+                var input2 = Random.NextNumeric<T>(1, 10);
                 var expected = Math.Log(Math<T>.ToDouble(input1, 0), Math<T>.ToDouble(input2, 0));
 
                 //act
                 var result = Math<T>.Log(input1, input2);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Log10_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<T>(0, 255);
+                var input = Random.NextNumeric<T>(1, 255);
                 var expected = Math.Log10(Math<T>.ToDouble(input, 0));
 
                 //act
                 var result = Math<T>.Log10(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -357,7 +352,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Max(input1, input2);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -372,7 +367,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Min(input1, input2);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -385,22 +380,22 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.PI;
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Pow_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextNumeric<T>(0, 3);
-                var input2 = Random.NextNumeric<T>(0, 3);
+                var input1 = Random.NextNumeric<T>(1, 3);
+                var input2 = Random.NextNumeric<T>(1, 3);
                 var expected = Math.Pow(Math<T>.ToDouble(input1, 0), Math<T>.ToDouble(input2, 0));
 
                 //act
                 var result = Math<T>.Pow(input1, input2);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -414,7 +409,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Round(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -429,7 +424,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Round(input, digits);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -444,7 +439,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Round(input, midpointRounding);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -460,7 +455,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Round(input, digits, midpointRounding);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -474,7 +469,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Sin(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -488,21 +483,21 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Sinh(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
             public void Sqrt_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<T>(0, 255);
+                var input = Random.NextNumeric<T>(1, 255);
                 var expected = Math.Sqrt(Math<T>.ToDouble(input, 0));
 
                 //act
                 var result = Math<T>.Sqrt(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -516,7 +511,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Tan(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -530,7 +525,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Tanh(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
 
             [Test]
@@ -543,7 +538,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Truncate(input);
 
                 //assert
-                result.Should().BeCheckedNumericEquivalentTo(expected);
+                result.Should().BeNumericEquivalentTo(expected);
             }
         }
     }

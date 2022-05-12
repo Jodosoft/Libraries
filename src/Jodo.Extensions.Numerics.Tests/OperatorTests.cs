@@ -26,7 +26,8 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class OperatorTests
     {
-        public class Shortx : Base<shortx> { }
+        public class GShort : Base<gshort> { }
+        public class GInt : Base<gint> { }
 
         public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
         {

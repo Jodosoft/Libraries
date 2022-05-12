@@ -198,8 +198,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ufix64 IBitConverter<ufix64>.Read(in IReadOnlyStream<byte> stream) => new ufix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong))));
             void IBitConverter<ufix64>.Write(ufix64 value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
-            ufix64 IRandom<ufix64>.GetNext(Random random) => random.NextUInt64();
-            ufix64 IRandom<ufix64>.GetNext(Random random, in ufix64 bound1, in ufix64 bound2) => random.NextUInt64(bound1._scaledValue, bound2._scaledValue);
+            ufix64 IRandom<ufix64>.GetNext(Random random) => new ufix64(random.NextUInt64());
+            ufix64 IRandom<ufix64>.GetNext(Random random, in ufix64 bound1, in ufix64 bound2) => new ufix64(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
 
             ufix64 IStringParser<ufix64>.Parse(in string s) => Parse(s);
             ufix64 IStringParser<ufix64>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);

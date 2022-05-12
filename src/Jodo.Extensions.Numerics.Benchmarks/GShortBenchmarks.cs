@@ -22,15 +22,15 @@ using System;
 
 namespace Jodo.Extensions.Numerics.Benchmarks
 {
-    public static class ShortxBenchmarks
+    public static class GShortBenchmarks
     {
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static void Shortx_Versus_Int16_Negation()
+        public static void GShort_Versus_Int16_Negation()
         {
             var baseline = Random.NextInt16(100, 1000);
-            var sut = (shortx)baseline;
+            var sut = (gshort)baseline;
 
             Benchmark.Run(
                 () => -sut,
@@ -38,12 +38,12 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         }
 
         [Benchmark]
-        public static void Shortx_Versus_Int16_Division()
+        public static void GShort_Versus_Int16_Division()
         {
             var baselineLeft = Random.NextInt16(100, 1000);
             var baselineRight = Random.NextInt16(2, 10);
-            var sutLeft = (shortx)baselineLeft;
-            var sutRight = (shortx)baselineRight;
+            var sutLeft = (gshort)baselineLeft;
+            var sutRight = (gshort)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -51,10 +51,10 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         }
 
         [Benchmark]
-        public static void Shortx_Versus_Int16_ConversionToFloat()
+        public static void GShort_Versus_Int16_ConversionToFloat()
         {
             var baseline = Random.NextInt16(100, 1000);
-            var sut = (shortx)baseline;
+            var sut = (gshort)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -62,19 +62,19 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         }
 
         [Benchmark]
-        public static void Shortx_Versus_Int16_StringParsing()
+        public static void GShort_Versus_Int16_StringParsing()
         {
             var input = Random.NextInt16(-100, 100).ToString();
 
             Benchmark.Run(
-                () => shortx.Parse(input),
+                () => gshort.Parse(input),
                 () => short.Parse(input));
         }
 
         [Benchmark]
-        public static void Shortx_Versus_Int16_Overflow()
+        public static void GShort_Versus_Int16_Overflow()
         {
-            var functionInput = shortx.MaxValue;
+            var functionInput = gshort.MaxValue;
             var baselineInput = short.MaxValue;
 
             Benchmark.Run(

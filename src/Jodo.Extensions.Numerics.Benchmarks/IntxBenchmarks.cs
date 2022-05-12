@@ -23,15 +23,15 @@ using System.Threading.Tasks;
 
 namespace Jodo.Extensions.Numerics.Benchmarks
 {
-    public static class IntxBenchmarks
+    public static class GIntBenchmarks
     {
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static void Intx_Versus_Int32_Negation()
+        public static void GInt_Versus_Int32_Negation()
         {
             var baselineInput = Random.NextInt32(100, 1000);
-            var subjectInput = (shortx)baselineInput;
+            var subjectInput = (gshort)baselineInput;
 
             Benchmark.Run(
                 () => -subjectInput,
@@ -39,12 +39,12 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         }
 
         [Benchmark]
-        public static void Intx_Versus_Int32_Division()
+        public static void GInt_Versus_Int32_Division()
         {
             var baselineInput1 = Random.NextInt32(100, 1000);
             var baselineInput2 = Random.NextInt32(2, 10);
-            var subjectInput1 = (shortx)baselineInput1;
-            var subjectInput2 = (shortx)baselineInput2;
+            var subjectInput1 = (gshort)baselineInput1;
+            var subjectInput2 = (gshort)baselineInput2;
 
             Benchmark.Run(
                 () => subjectInput1 / subjectInput2,
@@ -52,10 +52,10 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         }
 
         [Benchmark]
-        public static void Intx_Versus_Int32_ConversionToFloat()
+        public static void GInt_Versus_Int32_ConversionToFloat()
         {
             var baseline = Random.NextInt32(100, 1000);
-            var sut = (shortx)baseline;
+            var sut = (gshort)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -63,19 +63,19 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         }
 
         [Benchmark]
-        public static void Intx_Versus_Int32_StringParsing()
+        public static void GInt_Versus_Int32_StringParsing()
         {
             var stringInput = Random.NextInt32(-100, 100).ToString();
 
             Benchmark.Run(
-                () => shortx.Parse(stringInput),
+                () => gshort.Parse(stringInput),
                 () => short.Parse(stringInput));
         }
 
         [Benchmark]
-        public static void Intx_Versus_Int32_Overflow()
+        public static void GInt_Versus_Int32_Overflow()
         {
-            var subjectInput = shortx.MaxValue;
+            var subjectInput = gshort.MaxValue;
             var baselineInput = short.MaxValue;
 
             Benchmark.Run(
