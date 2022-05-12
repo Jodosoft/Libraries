@@ -1,12 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <AssemblyName>Jodo.Extensions.Primitives</AssemblyName>
     <AssemblyTitle>Jodo.Extensions.Primitives</AssemblyTitle>
-    <Description>Reusable types and utilities used by Jodo.Extensions</Description>
     <PackageId>Jodo.Extensions.Primitives</PackageId>
-    <PackageTags>collections</PackageTags>
+    <PackageTags>primitives, utility, utilities</PackageTags>
     <RootNamespace>Jodo.Extensions.Primitives</RootNamespace>
-    <Summary>Reusable types and utilities used by Jodo.Extensions</Summary>
+    <Description>Reusable types and utilities used by other Jodo.Extensions packages.
+
+      Commonly Used Types:
+      Jodo.Extensions.Primitives.BitConverter&lt;N&gt;
+    </Description>
     <Title>Jodo.Extensions.Primitives</Title>
-  </PropertyGroup>
+    <PackageReleaseNotes>See https://github.com/JosephJShort/Jodo.Extensions/commits/main </PackageReleaseNotes>
+  </PropertyGroup>  
+  
 </Project>
