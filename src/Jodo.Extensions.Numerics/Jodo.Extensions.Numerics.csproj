@@ -13,7 +13,6 @@ Jodo.Extensions.Numerics.INumeric&lt;N&gt;
 Jodo.Extensions.Numerics.Math&lt;N&gt;
     </Description>
     <Title>Jodo.Extensions.Numerics</Title>
-    <PackageReleaseNotes>See https://github.com/JosephJShort/Jodo.Extensions/commits/main </PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>

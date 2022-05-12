@@ -12,7 +12,6 @@
       Jodo.Extensions.Primitives.BitConverter&lt;N&gt;
     </Description>
     <Title>Jodo.Extensions.Primitives</Title>
-    <PackageReleaseNotes>See https://github.com/JosephJShort/Jodo.Extensions/commits/main </PackageReleaseNotes>
   </PropertyGroup>  
   
 </Project>

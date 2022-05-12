@@ -15,7 +15,6 @@ Jodo.Extensions.CheckedNumerics.cint
 Jodo.Extensions.CheckedNumerics.cfloat
 Jodo.Extensions.CheckedNumerics.cdouble</Description>
     <Title>Jodo.Extensions.CheckedNumerics</Title>
-    <PackageReleaseNotes>See https://github.com/JosephJShort/Jodo.Extensions/commits/main </PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>

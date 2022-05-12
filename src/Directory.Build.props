@@ -33,8 +33,9 @@
     <Otherwise>
       <ItemGroup>
         <Compile Include="..\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
-        <None Include="..\LICENSE.md" Link="Properties\LICENSE.md" Pack="true" PackagePath="\" />
-        <None Include="..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.md" Link="Properties\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\LICENSE.md" Link="Properties\LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
       </ItemGroup>
       <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
@@ -58,8 +59,12 @@
         <PackageIcon>PackageIcon.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/JosephJShort/Jodo.Extensions</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>https://github.com/JosephJShort/Jodo.Extensions/issues?q=milestone%3A1.0.0</PackageReleaseNotes>
         <Product>Jodo.Extensions</Product>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/JosephJShort/Jodo.Extensions.git</RepositoryUrl>
         <TargetFramework>netstandard2.1</TargetFramework>
         <VersionPrefix>1.0.0</VersionPrefix>
         <VersionSuffix>preview2</VersionSuffix>

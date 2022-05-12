@@ -14,9 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		AssemblyInfo.cs = AssemblyInfo.cs
 		Directory.Build.props = Directory.Build.props
-		LICENSE.md = LICENSE.md
-		PackageIcon.png = PackageIcon.png
-		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jodo.Extensions.Collections.Tests", "Jodo.Extensions.Collections.Tests\Jodo.Extensions.Collections.Tests.csproj", "{3FA478DC-9FC5-4524-A866-B27FD685262A}"
