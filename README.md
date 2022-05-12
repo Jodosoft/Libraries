@@ -2,17 +2,19 @@
 
 <h1 align="center">Jodo.Extensions</h1>
 
+<p align="center">C# extension libraries written in the style of the .NET SDK.</p>
+
 <p align="center">
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo.Extensions"></a>
-  <a href="https://www.nuget.org/packages?q=Jodo.Extensions"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Extensions.Primitives?label=version&logo=nuget"></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo.Extensions?style=for-the-badge&color=%23004880"></a>
+  <a href="https://www.nuget.org/packages?q=Jodo.Extensions"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Extensions.Primitives?label=version&logo=nuget&style=for-the-badge&color=%23004880"></a>
   <br />
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/JosephJShort/Jodo.Extensions/Tests?label=build&logo=github" /></a>  
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?label=issues&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io" /></a>
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?label=coverage&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io" /></a>
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo.Extensions?logo=github"></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/JosephJShort/Jodo.Extensions/Tests?label=build&logo=github&style=for-the-badge" /></a>  
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo.Extensions?logo=github&style=for-the-badge"></a>
+  <br />
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge" /></a>
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?label=coverage&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge" /></a>
 </p>
 
-<p align="center">C# extension libraries written in the style of the .NET SDK.</p>
 
 <details>
   <summary><h2>Jodo.Extensions.Numerics</h2></summary>
