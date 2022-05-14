@@ -20,7 +20,7 @@
 <details>
   <summary><h2>Jodo.Extensions.Numerics</h2></summary>
 
-  Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> and accompanying utilities classes, allowing for the creation of numeric types that can used interchangeably with generics.
+  Provides <a href="#inumericn">INumeric&lt;N&gt;</a> and accompanying utilities classes, allowing for the creation of interchangeable number types.
 
 ### Types
 
@@ -42,7 +42,7 @@
     <td id="mathn">Math&lt;N&gt;</td>
     <td>
       <ul>
-        <li>A static class that provides equivalents to all methods from [Math](https://docs.microsoft.com/en-us/dotnet/api/system.math), e.g. <code>N Log(N)</code>, <code>N Pow(N)</code> and <code>N Sqrt(N)</code>.</li>
+        <li>A static class that provides equivalents to all methods from <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>N Log(N)</code>, <code>N Pow(N)</code> and <code>N Sqrt(N)</code>.</li>
         <li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li>
       </ul>
     </td>
@@ -50,7 +50,7 @@
   <tr>
     <td id="bitconvertern">BitConverter&lt;N&gt;</td>
     <td>
-      <ul><li>A static class that provides equivalent methods to [BitConverter](https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter).</li><li>Allows conversion to and from `ReadOnlySpan<byte>`.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li></ul>
+      <ul><li>A static class that provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>.</li><li>Allows conversion to and from <code>ReadOnlySpan&lt;byte&gt;</code>.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li></ul>
     </td>
   </tr>
   <tr>
