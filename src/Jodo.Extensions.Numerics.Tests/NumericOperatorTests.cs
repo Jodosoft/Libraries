@@ -21,7 +21,9 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class NumericOperatorTests
     {
-        public class GShort : NumericOperatorTestsBase<gshort> { }
         public class GInt : NumericOperatorTestsBase<gint> { }
+        public class GLong : NumericOperatorTestsBase<glong> { }
+        public class GSByte : NumericOperatorTestsBase<gsbyte> { }
+        public class GShort : NumericOperatorTestsBase<gshort> { }
     }
 }

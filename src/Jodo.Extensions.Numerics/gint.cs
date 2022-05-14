@@ -151,8 +151,8 @@ namespace Jodo.Extensions.Numerics
             gint IMath<gint>.Clamp(gint x, gint bound1, gint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             gint IMath<gint>.Cos(gint x) => (int)Math.Cos(x._value);
             gint IMath<gint>.Cosh(gint x) => (int)Math.Cosh(x._value);
-            gint IMath<gint>.DegreesToRadians(gint x) => (int)(x * AngleConstants.RadiansPerDegree);
-            gint IMath<gint>.DegreesToTurns(gint x) => (int)(x * AngleConstants.TurnsPerDegree);
+            gint IMath<gint>.DegreesToRadians(gint x) => (int)(x * Trig.RadiansPerDegree);
+            gint IMath<gint>.DegreesToTurns(gint x) => (int)(x * Trig.TurnsPerDegree);
             gint IMath<gint>.Divide(gint x, gint y) => x / y;
             gint IMath<gint>.Exp(gint x) => (int)Math.Exp(x._value);
             gint IMath<gint>.Floor(gint x) => x;
@@ -167,8 +167,8 @@ namespace Jodo.Extensions.Numerics
             gint IMath<gint>.Positive(gint x) => +x;
             gint IMath<gint>.Pow(gint x, byte y) => (int)Math.Pow(x._value, y);
             gint IMath<gint>.Pow(gint x, gint y) => (int)Math.Pow(x._value, y._value);
-            gint IMath<gint>.RadiansToDegrees(gint x) => (int)(x * AngleConstants.DegreesPerRadian);
-            gint IMath<gint>.RadiansToTurns(gint x) => (int)(x * AngleConstants.TurnsPerRadian);
+            gint IMath<gint>.RadiansToDegrees(gint x) => (int)(x * Trig.DegreesPerRadian);
+            gint IMath<gint>.RadiansToTurns(gint x) => (int)(x * Trig.TurnsPerRadian);
             gint IMath<gint>.Remainder(gint x, gint y) => x % y;
             gint IMath<gint>.Round(gint x) => x;
             gint IMath<gint>.Round(gint x, int digits) => x;
@@ -181,8 +181,8 @@ namespace Jodo.Extensions.Numerics
             gint IMath<gint>.Tan(gint x) => (int)Math.Tan(x._value);
             gint IMath<gint>.Tanh(gint x) => (int)Math.Tanh(x._value);
             gint IMath<gint>.Truncate(gint x) => x;
-            gint IMath<gint>.TurnsToDegrees(gint x) => (int)(x * AngleConstants.DegreesPerTurn);
-            gint IMath<gint>.TurnsToRadians(gint x) => (int)(x * AngleConstants.DegreesPerRadian);
+            gint IMath<gint>.TurnsToDegrees(gint x) => (int)(x * Trig.DegreesPerTurn);
+            gint IMath<gint>.TurnsToRadians(gint x) => (int)(x * Trig.DegreesPerRadian);
             double IMath<gint>.ToDouble(gint x, double offset) => x._value + offset;
             float IMath<gint>.ToSingle(gint x, float offset) => x._value + offset;
             int IMath<gint>.Sign(gint x) => Math.Sign(x._value);

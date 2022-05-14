@@ -155,8 +155,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cuint IMath<cuint>.Clamp(cuint x, cuint bound1, cuint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cuint IMath<cuint>.Cos(cuint x) => (cuint)Math.Cos(x._value);
             cuint IMath<cuint>.Cosh(cuint x) => (cuint)Math.Cosh(x._value);
-            cuint IMath<cuint>.DegreesToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, AngleConstants.RadiansPerDegree);
-            cuint IMath<cuint>.DegreesToTurns(cuint x) => (cuint)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerDegree);
+            cuint IMath<cuint>.DegreesToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            cuint IMath<cuint>.DegreesToTurns(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.TurnsPerDegree);
             cuint IMath<cuint>.Divide(cuint x, cuint y) => x / y;
             cuint IMath<cuint>.Exp(cuint x) => (cuint)Math.Exp(x._value);
             cuint IMath<cuint>.Floor(cuint x) => x;
@@ -171,8 +171,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cuint IMath<cuint>.Positive(cuint x) => +x;
             cuint IMath<cuint>.Pow(cuint x, byte y) => CheckedArithmetic.Pow(x._value, y);
             cuint IMath<cuint>.Pow(cuint x, cuint y) => CheckedArithmetic.Pow(x._value, y._value);
-            cuint IMath<cuint>.RadiansToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
-            cuint IMath<cuint>.RadiansToTurns(cuint x) => (cuint)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerRadian);
+            cuint IMath<cuint>.RadiansToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            cuint IMath<cuint>.RadiansToTurns(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.TurnsPerRadian);
             cuint IMath<cuint>.Remainder(cuint x, cuint y) => x % y;
             cuint IMath<cuint>.Round(cuint x) => x;
             cuint IMath<cuint>.Round(cuint x, int digits) => x;
@@ -185,8 +185,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cuint IMath<cuint>.Tan(cuint x) => (cuint)Math.Tan(x._value);
             cuint IMath<cuint>.Tanh(cuint x) => (cuint)Math.Tanh(x._value);
             cuint IMath<cuint>.Truncate(cuint x) => x;
-            cuint IMath<cuint>.TurnsToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerTurn);
-            cuint IMath<cuint>.TurnsToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
+            cuint IMath<cuint>.TurnsToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.DegreesPerTurn);
+            cuint IMath<cuint>.TurnsToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
 
             cuint IBitConverter<cuint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
             void IBitConverter<cuint>.Write(cuint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

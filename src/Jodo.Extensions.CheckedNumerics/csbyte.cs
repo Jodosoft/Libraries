@@ -152,8 +152,8 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Clamp(csbyte x, csbyte bound1, csbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             csbyte IMath<csbyte>.Cos(csbyte x) => (csbyte)Math.Cos(x._value);
             csbyte IMath<csbyte>.Cosh(csbyte x) => (csbyte)Math.Cosh(x._value);
-            csbyte IMath<csbyte>.DegreesToRadians(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, AngleConstants.RadiansPerDegree);
-            csbyte IMath<csbyte>.DegreesToTurns(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerDegree);
+            csbyte IMath<csbyte>.DegreesToRadians(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            csbyte IMath<csbyte>.DegreesToTurns(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.TurnsPerDegree);
             csbyte IMath<csbyte>.Divide(csbyte x, csbyte y) => x / y;
             csbyte IMath<csbyte>.Exp(csbyte x) => (csbyte)Math.Exp(x._value);
             csbyte IMath<csbyte>.Floor(csbyte x) => x;
@@ -168,8 +168,8 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Positive(csbyte x) => +x;
             csbyte IMath<csbyte>.Pow(csbyte x, byte y) => CheckedArithmetic.Pow(x._value, (sbyte)y);
             csbyte IMath<csbyte>.Pow(csbyte x, csbyte y) => CheckedArithmetic.Pow(x._value, y._value);
-            csbyte IMath<csbyte>.RadiansToDegrees(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
-            csbyte IMath<csbyte>.RadiansToTurns(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerRadian);
+            csbyte IMath<csbyte>.RadiansToDegrees(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            csbyte IMath<csbyte>.RadiansToTurns(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.TurnsPerRadian);
             csbyte IMath<csbyte>.Remainder(csbyte x, csbyte y) => x % y;
             csbyte IMath<csbyte>.Round(csbyte x) => x;
             csbyte IMath<csbyte>.Round(csbyte x, int digits) => x;
@@ -182,8 +182,8 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Tan(csbyte x) => (csbyte)Math.Tan(x._value);
             csbyte IMath<csbyte>.Tanh(csbyte x) => (csbyte)Math.Tanh(x._value);
             csbyte IMath<csbyte>.Truncate(csbyte x) => x;
-            csbyte IMath<csbyte>.TurnsToDegrees(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerTurn);
-            csbyte IMath<csbyte>.TurnsToRadians(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
+            csbyte IMath<csbyte>.TurnsToDegrees(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerTurn);
+            csbyte IMath<csbyte>.TurnsToRadians(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             double IMath<csbyte>.ToDouble(csbyte x, double offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             float IMath<csbyte>.ToSingle(csbyte x, float offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             int IMath<csbyte>.Sign(csbyte x) => Math.Sign(x._value);

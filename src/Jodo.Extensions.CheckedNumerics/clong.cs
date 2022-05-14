@@ -152,8 +152,8 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Clamp(clong x, clong bound1, clong bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             clong IMath<clong>.Cos(clong x) => (clong)Math.Cos(x._value);
             clong IMath<clong>.Cosh(clong x) => (clong)Math.Cosh(x._value);
-            clong IMath<clong>.DegreesToRadians(clong x) => (clong)CheckedArithmetic.Multiply(x, AngleConstants.RadiansPerDegree);
-            clong IMath<clong>.DegreesToTurns(clong x) => (clong)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerDegree);
+            clong IMath<clong>.DegreesToRadians(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            clong IMath<clong>.DegreesToTurns(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.TurnsPerDegree);
             clong IMath<clong>.Divide(clong x, clong y) => x / y;
             clong IMath<clong>.Exp(clong x) => (clong)Math.Exp(x._value);
             clong IMath<clong>.Floor(clong x) => x;
@@ -168,8 +168,8 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Positive(clong x) => +x;
             clong IMath<clong>.Pow(clong x, byte y) => CheckedArithmetic.Pow(x._value, y);
             clong IMath<clong>.Pow(clong x, clong y) => CheckedArithmetic.Pow(x._value, y._value);
-            clong IMath<clong>.RadiansToDegrees(clong x) => (clong)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
-            clong IMath<clong>.RadiansToTurns(clong x) => (clong)CheckedArithmetic.Multiply(x, AngleConstants.TurnsPerRadian);
+            clong IMath<clong>.RadiansToDegrees(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            clong IMath<clong>.RadiansToTurns(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.TurnsPerRadian);
             clong IMath<clong>.Remainder(clong x, clong y) => x % y;
             clong IMath<clong>.Round(clong x) => x;
             clong IMath<clong>.Round(clong x, int digits) => x;
@@ -182,8 +182,8 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Tan(clong x) => (clong)Math.Tan(x._value);
             clong IMath<clong>.Tanh(clong x) => (clong)Math.Tanh(x._value);
             clong IMath<clong>.Truncate(clong x) => x;
-            clong IMath<clong>.TurnsToDegrees(clong x) => (clong)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerTurn);
-            clong IMath<clong>.TurnsToRadians(clong x) => (clong)CheckedArithmetic.Multiply(x, AngleConstants.DegreesPerRadian);
+            clong IMath<clong>.TurnsToDegrees(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.DegreesPerTurn);
+            clong IMath<clong>.TurnsToRadians(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             double IMath<clong>.ToDouble(clong x, double offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             float IMath<clong>.ToSingle(clong x, float offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             int IMath<clong>.Sign(clong x) => Math.Sign(x._value);

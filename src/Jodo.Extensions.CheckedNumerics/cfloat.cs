@@ -152,8 +152,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Clamp(cfloat x, cfloat bound1, cfloat bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             cfloat IMath<cfloat>.Cos(cfloat x) => MathF.Cos(x._value);
             cfloat IMath<cfloat>.Cosh(cfloat x) => MathF.Cosh(x._value);
-            cfloat IMath<cfloat>.DegreesToRadians(cfloat x) => x._value * AngleConstantsF.RadiansPerDegree;
-            cfloat IMath<cfloat>.DegreesToTurns(cfloat x) => x._value * AngleConstantsF.TurnsPerDegree;
+            cfloat IMath<cfloat>.DegreesToRadians(cfloat x) => x._value * TrigF.RadiansPerDegree;
+            cfloat IMath<cfloat>.DegreesToTurns(cfloat x) => x._value * TrigF.TurnsPerDegree;
             cfloat IMath<cfloat>.Divide(cfloat x, cfloat y) => x / y;
             cfloat IMath<cfloat>.Exp(cfloat x) => MathF.Exp(x._value);
             cfloat IMath<cfloat>.Floor(cfloat x) => MathF.Floor(x._value);
@@ -168,8 +168,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Positive(cfloat x) => +x;
             cfloat IMath<cfloat>.Pow(cfloat x, byte y) => MathF.Pow(x._value, y);
             cfloat IMath<cfloat>.Pow(cfloat x, cfloat y) => MathF.Pow(x._value, y._value);
-            cfloat IMath<cfloat>.RadiansToDegrees(cfloat x) => x._value * AngleConstantsF.DegreesPerRadian;
-            cfloat IMath<cfloat>.RadiansToTurns(cfloat x) => x._value * AngleConstantsF.TurnsPerRadian;
+            cfloat IMath<cfloat>.RadiansToDegrees(cfloat x) => x._value * TrigF.DegreesPerRadian;
+            cfloat IMath<cfloat>.RadiansToTurns(cfloat x) => x._value * TrigF.TurnsPerRadian;
             cfloat IMath<cfloat>.Remainder(cfloat x, cfloat y) => x % y;
             cfloat IMath<cfloat>.Round(cfloat x) => MathF.Round(x._value);
             cfloat IMath<cfloat>.Round(cfloat x, int digits) => MathF.Round(x._value, digits);
@@ -182,8 +182,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Tan(cfloat x) => MathF.Tan(x._value);
             cfloat IMath<cfloat>.Tanh(cfloat x) => MathF.Tanh(x._value);
             cfloat IMath<cfloat>.Truncate(cfloat x) => MathF.Truncate(x._value);
-            cfloat IMath<cfloat>.TurnsToDegrees(cfloat x) => x._value * AngleConstantsF.DegreesPerTurn;
-            cfloat IMath<cfloat>.TurnsToRadians(cfloat x) => x._value * AngleConstantsF.RadiansPerTurn;
+            cfloat IMath<cfloat>.TurnsToDegrees(cfloat x) => x._value * TrigF.DegreesPerTurn;
+            cfloat IMath<cfloat>.TurnsToRadians(cfloat x) => x._value * TrigF.RadiansPerTurn;
             double IMath<cfloat>.ToDouble(cfloat x, double offset) => CheckedArithmetic.Add(x._value, offset);
             float IMath<cfloat>.ToSingle(cfloat x, float offset) => CheckedArithmetic.Add(x._value, offset);
             int IMath<cfloat>.Sign(cfloat x) => MathF.Sign(x._value);

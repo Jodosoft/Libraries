@@ -151,8 +151,8 @@ namespace Jodo.Extensions.Numerics
             gshort IMath<gshort>.Clamp(gshort x, gshort bound1, gshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             gshort IMath<gshort>.Cos(gshort x) => (short)Math.Cos(x._value);
             gshort IMath<gshort>.Cosh(gshort x) => (short)Math.Cosh(x._value);
-            gshort IMath<gshort>.DegreesToRadians(gshort x) => (short)(x * AngleConstants.RadiansPerDegree);
-            gshort IMath<gshort>.DegreesToTurns(gshort x) => (short)(x * AngleConstants.TurnsPerDegree);
+            gshort IMath<gshort>.DegreesToRadians(gshort x) => (short)(x * Trig.RadiansPerDegree);
+            gshort IMath<gshort>.DegreesToTurns(gshort x) => (short)(x * Trig.TurnsPerDegree);
             gshort IMath<gshort>.Divide(gshort x, gshort y) => x / y;
             gshort IMath<gshort>.Exp(gshort x) => (short)Math.Exp(x._value);
             gshort IMath<gshort>.Floor(gshort x) => x;
@@ -167,8 +167,8 @@ namespace Jodo.Extensions.Numerics
             gshort IMath<gshort>.Positive(gshort x) => +x;
             gshort IMath<gshort>.Pow(gshort x, byte y) => (short)Math.Pow(x._value, y);
             gshort IMath<gshort>.Pow(gshort x, gshort y) => (short)Math.Pow(x._value, y._value);
-            gshort IMath<gshort>.RadiansToDegrees(gshort x) => (short)(x * AngleConstants.DegreesPerRadian);
-            gshort IMath<gshort>.RadiansToTurns(gshort x) => (short)(x * AngleConstants.TurnsPerRadian);
+            gshort IMath<gshort>.RadiansToDegrees(gshort x) => (short)(x * Trig.DegreesPerRadian);
+            gshort IMath<gshort>.RadiansToTurns(gshort x) => (short)(x * Trig.TurnsPerRadian);
             gshort IMath<gshort>.Remainder(gshort x, gshort y) => x % y;
             gshort IMath<gshort>.Round(gshort x) => x;
             gshort IMath<gshort>.Round(gshort x, int digits) => x;
@@ -181,8 +181,8 @@ namespace Jodo.Extensions.Numerics
             gshort IMath<gshort>.Tan(gshort x) => (short)Math.Tan(x._value);
             gshort IMath<gshort>.Tanh(gshort x) => (short)Math.Tanh(x._value);
             gshort IMath<gshort>.Truncate(gshort x) => x;
-            gshort IMath<gshort>.TurnsToDegrees(gshort x) => (short)(x * AngleConstants.DegreesPerTurn);
-            gshort IMath<gshort>.TurnsToRadians(gshort x) => (short)(x * AngleConstants.DegreesPerRadian);
+            gshort IMath<gshort>.TurnsToDegrees(gshort x) => (short)(x * Trig.DegreesPerTurn);
+            gshort IMath<gshort>.TurnsToRadians(gshort x) => (short)(x * Trig.DegreesPerRadian);
             double IMath<gshort>.ToDouble(gshort x, double offset) => x._value + offset;
             float IMath<gshort>.ToSingle(gshort x, float offset) => x._value + offset;
             int IMath<gshort>.Sign(gshort x) => Math.Sign(x._value);

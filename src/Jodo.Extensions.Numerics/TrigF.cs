@@ -21,13 +21,13 @@ using System;
 
 namespace Jodo.Extensions.Numerics
 {
-    public static class AngleConstantsF
+    public static class TrigF
     {
-        public const float DegreesPerRadian = 180 / MathF.PI;
-        public const float DegreesPerTurn = 360;
-        public const float RadiansPerDegree = MathF.PI / 180;
-        public const float RadiansPerTurn = 2 * MathF.PI;
-        public const float TurnsPerDegree = 1 / DegreesPerTurn;
-        public const float TurnsPerRadian = 1 / RadiansPerTurn;
+        public const float DegreesPerRadian = 180f / MathF.PI;
+        public const float DegreesPerTurn = 360f;
+        public const float RadiansPerDegree = MathF.PI / 180f;
+        public const float RadiansPerTurn = 2f * MathF.PI;
+        public const float TurnsPerDegree = 1f / DegreesPerTurn;
+        public const float TurnsPerRadian = 1f / RadiansPerTurn;
     }
 }
