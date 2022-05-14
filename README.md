@@ -8,9 +8,10 @@
   <a href="https://github.com/JosephJShort/Jodo.Extensions/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo.Extensions?style=for-the-badge&color=%23004880"></a>
   <a href="https://www.nuget.org/packages?q=Jodo.Extensions"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Extensions.Primitives?label=version&logo=nuget&style=for-the-badge&color=%23004880"></a>
   <br />
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/JosephJShort/Jodo.Extensions/Tests?label=build&logo=github&style=for-the-badge" /></a>  
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/JosephJShort/Jodo.Extensions/Tests?label=build&logo=github&style=for-the-badge" /></a> 
+<a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo.Extensions/1/main?compact_message&logo=azuredevops&style=for-the-badge"></a>
+<br />
   <a href="https://github.com/JosephJShort/Jodo.Extensions/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo.Extensions?logo=github&style=for-the-badge"></a>
-  <br />
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge" /></a>
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?label=coverage&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge" /></a>
 </p>
