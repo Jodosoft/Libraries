@@ -20,16 +20,46 @@
 <details>
   <summary><h2>Jodo.Extensions.Numerics</h2></summary>
 
-Provides the interface `INumeric<N>` and accompanying utilities classes, allowing for the creation of numeric types that can used interchangeably with generics.
+  Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> and accompanying utilities classes, allowing for the creation of numeric types that can used interchangeably with generics.
 
 ### Types
 
-| Jodo Type | Description |
-| - | - |
-| `INumeric<N>` | <ul><li>To be implemented by user-defined numeric value types.</li><li>Allows for the creation numeric types that can used interchangeably with generics.</li></ul> |
-| `Math<N>` | <ul><li>A static class that provides equivalent methods to [Math](https://docs.microsoft.com/en-us/dotnet/api/system.math), e.g. `T Log(T)`, `T Pow(T)` and `T Sqrt(T)`.</li><li>Available for all types that implement `INumeric<N>`.</ul> |
-| `BitConverter<N>` | <ul><li>A static class that provides equivalent methods to [BitConverter](https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter).</li><li>Allows conversion to and from `ReadOnlySpan<byte>`.</li><li>Available for all types that implement `INumeric<N>`.</li></ul> |
-| `StringFormatter<N>` | <ul><li>A static class that provides string parsing and formatting methods.</li><li>Available for all types that implement `INumeric<N>` including user-defined types.</li></ul> |
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td id="inumericn">INumeric&lt;N&gt;</td>
+    <td>
+      <ul>
+        <li>To be implemented by user-defined numeric value types.</li>
+        <li>Allows for the creation numeric types that can used interchangeably with generics.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td id="mathn">Math&lt;N&gt;</td>
+    <td>
+      <ul>
+        <li>A static class that provides equivalents to all methods from [Math](https://docs.microsoft.com/en-us/dotnet/api/system.math), e.g. <code>N Log(N)</code>, <code>N Pow(N)</code> and <code>N Sqrt(N)</code>.</li>
+        <li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td id="bitconvertern">BitConverter&lt;N&gt;</td>
+    <td>
+      <ul><li>A static class that provides equivalent methods to [BitConverter](https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter).</li><li>Allows conversion to and from `ReadOnlySpan<byte>`.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li></ul>
+    </td>
+  </tr>
+  <tr>
+    <td id="stringformattern">StringFormatter&lt;N&gt;</td>
+    <td>
+      <ul><li>A static class that provides string parsing and formatting methods.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a> including user-defined types.</li></ul>
+    </td>
+  </tr>
+</table>
 
 ### Other features
 
