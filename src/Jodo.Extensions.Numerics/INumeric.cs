@@ -23,7 +23,7 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Numerics
 {
-    public interface INumeric<T> : IBitConvertible<T>, IRandomisable<T>, IStringRepresentable<T>, IComparable<T>, IEquatable<T>, IComparable, ISerializable, IFormattable where T : struct, INumeric<T>
+    public interface INumeric<T> : IBitConvertible<T>, IConvertible<T>, IRandomisable<T>, IStringRepresentable<T>, IComparable<T>, IEquatable<T>, IComparable, ISerializable, IFormattable where T : struct, INumeric<T>
     {
         IMath<T> Math { get; }
 
@@ -49,24 +49,24 @@ namespace Jodo.Extensions.Numerics
         public static T operator /(in INumeric<T> left, in T right) => Math<T>.Divide((T)left, right);
         public static T operator +(in INumeric<T> left, in T right) => Math<T>.Add((T)left, right);
 
-        public static bool operator <(INumeric<T> left, byte b) => left < Math<T>.Convert(b);
-        public static bool operator <=(INumeric<T> left, byte b) => left <= Math<T>.Convert(b);
-        public static bool operator >(INumeric<T> left, byte b) => left > Math<T>.Convert(b);
-        public static bool operator >=(INumeric<T> left, byte b) => left >= Math<T>.Convert(b);
-        public static T operator %(INumeric<T> left, byte b) => left % Math<T>.Convert(b);
-        public static T operator -(INumeric<T> left, byte b) => left - Math<T>.Convert(b);
-        public static T operator *(INumeric<T> left, byte b) => left * Math<T>.Convert(b);
-        public static T operator /(INumeric<T> left, byte b) => left / Math<T>.Convert(b);
-        public static T operator +(INumeric<T> left, byte b) => left + Math<T>.Convert(b);
+        public static bool operator <(INumeric<T> left, byte b) => left < Convert<T>.ToValue(b);
+        public static bool operator <=(INumeric<T> left, byte b) => left <= Convert<T>.ToValue(b);
+        public static bool operator >(INumeric<T> left, byte b) => left > Convert<T>.ToValue(b);
+        public static bool operator >=(INumeric<T> left, byte b) => left >= Convert<T>.ToValue(b);
+        public static T operator %(INumeric<T> left, byte b) => left % Convert<T>.ToValue(b);
+        public static T operator -(INumeric<T> left, byte b) => left - Convert<T>.ToValue(b);
+        public static T operator *(INumeric<T> left, byte b) => left * Convert<T>.ToValue(b);
+        public static T operator /(INumeric<T> left, byte b) => left / Convert<T>.ToValue(b);
+        public static T operator +(INumeric<T> left, byte b) => left + Convert<T>.ToValue(b);
 
-        public static bool operator <(in byte b, in INumeric<T> left) => Math<T>.Convert(b) < left;
-        public static bool operator <=(in byte b, in INumeric<T> left) => Math<T>.Convert(b) <= left;
-        public static bool operator >(in byte b, in INumeric<T> left) => Math<T>.Convert(b) > left;
-        public static bool operator >=(in byte b, in INumeric<T> left) => Math<T>.Convert(b) >= left;
-        public static T operator %(in byte b, in INumeric<T> left) => Math<T>.Convert(b) % left;
-        public static T operator -(in byte b, in INumeric<T> left) => Math<T>.Convert(b) - left;
-        public static T operator *(in byte b, in INumeric<T> left) => Math<T>.Convert(b) * left;
-        public static T operator /(in byte b, in INumeric<T> left) => Math<T>.Convert(b) / left;
-        public static T operator +(in byte b, in INumeric<T> left) => Math<T>.Convert(b) + left;
+        public static bool operator <(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) < left;
+        public static bool operator <=(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) <= left;
+        public static bool operator >(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) > left;
+        public static bool operator >=(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) >= left;
+        public static T operator %(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) % left;
+        public static T operator -(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) - left;
+        public static T operator *(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) * left;
+        public static T operator /(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) / left;
+        public static T operator +(in byte b, in INumeric<T> left) => Convert<T>.ToValue(b) + left;
     }
 }

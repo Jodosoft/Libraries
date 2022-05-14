@@ -68,11 +68,11 @@ namespace Jodo.Extensions.Geometry
         public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public static Angle<T> FromDegrees(T degrees) => new Angle<T>(degrees);
-        public static Angle<T> FromDegrees(byte degrees) => new Angle<T>(Math<T>.Convert(degrees));
+        public static Angle<T> FromDegrees(byte degrees) => new Angle<T>(Convert<T>.ToValue(degrees));
         public static Angle<T> FromRadians(T radians) => new Angle<T>(Math<T>.RadiansToTurns(radians));
-        public static Angle<T> FromRadians(byte radians) => new Angle<T>(Math<T>.RadiansToTurns(Math<T>.Convert(radians)));
+        public static Angle<T> FromRadians(byte radians) => new Angle<T>(Math<T>.RadiansToTurns(Convert<T>.ToValue(radians)));
         public static Angle<T> FromTurns(T turns) => new Angle<T>(Math<T>.TurnsToDegrees(turns));
-        public static Angle<T> FromTurns(byte turns) => new Angle<T>(Math<T>.TurnsToDegrees(Math<T>.Convert(turns)));
+        public static Angle<T> FromTurns(byte turns) => new Angle<T>(Math<T>.TurnsToDegrees(Convert<T>.ToValue(turns)));
 
         public static bool TryParse(string value, out Angle<T> result)
         {

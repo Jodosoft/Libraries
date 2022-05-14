@@ -17,20 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
-
-namespace System
+namespace Jodo.Extensions.Numerics.Tests
 {
-    public static class RandomExtensions
+    public static class NumericOperatorTests
     {
-        public static T NextNumeric<T>(this Random random) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, Math<T>.MinValue, Math<T>.MaxValue);
-
-        public static T NextNumeric<T>(this Random random, T bound1, T bound2) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, bound1, bound2);
-
-        public static T NextNumeric<T>(this Random random, byte bound1, byte bound2) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, Convert<T>.ToValue(bound1), Convert<T>.ToValue(bound2));
+        public class GShort : NumericOperatorTestsBase<gshort> { }
+        public class GInt : NumericOperatorTestsBase<gint> { }
     }
 }

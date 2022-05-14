@@ -17,20 +17,42 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
+using System;
 
-namespace System
+namespace Jodo.Extensions.Primitives
 {
-    public static class RandomExtensions
+    public interface IConvert<T>
     {
-        public static T NextNumeric<T>(this Random random) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, Math<T>.MinValue, Math<T>.MaxValue);
+        bool ToBoolean(T value);
+        byte ToByte(T value);
+        char ToChar(T value);
+        decimal ToDecimal(T value);
+        double ToDouble(T value);
+        float ToSingle(T value);
+        int ToInt32(T value);
+        long ToInt64(T value);
+        sbyte ToSByte(T value);
+        short ToInt16(T value);
+        string ToString(T value);
+        string ToString(T value, IFormatProvider provider);
+        uint ToUInt32(T value);
+        ulong ToUInt64(T value);
+        ushort ToUInt16(T value);
 
-        public static T NextNumeric<T>(this Random random, T bound1, T bound2) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, bound1, bound2);
-
-        public static T NextNumeric<T>(this Random random, byte bound1, byte bound2) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, Convert<T>.ToValue(bound1), Convert<T>.ToValue(bound2));
+        T ToValue(bool value);
+        T ToValue(byte value);
+        T ToValue(char value);
+        T ToValue(decimal value);
+        T ToValue(double value);
+        T ToValue(float value);
+        T ToValue(int value);
+        T ToValue(long value);
+        T ToValue(sbyte value);
+        T ToValue(short value);
+        T ToValue(string value);
+        T ToValue(string value, IFormatProvider provider);
+        T ToValue(uint value);
+        T ToValue(ulong value);
+        T ToValue(ushort value);
     }
 }

@@ -20,11 +20,9 @@
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    [SuppressMessage("Style", "IDE0004:Cast is redundant")]
     public class CheckedConvertTests : GlobalTestBase
     {
         [Test] public void SingleToUInt32_SmokeTest_CorrectResult() => CheckedConvert.ToUInt32((float)999999).Should().Be(999999);
@@ -45,6 +43,5 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         [Test] public void DoubleToUInt32_NegativeInfinity_ReturnsMinValue() => CheckedConvert.ToUInt32(double.NegativeInfinity).Should().Be(uint.MinValue);
         [Test] public void DoubleToUInt32_OverflowFromMaxValue_ReturnsMaxValue() => CheckedConvert.ToUInt32((double)uint.MaxValue + 1).Should().Be(uint.MaxValue);
         [Test] public void DoubleToUInt32_OverflowFromMinValue_ReturnsMinValue() => CheckedConvert.ToUInt32((double)uint.MinValue - 1).Should().Be(uint.MinValue);
-
     }
 }

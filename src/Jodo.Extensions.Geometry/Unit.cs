@@ -57,7 +57,7 @@ namespace Jodo.Extensions.Geometry
 
         public static implicit operator T(Unit<T> unit) => unit.Value;
         public static explicit operator Unit<T>(T value) => new Unit<T>(value);
-        public static explicit operator Unit<T>(byte value) => new Unit<T>(Math<T>.Convert(value));
+        public static explicit operator Unit<T>(byte value) => new Unit<T>(Convert<T>.ToValue(value));
         public static bool operator ==(Unit<T> left, Unit<T> right) => left.Equals(right);
         public static bool operator !=(Unit<T> left, Unit<T> right) => !(left == right);
     }

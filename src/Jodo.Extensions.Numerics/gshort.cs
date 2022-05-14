@@ -52,6 +52,7 @@ namespace Jodo.Extensions.Numerics
         public override bool Equals(object? obj) => obj is gshort other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
+        public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out gshort result) => Try.Run(() => Parse(s, provider), out result);
@@ -63,6 +64,7 @@ namespace Jodo.Extensions.Numerics
         public static gshort Parse(string s, NumberStyles style) => short.Parse(s, style);
         public static gshort Parse(string s, NumberStyles style, IFormatProvider provider) => short.Parse(s, style, provider);
 
+        public static explicit operator gshort(in char value) => new gshort((short)value);
         public static explicit operator gshort(in decimal value) => new gshort((short)value);
         public static explicit operator gshort(in double value) => new gshort((short)value);
         public static explicit operator gshort(in float value) => new gshort((short)value);
@@ -76,6 +78,7 @@ namespace Jodo.Extensions.Numerics
         public static implicit operator gshort(in short value) => new gshort(value);
 
         public static explicit operator byte(in gshort value) => (byte)value._value;
+        public static explicit operator char(in gshort value) => (char)value._value;
         public static explicit operator sbyte(in gshort value) => (sbyte)value._value;
         public static explicit operator uint(in gshort value) => (uint)value._value;
         public static explicit operator ulong(in gshort value) => (ulong)value._value;
@@ -118,7 +121,7 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            gshort IMath<gshort>.E { get; } = (short)3;
+            gshort IMath<gshort>.E { get; } = (short)2;
             gshort IMath<gshort>.PI { get; } = (short)3;
             gshort IMath<gshort>.Epsilon { get; } = (short)1;
             gshort IMath<gshort>.MaxValue => MaxValue;
@@ -135,29 +138,28 @@ namespace Jodo.Extensions.Numerics
             bool IMath<gshort>.IsLessThan(in gshort x, in gshort y) => x < y;
             bool IMath<gshort>.IsLessThanOrEqualTo(in gshort x, in gshort y) => x <= y;
             gshort IMath<gshort>.Abs(in gshort x) => Math.Abs(x._value);
-            gshort IMath<gshort>.Acos(in gshort x) => Convert.ToInt16(Math.Acos(x._value));
-            gshort IMath<gshort>.Acosh(in gshort x) => Convert.ToInt16(Math.Acosh(x._value));
+            gshort IMath<gshort>.Acos(in gshort x) => (short)Math.Acos(x._value);
+            gshort IMath<gshort>.Acosh(in gshort x) => (short)Math.Acosh(x._value);
             gshort IMath<gshort>.Add(in gshort x, in gshort y) => x + y;
-            gshort IMath<gshort>.Asin(in gshort x) => Convert.ToInt16(Math.Asin(x._value));
-            gshort IMath<gshort>.Asinh(in gshort x) => Convert.ToInt16(Math.Asinh(x._value));
-            gshort IMath<gshort>.Atan(in gshort x) => Convert.ToInt16(Math.Atan(x._value));
-            gshort IMath<gshort>.Atan2(in gshort x, in gshort y) => Convert.ToInt16(Math.Atan2(x._value, y._value));
-            gshort IMath<gshort>.Atanh(in gshort x) => Convert.ToInt16(Math.Atanh(x._value));
-            gshort IMath<gshort>.Cbrt(in gshort x) => Convert.ToInt16(Math.Cbrt(x._value));
+            gshort IMath<gshort>.Asin(in gshort x) => (short)Math.Asin(x._value);
+            gshort IMath<gshort>.Asinh(in gshort x) => (short)Math.Asinh(x._value);
+            gshort IMath<gshort>.Atan(in gshort x) => (short)Math.Atan(x._value);
+            gshort IMath<gshort>.Atan2(in gshort x, in gshort y) => (short)Math.Atan2(x._value, y._value);
+            gshort IMath<gshort>.Atanh(in gshort x) => (short)Math.Atanh(x._value);
+            gshort IMath<gshort>.Cbrt(in gshort x) => (short)Math.Cbrt(x._value);
             gshort IMath<gshort>.Ceiling(in gshort x) => x;
             gshort IMath<gshort>.Clamp(in gshort x, in gshort bound1, in gshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            gshort IMath<gshort>.Convert(in byte value) => value;
-            gshort IMath<gshort>.Cos(in gshort x) => Convert.ToInt16(Math.Cos(x._value));
-            gshort IMath<gshort>.Cosh(in gshort x) => Convert.ToInt16(Math.Cosh(x._value));
-            gshort IMath<gshort>.DegreesToRadians(in gshort x) => Convert.ToInt16(x * AngleConstants.RadiansPerDegree);
-            gshort IMath<gshort>.DegreesToTurns(in gshort x) => Convert.ToInt16(x * AngleConstants.TurnsPerDegree);
+            gshort IMath<gshort>.Cos(in gshort x) => (short)Math.Cos(x._value);
+            gshort IMath<gshort>.Cosh(in gshort x) => (short)Math.Cosh(x._value);
+            gshort IMath<gshort>.DegreesToRadians(in gshort x) => (short)(x * AngleConstants.RadiansPerDegree);
+            gshort IMath<gshort>.DegreesToTurns(in gshort x) => (short)(x * AngleConstants.TurnsPerDegree);
             gshort IMath<gshort>.Divide(in gshort x, in gshort y) => x / y;
-            gshort IMath<gshort>.Exp(in gshort x) => Convert.ToInt16(Math.Exp(x._value));
+            gshort IMath<gshort>.Exp(in gshort x) => (short)Math.Exp(x._value);
             gshort IMath<gshort>.Floor(in gshort x) => x;
-            gshort IMath<gshort>.IEEERemainder(in gshort x, in gshort y) => Convert.ToInt16(Math.IEEERemainder(x._value, y._value));
-            gshort IMath<gshort>.Log(in gshort x) => Convert.ToInt16(Math.Log(x._value));
-            gshort IMath<gshort>.Log(in gshort x, in gshort y) => Convert.ToInt16(Math.Log(x._value, y._value));
-            gshort IMath<gshort>.Log10(in gshort x) => Convert.ToInt16(Math.Log10(x._value));
+            gshort IMath<gshort>.IEEERemainder(in gshort x, in gshort y) => (short)Math.IEEERemainder(x._value, y._value);
+            gshort IMath<gshort>.Log(in gshort x) => (short)Math.Log(x._value);
+            gshort IMath<gshort>.Log(in gshort x, in gshort y) => (short)Math.Log(x._value, y._value);
+            gshort IMath<gshort>.Log10(in gshort x) => (short)Math.Log10(x._value);
             gshort IMath<gshort>.Max(in gshort x, in gshort y) => Math.Max(x._value, y._value);
             gshort IMath<gshort>.Min(in gshort x, in gshort y) => Math.Min(x._value, y._value);
             gshort IMath<gshort>.Multiply(in gshort x, in gshort y) => x * y;
@@ -165,22 +167,22 @@ namespace Jodo.Extensions.Numerics
             gshort IMath<gshort>.Positive(in gshort x) => +x;
             gshort IMath<gshort>.Pow(in gshort x, in byte y) => (short)Math.Pow(x._value, y);
             gshort IMath<gshort>.Pow(in gshort x, in gshort y) => (short)Math.Pow(x._value, y._value);
-            gshort IMath<gshort>.RadiansToDegrees(in gshort x) => Convert.ToInt16(x * AngleConstants.DegreesPerRadian);
-            gshort IMath<gshort>.RadiansToTurns(in gshort x) => Convert.ToInt16(x * AngleConstants.TurnsPerRadian);
+            gshort IMath<gshort>.RadiansToDegrees(in gshort x) => (short)(x * AngleConstants.DegreesPerRadian);
+            gshort IMath<gshort>.RadiansToTurns(in gshort x) => (short)(x * AngleConstants.TurnsPerRadian);
             gshort IMath<gshort>.Remainder(in gshort x, in gshort y) => x % y;
             gshort IMath<gshort>.Round(in gshort x) => x;
             gshort IMath<gshort>.Round(in gshort x, in int digits) => x;
             gshort IMath<gshort>.Round(in gshort x, in int digits, in MidpointRounding mode) => x;
             gshort IMath<gshort>.Round(in gshort x, in MidpointRounding mode) => x;
-            gshort IMath<gshort>.Sin(in gshort x) => Convert.ToInt16(Math.Sin(x._value));
-            gshort IMath<gshort>.Sinh(in gshort x) => Convert.ToInt16(Math.Sinh(x._value));
-            gshort IMath<gshort>.Sqrt(in gshort x) => Convert.ToInt16(Math.Sqrt(x._value));
+            gshort IMath<gshort>.Sin(in gshort x) => (short)Math.Sin(x._value);
+            gshort IMath<gshort>.Sinh(in gshort x) => (short)Math.Sinh(x._value);
+            gshort IMath<gshort>.Sqrt(in gshort x) => (short)Math.Sqrt(x._value);
             gshort IMath<gshort>.Subtract(in gshort x, in gshort y) => x - y;
-            gshort IMath<gshort>.Tan(in gshort x) => Convert.ToInt16(Math.Tan(x._value));
-            gshort IMath<gshort>.Tanh(in gshort x) => Convert.ToInt16(Math.Tanh(x._value));
+            gshort IMath<gshort>.Tan(in gshort x) => (short)Math.Tan(x._value);
+            gshort IMath<gshort>.Tanh(in gshort x) => (short)Math.Tanh(x._value);
             gshort IMath<gshort>.Truncate(in gshort x) => x;
-            gshort IMath<gshort>.TurnsToDegrees(in gshort x) => Convert.ToInt16(x * AngleConstants.DegreesPerTurn);
-            gshort IMath<gshort>.TurnsToRadians(in gshort x) => Convert.ToInt16(x * AngleConstants.DegreesPerRadian);
+            gshort IMath<gshort>.TurnsToDegrees(in gshort x) => (short)(x * AngleConstants.DegreesPerTurn);
+            gshort IMath<gshort>.TurnsToRadians(in gshort x) => (short)(x * AngleConstants.DegreesPerRadian);
             double IMath<gshort>.ToDouble(in gshort x, in double offset) => x._value + offset;
             float IMath<gshort>.ToSingle(in gshort x, in float offset) => x._value + offset;
             int IMath<gshort>.Sign(in gshort x) => Math.Sign(x._value);
@@ -193,6 +195,44 @@ namespace Jodo.Extensions.Numerics
 
             gshort IStringParser<gshort>.Parse(in string s) => Parse(s);
             gshort IStringParser<gshort>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
+        }
+
+        IConvert<gshort> IConvertible<gshort>.Convert => _Convert.Instance;
+        private sealed class _Convert : IConvert<gshort>
+        {
+            public readonly static _Convert Instance = new _Convert();
+
+            bool IConvert<gshort>.ToBoolean(gshort value) => Convert.ToBoolean(value._value);
+            byte IConvert<gshort>.ToByte(gshort value) => Convert.ToByte(value._value);
+            char IConvert<gshort>.ToChar(gshort value) => Convert.ToChar(value._value);
+            decimal IConvert<gshort>.ToDecimal(gshort value) => Convert.ToDecimal(value._value);
+            double IConvert<gshort>.ToDouble(gshort value) => Convert.ToDouble(value._value);
+            float IConvert<gshort>.ToSingle(gshort value) => Convert.ToSingle(value._value);
+            int IConvert<gshort>.ToInt32(gshort value) => Convert.ToInt32(value._value);
+            long IConvert<gshort>.ToInt64(gshort value) => Convert.ToInt64(value._value);
+            sbyte IConvert<gshort>.ToSByte(gshort value) => Convert.ToSByte(value._value);
+            short IConvert<gshort>.ToInt16(gshort value) => Convert.ToInt16(value._value);
+            string IConvert<gshort>.ToString(gshort value) => Convert.ToString(value._value);
+            string IConvert<gshort>.ToString(gshort value, IFormatProvider provider) => Convert.ToString(value._value, provider);
+            uint IConvert<gshort>.ToUInt32(gshort value) => Convert.ToUInt32(value._value);
+            ulong IConvert<gshort>.ToUInt64(gshort value) => Convert.ToUInt64(value._value);
+            ushort IConvert<gshort>.ToUInt16(gshort value) => Convert.ToUInt16(value._value);
+
+            gshort IConvert<gshort>.ToValue(bool value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(byte value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(char value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(decimal value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(double value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(float value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(int value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(long value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(sbyte value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(short value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(string value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(string value, IFormatProvider provider) => Convert.ToInt16(value, provider);
+            gshort IConvert<gshort>.ToValue(uint value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(ulong value) => Convert.ToInt16(value);
+            gshort IConvert<gshort>.ToValue(ushort value) => Convert.ToInt16(value);
         }
     }
 }

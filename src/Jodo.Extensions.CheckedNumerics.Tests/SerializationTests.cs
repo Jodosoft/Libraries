@@ -30,11 +30,14 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
     public static class SerializationTests
     {
         public class CDouble : Base<cdouble> { }
+        public class CFix64 : Base<cfix64> { }
         public class CFloat : Base<cfloat> { }
         public class CInt : Base<cint> { }
-        public class Fix64 : Base<fix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UFix64 : Base<ufix64> { }
+        public class CLong : Base<clong> { }
+        public class CSByte : Base<csbyte> { }
+        public class CShort : Base<cshort> { }
+        public class CUFix64 : Base<cufix64> { }
+        public class CUInt : Base<cuint> { }
 
         public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
         {

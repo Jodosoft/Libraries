@@ -52,6 +52,7 @@ namespace Jodo.Extensions.Numerics
         public override bool Equals(object? obj) => obj is gint other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
+        public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out gint result) => Try.Run(() => Parse(s, provider), out result);
@@ -70,12 +71,14 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator gint(in uint value) => new gint((int)value);
         public static explicit operator gint(in ulong value) => new gint((int)value);
         public static implicit operator gint(in byte value) => new gint(value);
+        public static implicit operator gint(in char value) => new gint(value);
         public static implicit operator gint(in int value) => new gint(value);
         public static implicit operator gint(in sbyte value) => new gint(value);
         public static implicit operator gint(in short value) => new gint(value);
         public static implicit operator gint(in ushort value) => new gint(value);
 
         public static explicit operator byte(in gint value) => (byte)value._value;
+        public static explicit operator char(in gint value) => (char)value._value;
         public static explicit operator sbyte(in gint value) => (sbyte)value._value;
         public static explicit operator short(in gint value) => (short)value._value;
         public static explicit operator uint(in gint value) => (uint)value._value;
@@ -118,7 +121,7 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            gint IMath<gint>.E { get; } = 3;
+            gint IMath<gint>.E { get; } = 2;
             gint IMath<gint>.PI { get; } = 3;
             gint IMath<gint>.Epsilon { get; } = 1;
             gint IMath<gint>.MaxValue => MaxValue;
@@ -135,29 +138,28 @@ namespace Jodo.Extensions.Numerics
             bool IMath<gint>.IsLessThan(in gint x, in gint y) => x < y;
             bool IMath<gint>.IsLessThanOrEqualTo(in gint x, in gint y) => x <= y;
             gint IMath<gint>.Abs(in gint x) => Math.Abs(x._value);
-            gint IMath<gint>.Acos(in gint x) => Convert.ToInt32(Math.Acos(x._value));
-            gint IMath<gint>.Acosh(in gint x) => Convert.ToInt32(Math.Acosh(x._value));
+            gint IMath<gint>.Acos(in gint x) => (int)Math.Acos(x._value);
+            gint IMath<gint>.Acosh(in gint x) => (int)Math.Acosh(x._value);
             gint IMath<gint>.Add(in gint x, in gint y) => x + y;
-            gint IMath<gint>.Asin(in gint x) => Convert.ToInt32(Math.Asin(x._value));
-            gint IMath<gint>.Asinh(in gint x) => Convert.ToInt32(Math.Asinh(x._value));
-            gint IMath<gint>.Atan(in gint x) => Convert.ToInt32(Math.Atan(x._value));
-            gint IMath<gint>.Atan2(in gint x, in gint y) => Convert.ToInt32(Math.Atan2(x._value, y._value));
-            gint IMath<gint>.Atanh(in gint x) => Convert.ToInt32(Math.Atanh(x._value));
-            gint IMath<gint>.Cbrt(in gint x) => Convert.ToInt32(Math.Cbrt(x._value));
+            gint IMath<gint>.Asin(in gint x) => (int)Math.Asin(x._value);
+            gint IMath<gint>.Asinh(in gint x) => (int)Math.Asinh(x._value);
+            gint IMath<gint>.Atan(in gint x) => (int)Math.Atan(x._value);
+            gint IMath<gint>.Atan2(in gint x, in gint y) => (int)Math.Atan2(x._value, y._value);
+            gint IMath<gint>.Atanh(in gint x) => (int)Math.Atanh(x._value);
+            gint IMath<gint>.Cbrt(in gint x) => (int)Math.Cbrt(x._value);
             gint IMath<gint>.Ceiling(in gint x) => x;
             gint IMath<gint>.Clamp(in gint x, in gint bound1, in gint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            gint IMath<gint>.Convert(in byte value) => value;
-            gint IMath<gint>.Cos(in gint x) => Convert.ToInt32(Math.Cos(x._value));
-            gint IMath<gint>.Cosh(in gint x) => Convert.ToInt32(Math.Cosh(x._value));
-            gint IMath<gint>.DegreesToRadians(in gint x) => Convert.ToInt32(x * AngleConstants.RadiansPerDegree);
-            gint IMath<gint>.DegreesToTurns(in gint x) => Convert.ToInt32(x * AngleConstants.TurnsPerDegree);
+            gint IMath<gint>.Cos(in gint x) => (int)Math.Cos(x._value);
+            gint IMath<gint>.Cosh(in gint x) => (int)Math.Cosh(x._value);
+            gint IMath<gint>.DegreesToRadians(in gint x) => (int)(x * AngleConstants.RadiansPerDegree);
+            gint IMath<gint>.DegreesToTurns(in gint x) => (int)(x * AngleConstants.TurnsPerDegree);
             gint IMath<gint>.Divide(in gint x, in gint y) => x / y;
-            gint IMath<gint>.Exp(in gint x) => Convert.ToInt32(Math.Exp(x._value));
+            gint IMath<gint>.Exp(in gint x) => (int)Math.Exp(x._value);
             gint IMath<gint>.Floor(in gint x) => x;
-            gint IMath<gint>.IEEERemainder(in gint x, in gint y) => Convert.ToInt32(Math.IEEERemainder(x._value, y._value));
-            gint IMath<gint>.Log(in gint x) => Convert.ToInt32(Math.Log(x._value));
-            gint IMath<gint>.Log(in gint x, in gint y) => Convert.ToInt32(Math.Log(x._value, y._value));
-            gint IMath<gint>.Log10(in gint x) => Convert.ToInt32(Math.Log10(x._value));
+            gint IMath<gint>.IEEERemainder(in gint x, in gint y) => (int)Math.IEEERemainder(x._value, y._value);
+            gint IMath<gint>.Log(in gint x) => (int)Math.Log(x._value);
+            gint IMath<gint>.Log(in gint x, in gint y) => (int)Math.Log(x._value, y._value);
+            gint IMath<gint>.Log10(in gint x) => (int)Math.Log10(x._value);
             gint IMath<gint>.Max(in gint x, in gint y) => Math.Max(x._value, y._value);
             gint IMath<gint>.Min(in gint x, in gint y) => Math.Min(x._value, y._value);
             gint IMath<gint>.Multiply(in gint x, in gint y) => x * y;
@@ -165,22 +167,22 @@ namespace Jodo.Extensions.Numerics
             gint IMath<gint>.Positive(in gint x) => +x;
             gint IMath<gint>.Pow(in gint x, in byte y) => (int)Math.Pow(x._value, y);
             gint IMath<gint>.Pow(in gint x, in gint y) => (int)Math.Pow(x._value, y._value);
-            gint IMath<gint>.RadiansToDegrees(in gint x) => Convert.ToInt32(x * AngleConstants.DegreesPerRadian);
-            gint IMath<gint>.RadiansToTurns(in gint x) => Convert.ToInt32(x * AngleConstants.TurnsPerRadian);
+            gint IMath<gint>.RadiansToDegrees(in gint x) => (int)(x * AngleConstants.DegreesPerRadian);
+            gint IMath<gint>.RadiansToTurns(in gint x) => (int)(x * AngleConstants.TurnsPerRadian);
             gint IMath<gint>.Remainder(in gint x, in gint y) => x % y;
             gint IMath<gint>.Round(in gint x) => x;
             gint IMath<gint>.Round(in gint x, in int digits) => x;
             gint IMath<gint>.Round(in gint x, in int digits, in MidpointRounding mode) => x;
             gint IMath<gint>.Round(in gint x, in MidpointRounding mode) => x;
-            gint IMath<gint>.Sin(in gint x) => Convert.ToInt32(Math.Sin(x._value));
-            gint IMath<gint>.Sinh(in gint x) => Convert.ToInt32(Math.Sinh(x._value));
-            gint IMath<gint>.Sqrt(in gint x) => Convert.ToInt32(Math.Sqrt(x._value));
+            gint IMath<gint>.Sin(in gint x) => (int)Math.Sin(x._value);
+            gint IMath<gint>.Sinh(in gint x) => (int)Math.Sinh(x._value);
+            gint IMath<gint>.Sqrt(in gint x) => (int)Math.Sqrt(x._value);
             gint IMath<gint>.Subtract(in gint x, in gint y) => x - y;
-            gint IMath<gint>.Tan(in gint x) => Convert.ToInt32(Math.Tan(x._value));
-            gint IMath<gint>.Tanh(in gint x) => Convert.ToInt32(Math.Tanh(x._value));
+            gint IMath<gint>.Tan(in gint x) => (int)Math.Tan(x._value);
+            gint IMath<gint>.Tanh(in gint x) => (int)Math.Tanh(x._value);
             gint IMath<gint>.Truncate(in gint x) => x;
-            gint IMath<gint>.TurnsToDegrees(in gint x) => Convert.ToInt32(x * AngleConstants.DegreesPerTurn);
-            gint IMath<gint>.TurnsToRadians(in gint x) => Convert.ToInt32(x * AngleConstants.DegreesPerRadian);
+            gint IMath<gint>.TurnsToDegrees(in gint x) => (int)(x * AngleConstants.DegreesPerTurn);
+            gint IMath<gint>.TurnsToRadians(in gint x) => (int)(x * AngleConstants.DegreesPerRadian);
             double IMath<gint>.ToDouble(in gint x, in double offset) => x._value + offset;
             float IMath<gint>.ToSingle(in gint x, in float offset) => x._value + offset;
             int IMath<gint>.Sign(in gint x) => Math.Sign(x._value);
@@ -193,6 +195,44 @@ namespace Jodo.Extensions.Numerics
 
             gint IStringParser<gint>.Parse(in string s) => Parse(s);
             gint IStringParser<gint>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
+        }
+
+        IConvert<gint> IConvertible<gint>.Convert => _Convert.Instance;
+        private sealed class _Convert : IConvert<gint>
+        {
+            public readonly static _Convert Instance = new _Convert();
+
+            bool IConvert<gint>.ToBoolean(gint value) => Convert.ToBoolean(value._value);
+            byte IConvert<gint>.ToByte(gint value) => Convert.ToByte(value._value);
+            char IConvert<gint>.ToChar(gint value) => Convert.ToChar(value._value);
+            decimal IConvert<gint>.ToDecimal(gint value) => Convert.ToDecimal(value._value);
+            double IConvert<gint>.ToDouble(gint value) => Convert.ToDouble(value._value);
+            float IConvert<gint>.ToSingle(gint value) => Convert.ToSingle(value._value);
+            int IConvert<gint>.ToInt32(gint value) => Convert.ToInt32(value._value);
+            long IConvert<gint>.ToInt64(gint value) => Convert.ToInt64(value._value);
+            sbyte IConvert<gint>.ToSByte(gint value) => Convert.ToSByte(value._value);
+            short IConvert<gint>.ToInt16(gint value) => Convert.ToInt16(value._value);
+            string IConvert<gint>.ToString(gint value) => Convert.ToString(value._value);
+            string IConvert<gint>.ToString(gint value, IFormatProvider provider) => Convert.ToString(value._value, provider);
+            uint IConvert<gint>.ToUInt32(gint value) => Convert.ToUInt32(value._value);
+            ulong IConvert<gint>.ToUInt64(gint value) => Convert.ToUInt64(value._value);
+            ushort IConvert<gint>.ToUInt16(gint value) => Convert.ToUInt16(value._value);
+
+            gint IConvert<gint>.ToValue(bool value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(byte value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(char value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(decimal value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(double value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(float value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(int value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(long value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(sbyte value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(short value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(string value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(string value, IFormatProvider provider) => Convert.ToInt32(value, provider);
+            gint IConvert<gint>.ToValue(uint value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(ulong value) => Convert.ToInt32(value);
+            gint IConvert<gint>.ToValue(ushort value) => Convert.ToInt32(value);
         }
     }
 }

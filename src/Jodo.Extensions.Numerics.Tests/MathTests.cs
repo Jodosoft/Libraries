@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
@@ -68,7 +69,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var result = Math<T>.Epsilon;
 
                 //assert
-                result.Should().BeGreaterThan(Math<T>.Convert(0));
+                result.Should().BeGreaterThan(Convert<T>.ToValue(0));
             }
 
             [Test]
@@ -301,7 +302,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Log_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<T>(1, 255);
+                var input = Random.NextNumeric<T>(100, 255);
                 var expected = Math.Log(Math<T>.ToDouble(input, 0));
 
                 //act
@@ -315,8 +316,8 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LogN_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextNumeric<T>(1, 255);
-                var input2 = Random.NextNumeric<T>(1, 10);
+                var input1 = Random.NextNumeric<T>(100, 255);
+                var input2 = Random.NextNumeric<T>(2, 10);
                 var expected = Math.Log(Math<T>.ToDouble(input1, 0), Math<T>.ToDouble(input2, 0));
 
                 //act

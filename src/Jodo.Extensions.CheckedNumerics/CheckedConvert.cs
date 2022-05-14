@@ -26,115 +26,172 @@ namespace Jodo.Extensions.CheckedNumerics
     [SuppressMessage("csharpsquid", "S3358")]
     public static class CheckedConvert
     {
+        public static bool ToBoolean(byte x) => x != 0;
+        public static bool ToBoolean(char x) => x != 0;
+        public static bool ToBoolean(decimal x) => x != 0;
+        public static bool ToBoolean(double x) => x != 0;
+        public static bool ToBoolean(float x) => x != 0;
+        public static bool ToBoolean(int x) => x != 0;
+        public static bool ToBoolean(long x) => x != 0;
+        public static bool ToBoolean(sbyte x) => x != 0;
+        public static bool ToBoolean(short x) => x != 0;
+        public static bool ToBoolean(uint x) => x != 0;
+        public static bool ToBoolean(ulong x) => x != 0;
+        public static bool ToBoolean(ushort x) => x != 0;
+
+        public static byte ToByte(bool x) => x ? (byte)1 : (byte)0;
+        public static byte ToByte(char x) => (byte)x;
         public static byte ToByte(decimal x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
         public static byte ToByte(double x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
         public static byte ToByte(float x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
-        public static byte ToByte(int x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : byte.MinValue; } }
-        public static byte ToByte(long x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : byte.MinValue; } }
-        public static byte ToByte(sbyte x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : byte.MinValue; } }
-        public static byte ToByte(short x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : byte.MinValue; } }
-        public static byte ToByte(uint x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : byte.MinValue; } }
-        public static byte ToByte(ulong x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : byte.MinValue; } }
-        public static byte ToByte(ushort x) { try { checked { return Convert.ToByte(x); } } catch (OverflowException) { return x > 0 ? byte.MaxValue : byte.MinValue; } }
-        public static decimal ToDecimal(byte x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : decimal.MinValue; } }
-        public static decimal ToDecimal(double x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : x < 0 ? decimal.MinValue : 0; } }
-        public static decimal ToDecimal(float x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : x < 0 ? decimal.MinValue : 0; } }
-        public static decimal ToDecimal(int x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : decimal.MinValue; } }
-        public static decimal ToDecimal(long x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : decimal.MinValue; } }
-        public static decimal ToDecimal(sbyte x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : decimal.MinValue; } }
-        public static decimal ToDecimal(short x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : decimal.MinValue; } }
-        public static decimal ToDecimal(uint x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : decimal.MinValue; } }
-        public static decimal ToDecimal(ulong x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : x < 0 ? decimal.MinValue : 0; } }
-        public static decimal ToDecimal(ushort x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : decimal.MinValue; } }
-        public static double ToDouble(byte x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : double.MinValue; } }
-        public static double ToDouble(decimal x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : x < 0 ? double.MinValue : 0; } }
-        public static double ToDouble(float x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : x < 0 ? double.MinValue : 0; } }
-        public static double ToDouble(int x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : double.MinValue; } }
-        public static double ToDouble(long x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : double.MinValue; } }
-        public static double ToDouble(sbyte x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : double.MinValue; } }
-        public static double ToDouble(short x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : double.MinValue; } }
-        public static double ToDouble(uint x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : double.MinValue; } }
-        public static double ToDouble(ulong x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : x < 0 ? double.MinValue : 0; } }
-        public static double ToDouble(ushort x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : double.MinValue; } }
-        public static float ToSingle(byte x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : float.MinValue; } }
-        public static float ToSingle(decimal x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : x < 0 ? float.MinValue : 0; } }
-        public static float ToSingle(double x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : x < 0 ? float.MinValue : 0; } }
-        public static float ToSingle(int x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : float.MinValue; } }
-        public static float ToSingle(long x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : float.MinValue; } }
-        public static float ToSingle(sbyte x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : float.MinValue; } }
-        public static float ToSingle(short x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : float.MinValue; } }
-        public static float ToSingle(uint x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : float.MinValue; } }
-        public static float ToSingle(ulong x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : x < 0 ? float.MinValue : 0; } }
-        public static float ToSingle(ushort x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : float.MinValue; } }
-        public static int ToInt32(byte x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : int.MinValue; } }
+        public static byte ToByte(int x) { unchecked { byte result = (byte)x; return result == x ? result : x > 0 ? byte.MaxValue : byte.MinValue; } }
+        public static byte ToByte(long x) { unchecked { byte result = (byte)x; return result == x ? result : x > 0 ? byte.MaxValue : byte.MinValue; } }
+        public static byte ToByte(sbyte x) { unchecked { byte result = (byte)x; return result == x ? result : x > 0 ? byte.MaxValue : byte.MinValue; } }
+        public static byte ToByte(short x) { unchecked { byte result = (byte)x; return result == x ? result : x > 0 ? byte.MaxValue : byte.MinValue; } }
+        public static byte ToByte(uint x) { unchecked { byte result = (byte)x; return result == x ? result : x > 0 ? byte.MaxValue : byte.MinValue; } }
+        public static byte ToByte(ulong x) { unchecked { byte result = (byte)x; return result == x ? result : x > 0 ? byte.MaxValue : byte.MinValue; } }
+        public static byte ToByte(ushort x) { unchecked { byte result = (byte)x; return result == x ? result : x > 0 ? byte.MaxValue : byte.MinValue; } }
+
+        public static char ToChar(bool x) => x ? (char)1 : (char)0;
+        public static char ToChar(byte x) => (char)x;
+        public static char ToChar(decimal x) { try { checked { return Convert.ToChar(x); } } catch (OverflowException) { return x > 0 ? char.MaxValue : x < 0 ? char.MinValue : (char)0; } }
+        public static char ToChar(double x) { try { checked { return Convert.ToChar(x); } } catch (OverflowException) { return x > 0 ? char.MaxValue : x < 0 ? char.MinValue : (char)0; } }
+        public static char ToChar(float x) { try { checked { return Convert.ToChar(x); } } catch (OverflowException) { return x > 0 ? char.MaxValue : x < 0 ? char.MinValue : (char)0; } }
+        public static char ToChar(int x) { unchecked { char result = (char)x; return result == x ? result : x > 0 ? char.MaxValue : char.MinValue; } }
+        public static char ToChar(long x) { unchecked { char result = (char)x; return result == x ? result : x > 0 ? char.MaxValue : char.MinValue; } }
+        public static char ToChar(sbyte x) { unchecked { char result = (char)x; return result == x ? result : x > 0 ? char.MaxValue : char.MinValue; } }
+        public static char ToChar(short x) { unchecked { char result = (char)x; return result == x ? result : x > 0 ? char.MaxValue : char.MinValue; } }
+        public static char ToChar(uint x) { unchecked { char result = (char)x; return result == x ? result : x > 0 ? char.MaxValue : char.MinValue; } }
+        public static char ToChar(ulong x) { unchecked { char result = (char)x; return result == x ? result : x > 0 ? char.MaxValue : char.MinValue; } }
+        public static char ToChar(ushort x) { unchecked { char result = (char)x; return result == x ? result : x > 0 ? char.MaxValue : char.MinValue; } }
+
+        public static int ToInt32(bool x) => x ? 1 : 0;
+        public static int ToInt32(byte x) => x;
+        public static int ToInt32(char x) => x;
         public static int ToInt32(decimal x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : x < 0 ? int.MinValue : 0; } }
         public static int ToInt32(double x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : x < 0 ? int.MinValue : 0; } }
         public static int ToInt32(float x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : x < 0 ? int.MinValue : 0; } }
-        public static int ToInt32(long x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : int.MinValue; } }
-        public static int ToInt32(sbyte x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : int.MinValue; } }
-        public static int ToInt32(short x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : int.MinValue; } }
-        public static int ToInt32(uint x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : int.MinValue; } }
-        public static int ToInt32(ulong x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : int.MinValue; } }
-        public static int ToInt32(ushort x) { try { checked { return Convert.ToInt32(x); } } catch (OverflowException) { return x > 0 ? int.MaxValue : int.MinValue; } }
-        public static long ToInt64(byte x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : long.MinValue; } }
+        public static int ToInt32(long x) { unchecked { int result = (int)x; return result == x ? result : x > 0 ? int.MaxValue : int.MinValue; } }
+        public static int ToInt32(sbyte x) => x;
+        public static int ToInt32(short x) => x;
+        public static int ToInt32(uint x) { unchecked { int result = (int)x; return result == x ? result : x > 0 ? int.MaxValue : int.MinValue; } }
+        public static int ToInt32(ulong x) { unchecked { int result = (int)x; return (ulong)result == x ? result : x > 0 ? int.MaxValue : int.MinValue; } }
+        public static int ToInt32(ushort x) => x;
+
+        public static long ToInt64(bool x) => x ? 1L : 0L;
+        public static long ToInt64(byte x) => x;
+        public static long ToInt64(char x) => x;
         public static long ToInt64(decimal x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : x < 0 ? long.MinValue : 0; } }
         public static long ToInt64(double x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : x < 0 ? long.MinValue : 0; } }
         public static long ToInt64(float x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : x < 0 ? long.MinValue : 0; } }
-        public static long ToInt64(int x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : long.MinValue; } }
-        public static long ToInt64(sbyte x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : long.MinValue; } }
-        public static long ToInt64(short x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : long.MinValue; } }
-        public static long ToInt64(uint x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : long.MinValue; } }
-        public static long ToInt64(ulong x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : long.MinValue; } }
-        public static long ToInt64(ushort x) { try { checked { return Convert.ToInt64(x); } } catch (OverflowException) { return x > 0 ? long.MaxValue : long.MinValue; } }
-        public static sbyte ToSByte(byte x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static long ToInt64(int x) => x;
+        public static long ToInt64(sbyte x) => x;
+        public static long ToInt64(short x) => x;
+        public static long ToInt64(uint x) => x;
+        public static long ToInt64(ulong x) { unchecked { long result = (long)x; return (ulong)result == x ? result : x > 0 ? long.MaxValue : long.MinValue; } }
+        public static long ToInt64(ushort x) => x;
+
+        public static sbyte ToSByte(bool x) => x ? (sbyte)1 : (sbyte)0;
+        public static sbyte ToSByte(byte x) { unchecked { sbyte result = (sbyte)x; return result == x ? result : x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte ToSByte(char x) { unchecked { sbyte result = (sbyte)x; return result == x ? result : x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
         public static sbyte ToSByte(decimal x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
         public static sbyte ToSByte(double x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
         public static sbyte ToSByte(float x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
-        public static sbyte ToSByte(int x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
-        public static sbyte ToSByte(long x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
-        public static sbyte ToSByte(short x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
-        public static sbyte ToSByte(uint x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
-        public static sbyte ToSByte(ulong x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
-        public static sbyte ToSByte(ushort x) { try { checked { return Convert.ToSByte(x); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
-        public static short ToInt16(byte x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : short.MinValue; } }
+        public static sbyte ToSByte(int x) { unchecked { sbyte result = (sbyte)x; return result == x ? result : x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte ToSByte(long x) { unchecked { sbyte result = (sbyte)x; return result == x ? result : x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte ToSByte(short x) { unchecked { sbyte result = (sbyte)x; return result == x ? result : x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte ToSByte(uint x) { unchecked { sbyte result = (sbyte)x; return result == x ? result : x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte ToSByte(ulong x) { unchecked { sbyte result = (sbyte)x; return (ulong)result == x ? result : x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        public static sbyte ToSByte(ushort x) { unchecked { sbyte result = (sbyte)x; return result == x ? result : x > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+
+        public static short ToInt16(bool x) => x ? (short)1 : (short)0;
+        public static short ToInt16(byte x) => x;
+        public static short ToInt16(char x) { unchecked { short result = (short)x; return result == x ? result : x > 0 ? short.MaxValue : short.MinValue; } }
         public static short ToInt16(decimal x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : x < 0 ? short.MinValue : (short)0; } }
         public static short ToInt16(double x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : x < 0 ? short.MinValue : (short)0; } }
         public static short ToInt16(float x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : x < 0 ? short.MinValue : (short)0; } }
-        public static short ToInt16(int x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : short.MinValue; } }
-        public static short ToInt16(long x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : short.MinValue; } }
-        public static short ToInt16(sbyte x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : short.MinValue; } }
-        public static short ToInt16(uint x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : short.MinValue; } }
-        public static short ToInt16(ulong x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : short.MinValue; } }
-        public static short ToInt16(ushort x) { try { checked { return Convert.ToInt16(x); } } catch (OverflowException) { return x > 0 ? short.MaxValue : short.MinValue; } }
-        public static uint ToUInt32(byte x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : uint.MinValue; } }
+        public static short ToInt16(int x) { unchecked { short result = (short)x; return result == x ? result : x > 0 ? short.MaxValue : short.MinValue; } }
+        public static short ToInt16(long x) { unchecked { short result = (short)x; return result == x ? result : x > 0 ? short.MaxValue : short.MinValue; } }
+        public static short ToInt16(sbyte x) => x;
+        public static short ToInt16(uint x) { unchecked { short result = (short)x; return result == x ? result : x > 0 ? short.MaxValue : short.MinValue; } }
+        public static short ToInt16(ulong x) { unchecked { short result = (short)x; return (ulong)result == x ? result : x > 0 ? short.MaxValue : short.MinValue; } }
+        public static short ToInt16(ushort x) { unchecked { short result = (short)x; return result == x ? result : x > 0 ? short.MaxValue : short.MinValue; } }
+
+        public static uint ToUInt32(bool x) => x ? 1 : (uint)0;
+        public static uint ToUInt32(byte x) => x;
+        public static uint ToUInt32(char x) => x;
         public static uint ToUInt32(decimal x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
         public static uint ToUInt32(double x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
         public static uint ToUInt32(float x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
-        public static uint ToUInt32(int x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : uint.MinValue; } }
-        public static uint ToUInt32(long x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : uint.MinValue; } }
-        public static uint ToUInt32(sbyte x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : uint.MinValue; } }
-        public static uint ToUInt32(short x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : uint.MinValue; } }
-        public static uint ToUInt32(ulong x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : uint.MinValue; } }
-        public static uint ToUInt32(ushort x) { try { checked { return Convert.ToUInt32(x); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : uint.MinValue; } }
-        public static ulong ToUInt64(byte x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : ulong.MinValue; } }
+        public static uint ToUInt32(int x) { unchecked { uint result = (uint)x; return result == x ? result : x > 0 ? uint.MaxValue : uint.MinValue; } }
+        public static uint ToUInt32(long x) { unchecked { uint result = (uint)x; return result == x ? result : x > 0 ? uint.MaxValue : uint.MinValue; } }
+        public static uint ToUInt32(sbyte x) { unchecked { uint result = (uint)x; return result == x ? result : x > 0 ? uint.MaxValue : uint.MinValue; } }
+        public static uint ToUInt32(short x) { unchecked { uint result = (uint)x; return result == x ? result : x > 0 ? uint.MaxValue : uint.MinValue; } }
+        public static uint ToUInt32(ulong x) { unchecked { uint result = (uint)x; return result == x ? result : x > 0 ? uint.MaxValue : uint.MinValue; } }
+        public static uint ToUInt32(ushort x) => x;
+
+        public static ulong ToUInt64(bool x) => x ? 1 : (ulong)0;
+        public static ulong ToUInt64(byte x) => x;
+        public static ulong ToUInt64(char x) => x;
         public static ulong ToUInt64(decimal x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
         public static ulong ToUInt64(double x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
         public static ulong ToUInt64(float x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
-        public static ulong ToUInt64(int x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : ulong.MinValue; } }
-        public static ulong ToUInt64(long x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : ulong.MinValue; } }
-        public static ulong ToUInt64(sbyte x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : ulong.MinValue; } }
-        public static ulong ToUInt64(short x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : ulong.MinValue; } }
-        public static ulong ToUInt64(uint x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : ulong.MinValue; } }
-        public static ulong ToUInt64(ushort x) { try { checked { return Convert.ToUInt64(x); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : ulong.MinValue; } }
-        public static ushort ToUInt16(byte x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : ushort.MinValue; } }
+        public static ulong ToUInt64(int x) { unchecked { ulong result = (ulong)x; return (int)result == x ? result : x > 0 ? ulong.MaxValue : ulong.MinValue; } }
+        public static ulong ToUInt64(long x) { unchecked { ulong result = (ulong)x; return (long)result == x ? result : x > 0 ? ulong.MaxValue : ulong.MinValue; } }
+        public static ulong ToUInt64(sbyte x) { unchecked { ulong result = (ulong)x; return (sbyte)result == x ? result : x > 0 ? ulong.MaxValue : ulong.MinValue; } }
+        public static ulong ToUInt64(short x) { unchecked { ulong result = (ulong)x; return (short)result == x ? result : x > 0 ? ulong.MaxValue : ulong.MinValue; } }
+        public static ulong ToUInt64(uint x) => x;
+        public static ulong ToUInt64(ushort x) => x;
+
+        public static ushort ToUInt16(bool x) => x ? (ushort)1 : (ushort)0;
+        public static ushort ToUInt16(byte x) => x;
+        public static ushort ToUInt16(char x) => x;
         public static ushort ToUInt16(decimal x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
         public static ushort ToUInt16(double x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
         public static ushort ToUInt16(float x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
-        public static ushort ToUInt16(int x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : ushort.MinValue; } }
-        public static ushort ToUInt16(long x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : ushort.MinValue; } }
-        public static ushort ToUInt16(sbyte x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : ushort.MinValue; } }
-        public static ushort ToUInt16(short x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : ushort.MinValue; } }
-        public static ushort ToUInt16(uint x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : ushort.MinValue; } }
-        public static ushort ToUInt16(ulong x) { try { checked { return Convert.ToUInt16(x); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : ushort.MinValue; } }
+        public static ushort ToUInt16(int x) { unchecked { ushort result = (ushort)x; return result == x ? result : x > 0 ? ushort.MaxValue : ushort.MinValue; } }
+        public static ushort ToUInt16(long x) { unchecked { ushort result = (ushort)x; return result == x ? result : x > 0 ? ushort.MaxValue : ushort.MinValue; } }
+        public static ushort ToUInt16(sbyte x) { unchecked { ushort result = (ushort)x; return result == x ? result : x > 0 ? ushort.MaxValue : ushort.MinValue; } }
+        public static ushort ToUInt16(short x) { unchecked { ushort result = (ushort)x; return result == x ? result : x > 0 ? ushort.MaxValue : ushort.MinValue; } }
+        public static ushort ToUInt16(uint x) { unchecked { ushort result = (ushort)x; return result == x ? result : x > 0 ? ushort.MaxValue : ushort.MinValue; } }
+        public static ushort ToUInt16(ulong x) { unchecked { ushort result = (ushort)x; return result == x ? result : x > 0 ? ushort.MaxValue : ushort.MinValue; } }
+
+        public static decimal ToDecimal(bool x) => x ? 1 : 0;
+        public static decimal ToDecimal(byte x) => x;
+        public static decimal ToDecimal(char x) => x;
+        public static decimal ToDecimal(double x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : x < 0 ? decimal.MinValue : 0; } }
+        public static decimal ToDecimal(float x) { try { checked { return Convert.ToDecimal(x); } } catch (OverflowException) { return x > 0 ? decimal.MaxValue : x < 0 ? decimal.MinValue : 0; } }
+        public static decimal ToDecimal(int x) => x;
+        public static decimal ToDecimal(long x) => x;
+        public static decimal ToDecimal(sbyte x) => x;
+        public static decimal ToDecimal(short x) => x;
+        public static decimal ToDecimal(uint x) => x;
+        public static decimal ToDecimal(ulong x) => x;
+        public static decimal ToDecimal(ushort x) => x;
+
+        public static double ToDouble(bool x) => x ? 1 : 0;
+        public static double ToDouble(byte x) => x;
+        public static double ToDouble(char x) => x;
+        public static double ToDouble(decimal x) { try { checked { return Convert.ToDouble(x); } } catch (OverflowException) { return x > 0 ? double.MaxValue : x < 0 ? double.MinValue : 0; } }
+        public static double ToDouble(float x) => x;
+        public static double ToDouble(int x) => x;
+        public static double ToDouble(long x) => x;
+        public static double ToDouble(sbyte x) => x;
+        public static double ToDouble(short x) => x;
+        public static double ToDouble(uint x) => x;
+        public static double ToDouble(ulong x) => x;
+        public static double ToDouble(ushort x) => x;
+
+        public static float ToSingle(bool x) => x ? 1 : 0;
+        public static float ToSingle(byte x) => x;
+        public static float ToSingle(decimal x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : x < 0 ? float.MinValue : 0; } }
+        public static float ToSingle(double x) { try { checked { return Convert.ToSingle(x); } } catch (OverflowException) { return x > 0 ? float.MaxValue : x < 0 ? float.MinValue : 0; } }
+        public static float ToSingle(int x) => x;
+        public static float ToSingle(long x) => x;
+        public static float ToSingle(sbyte x) => x;
+        public static float ToSingle(short x) => x;
+        public static float ToSingle(uint x) => x;
+        public static float ToSingle(ulong x) => x;
+        public static float ToSingle(ushort x) => x;
     }
 }

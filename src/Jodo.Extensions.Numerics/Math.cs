@@ -51,6 +51,9 @@ namespace Jodo.Extensions.Numerics
         public static bool IsLessThanOrEqualTo(in T x, in T y) => Instance.IsLessThanOrEqualTo(x, y);
 
         [DebuggerStepThrough]
+        public static double ToDouble(in T x) => Instance.ToDouble(x, 0);
+
+        [DebuggerStepThrough]
         public static double ToDouble(in T x, in double offset) => Instance.ToDouble(x, offset);
 
         [DebuggerStepThrough]
@@ -94,9 +97,6 @@ namespace Jodo.Extensions.Numerics
 
         [DebuggerStepThrough]
         public static T Clamp(in T x, in T bound1, in T bound2) => Instance.Clamp(x, bound1, bound2);
-
-        [DebuggerStepThrough]
-        public static T Convert(in byte value) => Instance.Convert(value);
 
         [DebuggerStepThrough]
         public static T Cos(in T x) => Instance.Cos(x);

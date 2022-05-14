@@ -54,7 +54,6 @@ namespace Jodo.Extensions.Numerics
         T Cbrt(in T x);
         T Ceiling(in T x);
         T Clamp(in T x, in T bound1, in T bound2);
-        T Convert(in byte value);
         T Cos(in T x);
         T Cosh(in T x);
         T DegreesToRadians(in T x);

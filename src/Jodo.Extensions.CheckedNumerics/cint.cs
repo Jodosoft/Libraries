@@ -53,6 +53,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override bool Equals(object? obj) => obj is cint other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
+        public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out cint result) => Try.Run(() => Parse(s, provider), out result);
@@ -64,19 +65,21 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cint Parse(string s, NumberStyles style) => int.Parse(s, style);
         public static cint Parse(string s, NumberStyles style, IFormatProvider provider) => int.Parse(s, style, provider);
 
-        public static explicit operator cint(in decimal value) => new cint(CheckedConvert.ToInt32(value));
-        public static explicit operator cint(in double value) => new cint(CheckedConvert.ToInt32(value));
-        public static explicit operator cint(in float value) => new cint(CheckedConvert.ToInt32(value));
+        public static explicit operator cint(in decimal value) => new cint(CheckedTruncate.ToInt32(value));
+        public static explicit operator cint(in double value) => new cint(CheckedTruncate.ToInt32(value));
+        public static explicit operator cint(in float value) => new cint(CheckedTruncate.ToInt32(value));
         public static explicit operator cint(in long value) => new cint(CheckedConvert.ToInt32(value));
         public static explicit operator cint(in uint value) => new cint(CheckedConvert.ToInt32(value));
         public static explicit operator cint(in ulong value) => new cint(CheckedConvert.ToInt32(value));
         public static implicit operator cint(in byte value) => new cint(value);
+        public static implicit operator cint(in char value) => new cint(value);
         public static implicit operator cint(in int value) => new cint(value);
         public static implicit operator cint(in sbyte value) => new cint(value);
         public static implicit operator cint(in short value) => new cint(value);
         public static implicit operator cint(in ushort value) => new cint(value);
 
         public static explicit operator byte(in cint value) => CheckedConvert.ToByte(value._value);
+        public static explicit operator char(in cint value) => CheckedConvert.ToChar(value._value);
         public static explicit operator sbyte(in cint value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(in cint value) => CheckedConvert.ToInt16(value._value);
         public static explicit operator uint(in cint value) => CheckedConvert.ToUInt32(value._value);
@@ -119,7 +122,7 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            cint IMath<cint>.E { get; } = 3;
+            cint IMath<cint>.E { get; } = 2;
             cint IMath<cint>.PI { get; } = 3;
             cint IMath<cint>.Epsilon { get; } = 1;
             cint IMath<cint>.MaxValue => MaxValue;
@@ -147,7 +150,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Cbrt(in cint x) => (cint)Math.Cbrt(x._value);
             cint IMath<cint>.Ceiling(in cint x) => x;
             cint IMath<cint>.Clamp(in cint x, in cint bound1, in cint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            cint IMath<cint>.Convert(in byte value) => value;
             cint IMath<cint>.Cos(in cint x) => (cint)Math.Cos(x._value);
             cint IMath<cint>.Cosh(in cint x) => (cint)Math.Cosh(x._value);
             cint IMath<cint>.DegreesToRadians(in cint x) => (cint)CheckedArithmetic.Multiply(x, AngleConstants.RadiansPerDegree);
@@ -194,6 +196,44 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cint IStringParser<cint>.Parse(in string s) => Parse(s);
             cint IStringParser<cint>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
+        }
+
+        IConvert<cint> IConvertible<cint>.Convert => _Convert.Instance;
+        private sealed class _Convert : IConvert<cint>
+        {
+            public readonly static _Convert Instance = new _Convert();
+
+            bool IConvert<cint>.ToBoolean(cint value) => CheckedConvert.ToBoolean(value._value);
+            byte IConvert<cint>.ToByte(cint value) => CheckedConvert.ToByte(value._value);
+            char IConvert<cint>.ToChar(cint value) => CheckedConvert.ToChar(value._value);
+            decimal IConvert<cint>.ToDecimal(cint value) => CheckedConvert.ToDecimal(value._value);
+            double IConvert<cint>.ToDouble(cint value) => CheckedConvert.ToDouble(value._value);
+            float IConvert<cint>.ToSingle(cint value) => CheckedConvert.ToSingle(value._value);
+            int IConvert<cint>.ToInt32(cint value) => value._value;
+            long IConvert<cint>.ToInt64(cint value) => CheckedConvert.ToInt64(value._value);
+            sbyte IConvert<cint>.ToSByte(cint value) => CheckedConvert.ToSByte(value._value);
+            short IConvert<cint>.ToInt16(cint value) => CheckedConvert.ToInt16(value._value);
+            string IConvert<cint>.ToString(cint value) => Convert.ToString(value._value);
+            string IConvert<cint>.ToString(cint value, IFormatProvider provider) => Convert.ToString(value._value, provider);
+            uint IConvert<cint>.ToUInt32(cint value) => CheckedConvert.ToUInt32(value._value);
+            ulong IConvert<cint>.ToUInt64(cint value) => CheckedConvert.ToUInt64(value._value);
+            ushort IConvert<cint>.ToUInt16(cint value) => CheckedConvert.ToUInt16(value._value);
+
+            cint IConvert<cint>.ToValue(bool value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(byte value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(char value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(decimal value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(double value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(float value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(int value) => value;
+            cint IConvert<cint>.ToValue(long value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(sbyte value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(short value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(string value) => Convert.ToInt32(value);
+            cint IConvert<cint>.ToValue(string value, IFormatProvider provider) => Convert.ToInt32(value, provider);
+            cint IConvert<cint>.ToValue(uint value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(ulong value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(ushort value) => CheckedConvert.ToInt32(value);
         }
     }
 }

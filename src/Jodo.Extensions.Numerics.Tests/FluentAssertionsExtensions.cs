@@ -31,7 +31,7 @@ namespace FluentAssertions
             var actual = Math<T>.ToDouble((T)parent.Subject, 0);
             if (!Math<T>.IsReal)
             {
-                var expectedValue = Math.Round(expected);
+                var expectedValue = Math.Truncate(expected);
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)

@@ -53,6 +53,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override bool Equals(object? obj) => obj is cshort other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
+        public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out cshort result) => Try.Run(() => Parse(s, provider), out result);
@@ -64,19 +65,21 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cshort Parse(string s, NumberStyles style) => short.Parse(s, style);
         public static cshort Parse(string s, NumberStyles style, IFormatProvider provider) => short.Parse(s, style, provider);
 
-        public static explicit operator cshort(in decimal value) => new cshort(CheckedConvert.ToInt16(value));
-        public static explicit operator cshort(in double value) => new cshort(CheckedConvert.ToInt16(value));
-        public static explicit operator cshort(in float value) => new cshort(CheckedConvert.ToInt16(value));
+        public static explicit operator cshort(in decimal value) => new cshort(CheckedTruncate.ToInt16(value));
+        public static explicit operator cshort(in double value) => new cshort(CheckedTruncate.ToInt16(value));
+        public static explicit operator cshort(in float value) => new cshort(CheckedTruncate.ToInt16(value));
         public static explicit operator cshort(in int value) => new cshort(CheckedConvert.ToInt16(value));
         public static explicit operator cshort(in long value) => new cshort(CheckedConvert.ToInt16(value));
         public static explicit operator cshort(in uint value) => new cshort(CheckedConvert.ToInt16(value));
         public static explicit operator cshort(in ulong value) => new cshort(CheckedConvert.ToInt16(value));
         public static explicit operator cshort(in ushort value) => new cshort(CheckedConvert.ToInt16(value));
         public static implicit operator cshort(in byte value) => new cshort(value);
+        public static implicit operator cshort(in char value) => new cshort(CheckedConvert.ToInt16(value));
         public static implicit operator cshort(in sbyte value) => new cshort(value);
         public static implicit operator cshort(in short value) => new cshort(value);
 
         public static explicit operator byte(in cshort value) => CheckedConvert.ToByte(value._value);
+        public static explicit operator char(in cshort value) => CheckedConvert.ToChar(value._value);
         public static explicit operator sbyte(in cshort value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(in cshort value) => CheckedConvert.ToInt16(value._value);
         public static explicit operator uint(in cshort value) => CheckedConvert.ToUInt16(value._value);
@@ -119,7 +122,7 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            cshort IMath<cshort>.E { get; } = (short)3;
+            cshort IMath<cshort>.E { get; } = (short)2;
             cshort IMath<cshort>.PI { get; } = (short)3;
             cshort IMath<cshort>.Epsilon { get; } = (short)1;
             cshort IMath<cshort>.MaxValue => MaxValue;
@@ -147,7 +150,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Cbrt(in cshort x) => (cshort)Math.Cbrt(x._value);
             cshort IMath<cshort>.Ceiling(in cshort x) => x;
             cshort IMath<cshort>.Clamp(in cshort x, in cshort bound1, in cshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            cshort IMath<cshort>.Convert(in byte value) => value;
             cshort IMath<cshort>.Cos(in cshort x) => (cshort)Math.Cos(x._value);
             cshort IMath<cshort>.Cosh(in cshort x) => (cshort)Math.Cosh(x._value);
             cshort IMath<cshort>.DegreesToRadians(in cshort x) => (cshort)CheckedArithmetic.Multiply(x, AngleConstants.RadiansPerDegree);
@@ -186,7 +188,7 @@ namespace Jodo.Extensions.CheckedNumerics
             float IMath<cshort>.ToSingle(in cshort x, in float offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             int IMath<cshort>.Sign(in cshort x) => Math.Sign(x._value);
 
-            cshort IBitConverter<cshort>.Read(in IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(int)));
+            cshort IBitConverter<cshort>.Read(in IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)));
             void IBitConverter<cshort>.Write(cshort value, in IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             cshort IRandom<cshort>.GetNext(Random random) => random.NextInt16();
@@ -194,6 +196,44 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cshort IStringParser<cshort>.Parse(in string s) => Parse(s);
             cshort IStringParser<cshort>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
+        }
+
+        IConvert<cshort> IConvertible<cshort>.Convert => _Convert.Instance;
+        private sealed class _Convert : IConvert<cshort>
+        {
+            public readonly static _Convert Instance = new _Convert();
+
+            bool IConvert<cshort>.ToBoolean(cshort value) => CheckedConvert.ToBoolean(value._value);
+            byte IConvert<cshort>.ToByte(cshort value) => CheckedConvert.ToByte(value._value);
+            char IConvert<cshort>.ToChar(cshort value) => CheckedConvert.ToChar(value._value);
+            decimal IConvert<cshort>.ToDecimal(cshort value) => CheckedConvert.ToDecimal(value._value);
+            double IConvert<cshort>.ToDouble(cshort value) => CheckedConvert.ToDouble(value._value);
+            float IConvert<cshort>.ToSingle(cshort value) => CheckedConvert.ToSingle(value._value);
+            int IConvert<cshort>.ToInt32(cshort value) => CheckedConvert.ToInt32(value._value);
+            long IConvert<cshort>.ToInt64(cshort value) => CheckedConvert.ToInt64(value._value);
+            sbyte IConvert<cshort>.ToSByte(cshort value) => CheckedConvert.ToSByte(value._value);
+            short IConvert<cshort>.ToInt16(cshort value) => value._value;
+            string IConvert<cshort>.ToString(cshort value) => Convert.ToString(value._value);
+            string IConvert<cshort>.ToString(cshort value, IFormatProvider provider) => Convert.ToString(value._value, provider);
+            uint IConvert<cshort>.ToUInt32(cshort value) => CheckedConvert.ToUInt32(value._value);
+            ulong IConvert<cshort>.ToUInt64(cshort value) => CheckedConvert.ToUInt64(value._value);
+            ushort IConvert<cshort>.ToUInt16(cshort value) => CheckedConvert.ToUInt16(value._value);
+
+            cshort IConvert<cshort>.ToValue(bool value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(byte value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(char value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(decimal value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(double value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(float value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(int value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(long value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(sbyte value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(short value) => value;
+            cshort IConvert<cshort>.ToValue(string value) => Convert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(string value, IFormatProvider provider) => Convert.ToInt16(value, provider);
+            cshort IConvert<cshort>.ToValue(uint value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(ulong value) => CheckedConvert.ToInt16(value);
+            cshort IConvert<cshort>.ToValue(ushort value) => CheckedConvert.ToInt16(value);
         }
     }
 }

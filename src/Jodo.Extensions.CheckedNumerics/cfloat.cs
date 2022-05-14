@@ -57,6 +57,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override bool Equals(object? obj) => obj is cfloat other && Equals(other);
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
+        public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool IsNormal(cfloat d) => float.IsNormal(d._value);
@@ -73,16 +74,18 @@ namespace Jodo.Extensions.CheckedNumerics
         public static explicit operator cfloat(decimal value) => new cfloat(CheckedConvert.ToSingle(value));
         public static explicit operator cfloat(double value) => new cfloat(CheckedConvert.ToSingle(value));
         public static implicit operator cfloat(byte value) => new cfloat(value);
-        public static implicit operator cfloat(sbyte value) => new cfloat(value);
+        public static implicit operator cfloat(char value) => new cfloat(value);
         public static implicit operator cfloat(float value) => new cfloat(value);
         public static implicit operator cfloat(int value) => new cfloat(value);
         public static implicit operator cfloat(long value) => new cfloat(value);
+        public static implicit operator cfloat(sbyte value) => new cfloat(value);
         public static implicit operator cfloat(short value) => new cfloat(value);
         public static implicit operator cfloat(uint value) => new cfloat(value);
         public static implicit operator cfloat(ulong value) => new cfloat(value);
         public static implicit operator cfloat(ushort value) => new cfloat(value);
 
         public static explicit operator byte(cfloat value) => CheckedConvert.ToByte(value._value);
+        public static explicit operator char(cfloat value) => CheckedConvert.ToChar(value._value);
         public static explicit operator decimal(cfloat value) => CheckedConvert.ToDecimal(value._value);
         public static explicit operator int(cfloat value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator long(cfloat value) => CheckedConvert.ToInt64(value._value);
@@ -147,7 +150,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Cbrt(in cfloat x) => MathF.Cbrt(x._value);
             cfloat IMath<cfloat>.Ceiling(in cfloat x) => MathF.Ceiling(x._value);
             cfloat IMath<cfloat>.Clamp(in cfloat x, in cfloat bound1, in cfloat bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
-            cfloat IMath<cfloat>.Convert(in byte value) => value;
             cfloat IMath<cfloat>.Cos(in cfloat x) => MathF.Cos(x._value);
             cfloat IMath<cfloat>.Cosh(in cfloat x) => MathF.Cosh(x._value);
             cfloat IMath<cfloat>.DegreesToRadians(in cfloat x) => x._value * AngleConstantsF.RadiansPerDegree;
@@ -194,6 +196,44 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cfloat IStringParser<cfloat>.Parse(in string s) => Parse(s);
             cfloat IStringParser<cfloat>.Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
+        }
+
+        IConvert<cfloat> IConvertible<cfloat>.Convert => _Convert.Instance;
+        private sealed class _Convert : IConvert<cfloat>
+        {
+            public readonly static _Convert Instance = new _Convert();
+
+            bool IConvert<cfloat>.ToBoolean(cfloat value) => CheckedConvert.ToBoolean(value._value);
+            byte IConvert<cfloat>.ToByte(cfloat value) => CheckedConvert.ToByte(value._value);
+            char IConvert<cfloat>.ToChar(cfloat value) => CheckedConvert.ToChar(value._value);
+            decimal IConvert<cfloat>.ToDecimal(cfloat value) => CheckedConvert.ToDecimal(value._value);
+            double IConvert<cfloat>.ToDouble(cfloat value) => CheckedConvert.ToDouble(value._value);
+            float IConvert<cfloat>.ToSingle(cfloat value) => value._value;
+            int IConvert<cfloat>.ToInt32(cfloat value) => CheckedConvert.ToInt32(value._value);
+            long IConvert<cfloat>.ToInt64(cfloat value) => CheckedConvert.ToInt64(value._value);
+            sbyte IConvert<cfloat>.ToSByte(cfloat value) => CheckedConvert.ToSByte(value._value);
+            short IConvert<cfloat>.ToInt16(cfloat value) => CheckedConvert.ToInt16(value._value);
+            string IConvert<cfloat>.ToString(cfloat value) => Convert.ToString(value._value);
+            string IConvert<cfloat>.ToString(cfloat value, IFormatProvider provider) => Convert.ToString(value._value, provider);
+            uint IConvert<cfloat>.ToUInt32(cfloat value) => CheckedConvert.ToUInt32(value._value);
+            ulong IConvert<cfloat>.ToUInt64(cfloat value) => CheckedConvert.ToUInt64(value._value);
+            ushort IConvert<cfloat>.ToUInt16(cfloat value) => CheckedConvert.ToUInt16(value._value);
+
+            cfloat IConvert<cfloat>.ToValue(bool value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(byte value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(char value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(decimal value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(double value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(float value) => value;
+            cfloat IConvert<cfloat>.ToValue(int value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(long value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(sbyte value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(short value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(string value) => Convert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(string value, IFormatProvider provider) => Convert.ToSingle(value, provider);
+            cfloat IConvert<cfloat>.ToValue(uint value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(ulong value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(ushort value) => CheckedConvert.ToSingle(value);
         }
     }
 }

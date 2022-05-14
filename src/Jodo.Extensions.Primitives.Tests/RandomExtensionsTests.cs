@@ -389,8 +389,8 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextInt32_Bounds_ReturnsValidValues()
         {
             //arrange
-            var min = (int)(int.MinValue / 2);
-            var max = (int)(int.MaxValue / 2);
+            var min = int.MinValue / 2;
+            var max = int.MaxValue / 2;
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
@@ -405,8 +405,8 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextInt32_ReverseBounds_ReturnsValidValues()
         {
             //arrange
-            var min = (int)(int.MinValue / 2);
-            var max = (int)(int.MaxValue / 2);
+            var min = int.MinValue / 2;
+            var max = int.MaxValue / 2;
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
@@ -422,7 +422,7 @@ namespace Jodo.Extensions.Primitives.Tests
         {
             //arrange
             var min = int.MinValue;
-            var max = (int)(int.MinValue + BoundedRange - 1);
+            var max = int.MinValue + BoundedRange - 1;
 
             //act
             var results = Enumerable.Range(0, BoundedNumberToGenerate)
@@ -437,7 +437,7 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextInt32_NearMax_ReturnsAllValues()
         {
             //arrange
-            var min = (int)(int.MaxValue - BoundedRange + 1);
+            var min = int.MaxValue - BoundedRange + 1;
             var max = int.MaxValue;
 
             //act
@@ -479,8 +479,8 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextUInt32_Bounds_ReturnsValidValues()
         {
             //arrange
-            var min = (uint)(uint.MinValue / 2);
-            var max = (uint)(uint.MaxValue / 2);
+            var min = uint.MinValue / 2;
+            var max = uint.MaxValue / 2;
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
@@ -495,8 +495,8 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextUInt32_ReverseBounds_ReturnsValidValues()
         {
             //arrange
-            var min = (uint)(uint.MinValue / 2);
-            var max = (uint)(uint.MaxValue / 2);
+            var min = uint.MinValue / 2;
+            var max = uint.MaxValue / 2;
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
@@ -512,7 +512,7 @@ namespace Jodo.Extensions.Primitives.Tests
         {
             //arrange
             var min = uint.MinValue;
-            var max = (uint)(uint.MinValue + BoundedRange - 1);
+            var max = uint.MinValue + BoundedRange - 1;
 
             //act
             var results = Enumerable.Range(0, BoundedNumberToGenerate)
@@ -527,7 +527,7 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextUInt32_NearMax_ReturnsAllValues()
         {
             //arrange
-            var min = (uint)(uint.MaxValue - BoundedRange + 1);
+            var min = uint.MaxValue - BoundedRange + 1;
             var max = uint.MaxValue;
 
             //act
@@ -569,8 +569,8 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextInt64_Bounds_ReturnsValidValues()
         {
             //arrange
-            var min = (long)(long.MinValue / 2);
-            var max = (long)(long.MaxValue / 2);
+            var min = long.MinValue / 2;
+            var max = long.MaxValue / 2;
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
@@ -585,8 +585,8 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextInt64_ReverseBounds_ReturnsValidValues()
         {
             //arrange
-            var min = (long)(long.MinValue / 2);
-            var max = (long)(long.MaxValue / 2);
+            var min = long.MinValue / 2;
+            var max = long.MaxValue / 2;
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
@@ -602,7 +602,7 @@ namespace Jodo.Extensions.Primitives.Tests
         {
             //arrange
             var min = long.MinValue;
-            var max = (long)(long.MinValue + BoundedRange - 1);
+            var max = long.MinValue + BoundedRange - 1;
 
             //act
             var results = Enumerable.Range(0, BoundedNumberToGenerate)
@@ -617,7 +617,7 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextInt64_NearMax_ReturnsAllValues()
         {
             //arrange
-            var min = (long)(long.MaxValue - BoundedRange + 1);
+            var min = long.MaxValue - BoundedRange + 1;
             var max = long.MaxValue;
 
             //act
@@ -659,8 +659,8 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextUInt64_Bounds_ReturnsValidValues()
         {
             //arrange
-            var min = (ulong)(ulong.MinValue / 2);
-            var max = (ulong)(ulong.MaxValue / 2);
+            var min = ulong.MinValue / 2;
+            var max = ulong.MaxValue / 2;
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
@@ -675,8 +675,8 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextUInt64_ReverseBounds_ReturnsValidValues()
         {
             //arrange
-            var min = (ulong)(ulong.MinValue / 2);
-            var max = (ulong)(ulong.MaxValue / 2);
+            var min = ulong.MinValue / 2;
+            var max = ulong.MaxValue / 2;
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
@@ -692,7 +692,7 @@ namespace Jodo.Extensions.Primitives.Tests
         {
             //arrange
             var min = ulong.MinValue;
-            var max = (ulong)(ulong.MinValue + BoundedRange - 1);
+            var max = ulong.MinValue + BoundedRange - 1;
 
             //act
             var results = Enumerable.Range(0, BoundedNumberToGenerate)
@@ -707,7 +707,7 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextUInt64_NearMax_ReturnsAllValues()
         {
             //arrange
-            var min = (ulong)(ulong.MaxValue - BoundedRange + 1);
+            var min = ulong.MaxValue - BoundedRange + 1;
             var max = ulong.MaxValue;
 
             //act

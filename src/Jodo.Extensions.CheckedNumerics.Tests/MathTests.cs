@@ -19,6 +19,7 @@
 
 using FluentAssertions;
 using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
@@ -28,12 +29,14 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
     public static class MathTests
     {
         public class CDouble : Base<cdouble> { }
+        public class CFix64 : Base<cfix64> { }
         public class CFloat : Base<cfloat> { }
         public class CInt : Base<cint> { }
+        public class CLong : Base<clong> { }
+        public class CSByte : Base<csbyte> { }
         public class CShort : Base<cshort> { }
-        public class Fix64 : Base<fix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UFix64 : Base<ufix64> { }
+        public class CUFix64 : Base<cufix64> { }
+        public class CUInt : Base<cuint> { }
 
         public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
         {
@@ -74,7 +77,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
                 var result = Math<T>.Epsilon;
 
                 //assert
-                result.Should().BeGreaterThan(Math<T>.Convert(0));
+                result.Should().BeGreaterThan(Convert<T>.ToValue(0));
             }
 
             [Test]
@@ -422,7 +425,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             {
                 //arrange
                 var input = NextInput();
-                var digits = Random.NextByte(3, 5);
+                var digits = Random.NextByte(1, 3);
                 var expected = Math.Round(Math<T>.ToDouble(input, 0), digits);
 
                 //act
@@ -452,7 +455,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             {
                 //arrange
                 var input = NextInput();
-                var digits = Random.NextByte(3, 5);
+                var digits = Random.NextByte(1, 3);
                 var midpointRounding = Random.NextEnum<MidpointRounding>();
                 var expected = Math.Round(Math<T>.ToDouble(input, 0), digits, midpointRounding);
 
