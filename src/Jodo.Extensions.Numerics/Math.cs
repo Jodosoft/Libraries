@@ -19,9 +19,12 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.Numerics
 {
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("csharpsquid", "S2743")]
     public static class Math<T> where T : struct, INumeric<T>
     {
         private static readonly IMath<T> Instance = default(T).Math;
