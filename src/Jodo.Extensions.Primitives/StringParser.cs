@@ -26,10 +26,10 @@ namespace Jodo.Extensions.Primitives
     {
         private static readonly IStringParser<T> DefaultInstance = new T().StringParser;
 
-        public static T Parse(in string s)
+        public static T Parse(string s)
             => DefaultInstance.Parse(s);
 
-        public static T Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider)
+        public static T Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider)
             => DefaultInstance.Parse(s, numberStyles, formatProvider);
     }
 }

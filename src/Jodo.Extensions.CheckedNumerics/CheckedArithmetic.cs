@@ -36,7 +36,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ulong Add(ulong x, ulong y) { try { checked { return x + y; } } catch (OverflowException) { return ulong.MaxValue; } }
         public static ushort Add(ushort x, ushort y) { try { checked { return (ushort)(x + y); } } catch (OverflowException) { return ushort.MaxValue; } }
 
-        public static float Add(in float x, in float y)
+        public static float Add(float x, float y)
         {
             float result = x + y;
             if (float.IsNaN(result)) return 0f;
@@ -45,7 +45,7 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
-        public static double Add(in double x, in double y)
+        public static double Add(double x, double y)
         {
             double result = x + y;
             if (double.IsNaN(result)) return 0f;
@@ -63,7 +63,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ulong Divide(ulong x, ulong y) { try { return x / y; } catch (DivideByZeroException) { return ulong.MaxValue; } }
         public static ushort Divide(ushort x, ushort y) { try { return (ushort)(x / y); } catch (DivideByZeroException) { return ushort.MaxValue; } }
 
-        public static float Divide(in float x, in float y)
+        public static float Divide(float x, float y)
         {
             float result = x / y;
             if (double.IsNaN(result)) return 0f;
@@ -72,7 +72,7 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
-        public static double Divide(in double x, in double y)
+        public static double Divide(double x, double y)
         {
             double result = x / y;
             if (double.IsNaN(result)) return 0d;
@@ -90,7 +90,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ulong Multiply(ulong x, ulong y) { try { checked { return x * y; } } catch (OverflowException) { return ulong.MaxValue; } }
         public static ushort Multiply(ushort x, ushort y) { try { checked { return (ushort)(x * y); } } catch (OverflowException) { return ushort.MaxValue; } }
 
-        public static float Multiply(in float x, in float y)
+        public static float Multiply(float x, float y)
         {
             float result = x * y;
             if (double.IsNaN(result)) return 0f;
@@ -99,7 +99,7 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
-        public static double Multiply(in double x, in double y)
+        public static double Multiply(double x, double y)
         {
             double result = x * y;
             if (double.IsNaN(result)) return 0d;
@@ -117,7 +117,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ulong Remainder(ulong x, ulong y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
         public static ushort Remainder(ushort x, ushort y) { try { return (ushort)(x % y); } catch (DivideByZeroException) { return 0; } }
 
-        public static float Remainder(in float x, in float y)
+        public static float Remainder(float x, float y)
         {
             float result = x % y;
             if (double.IsNaN(result)) return 0f;
@@ -126,7 +126,7 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
-        public static double Remainder(in double x, in double y)
+        public static double Remainder(double x, double y)
         {
             double result = x % y;
             if (double.IsNaN(result)) return 0d;
@@ -144,7 +144,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ulong Subtract(ulong x, ulong y) { try { checked { return x - y; } } catch (OverflowException) { return ulong.MinValue; } }
         public static ushort Subtract(ushort x, ushort y) { try { checked { return (ushort)(x - y); } } catch (OverflowException) { return ushort.MinValue; } }
 
-        public static float Subtract(in float x, in float y)
+        public static float Subtract(float x, float y)
         {
             float result = x - y;
             if (float.IsNaN(result)) return 0f;
@@ -153,7 +153,7 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
-        public static double Subtract(in double x, in double y)
+        public static double Subtract(double x, double y)
         {
             double result = x - y;
             if (double.IsNaN(result)) return 0f;
@@ -288,7 +288,7 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
-        public static long ScaledMultiply(in long left, in long right, in long scalingFactor)
+        public static long ScaledMultiply(long left, long right, long scalingFactor)
         {
             try
             {
@@ -310,7 +310,7 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
-        public static ulong ScaledMultiply(in ulong left, in ulong right, in ulong scalingFactor)
+        public static ulong ScaledMultiply(ulong left, ulong right, ulong scalingFactor)
         {
             try
             {
@@ -332,7 +332,7 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
-        public static long ScaledDivide(in long left, in long right, in long scalingFactor)
+        public static long ScaledDivide(long left, long right, long scalingFactor)
         {
             try
             {
@@ -354,7 +354,7 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
-        public static ulong ScaledDivide(in ulong left, in ulong right, in ulong scalingFactor)
+        public static ulong ScaledDivide(ulong left, ulong right, ulong scalingFactor)
         {
             try
             {
@@ -376,7 +376,7 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
-        public static long ScaledRemainder(in long left, in long right, in long scalingFactor)
+        public static long ScaledRemainder(long left, long right, long scalingFactor)
         {
             try
             {
@@ -398,7 +398,7 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
-        public static ulong ScaledRemainder(in ulong left, in ulong right, in ulong scalingFactor)
+        public static ulong ScaledRemainder(ulong left, ulong right, ulong scalingFactor)
         {
             try
             {

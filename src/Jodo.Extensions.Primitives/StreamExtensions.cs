@@ -29,7 +29,7 @@ namespace Jodo.Extensions.Primitives
             return BitConverter<T>.Read(stream);
         }
 
-        public static void Write<T>(this IWriteOnlyStream<byte> stream, in T value) where T : IBitConvertible<T>, new()
+        public static void Write<T>(this IWriteOnlyStream<byte> stream, T value) where T : IBitConvertible<T>, new()
         {
             BitConverter<T>.Write(stream, value);
         }

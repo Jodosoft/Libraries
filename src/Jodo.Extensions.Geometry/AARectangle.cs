@@ -98,8 +98,8 @@ namespace Jodo.Extensions.Geometry
         public AARectangle<T> Rotate90() => new AARectangle<T>(Center, (Dimensions.Y, Dimensions.X));
         public AARectangle<T> Rotate90(Vector2<T> pivot) => new AARectangle<T>(Center.RotateAround(pivot, Angle<T>.C90Degrees), (Dimensions.Y, Dimensions.X));
 
-        public Rectangle<T> Rotate(in Angle<T> angle) => new Rectangle<T>(Center, Dimensions, angle);
-        public Rectangle<T> RotateAround(in Vector2<T> pivot, in Angle<T> angle) => new Rectangle<T>(Center.RotateAround(pivot, angle), Dimensions, angle);
+        public Rectangle<T> Rotate(Angle<T> angle) => new Rectangle<T>(Center, Dimensions, angle);
+        public Rectangle<T> RotateAround(Vector2<T> pivot, Angle<T> angle) => new Rectangle<T>(Center.RotateAround(pivot, angle), Dimensions, angle);
 
         public (T, T, T, T) Convert() => this;
         public AARectangle<TOther> Convert<TOther>(Func<T, TOther> convert) where TOther : struct, INumeric<TOther> => new AARectangle<TOther>(convert(Center.X), convert(Center.Y), convert(Dimensions.X), convert(Dimensions.Y));
@@ -119,20 +119,20 @@ namespace Jodo.Extensions.Geometry
         public static AARectangle<T> FromTopCenter(Vector2<T> bottomLeft, Vector2<T> dimensions) => new AARectangle<T>(GetBottomCenter(bottomLeft, dimensions), dimensions);
         public static AARectangle<T> FromTopRight(Vector2<T> bottomLeft, Vector2<T> dimensions) => new AARectangle<T>(GetBottomLeft(bottomLeft, dimensions), dimensions);
 
-        private static Vector2<T> GetBottomCenter(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2));
-        private static Vector2<T> GetBottomLeft(in Vector2<T> center, in Vector2<T> dimensions) => center - (dimensions / 2);
-        private static Vector2<T> GetBottomRight(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y - (dimensions.Y / 2));
-        private static Vector2<T> GetLeftCenter(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y);
-        private static Vector2<T> GetRightCenter(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y);
-        private static Vector2<T> GetTopCenter(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2));
-        private static Vector2<T> GetTopLeft(in Vector2<T> center, in Vector2<T> dimensions) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2));
-        private static Vector2<T> GetTopRight(in Vector2<T> center, in Vector2<T> dimensions) => center + (dimensions / 2);
+        private static Vector2<T> GetBottomCenter(Vector2<T> center, Vector2<T> dimensions) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2));
+        private static Vector2<T> GetBottomLeft(Vector2<T> center, Vector2<T> dimensions) => center - (dimensions / 2);
+        private static Vector2<T> GetBottomRight(Vector2<T> center, Vector2<T> dimensions) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y - (dimensions.Y / 2));
+        private static Vector2<T> GetLeftCenter(Vector2<T> center, Vector2<T> dimensions) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y);
+        private static Vector2<T> GetRightCenter(Vector2<T> center, Vector2<T> dimensions) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y);
+        private static Vector2<T> GetTopCenter(Vector2<T> center, Vector2<T> dimensions) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2));
+        private static Vector2<T> GetTopLeft(Vector2<T> center, Vector2<T> dimensions) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2));
+        private static Vector2<T> GetTopRight(Vector2<T> center, Vector2<T> dimensions) => center + (dimensions / 2);
 
         public static bool operator ==(AARectangle<T> left, AARectangle<T> right) => left.Equals(right);
         public static bool operator !=(AARectangle<T> left, AARectangle<T> right) => !(left == right);
-        public static implicit operator AARectangle<T>(in (T, T, T, T) value) => new AARectangle<T>((value.Item1, value.Item2), (value.Item3, value.Item4));
-        public static implicit operator (T, T, T, T)(in AARectangle<T> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
-        public static implicit operator AARectangle<T>(in (Vector2<T>, Vector2<T>) value) => new AARectangle<T>(value.Item1, value.Item2);
-        public static implicit operator (Vector2<T>, Vector2<T>)(in AARectangle<T> value) => (value.Center, value.Dimensions);
+        public static implicit operator AARectangle<T>((T, T, T, T) value) => new AARectangle<T>((value.Item1, value.Item2), (value.Item3, value.Item4));
+        public static implicit operator (T, T, T, T)(AARectangle<T> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
+        public static implicit operator AARectangle<T>((Vector2<T>, Vector2<T>) value) => new AARectangle<T>(value.Item1, value.Item2);
+        public static implicit operator (Vector2<T>, Vector2<T>)(AARectangle<T> value) => (value.Center, value.Dimensions);
     }
 }

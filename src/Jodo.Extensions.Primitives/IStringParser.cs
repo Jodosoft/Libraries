@@ -24,7 +24,7 @@ namespace Jodo.Extensions.Primitives
 {
     public interface IStringParser<out T>
     {
-        T Parse(in string s);
-        T Parse(in string s, in NumberStyles numberStyles, in IFormatProvider formatProvider);
+        T Parse(string s);
+        T Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider);
     }
 }

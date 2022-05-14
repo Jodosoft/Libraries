@@ -59,7 +59,7 @@ namespace Jodo.Extensions.Geometry
             info.AddValue(nameof(Y), Y, typeof(T));
         }
 
-        public Vector2<T> RotateAround(in Vector2<T> pivot, in Angle<T> angle)
+        public Vector2<T> RotateAround(Vector2<T> pivot, Angle<T> angle)
         {
             var newAngle = -angle;
             var difference = this - pivot;

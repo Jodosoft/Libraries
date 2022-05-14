@@ -24,6 +24,6 @@ namespace Jodo.Extensions.Primitives
     public interface IRandom<T>
     {
         T GetNext(Random random);
-        T GetNext(Random random, in T bound1, in T bound2);
+        T GetNext(Random random, T bound1, T bound2);
     }
 }

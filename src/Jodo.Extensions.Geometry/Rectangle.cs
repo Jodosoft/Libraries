@@ -91,8 +91,8 @@ namespace Jodo.Extensions.Geometry
 
         public Rectangle<T> Scale(T scale) => new Rectangle<T>(Center, Dimensions * scale, Angle);
 
-        public Rectangle<T> Rotate(in Angle<T> angle) => new Rectangle<T>(BottomLeft, Dimensions, Angle + angle);
-        public Rectangle<T> RotateAround(in Vector2<T> pivot, in Angle<T> angle) => new Rectangle<T>(Center.RotateAround(pivot, angle), Dimensions, Angle + angle);
+        public Rectangle<T> Rotate(Angle<T> angle) => new Rectangle<T>(BottomLeft, Dimensions, Angle + angle);
+        public Rectangle<T> RotateAround(Vector2<T> pivot, Angle<T> angle) => new Rectangle<T>(Center.RotateAround(pivot, angle), Dimensions, Angle + angle);
         public Rectangle<T> Shrink((T, T) delta) => Shrink((Vector2<T>)delta);
         public Rectangle<T> Shrink(T delta) => Shrink(new Vector2<T>(delta, delta));
         public Rectangle<T> Shrink(T deltaX, T deltaY) => Shrink(new Vector2<T>(deltaX, deltaY));
@@ -134,14 +134,14 @@ namespace Jodo.Extensions.Geometry
             return AARectangle<T>.FromBottomLeft((minX, minY), dimensions);
         }
 
-        private static Vector2<T> GetBottomCenter(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
-        private static Vector2<T> GetBottomLeft(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => (center - (dimensions / 2)).RotateAround(center, angle);
-        private static Vector2<T> GetBottomRight(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y - (dimensions.Y / 2)).RotateAround(center, angle);
-        private static Vector2<T> GetLeftCenter(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y).RotateAround(center, angle);
-        private static Vector2<T> GetRightCenter(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y).RotateAround(center, angle);
-        private static Vector2<T> GetTopCenter(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
-        private static Vector2<T> GetTopLeft(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
-        private static Vector2<T> GetTopRight(in Vector2<T> center, in Vector2<T> dimensions, in Angle<T> angle) => (center + (dimensions / 2)).RotateAround(center, angle);
+        private static Vector2<T> GetBottomCenter(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
+        private static Vector2<T> GetBottomLeft(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => (center - (dimensions / 2)).RotateAround(center, angle);
+        private static Vector2<T> GetBottomRight(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y - (dimensions.Y / 2)).RotateAround(center, angle);
+        private static Vector2<T> GetLeftCenter(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y).RotateAround(center, angle);
+        private static Vector2<T> GetRightCenter(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => new Vector2<T>(center.X + (dimensions.X / 2), center.Y).RotateAround(center, angle);
+        private static Vector2<T> GetTopCenter(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => new Vector2<T>(center.X, center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
+        private static Vector2<T> GetTopLeft(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => new Vector2<T>(center.X - (dimensions.X / 2), center.Y + (dimensions.Y / 2)).RotateAround(center, angle);
+        private static Vector2<T> GetTopRight(Vector2<T> center, Vector2<T> dimensions, Angle<T> angle) => (center + (dimensions / 2)).RotateAround(center, angle);
 
         public static bool operator ==(Rectangle<T> left, Rectangle<T> right) => left.Equals(right);
         public static bool operator !=(Rectangle<T> left, Rectangle<T> right) => !(left == right);

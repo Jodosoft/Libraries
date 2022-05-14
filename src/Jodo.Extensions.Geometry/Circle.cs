@@ -64,10 +64,10 @@ namespace Jodo.Extensions.Geometry
             info.AddValue(nameof(Radius), Radius, typeof(T));
         }
 
-        public Circle<T> Translate(in Vector2<T> delta) => new Circle<T>(Center.Translate(delta), Radius);
-        public Circle<T> Translate(in T deltaX, in T deltaY) => new Circle<T>(Center.Translate(deltaX, deltaY), Radius);
+        public Circle<T> Translate(Vector2<T> delta) => new Circle<T>(Center.Translate(delta), Radius);
+        public Circle<T> Translate(T deltaX, T deltaY) => new Circle<T>(Center.Translate(deltaX, deltaY), Radius);
         public AARectangle<T> GetBounds() => AARectangle<T>.FromCenter(Center, (Diameter, Diameter));
-        public bool IntersectsWith(in Circle<T> other) => Center.DistanceFrom(other.Center) < Radius + other.Radius;
+        public bool IntersectsWith(Circle<T> other) => Center.DistanceFrom(other.Center) < Radius + other.Radius;
 
 
         public bool Equals(Circle<T> other) => Center.Equals(other.Center) && EqualityComparer<T>.Default.Equals(Radius, other.Radius);

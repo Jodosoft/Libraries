@@ -26,29 +26,29 @@ namespace Jodo.Extensions.Primitives
     {
         private static readonly IBitConverter<T> DefaultInstance = new T().BitConverter;
 
-        public static ReadOnlySpan<byte> GetBytes(in T value)
+        public static ReadOnlySpan<byte> GetBytes(T value)
         {
             var list = new List<byte>();
             DefaultInstance.Write(value, list.AsWriteOnlyStream());
             return list.ToArray();
         }
 
-        public static T FromBytes(in ReadOnlySpan<byte> bytes)
+        public static T FromBytes(ReadOnlySpan<byte> bytes)
         {
             return DefaultInstance.Read(bytes.ToArray().AsReadOnlyStream());
         }
 
-        public static T FromBytes(in IReadOnlyList<byte> bytes)
+        public static T FromBytes(IReadOnlyList<byte> bytes)
         {
             return DefaultInstance.Read(bytes.AsReadOnlyStream());
         }
 
-        public static T Read(in IReadOnlyStream<byte> stream)
+        public static T Read(IReadOnlyStream<byte> stream)
         {
             return DefaultInstance.Read(stream);
         }
 
-        public static void Write(in IWriteOnlyStream<byte> stream, in T value)
+        public static void Write(IWriteOnlyStream<byte> stream, T value)
         {
             DefaultInstance.Write(value, stream);
         }

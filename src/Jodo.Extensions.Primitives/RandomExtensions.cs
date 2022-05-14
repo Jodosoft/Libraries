@@ -41,25 +41,25 @@ namespace System
         public static byte NextByte(this Random random)
             => (byte)random.Next(256);
 
-        public static byte NextByte(this Random random, in byte bound1, in byte bound2)
+        public static byte NextByte(this Random random, byte bound1, byte bound2)
             => (byte)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
         public static sbyte NextSByte(this Random random)
             => (sbyte)random.Next(sbyte.MinValue, sbyte.MaxValue + 1);
 
-        public static sbyte NextSByte(this Random random, in sbyte bound1, in sbyte bound2)
+        public static sbyte NextSByte(this Random random, sbyte bound1, sbyte bound2)
             => (sbyte)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
         public static short NextInt16(this Random random)
             => NextInt16(random, short.MinValue, short.MaxValue);
 
-        public static short NextInt16(this Random random, in short bound1, in short bound2)
+        public static short NextInt16(this Random random, short bound1, short bound2)
             => (short)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
         public static ushort NextUInt16(this Random random)
             => NextUInt16(random, ushort.MinValue, ushort.MaxValue);
 
-        public static ushort NextUInt16(this Random random, in ushort bound1, in ushort bound2)
+        public static ushort NextUInt16(this Random random, ushort bound1, ushort bound2)
             => (ushort)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
         public static int NextInt32(this Random random)
@@ -154,10 +154,10 @@ namespace System
         public static T NextElement<T>(this Random random, IReadOnlyList<T> list)
             => list[random.Next(0, list.Count)];
 
-        public static T NextElement<T>(this Random random, in Span<T> span)
+        public static T NextElement<T>(this Random random, Span<T> span)
             => span[random.Next(0, span.Length)];
 
-        public static T NextElement<T>(this Random random, in ReadOnlySpan<T> span)
+        public static T NextElement<T>(this Random random, ReadOnlySpan<T> span)
             => span[random.Next(0, span.Length)];
 
         public static TEnum NextEnum<TEnum>(this Random random) where TEnum : Enum
@@ -176,7 +176,7 @@ namespace System
         public static T NextRandomizable<T>(this Random random) where T : IRandomisable<T>, new()
             => IRandomisable<T>.DefaultInstance.GetNext(random);
 
-        public static T NextRandomizable<T>(this Random random, in T bound1, in T bound2) where T : IRandomisable<T>, new()
+        public static T NextRandomizable<T>(this Random random, T bound1, T bound2) where T : IRandomisable<T>, new()
             => IRandomisable<T>.DefaultInstance.GetNext(random, bound1, bound2);
     }
 }
