@@ -24,7 +24,11 @@
 <details>
   <summary><h2>Jodo.Extensions.Numerics</h2></summary>
 
-  Provides <a href="#inumericn">INumeric&lt;N&gt;</a> and accompanying utilities classes, allowing for the creation of interchangeable number types.
+Provides <a href="#inumericn">INumeric&lt;N&gt;</a> and accompanying utilities to support the creation of used-defined numeric types.
+
+Fixed-point implementations are provided, as well as wrappers for the built-in numeric types (`int`, `float` etc.).
+
+<a href="#inumericn">INumeric&lt;N&gt;</a> allows numeric types to be used interchangeably in generic systems.
 
 ### Types
 
