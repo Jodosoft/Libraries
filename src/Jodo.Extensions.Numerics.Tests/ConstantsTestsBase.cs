@@ -20,77 +20,101 @@
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
+using NUnit.Framework.Internal;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
     public abstract class ConstantsTestsBase<T> : GlobalTestBase where T : struct, INumeric<T>
     {
-        private T NextInput()
+        [Test]
+        public void Epsilon_LessThanOrEqualToOne()
         {
-            T result = Random.NextNumeric<T>(0, 20);
-
-            if (Constants<T>.IsSigned && Random.NextBoolean())
-            {
-                result = -result;
-            }
-
-            if (Constants<T>.IsReal)
-            {
-                result /= 10;
-            }
-            return result;
+            Constants<T>.Epsilon.Should().BeLessThanOrEqualTo(Constants<T>.One);
         }
 
         [Test]
-        public void Zero_ReturnsZero()
+        public void MaxUnit_LessThanMaxValue()
         {
-            //arrange
-
-            //act
-            var result = Constants<T>.Zero;
-
-            //assert
-            result.ToDouble().Should().Be(0);
+            Constants<T>.MaxUnit.Should().BeLessThan(Constants<T>.MaxValue);
         }
 
         [Test]
-        public void Epsilon_IntegralValue_ReturnsOne()
+        public void MaxUnit_AsDouble_IsOne()
         {
-            //arrange
-            if (Constants<T>.IsReal) return;
-
-            //act
-            var result = Constants<T>.Epsilon;
-
-            //assert
-            result.ToDouble().Should().Be(1);
+            Constants<T>.MaxUnit.ToDouble().Should().Be(1);
         }
 
         [Test]
-        public void Epsilon_RealValue_GreaterThanZero()
+        public void MinUnit_LessThanMaxUnit()
         {
-            //arrange
-            if (Constants<T>.IsReal) return;
-
-            //act
-            var result = Constants<T>.Epsilon;
-
-            //assert
-            result.ToDouble().Should().BeGreaterThan(0);
+            Constants<T>.MinUnit.Should().BeLessThan(Constants<T>.MaxUnit);
         }
 
         [Test]
-        public void Epsilon_RealValue_ApproximatelyZero()
+        public void MinUnit_Unsigned_IsZero()
         {
-            //arrange
-            if (Constants<T>.IsReal) return;
+            if (Constants<T>.IsSigned) Assert.Inconclusive();
+            Constants<T>.MinUnit.Should().Be(Constants<T>.Zero);
+        }
 
-            //act
-            var result = Constants<T>.Epsilon - Constants<T>.Epsilon;
+        [Test]
+        public void MinUnit_SignedAsDouble_IsMinusOne()
+        {
+            if (!Constants<T>.IsSigned) Assert.Inconclusive();
+            Constants<T>.MinUnit.ToDouble().Should().Be(-1);
+        }
 
-            //assert
-            result.ToDouble().Should().BeApproximately(0, 0.0001);
+        [Test]
+        public void MinValue_Unsigned_IsZero()
+        {
+            if (Constants<T>.IsSigned) Assert.Inconclusive();
+            Constants<T>.MinValue.Should().Be(Constants<T>.Zero);
+        }
+
+        [Test]
+        public void One_AsDouble_IsOne()
+        {
+            Constants<T>.One.ToDouble().Should().Be(1);
+        }
+
+        [Test]
+        public void Zero_LessThanEpsilon()
+        {
+            Constants<T>.Zero.Should().BeLessThan(Constants<T>.Epsilon);
+        }
+
+        [Test]
+        public void Zero_AsDouble_IsZero()
+        {
+            Constants<T>.Zero.ToDouble().Should().Be(0);
+        }
+
+        [Test]
+        public void Epsilon_IntegralAsDouble_IsOne()
+        {
+            if (Constants<T>.IsReal) Assert.Inconclusive();
+            Constants<T>.Epsilon.ToDouble().Should().Be(1);
+        }
+
+        [Test]
+        public void Epsilon_RealAsDouble_GreaterThanZero()
+        {
+            if (!Constants<T>.IsReal) Assert.Inconclusive();
+            Constants<T>.Epsilon.ToDouble().Should().BeGreaterThan(0);
+        }
+
+        [Test]
+        public void Epsilon_RealAsDouble_LessThanOne()
+        {
+            if (!Constants<T>.IsReal) Assert.Inconclusive();
+            Constants<T>.Epsilon.ToDouble().Should().BeLessThan(1);
+        }
+
+        [Test]
+        public void Epsilon_RealAsDouble_ApproximatelyZero()
+        {
+            if (!Constants<T>.IsReal) Assert.Inconclusive();
+            Constants<T>.Epsilon.ToDouble().Should().BeApproximately(0, 0.0001);
         }
     }
 }

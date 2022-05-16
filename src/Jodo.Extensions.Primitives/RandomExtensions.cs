@@ -133,7 +133,7 @@ namespace System
             return BitConverter.Int32BitsToSingle(index < 0 ? int.MinValue - index : index);
         }
 
-        public static decimal NextDecimal(this Random random) => new decimal(random.NextInt32(), random.NextInt32(), random.NextInt32(), random.NextBoolean(), random.NextByte());
+        public static decimal NextDecimal(this Random random) => new decimal(random.NextInt32(), random.NextInt32(), random.NextInt32(), random.NextBoolean(), random.NextByte(0, 28));
 
         public static decimal NextDecimal(this Random random, decimal bound1, decimal bound2)
             => (decimal)random.NextDouble((double)bound1, (double)bound2);

@@ -95,5 +95,45 @@ namespace FluentAssertions
             }
             return new AndConstraint<ComparableTypeAssertions<T>>(parent);
         }
+
+        public static AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        {
+            Execute.Assertion
+                .ForCondition((T)parent.Subject > expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to be greater than {0}{reason}, but it was {1}.", expected, parent.Subject);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+        }
+
+        public static AndConstraint<ComparableTypeAssertions<T>> BeGreaterThanOrEqualTo<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        {
+            Execute.Assertion
+                .ForCondition((T)parent.Subject >= expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but it was {1}.", expected, parent.Subject);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+        }
+
+        public static AndConstraint<ComparableTypeAssertions<T>> BeLessThan<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        {
+            Execute.Assertion
+                .ForCondition((T)parent.Subject < expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to be less than {0}{reason}, but it was {1}.", expected, parent.Subject);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+        }
+
+        public static AndConstraint<ComparableTypeAssertions<T>> BeLessThanOrEqualTo<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        {
+            Execute.Assertion
+                .ForCondition((T)parent.Subject <= expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but it was {1}.", expected, parent.Subject);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+        }
     }
 }

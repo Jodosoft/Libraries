@@ -33,8 +33,9 @@ namespace Jodo.Extensions.Numerics
     [SuppressMessage("csharpsquid", "S101")]
     public readonly struct xfloat : INumeric<xfloat>
     {
-        public static readonly xfloat MaxValue = new xfloat(float.MaxValue);
-        public static readonly xfloat MinValue = new xfloat(float.MinValue);
+        public static readonly xfloat Epsilon = float.Epsilon;
+        public static readonly xfloat MaxValue = float.MaxValue;
+        public static readonly xfloat MinValue = float.MinValue;
 
         private readonly float _value;
 
@@ -54,6 +55,15 @@ namespace Jodo.Extensions.Numerics
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
+
+        public static bool IsFinite(xfloat f) => float.IsFinite(f);
+        public static bool IsInfinity(xfloat f) => float.IsInfinity(f);
+        public static bool IsNaN(xfloat f) => float.IsNaN(f);
+        public static bool IsNegative(xfloat f) => float.IsNegative(f);
+        public static bool IsNegativeInfinity(xfloat f) => float.IsNegativeInfinity(f);
+        public static bool IsNormal(xfloat f) => float.IsNormal(f);
+        public static bool IsPositiveInfinity(xfloat f) => float.IsPositiveInfinity(f);
+        public static bool IsSubnormal(xfloat f) => float.IsSubnormal(f);
 
         public static bool TryParse(string s, IFormatProvider provider, out xfloat result) => Try.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out xfloat result) => Try.Run(() => Parse(s, style, provider), out result);
@@ -137,7 +147,7 @@ namespace Jodo.Extensions.Numerics
 
             bool IConstants<xfloat>.IsReal { get; } = true;
             bool IConstants<xfloat>.IsSigned { get; } = true;
-            xfloat IConstants<xfloat>.Epsilon { get; } = 1f;
+            xfloat IConstants<xfloat>.Epsilon => Epsilon;
             xfloat IConstants<xfloat>.MaxUnit { get; } = 1f;
             xfloat IConstants<xfloat>.MaxValue => MaxValue;
             xfloat IConstants<xfloat>.MinUnit { get; } = -1f;

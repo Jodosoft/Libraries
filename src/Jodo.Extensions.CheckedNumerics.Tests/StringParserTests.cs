@@ -21,16 +21,16 @@ using Jodo.Extensions.Primitives.Tests;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public static class BitConverterTests
+    public static class StringParserTests
     {
-        public class CDouble : BitConverterTestsBase<cdouble> { }
-        public class CFix64 : BitConverterTestsBase<cfix64> { }
-        public class CFloat : BitConverterTestsBase<cfloat> { }
-        public class CInt : BitConverterTestsBase<cint> { }
-        public class CLong : BitConverterTestsBase<clong> { }
-        public class CSByte : BitConverterTestsBase<csbyte> { }
-        public class CShort : BitConverterTestsBase<cshort> { }
-        public class CUFix64 : BitConverterTestsBase<cufix64> { }
-        public class CUInt : BitConverterTestsBase<cuint> { }
+        public class CDouble : StringParserTestsBase<cdouble> { }
+        public class CFix64 : StringParserTestsBase<cfix64> { }
+        public class CFloat : StringParserTestsBase<cfloat> { }
+        public class CInt : StringParserTestsBase<cint> { }
+        public class CLong : StringParserTestsBase<clong> { }
+        public class CSByte : StringParserTestsBase<csbyte> { }
+        public class CShort : StringParserTestsBase<cshort> { }
+        public class CUFix64 : StringParserTestsBase<cufix64> { }
+        public class CUInt : StringParserTestsBase<cuint> { }
     }
 }

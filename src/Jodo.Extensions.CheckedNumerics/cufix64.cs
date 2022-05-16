@@ -147,12 +147,12 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IConstants<cufix64>.IsReal { get; } = true;
             bool IConstants<cufix64>.IsSigned { get; } = false;
-            cufix64 IConstants<cufix64>.Epsilon { get; } = 1;
-            cufix64 IConstants<cufix64>.MaxUnit { get; } = ScalingFactor;
+            cufix64 IConstants<cufix64>.Epsilon { get; } = new cufix64(1);
+            cufix64 IConstants<cufix64>.MaxUnit { get; } = new cufix64(ScalingFactor);
             cufix64 IConstants<cufix64>.MaxValue => MaxValue;
             cufix64 IConstants<cufix64>.MinUnit { get; } = 0;
             cufix64 IConstants<cufix64>.MinValue => MinValue;
-            cufix64 IConstants<cufix64>.One { get; } = ScalingFactor;
+            cufix64 IConstants<cufix64>.One { get; } = new cufix64(ScalingFactor);
             cufix64 IConstants<cufix64>.Zero { get; } = 0;
             cufix64 IMath<cufix64>.E { get; } = (cufix64)Math.E;
             cufix64 IMath<cufix64>.PI { get; } = (cufix64)Math.PI;

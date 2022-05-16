@@ -34,9 +34,9 @@ namespace Jodo.Extensions.CheckedNumerics
     [SuppressMessage("csharpsquid", "S101")]
     public readonly struct cdouble : INumeric<cdouble>
     {
-        public static readonly cdouble Epsilon = new cdouble(double.Epsilon);
-        public static readonly cdouble MaxValue = new cdouble(double.MaxValue);
-        public static readonly cdouble MinValue = new cdouble(double.MinValue);
+        public static readonly cdouble Epsilon = double.Epsilon;
+        public static readonly cdouble MaxValue = double.MaxValue;
+        public static readonly cdouble MinValue = double.MinValue;
 
         private readonly double _value;
 

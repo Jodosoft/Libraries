@@ -137,7 +137,7 @@ namespace Jodo.Extensions.Numerics
 
             bool IConstants<xdecimal>.IsReal { get; } = true;
             bool IConstants<xdecimal>.IsSigned { get; } = true;
-            xdecimal IConstants<xdecimal>.Epsilon { get; } = (decimal)1;
+            xdecimal IConstants<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
             xdecimal IConstants<xdecimal>.MaxUnit { get; } = (decimal)1;
             xdecimal IConstants<xdecimal>.MaxValue => MaxValue;
             xdecimal IConstants<xdecimal>.MinUnit { get; } = (decimal)-1;

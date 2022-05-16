@@ -445,7 +445,7 @@ namespace Jodo.Extensions.Numerics.Tests
             var result = Math<T>.Round(input, digits);
 
             //assert
-            result.ToDouble().Should().BeApproximately(expected, 0.000001);
+            result.ToDouble().Should().BeApproximately(expected, 1 / Math.Pow(10, digits));
         }
 
         [Test]
@@ -506,7 +506,7 @@ namespace Jodo.Extensions.Numerics.Tests
             var result = Math<T>.Round(input, digits, mode);
 
             //assert
-            result.ToDouble().Should().BeApproximately(expected, 0.000001);
+            result.ToDouble().Should().BeApproximately(expected, 1 / Math.Pow(10, digits));
         }
 
         [Test]

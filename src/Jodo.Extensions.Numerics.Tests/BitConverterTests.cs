@@ -19,18 +19,20 @@
 
 using Jodo.Extensions.Primitives.Tests;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Numerics.Tests
 {
     public static class BitConverterTests
     {
-        public class CDouble : BitConverterTestsBase<cdouble> { }
-        public class CFix64 : BitConverterTestsBase<cfix64> { }
-        public class CFloat : BitConverterTestsBase<cfloat> { }
-        public class CInt : BitConverterTestsBase<cint> { }
-        public class CLong : BitConverterTestsBase<clong> { }
-        public class CSByte : BitConverterTestsBase<csbyte> { }
-        public class CShort : BitConverterTestsBase<cshort> { }
-        public class CUFix64 : BitConverterTestsBase<cufix64> { }
-        public class CUInt : BitConverterTestsBase<cuint> { }
+        public class XByte : BitConverterTestsBase<xbyte> { }
+        public class XDecimal : BitConverterTestsBase<xdecimal> { }
+        public class XDouble : BitConverterTestsBase<xdouble> { }
+        public class XFloat : BitConverterTestsBase<xfloat> { }
+        public class XInt : BitConverterTestsBase<xint> { }
+        public class XLong : BitConverterTestsBase<xlong> { }
+        public class XSByte : BitConverterTestsBase<xsbyte> { }
+        public class XShort : BitConverterTestsBase<xshort> { }
+        public class XUInt : BitConverterTestsBase<xuint> { }
+        public class XULong : BitConverterTestsBase<xushort> { }
+        public class XUShort : BitConverterTestsBase<xushort> { }
     }
 }

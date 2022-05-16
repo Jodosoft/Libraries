@@ -161,7 +161,7 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Asin(clong x) => (clong)Math.Asin(x);
             clong IMath<clong>.Asinh(clong x) => (clong)Math.Asinh(x);
             clong IMath<clong>.Atan(clong x) => (clong)Math.Atan(x);
-            clong IMath<clong>.Atan2(clong x, clong y) => (clong)Math.Atan2(x, y);
+            clong IMath<clong>.Atan2(clong y, clong x) => (clong)Math.Atan2(y, x);
             clong IMath<clong>.Atanh(clong x) => (clong)Math.Atanh(x);
             clong IMath<clong>.Cbrt(clong x) => (clong)Math.Cbrt(x);
             clong IMath<clong>.Ceiling(clong x) => x;

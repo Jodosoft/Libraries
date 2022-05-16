@@ -17,20 +17,38 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives.Tests;
+using FluentAssertions;
+using Jodo.Extensions.Testing;
+using NUnit.Framework;
+using System;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Primitives.Tests
 {
-    public static class BitConverterTests
+    public abstract class StringParserTestsBase<T> : GlobalTestBase where T : IStringParsable<T>, IRandomisable<T>, new()
     {
-        public class CDouble : BitConverterTestsBase<cdouble> { }
-        public class CFix64 : BitConverterTestsBase<cfix64> { }
-        public class CFloat : BitConverterTestsBase<cfloat> { }
-        public class CInt : BitConverterTestsBase<cint> { }
-        public class CLong : BitConverterTestsBase<clong> { }
-        public class CSByte : BitConverterTestsBase<csbyte> { }
-        public class CShort : BitConverterTestsBase<cshort> { }
-        public class CUFix64 : BitConverterTestsBase<cufix64> { }
-        public class CUInt : BitConverterTestsBase<cuint> { }
+        [Test]
+        public void Parse1_RandomValueRoundTrip_SameAsInput()
+        {
+            //arrange
+            var input = Random.NextRandomizable<T>();
+
+            //act
+            var result = StringParser<T>.Parse(input.ToString());
+
+            //assert
+            result.Should().Be(input);
+        }
+
+        [Test]
+        public void Parse1_EmptyString_Throws()
+        {
+            //arrange
+
+            //act
+            var action = new Action(() => StringParser<T>.Parse(string.Empty));
+
+            //assert
+            action.Should().Throw<FormatException>();
+        }
     }
 }

@@ -916,5 +916,97 @@ namespace Jodo.Extensions.Primitives.Tests
             //assert
             results.Should().OnlyContain(x => x == bounds);
         }
+
+        [Test]
+        public void NextDecimal_NoBounds_RandomDistribution()
+        {
+            //arrange
+            //act
+            var results = Enumerable.Range(0, NumberToGenerate)
+                .Select(_ => Random.NextDecimal()).Distinct().ToArray();
+
+            //assert
+            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+        }
+
+        [Test]
+        public void NextDecimal_Bounds_ReturnsValidValues()
+        {
+            //arrange
+            var min = (decimal)(decimal.MinValue / 2);
+            var max = (decimal)(decimal.MaxValue / 2);
+
+            //act
+            var results = Enumerable.Range(0, NumberToGenerate)
+                .Select(_ => Random.NextDecimal(min, max)).Distinct().ToArray();
+
+            //assert
+            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Should().OnlyContain(x => x >= min && x <= max);
+        }
+
+        [Test]
+        public void NextDecimal_ReverseBounds_ReturnsValidValues()
+        {
+            //arrange
+            var min = (decimal)(decimal.MinValue / 2);
+            var max = (decimal)(decimal.MaxValue / 2);
+
+            //act
+            var results = Enumerable.Range(0, NumberToGenerate)
+                .Select(_ => Random.NextDecimal(max, min)).Distinct().ToArray();
+
+            //assert
+            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Should().OnlyContain(x => x >= min && x <= max);
+        }
+
+        [Test, Ignore("TODO https://github.com/JosephJShort/Jodo.Extensions/issues/1")]
+        public void NextDecimal_NearMin_ReturnsAllValues()
+        {
+            //arrange
+            var min = decimal.MinValue;
+            var max = decimal.MinValue;
+            //for (int i = 0; i < BoundedRange - 1; i++) max = decimal.BitIncrement(max);
+
+            //act
+            var results = Enumerable.Range(0, BoundedNumberToGenerate)
+                .Select(_ => Random.NextDecimal(min, max)).Distinct().ToArray();
+
+            //assert
+            results.Should().HaveCount(BoundedRange);
+            results.Should().OnlyContain(x => x >= min && x <= max);
+        }
+
+        [Test, Ignore("TODO https://github.com/JosephJShort/Jodo.Extensions/issues/1")]
+        public void NextDecimal_NearMax_ReturnsAllValues()
+        {
+            //arrange
+            var min = decimal.MaxValue;
+            var max = decimal.MaxValue;
+            //for (int i = 0; i < BoundedRange - 1; i++) min = Math.BitDecrement(min);
+
+            //act
+            var results = Enumerable.Range(0, BoundedNumberToGenerate)
+                .Select(_ => Random.NextDecimal(min, max)).Distinct().ToArray();
+
+            //assert
+            results.Should().HaveCount(BoundedRange);
+            results.Should().OnlyContain(x => x >= min && x <= max);
+        }
+
+        [Test, Ignore("TODO https://github.com/JosephJShort/Jodo.Extensions/issues/7")]
+        public void NextDecimal_EqualBounds_ReturnsBoundsValue()
+        {
+            //arrange
+            var bounds = Random.NextDecimal();
+
+            //act
+            var results = Enumerable.Range(0, BoundedNumberToGenerate)
+                .Select(_ => Random.NextDecimal(bounds, bounds));
+
+            //assert
+            results.Should().OnlyContain(x => x == bounds);
+        }
     }
 }

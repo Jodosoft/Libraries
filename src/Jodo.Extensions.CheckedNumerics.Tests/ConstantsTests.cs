@@ -17,20 +17,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives.Tests;
+using Jodo.Extensions.Numerics.Tests;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public static class BitConverterTests
+    public static class ConstantsTests
     {
-        public class CDouble : BitConverterTestsBase<cdouble> { }
-        public class CFix64 : BitConverterTestsBase<cfix64> { }
-        public class CFloat : BitConverterTestsBase<cfloat> { }
-        public class CInt : BitConverterTestsBase<cint> { }
-        public class CLong : BitConverterTestsBase<clong> { }
-        public class CSByte : BitConverterTestsBase<csbyte> { }
-        public class CShort : BitConverterTestsBase<cshort> { }
-        public class CUFix64 : BitConverterTestsBase<cufix64> { }
-        public class CUInt : BitConverterTestsBase<cuint> { }
+        public class CDouble : ConstantsTestsBase<cdouble> { }
+        public class CFix64 : ConstantsTestsBase<cfix64> { }
+        public class CFloat : ConstantsTestsBase<cfloat> { }
+        public class CInt : ConstantsTestsBase<cint> { }
+        public class CLong : ConstantsTestsBase<clong> { }
+        public class CSByte : ConstantsTestsBase<csbyte> { }
+        public class CShort : ConstantsTestsBase<cshort> { }
+        public class CUFix64 : ConstantsTestsBase<cufix64> { }
+        public class CUInt : ConstantsTestsBase<cuint> { }
     }
 }

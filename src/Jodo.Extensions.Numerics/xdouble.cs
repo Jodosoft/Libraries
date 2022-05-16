@@ -33,8 +33,9 @@ namespace Jodo.Extensions.Numerics
     [SuppressMessage("csharpsquid", "S101")]
     public readonly struct xdouble : INumeric<xdouble>
     {
-        public static readonly xdouble MaxValue = new xdouble(double.MaxValue);
-        public static readonly xdouble MinValue = new xdouble(double.MinValue);
+        public static readonly xdouble Epsilon = double.Epsilon;
+        public static readonly xdouble MaxValue = double.MaxValue;
+        public static readonly xdouble MinValue = double.MinValue;
 
         private readonly double _value;
 
@@ -54,6 +55,15 @@ namespace Jodo.Extensions.Numerics
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
+
+        public static bool IsFinite(xdouble d) => double.IsFinite(d);
+        public static bool IsInfinity(xdouble d) => double.IsInfinity(d);
+        public static bool IsNaN(xdouble d) => double.IsNaN(d);
+        public static bool IsNegative(xdouble d) => double.IsNegative(d);
+        public static bool IsNegativeInfinity(xdouble d) => double.IsNegativeInfinity(d);
+        public static bool IsNormal(xdouble d) => double.IsNormal(d);
+        public static bool IsPositiveInfinity(xdouble d) => double.IsPositiveInfinity(d);
+        public static bool IsSubnormal(xdouble d) => double.IsSubnormal(d);
 
         public static bool TryParse(string s, IFormatProvider provider, out xdouble result) => Try.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out xdouble result) => Try.Run(() => Parse(s, style, provider), out result);
@@ -137,7 +147,7 @@ namespace Jodo.Extensions.Numerics
 
             bool IConstants<xdouble>.IsReal { get; } = true;
             bool IConstants<xdouble>.IsSigned { get; } = true;
-            xdouble IConstants<xdouble>.Epsilon { get; } = 1d;
+            xdouble IConstants<xdouble>.Epsilon => Epsilon;
             xdouble IConstants<xdouble>.MaxUnit { get; } = 1d;
             xdouble IConstants<xdouble>.MaxValue => MaxValue;
             xdouble IConstants<xdouble>.MinUnit { get; } = -1d;
