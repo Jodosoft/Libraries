@@ -5,31 +5,69 @@
 <p align="center">C# extension libraries written in the style of the .NET SDK.</p>
 
 <p align="center">
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo.Extensions?style=for-the-badge&color=%23004880"></a>
-  <a href="https://www.nuget.org/packages?q=Jodo.Extensions"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Extensions.Primitives?label=version&logo=nuget&style=for-the-badge&color=%23004880"></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo.Extensions?style=flat-square&color=%23004880"></a>
+  <a href="https://www.nuget.org/packages?q=Jodo.Extensions"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Extensions.Primitives?label=version&logo=nuget&style=flat-square&color=%23004880"></a>
   <br />
-  <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo.Extensions/1?logo=azuredevops&style=for-the-badge"></a>
-<a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo.Extensions/1/main?logo=azuredevops&style=for-the-badge"></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo.Extensions?logo=github&style=flat-square"></a>
+  <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo.Extensions/1?logo=azuredevops&style=flat-square"></a>
+  <br />
+  <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1">
+    <img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo.Extensions/1/main?logo=azuredevops&style=flat-square">
+    <img alt="Azure DevOps coverage" src="https://img.shields.io/azure-devops/coverage/JosephJShort/Jodo.Extensions/1?logo=azuredevops&style=flat-square">
+  </a>
 <br />
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo.Extensions?logo=github&style=for-the-badge"></a>
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge" /></a>
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?label=coverage&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge" /></a>
+  <a href="https://github.com/JosephJShort/Jodo.Extensions/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo.Extensions?logo=github&style=flat-square"></a>
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square" /></a>
 </p>
 
 
 <details>
   <summary><h2>Jodo.Extensions.Numerics</h2></summary>
 
-Provides the interface `INumeric<N>` and accompanying utilities classes, allowing for the creation of numeric types that can used interchangeably with generics.
+Provides <a href="#inumericn">INumeric&lt;N&gt;</a> and accompanying utilities to support the creation of used-defined numeric types.
+
+Fixed-point implementations are provided, as well as wrappers for the built-in numeric types (`int`, `float` etc.).
+
+<a href="#inumericn">INumeric&lt;N&gt;</a> allows numeric types to be used interchangeably in generic systems.
 
 ### Types
 
-| Jodo Type | Description |
-| - | - |
-| `INumeric<N>` | <ul><li>To be implemented by user-defined numeric value types.</li><li>Allows for the creation numeric types that can used interchangeably with generics.</li></ul> |
-| `Math<N>` | <ul><li>A static class that provides equivalent methods to [Math](https://docs.microsoft.com/en-us/dotnet/api/system.math), e.g. `T Log(T)`, `T Pow(T)` and `T Sqrt(T)`.</li><li>Available for all types that implement `INumeric<N>`.</ul> |
-| `BitConverter<N>` | <ul><li>A static class that provides equivalent methods to [BitConverter](https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter).</li><li>Allows conversion to and from `ReadOnlySpan<byte>`.</li><li>Available for all types that implement `INumeric<N>`.</li></ul> |
-| `StringFormatter<N>` | <ul><li>A static class that provides string parsing and formatting methods.</li><li>Available for all types that implement `INumeric<N>` including user-defined types.</li></ul> |
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td id="inumericn">INumeric&lt;N&gt;</td>
+    <td>
+      <ul>
+        <li>To be implemented by user-defined numeric value types.</li>
+        <li>Allows for the creation numeric types that can used interchangeably with generics.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td id="mathn">Math&lt;N&gt;</td>
+    <td>
+      <ul>
+        <li>A static class that provides equivalents to all methods from <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>N Log(N)</code>, <code>N Pow(N)</code> and <code>N Sqrt(N)</code>.</li>
+        <li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td id="bitconvertern">BitConverter&lt;N&gt;</td>
+    <td>
+      <ul><li>A static class that provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>.</li><li>Allows conversion to and from <code>ReadOnlySpan&lt;byte&gt;</code>.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li></ul>
+    </td>
+  </tr>
+  <tr>
+    <td id="stringformattern">StringFormatter&lt;N&gt;</td>
+    <td>
+      <ul><li>A static class that provides string parsing and formatting methods.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a> including user-defined types.</li></ul>
+    </td>
+  </tr>
+</table>
 
 ### Other features
 
