@@ -27,19 +27,19 @@ namespace Jodo.Extensions.Geometry
     [Serializable]
     public readonly struct Unit<T> : IGeometric<Unit<T>> where T : struct, INumeric<T>
     {
-        public readonly static Unit<T> Zero = new Unit<T>(Math<T>.Zero);
-        public readonly static Unit<T> MaxValue = new Unit<T>(Math<T>.MaxUnit);
-        public readonly static Unit<T> MinValue = new Unit<T>(Math<T>.MinUnit);
+        public readonly static Unit<T> Zero = new Unit<T>(Constants<T>.Zero);
+        public readonly static Unit<T> MaxValue = new Unit<T>(Constants<T>.MaxUnit);
+        public readonly static Unit<T> MinValue = new Unit<T>(Constants<T>.MinUnit);
 
         public readonly T Value { get; }
 
         IBitConverter<Unit<T>> IBitConvertible<Unit<T>>.BitConverter => throw new NotImplementedException();
         IRandom<Unit<T>> IRandomisable<Unit<T>>.Random => throw new NotImplementedException();
-        IStringParser<Unit<T>> IStringRepresentable<Unit<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Unit<T>> IStringParsable<Unit<T>>.StringParser => throw new NotImplementedException();
 
         public Unit(T value)
         {
-            Value = Math<T>.Clamp(value, Math<T>.MinUnit, Math<T>.MaxUnit);
+            Value = Math<T>.Clamp(value, Constants<T>.MinUnit, Constants<T>.MaxUnit);
         }
 
         private Unit(SerializationInfo info, StreamingContext context) : this(

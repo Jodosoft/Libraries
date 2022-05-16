@@ -30,7 +30,7 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         public static void GShort_Versus_Int16_Negation()
         {
             var baseline = Random.NextInt16(100, 1000);
-            var sut = (gshort)baseline;
+            var sut = (xshort)baseline;
 
             Benchmark.Run(
                 () => -sut,
@@ -42,8 +42,8 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         {
             var baselineLeft = Random.NextInt16(100, 1000);
             var baselineRight = Random.NextInt16(2, 10);
-            var sutLeft = (gshort)baselineLeft;
-            var sutRight = (gshort)baselineRight;
+            var sutLeft = (xshort)baselineLeft;
+            var sutRight = (xshort)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -54,7 +54,7 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         public static void GShort_Versus_Int16_ConversionToFloat()
         {
             var baseline = Random.NextInt16(100, 1000);
-            var sut = (gshort)baseline;
+            var sut = (xshort)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -67,14 +67,14 @@ namespace Jodo.Extensions.Numerics.Benchmarks
             var input = Random.NextInt16(-100, 100).ToString();
 
             Benchmark.Run(
-                () => gshort.Parse(input),
+                () => xshort.Parse(input),
                 () => short.Parse(input));
         }
 
         [Benchmark]
         public static void GShort_Versus_Int16_Overflow()
         {
-            var functionInput = gshort.MaxValue;
+            var functionInput = xshort.MaxValue;
             var baselineInput = short.MaxValue;
 
             Benchmark.Run(

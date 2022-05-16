@@ -133,6 +133,11 @@ namespace System
             return BitConverter.Int32BitsToSingle(index < 0 ? int.MinValue - index : index);
         }
 
+        public static decimal NextDecimal(this Random random) => new decimal(random.NextInt32(), random.NextInt32(), random.NextInt32(), random.NextBoolean(), random.NextByte());
+
+        public static decimal NextDecimal(this Random random, decimal bound1, decimal bound2)
+            => (decimal)random.NextDouble((double)bound1, (double)bound2);
+
         public static double NextDouble(this Random random, double bound1, double bound2)
         {
             if (!double.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, "Must be finite.");
@@ -174,9 +179,9 @@ namespace System
         }
 
         public static T NextRandomizable<T>(this Random random) where T : IRandomisable<T>, new()
-            => IRandomisable<T>.DefaultInstance.GetNext(random);
+            => IRandomisable<T>.DefaultInstance.Next(random);
 
         public static T NextRandomizable<T>(this Random random, T bound1, T bound2) where T : IRandomisable<T>, new()
-            => IRandomisable<T>.DefaultInstance.GetNext(random, bound1, bound2);
+            => IRandomisable<T>.DefaultInstance.Next(random, bound1, bound2);
     }
 }

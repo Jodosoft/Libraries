@@ -22,7 +22,7 @@ using System.Globalization;
 
 namespace Jodo.Extensions.Primitives
 {
-    public static class StringParser<T> where T : IStringRepresentable<T>, new()
+    public static class StringParser<T> where T : IStringParsable<T>, new()
     {
         private static readonly IStringParser<T> DefaultInstance = new T().StringParser;
 

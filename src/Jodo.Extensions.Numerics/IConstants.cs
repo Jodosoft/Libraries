@@ -17,13 +17,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
-using System;
-using System.Runtime.Serialization;
-
-namespace Jodo.Extensions.Geometry
+namespace Jodo.Extensions.Numerics
 {
-    public interface IGeometric<T> : IBitConvertible<T>, IRandomisable<T>, IStringParsable<T>, IEquatable<T>, ISerializable, IFormattable where T : struct, IGeometric<T>
+    public interface IConstants<N> where N : struct, INumeric<N>
     {
+        bool IsReal { get; }
+        bool IsSigned { get; }
+        N Epsilon { get; }
+        N MaxUnit { get; }
+        N MaxValue { get; }
+        N MinUnit { get; }
+        N MinValue { get; }
+        N One { get; }
+        N Zero { get; }
     }
 }

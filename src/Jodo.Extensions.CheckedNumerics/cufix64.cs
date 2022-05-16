@@ -116,38 +116,51 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cufix64 operator <<(cufix64 left, int right) => new cufix64(left._scaledValue << right);
         public static cufix64 operator >>(cufix64 left, int right) => new cufix64(left._scaledValue >> right);
 
+        bool INumeric<cufix64>.IsGreaterThan(cufix64 value) => this > value;
+        bool INumeric<cufix64>.IsGreaterThanOrEqualTo(cufix64 value) => this >= value;
+        bool INumeric<cufix64>.IsLessThan(cufix64 value) => this < value;
+        bool INumeric<cufix64>.IsLessThanOrEqualTo(cufix64 value) => this <= value;
+        cufix64 INumeric<cufix64>.Add(cufix64 value) => this + value;
+        cufix64 INumeric<cufix64>.Divide(cufix64 value) => this / value;
+        cufix64 INumeric<cufix64>.Multiply(cufix64 value) => this * value;
+        cufix64 INumeric<cufix64>.Negative() => -this;
+        cufix64 INumeric<cufix64>.Positive() => +this;
+        cufix64 INumeric<cufix64>.Remainder(cufix64 value) => this % value;
+        cufix64 INumeric<cufix64>.Subtract(cufix64 value) => this - value;
+
         IBitConverter<cufix64> IBitConvertible<cufix64>.BitConverter => Utilities.Instance;
+        IConstants<cufix64> INumeric<cufix64>.Constants => Utilities.Instance;
+        IConvert<cufix64> IConvertible<cufix64>.Convert => Utilities.Instance;
         IMath<cufix64> INumeric<cufix64>.Math => Utilities.Instance;
         IRandom<cufix64> IRandomisable<cufix64>.Random => Utilities.Instance;
-        IStringParser<cufix64> IStringRepresentable<cufix64>.StringParser => Utilities.Instance;
+        IStringParser<cufix64> IStringParsable<cufix64>.StringParser => Utilities.Instance;
 
-        private sealed class Utilities : IMath<cufix64>, IBitConverter<cufix64>, IRandom<cufix64>, IStringParser<cufix64>
+        private sealed class Utilities :
+            IBitConverter<cufix64>,
+            IConstants<cufix64>,
+            IConvert<cufix64>,
+            IMath<cufix64>,
+            IRandom<cufix64>,
+            IStringParser<cufix64>
         {
             public readonly static Utilities Instance = new Utilities();
 
+            bool IConstants<cufix64>.IsReal { get; } = true;
+            bool IConstants<cufix64>.IsSigned { get; } = false;
+            cufix64 IConstants<cufix64>.Epsilon { get; } = 1;
+            cufix64 IConstants<cufix64>.MaxUnit { get; } = ScalingFactor;
+            cufix64 IConstants<cufix64>.MaxValue => MaxValue;
+            cufix64 IConstants<cufix64>.MinUnit { get; } = 0;
+            cufix64 IConstants<cufix64>.MinValue => MinValue;
+            cufix64 IConstants<cufix64>.One { get; } = ScalingFactor;
+            cufix64 IConstants<cufix64>.Zero { get; } = 0;
             cufix64 IMath<cufix64>.E { get; } = (cufix64)Math.E;
             cufix64 IMath<cufix64>.PI { get; } = (cufix64)Math.PI;
-            cufix64 IMath<cufix64>.Epsilon { get; } = 1;
-            cufix64 IMath<cufix64>.MaxValue => MaxValue;
-            cufix64 IMath<cufix64>.MinValue => MinValue;
-            cufix64 IMath<cufix64>.MaxUnit { get; } = ScalingFactor;
-            cufix64 IMath<cufix64>.MinUnit { get; } = 0;
-            cufix64 IMath<cufix64>.Zero { get; } = 0;
-            cufix64 IMath<cufix64>.One { get; } = ScalingFactor;
-            bool IMath<cufix64>.IsSigned { get; } = false;
-            bool IMath<cufix64>.IsReal { get; } = true;
+            cufix64 IMath<cufix64>.Tau { get; } = (cufix64)(Math.PI * 2d);
 
-            bool IMath<cufix64>.IsGreaterThan(cufix64 x, cufix64 y) => x > y;
-            bool IMath<cufix64>.IsGreaterThanOrEqualTo(cufix64 x, cufix64 y) => x >= y;
-            bool IMath<cufix64>.IsLessThan(cufix64 x, cufix64 y) => x < y;
-            bool IMath<cufix64>.IsLessThanOrEqualTo(cufix64 x, cufix64 y) => x <= y;
-            double IMath<cufix64>.ToDouble(cufix64 x, double offset) => CheckedArithmetic.Add((double)x, offset);
-            float IMath<cufix64>.ToSingle(cufix64 x, float offset) => CheckedArithmetic.Add((float)x, offset);
-            int IMath<cufix64>.Sign(cufix64 x) => x._scaledValue == 0 ? 0 : 1;
             cufix64 IMath<cufix64>.Abs(cufix64 x) => x;
             cufix64 IMath<cufix64>.Acos(cufix64 x) => (cufix64)Math.Acos((double)x);
             cufix64 IMath<cufix64>.Acosh(cufix64 x) => (cufix64)Math.Acosh((double)x);
-            cufix64 IMath<cufix64>.Add(cufix64 x, cufix64 y) => x + y;
             cufix64 IMath<cufix64>.Asin(cufix64 x) => (cufix64)Math.Asin((double)x);
             cufix64 IMath<cufix64>.Asinh(cufix64 x) => (cufix64)Math.Asinh((double)x);
             cufix64 IMath<cufix64>.Atan(cufix64 x) => (cufix64)Math.Atan((double)x);
@@ -159,8 +172,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cufix64 IMath<cufix64>.Cos(cufix64 x) => (cufix64)Math.Cos((double)x);
             cufix64 IMath<cufix64>.Cosh(cufix64 x) => (cufix64)Math.Cosh((double)x);
             cufix64 IMath<cufix64>.DegreesToRadians(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.RadiansPerDegree);
-            cufix64 IMath<cufix64>.DegreesToTurns(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.TurnsPerDegree);
-            cufix64 IMath<cufix64>.Divide(cufix64 x, cufix64 y) => x / y;
             cufix64 IMath<cufix64>.Exp(cufix64 x) => (cufix64)Math.Exp((double)x);
             cufix64 IMath<cufix64>.Floor(cufix64 x) => new cufix64(x._scaledValue / ScalingFactor * ScalingFactor);
             cufix64 IMath<cufix64>.IEEERemainder(cufix64 x, cufix64 y) => (cufix64)Math.IEEERemainder((double)x, (double)y);
@@ -169,14 +180,9 @@ namespace Jodo.Extensions.CheckedNumerics
             cufix64 IMath<cufix64>.Log10(cufix64 x) => (cufix64)Math.Log10((double)x);
             cufix64 IMath<cufix64>.Max(cufix64 x, cufix64 y) => new cufix64(Math.Max(x._scaledValue, y._scaledValue));
             cufix64 IMath<cufix64>.Min(cufix64 x, cufix64 y) => new cufix64(Math.Min(x._scaledValue, y._scaledValue));
-            cufix64 IMath<cufix64>.Multiply(cufix64 x, cufix64 y) => x * y;
-            cufix64 IMath<cufix64>.Negative(cufix64 x) => -x;
-            cufix64 IMath<cufix64>.Positive(cufix64 x) => +x;
             cufix64 IMath<cufix64>.Pow(cufix64 x, byte y) => (cufix64)Math.Pow((double)x, y);
             cufix64 IMath<cufix64>.Pow(cufix64 x, cufix64 y) => (cufix64)Math.Pow((double)x, (double)y);
             cufix64 IMath<cufix64>.RadiansToDegrees(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerRadian);
-            cufix64 IMath<cufix64>.RadiansToTurns(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.TurnsPerRadian);
-            cufix64 IMath<cufix64>.Remainder(cufix64 x, cufix64 y) => x % y;
             cufix64 IMath<cufix64>.Round(cufix64 x) => (cufix64)Math.Round((double)x);
             cufix64 IMath<cufix64>.Round(cufix64 x, int digits) => (cufix64)Math.Round((double)x, digits);
             cufix64 IMath<cufix64>.Round(cufix64 x, int digits, MidpointRounding mode) => (cufix64)Math.Round((double)x, digits, mode);
@@ -184,27 +190,19 @@ namespace Jodo.Extensions.CheckedNumerics
             cufix64 IMath<cufix64>.Sin(cufix64 x) => (cufix64)Math.Sin((double)x);
             cufix64 IMath<cufix64>.Sinh(cufix64 x) => (cufix64)Math.Sinh((double)x);
             cufix64 IMath<cufix64>.Sqrt(cufix64 x) => (cufix64)Math.Sqrt((double)x);
-            cufix64 IMath<cufix64>.Subtract(cufix64 x, cufix64 y) => x - y;
             cufix64 IMath<cufix64>.Tan(cufix64 x) => (cufix64)Math.Tan((double)x);
             cufix64 IMath<cufix64>.Tanh(cufix64 x) => (cufix64)Math.Tanh((double)x);
             cufix64 IMath<cufix64>.Truncate(cufix64 x) => new cufix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            cufix64 IMath<cufix64>.TurnsToDegrees(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerTurn);
-            cufix64 IMath<cufix64>.TurnsToRadians(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerRadian);
+            int IMath<cufix64>.Sign(cufix64 x) => x._scaledValue == 0 ? 0 : 1;
 
             cufix64 IBitConverter<cufix64>.Read(IReadOnlyStream<byte> stream) => new cufix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong))));
             void IBitConverter<cufix64>.Write(cufix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
-            cufix64 IRandom<cufix64>.GetNext(Random random) => new cufix64(random.NextUInt64());
-            cufix64 IRandom<cufix64>.GetNext(Random random, cufix64 bound1, cufix64 bound2) => new cufix64(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
+            cufix64 IRandom<cufix64>.Next(Random random) => new cufix64(random.NextUInt64());
+            cufix64 IRandom<cufix64>.Next(Random random, cufix64 bound1, cufix64 bound2) => new cufix64(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
 
             cufix64 IStringParser<cufix64>.Parse(string s) => Parse(s);
             cufix64 IStringParser<cufix64>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-        }
-
-        IConvert<cufix64> IConvertible<cufix64>.Convert => _Convert.Instance;
-        private sealed class _Convert : IConvert<cufix64>
-        {
-            public readonly static _Convert Instance = new _Convert();
 
             bool IConvert<cufix64>.ToBoolean(cufix64 value) => value._scaledValue != 0;
             byte IConvert<cufix64>.ToByte(cufix64 value) => CheckedConvert.ToByte(value._scaledValue / ScalingFactor);
@@ -223,20 +221,20 @@ namespace Jodo.Extensions.CheckedNumerics
             ushort IConvert<cufix64>.ToUInt16(cufix64 value) => CheckedConvert.ToUInt16(value._scaledValue / ScalingFactor);
 
             cufix64 IConvert<cufix64>.ToValue(bool value) => value ? ScalingFactor : 0;
-            cufix64 IConvert<cufix64>.ToValue(byte value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(char value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(decimal value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(double value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(float value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(int value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(long value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(sbyte value) => value;
-            cufix64 IConvert<cufix64>.ToValue(short value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(string value) => Convert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(string value, IFormatProvider provider) => Convert.ToSByte(value, provider);
-            cufix64 IConvert<cufix64>.ToValue(uint value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(ulong value) => CheckedConvert.ToSByte(value);
-            cufix64 IConvert<cufix64>.ToValue(ushort value) => CheckedConvert.ToSByte(value);
+            cufix64 IConvert<cufix64>.ToValue(byte value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(char value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(decimal value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(double value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(float value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(int value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(long value) => value;
+            cufix64 IConvert<cufix64>.ToValue(sbyte value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(short value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(string value) => Convert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(string value, IFormatProvider provider) => Convert.ToInt64(value, provider);
+            cufix64 IConvert<cufix64>.ToValue(uint value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(ulong value) => CheckedConvert.ToInt64(value);
+            cufix64 IConvert<cufix64>.ToValue(ushort value) => CheckedConvert.ToInt64(value);
         }
     }
 }

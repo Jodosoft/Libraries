@@ -113,35 +113,51 @@ namespace Jodo.Extensions.CheckedNumerics
         public static csbyte operator <<(csbyte left, int right) => (sbyte)(left._value << right);
         public static csbyte operator >>(csbyte left, int right) => (sbyte)(left._value >> right);
 
+        bool INumeric<csbyte>.IsGreaterThan(csbyte value) => this > value;
+        bool INumeric<csbyte>.IsGreaterThanOrEqualTo(csbyte value) => this >= value;
+        bool INumeric<csbyte>.IsLessThan(csbyte value) => this < value;
+        bool INumeric<csbyte>.IsLessThanOrEqualTo(csbyte value) => this <= value;
+        csbyte INumeric<csbyte>.Add(csbyte value) => this + value;
+        csbyte INumeric<csbyte>.Divide(csbyte value) => this / value;
+        csbyte INumeric<csbyte>.Multiply(csbyte value) => this * value;
+        csbyte INumeric<csbyte>.Negative() => -this;
+        csbyte INumeric<csbyte>.Positive() => +this;
+        csbyte INumeric<csbyte>.Remainder(csbyte value) => this % value;
+        csbyte INumeric<csbyte>.Subtract(csbyte value) => this - value;
+
         IBitConverter<csbyte> IBitConvertible<csbyte>.BitConverter => Utilities.Instance;
+        IConstants<csbyte> INumeric<csbyte>.Constants => Utilities.Instance;
+        IConvert<csbyte> IConvertible<csbyte>.Convert => Utilities.Instance;
         IMath<csbyte> INumeric<csbyte>.Math => Utilities.Instance;
         IRandom<csbyte> IRandomisable<csbyte>.Random => Utilities.Instance;
-        IStringParser<csbyte> IStringRepresentable<csbyte>.StringParser => Utilities.Instance;
+        IStringParser<csbyte> IStringParsable<csbyte>.StringParser => Utilities.Instance;
 
-        private sealed class Utilities : IMath<csbyte>, IBitConverter<csbyte>, IRandom<csbyte>, IStringParser<csbyte>
+        private sealed class Utilities :
+            IBitConverter<csbyte>,
+            IConstants<csbyte>,
+            IConvert<csbyte>,
+            IMath<csbyte>,
+            IRandom<csbyte>,
+            IStringParser<csbyte>
         {
             public readonly static Utilities Instance = new Utilities();
 
+            bool IConstants<csbyte>.IsReal { get; } = false;
+            bool IConstants<csbyte>.IsSigned { get; } = true;
+            csbyte IConstants<csbyte>.Epsilon { get; } = 1;
+            csbyte IConstants<csbyte>.MaxUnit { get; } = 1;
+            csbyte IConstants<csbyte>.MaxValue => MaxValue;
+            csbyte IConstants<csbyte>.MinUnit { get; } = -1;
+            csbyte IConstants<csbyte>.MinValue => MinValue;
+            csbyte IConstants<csbyte>.One { get; } = 1;
+            csbyte IConstants<csbyte>.Zero { get; } = 0;
             csbyte IMath<csbyte>.E { get; } = 2;
             csbyte IMath<csbyte>.PI { get; } = 3;
-            csbyte IMath<csbyte>.Epsilon { get; } = 1;
-            csbyte IMath<csbyte>.MaxValue => MaxValue;
-            csbyte IMath<csbyte>.MinValue => MinValue;
-            csbyte IMath<csbyte>.MaxUnit { get; } = 1;
-            csbyte IMath<csbyte>.MinUnit { get; } = -1;
-            csbyte IMath<csbyte>.Zero { get; } = 0;
-            csbyte IMath<csbyte>.One { get; } = 1;
-            bool IMath<csbyte>.IsSigned { get; } = true;
-            bool IMath<csbyte>.IsReal { get; } = false;
+            csbyte IMath<csbyte>.Tau { get; } = 6;
 
-            bool IMath<csbyte>.IsGreaterThan(csbyte x, csbyte y) => x > y;
-            bool IMath<csbyte>.IsGreaterThanOrEqualTo(csbyte x, csbyte y) => x >= y;
-            bool IMath<csbyte>.IsLessThan(csbyte x, csbyte y) => x < y;
-            bool IMath<csbyte>.IsLessThanOrEqualTo(csbyte x, csbyte y) => x <= y;
             csbyte IMath<csbyte>.Abs(csbyte x) => Math.Abs(x._value);
             csbyte IMath<csbyte>.Acos(csbyte x) => (csbyte)Math.Acos(x._value);
             csbyte IMath<csbyte>.Acosh(csbyte x) => (csbyte)Math.Acosh(x._value);
-            csbyte IMath<csbyte>.Add(csbyte x, csbyte y) => x + y;
             csbyte IMath<csbyte>.Asin(csbyte x) => (csbyte)Math.Asin(x._value);
             csbyte IMath<csbyte>.Asinh(csbyte x) => (csbyte)Math.Asinh(x._value);
             csbyte IMath<csbyte>.Atan(csbyte x) => (csbyte)Math.Atan(x._value);
@@ -153,8 +169,6 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Cos(csbyte x) => (csbyte)Math.Cos(x._value);
             csbyte IMath<csbyte>.Cosh(csbyte x) => (csbyte)Math.Cosh(x._value);
             csbyte IMath<csbyte>.DegreesToRadians(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
-            csbyte IMath<csbyte>.DegreesToTurns(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.TurnsPerDegree);
-            csbyte IMath<csbyte>.Divide(csbyte x, csbyte y) => x / y;
             csbyte IMath<csbyte>.Exp(csbyte x) => (csbyte)Math.Exp(x._value);
             csbyte IMath<csbyte>.Floor(csbyte x) => x;
             csbyte IMath<csbyte>.IEEERemainder(csbyte x, csbyte y) => (csbyte)Math.IEEERemainder(x._value, y._value);
@@ -163,14 +177,9 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Log10(csbyte x) => (csbyte)Math.Log10(x._value);
             csbyte IMath<csbyte>.Max(csbyte x, csbyte y) => Math.Max(x._value, y._value);
             csbyte IMath<csbyte>.Min(csbyte x, csbyte y) => Math.Min(x._value, y._value);
-            csbyte IMath<csbyte>.Multiply(csbyte x, csbyte y) => x * y;
-            csbyte IMath<csbyte>.Negative(csbyte x) => -x;
-            csbyte IMath<csbyte>.Positive(csbyte x) => +x;
             csbyte IMath<csbyte>.Pow(csbyte x, byte y) => CheckedArithmetic.Pow(x._value, (sbyte)y);
             csbyte IMath<csbyte>.Pow(csbyte x, csbyte y) => CheckedArithmetic.Pow(x._value, y._value);
             csbyte IMath<csbyte>.RadiansToDegrees(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            csbyte IMath<csbyte>.RadiansToTurns(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.TurnsPerRadian);
-            csbyte IMath<csbyte>.Remainder(csbyte x, csbyte y) => x % y;
             csbyte IMath<csbyte>.Round(csbyte x) => x;
             csbyte IMath<csbyte>.Round(csbyte x, int digits) => x;
             csbyte IMath<csbyte>.Round(csbyte x, int digits, MidpointRounding mode) => x;
@@ -178,30 +187,19 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Sin(csbyte x) => (csbyte)Math.Sin(x._value);
             csbyte IMath<csbyte>.Sinh(csbyte x) => (csbyte)Math.Sinh(x._value);
             csbyte IMath<csbyte>.Sqrt(csbyte x) => (csbyte)Math.Sqrt(x._value);
-            csbyte IMath<csbyte>.Subtract(csbyte x, csbyte y) => x - y;
             csbyte IMath<csbyte>.Tan(csbyte x) => (csbyte)Math.Tan(x._value);
             csbyte IMath<csbyte>.Tanh(csbyte x) => (csbyte)Math.Tanh(x._value);
             csbyte IMath<csbyte>.Truncate(csbyte x) => x;
-            csbyte IMath<csbyte>.TurnsToDegrees(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerTurn);
-            csbyte IMath<csbyte>.TurnsToRadians(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            double IMath<csbyte>.ToDouble(csbyte x, double offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
-            float IMath<csbyte>.ToSingle(csbyte x, float offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             int IMath<csbyte>.Sign(csbyte x) => Math.Sign(x._value);
 
             csbyte IBitConverter<csbyte>.Read(IReadOnlyStream<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
             void IBitConverter<csbyte>.Write(csbyte value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
-            csbyte IRandom<csbyte>.GetNext(Random random) => random.NextSByte();
-            csbyte IRandom<csbyte>.GetNext(Random random, csbyte bound1, csbyte bound2) => random.NextSByte(bound1._value, bound2._value);
+            csbyte IRandom<csbyte>.Next(Random random) => random.NextSByte();
+            csbyte IRandom<csbyte>.Next(Random random, csbyte bound1, csbyte bound2) => random.NextSByte(bound1._value, bound2._value);
 
             csbyte IStringParser<csbyte>.Parse(string s) => Parse(s);
             csbyte IStringParser<csbyte>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-        }
-
-        IConvert<csbyte> IConvertible<csbyte>.Convert => _Convert.Instance;
-        private sealed class _Convert : IConvert<csbyte>
-        {
-            public readonly static _Convert Instance = new _Convert();
 
             bool IConvert<csbyte>.ToBoolean(csbyte value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<csbyte>.ToByte(csbyte value) => CheckedConvert.ToByte(value._value);

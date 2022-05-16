@@ -39,7 +39,7 @@ namespace Jodo.Extensions.Geometry
 
         IRandom<Circle<T>> IRandomisable<Circle<T>>.Random => throw new NotImplementedException();
 
-        IStringParser<Circle<T>> IStringRepresentable<Circle<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Circle<T>> IStringParsable<Circle<T>>.StringParser => throw new NotImplementedException();
 
         public Circle(Vector2<T> center, T radius)
         {

@@ -35,7 +35,6 @@ namespace Jodo.Extensions.Geometry
         public readonly T Degrees;
 
         public T Cosine => Math<T>.Cos(Radians);
-        public T Turns => Math<T>.DegreesToTurns(Degrees);
         public T HyperbolicCosine => Math<T>.Cosh(Radians);
         public T HyperbolicSine => Math<T>.Sinh(Radians);
         public T HyperbolicTangent => Math<T>.Tanh(Radians);
@@ -47,7 +46,7 @@ namespace Jodo.Extensions.Geometry
 
         IRandom<Angle<T>> IRandomisable<Angle<T>>.Random => throw new NotImplementedException();
 
-        IStringParser<Angle<T>> IStringRepresentable<Angle<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Angle<T>> IStringParsable<Angle<T>>.StringParser => throw new NotImplementedException();
 
         public Angle(T degrees)
         {
@@ -69,10 +68,8 @@ namespace Jodo.Extensions.Geometry
 
         public static Angle<T> FromDegrees(T degrees) => new Angle<T>(degrees);
         public static Angle<T> FromDegrees(byte degrees) => new Angle<T>(Convert<T>.ToValue(degrees));
-        public static Angle<T> FromRadians(T radians) => new Angle<T>(Math<T>.RadiansToTurns(radians));
-        public static Angle<T> FromRadians(byte radians) => new Angle<T>(Math<T>.RadiansToTurns(Convert<T>.ToValue(radians)));
-        public static Angle<T> FromTurns(T turns) => new Angle<T>(Math<T>.TurnsToDegrees(turns));
-        public static Angle<T> FromTurns(byte turns) => new Angle<T>(Math<T>.TurnsToDegrees(Convert<T>.ToValue(turns)));
+        public static Angle<T> FromRadians(T radians) => new Angle<T>(Math<T>.RadiansToDegrees(radians));
+        public static Angle<T> FromRadians(byte radians) => new Angle<T>(Math<T>.RadiansToDegrees(Convert<T>.ToValue(radians)));
 
         public static bool TryParse(string value, out Angle<T> result)
         {
@@ -95,12 +92,8 @@ namespace Jodo.Extensions.Geometry
             else if (trimmed.EndsWith("Degree", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringParser<T>.Parse(trimmed[0..^6]));
             else if (trimmed.EndsWith("Radians", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^7]));
             else if (trimmed.EndsWith("Radian", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^6]));
-            else if (trimmed.EndsWith("Turns", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(StringParser<T>.Parse(trimmed[0..^5]));
-            else if (trimmed.EndsWith("Turn", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(StringParser<T>.Parse(trimmed[0..^4]));
             else if (trimmed.EndsWith("Deg", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringParser<T>.Parse(trimmed[0..^3]));
             else if (trimmed.EndsWith("Rad", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^3]));
-            else if (trimmed.EndsWith("PLA", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(StringParser<T>.Parse(trimmed[0..^3]));
-            else if (trimmed.EndsWith("TR", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromTurns(StringParser<T>.Parse(trimmed[0..^2]));
             else if (trimmed.EndsWith("°", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringParser<T>.Parse(trimmed[0..^1]));
             else if (trimmed.EndsWith("C", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^1]));
             else if (trimmed.EndsWith("R", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^1]));

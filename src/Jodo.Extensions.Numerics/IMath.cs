@@ -21,72 +21,48 @@ using System;
 
 namespace Jodo.Extensions.Numerics
 {
-    public interface IMath<T> where T : struct, INumeric<T>
+    public interface IMath<N> where N : struct, INumeric<N>
     {
-        T E { get; }
-        T PI { get; }
-        T Epsilon { get; }
-        T MaxValue { get; }
-        T MinValue { get; }
-        T MaxUnit { get; }
-        T MinUnit { get; }
-        T Zero { get; }
-        T One { get; }
-        bool IsSigned { get; }
-        bool IsReal { get; }
+        N E { get; }
+        N PI { get; }
+        N Tau { get; }
 
-        bool IsGreaterThan(T x, T y);
-        bool IsGreaterThanOrEqualTo(T x, T y);
-        bool IsLessThan(T x, T y);
-        bool IsLessThanOrEqualTo(T x, T y);
-        double ToDouble(T x, double offset);
-        float ToSingle(T x, float offset);
-        int Sign(T x);
-        T Abs(T x);
-        T Acos(T x);
-        T Acosh(T x);
-        T Add(T x, T y);
-        T Asin(T x);
-        T Asinh(T x);
-        T Atan(T x);
-        T Atan2(T x, T y);
-        T Atanh(T x);
-        T Cbrt(T x);
-        T Ceiling(T x);
-        T Clamp(T x, T bound1, T bound2);
-        T Cos(T x);
-        T Cosh(T x);
-        T DegreesToRadians(T x);
-        T DegreesToTurns(T x);
-        T Divide(T x, T y);
-        T Exp(T x);
-        T Floor(T x);
-        T IEEERemainder(T x, T y);
-        T Log(T x);
-        T Log(T x, T y);
-        T Log10(T x);
-        T Max(T x, T y);
-        T Min(T x, T y);
-        T Multiply(T x, T y);
-        T Negative(T x);
-        T Positive(T x);
-        T Pow(T x, byte y);
-        T Pow(T x, T y);
-        T RadiansToDegrees(T x);
-        T RadiansToTurns(T x);
-        T Remainder(T x, T y);
-        T Round(T x);
-        T Round(T x, int digits);
-        T Round(T x, int digits, MidpointRounding mode);
-        T Round(T x, MidpointRounding mode);
-        T Sin(T x);
-        T Sinh(T x);
-        T Sqrt(T x);
-        T Subtract(T x, T y);
-        T Tan(T x);
-        T Tanh(T x);
-        T Truncate(T x);
-        T TurnsToDegrees(T x);
-        T TurnsToRadians(T x);
+        int Sign(N x);
+
+        N Abs(N x);
+        N Acos(N x);
+        N Acosh(N x);
+        N Asin(N x);
+        N Asinh(N x);
+        N Atan(N x);
+        N Atan2(N x, N y);
+        N Atanh(N x);
+        N Cbrt(N x);
+        N Ceiling(N x);
+        N Clamp(N x, N bound1, N bound2);
+        N Cos(N x);
+        N Cosh(N x);
+        N DegreesToRadians(N degrees);
+        N Exp(N x);
+        N Floor(N x);
+        N IEEERemainder(N x, N y);
+        N Log(N x);
+        N Log(N x, N y);
+        N Log10(N x);
+        N Max(N x, N y);
+        N Min(N x, N y);
+        N Pow(N x, byte y);
+        N Pow(N x, N y);
+        N RadiansToDegrees(N radians);
+        N Round(N x);
+        N Round(N x, int digits);
+        N Round(N x, int digits, MidpointRounding mode);
+        N Round(N x, MidpointRounding mode);
+        N Sin(N x);
+        N Sinh(N x);
+        N Sqrt(N x);
+        N Tan(N x);
+        N Tanh(N x);
+        N Truncate(N x);
     }
 }

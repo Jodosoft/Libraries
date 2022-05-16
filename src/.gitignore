@@ -1,5 +1,8 @@
 bin/
 obj/
 .vs/
-coverage.opencover.xml
+*opencover.xml
+*coverage.xml
+*cobertura.xml
 *.trx
+TestResults/

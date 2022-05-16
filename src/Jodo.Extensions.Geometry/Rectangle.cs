@@ -82,7 +82,7 @@ namespace Jodo.Extensions.Geometry
 
         IRandom<Rectangle<T>> IRandomisable<Rectangle<T>>.Random => throw new NotImplementedException();
 
-        IStringParser<Rectangle<T>> IStringRepresentable<Rectangle<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Rectangle<T>> IStringParsable<Rectangle<T>>.StringParser => throw new NotImplementedException();
 
         public Rectangle<T> Grow((T, T) delta) => Grow((Vector2<T>)delta);
         public Rectangle<T> Grow(T delta) => Grow(new Vector2<T>(delta, delta));

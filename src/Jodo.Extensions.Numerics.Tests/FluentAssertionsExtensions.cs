@@ -28,8 +28,8 @@ namespace FluentAssertions
     {
         public static AndConstraint<ComparableTypeAssertions<T>> BeNumericEquivalentTo<T>(this ComparableTypeAssertions<T> parent, double expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
         {
-            var actual = Math<T>.ToDouble((T)parent.Subject, 0);
-            if (!Math<T>.IsReal)
+            var actual = ((T)parent.Subject).ToDouble();
+            if (!Constants<T>.IsReal)
             {
                 var expectedValue = Math.Truncate(expected);
                 Execute.Assertion

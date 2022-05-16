@@ -31,7 +31,7 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         public static void GInt_Versus_Int32_Negation()
         {
             var baselineInput = Random.NextInt32(100, 1000);
-            var subjectInput = (gshort)baselineInput;
+            var subjectInput = (xshort)baselineInput;
 
             Benchmark.Run(
                 () => -subjectInput,
@@ -43,8 +43,8 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         {
             var baselineInput1 = Random.NextInt32(100, 1000);
             var baselineInput2 = Random.NextInt32(2, 10);
-            var subjectInput1 = (gshort)baselineInput1;
-            var subjectInput2 = (gshort)baselineInput2;
+            var subjectInput1 = (xshort)baselineInput1;
+            var subjectInput2 = (xshort)baselineInput2;
 
             Benchmark.Run(
                 () => subjectInput1 / subjectInput2,
@@ -55,7 +55,7 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         public static void GInt_Versus_Int32_ConversionToFloat()
         {
             var baseline = Random.NextInt32(100, 1000);
-            var sut = (gshort)baseline;
+            var sut = (xshort)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -68,14 +68,14 @@ namespace Jodo.Extensions.Numerics.Benchmarks
             var stringInput = Random.NextInt32(-100, 100).ToString();
 
             Benchmark.Run(
-                () => gshort.Parse(stringInput),
+                () => xshort.Parse(stringInput),
                 () => short.Parse(stringInput));
         }
 
         [Benchmark]
         public static void GInt_Versus_Int32_Overflow()
         {
-            var subjectInput = gshort.MaxValue;
+            var subjectInput = xshort.MaxValue;
             var baselineInput = short.MaxValue;
 
             Benchmark.Run(

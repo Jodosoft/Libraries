@@ -57,7 +57,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             public void GetBytes_Zero_AllZero()
             {
                 //arrange
-                var input = Math<T>.Zero;
+                var input = Constants<T>.Zero;
 
                 //act
                 var result = BitConverter<T>.GetBytes(input);
@@ -71,7 +71,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
             {
                 //arrange
                 T input;
-                while ((input = Random.NextNumeric<T>()).Equals(Math<T>.Zero)) { }
+                while ((input = Random.NextNumeric<T>()).Equals(Constants<T>.Zero)) { }
 
                 //act
                 var result = BitConverter<T>.GetBytes(input);

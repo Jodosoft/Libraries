@@ -113,35 +113,51 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cint operator <<(cint left, int right) => left._value << right;
         public static cint operator >>(cint left, int right) => left._value >> right;
 
+        bool INumeric<cint>.IsGreaterThan(cint value) => this > value;
+        bool INumeric<cint>.IsGreaterThanOrEqualTo(cint value) => this >= value;
+        bool INumeric<cint>.IsLessThan(cint value) => this < value;
+        bool INumeric<cint>.IsLessThanOrEqualTo(cint value) => this <= value;
+        cint INumeric<cint>.Add(cint value) => this + value;
+        cint INumeric<cint>.Divide(cint value) => this / value;
+        cint INumeric<cint>.Multiply(cint value) => this * value;
+        cint INumeric<cint>.Negative() => -this;
+        cint INumeric<cint>.Positive() => +this;
+        cint INumeric<cint>.Remainder(cint value) => this % value;
+        cint INumeric<cint>.Subtract(cint value) => this - value;
+
         IBitConverter<cint> IBitConvertible<cint>.BitConverter => Utilities.Instance;
+        IConstants<cint> INumeric<cint>.Constants => Utilities.Instance;
+        IConvert<cint> IConvertible<cint>.Convert => Utilities.Instance;
         IMath<cint> INumeric<cint>.Math => Utilities.Instance;
         IRandom<cint> IRandomisable<cint>.Random => Utilities.Instance;
-        IStringParser<cint> IStringRepresentable<cint>.StringParser => Utilities.Instance;
+        IStringParser<cint> IStringParsable<cint>.StringParser => Utilities.Instance;
 
-        private sealed class Utilities : IMath<cint>, IBitConverter<cint>, IRandom<cint>, IStringParser<cint>
+        private sealed class Utilities :
+            IBitConverter<cint>,
+            IConstants<cint>,
+            IConvert<cint>,
+            IMath<cint>,
+            IRandom<cint>,
+            IStringParser<cint>
         {
             public readonly static Utilities Instance = new Utilities();
 
+            bool IConstants<cint>.IsReal { get; } = false;
+            bool IConstants<cint>.IsSigned { get; } = true;
+            cint IConstants<cint>.Epsilon { get; } = 1;
+            cint IConstants<cint>.MaxUnit { get; } = 1;
+            cint IConstants<cint>.MaxValue => MaxValue;
+            cint IConstants<cint>.MinUnit { get; } = -1;
+            cint IConstants<cint>.MinValue => MinValue;
+            cint IConstants<cint>.One { get; } = 1;
+            cint IConstants<cint>.Zero { get; } = 0;
             cint IMath<cint>.E { get; } = 2;
             cint IMath<cint>.PI { get; } = 3;
-            cint IMath<cint>.Epsilon { get; } = 1;
-            cint IMath<cint>.MaxValue => MaxValue;
-            cint IMath<cint>.MinValue => MinValue;
-            cint IMath<cint>.MaxUnit { get; } = 1;
-            cint IMath<cint>.MinUnit { get; } = -1;
-            cint IMath<cint>.Zero { get; } = 0;
-            cint IMath<cint>.One { get; } = 1;
-            bool IMath<cint>.IsSigned { get; } = true;
-            bool IMath<cint>.IsReal { get; } = false;
+            cint IMath<cint>.Tau { get; } = 3;
 
-            bool IMath<cint>.IsGreaterThan(cint x, cint y) => x > y;
-            bool IMath<cint>.IsGreaterThanOrEqualTo(cint x, cint y) => x >= y;
-            bool IMath<cint>.IsLessThan(cint x, cint y) => x < y;
-            bool IMath<cint>.IsLessThanOrEqualTo(cint x, cint y) => x <= y;
             cint IMath<cint>.Abs(cint x) => Math.Abs(x._value);
             cint IMath<cint>.Acos(cint x) => (cint)Math.Acos(x._value);
             cint IMath<cint>.Acosh(cint x) => (cint)Math.Acosh(x._value);
-            cint IMath<cint>.Add(cint x, cint y) => x + y;
             cint IMath<cint>.Asin(cint x) => (cint)Math.Asin(x._value);
             cint IMath<cint>.Asinh(cint x) => (cint)Math.Asinh(x._value);
             cint IMath<cint>.Atan(cint x) => (cint)Math.Atan(x._value);
@@ -153,8 +169,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Cos(cint x) => (cint)Math.Cos(x._value);
             cint IMath<cint>.Cosh(cint x) => (cint)Math.Cosh(x._value);
             cint IMath<cint>.DegreesToRadians(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
-            cint IMath<cint>.DegreesToTurns(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.TurnsPerDegree);
-            cint IMath<cint>.Divide(cint x, cint y) => x / y;
             cint IMath<cint>.Exp(cint x) => (cint)Math.Exp(x._value);
             cint IMath<cint>.Floor(cint x) => x;
             cint IMath<cint>.IEEERemainder(cint x, cint y) => (cint)Math.IEEERemainder(x._value, y._value);
@@ -163,14 +177,9 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Log10(cint x) => (cint)Math.Log10(x._value);
             cint IMath<cint>.Max(cint x, cint y) => Math.Max(x._value, y._value);
             cint IMath<cint>.Min(cint x, cint y) => Math.Min(x._value, y._value);
-            cint IMath<cint>.Multiply(cint x, cint y) => x * y;
-            cint IMath<cint>.Negative(cint x) => -x;
-            cint IMath<cint>.Positive(cint x) => +x;
             cint IMath<cint>.Pow(cint x, byte y) => CheckedArithmetic.Pow(x._value, y);
             cint IMath<cint>.Pow(cint x, cint y) => CheckedArithmetic.Pow(x._value, y._value);
             cint IMath<cint>.RadiansToDegrees(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            cint IMath<cint>.RadiansToTurns(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.TurnsPerRadian);
-            cint IMath<cint>.Remainder(cint x, cint y) => x % y;
             cint IMath<cint>.Round(cint x) => x;
             cint IMath<cint>.Round(cint x, int digits) => x;
             cint IMath<cint>.Round(cint x, int digits, MidpointRounding mode) => x;
@@ -178,30 +187,19 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Sin(cint x) => (cint)Math.Sin(x._value);
             cint IMath<cint>.Sinh(cint x) => (cint)Math.Sinh(x._value);
             cint IMath<cint>.Sqrt(cint x) => (cint)Math.Sqrt(x._value);
-            cint IMath<cint>.Subtract(cint x, cint y) => x - y;
             cint IMath<cint>.Tan(cint x) => (cint)Math.Tan(x._value);
             cint IMath<cint>.Tanh(cint x) => (cint)Math.Tanh(x._value);
             cint IMath<cint>.Truncate(cint x) => x;
-            cint IMath<cint>.TurnsToDegrees(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.DegreesPerTurn);
-            cint IMath<cint>.TurnsToRadians(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            double IMath<cint>.ToDouble(cint x, double offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
-            float IMath<cint>.ToSingle(cint x, float offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             int IMath<cint>.Sign(cint x) => Math.Sign(x._value);
 
             cint IBitConverter<cint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)));
             void IBitConverter<cint>.Write(cint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
-            cint IRandom<cint>.GetNext(Random random) => random.NextInt32();
-            cint IRandom<cint>.GetNext(Random random, cint bound1, cint bound2) => random.NextInt32(bound1._value, bound2._value);
+            cint IRandom<cint>.Next(Random random) => random.NextInt32();
+            cint IRandom<cint>.Next(Random random, cint bound1, cint bound2) => random.NextInt32(bound1._value, bound2._value);
 
             cint IStringParser<cint>.Parse(string s) => Parse(s);
             cint IStringParser<cint>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-        }
-
-        IConvert<cint> IConvertible<cint>.Convert => _Convert.Instance;
-        private sealed class _Convert : IConvert<cint>
-        {
-            public readonly static _Convert Instance = new _Convert();
 
             bool IConvert<cint>.ToBoolean(cint value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cint>.ToByte(cint value) => CheckedConvert.ToByte(value._value);

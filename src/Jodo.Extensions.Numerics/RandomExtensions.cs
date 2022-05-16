@@ -24,13 +24,13 @@ namespace System
 {
     public static class RandomExtensions
     {
-        public static T NextNumeric<T>(this Random random) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, Math<T>.MinValue, Math<T>.MaxValue);
+        public static N NextNumeric<N>(this Random random) where N : struct, INumeric<N>
+            => default(N).Random.Next(random, Constants<N>.MinValue, Constants<N>.MaxValue);
 
-        public static T NextNumeric<T>(this Random random, T bound1, T bound2) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, bound1, bound2);
+        public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
+            => default(N).Random.Next(random, bound1, bound2);
 
-        public static T NextNumeric<T>(this Random random, byte bound1, byte bound2) where T : struct, INumeric<T>
-            => default(T).Random.GetNext(random, Convert<T>.ToValue(bound1), Convert<T>.ToValue(bound2));
+        public static N NextNumeric<N>(this Random random, byte bound1, byte bound2) where N : struct, INumeric<N>
+            => default(N).Random.Next(random, Convert<N>.ToValue(bound1), Convert<N>.ToValue(bound2));
     }
 }

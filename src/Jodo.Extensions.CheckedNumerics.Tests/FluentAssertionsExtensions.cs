@@ -28,7 +28,7 @@ namespace FluentAssertions
     {
         public static AndConstraint<ComparableTypeAssertions<T>> BeCheckedNumericEquivalentTo<T>(this ComparableTypeAssertions<T> parent, double expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
         {
-            var actual = Math<T>.ToDouble((T)parent.Subject, 0);
+            var actual = ((T)parent.Subject).ToDouble();
 
             if (double.IsNaN(expected))
             {
@@ -39,7 +39,7 @@ namespace FluentAssertions
             }
             else if (double.IsPositiveInfinity(expected))
             {
-                var expectedValue = Math<T>.ToDouble(Math<T>.MaxValue, 0);
+                var expectedValue = Constants<T>.MaxValue.ToDouble();
                 Execute.Assertion
                   .ForCondition(actual == expectedValue)
                   .BecauseOf(because, becauseArgs)
@@ -47,36 +47,36 @@ namespace FluentAssertions
             }
             else if (double.IsNegativeInfinity(expected))
             {
-                var expectedValue = Math<T>.ToDouble(Math<T>.MinValue, 0);
+                var expectedValue = Constants<T>.MinValue.ToDouble();
                 Execute.Assertion
                   .ForCondition(actual == expectedValue)
                   .BecauseOf(because, becauseArgs)
                   .FailWith("Expected {context:value} to be 0 (MinValue equivalent to NegativeInfinity){reason}, but it was {1}.", expectedValue, actual);
             }
-            else if (expected < 0 && !Math<T>.IsSigned)
+            else if (expected < 0 && !Constants<T>.IsSigned)
             {
                 Execute.Assertion
                     .ForCondition(actual == 0)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be 0 (unsigned equivalent to {0}){reason}, but it was {1}.", expected, actual);
             }
-            else if (expected > Math<T>.ToDouble(Math<T>.MaxValue, 0))
+            else if (expected > Constants<T>.MaxValue.ToDouble())
             {
-                var expectedValue = Math<T>.ToDouble(Math<T>.MaxValue, 0);
+                var expectedValue = Constants<T>.MaxValue.ToDouble();
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0} (checked/clamped version of {1}){reason}, but it was {2}.", expectedValue, expected, actual);
             }
-            else if (expected < Math<T>.ToDouble(Math<T>.MinValue, 0))
+            else if (expected < Constants<T>.MinValue.ToDouble())
             {
-                var expectedValue = Math<T>.ToDouble(Math<T>.MinValue, 0);
+                var expectedValue = Constants<T>.MinValue.ToDouble();
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0} (checked/clamped version of {1}){reason}, but it was {2}.", expectedValue, expected, actual);
             }
-            else if (!Math<T>.IsReal)
+            else if (!Constants<T>.IsReal)
             {
                 var expectedValue = Math.Truncate(expected);
                 Execute.Assertion

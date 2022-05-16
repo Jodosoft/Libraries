@@ -21,9 +21,16 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class NumericOperatorTests
     {
-        public class GInt : NumericOperatorTestsBase<gint> { }
-        public class GLong : NumericOperatorTestsBase<glong> { }
-        public class GSByte : NumericOperatorTestsBase<gsbyte> { }
-        public class GShort : NumericOperatorTestsBase<gshort> { }
+        public class XByte : NumericOperatorTestsBase<xbyte> { }
+        public class XDecimal : NumericOperatorTestsBase<xdecimal> { }
+        public class XDouble : NumericOperatorTestsBase<xdouble> { }
+        public class XFloat : NumericOperatorTestsBase<xfloat> { }
+        public class XInt : NumericOperatorTestsBase<xint> { }
+        public class XLong : NumericOperatorTestsBase<xlong> { }
+        public class XSByte : NumericOperatorTestsBase<xsbyte> { }
+        public class XShort : NumericOperatorTestsBase<xshort> { }
+        public class XUInt : NumericOperatorTestsBase<xuint> { }
+        public class XULong : NumericOperatorTestsBase<xushort> { }
+        public class XUShort : NumericOperatorTestsBase<xushort> { }
     }
 }

@@ -51,7 +51,7 @@ namespace Jodo.Extensions.Geometry
 
         IRandom<AARectangle<T>> IRandomisable<AARectangle<T>>.Random => throw new NotImplementedException();
 
-        IStringParser<AARectangle<T>> IStringRepresentable<AARectangle<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<AARectangle<T>> IStringParsable<AARectangle<T>>.StringParser => throw new NotImplementedException();
 
         private AARectangle(Vector2<T> center, Vector2<T> dimensions)
         {

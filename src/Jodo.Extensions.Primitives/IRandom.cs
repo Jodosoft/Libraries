@@ -23,7 +23,7 @@ namespace Jodo.Extensions.Primitives
 {
     public interface IRandom<T>
     {
-        T GetNext(Random random);
-        T GetNext(Random random, T bound1, T bound2);
+        T Next(Random random);
+        T Next(Random random, T bound1, T bound2);
     }
 }

@@ -36,7 +36,7 @@ namespace Jodo.Extensions.Geometry
 
         IRandom<Vector2<T>> IRandomisable<Vector2<T>>.Random => throw new NotImplementedException();
 
-        IStringParser<Vector2<T>> IStringRepresentable<Vector2<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Vector2<T>> IStringParsable<Vector2<T>>.StringParser => throw new NotImplementedException();
 
         public Vector2(byte x, T y) : this(Convert<T>.ToValue(x), y) { }
         public Vector2(T x, byte y) : this(x, Convert<T>.ToValue(y)) { }

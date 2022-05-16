@@ -23,11 +23,13 @@ namespace Jodo.Extensions.Numerics
 {
     public static class Trig
     {
+        public const float DegreesPerRadianF = 180f / MathF.PI;
+        public const float RadiansPerDegreeF = MathF.PI / 180;
+
         public const double DegreesPerRadian = 180d / Math.PI;
-        public const double DegreesPerTurn = 360d;
         public const double RadiansPerDegree = Math.PI / 180d;
-        public const double RadiansPerTurn = 2d * Math.PI;
-        public const double TurnsPerDegree = 1d / DegreesPerTurn;
-        public const double TurnsPerRadian = 1d / RadiansPerTurn;
+
+        public const decimal DegreesPerRadianM = 180m / (decimal)Math.PI;
+        public const decimal RadiansPerDegreeM = (decimal)Math.PI / 180m;
     }
 }

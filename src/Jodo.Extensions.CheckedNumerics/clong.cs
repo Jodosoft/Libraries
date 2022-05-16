@@ -113,95 +113,93 @@ namespace Jodo.Extensions.CheckedNumerics
         public static clong operator <<(clong left, int right) => left._value << right;
         public static clong operator >>(clong left, int right) => left._value >> right;
 
+        bool INumeric<clong>.IsGreaterThan(clong value) => this > value;
+        bool INumeric<clong>.IsGreaterThanOrEqualTo(clong value) => this >= value;
+        bool INumeric<clong>.IsLessThan(clong value) => this < value;
+        bool INumeric<clong>.IsLessThanOrEqualTo(clong value) => this <= value;
+        clong INumeric<clong>.Add(clong value) => this + value;
+        clong INumeric<clong>.Divide(clong value) => this / value;
+        clong INumeric<clong>.Multiply(clong value) => this * value;
+        clong INumeric<clong>.Negative() => -this;
+        clong INumeric<clong>.Positive() => +this;
+        clong INumeric<clong>.Remainder(clong value) => this % value;
+        clong INumeric<clong>.Subtract(clong value) => this - value;
+
         IBitConverter<clong> IBitConvertible<clong>.BitConverter => Utilities.Instance;
+        IConstants<clong> INumeric<clong>.Constants => Utilities.Instance;
+        IConvert<clong> IConvertible<clong>.Convert => Utilities.Instance;
         IMath<clong> INumeric<clong>.Math => Utilities.Instance;
         IRandom<clong> IRandomisable<clong>.Random => Utilities.Instance;
-        IStringParser<clong> IStringRepresentable<clong>.StringParser => Utilities.Instance;
+        IStringParser<clong> IStringParsable<clong>.StringParser => Utilities.Instance;
 
-        private sealed class Utilities : IMath<clong>, IBitConverter<clong>, IRandom<clong>, IStringParser<clong>
+        private sealed class Utilities :
+            IBitConverter<clong>,
+            IConstants<clong>,
+            IConvert<clong>,
+            IMath<clong>,
+            IRandom<clong>,
+            IStringParser<clong>
         {
             public readonly static Utilities Instance = new Utilities();
 
+            bool IConstants<clong>.IsReal { get; } = false;
+            bool IConstants<clong>.IsSigned { get; } = true;
+            clong IConstants<clong>.Epsilon { get; } = 1L;
+            clong IConstants<clong>.MaxUnit { get; } = 1L;
+            clong IConstants<clong>.MaxValue => MaxValue;
+            clong IConstants<clong>.MinUnit { get; } = -1L;
+            clong IConstants<clong>.MinValue => MinValue;
+            clong IConstants<clong>.One { get; } = 1L;
+            clong IConstants<clong>.Zero { get; } = 0L;
             clong IMath<clong>.E { get; } = 2L;
             clong IMath<clong>.PI { get; } = 3L;
-            clong IMath<clong>.Epsilon { get; } = 1L;
-            clong IMath<clong>.MaxValue => MaxValue;
-            clong IMath<clong>.MinValue => MinValue;
-            clong IMath<clong>.MaxUnit { get; } = 1L;
-            clong IMath<clong>.MinUnit { get; } = -1L;
-            clong IMath<clong>.Zero { get; } = 0L;
-            clong IMath<clong>.One { get; } = 1L;
-            bool IMath<clong>.IsSigned { get; } = true;
-            bool IMath<clong>.IsReal { get; } = false;
+            clong IMath<clong>.Tau { get; } = 3L;
 
-            bool IMath<clong>.IsGreaterThan(clong x, clong y) => x > y;
-            bool IMath<clong>.IsGreaterThanOrEqualTo(clong x, clong y) => x >= y;
-            bool IMath<clong>.IsLessThan(clong x, clong y) => x < y;
-            bool IMath<clong>.IsLessThanOrEqualTo(clong x, clong y) => x <= y;
-            clong IMath<clong>.Abs(clong x) => Math.Abs(x._value);
-            clong IMath<clong>.Acos(clong x) => (clong)Math.Acos(x._value);
-            clong IMath<clong>.Acosh(clong x) => (clong)Math.Acosh(x._value);
-            clong IMath<clong>.Add(clong x, clong y) => x + y;
-            clong IMath<clong>.Asin(clong x) => (clong)Math.Asin(x._value);
-            clong IMath<clong>.Asinh(clong x) => (clong)Math.Asinh(x._value);
-            clong IMath<clong>.Atan(clong x) => (clong)Math.Atan(x._value);
-            clong IMath<clong>.Atan2(clong x, clong y) => (clong)Math.Atan2(x._value, y._value);
-            clong IMath<clong>.Atanh(clong x) => (clong)Math.Atanh(x._value);
-            clong IMath<clong>.Cbrt(clong x) => (clong)Math.Cbrt(x._value);
+            clong IMath<clong>.Abs(clong x) => Math.Abs(x);
+            clong IMath<clong>.Acos(clong x) => (clong)Math.Acos(x);
+            clong IMath<clong>.Acosh(clong x) => (clong)Math.Acosh(x);
+            clong IMath<clong>.Asin(clong x) => (clong)Math.Asin(x);
+            clong IMath<clong>.Asinh(clong x) => (clong)Math.Asinh(x);
+            clong IMath<clong>.Atan(clong x) => (clong)Math.Atan(x);
+            clong IMath<clong>.Atan2(clong x, clong y) => (clong)Math.Atan2(x, y);
+            clong IMath<clong>.Atanh(clong x) => (clong)Math.Atanh(x);
+            clong IMath<clong>.Cbrt(clong x) => (clong)Math.Cbrt(x);
             clong IMath<clong>.Ceiling(clong x) => x;
-            clong IMath<clong>.Clamp(clong x, clong bound1, clong bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            clong IMath<clong>.Cos(clong x) => (clong)Math.Cos(x._value);
-            clong IMath<clong>.Cosh(clong x) => (clong)Math.Cosh(x._value);
-            clong IMath<clong>.DegreesToRadians(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
-            clong IMath<clong>.DegreesToTurns(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.TurnsPerDegree);
-            clong IMath<clong>.Divide(clong x, clong y) => x / y;
-            clong IMath<clong>.Exp(clong x) => (clong)Math.Exp(x._value);
+            clong IMath<clong>.Clamp(clong x, clong bound1, clong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
+            clong IMath<clong>.Cos(clong x) => (clong)Math.Cos(x);
+            clong IMath<clong>.Cosh(clong x) => (clong)Math.Cosh(x);
+            clong IMath<clong>.DegreesToRadians(clong degrees) => (clong)CheckedArithmetic.Multiply(degrees, Trig.RadiansPerDegree);
+            clong IMath<clong>.Exp(clong x) => (clong)Math.Exp(x);
             clong IMath<clong>.Floor(clong x) => x;
-            clong IMath<clong>.IEEERemainder(clong x, clong y) => (clong)Math.IEEERemainder(x._value, y._value);
-            clong IMath<clong>.Log(clong x) => (clong)Math.Log(x._value);
-            clong IMath<clong>.Log(clong x, clong y) => (clong)Math.Log(x._value, y._value);
-            clong IMath<clong>.Log10(clong x) => (clong)Math.Log10(x._value);
-            clong IMath<clong>.Max(clong x, clong y) => Math.Max(x._value, y._value);
-            clong IMath<clong>.Min(clong x, clong y) => Math.Min(x._value, y._value);
-            clong IMath<clong>.Multiply(clong x, clong y) => x * y;
-            clong IMath<clong>.Negative(clong x) => -x;
-            clong IMath<clong>.Positive(clong x) => +x;
-            clong IMath<clong>.Pow(clong x, byte y) => CheckedArithmetic.Pow(x._value, y);
-            clong IMath<clong>.Pow(clong x, clong y) => CheckedArithmetic.Pow(x._value, y._value);
-            clong IMath<clong>.RadiansToDegrees(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            clong IMath<clong>.RadiansToTurns(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.TurnsPerRadian);
-            clong IMath<clong>.Remainder(clong x, clong y) => x % y;
+            clong IMath<clong>.IEEERemainder(clong x, clong y) => (clong)Math.IEEERemainder(x, y);
+            clong IMath<clong>.Log(clong x) => (clong)Math.Log(x);
+            clong IMath<clong>.Log(clong x, clong y) => (clong)Math.Log(x, y);
+            clong IMath<clong>.Log10(clong x) => (clong)Math.Log10(x);
+            clong IMath<clong>.Max(clong x, clong y) => Math.Max(x, y);
+            clong IMath<clong>.Min(clong x, clong y) => Math.Min(x, y);
+            clong IMath<clong>.Pow(clong x, byte y) => CheckedArithmetic.Pow(x, y);
+            clong IMath<clong>.Pow(clong x, clong y) => CheckedArithmetic.Pow(x, y);
+            clong IMath<clong>.RadiansToDegrees(clong radians) => (clong)CheckedArithmetic.Multiply(radians, Trig.DegreesPerRadian);
             clong IMath<clong>.Round(clong x) => x;
             clong IMath<clong>.Round(clong x, int digits) => x;
             clong IMath<clong>.Round(clong x, int digits, MidpointRounding mode) => x;
             clong IMath<clong>.Round(clong x, MidpointRounding mode) => x;
-            clong IMath<clong>.Sin(clong x) => (clong)Math.Sin(x._value);
-            clong IMath<clong>.Sinh(clong x) => (clong)Math.Sinh(x._value);
-            clong IMath<clong>.Sqrt(clong x) => (clong)Math.Sqrt(x._value);
-            clong IMath<clong>.Subtract(clong x, clong y) => x - y;
-            clong IMath<clong>.Tan(clong x) => (clong)Math.Tan(x._value);
-            clong IMath<clong>.Tanh(clong x) => (clong)Math.Tanh(x._value);
+            clong IMath<clong>.Sin(clong x) => (clong)Math.Sin(x);
+            clong IMath<clong>.Sinh(clong x) => (clong)Math.Sinh(x);
+            clong IMath<clong>.Sqrt(clong x) => (clong)Math.Sqrt(x);
+            clong IMath<clong>.Tan(clong x) => (clong)Math.Tan(x);
+            clong IMath<clong>.Tanh(clong x) => (clong)Math.Tanh(x);
             clong IMath<clong>.Truncate(clong x) => x;
-            clong IMath<clong>.TurnsToDegrees(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.DegreesPerTurn);
-            clong IMath<clong>.TurnsToRadians(clong x) => (clong)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            double IMath<clong>.ToDouble(clong x, double offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
-            float IMath<clong>.ToSingle(clong x, float offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
-            int IMath<clong>.Sign(clong x) => Math.Sign(x._value);
+            int IMath<clong>.Sign(clong x) => Math.Sign(x);
 
             clong IBitConverter<clong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));
             void IBitConverter<clong>.Write(clong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
-            clong IRandom<clong>.GetNext(Random random) => random.NextInt64();
-            clong IRandom<clong>.GetNext(Random random, clong bound1, clong bound2) => random.NextInt64(bound1._value, bound2._value);
+            clong IRandom<clong>.Next(Random random) => random.NextInt64();
+            clong IRandom<clong>.Next(Random random, clong bound1, clong bound2) => random.NextInt64(bound1._value, bound2._value);
 
             clong IStringParser<clong>.Parse(string s) => Parse(s);
             clong IStringParser<clong>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-        }
-
-        IConvert<clong> IConvertible<clong>.Convert => _Convert.Instance;
-        private sealed class _Convert : IConvert<clong>
-        {
-            public readonly static _Convert Instance = new _Convert();
 
             bool IConvert<clong>.ToBoolean(clong value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<clong>.ToByte(clong value) => CheckedConvert.ToByte(value._value);

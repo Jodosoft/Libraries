@@ -30,15 +30,16 @@ namespace Jodo.Extensions.Numerics.Tests
         public T NextSmall()
         {
             var result = Random.NextNumeric<T>(0, 10);
-            if (Math<T>.IsReal) result = Math<T>.Round(result / 2, 1);
-            if (Math<T>.IsSigned) result -= 5;
+
+            if (Constants<T>.IsReal) result = Math<T>.Round(result / 2, 1);
+            if (Constants<T>.IsSigned) result -= 5;
             return result;
         }
 
         public T NextSmallPositive()
         {
             var result = Random.NextNumeric<T>(0, 10);
-            if (Math<T>.IsReal) result = Math<T>.Round(result / 2, 1);
+            if (Constants<T>.IsReal) result = Math<T>.Round(result / 2, 1);
             return result + 1;
         }
 
@@ -107,7 +108,7 @@ namespace Jodo.Extensions.Numerics.Tests
             var result = input * 0;
 
             //assert
-            result.Should().Be(Math<T>.Zero);
+            result.Should().Be(Constants<T>.Zero);
         }
 
         [Test]

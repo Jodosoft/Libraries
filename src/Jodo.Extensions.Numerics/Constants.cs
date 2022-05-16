@@ -17,13 +17,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
-using System;
-using System.Runtime.Serialization;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Jodo.Extensions.Geometry
+namespace Jodo.Extensions.Numerics
 {
-    public interface IGeometric<T> : IBitConvertible<T>, IRandomisable<T>, IStringParsable<T>, IEquatable<T>, ISerializable, IFormattable where T : struct, IGeometric<T>
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("csharpsquid", "S2743")]
+    public static class Constants<N> where N : struct, INumeric<N>
     {
+        private static readonly IConstants<N> Instance = default(N).Constants;
+
+        public static bool IsReal => Instance.IsReal;
+        public static bool IsSigned => Instance.IsSigned;
+        public static N Epsilon => Instance.Epsilon;
+        public static N MaxUnit => Instance.MaxUnit;
+        public static N MaxValue => Instance.MaxValue;
+        public static N MinUnit => Instance.MinUnit;
+        public static N MinValue => Instance.MinValue;
+        public static N One => Instance.One;
+        public static N Zero => Instance.Zero;
     }
 }

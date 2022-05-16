@@ -37,7 +37,7 @@ namespace Jodo.Extensions.Geometry
 
         IRandom<Vector3<T>> IRandomisable<Vector3<T>>.Random => throw new NotImplementedException();
 
-        IStringParser<Vector3<T>> IStringRepresentable<Vector3<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Vector3<T>> IStringParsable<Vector3<T>>.StringParser => throw new NotImplementedException();
 
         public Vector3(T x, T y, T z)
         {

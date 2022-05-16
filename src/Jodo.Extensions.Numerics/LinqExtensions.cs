@@ -17,10 +17,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Extensions.Primitives
+using Jodo.Extensions.Numerics;
+using System.Collections.Generic;
+
+namespace System.Linq
 {
-    public interface IStringRepresentable<T> where T : IStringRepresentable<T>, new()
+    public static class LinqExtensions
     {
-        IStringParser<T> StringParser { get; }
+
+        public static N Average<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
+        {
+            N sum = Constants<N>.Zero;
+            N count = Constants<N>.Zero;
+            foreach (var item in source)
+            {
+                sum += item;
+                count += 1;
+            }
+            return sum / count;
+        }
+
+        public static N Sum<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
+        {
+            N sum = Constants<N>.Zero;
+            foreach (var item in source)
+            {
+                sum += item;
+            }
+            return sum;
+        }
+
     }
 }

@@ -113,95 +113,93 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cuint operator <<(cuint left, int right) => left._value << right;
         public static cuint operator >>(cuint left, int right) => left._value >> right;
 
+        bool INumeric<cuint>.IsGreaterThan(cuint value) => this > value;
+        bool INumeric<cuint>.IsGreaterThanOrEqualTo(cuint value) => this >= value;
+        bool INumeric<cuint>.IsLessThan(cuint value) => this < value;
+        bool INumeric<cuint>.IsLessThanOrEqualTo(cuint value) => this <= value;
+        cuint INumeric<cuint>.Add(cuint value) => this + value;
+        cuint INumeric<cuint>.Divide(cuint value) => this / value;
+        cuint INumeric<cuint>.Multiply(cuint value) => this * value;
+        cuint INumeric<cuint>.Negative() => -this;
+        cuint INumeric<cuint>.Positive() => +this;
+        cuint INumeric<cuint>.Remainder(cuint value) => this % value;
+        cuint INumeric<cuint>.Subtract(cuint value) => this - value;
+
         IBitConverter<cuint> IBitConvertible<cuint>.BitConverter => Utilities.Instance;
+        IConstants<cuint> INumeric<cuint>.Constants => Utilities.Instance;
+        IConvert<cuint> IConvertible<cuint>.Convert => Utilities.Instance;
         IMath<cuint> INumeric<cuint>.Math => Utilities.Instance;
         IRandom<cuint> IRandomisable<cuint>.Random => Utilities.Instance;
-        IStringParser<cuint> IStringRepresentable<cuint>.StringParser => Utilities.Instance;
+        IStringParser<cuint> IStringParsable<cuint>.StringParser => Utilities.Instance;
 
-        private sealed class Utilities : IMath<cuint>, IBitConverter<cuint>, IRandom<cuint>, IStringParser<cuint>
+        private sealed class Utilities :
+            IBitConverter<cuint>,
+            IConstants<cuint>,
+            IConvert<cuint>,
+            IMath<cuint>,
+            IRandom<cuint>,
+            IStringParser<cuint>
         {
             public readonly static Utilities Instance = new Utilities();
 
+            bool IConstants<cuint>.IsReal { get; } = false;
+            bool IConstants<cuint>.IsSigned { get; } = false;
+            cuint IConstants<cuint>.Epsilon { get; } = 1;
+            cuint IConstants<cuint>.MaxUnit { get; } = 1;
+            cuint IConstants<cuint>.MaxValue => MaxValue;
+            cuint IConstants<cuint>.MinUnit { get; } = 0;
+            cuint IConstants<cuint>.MinValue => MinValue;
+            cuint IConstants<cuint>.One { get; } = 1;
+            cuint IConstants<cuint>.Zero { get; } = 0;
             cuint IMath<cuint>.E { get; } = 2;
             cuint IMath<cuint>.PI { get; } = 3;
-            cuint IMath<cuint>.Epsilon { get; } = 1;
-            cuint IMath<cuint>.MaxValue => MaxValue;
-            cuint IMath<cuint>.MinValue => MinValue;
-            cuint IMath<cuint>.MaxUnit { get; } = 1;
-            cuint IMath<cuint>.MinUnit { get; } = 0;
-            cuint IMath<cuint>.Zero { get; } = 0;
-            cuint IMath<cuint>.One { get; } = 1;
-            bool IMath<cuint>.IsSigned { get; } = false;
-            bool IMath<cuint>.IsReal { get; } = false;
+            cuint IMath<cuint>.Tau { get; } = 3;
 
-            bool IMath<cuint>.IsGreaterThan(cuint x, cuint y) => x > y;
-            bool IMath<cuint>.IsGreaterThanOrEqualTo(cuint x, cuint y) => x >= y;
-            bool IMath<cuint>.IsLessThan(cuint x, cuint y) => x < y;
-            bool IMath<cuint>.IsLessThanOrEqualTo(cuint x, cuint y) => x <= y;
-            double IMath<cuint>.ToDouble(cuint x, double offset) => CheckedArithmetic.Add(x._value, offset);
-            float IMath<cuint>.ToSingle(cuint x, float offset) => CheckedArithmetic.Add(x._value, offset);
             int IMath<cuint>.Sign(cuint x) => 1;
-            cuint IMath<cuint>.Abs(cuint x) => x;
-            cuint IMath<cuint>.Acos(cuint x) => (cuint)Math.Acos(x._value);
-            cuint IMath<cuint>.Acosh(cuint x) => (cuint)Math.Acosh(x._value);
-            cuint IMath<cuint>.Add(cuint x, cuint y) => x + y;
-            cuint IMath<cuint>.Asin(cuint x) => (cuint)Math.Asin(x._value);
-            cuint IMath<cuint>.Asinh(cuint x) => (cuint)Math.Asinh(x._value);
-            cuint IMath<cuint>.Atan(cuint x) => (cuint)Math.Atan(x._value);
-            cuint IMath<cuint>.Atan2(cuint x, cuint y) => (cuint)Math.Atan2(x._value, y._value);
-            cuint IMath<cuint>.Atanh(cuint x) => (cuint)Math.Atanh(x._value);
-            cuint IMath<cuint>.Cbrt(cuint x) => (cuint)Math.Cbrt(x._value);
-            cuint IMath<cuint>.Ceiling(cuint x) => x;
-            cuint IMath<cuint>.Clamp(cuint x, cuint bound1, cuint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            cuint IMath<cuint>.Cos(cuint x) => (cuint)Math.Cos(x._value);
-            cuint IMath<cuint>.Cosh(cuint x) => (cuint)Math.Cosh(x._value);
-            cuint IMath<cuint>.DegreesToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
-            cuint IMath<cuint>.DegreesToTurns(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.TurnsPerDegree);
-            cuint IMath<cuint>.Divide(cuint x, cuint y) => x / y;
-            cuint IMath<cuint>.Exp(cuint x) => (cuint)Math.Exp(x._value);
-            cuint IMath<cuint>.Floor(cuint x) => x;
-            cuint IMath<cuint>.IEEERemainder(cuint x, cuint y) => (cuint)Math.IEEERemainder(x._value, y._value);
-            cuint IMath<cuint>.Log(cuint x) => (cuint)Math.Log(x._value);
-            cuint IMath<cuint>.Log(cuint x, cuint y) => (cuint)Math.Log(x._value, y._value);
-            cuint IMath<cuint>.Log10(cuint x) => (cuint)Math.Log10(x._value);
-            cuint IMath<cuint>.Max(cuint x, cuint y) => Math.Max(x._value, y._value);
-            cuint IMath<cuint>.Min(cuint x, cuint y) => Math.Min(x._value, y._value);
-            cuint IMath<cuint>.Multiply(cuint x, cuint y) => x * y;
-            cuint IMath<cuint>.Negative(cuint x) => -x;
-            cuint IMath<cuint>.Positive(cuint x) => +x;
-            cuint IMath<cuint>.Pow(cuint x, byte y) => CheckedArithmetic.Pow(x._value, y);
-            cuint IMath<cuint>.Pow(cuint x, cuint y) => CheckedArithmetic.Pow(x._value, y._value);
-            cuint IMath<cuint>.RadiansToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            cuint IMath<cuint>.RadiansToTurns(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.TurnsPerRadian);
-            cuint IMath<cuint>.Remainder(cuint x, cuint y) => x % y;
-            cuint IMath<cuint>.Round(cuint x) => x;
-            cuint IMath<cuint>.Round(cuint x, int digits) => x;
-            cuint IMath<cuint>.Round(cuint x, int digits, MidpointRounding mode) => x;
-            cuint IMath<cuint>.Round(cuint x, MidpointRounding mode) => x;
-            cuint IMath<cuint>.Sin(cuint x) => (cuint)Math.Sin(x._value);
-            cuint IMath<cuint>.Sinh(cuint x) => (cuint)Math.Sinh(x._value);
-            cuint IMath<cuint>.Sqrt(cuint x) => (cuint)Math.Sqrt(x._value);
-            cuint IMath<cuint>.Subtract(cuint x, cuint y) => x - y;
-            cuint IMath<cuint>.Tan(cuint x) => (cuint)Math.Tan(x._value);
-            cuint IMath<cuint>.Tanh(cuint x) => (cuint)Math.Tanh(x._value);
             cuint IMath<cuint>.Truncate(cuint x) => x;
-            cuint IMath<cuint>.TurnsToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.DegreesPerTurn);
-            cuint IMath<cuint>.TurnsToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            cuint IMath<cuint>.Tanh(cuint x) => (cuint)Math.Tanh(x._value);
+            cuint IMath<cuint>.Tan(cuint x) => (cuint)Math.Tan(x._value);
+            cuint IMath<cuint>.Sqrt(cuint x) => (cuint)Math.Sqrt(x._value);
+            cuint IMath<cuint>.Sinh(cuint x) => (cuint)Math.Sinh(x._value);
+            cuint IMath<cuint>.Sin(cuint x) => (cuint)Math.Sin(x._value);
+            cuint IMath<cuint>.Round(cuint x, MidpointRounding mode) => x;
+            cuint IMath<cuint>.Round(cuint x, int digits, MidpointRounding mode) => x;
+            cuint IMath<cuint>.Round(cuint x, int digits) => x;
+            cuint IMath<cuint>.Round(cuint x) => x;
+            cuint IMath<cuint>.RadiansToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            cuint IMath<cuint>.Pow(cuint x, cuint y) => CheckedArithmetic.Pow(x._value, y._value);
+            cuint IMath<cuint>.Pow(cuint x, byte y) => CheckedArithmetic.Pow(x._value, y);
+            cuint IMath<cuint>.Min(cuint x, cuint y) => Math.Min(x._value, y._value);
+            cuint IMath<cuint>.Max(cuint x, cuint y) => Math.Max(x._value, y._value);
+            cuint IMath<cuint>.Log10(cuint x) => (cuint)Math.Log10(x._value);
+            cuint IMath<cuint>.Log(cuint x, cuint y) => (cuint)Math.Log(x._value, y._value);
+            cuint IMath<cuint>.Log(cuint x) => (cuint)Math.Log(x._value);
+            cuint IMath<cuint>.IEEERemainder(cuint x, cuint y) => (cuint)Math.IEEERemainder(x._value, y._value);
+            cuint IMath<cuint>.Floor(cuint x) => x;
+            cuint IMath<cuint>.Exp(cuint x) => (cuint)Math.Exp(x._value);
+            cuint IMath<cuint>.DegreesToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            cuint IMath<cuint>.Cosh(cuint x) => (cuint)Math.Cosh(x._value);
+            cuint IMath<cuint>.Cos(cuint x) => (cuint)Math.Cos(x._value);
+            cuint IMath<cuint>.Clamp(cuint x, cuint bound1, cuint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
+            cuint IMath<cuint>.Ceiling(cuint x) => x;
+            cuint IMath<cuint>.Cbrt(cuint x) => (cuint)Math.Cbrt(x._value);
+            cuint IMath<cuint>.Atanh(cuint x) => (cuint)Math.Atanh(x._value);
+            cuint IMath<cuint>.Atan2(cuint x, cuint y) => (cuint)Math.Atan2(x._value, y._value);
+            cuint IMath<cuint>.Atan(cuint x) => (cuint)Math.Atan(x._value);
+            cuint IMath<cuint>.Asinh(cuint x) => (cuint)Math.Asinh(x._value);
+            cuint IMath<cuint>.Asin(cuint x) => (cuint)Math.Asin(x._value);
+            cuint IMath<cuint>.Acosh(cuint x) => (cuint)Math.Acosh(x._value);
+            cuint IMath<cuint>.Acos(cuint x) => (cuint)Math.Acos(x._value);
+            cuint IMath<cuint>.Abs(cuint x) => x;
 
             cuint IBitConverter<cuint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
             void IBitConverter<cuint>.Write(cuint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
-            cuint IRandom<cuint>.GetNext(Random random) => random.NextUInt32();
-            cuint IRandom<cuint>.GetNext(Random random, cuint bound1, cuint bound2) => random.NextUInt32(bound1._value, bound2._value);
+            cuint IRandom<cuint>.Next(Random random) => random.NextUInt32();
+            cuint IRandom<cuint>.Next(Random random, cuint bound1, cuint bound2) => random.NextUInt32(bound1._value, bound2._value);
 
             cuint IStringParser<cuint>.Parse(string s) => Parse(s);
             cuint IStringParser<cuint>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-        }
-
-        IConvert<cuint> IConvertible<cuint>.Convert => _Convert.Instance;
-        private sealed class _Convert : IConvert<cuint>
-        {
-            public readonly static _Convert Instance = new _Convert();
 
             bool IConvert<cuint>.ToBoolean(cuint value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cuint>.ToByte(cuint value) => CheckedConvert.ToByte(value._value);

@@ -113,35 +113,51 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cfloat operator +(cfloat value) => value;
         public static cfloat operator ++(cfloat value) => value + 1;
 
+        bool INumeric<cfloat>.IsGreaterThan(cfloat value) => this > value;
+        bool INumeric<cfloat>.IsGreaterThanOrEqualTo(cfloat value) => this >= value;
+        bool INumeric<cfloat>.IsLessThan(cfloat value) => this < value;
+        bool INumeric<cfloat>.IsLessThanOrEqualTo(cfloat value) => this <= value;
+        cfloat INumeric<cfloat>.Add(cfloat value) => this + value;
+        cfloat INumeric<cfloat>.Divide(cfloat value) => this / value;
+        cfloat INumeric<cfloat>.Multiply(cfloat value) => this * value;
+        cfloat INumeric<cfloat>.Negative() => -this;
+        cfloat INumeric<cfloat>.Positive() => +this;
+        cfloat INumeric<cfloat>.Remainder(cfloat value) => this % value;
+        cfloat INumeric<cfloat>.Subtract(cfloat value) => this - value;
+
         IBitConverter<cfloat> IBitConvertible<cfloat>.BitConverter => Utilities.Instance;
+        IConstants<cfloat> INumeric<cfloat>.Constants => Utilities.Instance;
+        IConvert<cfloat> IConvertible<cfloat>.Convert => Utilities.Instance;
         IMath<cfloat> INumeric<cfloat>.Math => Utilities.Instance;
         IRandom<cfloat> IRandomisable<cfloat>.Random => Utilities.Instance;
-        IStringParser<cfloat> IStringRepresentable<cfloat>.StringParser => Utilities.Instance;
+        IStringParser<cfloat> IStringParsable<cfloat>.StringParser => Utilities.Instance;
 
-        private sealed class Utilities : IMath<cfloat>, IBitConverter<cfloat>, IRandom<cfloat>, IStringParser<cfloat>
+        private sealed class Utilities :
+            IBitConverter<cfloat>,
+            IConstants<cfloat>,
+            IConvert<cfloat>,
+            IMath<cfloat>,
+            IRandom<cfloat>,
+            IStringParser<cfloat>
         {
             public readonly static Utilities Instance = new Utilities();
 
+            bool IConstants<cfloat>.IsReal { get; } = true;
+            bool IConstants<cfloat>.IsSigned { get; } = true;
+            cfloat IConstants<cfloat>.Epsilon => Epsilon;
+            cfloat IConstants<cfloat>.MaxUnit { get; } = 1;
+            cfloat IConstants<cfloat>.MaxValue => MaxValue;
+            cfloat IConstants<cfloat>.MinUnit { get; } = -1;
+            cfloat IConstants<cfloat>.MinValue => MinValue;
+            cfloat IConstants<cfloat>.One { get; } = 1;
+            cfloat IConstants<cfloat>.Zero { get; } = 0;
             cfloat IMath<cfloat>.E { get; } = MathF.E;
             cfloat IMath<cfloat>.PI { get; } = MathF.PI;
-            cfloat IMath<cfloat>.Epsilon => Epsilon;
-            cfloat IMath<cfloat>.MaxValue => MaxValue;
-            cfloat IMath<cfloat>.MinValue => MinValue;
-            cfloat IMath<cfloat>.MaxUnit { get; } = 1;
-            cfloat IMath<cfloat>.MinUnit { get; } = -1;
-            cfloat IMath<cfloat>.Zero { get; } = 0;
-            cfloat IMath<cfloat>.One { get; } = 1;
-            bool IMath<cfloat>.IsSigned { get; } = true;
-            bool IMath<cfloat>.IsReal { get; } = true;
+            cfloat IMath<cfloat>.Tau { get; } = MathF.PI;
 
-            bool IMath<cfloat>.IsGreaterThan(cfloat x, cfloat y) => x > y;
-            bool IMath<cfloat>.IsGreaterThanOrEqualTo(cfloat x, cfloat y) => x >= y;
-            bool IMath<cfloat>.IsLessThan(cfloat x, cfloat y) => x < y;
-            bool IMath<cfloat>.IsLessThanOrEqualTo(cfloat x, cfloat y) => x <= y;
             cfloat IMath<cfloat>.Abs(cfloat x) => MathF.Abs(x._value);
             cfloat IMath<cfloat>.Acos(cfloat x) => MathF.Acos(x._value);
             cfloat IMath<cfloat>.Acosh(cfloat x) => MathF.Acosh(x._value);
-            cfloat IMath<cfloat>.Add(cfloat x, cfloat y) => x + y;
             cfloat IMath<cfloat>.Asin(cfloat x) => MathF.Asin(x._value);
             cfloat IMath<cfloat>.Asinh(cfloat x) => MathF.Asinh(x._value);
             cfloat IMath<cfloat>.Atan(cfloat x) => MathF.Atan(x._value);
@@ -152,9 +168,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Clamp(cfloat x, cfloat bound1, cfloat bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             cfloat IMath<cfloat>.Cos(cfloat x) => MathF.Cos(x._value);
             cfloat IMath<cfloat>.Cosh(cfloat x) => MathF.Cosh(x._value);
-            cfloat IMath<cfloat>.DegreesToRadians(cfloat x) => x._value * TrigF.RadiansPerDegree;
-            cfloat IMath<cfloat>.DegreesToTurns(cfloat x) => x._value * TrigF.TurnsPerDegree;
-            cfloat IMath<cfloat>.Divide(cfloat x, cfloat y) => x / y;
+            cfloat IMath<cfloat>.DegreesToRadians(cfloat x) => x._value * Trig.RadiansPerDegreeF;
             cfloat IMath<cfloat>.Exp(cfloat x) => MathF.Exp(x._value);
             cfloat IMath<cfloat>.Floor(cfloat x) => MathF.Floor(x._value);
             cfloat IMath<cfloat>.IEEERemainder(cfloat x, cfloat y) => MathF.IEEERemainder(x._value, y._value);
@@ -163,14 +177,9 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Log10(cfloat x) => MathF.Log10(x._value);
             cfloat IMath<cfloat>.Max(cfloat x, cfloat y) => MathF.Max(x._value, y._value);
             cfloat IMath<cfloat>.Min(cfloat x, cfloat y) => MathF.Min(x._value, y._value);
-            cfloat IMath<cfloat>.Multiply(cfloat x, cfloat y) => x * y;
-            cfloat IMath<cfloat>.Negative(cfloat x) => -x;
-            cfloat IMath<cfloat>.Positive(cfloat x) => +x;
             cfloat IMath<cfloat>.Pow(cfloat x, byte y) => MathF.Pow(x._value, y);
             cfloat IMath<cfloat>.Pow(cfloat x, cfloat y) => MathF.Pow(x._value, y._value);
-            cfloat IMath<cfloat>.RadiansToDegrees(cfloat x) => x._value * TrigF.DegreesPerRadian;
-            cfloat IMath<cfloat>.RadiansToTurns(cfloat x) => x._value * TrigF.TurnsPerRadian;
-            cfloat IMath<cfloat>.Remainder(cfloat x, cfloat y) => x % y;
+            cfloat IMath<cfloat>.RadiansToDegrees(cfloat x) => x._value * Trig.DegreesPerRadianF;
             cfloat IMath<cfloat>.Round(cfloat x) => MathF.Round(x._value);
             cfloat IMath<cfloat>.Round(cfloat x, int digits) => MathF.Round(x._value, digits);
             cfloat IMath<cfloat>.Round(cfloat x, int digits, MidpointRounding mode) => MathF.Round(x._value, digits, mode);
@@ -178,30 +187,19 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Sin(cfloat x) => MathF.Sin(x._value);
             cfloat IMath<cfloat>.Sinh(cfloat x) => MathF.Sinh(x._value);
             cfloat IMath<cfloat>.Sqrt(cfloat x) => MathF.Sqrt(x._value);
-            cfloat IMath<cfloat>.Subtract(cfloat x, cfloat y) => x - y;
             cfloat IMath<cfloat>.Tan(cfloat x) => MathF.Tan(x._value);
             cfloat IMath<cfloat>.Tanh(cfloat x) => MathF.Tanh(x._value);
             cfloat IMath<cfloat>.Truncate(cfloat x) => MathF.Truncate(x._value);
-            cfloat IMath<cfloat>.TurnsToDegrees(cfloat x) => x._value * TrigF.DegreesPerTurn;
-            cfloat IMath<cfloat>.TurnsToRadians(cfloat x) => x._value * TrigF.RadiansPerTurn;
-            double IMath<cfloat>.ToDouble(cfloat x, double offset) => CheckedArithmetic.Add(x._value, offset);
-            float IMath<cfloat>.ToSingle(cfloat x, float offset) => CheckedArithmetic.Add(x._value, offset);
             int IMath<cfloat>.Sign(cfloat x) => MathF.Sign(x._value);
 
             cfloat IBitConverter<cfloat>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)));
             void IBitConverter<cfloat>.Write(cfloat value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
-            cfloat IRandom<cfloat>.GetNext(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
-            cfloat IRandom<cfloat>.GetNext(Random random, cfloat bound1, cfloat bound2) => random.NextSingle(bound1._value, bound2._value);
+            cfloat IRandom<cfloat>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
+            cfloat IRandom<cfloat>.Next(Random random, cfloat bound1, cfloat bound2) => random.NextSingle(bound1._value, bound2._value);
 
             cfloat IStringParser<cfloat>.Parse(string s) => Parse(s);
             cfloat IStringParser<cfloat>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-        }
-
-        IConvert<cfloat> IConvertible<cfloat>.Convert => _Convert.Instance;
-        private sealed class _Convert : IConvert<cfloat>
-        {
-            public readonly static _Convert Instance = new _Convert();
 
             bool IConvert<cfloat>.ToBoolean(cfloat value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cfloat>.ToByte(cfloat value) => CheckedConvert.ToByte(value._value);

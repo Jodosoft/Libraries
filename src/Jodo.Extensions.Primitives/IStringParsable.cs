@@ -17,17 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-
-namespace Jodo.Extensions.Numerics
+namespace Jodo.Extensions.Primitives
 {
-    public static class TrigF
+    public interface IStringParsable<T> where T : IStringParsable<T>, new()
     {
-        public const float DegreesPerRadian = 180f / MathF.PI;
-        public const float DegreesPerTurn = 360f;
-        public const float RadiansPerDegree = MathF.PI / 180f;
-        public const float RadiansPerTurn = 2f * MathF.PI;
-        public const float TurnsPerDegree = 1f / DegreesPerTurn;
-        public const float TurnsPerRadian = 1f / RadiansPerTurn;
+        IStringParser<T> StringParser { get; }
     }
 }

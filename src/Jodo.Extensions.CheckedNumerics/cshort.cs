@@ -113,35 +113,51 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cshort operator <<(cshort left, int right) => (short)(left._value << right);
         public static cshort operator >>(cshort left, int right) => (short)(left._value >> right);
 
+        bool INumeric<cshort>.IsGreaterThan(cshort value) => this > value;
+        bool INumeric<cshort>.IsGreaterThanOrEqualTo(cshort value) => this >= value;
+        bool INumeric<cshort>.IsLessThan(cshort value) => this < value;
+        bool INumeric<cshort>.IsLessThanOrEqualTo(cshort value) => this <= value;
+        cshort INumeric<cshort>.Add(cshort value) => this + value;
+        cshort INumeric<cshort>.Divide(cshort value) => this / value;
+        cshort INumeric<cshort>.Multiply(cshort value) => this * value;
+        cshort INumeric<cshort>.Negative() => -this;
+        cshort INumeric<cshort>.Positive() => +this;
+        cshort INumeric<cshort>.Remainder(cshort value) => this % value;
+        cshort INumeric<cshort>.Subtract(cshort value) => this - value;
+
         IBitConverter<cshort> IBitConvertible<cshort>.BitConverter => Utilities.Instance;
+        IConstants<cshort> INumeric<cshort>.Constants => Utilities.Instance;
+        IConvert<cshort> IConvertible<cshort>.Convert => Utilities.Instance;
         IMath<cshort> INumeric<cshort>.Math => Utilities.Instance;
         IRandom<cshort> IRandomisable<cshort>.Random => Utilities.Instance;
-        IStringParser<cshort> IStringRepresentable<cshort>.StringParser => Utilities.Instance;
+        IStringParser<cshort> IStringParsable<cshort>.StringParser => Utilities.Instance;
 
-        private sealed class Utilities : IMath<cshort>, IBitConverter<cshort>, IRandom<cshort>, IStringParser<cshort>
+        private sealed class Utilities :
+            IBitConverter<cshort>,
+            IConstants<cshort>,
+            IConvert<cshort>,
+            IMath<cshort>,
+            IRandom<cshort>,
+            IStringParser<cshort>
         {
             public readonly static Utilities Instance = new Utilities();
 
+            bool IConstants<cshort>.IsReal { get; } = false;
+            bool IConstants<cshort>.IsSigned { get; } = true;
+            cshort IConstants<cshort>.Epsilon { get; } = (short)1;
+            cshort IConstants<cshort>.MaxUnit { get; } = (short)1;
+            cshort IConstants<cshort>.MaxValue => MaxValue;
+            cshort IConstants<cshort>.MinUnit { get; } = (short)-1;
+            cshort IConstants<cshort>.MinValue => MinValue;
+            cshort IConstants<cshort>.One { get; } = (short)1;
+            cshort IConstants<cshort>.Zero { get; } = (short)0;
             cshort IMath<cshort>.E { get; } = (short)2;
             cshort IMath<cshort>.PI { get; } = (short)3;
-            cshort IMath<cshort>.Epsilon { get; } = (short)1;
-            cshort IMath<cshort>.MaxValue => MaxValue;
-            cshort IMath<cshort>.MinValue => MinValue;
-            cshort IMath<cshort>.MaxUnit { get; } = (short)1;
-            cshort IMath<cshort>.MinUnit { get; } = (short)-1;
-            cshort IMath<cshort>.Zero { get; } = (short)0;
-            cshort IMath<cshort>.One { get; } = (short)1;
-            bool IMath<cshort>.IsSigned { get; } = true;
-            bool IMath<cshort>.IsReal { get; } = false;
+            cshort IMath<cshort>.Tau { get; } = (short)3;
 
-            bool IMath<cshort>.IsGreaterThan(cshort x, cshort y) => x > y;
-            bool IMath<cshort>.IsGreaterThanOrEqualTo(cshort x, cshort y) => x >= y;
-            bool IMath<cshort>.IsLessThan(cshort x, cshort y) => x < y;
-            bool IMath<cshort>.IsLessThanOrEqualTo(cshort x, cshort y) => x <= y;
             cshort IMath<cshort>.Abs(cshort x) => Math.Abs(x._value);
             cshort IMath<cshort>.Acos(cshort x) => (cshort)Math.Acos(x._value);
             cshort IMath<cshort>.Acosh(cshort x) => (cshort)Math.Acosh(x._value);
-            cshort IMath<cshort>.Add(cshort x, cshort y) => x + y;
             cshort IMath<cshort>.Asin(cshort x) => (cshort)Math.Asin(x._value);
             cshort IMath<cshort>.Asinh(cshort x) => (cshort)Math.Asinh(x._value);
             cshort IMath<cshort>.Atan(cshort x) => (cshort)Math.Atan(x._value);
@@ -153,8 +169,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Cos(cshort x) => (cshort)Math.Cos(x._value);
             cshort IMath<cshort>.Cosh(cshort x) => (cshort)Math.Cosh(x._value);
             cshort IMath<cshort>.DegreesToRadians(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
-            cshort IMath<cshort>.DegreesToTurns(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.TurnsPerDegree);
-            cshort IMath<cshort>.Divide(cshort x, cshort y) => x / y;
             cshort IMath<cshort>.Exp(cshort x) => (cshort)Math.Exp(x._value);
             cshort IMath<cshort>.Floor(cshort x) => x;
             cshort IMath<cshort>.IEEERemainder(cshort x, cshort y) => (cshort)Math.IEEERemainder(x._value, y._value);
@@ -163,14 +177,9 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Log10(cshort x) => (cshort)Math.Log10(x._value);
             cshort IMath<cshort>.Max(cshort x, cshort y) => Math.Max(x._value, y._value);
             cshort IMath<cshort>.Min(cshort x, cshort y) => Math.Min(x._value, y._value);
-            cshort IMath<cshort>.Multiply(cshort x, cshort y) => x * y;
-            cshort IMath<cshort>.Negative(cshort x) => -x;
-            cshort IMath<cshort>.Positive(cshort x) => +x;
             cshort IMath<cshort>.Pow(cshort x, byte y) => CheckedArithmetic.Pow(x._value, y);
             cshort IMath<cshort>.Pow(cshort x, cshort y) => CheckedArithmetic.Pow(x._value, y._value);
             cshort IMath<cshort>.RadiansToDegrees(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            cshort IMath<cshort>.RadiansToTurns(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.TurnsPerRadian);
-            cshort IMath<cshort>.Remainder(cshort x, cshort y) => x % y;
             cshort IMath<cshort>.Round(cshort x) => x;
             cshort IMath<cshort>.Round(cshort x, int digits) => x;
             cshort IMath<cshort>.Round(cshort x, int digits, MidpointRounding mode) => x;
@@ -178,30 +187,19 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Sin(cshort x) => (cshort)Math.Sin(x._value);
             cshort IMath<cshort>.Sinh(cshort x) => (cshort)Math.Sinh(x._value);
             cshort IMath<cshort>.Sqrt(cshort x) => (cshort)Math.Sqrt(x._value);
-            cshort IMath<cshort>.Subtract(cshort x, cshort y) => x - y;
             cshort IMath<cshort>.Tan(cshort x) => (cshort)Math.Tan(x._value);
             cshort IMath<cshort>.Tanh(cshort x) => (cshort)Math.Tanh(x._value);
             cshort IMath<cshort>.Truncate(cshort x) => x;
-            cshort IMath<cshort>.TurnsToDegrees(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.DegreesPerTurn);
-            cshort IMath<cshort>.TurnsToRadians(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            double IMath<cshort>.ToDouble(cshort x, double offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
-            float IMath<cshort>.ToSingle(cshort x, float offset) => CheckedArithmetic.Add(CheckedConvert.ToSingle(x._value), offset);
             int IMath<cshort>.Sign(cshort x) => Math.Sign(x._value);
 
             cshort IBitConverter<cshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)));
             void IBitConverter<cshort>.Write(cshort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
-            cshort IRandom<cshort>.GetNext(Random random) => random.NextInt16();
-            cshort IRandom<cshort>.GetNext(Random random, cshort bound1, cshort bound2) => random.NextInt16(bound1._value, bound2._value);
+            cshort IRandom<cshort>.Next(Random random) => random.NextInt16();
+            cshort IRandom<cshort>.Next(Random random, cshort bound1, cshort bound2) => random.NextInt16(bound1._value, bound2._value);
 
             cshort IStringParser<cshort>.Parse(string s) => Parse(s);
             cshort IStringParser<cshort>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-        }
-
-        IConvert<cshort> IConvertible<cshort>.Convert => _Convert.Instance;
-        private sealed class _Convert : IConvert<cshort>
-        {
-            public readonly static _Convert Instance = new _Convert();
 
             bool IConvert<cshort>.ToBoolean(cshort value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cshort>.ToByte(cshort value) => CheckedConvert.ToByte(value._value);
