@@ -43,57 +43,6 @@ namespace Jodo.Extensions.Numerics.Tests
         }
 
         [Test]
-        public void Zero_ReturnsZero()
-        {
-            //arrange
-
-            //act
-            var result = Constants<T>.Zero;
-
-            //assert
-            result.ToDouble().Should().Be(0);
-        }
-
-        [Test]
-        public void Epsilon_IntegralValue_ReturnsOne()
-        {
-            //arrange
-            if (Constants<T>.IsReal) return;
-
-            //act
-            var result = Constants<T>.Epsilon;
-
-            //assert
-            result.ToDouble().Should().Be(1);
-        }
-
-        [Test]
-        public void Epsilon_RealValue_GreaterThanZero()
-        {
-            //arrange
-            if (Constants<T>.IsReal) return;
-
-            //act
-            var result = Constants<T>.Epsilon;
-
-            //assert
-            result.ToDouble().Should().BeGreaterThan(0);
-        }
-
-        [Test]
-        public void Epsilon_RealValue_ApproximatelyZero()
-        {
-            //arrange
-            if (Constants<T>.IsReal) return;
-
-            //act
-            var result = Constants<T>.Epsilon - Constants<T>.Epsilon;
-
-            //assert
-            result.ToDouble().Should().BeApproximately(0, 0.0001);
-        }
-
-        [Test]
         public void Abs_UnsignedValue_ReturnsSameValue()
         {
             //arrange
