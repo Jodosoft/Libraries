@@ -31,15 +31,15 @@ namespace Jodo.Extensions.Numerics.Tests
         {
             var result = Random.NextNumeric<T>(0, 10);
 
-            if (Constants<T>.IsReal) result = Math<T>.Round(result / 2, 1);
-            if (Constants<T>.IsSigned) result -= 5;
+            if (Math<T>.IsReal) result = Math<T>.Round(result / 2, 1);
+            if (Math<T>.IsSigned) result -= 5;
             return result;
         }
 
         public T NextSmallPositive()
         {
             var result = Random.NextNumeric<T>(0, 10);
-            if (Constants<T>.IsReal) result = Math<T>.Round(result / 2, 1);
+            if (Math<T>.IsReal) result = Math<T>.Round(result / 2, 1);
             return result + 1;
         }
 
@@ -54,7 +54,7 @@ namespace Jodo.Extensions.Numerics.Tests
             var result = left + right;
 
             //assert
-            result.Should().BeNumericEquivalentTo(Convert<T>.ToDouble(left) + Convert<T>.ToDouble(right));
+            result.Should().BeApproximately(Convert<T>.ToDouble(left) + Convert<T>.ToDouble(right));
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace Jodo.Extensions.Numerics.Tests
             var result = (left + right - right);
 
             //assert
-            result.Should().BeNumericEquivalentTo(Convert<T>.ToDouble(left));
+            result.Should().BeApproximately(Convert<T>.ToDouble(left));
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace Jodo.Extensions.Numerics.Tests
             var result = left * right;
 
             //assert
-            result.Should().BeNumericEquivalentTo(Convert<T>.ToDouble(left) * Convert<T>.ToDouble(right));
+            result.Should().BeApproximately(Convert<T>.ToDouble(left) * Convert<T>.ToDouble(right));
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace Jodo.Extensions.Numerics.Tests
             var result = input * 0;
 
             //assert
-            result.Should().Be(Constants<T>.Zero);
+            result.Should().Be(Math<T>.Zero);
         }
 
         [Test]
@@ -161,7 +161,7 @@ namespace Jodo.Extensions.Numerics.Tests
             var result = left / right;
 
             //assert
-            result.Should().BeNumericEquivalentTo(Convert<T>.ToDouble(left) / Convert<T>.ToDouble(right));
+            result.Should().BeApproximately(Convert<T>.ToDouble(left) / Convert<T>.ToDouble(right));
         }
     }
 }

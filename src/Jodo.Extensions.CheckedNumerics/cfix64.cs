@@ -129,7 +129,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cfix64 INumeric<cfix64>.Subtract(cfix64 value) => this - value;
 
         IBitConverter<cfix64> IBitConvertible<cfix64>.BitConverter => Utilities.Instance;
-        IConstants<cfix64> INumeric<cfix64>.Constants => Utilities.Instance;
         IConvert<cfix64> IConvertible<cfix64>.Convert => Utilities.Instance;
         IMath<cfix64> INumeric<cfix64>.Math => Utilities.Instance;
         IRandom<cfix64> IRandomisable<cfix64>.Random => Utilities.Instance;
@@ -137,23 +136,22 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cfix64>,
-            IConstants<cfix64>,
-            IConvert<cfix64>,
             IMath<cfix64>,
+            IConvert<cfix64>,
             IRandom<cfix64>,
             IStringParser<cfix64>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<cfix64>.IsReal { get; } = true;
-            bool IConstants<cfix64>.IsSigned { get; } = true;
-            cfix64 IConstants<cfix64>.Epsilon { get; } = new cfix64(1);
-            cfix64 IConstants<cfix64>.MaxUnit { get; } = new cfix64(ScalingFactor);
-            cfix64 IConstants<cfix64>.MaxValue => MaxValue;
-            cfix64 IConstants<cfix64>.MinUnit { get; } = new cfix64(-ScalingFactor);
-            cfix64 IConstants<cfix64>.MinValue => MinValue;
-            cfix64 IConstants<cfix64>.One { get; } = new cfix64(ScalingFactor);
-            cfix64 IConstants<cfix64>.Zero { get; } = 0;
+            bool IMath<cfix64>.IsReal { get; } = true;
+            bool IMath<cfix64>.IsSigned { get; } = true;
+            cfix64 IMath<cfix64>.Epsilon { get; } = new cfix64(1);
+            cfix64 IMath<cfix64>.MaxUnit { get; } = new cfix64(ScalingFactor);
+            cfix64 IMath<cfix64>.MaxValue => MaxValue;
+            cfix64 IMath<cfix64>.MinUnit { get; } = new cfix64(-ScalingFactor);
+            cfix64 IMath<cfix64>.MinValue => MinValue;
+            cfix64 IMath<cfix64>.One { get; } = new cfix64(ScalingFactor);
+            cfix64 IMath<cfix64>.Zero { get; } = 0;
             cfix64 IMath<cfix64>.E { get; } = (cfix64)Math.E;
             cfix64 IMath<cfix64>.PI { get; } = (cfix64)Math.PI;
             cfix64 IMath<cfix64>.Tau { get; } = (cfix64)(Math.PI * 2d);

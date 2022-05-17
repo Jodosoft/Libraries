@@ -23,12 +23,20 @@ namespace Jodo.Extensions.Numerics
 {
     public interface IMath<N> where N : struct, INumeric<N>
     {
+        bool IsReal { get; }
+        bool IsSigned { get; }
         N E { get; }
+        N Epsilon { get; }
+        N MaxUnit { get; }
+        N MaxValue { get; }
+        N MinUnit { get; }
+        N MinValue { get; }
+        N One { get; }
         N PI { get; }
         N Tau { get; }
+        N Zero { get; }
 
         int Sign(N x);
-
         N Abs(N x);
         N Acos(N x);
         N Acosh(N x);

@@ -27,8 +27,8 @@ namespace System.Linq
 
         public static N Average<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
-            N sum = Constants<N>.Zero;
-            N count = Constants<N>.Zero;
+            N sum = Math<N>.Zero;
+            N count = Math<N>.Zero;
             foreach (var item in source)
             {
                 sum += item;
@@ -39,7 +39,7 @@ namespace System.Linq
 
         public static N Sum<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
-            N sum = Constants<N>.Zero;
+            N sum = Math<N>.Zero;
             foreach (var item in source)
             {
                 sum += item;

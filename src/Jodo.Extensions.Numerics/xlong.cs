@@ -125,7 +125,6 @@ namespace Jodo.Extensions.Numerics
         xlong INumeric<xlong>.Subtract(xlong value) => this - value;
 
         IBitConverter<xlong> IBitConvertible<xlong>.BitConverter => Utilities.Instance;
-        IConstants<xlong> INumeric<xlong>.Constants => Utilities.Instance;
         IConvert<xlong> IConvertible<xlong>.Convert => Utilities.Instance;
         IMath<xlong> INumeric<xlong>.Math => Utilities.Instance;
         IRandom<xlong> IRandomisable<xlong>.Random => Utilities.Instance;
@@ -133,7 +132,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xlong>,
-            IConstants<xlong>,
             IConvert<xlong>,
             IMath<xlong>,
             IRandom<xlong>,
@@ -141,54 +139,54 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xlong>.IsReal { get; } = false;
-            bool IConstants<xlong>.IsSigned { get; } = true;
-            xlong IConstants<xlong>.Epsilon { get; } = 1L;
-            xlong IConstants<xlong>.MaxUnit { get; } = 1L;
-            xlong IConstants<xlong>.MaxValue => MaxValue;
-            xlong IConstants<xlong>.MinUnit { get; } = -1L;
-            xlong IConstants<xlong>.MinValue => MinValue;
-            xlong IConstants<xlong>.One { get; } = 1L;
-            xlong IConstants<xlong>.Zero { get; } = 0;
+            bool IMath<xlong>.IsReal { get; } = false;
+            bool IMath<xlong>.IsSigned { get; } = true;
+            xlong IMath<xlong>.Epsilon { get; } = 1L;
+            xlong IMath<xlong>.MaxUnit { get; } = 1L;
+            xlong IMath<xlong>.MaxValue => MaxValue;
+            xlong IMath<xlong>.MinUnit { get; } = -1L;
+            xlong IMath<xlong>.MinValue => MinValue;
+            xlong IMath<xlong>.One { get; } = 1L;
+            xlong IMath<xlong>.Zero { get; } = 0;
             xlong IMath<xlong>.E { get; } = 2L;
             xlong IMath<xlong>.PI { get; } = 3L;
             xlong IMath<xlong>.Tau { get; } = 6L;
 
-            int IMath<xlong>.Sign(xlong x) => Math.Sign(x._value);
-            xlong IMath<xlong>.Abs(xlong x) => Math.Abs(x._value);
-            xlong IMath<xlong>.Acos(xlong x) => (long)Math.Acos(x._value);
-            xlong IMath<xlong>.Acosh(xlong x) => (long)Math.Acosh(x._value);
-            xlong IMath<xlong>.Asin(xlong x) => (long)Math.Asin(x._value);
-            xlong IMath<xlong>.Asinh(xlong x) => (long)Math.Asinh(x._value);
-            xlong IMath<xlong>.Atan(xlong x) => (long)Math.Atan(x._value);
-            xlong IMath<xlong>.Atan2(xlong x, xlong y) => (long)Math.Atan2(x._value, y._value);
-            xlong IMath<xlong>.Atanh(xlong x) => (long)Math.Atanh(x._value);
-            xlong IMath<xlong>.Cbrt(xlong x) => (long)Math.Cbrt(x._value);
+            int IMath<xlong>.Sign(xlong x) => Math.Sign(x);
+            xlong IMath<xlong>.Abs(xlong x) => Math.Abs(x);
+            xlong IMath<xlong>.Acos(xlong x) => (xlong)Math.Acos(x);
+            xlong IMath<xlong>.Acosh(xlong x) => (xlong)Math.Acosh(x);
+            xlong IMath<xlong>.Asin(xlong x) => (xlong)Math.Asin(x);
+            xlong IMath<xlong>.Asinh(xlong x) => (xlong)Math.Asinh(x);
+            xlong IMath<xlong>.Atan(xlong x) => (xlong)Math.Atan(x);
+            xlong IMath<xlong>.Atan2(xlong y, xlong x) => (xlong)Math.Atan2(y, x);
+            xlong IMath<xlong>.Atanh(xlong x) => (xlong)Math.Atanh(x);
+            xlong IMath<xlong>.Cbrt(xlong x) => (xlong)Math.Cbrt(x);
             xlong IMath<xlong>.Ceiling(xlong x) => x;
-            xlong IMath<xlong>.Clamp(xlong x, xlong bound1, xlong bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            xlong IMath<xlong>.Cos(xlong x) => (long)Math.Cos(x._value);
-            xlong IMath<xlong>.Cosh(xlong x) => (long)Math.Cosh(x._value);
-            xlong IMath<xlong>.DegreesToRadians(xlong x) => (long)(x * Trig.RadiansPerDegree);
-            xlong IMath<xlong>.Exp(xlong x) => (long)Math.Exp(x._value);
+            xlong IMath<xlong>.Clamp(xlong x, xlong bound1, xlong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
+            xlong IMath<xlong>.Cos(xlong x) => (xlong)Math.Cos(x);
+            xlong IMath<xlong>.Cosh(xlong x) => (xlong)Math.Cosh(x);
+            xlong IMath<xlong>.DegreesToRadians(xlong x) => (xlong)(x * Trig.RadiansPerDegree);
+            xlong IMath<xlong>.Exp(xlong x) => (xlong)Math.Exp(x);
             xlong IMath<xlong>.Floor(xlong x) => x;
-            xlong IMath<xlong>.IEEERemainder(xlong x, xlong y) => (long)Math.IEEERemainder(x._value, y._value);
-            xlong IMath<xlong>.Log(xlong x) => (long)Math.Log(x._value);
-            xlong IMath<xlong>.Log(xlong x, xlong y) => (long)Math.Log(x._value, y._value);
-            xlong IMath<xlong>.Log10(xlong x) => (long)Math.Log10(x._value);
-            xlong IMath<xlong>.Max(xlong x, xlong y) => Math.Max(x._value, y._value);
-            xlong IMath<xlong>.Min(xlong x, xlong y) => Math.Min(x._value, y._value);
-            xlong IMath<xlong>.Pow(xlong x, byte y) => (long)Math.Pow(x._value, y);
-            xlong IMath<xlong>.Pow(xlong x, xlong y) => (long)Math.Pow(x._value, y._value);
-            xlong IMath<xlong>.RadiansToDegrees(xlong x) => (long)(x * Trig.DegreesPerRadian);
+            xlong IMath<xlong>.IEEERemainder(xlong x, xlong y) => (xlong)Math.IEEERemainder(x, y);
+            xlong IMath<xlong>.Log(xlong x) => (xlong)Math.Log(x);
+            xlong IMath<xlong>.Log(xlong x, xlong y) => (xlong)Math.Log(x, y);
+            xlong IMath<xlong>.Log10(xlong x) => (xlong)Math.Log10(x);
+            xlong IMath<xlong>.Max(xlong x, xlong y) => Math.Max(x, y);
+            xlong IMath<xlong>.Min(xlong x, xlong y) => Math.Min(x, y);
+            xlong IMath<xlong>.Pow(xlong x, byte y) => y == 1 ? x : (xlong)Math.Pow(x, y);
+            xlong IMath<xlong>.Pow(xlong x, xlong y) => y == 1 ? x : (xlong)Math.Pow(x, y);
+            xlong IMath<xlong>.RadiansToDegrees(xlong x) => (xlong)(x * Trig.DegreesPerRadian);
             xlong IMath<xlong>.Round(xlong x) => x;
             xlong IMath<xlong>.Round(xlong x, int digits) => x;
             xlong IMath<xlong>.Round(xlong x, int digits, MidpointRounding mode) => x;
             xlong IMath<xlong>.Round(xlong x, MidpointRounding mode) => x;
-            xlong IMath<xlong>.Sin(xlong x) => (long)Math.Sin(x._value);
-            xlong IMath<xlong>.Sinh(xlong x) => (long)Math.Sinh(x._value);
-            xlong IMath<xlong>.Sqrt(xlong x) => (long)Math.Sqrt(x._value);
-            xlong IMath<xlong>.Tan(xlong x) => (long)Math.Tan(x._value);
-            xlong IMath<xlong>.Tanh(xlong x) => (long)Math.Tanh(x._value);
+            xlong IMath<xlong>.Sin(xlong x) => (xlong)Math.Sin(x);
+            xlong IMath<xlong>.Sinh(xlong x) => (xlong)Math.Sinh(x);
+            xlong IMath<xlong>.Sqrt(xlong x) => (xlong)Math.Sqrt(x);
+            xlong IMath<xlong>.Tan(xlong x) => (xlong)Math.Tan(x);
+            xlong IMath<xlong>.Tanh(xlong x) => (xlong)Math.Tanh(x);
             xlong IMath<xlong>.Truncate(xlong x) => x;
 
             xlong IBitConverter<xlong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));

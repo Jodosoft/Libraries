@@ -30,7 +30,7 @@ namespace Jodo.Extensions.Numerics.Tests
         public class XSByte : MathTestsBase<xsbyte> { }
         public class XShort : MathTestsBase<xshort> { }
         public class XUInt : MathTestsBase<xuint> { }
-        public class XULong : MathTestsBase<xushort> { }
+        public class XULong : MathTestsBase<xulong> { }
         public class XUShort : MathTestsBase<xushort> { }
     }
 }

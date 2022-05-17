@@ -19,16 +19,28 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.Numerics
 {
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("csharpsquid", "S2743")]
     public static class Math<N> where N : struct, INumeric<N>
     {
         private static readonly IMath<N> Instance = default(N).Math;
 
+        public static bool IsReal => Instance.IsReal;
+        public static bool IsSigned => Instance.IsSigned;
         public static N E => Instance.E;
+        public static N Epsilon => Instance.Epsilon;
+        public static N MaxUnit => Instance.MaxUnit;
+        public static N MaxValue => Instance.MaxValue;
+        public static N MinUnit => Instance.MinUnit;
+        public static N MinValue => Instance.MinValue;
+        public static N One => Instance.One;
         public static N PI => Instance.PI;
         public static N Tau => Instance.Tau;
+        public static N Zero => Instance.Zero;
 
         [DebuggerStepThrough]
         public static int Sign(N x) => Instance.Sign(x);

@@ -126,7 +126,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cshort INumeric<cshort>.Subtract(cshort value) => this - value;
 
         IBitConverter<cshort> IBitConvertible<cshort>.BitConverter => Utilities.Instance;
-        IConstants<cshort> INumeric<cshort>.Constants => Utilities.Instance;
         IConvert<cshort> IConvertible<cshort>.Convert => Utilities.Instance;
         IMath<cshort> INumeric<cshort>.Math => Utilities.Instance;
         IRandom<cshort> IRandomisable<cshort>.Random => Utilities.Instance;
@@ -134,7 +133,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cshort>,
-            IConstants<cshort>,
             IConvert<cshort>,
             IMath<cshort>,
             IRandom<cshort>,
@@ -142,18 +140,18 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<cshort>.IsReal { get; } = false;
-            bool IConstants<cshort>.IsSigned { get; } = true;
-            cshort IConstants<cshort>.Epsilon { get; } = (short)1;
-            cshort IConstants<cshort>.MaxUnit { get; } = (short)1;
-            cshort IConstants<cshort>.MaxValue => MaxValue;
-            cshort IConstants<cshort>.MinUnit { get; } = (short)-1;
-            cshort IConstants<cshort>.MinValue => MinValue;
-            cshort IConstants<cshort>.One { get; } = (short)1;
-            cshort IConstants<cshort>.Zero { get; } = (short)0;
+            bool IMath<cshort>.IsReal { get; } = false;
+            bool IMath<cshort>.IsSigned { get; } = true;
+            cshort IMath<cshort>.Epsilon { get; } = (short)1;
+            cshort IMath<cshort>.MaxUnit { get; } = (short)1;
+            cshort IMath<cshort>.MaxValue => MaxValue;
+            cshort IMath<cshort>.MinUnit { get; } = (short)-1;
+            cshort IMath<cshort>.MinValue => MinValue;
+            cshort IMath<cshort>.One { get; } = (short)1;
+            cshort IMath<cshort>.Zero { get; } = (short)0;
             cshort IMath<cshort>.E { get; } = (short)2;
             cshort IMath<cshort>.PI { get; } = (short)3;
-            cshort IMath<cshort>.Tau { get; } = (short)3;
+            cshort IMath<cshort>.Tau { get; } = (short)6;
 
             cshort IMath<cshort>.Abs(cshort x) => Math.Abs(x._value);
             cshort IMath<cshort>.Acos(cshort x) => (cshort)Math.Acos(x._value);

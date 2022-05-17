@@ -125,7 +125,6 @@ namespace Jodo.Extensions.Numerics
         xulong INumeric<xulong>.Subtract(xulong value) => this - value;
 
         IBitConverter<xulong> IBitConvertible<xulong>.BitConverter => Utilities.Instance;
-        IConstants<xulong> INumeric<xulong>.Constants => Utilities.Instance;
         IConvert<xulong> IConvertible<xulong>.Convert => Utilities.Instance;
         IMath<xulong> INumeric<xulong>.Math => Utilities.Instance;
         IRandom<xulong> IRandomisable<xulong>.Random => Utilities.Instance;
@@ -133,7 +132,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xulong>,
-            IConstants<xulong>,
             IConvert<xulong>,
             IMath<xulong>,
             IRandom<xulong>,
@@ -141,54 +139,54 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xulong>.IsReal { get; } = false;
-            bool IConstants<xulong>.IsSigned { get; } = false;
-            xulong IConstants<xulong>.Epsilon { get; } = (ulong)1;
-            xulong IConstants<xulong>.MaxUnit { get; } = (ulong)1;
-            xulong IConstants<xulong>.MaxValue => MaxValue;
-            xulong IConstants<xulong>.MinUnit { get; } = (ulong)0;
-            xulong IConstants<xulong>.MinValue => MinValue;
-            xulong IConstants<xulong>.One { get; } = (ulong)1;
-            xulong IConstants<xulong>.Zero { get; } = (ulong)0;
-            xulong IMath<xulong>.E { get; } = (ulong)2;
-            xulong IMath<xulong>.PI { get; } = (ulong)3;
-            xulong IMath<xulong>.Tau { get; } = (ulong)3;
+            bool IMath<xulong>.IsReal { get; } = false;
+            bool IMath<xulong>.IsSigned { get; } = false;
+            xulong IMath<xulong>.Epsilon { get; } = (xulong)1;
+            xulong IMath<xulong>.MaxUnit { get; } = (xulong)1;
+            xulong IMath<xulong>.MaxValue => MaxValue;
+            xulong IMath<xulong>.MinUnit { get; } = (xulong)0;
+            xulong IMath<xulong>.MinValue => MinValue;
+            xulong IMath<xulong>.One { get; } = (xulong)1;
+            xulong IMath<xulong>.Zero { get; } = (xulong)0;
+            xulong IMath<xulong>.E { get; } = (xulong)2;
+            xulong IMath<xulong>.PI { get; } = (xulong)3;
+            xulong IMath<xulong>.Tau { get; } = (xulong)6;
 
-            int IMath<xulong>.Sign(xulong x) => x._value == 0 ? 0 : 1;
-            xulong IMath<xulong>.Abs(xulong x) => x._value;
-            xulong IMath<xulong>.Acos(xulong x) => (ulong)Math.Acos(x._value);
-            xulong IMath<xulong>.Acosh(xulong x) => (ulong)Math.Acosh(x._value);
-            xulong IMath<xulong>.Asin(xulong x) => (ulong)Math.Asin(x._value);
-            xulong IMath<xulong>.Asinh(xulong x) => (ulong)Math.Asinh(x._value);
-            xulong IMath<xulong>.Atan(xulong x) => (ulong)Math.Atan(x._value);
-            xulong IMath<xulong>.Atan2(xulong x, xulong y) => (ulong)Math.Atan2(x._value, y._value);
-            xulong IMath<xulong>.Atanh(xulong x) => (ulong)Math.Atanh(x._value);
-            xulong IMath<xulong>.Cbrt(xulong x) => (ulong)Math.Cbrt(x._value);
+            int IMath<xulong>.Sign(xulong x) => x == 0 ? 0 : 1;
+            xulong IMath<xulong>.Abs(xulong x) => x;
+            xulong IMath<xulong>.Acos(xulong x) => (xulong)Math.Acos(x);
+            xulong IMath<xulong>.Acosh(xulong x) => (xulong)Math.Acosh(x);
+            xulong IMath<xulong>.Asin(xulong x) => (xulong)Math.Asin(x);
+            xulong IMath<xulong>.Asinh(xulong x) => (xulong)Math.Asinh(x);
+            xulong IMath<xulong>.Atan(xulong x) => (xulong)Math.Atan(x);
+            xulong IMath<xulong>.Atan2(xulong y, xulong x) => (xulong)Math.Atan2(y, x);
+            xulong IMath<xulong>.Atanh(xulong x) => (xulong)Math.Atanh(x);
+            xulong IMath<xulong>.Cbrt(xulong x) => (xulong)Math.Cbrt(x);
             xulong IMath<xulong>.Ceiling(xulong x) => x;
-            xulong IMath<xulong>.Clamp(xulong x, xulong bound1, xulong bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            xulong IMath<xulong>.Cos(xulong x) => (ulong)Math.Cos(x._value);
-            xulong IMath<xulong>.Cosh(xulong x) => (ulong)Math.Cosh(x._value);
-            xulong IMath<xulong>.DegreesToRadians(xulong x) => (ulong)(x * Trig.RadiansPerDegree);
-            xulong IMath<xulong>.Exp(xulong x) => (ulong)Math.Exp(x._value);
+            xulong IMath<xulong>.Clamp(xulong x, xulong bound1, xulong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
+            xulong IMath<xulong>.Cos(xulong x) => (xulong)Math.Cos(x);
+            xulong IMath<xulong>.Cosh(xulong x) => (xulong)Math.Cosh(x);
+            xulong IMath<xulong>.DegreesToRadians(xulong x) => (xulong)(x * Trig.RadiansPerDegree);
+            xulong IMath<xulong>.Exp(xulong x) => (xulong)Math.Exp(x);
             xulong IMath<xulong>.Floor(xulong x) => x;
-            xulong IMath<xulong>.IEEERemainder(xulong x, xulong y) => (ulong)Math.IEEERemainder(x._value, y._value);
-            xulong IMath<xulong>.Log(xulong x) => (ulong)Math.Log(x._value);
-            xulong IMath<xulong>.Log(xulong x, xulong y) => (ulong)Math.Log(x._value, y._value);
-            xulong IMath<xulong>.Log10(xulong x) => (ulong)Math.Log10(x._value);
-            xulong IMath<xulong>.Max(xulong x, xulong y) => Math.Max(x._value, y._value);
-            xulong IMath<xulong>.Min(xulong x, xulong y) => Math.Min(x._value, y._value);
-            xulong IMath<xulong>.Pow(xulong x, byte y) => (ulong)Math.Pow(x._value, y);
-            xulong IMath<xulong>.Pow(xulong x, xulong y) => (ulong)Math.Pow(x._value, y._value);
-            xulong IMath<xulong>.RadiansToDegrees(xulong x) => (ulong)(x * Trig.DegreesPerRadian);
+            xulong IMath<xulong>.IEEERemainder(xulong x, xulong y) => (xulong)Math.IEEERemainder(x, y);
+            xulong IMath<xulong>.Log(xulong x) => (xulong)Math.Log(x);
+            xulong IMath<xulong>.Log(xulong x, xulong y) => (xulong)Math.Log(x, y);
+            xulong IMath<xulong>.Log10(xulong x) => (xulong)Math.Log10(x);
+            xulong IMath<xulong>.Max(xulong x, xulong y) => Math.Max(x, y);
+            xulong IMath<xulong>.Min(xulong x, xulong y) => Math.Min(x, y);
+            xulong IMath<xulong>.Pow(xulong x, byte y) => y == 1 ? x : (xulong)Math.Pow(x, y);
+            xulong IMath<xulong>.Pow(xulong x, xulong y) => y == 1 ? x : (xulong)Math.Pow(x, y);
+            xulong IMath<xulong>.RadiansToDegrees(xulong x) => (xulong)(x * Trig.DegreesPerRadian);
             xulong IMath<xulong>.Round(xulong x) => x;
             xulong IMath<xulong>.Round(xulong x, int digits) => x;
             xulong IMath<xulong>.Round(xulong x, int digits, MidpointRounding mode) => x;
             xulong IMath<xulong>.Round(xulong x, MidpointRounding mode) => x;
-            xulong IMath<xulong>.Sin(xulong x) => (ulong)Math.Sin(x._value);
-            xulong IMath<xulong>.Sinh(xulong x) => (ulong)Math.Sinh(x._value);
-            xulong IMath<xulong>.Sqrt(xulong x) => (ulong)Math.Sqrt(x._value);
-            xulong IMath<xulong>.Tan(xulong x) => (ulong)Math.Tan(x._value);
-            xulong IMath<xulong>.Tanh(xulong x) => (ulong)Math.Tanh(x._value);
+            xulong IMath<xulong>.Sin(xulong x) => (xulong)Math.Sin(x);
+            xulong IMath<xulong>.Sinh(xulong x) => (xulong)Math.Sinh(x);
+            xulong IMath<xulong>.Sqrt(xulong x) => (xulong)Math.Sqrt(x);
+            xulong IMath<xulong>.Tan(xulong x) => (xulong)Math.Tan(x);
+            xulong IMath<xulong>.Tanh(xulong x) => (xulong)Math.Tanh(x);
             xulong IMath<xulong>.Truncate(xulong x) => x;
 
             xulong IBitConverter<xulong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)));

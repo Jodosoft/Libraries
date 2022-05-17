@@ -126,7 +126,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.Subtract(cfloat value) => this - value;
 
         IBitConverter<cfloat> IBitConvertible<cfloat>.BitConverter => Utilities.Instance;
-        IConstants<cfloat> INumeric<cfloat>.Constants => Utilities.Instance;
         IConvert<cfloat> IConvertible<cfloat>.Convert => Utilities.Instance;
         IMath<cfloat> INumeric<cfloat>.Math => Utilities.Instance;
         IRandom<cfloat> IRandomisable<cfloat>.Random => Utilities.Instance;
@@ -134,7 +133,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cfloat>,
-            IConstants<cfloat>,
             IConvert<cfloat>,
             IMath<cfloat>,
             IRandom<cfloat>,
@@ -142,18 +140,18 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<cfloat>.IsReal { get; } = true;
-            bool IConstants<cfloat>.IsSigned { get; } = true;
-            cfloat IConstants<cfloat>.Epsilon => Epsilon;
-            cfloat IConstants<cfloat>.MaxUnit { get; } = 1;
-            cfloat IConstants<cfloat>.MaxValue => MaxValue;
-            cfloat IConstants<cfloat>.MinUnit { get; } = -1;
-            cfloat IConstants<cfloat>.MinValue => MinValue;
-            cfloat IConstants<cfloat>.One { get; } = 1;
-            cfloat IConstants<cfloat>.Zero { get; } = 0;
+            bool IMath<cfloat>.IsReal { get; } = true;
+            bool IMath<cfloat>.IsSigned { get; } = true;
+            cfloat IMath<cfloat>.Epsilon => Epsilon;
+            cfloat IMath<cfloat>.MaxUnit { get; } = 1;
+            cfloat IMath<cfloat>.MaxValue => MaxValue;
+            cfloat IMath<cfloat>.MinUnit { get; } = -1;
+            cfloat IMath<cfloat>.MinValue => MinValue;
+            cfloat IMath<cfloat>.One { get; } = 1;
+            cfloat IMath<cfloat>.Zero { get; } = 0;
             cfloat IMath<cfloat>.E { get; } = MathF.E;
             cfloat IMath<cfloat>.PI { get; } = MathF.PI;
-            cfloat IMath<cfloat>.Tau { get; } = MathF.PI;
+            cfloat IMath<cfloat>.Tau { get; } = MathF.PI * 2f;
 
             cfloat IMath<cfloat>.Abs(cfloat x) => MathF.Abs(x._value);
             cfloat IMath<cfloat>.Acos(cfloat x) => MathF.Acos(x._value);

@@ -26,10 +26,12 @@ namespace FluentAssertions
 {
     public static class FluentAssertionsExtensions
     {
-        public static AndConstraint<ComparableTypeAssertions<T>> BeNumericEquivalentTo<T>(this ComparableTypeAssertions<T> parent, double expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        public static AndConstraint<ComparableTypeAssertions<T>> BeApproximately<T>(this ComparableTypeAssertions<T> parent, double expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
         {
+            if (!double.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
+
             var actual = ((T)parent.Subject).ToDouble();
-            if (!Constants<T>.IsReal)
+            if (!Math<T>.IsReal)
             {
                 var expectedValue = Math.Truncate(expected);
                 Execute.Assertion
@@ -37,25 +39,16 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0} (integral equivalent to {1}){reason}, but it was {2}.", expectedValue, expected, actual);
             }
-            else if (double.IsFinite(expected))
+            else
             {
-                var expectedValue = Math.Round(expected, 2);
-                var actualValue = Math.Round(actual, 2);
+                var expectedValue = Math.Round(expected, 3);
+                var actualValue = Math.Round(actual, 3);
                 Execute.Assertion
                     .ForCondition(actualValue == expectedValue)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:value} to be {0}{reason}, but it was {1}.", expectedValue, actualValue);
+                    .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1}.", expected, actualValue);
             }
-            else
-            {
-                Execute.Assertion
-                 .ForCondition(
-                     (double.IsNaN(expected) && double.IsNaN(actual)) ||
-                     (double.IsPositiveInfinity(expected) && double.IsPositiveInfinity(actual)) ||
-                     (double.IsNegativeInfinity(expected) && double.IsNegativeInfinity(actual)))
-                 .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:value} to be {0}{reason}, but it was {1}.", expected, actual);
-            }
+
             return new AndConstraint<ComparableTypeAssertions<T>>(parent);
         }
     }

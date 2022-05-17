@@ -129,7 +129,6 @@ namespace Jodo.Extensions.Numerics
         xdouble INumeric<xdouble>.Subtract(xdouble value) => this - value;
 
         IBitConverter<xdouble> IBitConvertible<xdouble>.BitConverter => Utilities.Instance;
-        IConstants<xdouble> INumeric<xdouble>.Constants => Utilities.Instance;
         IConvert<xdouble> IConvertible<xdouble>.Convert => Utilities.Instance;
         IMath<xdouble> INumeric<xdouble>.Math => Utilities.Instance;
         IRandom<xdouble> IRandomisable<xdouble>.Random => Utilities.Instance;
@@ -137,7 +136,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xdouble>,
-            IConstants<xdouble>,
             IConvert<xdouble>,
             IMath<xdouble>,
             IRandom<xdouble>,
@@ -145,15 +143,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xdouble>.IsReal { get; } = true;
-            bool IConstants<xdouble>.IsSigned { get; } = true;
-            xdouble IConstants<xdouble>.Epsilon => Epsilon;
-            xdouble IConstants<xdouble>.MaxUnit { get; } = 1d;
-            xdouble IConstants<xdouble>.MaxValue => MaxValue;
-            xdouble IConstants<xdouble>.MinUnit { get; } = -1d;
-            xdouble IConstants<xdouble>.MinValue => MinValue;
-            xdouble IConstants<xdouble>.One { get; } = 1d;
-            xdouble IConstants<xdouble>.Zero { get; } = 0d;
+            bool IMath<xdouble>.IsReal { get; } = true;
+            bool IMath<xdouble>.IsSigned { get; } = true;
+            xdouble IMath<xdouble>.Epsilon => Epsilon;
+            xdouble IMath<xdouble>.MaxUnit { get; } = 1d;
+            xdouble IMath<xdouble>.MaxValue => MaxValue;
+            xdouble IMath<xdouble>.MinUnit { get; } = -1d;
+            xdouble IMath<xdouble>.MinValue => MinValue;
+            xdouble IMath<xdouble>.One { get; } = 1d;
+            xdouble IMath<xdouble>.Zero { get; } = 0d;
             xdouble IMath<xdouble>.E { get; } = Math.E;
             xdouble IMath<xdouble>.PI { get; } = Math.PI;
             xdouble IMath<xdouble>.Tau { get; } = Math.PI * 2d;

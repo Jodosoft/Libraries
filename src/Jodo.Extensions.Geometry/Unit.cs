@@ -27,9 +27,9 @@ namespace Jodo.Extensions.Geometry
     [Serializable]
     public readonly struct Unit<T> : IGeometric<Unit<T>> where T : struct, INumeric<T>
     {
-        public readonly static Unit<T> Zero = new Unit<T>(Constants<T>.Zero);
-        public readonly static Unit<T> MaxValue = new Unit<T>(Constants<T>.MaxUnit);
-        public readonly static Unit<T> MinValue = new Unit<T>(Constants<T>.MinUnit);
+        public readonly static Unit<T> Zero = new Unit<T>(Math<T>.Zero);
+        public readonly static Unit<T> MaxValue = new Unit<T>(Math<T>.MaxUnit);
+        public readonly static Unit<T> MinValue = new Unit<T>(Math<T>.MinUnit);
 
         public readonly T Value { get; }
 
@@ -39,7 +39,7 @@ namespace Jodo.Extensions.Geometry
 
         public Unit(T value)
         {
-            Value = Math<T>.Clamp(value, Constants<T>.MinUnit, Constants<T>.MaxUnit);
+            Value = Math<T>.Clamp(value, Math<T>.MinUnit, Math<T>.MaxUnit);
         }
 
         private Unit(SerializationInfo info, StreamingContext context) : this(

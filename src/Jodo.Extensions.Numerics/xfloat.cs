@@ -129,7 +129,6 @@ namespace Jodo.Extensions.Numerics
         xfloat INumeric<xfloat>.Subtract(xfloat value) => this - value;
 
         IBitConverter<xfloat> IBitConvertible<xfloat>.BitConverter => Utilities.Instance;
-        IConstants<xfloat> INumeric<xfloat>.Constants => Utilities.Instance;
         IConvert<xfloat> IConvertible<xfloat>.Convert => Utilities.Instance;
         IMath<xfloat> INumeric<xfloat>.Math => Utilities.Instance;
         IRandom<xfloat> IRandomisable<xfloat>.Random => Utilities.Instance;
@@ -137,7 +136,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xfloat>,
-            IConstants<xfloat>,
             IConvert<xfloat>,
             IMath<xfloat>,
             IRandom<xfloat>,
@@ -145,15 +143,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xfloat>.IsReal { get; } = true;
-            bool IConstants<xfloat>.IsSigned { get; } = true;
-            xfloat IConstants<xfloat>.Epsilon => Epsilon;
-            xfloat IConstants<xfloat>.MaxUnit { get; } = 1f;
-            xfloat IConstants<xfloat>.MaxValue => MaxValue;
-            xfloat IConstants<xfloat>.MinUnit { get; } = -1f;
-            xfloat IConstants<xfloat>.MinValue => MinValue;
-            xfloat IConstants<xfloat>.One { get; } = 1f;
-            xfloat IConstants<xfloat>.Zero { get; } = 0f;
+            bool IMath<xfloat>.IsReal { get; } = true;
+            bool IMath<xfloat>.IsSigned { get; } = true;
+            xfloat IMath<xfloat>.Epsilon => Epsilon;
+            xfloat IMath<xfloat>.MaxUnit { get; } = 1f;
+            xfloat IMath<xfloat>.MaxValue => MaxValue;
+            xfloat IMath<xfloat>.MinUnit { get; } = -1f;
+            xfloat IMath<xfloat>.MinValue => MinValue;
+            xfloat IMath<xfloat>.One { get; } = 1f;
+            xfloat IMath<xfloat>.Zero { get; } = 0f;
             xfloat IMath<xfloat>.E { get; } = MathF.E;
             xfloat IMath<xfloat>.PI { get; } = MathF.PI;
             xfloat IMath<xfloat>.Tau { get; } = MathF.PI * 2;

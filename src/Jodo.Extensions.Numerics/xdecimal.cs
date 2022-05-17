@@ -119,7 +119,6 @@ namespace Jodo.Extensions.Numerics
         xdecimal INumeric<xdecimal>.Subtract(xdecimal value) => this - value;
 
         IBitConverter<xdecimal> IBitConvertible<xdecimal>.BitConverter => Utilities.Instance;
-        IConstants<xdecimal> INumeric<xdecimal>.Constants => Utilities.Instance;
         IConvert<xdecimal> IConvertible<xdecimal>.Convert => Utilities.Instance;
         IMath<xdecimal> INumeric<xdecimal>.Math => Utilities.Instance;
         IRandom<xdecimal> IRandomisable<xdecimal>.Random => Utilities.Instance;
@@ -127,7 +126,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xdecimal>,
-            IConstants<xdecimal>,
             IConvert<xdecimal>,
             IMath<xdecimal>,
             IRandom<xdecimal>,
@@ -135,15 +133,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xdecimal>.IsReal { get; } = true;
-            bool IConstants<xdecimal>.IsSigned { get; } = true;
-            xdecimal IConstants<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
-            xdecimal IConstants<xdecimal>.MaxUnit { get; } = (decimal)1;
-            xdecimal IConstants<xdecimal>.MaxValue => MaxValue;
-            xdecimal IConstants<xdecimal>.MinUnit { get; } = (decimal)-1;
-            xdecimal IConstants<xdecimal>.MinValue => MinValue;
-            xdecimal IConstants<xdecimal>.One { get; } = (decimal)1;
-            xdecimal IConstants<xdecimal>.Zero { get; } = (decimal)0;
+            bool IMath<xdecimal>.IsReal { get; } = true;
+            bool IMath<xdecimal>.IsSigned { get; } = true;
+            xdecimal IMath<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
+            xdecimal IMath<xdecimal>.MaxUnit { get; } = (decimal)1;
+            xdecimal IMath<xdecimal>.MaxValue => MaxValue;
+            xdecimal IMath<xdecimal>.MinUnit { get; } = (decimal)-1;
+            xdecimal IMath<xdecimal>.MinValue => MinValue;
+            xdecimal IMath<xdecimal>.One { get; } = (decimal)1;
+            xdecimal IMath<xdecimal>.Zero { get; } = (decimal)0;
             xdecimal IMath<xdecimal>.E { get; } = (decimal)Math.E;
             xdecimal IMath<xdecimal>.PI { get; } = (decimal)Math.PI;
             xdecimal IMath<xdecimal>.Tau { get; } = (decimal)Math.PI * 2;

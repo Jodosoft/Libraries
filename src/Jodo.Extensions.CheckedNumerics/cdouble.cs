@@ -128,7 +128,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.Subtract(cdouble value) => this - value;
 
         IBitConverter<cdouble> IBitConvertible<cdouble>.BitConverter => Utilities.Instance;
-        IConstants<cdouble> INumeric<cdouble>.Constants => Utilities.Instance;
         IConvert<cdouble> IConvertible<cdouble>.Convert => Utilities.Instance;
         IMath<cdouble> INumeric<cdouble>.Math => Utilities.Instance;
         IRandom<cdouble> IRandomisable<cdouble>.Random => Utilities.Instance;
@@ -136,23 +135,22 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cdouble>,
-            IConstants<cdouble>,
-            IConvert<cdouble>,
             IMath<cdouble>,
+            IConvert<cdouble>,
             IRandom<cdouble>,
             IStringParser<cdouble>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<cdouble>.IsReal { get; } = true;
-            bool IConstants<cdouble>.IsSigned { get; } = true;
-            cdouble IConstants<cdouble>.Epsilon => Epsilon;
-            cdouble IConstants<cdouble>.MaxUnit { get; } = 1d;
-            cdouble IConstants<cdouble>.MaxValue => MaxValue;
-            cdouble IConstants<cdouble>.MinUnit { get; } = -1d;
-            cdouble IConstants<cdouble>.MinValue => MinValue;
-            cdouble IConstants<cdouble>.One { get; } = 1d;
-            cdouble IConstants<cdouble>.Zero { get; } = 0d;
+            bool IMath<cdouble>.IsReal { get; } = true;
+            bool IMath<cdouble>.IsSigned { get; } = true;
+            cdouble IMath<cdouble>.Epsilon => Epsilon;
+            cdouble IMath<cdouble>.MaxUnit { get; } = 1d;
+            cdouble IMath<cdouble>.MaxValue => MaxValue;
+            cdouble IMath<cdouble>.MinUnit { get; } = -1d;
+            cdouble IMath<cdouble>.MinValue => MinValue;
+            cdouble IMath<cdouble>.One { get; } = 1d;
+            cdouble IMath<cdouble>.Zero { get; } = 0d;
             cdouble IMath<cdouble>.E { get; } = Math.E;
             cdouble IMath<cdouble>.PI { get; } = Math.PI;
             cdouble IMath<cdouble>.Tau { get; } = Math.PI * 2d;

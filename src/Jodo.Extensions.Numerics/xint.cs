@@ -125,7 +125,6 @@ namespace Jodo.Extensions.Numerics
         xint INumeric<xint>.Subtract(xint value) => this - value;
 
         IBitConverter<xint> IBitConvertible<xint>.BitConverter => Utilities.Instance;
-        IConstants<xint> INumeric<xint>.Constants => Utilities.Instance;
         IConvert<xint> IConvertible<xint>.Convert => Utilities.Instance;
         IMath<xint> INumeric<xint>.Math => Utilities.Instance;
         IRandom<xint> IRandomisable<xint>.Random => Utilities.Instance;
@@ -133,7 +132,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xint>,
-            IConstants<xint>,
             IConvert<xint>,
             IMath<xint>,
             IRandom<xint>,
@@ -141,15 +139,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xint>.IsReal { get; } = false;
-            bool IConstants<xint>.IsSigned { get; } = true;
-            xint IConstants<xint>.Epsilon { get; } = 1;
-            xint IConstants<xint>.MaxUnit { get; } = 1;
-            xint IConstants<xint>.MaxValue => MaxValue;
-            xint IConstants<xint>.MinUnit { get; } = -1;
-            xint IConstants<xint>.MinValue => MinValue;
-            xint IConstants<xint>.One { get; } = 1;
-            xint IConstants<xint>.Zero { get; } = 0;
+            bool IMath<xint>.IsReal { get; } = false;
+            bool IMath<xint>.IsSigned { get; } = true;
+            xint IMath<xint>.Epsilon { get; } = 1;
+            xint IMath<xint>.MaxUnit { get; } = 1;
+            xint IMath<xint>.MaxValue => MaxValue;
+            xint IMath<xint>.MinUnit { get; } = -1;
+            xint IMath<xint>.MinValue => MinValue;
+            xint IMath<xint>.One { get; } = 1;
+            xint IMath<xint>.Zero { get; } = 0;
             xint IMath<xint>.E { get; } = 2;
             xint IMath<xint>.PI { get; } = 3;
             xint IMath<xint>.Tau { get; } = 6;

@@ -24,13 +24,13 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
     public static class StringParserTests
     {
         public class CDouble : StringParserTestsBase<cdouble> { }
-        public class CFix64 : StringParserTestsBase<cfix64> { }
+        //public class CFix64 : StringParserTestsBase<cfix64> { }
         public class CFloat : StringParserTestsBase<cfloat> { }
         public class CInt : StringParserTestsBase<cint> { }
         public class CLong : StringParserTestsBase<clong> { }
         public class CSByte : StringParserTestsBase<csbyte> { }
         public class CShort : StringParserTestsBase<cshort> { }
-        public class CUFix64 : StringParserTestsBase<cufix64> { }
+        //public class CUFix64 : StringParserTestsBase<cufix64> { }
         public class CUInt : StringParserTestsBase<cuint> { }
     }
 }

@@ -125,7 +125,6 @@ namespace Jodo.Extensions.Numerics
         xsbyte INumeric<xsbyte>.Subtract(xsbyte value) => this - value;
 
         IBitConverter<xsbyte> IBitConvertible<xsbyte>.BitConverter => Utilities.Instance;
-        IConstants<xsbyte> INumeric<xsbyte>.Constants => Utilities.Instance;
         IConvert<xsbyte> IConvertible<xsbyte>.Convert => Utilities.Instance;
         IMath<xsbyte> INumeric<xsbyte>.Math => Utilities.Instance;
         IRandom<xsbyte> IRandomisable<xsbyte>.Random => Utilities.Instance;
@@ -133,7 +132,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xsbyte>,
-            IConstants<xsbyte>,
             IConvert<xsbyte>,
             IMath<xsbyte>,
             IRandom<xsbyte>,
@@ -141,15 +139,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xsbyte>.IsReal { get; } = false;
-            bool IConstants<xsbyte>.IsSigned { get; } = true;
-            xsbyte IConstants<xsbyte>.Epsilon { get; } = 1;
-            xsbyte IConstants<xsbyte>.MaxUnit { get; } = 1;
-            xsbyte IConstants<xsbyte>.MaxValue => MaxValue;
-            xsbyte IConstants<xsbyte>.MinUnit { get; } = -1;
-            xsbyte IConstants<xsbyte>.MinValue => MinValue;
-            xsbyte IConstants<xsbyte>.One { get; } = 1;
-            xsbyte IConstants<xsbyte>.Zero { get; } = 0;
+            bool IMath<xsbyte>.IsReal { get; } = false;
+            bool IMath<xsbyte>.IsSigned { get; } = true;
+            xsbyte IMath<xsbyte>.Epsilon { get; } = 1;
+            xsbyte IMath<xsbyte>.MaxUnit { get; } = 1;
+            xsbyte IMath<xsbyte>.MaxValue => MaxValue;
+            xsbyte IMath<xsbyte>.MinUnit { get; } = -1;
+            xsbyte IMath<xsbyte>.MinValue => MinValue;
+            xsbyte IMath<xsbyte>.One { get; } = 1;
+            xsbyte IMath<xsbyte>.Zero { get; } = 0;
             xsbyte IMath<xsbyte>.E { get; } = 2;
             xsbyte IMath<xsbyte>.PI { get; } = 3;
             xsbyte IMath<xsbyte>.Tau { get; } = 6;

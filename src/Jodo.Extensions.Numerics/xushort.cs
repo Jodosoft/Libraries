@@ -125,7 +125,6 @@ namespace Jodo.Extensions.Numerics
         xushort INumeric<xushort>.Subtract(xushort value) => this - value;
 
         IBitConverter<xushort> IBitConvertible<xushort>.BitConverter => Utilities.Instance;
-        IConstants<xushort> INumeric<xushort>.Constants => Utilities.Instance;
         IConvert<xushort> IConvertible<xushort>.Convert => Utilities.Instance;
         IMath<xushort> INumeric<xushort>.Math => Utilities.Instance;
         IRandom<xushort> IRandomisable<xushort>.Random => Utilities.Instance;
@@ -133,7 +132,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xushort>,
-            IConstants<xushort>,
             IConvert<xushort>,
             IMath<xushort>,
             IRandom<xushort>,
@@ -141,15 +139,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xushort>.IsReal { get; } = false;
-            bool IConstants<xushort>.IsSigned { get; } = false;
-            xushort IConstants<xushort>.Epsilon { get; } = (ushort)1;
-            xushort IConstants<xushort>.MaxUnit { get; } = (ushort)1;
-            xushort IConstants<xushort>.MaxValue => MaxValue;
-            xushort IConstants<xushort>.MinUnit { get; } = (ushort)0;
-            xushort IConstants<xushort>.MinValue => MinValue;
-            xushort IConstants<xushort>.One { get; } = (ushort)1;
-            xushort IConstants<xushort>.Zero { get; } = (ushort)0;
+            bool IMath<xushort>.IsReal { get; } = false;
+            bool IMath<xushort>.IsSigned { get; } = false;
+            xushort IMath<xushort>.Epsilon { get; } = (ushort)1;
+            xushort IMath<xushort>.MaxUnit { get; } = (ushort)1;
+            xushort IMath<xushort>.MaxValue => MaxValue;
+            xushort IMath<xushort>.MinUnit { get; } = (ushort)0;
+            xushort IMath<xushort>.MinValue => MinValue;
+            xushort IMath<xushort>.One { get; } = (ushort)1;
+            xushort IMath<xushort>.Zero { get; } = (ushort)0;
             xushort IMath<xushort>.E { get; } = (ushort)2;
             xushort IMath<xushort>.PI { get; } = (ushort)3;
             xushort IMath<xushort>.Tau { get; } = (ushort)6;

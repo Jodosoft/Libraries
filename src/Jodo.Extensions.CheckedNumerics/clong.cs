@@ -126,7 +126,6 @@ namespace Jodo.Extensions.CheckedNumerics
         clong INumeric<clong>.Subtract(clong value) => this - value;
 
         IBitConverter<clong> IBitConvertible<clong>.BitConverter => Utilities.Instance;
-        IConstants<clong> INumeric<clong>.Constants => Utilities.Instance;
         IConvert<clong> IConvertible<clong>.Convert => Utilities.Instance;
         IMath<clong> INumeric<clong>.Math => Utilities.Instance;
         IRandom<clong> IRandomisable<clong>.Random => Utilities.Instance;
@@ -134,7 +133,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<clong>,
-            IConstants<clong>,
             IConvert<clong>,
             IMath<clong>,
             IRandom<clong>,
@@ -142,18 +140,18 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<clong>.IsReal { get; } = false;
-            bool IConstants<clong>.IsSigned { get; } = true;
-            clong IConstants<clong>.Epsilon { get; } = 1L;
-            clong IConstants<clong>.MaxUnit { get; } = 1L;
-            clong IConstants<clong>.MaxValue => MaxValue;
-            clong IConstants<clong>.MinUnit { get; } = -1L;
-            clong IConstants<clong>.MinValue => MinValue;
-            clong IConstants<clong>.One { get; } = 1L;
-            clong IConstants<clong>.Zero { get; } = 0L;
+            bool IMath<clong>.IsReal { get; } = false;
+            bool IMath<clong>.IsSigned { get; } = true;
+            clong IMath<clong>.Epsilon { get; } = 1L;
+            clong IMath<clong>.MaxUnit { get; } = 1L;
+            clong IMath<clong>.MaxValue => MaxValue;
+            clong IMath<clong>.MinUnit { get; } = -1L;
+            clong IMath<clong>.MinValue => MinValue;
+            clong IMath<clong>.One { get; } = 1L;
+            clong IMath<clong>.Zero { get; } = 0L;
             clong IMath<clong>.E { get; } = 2L;
             clong IMath<clong>.PI { get; } = 3L;
-            clong IMath<clong>.Tau { get; } = 3L;
+            clong IMath<clong>.Tau { get; } = 6L;
 
             clong IMath<clong>.Abs(clong x) => Math.Abs(x);
             clong IMath<clong>.Acos(clong x) => (clong)Math.Acos(x);

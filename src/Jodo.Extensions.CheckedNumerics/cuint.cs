@@ -126,7 +126,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cuint INumeric<cuint>.Subtract(cuint value) => this - value;
 
         IBitConverter<cuint> IBitConvertible<cuint>.BitConverter => Utilities.Instance;
-        IConstants<cuint> INumeric<cuint>.Constants => Utilities.Instance;
         IConvert<cuint> IConvertible<cuint>.Convert => Utilities.Instance;
         IMath<cuint> INumeric<cuint>.Math => Utilities.Instance;
         IRandom<cuint> IRandomisable<cuint>.Random => Utilities.Instance;
@@ -134,7 +133,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cuint>,
-            IConstants<cuint>,
             IConvert<cuint>,
             IMath<cuint>,
             IRandom<cuint>,
@@ -142,18 +140,18 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<cuint>.IsReal { get; } = false;
-            bool IConstants<cuint>.IsSigned { get; } = false;
-            cuint IConstants<cuint>.Epsilon { get; } = 1;
-            cuint IConstants<cuint>.MaxUnit { get; } = 1;
-            cuint IConstants<cuint>.MaxValue => MaxValue;
-            cuint IConstants<cuint>.MinUnit { get; } = 0;
-            cuint IConstants<cuint>.MinValue => MinValue;
-            cuint IConstants<cuint>.One { get; } = 1;
-            cuint IConstants<cuint>.Zero { get; } = 0;
+            bool IMath<cuint>.IsReal { get; } = false;
+            bool IMath<cuint>.IsSigned { get; } = false;
+            cuint IMath<cuint>.Epsilon { get; } = 1;
+            cuint IMath<cuint>.MaxUnit { get; } = 1;
+            cuint IMath<cuint>.MaxValue => MaxValue;
+            cuint IMath<cuint>.MinUnit { get; } = 0;
+            cuint IMath<cuint>.MinValue => MinValue;
+            cuint IMath<cuint>.One { get; } = 1;
+            cuint IMath<cuint>.Zero { get; } = 0;
             cuint IMath<cuint>.E { get; } = 2;
             cuint IMath<cuint>.PI { get; } = 3;
-            cuint IMath<cuint>.Tau { get; } = 3;
+            cuint IMath<cuint>.Tau { get; } = 6;
 
             int IMath<cuint>.Sign(cuint x) => 1;
             cuint IMath<cuint>.Truncate(cuint x) => x;

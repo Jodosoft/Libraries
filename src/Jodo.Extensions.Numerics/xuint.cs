@@ -125,7 +125,6 @@ namespace Jodo.Extensions.Numerics
         xuint INumeric<xuint>.Subtract(xuint value) => this - value;
 
         IBitConverter<xuint> IBitConvertible<xuint>.BitConverter => Utilities.Instance;
-        IConstants<xuint> INumeric<xuint>.Constants => Utilities.Instance;
         IConvert<xuint> IConvertible<xuint>.Convert => Utilities.Instance;
         IMath<xuint> INumeric<xuint>.Math => Utilities.Instance;
         IRandom<xuint> IRandomisable<xuint>.Random => Utilities.Instance;
@@ -133,7 +132,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xuint>,
-            IConstants<xuint>,
             IConvert<xuint>,
             IMath<xuint>,
             IRandom<xuint>,
@@ -141,15 +139,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xuint>.IsReal { get; } = false;
-            bool IConstants<xuint>.IsSigned { get; } = false;
-            xuint IConstants<xuint>.Epsilon { get; } = (uint)1;
-            xuint IConstants<xuint>.MaxUnit { get; } = (uint)1;
-            xuint IConstants<xuint>.MaxValue => MaxValue;
-            xuint IConstants<xuint>.MinUnit { get; } = (uint)0;
-            xuint IConstants<xuint>.MinValue => MinValue;
-            xuint IConstants<xuint>.One { get; } = (uint)1;
-            xuint IConstants<xuint>.Zero { get; } = (uint)0;
+            bool IMath<xuint>.IsReal { get; } = false;
+            bool IMath<xuint>.IsSigned { get; } = false;
+            xuint IMath<xuint>.Epsilon { get; } = (uint)1;
+            xuint IMath<xuint>.MaxUnit { get; } = (uint)1;
+            xuint IMath<xuint>.MaxValue => MaxValue;
+            xuint IMath<xuint>.MinUnit { get; } = (uint)0;
+            xuint IMath<xuint>.MinValue => MinValue;
+            xuint IMath<xuint>.One { get; } = (uint)1;
+            xuint IMath<xuint>.Zero { get; } = (uint)0;
             xuint IMath<xuint>.E { get; } = (uint)2;
             xuint IMath<xuint>.PI { get; } = (uint)3;
             xuint IMath<xuint>.Tau { get; } = (uint)6;

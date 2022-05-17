@@ -126,7 +126,6 @@ namespace Jodo.Extensions.CheckedNumerics
         csbyte INumeric<csbyte>.Subtract(csbyte value) => this - value;
 
         IBitConverter<csbyte> IBitConvertible<csbyte>.BitConverter => Utilities.Instance;
-        IConstants<csbyte> INumeric<csbyte>.Constants => Utilities.Instance;
         IConvert<csbyte> IConvertible<csbyte>.Convert => Utilities.Instance;
         IMath<csbyte> INumeric<csbyte>.Math => Utilities.Instance;
         IRandom<csbyte> IRandomisable<csbyte>.Random => Utilities.Instance;
@@ -134,7 +133,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<csbyte>,
-            IConstants<csbyte>,
             IConvert<csbyte>,
             IMath<csbyte>,
             IRandom<csbyte>,
@@ -142,15 +140,15 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<csbyte>.IsReal { get; } = false;
-            bool IConstants<csbyte>.IsSigned { get; } = true;
-            csbyte IConstants<csbyte>.Epsilon { get; } = 1;
-            csbyte IConstants<csbyte>.MaxUnit { get; } = 1;
-            csbyte IConstants<csbyte>.MaxValue => MaxValue;
-            csbyte IConstants<csbyte>.MinUnit { get; } = -1;
-            csbyte IConstants<csbyte>.MinValue => MinValue;
-            csbyte IConstants<csbyte>.One { get; } = 1;
-            csbyte IConstants<csbyte>.Zero { get; } = 0;
+            bool IMath<csbyte>.IsReal { get; } = false;
+            bool IMath<csbyte>.IsSigned { get; } = true;
+            csbyte IMath<csbyte>.Epsilon { get; } = 1;
+            csbyte IMath<csbyte>.MaxUnit { get; } = 1;
+            csbyte IMath<csbyte>.MaxValue => MaxValue;
+            csbyte IMath<csbyte>.MinUnit { get; } = -1;
+            csbyte IMath<csbyte>.MinValue => MinValue;
+            csbyte IMath<csbyte>.One { get; } = 1;
+            csbyte IMath<csbyte>.Zero { get; } = 0;
             csbyte IMath<csbyte>.E { get; } = 2;
             csbyte IMath<csbyte>.PI { get; } = 3;
             csbyte IMath<csbyte>.Tau { get; } = 6;

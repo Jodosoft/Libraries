@@ -126,7 +126,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.Subtract(cint value) => this - value;
 
         IBitConverter<cint> IBitConvertible<cint>.BitConverter => Utilities.Instance;
-        IConstants<cint> INumeric<cint>.Constants => Utilities.Instance;
         IConvert<cint> IConvertible<cint>.Convert => Utilities.Instance;
         IMath<cint> INumeric<cint>.Math => Utilities.Instance;
         IRandom<cint> IRandomisable<cint>.Random => Utilities.Instance;
@@ -134,7 +133,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cint>,
-            IConstants<cint>,
             IConvert<cint>,
             IMath<cint>,
             IRandom<cint>,
@@ -142,18 +140,18 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<cint>.IsReal { get; } = false;
-            bool IConstants<cint>.IsSigned { get; } = true;
-            cint IConstants<cint>.Epsilon { get; } = 1;
-            cint IConstants<cint>.MaxUnit { get; } = 1;
-            cint IConstants<cint>.MaxValue => MaxValue;
-            cint IConstants<cint>.MinUnit { get; } = -1;
-            cint IConstants<cint>.MinValue => MinValue;
-            cint IConstants<cint>.One { get; } = 1;
-            cint IConstants<cint>.Zero { get; } = 0;
+            bool IMath<cint>.IsReal { get; } = false;
+            bool IMath<cint>.IsSigned { get; } = true;
+            cint IMath<cint>.Epsilon { get; } = 1;
+            cint IMath<cint>.MaxUnit { get; } = 1;
+            cint IMath<cint>.MaxValue => MaxValue;
+            cint IMath<cint>.MinUnit { get; } = -1;
+            cint IMath<cint>.MinValue => MinValue;
+            cint IMath<cint>.One { get; } = 1;
+            cint IMath<cint>.Zero { get; } = 0;
             cint IMath<cint>.E { get; } = 2;
             cint IMath<cint>.PI { get; } = 3;
-            cint IMath<cint>.Tau { get; } = 3;
+            cint IMath<cint>.Tau { get; } = 6;
 
             cint IMath<cint>.Abs(cint x) => Math.Abs(x._value);
             cint IMath<cint>.Acos(cint x) => (cint)Math.Acos(x._value);

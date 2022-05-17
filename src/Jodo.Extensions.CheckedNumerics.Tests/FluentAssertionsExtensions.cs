@@ -39,7 +39,7 @@ namespace FluentAssertions
             }
             else if (double.IsPositiveInfinity(expected))
             {
-                var expectedValue = Constants<T>.MaxValue.ToDouble();
+                var expectedValue = Math<T>.MaxValue.ToDouble();
                 Execute.Assertion
                   .ForCondition(actual == expectedValue)
                   .BecauseOf(because, becauseArgs)
@@ -47,36 +47,36 @@ namespace FluentAssertions
             }
             else if (double.IsNegativeInfinity(expected))
             {
-                var expectedValue = Constants<T>.MinValue.ToDouble();
+                var expectedValue = Math<T>.MinValue.ToDouble();
                 Execute.Assertion
                   .ForCondition(actual == expectedValue)
                   .BecauseOf(because, becauseArgs)
                   .FailWith("Expected {context:value} to be 0 (MinValue equivalent to NegativeInfinity){reason}, but it was {1}.", expectedValue, actual);
             }
-            else if (expected < 0 && !Constants<T>.IsSigned)
+            else if (expected < 0 && !Math<T>.IsSigned)
             {
                 Execute.Assertion
                     .ForCondition(actual == 0)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be 0 (unsigned equivalent to {0}){reason}, but it was {1}.", expected, actual);
             }
-            else if (expected > Constants<T>.MaxValue.ToDouble())
+            else if (expected > Math<T>.MaxValue.ToDouble())
             {
-                var expectedValue = Constants<T>.MaxValue.ToDouble();
+                var expectedValue = Math<T>.MaxValue.ToDouble();
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0} (checked/clamped version of {1}){reason}, but it was {2}.", expectedValue, expected, actual);
             }
-            else if (expected < Constants<T>.MinValue.ToDouble())
+            else if (expected < Math<T>.MinValue.ToDouble())
             {
-                var expectedValue = Constants<T>.MinValue.ToDouble();
+                var expectedValue = Math<T>.MinValue.ToDouble();
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0} (checked/clamped version of {1}){reason}, but it was {2}.", expectedValue, expected, actual);
             }
-            else if (!Constants<T>.IsReal)
+            else if (!Math<T>.IsReal)
             {
                 var expectedValue = Math.Truncate(expected);
                 Execute.Assertion

@@ -125,7 +125,6 @@ namespace Jodo.Extensions.Numerics
         xbyte INumeric<xbyte>.Subtract(xbyte value) => this - value;
 
         IBitConverter<xbyte> IBitConvertible<xbyte>.BitConverter => Utilities.Instance;
-        IConstants<xbyte> INumeric<xbyte>.Constants => Utilities.Instance;
         IConvert<xbyte> IConvertible<xbyte>.Convert => Utilities.Instance;
         IMath<xbyte> INumeric<xbyte>.Math => Utilities.Instance;
         IRandom<xbyte> IRandomisable<xbyte>.Random => Utilities.Instance;
@@ -133,7 +132,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xbyte>,
-            IConstants<xbyte>,
             IConvert<xbyte>,
             IMath<xbyte>,
             IRandom<xbyte>,
@@ -141,15 +139,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xbyte>.IsReal { get; } = false;
-            bool IConstants<xbyte>.IsSigned { get; } = false;
-            xbyte IConstants<xbyte>.Epsilon { get; } = 1;
-            xbyte IConstants<xbyte>.MaxUnit { get; } = 1;
-            xbyte IConstants<xbyte>.MaxValue => MaxValue;
-            xbyte IConstants<xbyte>.MinUnit { get; } = 0;
-            xbyte IConstants<xbyte>.MinValue => MinValue;
-            xbyte IConstants<xbyte>.One { get; } = 1;
-            xbyte IConstants<xbyte>.Zero { get; } = 0;
+            bool IMath<xbyte>.IsReal { get; } = false;
+            bool IMath<xbyte>.IsSigned { get; } = false;
+            xbyte IMath<xbyte>.Epsilon { get; } = 1;
+            xbyte IMath<xbyte>.MaxUnit { get; } = 1;
+            xbyte IMath<xbyte>.MaxValue => MaxValue;
+            xbyte IMath<xbyte>.MinUnit { get; } = 0;
+            xbyte IMath<xbyte>.MinValue => MinValue;
+            xbyte IMath<xbyte>.One { get; } = 1;
+            xbyte IMath<xbyte>.Zero { get; } = 0;
             xbyte IMath<xbyte>.E { get; } = 2;
             xbyte IMath<xbyte>.PI { get; } = 3;
             xbyte IMath<xbyte>.Tau { get; } = 6;

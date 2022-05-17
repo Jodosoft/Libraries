@@ -129,7 +129,6 @@ namespace Jodo.Extensions.CheckedNumerics
         cufix64 INumeric<cufix64>.Subtract(cufix64 value) => this - value;
 
         IBitConverter<cufix64> IBitConvertible<cufix64>.BitConverter => Utilities.Instance;
-        IConstants<cufix64> INumeric<cufix64>.Constants => Utilities.Instance;
         IConvert<cufix64> IConvertible<cufix64>.Convert => Utilities.Instance;
         IMath<cufix64> INumeric<cufix64>.Math => Utilities.Instance;
         IRandom<cufix64> IRandomisable<cufix64>.Random => Utilities.Instance;
@@ -137,7 +136,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cufix64>,
-            IConstants<cufix64>,
             IConvert<cufix64>,
             IMath<cufix64>,
             IRandom<cufix64>,
@@ -145,15 +143,15 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<cufix64>.IsReal { get; } = true;
-            bool IConstants<cufix64>.IsSigned { get; } = false;
-            cufix64 IConstants<cufix64>.Epsilon { get; } = new cufix64(1);
-            cufix64 IConstants<cufix64>.MaxUnit { get; } = new cufix64(ScalingFactor);
-            cufix64 IConstants<cufix64>.MaxValue => MaxValue;
-            cufix64 IConstants<cufix64>.MinUnit { get; } = 0;
-            cufix64 IConstants<cufix64>.MinValue => MinValue;
-            cufix64 IConstants<cufix64>.One { get; } = new cufix64(ScalingFactor);
-            cufix64 IConstants<cufix64>.Zero { get; } = 0;
+            bool IMath<cufix64>.IsReal { get; } = true;
+            bool IMath<cufix64>.IsSigned { get; } = false;
+            cufix64 IMath<cufix64>.Epsilon { get; } = new cufix64(1);
+            cufix64 IMath<cufix64>.MaxUnit { get; } = new cufix64(ScalingFactor);
+            cufix64 IMath<cufix64>.MaxValue => MaxValue;
+            cufix64 IMath<cufix64>.MinUnit { get; } = 0;
+            cufix64 IMath<cufix64>.MinValue => MinValue;
+            cufix64 IMath<cufix64>.One { get; } = new cufix64(ScalingFactor);
+            cufix64 IMath<cufix64>.Zero { get; } = 0;
             cufix64 IMath<cufix64>.E { get; } = (cufix64)Math.E;
             cufix64 IMath<cufix64>.PI { get; } = (cufix64)Math.PI;
             cufix64 IMath<cufix64>.Tau { get; } = (cufix64)(Math.PI * 2d);

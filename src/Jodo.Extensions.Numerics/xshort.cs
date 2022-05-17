@@ -125,7 +125,6 @@ namespace Jodo.Extensions.Numerics
         xshort INumeric<xshort>.Subtract(xshort value) => this - value;
 
         IBitConverter<xshort> IBitConvertible<xshort>.BitConverter => Utilities.Instance;
-        IConstants<xshort> INumeric<xshort>.Constants => Utilities.Instance;
         IConvert<xshort> IConvertible<xshort>.Convert => Utilities.Instance;
         IMath<xshort> INumeric<xshort>.Math => Utilities.Instance;
         IRandom<xshort> IRandomisable<xshort>.Random => Utilities.Instance;
@@ -133,7 +132,6 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xshort>,
-            IConstants<xshort>,
             IConvert<xshort>,
             IMath<xshort>,
             IRandom<xshort>,
@@ -141,15 +139,15 @@ namespace Jodo.Extensions.Numerics
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IConstants<xshort>.IsReal { get; } = false;
-            bool IConstants<xshort>.IsSigned { get; } = true;
-            xshort IConstants<xshort>.Epsilon { get; } = (short)1;
-            xshort IConstants<xshort>.MaxUnit { get; } = (short)1;
-            xshort IConstants<xshort>.MaxValue => MaxValue;
-            xshort IConstants<xshort>.MinUnit { get; } = (short)-1;
-            xshort IConstants<xshort>.MinValue => MinValue;
-            xshort IConstants<xshort>.One { get; } = (short)1;
-            xshort IConstants<xshort>.Zero { get; } = (short)0;
+            bool IMath<xshort>.IsReal { get; } = false;
+            bool IMath<xshort>.IsSigned { get; } = true;
+            xshort IMath<xshort>.Epsilon { get; } = (short)1;
+            xshort IMath<xshort>.MaxUnit { get; } = (short)1;
+            xshort IMath<xshort>.MaxValue => MaxValue;
+            xshort IMath<xshort>.MinUnit { get; } = (short)-1;
+            xshort IMath<xshort>.MinValue => MinValue;
+            xshort IMath<xshort>.One { get; } = (short)1;
+            xshort IMath<xshort>.Zero { get; } = (short)0;
             xshort IMath<xshort>.E { get; } = (short)2;
             xshort IMath<xshort>.PI { get; } = (short)3;
             xshort IMath<xshort>.Tau { get; } = (short)6;
