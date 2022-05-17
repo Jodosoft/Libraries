@@ -27,22 +27,22 @@ namespace Jodo.Extensions.Numerics.Tests
     {
         protected void IntegralOnly()
         {
-            if (Math<T>.IsReal) Assert.Inconclusive($"This test is N/A because {typeof(T).Name} is not an integral type.");
+            if (Math<T>.IsReal) Assert.Pass($"This test is N/A because {typeof(T).Name} is not an integral type.");
         }
 
         protected void RealOnly()
         {
-            if (!Math<T>.IsReal) Assert.Inconclusive($"This test is N/A because {typeof(T).Name} is not real type.");
+            if (!Math<T>.IsReal) Assert.Pass($"This test is N/A because {typeof(T).Name} is not real type.");
         }
 
         protected void SignedOnly()
         {
-            if (!Math<T>.IsSigned) Assert.Inconclusive($"This test is N/A because {typeof(T).Name} is not signed type.");
+            if (!Math<T>.IsSigned) Assert.Pass($"This test is N/A because {typeof(T).Name} is not signed type.");
         }
 
         protected void UnsignedOnly()
         {
-            if (Math<T>.IsSigned) Assert.Inconclusive($"This test is N/A because {typeof(T).Name} is not unsigned type.");
+            if (Math<T>.IsSigned) Assert.Pass($"This test is N/A because {typeof(T).Name} is not unsigned type.");
         }
 
         protected T NextSmallNumeric()
