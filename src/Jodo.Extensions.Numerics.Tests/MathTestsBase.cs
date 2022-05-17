@@ -855,7 +855,6 @@ namespace Jodo.Extensions.Numerics.Tests
             //arrange
             RealOnly();
             var input = Random.NextNumeric<N>();
-            var expected = Math.Round(input.ToDouble());
 
             //act
             var result = Math<N>.Round(input);
