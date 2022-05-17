@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <Choose>
@@ -45,8 +47,6 @@
         <Authors>Joseph J. Short</Authors>
         <Company>Joseph J. Short</Company>
         <Copyright>Copyright © Joseph J. Short 2022</Copyright>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <EnablePackageValidation>true</EnablePackageValidation>
         <FileVersion>0.0.1</FileVersion>
