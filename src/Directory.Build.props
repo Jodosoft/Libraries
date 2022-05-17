@@ -51,6 +51,7 @@
         <EnablePackageValidation>true</EnablePackageValidation>
         <FileVersion>0.0.1</FileVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IncludeSymbols>true</IncludeSymbols>
         <MinClientVersion>2.12</MinClientVersion>
         <NeutralLanguage>en-GB</NeutralLanguage>
         <Nullable>enable</Nullable>
@@ -63,6 +64,7 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/JosephJShort/Jodo.Extensions.git</RepositoryUrl>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <TargetFramework>netstandard2.1</TargetFramework>
         <VersionPrefix>1.0.0</VersionPrefix>
         <VersionSuffix>preview2</VersionSuffix>
