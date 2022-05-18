@@ -7,11 +7,6 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
-    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <RestoreLockedMode>true</RestoreLockedMode>
-  </PropertyGroup>
-
   <Choose>
     <When Condition="$(MSBuildProjectName.EndsWith('Benchmarks'))">
       <ItemGroup>

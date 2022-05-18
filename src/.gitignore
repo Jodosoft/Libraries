@@ -6,4 +6,3 @@ obj/
 *cobertura.xml
 *.trx
 TestResults/
-*packages.lock.json

@@ -8,9 +8,8 @@
     <RootNamespace>Jodo.Extensions.Primitives</RootNamespace>
     <Description>Reusable types and utilities used by other Jodo.Extensions packages.
 
-      Commonly Used Types:
-      Jodo.Extensions.Primitives.BitConverter&lt;N&gt;
-    </Description>
+Commonly Used Types:
+Jodo.Extensions.Primitives.BitConverter&lt;N&gt;</Description>
     <Title>Jodo.Extensions.Primitives</Title>
   </PropertyGroup>  
   
