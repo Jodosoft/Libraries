@@ -91,6 +91,33 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [TestRepeatedly]
+            public void CompareTo1_NullNullable_Returns1()
+            {
+                //arrange
+                var input = Random.NextNumeric<N>();
+                var other = (N?)null;
+
+                //act
+                var result = input.CompareTo(other);
+
+                //assert
+                result.Should().Be(1);
+            }
+
+            [TestRepeatedly]
+            public void CompareTo1_DifferentType_Returns1()
+            {
+                //arrange
+                var input = Random.NextNumeric<N>();
+
+                //act
+                var result = input.CompareTo(this);
+
+                //assert
+                result.Should().Be(1);
+            }
+
+            [TestRepeatedly]
             public void GetHashCode_SameValue_SameResult()
             {
                 //arrange

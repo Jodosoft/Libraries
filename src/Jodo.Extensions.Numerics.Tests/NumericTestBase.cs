@@ -25,7 +25,7 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public abstract class NumericTestBase<N> : GlobalTestBase where N : struct, INumeric<N>
     {
-        public const double MaxTestableReal = 1_000_000d;
+        public const double MaxTestableReal = 100_000d;
 
         protected void IntegralOnly()
         {
