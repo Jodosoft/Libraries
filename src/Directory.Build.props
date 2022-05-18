@@ -7,6 +7,11 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode>true</RestoreLockedMode>
+  </PropertyGroup>
+
   <Choose>
     <When Condition="$(MSBuildProjectName.EndsWith('Benchmarks'))">
       <ItemGroup>
@@ -42,7 +47,7 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
       </PropertyGroup>
-      <PropertyGroup Condition=" '$(Configuration)' != 'Debug'">
+      <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <Authors>Joseph J. Short</Authors>
         <Company>Joseph J. Short</Company>
