@@ -17,10 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Benchmarking;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+
+[assembly: ExcludeFromCodeCoverage]
 
 namespace Jodo.Extensions.Benchmarking
 {
@@ -28,7 +30,7 @@ namespace Jodo.Extensions.Benchmarking
     {
 
 #if DEBUG
-        public static This_compile_prevents_benchmarks_being_built_in_debug _;
+        public static This_prevents_benchmarks_being_built_in_debug _;
 #endif
 
         public static void Main(string[] args)

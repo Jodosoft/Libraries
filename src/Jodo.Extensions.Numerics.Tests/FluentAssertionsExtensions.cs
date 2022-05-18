@@ -51,5 +51,17 @@ namespace FluentAssertions
 
             return new AndConstraint<ComparableTypeAssertions<T>>(parent);
         }
+
+        public static AndConstraint<ComparableTypeAssertions<T>> BeApproximately<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        {
+            var actualValue = Math.Round(((T)parent.Subject).ToDouble(), 3);
+            var expectedValue = Math.Round(expected.ToDouble(), 3);
+            Execute.Assertion
+                .ForCondition(actualValue == expectedValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1}.", expected, actualValue);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+        }
     }
 }

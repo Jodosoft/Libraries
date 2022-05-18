@@ -17,20 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives.Tests;
+using Jodo.Extensions.Numerics;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public static class ConvertTests
     {
-        public class CDouble : ConvertTestsBase<cdouble> { }
-        public class CFix64 : ConvertTestsBase<cfix64> { }
-        public class CFloat : ConvertTestsBase<cfloat> { }
-        public class CInt : ConvertTestsBase<cint> { }
-        public class CLong : ConvertTestsBase<clong> { }
-        public class CSByte : ConvertTestsBase<csbyte> { }
-        public class CShort : ConvertTestsBase<cshort> { }
-        public class CUFix64 : ConvertTestsBase<cufix64> { }
-        public class CUInt : ConvertTestsBase<cuint> { }
+        public class CDouble : Base<cdouble> { }
+        //public class CFix64 : Base<cfix64> { }
+        public class CFloat : Base<cfloat> { }
+        public class CInt : Base<cint> { }
+        public class CLong : Base<clong> { }
+        public class CSByte : Base<csbyte> { }
+        public class CShort : Base<cshort> { }
+        //public class CUFix64 : Base<cufix64> { }
+        public class CUInt : Base<cuint> { }
+
+        public abstract class Base<T> : Numerics.Tests.ConvertTests.Base<T> where T : struct, INumeric<T>
+        {
+
+        }
     }
 }

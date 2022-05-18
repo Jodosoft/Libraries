@@ -44,7 +44,7 @@ namespace Jodo.Extensions.Numerics
             _value = value;
         }
 
-        private xfloat(SerializationInfo info, StreamingContext context) : this(info.GetInt64(nameof(xfloat))) { }
+        private xfloat(SerializationInfo info, StreamingContext context) : this(info.GetSingle(nameof(xfloat))) { }
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(xfloat), _value);
 
         public int CompareTo(xfloat other) => _value.CompareTo(other._value);

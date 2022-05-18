@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Numerics.Tests;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
@@ -34,7 +33,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         //public class CUFix64 : Base<cufix64> { }
         public class CUInt : Base<cuint> { }
 
-        public abstract class Base<T> : MathTestsBase<T> where T : struct, INumeric<T>
+        public abstract class Base<T> : Numerics.Tests.MathTests.Base<T> where T : struct, INumeric<T>
         {
 
         }

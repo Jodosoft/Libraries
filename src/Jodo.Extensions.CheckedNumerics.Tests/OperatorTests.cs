@@ -17,17 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using FluentAssertions;
 using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Testing;
-using NUnit.Framework;
-using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public static class SerializationTests
+    public static class OperatorTests
     {
         public class CDouble : Base<cdouble> { }
         public class CFix64 : Base<cfix64> { }
@@ -39,24 +33,9 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class CUFix64 : Base<cufix64> { }
         public class CUInt : Base<cuint> { }
 
-        public abstract class Base<T> : GlobalTestBase where T : struct, INumeric<T>
+        public abstract class Base<T> : Numerics.Tests.OperatorTests.Base<T> where T : struct, INumeric<T>
         {
-            [TestCase]
-            public void Serialize_RoundTrip_SameAsOriginal()
-            {
-                //arrange
-                var input = Random.NextNumeric<T>();
-                var formatter = new BinaryFormatter();
 
-                //act
-                using var stream = new MemoryStream();
-                formatter.Serialize(stream, input);
-                stream.Position = 0;
-                var result = (T)formatter.Deserialize(stream);
-
-                //assert
-                result.Should().Be(input);
-            }
         }
     }
 }

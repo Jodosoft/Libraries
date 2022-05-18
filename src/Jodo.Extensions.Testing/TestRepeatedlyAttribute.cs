@@ -17,20 +17,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics.Tests;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Testing
 {
-    public static class NumericOperatorTests
+    public class TestRepeatedlyAttribute : TestAttribute, ITestBuilder
     {
-        public class CDouble : NumericOperatorTestsBase<cdouble> { }
-        public class CFix64 : NumericOperatorTestsBase<cfix64> { }
-        public class CFloat : NumericOperatorTestsBase<cfloat> { }
-        public class CInt : NumericOperatorTestsBase<cint> { }
-        public class CLong : NumericOperatorTestsBase<clong> { }
-        public class CSByte : NumericOperatorTestsBase<csbyte> { }
-        public class CShort : NumericOperatorTestsBase<cshort> { }
-        public class CUFix64 : NumericOperatorTestsBase<cufix64> { }
-        public class CUInt : NumericOperatorTestsBase<cuint> { }
+        public byte Repetitions { get; set; } = 7;
+
+        public new IEnumerable<TestMethod> BuildFrom(IMethodInfo method, Test suite)
+        {
+            var testMethod = base.BuildFrom(method, suite);
+
+            return Enumerable.Range(0, Repetitions + 1).Select(_ => testMethod);
+        }
     }
 }

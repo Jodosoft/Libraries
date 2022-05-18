@@ -204,7 +204,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IConvert<cfix64>.ToBoolean(cfix64 value) => value._scaledValue != 0;
             byte IConvert<cfix64>.ToByte(cfix64 value) => CheckedConvert.ToByte(value._scaledValue / ScalingFactor);
-            char IConvert<cfix64>.ToChar(cfix64 value) => CheckedConvert.ToChar(value._scaledValue / ScalingFactor);
+            char IConvert<cfix64>.ToChar(cfix64 value) => throw new InvalidCastException($"Invalid cast from '{nameof(cfix64)}' to 'Char'.");
             decimal IConvert<cfix64>.ToDecimal(cfix64 value) => (decimal)value._scaledValue / ScalingFactor;
             double IConvert<cfix64>.ToDouble(cfix64 value) => (double)value._scaledValue / ScalingFactor;
             float IConvert<cfix64>.ToSingle(cfix64 value) => (float)value._scaledValue / ScalingFactor;
@@ -219,20 +219,20 @@ namespace Jodo.Extensions.CheckedNumerics
             ushort IConvert<cfix64>.ToUInt16(cfix64 value) => CheckedConvert.ToUInt16(value._scaledValue / ScalingFactor);
 
             cfix64 IConvert<cfix64>.ToValue(bool value) => value ? ScalingFactor : 0;
-            cfix64 IConvert<cfix64>.ToValue(byte value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(char value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(decimal value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(double value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(float value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(int value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(long value) => value;
-            cfix64 IConvert<cfix64>.ToValue(sbyte value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(short value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(string value) => Convert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(byte value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(char value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(decimal value) => (cfix64)value;
+            cfix64 IConvert<cfix64>.ToValue(double value) => (cfix64)value;
+            cfix64 IConvert<cfix64>.ToValue(float value) => value;
+            cfix64 IConvert<cfix64>.ToValue(int value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(long value) => (cfix64)value;
+            cfix64 IConvert<cfix64>.ToValue(sbyte value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(short value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(string value) => (cfix64)Convert.ToInt64(value);
             cfix64 IConvert<cfix64>.ToValue(string value, IFormatProvider provider) => Convert.ToInt64(value, provider);
-            cfix64 IConvert<cfix64>.ToValue(uint value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(ulong value) => CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(ushort value) => CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(uint value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(ulong value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(ushort value) => (cfix64)CheckedConvert.ToInt64(value);
         }
     }
 }

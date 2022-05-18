@@ -17,20 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Extensions.Numerics.Tests
+using Jodo.Extensions.Numerics;
+
+namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public static class NumericOperatorTests
+    public static class NumericTests
     {
-        public class XByte : NumericOperatorTestsBase<xbyte> { }
-        public class XDecimal : NumericOperatorTestsBase<xdecimal> { }
-        public class XDouble : NumericOperatorTestsBase<xdouble> { }
-        public class XFloat : NumericOperatorTestsBase<xfloat> { }
-        public class XInt : NumericOperatorTestsBase<xint> { }
-        public class XLong : NumericOperatorTestsBase<xlong> { }
-        public class XSByte : NumericOperatorTestsBase<xsbyte> { }
-        public class XShort : NumericOperatorTestsBase<xshort> { }
-        public class XUInt : NumericOperatorTestsBase<xuint> { }
-        public class XULong : NumericOperatorTestsBase<xulong> { }
-        public class XUShort : NumericOperatorTestsBase<xushort> { }
+        public class CDouble : Base<cdouble> { }
+        public class CFix64 : Base<cfix64> { }
+        public class CFloat : Base<cfloat> { }
+        public class CInt : Base<cint> { }
+        public class CLong : Base<clong> { }
+        public class CSByte : Base<csbyte> { }
+        public class CShort : Base<cshort> { }
+        public class CUFix64 : Base<cufix64> { }
+        public class CUInt : Base<cuint> { }
+
+        public abstract class Base<T> : Numerics.Tests.NumericTests.Base<T> where T : struct, INumeric<T>
+        {
+
+        }
     }
 }

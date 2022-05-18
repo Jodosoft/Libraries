@@ -30,14 +30,17 @@ namespace System
         public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
             => default(N).Random.Next(random, bound1, bound2);
 
-        public static N NextNumeric<N>(this Random random, byte bound1, byte bound2) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, Convert<N>.ToValue(bound1), Convert<N>.ToValue(bound2));
-
         public static N NextNumeric<N>(this Random random, double bound1, double bound2) where N : struct, INumeric<N>
         {
-            bound1 = Math.Clamp(bound1, Math<N>.MinValue.ToDouble(), Math<N>.MaxValue.ToDouble());
-            bound2 = Math.Clamp(bound2, Math<N>.MinValue.ToDouble(), Math<N>.MaxValue.ToDouble());
-            return random.NextNumeric(Convert<N>.ToValue(bound1), Convert<N>.ToValue(bound2));
+            N minBound;
+            try { minBound = Convert<N>.ToValue(Math.Min(bound1, bound2)); }
+            catch (OverflowException) { minBound = Math<N>.MinValue; }
+
+            N maxBound;
+            try { maxBound = Convert<N>.ToValue(Math.Max(bound1, bound2)); }
+            catch (OverflowException) { maxBound = Math<N>.MaxValue; }
+
+            return random.NextNumeric(minBound, maxBound);
         }
     }
 }

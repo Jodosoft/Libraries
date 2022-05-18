@@ -23,48 +23,50 @@ using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
-    public abstract class NumericTestBase<T> : GlobalTestBase where T : struct, INumeric<T>
+    public abstract class NumericTestBase<N> : GlobalTestBase where N : struct, INumeric<N>
     {
+        public const double MaxTestableReal = 1_000_000d;
+
         protected void IntegralOnly()
         {
-            if (Math<T>.IsReal) Assert.Pass($"This test is N/A because {typeof(T).Name} is not an integral type.");
+            if (Math<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an integral type.");
         }
 
         protected void RealOnly()
         {
-            if (!Math<T>.IsReal) Assert.Pass($"This test is N/A because {typeof(T).Name} is not real type.");
+            if (!Math<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not real type.");
         }
 
         protected void SignedOnly()
         {
-            if (!Math<T>.IsSigned) Assert.Pass($"This test is N/A because {typeof(T).Name} is not signed type.");
+            if (!Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not signed type.");
         }
 
         protected void UnsignedOnly()
         {
-            if (Math<T>.IsSigned) Assert.Pass($"This test is N/A because {typeof(T).Name} is not unsigned type.");
+            if (Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not unsigned type.");
         }
 
-        protected T NextSmallNumeric()
+        protected N NextSmallNumeric()
         {
-            T result = Random.NextNumeric<T>(0, 20);
+            N result = Random.NextNumeric<N>(0, 20);
 
-            if (Math<T>.IsSigned && Random.NextBoolean())
+            if (Math<N>.IsSigned && Random.NextBoolean())
             {
                 result = -result;
             }
 
-            if (Math<T>.IsReal)
+            if (Math<N>.IsReal)
             {
                 result /= 10;
             }
             return result;
         }
 
-        protected T NextSmallPositiveNumeric()
+        protected N NextSmallPositiveNumeric()
         {
-            T result = Random.NextNumeric<T>(0, 20);
-            if (Math<T>.IsReal)
+            N result = Random.NextNumeric<N>(0, 20);
+            if (Math<N>.IsReal)
             {
                 result /= 10;
             }

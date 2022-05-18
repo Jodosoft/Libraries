@@ -25,7 +25,7 @@ namespace Jodo.Extensions.CheckedNumerics
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
     [SuppressMessage("csharpsquid", "S3358")]
     [SuppressMessage("csharpsquid", "S2583")] // false positives
-public static class CheckedConvert
+    public static class CheckedConvert
     {
         public static bool ToBoolean(byte x) => x != 0;
         public static bool ToBoolean(char x) => x != 0;

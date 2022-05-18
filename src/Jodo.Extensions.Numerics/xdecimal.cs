@@ -43,7 +43,7 @@ namespace Jodo.Extensions.Numerics
             _value = value;
         }
 
-        private xdecimal(SerializationInfo info, StreamingContext context) : this(info.GetInt64(nameof(xdecimal))) { }
+        private xdecimal(SerializationInfo info, StreamingContext context) : this(info.GetDecimal(nameof(xdecimal))) { }
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(xdecimal), _value);
 
         public int CompareTo(xdecimal other) => _value.CompareTo(other._value);
