@@ -22,7 +22,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
-    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
     [SuppressMessage("csharpsquid", "S3358")]
     public static class CheckedTruncate
     {

@@ -23,7 +23,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 [assembly: ExcludeFromCodeCoverage]
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
 [assembly: SuppressMessage("csharpsquid", "S2245")]
 
 namespace Jodo.Extensions.Benchmarking

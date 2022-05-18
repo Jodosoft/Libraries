@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Jodo.Extensions.Benchmarking.Tests")]
@@ -27,3 +28,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Jodo.Extensions.Collections.Benchmarks")]
 [assembly: InternalsVisibleTo("Jodo.Extensions.Collections.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Extensions.Testing.Tests")]
+
+[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]

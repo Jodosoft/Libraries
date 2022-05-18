@@ -29,7 +29,6 @@ namespace Jodo.Extensions.Numerics
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
-    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
     [SuppressMessage("csharpsquid", "S101")]
     public readonly struct xdouble : INumeric<xdouble>
     {
