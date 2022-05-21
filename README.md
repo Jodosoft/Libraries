@@ -18,15 +18,16 @@
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square"></a>
 </p>
 
+<h2>Jodo.Extensions.Numerics</h2>
 
-<details>
-  <summary><h2>Jodo.Extensions.Numerics</h2></summary>
+Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utility classes that support the creation of used-defined numeric types.
 
-Provides <a href="#inumericn">INumeric&lt;N&gt;</a> and accompanying utilities to support the creation of used-defined numeric types.
+Fixed-point implementations are provided (<a href="#fix64"><code>fix64</code></a> and <a href="#fix64"><code>ufix64</code></a>), as well as wrappers for the built-in numeric types (`int`, `float` etc.).
 
-Fixed-point implementations are provided, as well as wrappers for the built-in numeric types (`int`, `float` etc.).
-
-<a href="#inumericn">INumeric&lt;N&gt;</a> allows numeric types to be used interchangeably in generic systems.
+The following code sample demonstrates their usage:
+```csharp
+// placeholder
+```
 
 ### Types
 
@@ -48,7 +49,16 @@ Fixed-point implementations are provided, as well as wrappers for the built-in n
     <td id="mathn">Math&lt;N&gt;</td>
     <td>
       <ul>
-        <li>A static class that provides equivalents to all methods from <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>N Log(N)</code>, <code>N Pow(N)</code> and <code>N Sqrt(N)</code>.</li>
+        <li>A static class that provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>N Log(N)</code>, <code>N Pow(N)</code> and <code>N Sqrt(N)</code>.</li>
+        <li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td id="mathn">Convert&lt;N&gt;</td>
+    <td>
+      <ul>
+        <li>A static class that provides equivalents methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>.</li>
         <li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li>
       </ul>
     </td>
@@ -60,7 +70,7 @@ Fixed-point implementations are provided, as well as wrappers for the built-in n
     </td>
   </tr>
   <tr>
-    <td id="stringformattern">StringFormatter&lt;N&gt;</td>
+    <td id="stringformattern">StringParser&lt;N&gt;</td>
     <td>
       <ul><li>A static class that provides string parsing and formatting methods.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a> including user-defined types.</li></ul>
     </td>
@@ -89,7 +99,6 @@ Benchmarks are provided with this repository to facilitate comparison the built-
 Sample output can be seen below:
   
 *tbc*
-</details>
 
 <details>
   <summary><h2>Jodo.Extensions.CheckedNumerics</summary>
