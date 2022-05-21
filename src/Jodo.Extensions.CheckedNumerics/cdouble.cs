@@ -57,6 +57,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool IsNormal(cdouble d) => double.IsNormal(d._value);
@@ -113,17 +114,29 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cdouble operator +(cdouble left, cdouble right) => CheckedArithmetic.Add(left._value, right._value);
         public static cdouble operator +(cdouble value) => value;
         public static cdouble operator ++(cdouble value) => value + 1;
+        public static cdouble operator &(cdouble left, cdouble right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
+        public static cdouble operator |(cdouble left, cdouble right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
+        public static cdouble operator ^(cdouble left, cdouble right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static cdouble operator ~(cdouble left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
+        public static cdouble operator >>(cdouble left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
+        public static cdouble operator <<(cdouble left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
 
         bool INumeric<cdouble>.IsGreaterThan(cdouble value) => this > value;
         bool INumeric<cdouble>.IsGreaterThanOrEqualTo(cdouble value) => this >= value;
         bool INumeric<cdouble>.IsLessThan(cdouble value) => this < value;
         bool INumeric<cdouble>.IsLessThanOrEqualTo(cdouble value) => this <= value;
         cdouble INumeric<cdouble>.Add(cdouble value) => this + value;
+        cdouble INumeric<cdouble>.BitwiseComplement() => ~this;
         cdouble INumeric<cdouble>.Divide(cdouble value) => this / value;
+        cdouble INumeric<cdouble>.LeftShift(int count) => this << count;
+        cdouble INumeric<cdouble>.LogicalAnd(cdouble value) => this & value;
+        cdouble INumeric<cdouble>.LogicalExclusiveOr(cdouble value) => this ^ value;
+        cdouble INumeric<cdouble>.LogicalOr(cdouble value) => this | value;
         cdouble INumeric<cdouble>.Multiply(cdouble value) => this * value;
         cdouble INumeric<cdouble>.Negative() => -this;
         cdouble INumeric<cdouble>.Positive() => +this;
         cdouble INumeric<cdouble>.Remainder(cdouble value) => this % value;
+        cdouble INumeric<cdouble>.RightShift(int count) => this >> count;
         cdouble INumeric<cdouble>.Subtract(cdouble value) => this - value;
 
         IBitConverter<cdouble> IBitConvertible<cdouble>.BitConverter => Utilities.Instance;
@@ -143,16 +156,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IMath<cdouble>.IsReal { get; } = true;
             bool IMath<cdouble>.IsSigned { get; } = true;
+            cdouble IMath<cdouble>.E { get; } = Math.E;
             cdouble IMath<cdouble>.Epsilon => Epsilon;
             cdouble IMath<cdouble>.MaxUnit { get; } = 1d;
             cdouble IMath<cdouble>.MaxValue => MaxValue;
             cdouble IMath<cdouble>.MinUnit { get; } = -1d;
             cdouble IMath<cdouble>.MinValue => MinValue;
             cdouble IMath<cdouble>.One { get; } = 1d;
-            cdouble IMath<cdouble>.Zero { get; } = 0d;
-            cdouble IMath<cdouble>.E { get; } = Math.E;
             cdouble IMath<cdouble>.PI { get; } = Math.PI;
             cdouble IMath<cdouble>.Tau { get; } = Math.PI * 2d;
+            cdouble IMath<cdouble>.Ten { get; } = 10d;
+            cdouble IMath<cdouble>.Two { get; } = 2d;
+            cdouble IMath<cdouble>.Zero { get; } = 0d;
 
             cdouble IMath<cdouble>.Abs(cdouble x) => Math.Abs(x._value);
             cdouble IMath<cdouble>.Acos(cdouble x) => Math.Acos(x._value);

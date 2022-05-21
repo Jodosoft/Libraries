@@ -53,6 +53,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out clong result) => Try.Run(() => Parse(s, provider), out result);
@@ -117,11 +118,17 @@ namespace Jodo.Extensions.CheckedNumerics
         bool INumeric<clong>.IsLessThan(clong value) => this < value;
         bool INumeric<clong>.IsLessThanOrEqualTo(clong value) => this <= value;
         clong INumeric<clong>.Add(clong value) => this + value;
+        clong INumeric<clong>.BitwiseComplement() => ~this;
         clong INumeric<clong>.Divide(clong value) => this / value;
+        clong INumeric<clong>.LeftShift(int count) => this << count;
+        clong INumeric<clong>.LogicalAnd(clong value) => this & value;
+        clong INumeric<clong>.LogicalExclusiveOr(clong value) => this ^ value;
+        clong INumeric<clong>.LogicalOr(clong value) => this | value;
         clong INumeric<clong>.Multiply(clong value) => this * value;
         clong INumeric<clong>.Negative() => -this;
         clong INumeric<clong>.Positive() => +this;
         clong INumeric<clong>.Remainder(clong value) => this % value;
+        clong INumeric<clong>.RightShift(int count) => this >> count;
         clong INumeric<clong>.Subtract(clong value) => this - value;
 
         IBitConverter<clong> IBitConvertible<clong>.BitConverter => Utilities.Instance;
@@ -141,16 +148,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IMath<clong>.IsReal { get; } = false;
             bool IMath<clong>.IsSigned { get; } = true;
+            clong IMath<clong>.E { get; } = 2L;
             clong IMath<clong>.Epsilon { get; } = 1L;
             clong IMath<clong>.MaxUnit { get; } = 1L;
             clong IMath<clong>.MaxValue => MaxValue;
             clong IMath<clong>.MinUnit { get; } = -1L;
             clong IMath<clong>.MinValue => MinValue;
             clong IMath<clong>.One { get; } = 1L;
-            clong IMath<clong>.Zero { get; } = 0L;
-            clong IMath<clong>.E { get; } = 2L;
             clong IMath<clong>.PI { get; } = 3L;
             clong IMath<clong>.Tau { get; } = 6L;
+            clong IMath<clong>.Ten { get; } = 10L;
+            clong IMath<clong>.Two { get; } = 2L;
+            clong IMath<clong>.Zero { get; } = 0L;
 
             clong IMath<clong>.Abs(clong x) => Math.Abs(x);
             clong IMath<clong>.Acos(clong x) => (clong)Math.Acos(x);

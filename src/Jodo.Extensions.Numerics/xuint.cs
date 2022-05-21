@@ -52,6 +52,7 @@ namespace Jodo.Extensions.Numerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out xuint result) => Try.Run(() => Parse(s, provider), out result);
@@ -116,11 +117,17 @@ namespace Jodo.Extensions.Numerics
         bool INumeric<xuint>.IsLessThan(xuint value) => this < value;
         bool INumeric<xuint>.IsLessThanOrEqualTo(xuint value) => this <= value;
         xuint INumeric<xuint>.Add(xuint value) => this + value;
+        xuint INumeric<xuint>.BitwiseComplement() => ~this;
         xuint INumeric<xuint>.Divide(xuint value) => this / value;
+        xuint INumeric<xuint>.LeftShift(int count) => this << count;
+        xuint INumeric<xuint>.LogicalAnd(xuint value) => this & value;
+        xuint INumeric<xuint>.LogicalExclusiveOr(xuint value) => this ^ value;
+        xuint INumeric<xuint>.LogicalOr(xuint value) => this | value;
         xuint INumeric<xuint>.Multiply(xuint value) => this * value;
         xuint INumeric<xuint>.Negative() => -this;
         xuint INumeric<xuint>.Positive() => +this;
         xuint INumeric<xuint>.Remainder(xuint value) => this % value;
+        xuint INumeric<xuint>.RightShift(int count) => this >> count;
         xuint INumeric<xuint>.Subtract(xuint value) => this - value;
 
         IBitConverter<xuint> IBitConvertible<xuint>.BitConverter => Utilities.Instance;
@@ -140,16 +147,18 @@ namespace Jodo.Extensions.Numerics
 
             bool IMath<xuint>.IsReal { get; } = false;
             bool IMath<xuint>.IsSigned { get; } = false;
+            xuint IMath<xuint>.E { get; } = (uint)2;
             xuint IMath<xuint>.Epsilon { get; } = (uint)1;
             xuint IMath<xuint>.MaxUnit { get; } = (uint)1;
             xuint IMath<xuint>.MaxValue => MaxValue;
             xuint IMath<xuint>.MinUnit { get; } = (uint)0;
             xuint IMath<xuint>.MinValue => MinValue;
             xuint IMath<xuint>.One { get; } = (uint)1;
-            xuint IMath<xuint>.Zero { get; } = (uint)0;
-            xuint IMath<xuint>.E { get; } = (uint)2;
             xuint IMath<xuint>.PI { get; } = (uint)3;
             xuint IMath<xuint>.Tau { get; } = (uint)6;
+            xuint IMath<xuint>.Ten { get; } = (uint)10;
+            xuint IMath<xuint>.Two { get; } = (uint)2;
+            xuint IMath<xuint>.Zero { get; } = (uint)0;
 
             int IMath<xuint>.Sign(xuint x) => Math.Sign(x._value);
             xuint IMath<xuint>.Abs(xuint x) => x._value;

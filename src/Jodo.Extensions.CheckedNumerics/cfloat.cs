@@ -57,6 +57,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool IsNormal(cfloat d) => float.IsNormal(d._value);
@@ -103,25 +104,37 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator >(cfloat left, cfloat right) => left._value > right._value;
         public static bool operator >=(cfloat left, cfloat right) => left._value >= right._value;
         public static cfloat operator %(cfloat left, cfloat right) => CheckedArithmetic.Remainder(left._value, right._value);
+        public static cfloat operator &(cfloat left, cfloat right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
         public static cfloat operator -(cfloat left, cfloat right) => CheckedArithmetic.Subtract(left._value, right._value);
         public static cfloat operator --(cfloat value) => value - 1;
         public static cfloat operator -(cfloat value) => -value._value;
         public static cfloat operator *(cfloat left, cfloat right) => CheckedArithmetic.Multiply(left._value, right._value);
         public static cfloat operator /(cfloat left, cfloat right) => CheckedArithmetic.Divide(left._value, right._value);
+        public static cfloat operator ^(cfloat left, cfloat right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static cfloat operator |(cfloat left, cfloat right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
+        public static cfloat operator ~(cfloat left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
         public static cfloat operator +(cfloat left, cfloat right) => CheckedArithmetic.Add(left._value, right._value);
         public static cfloat operator +(cfloat value) => value;
         public static cfloat operator ++(cfloat value) => value + 1;
+        public static cfloat operator <<(cfloat left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
+        public static cfloat operator >>(cfloat left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
 
         bool INumeric<cfloat>.IsGreaterThan(cfloat value) => this > value;
         bool INumeric<cfloat>.IsGreaterThanOrEqualTo(cfloat value) => this >= value;
         bool INumeric<cfloat>.IsLessThan(cfloat value) => this < value;
         bool INumeric<cfloat>.IsLessThanOrEqualTo(cfloat value) => this <= value;
         cfloat INumeric<cfloat>.Add(cfloat value) => this + value;
+        cfloat INumeric<cfloat>.BitwiseComplement() => ~this;
         cfloat INumeric<cfloat>.Divide(cfloat value) => this / value;
+        cfloat INumeric<cfloat>.LeftShift(int count) => this << count;
+        cfloat INumeric<cfloat>.LogicalAnd(cfloat value) => this & value;
+        cfloat INumeric<cfloat>.LogicalExclusiveOr(cfloat value) => this ^ value;
+        cfloat INumeric<cfloat>.LogicalOr(cfloat value) => this | value;
         cfloat INumeric<cfloat>.Multiply(cfloat value) => this * value;
         cfloat INumeric<cfloat>.Negative() => -this;
         cfloat INumeric<cfloat>.Positive() => +this;
         cfloat INumeric<cfloat>.Remainder(cfloat value) => this % value;
+        cfloat INumeric<cfloat>.RightShift(int count) => this >> count;
         cfloat INumeric<cfloat>.Subtract(cfloat value) => this - value;
 
         IBitConverter<cfloat> IBitConvertible<cfloat>.BitConverter => Utilities.Instance;
@@ -141,16 +154,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IMath<cfloat>.IsReal { get; } = true;
             bool IMath<cfloat>.IsSigned { get; } = true;
+            cfloat IMath<cfloat>.E { get; } = MathF.E;
             cfloat IMath<cfloat>.Epsilon => Epsilon;
             cfloat IMath<cfloat>.MaxUnit { get; } = 1;
             cfloat IMath<cfloat>.MaxValue => MaxValue;
             cfloat IMath<cfloat>.MinUnit { get; } = -1;
             cfloat IMath<cfloat>.MinValue => MinValue;
             cfloat IMath<cfloat>.One { get; } = 1;
-            cfloat IMath<cfloat>.Zero { get; } = 0;
-            cfloat IMath<cfloat>.E { get; } = MathF.E;
             cfloat IMath<cfloat>.PI { get; } = MathF.PI;
             cfloat IMath<cfloat>.Tau { get; } = MathF.PI * 2f;
+            cfloat IMath<cfloat>.Ten { get; } = 10;
+            cfloat IMath<cfloat>.Two { get; } = 2;
+            cfloat IMath<cfloat>.Zero { get; } = 0;
 
             cfloat IMath<cfloat>.Abs(cfloat x) => MathF.Abs(x._value);
             cfloat IMath<cfloat>.Acos(cfloat x) => MathF.Acos(x._value);

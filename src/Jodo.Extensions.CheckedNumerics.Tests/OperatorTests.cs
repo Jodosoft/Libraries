@@ -24,13 +24,13 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
     public static class OperatorTests
     {
         public class CDouble : Base<cdouble> { }
-        public class CFix64 : Base<cfix64> { }
+        //public class CFix64 : Base<cfix64> { }
         public class CFloat : Base<cfloat> { }
         public class CInt : Base<cint> { }
         public class CLong : Base<clong> { }
         public class CSByte : Base<csbyte> { }
         public class CShort : Base<cshort> { }
-        public class CUFix64 : Base<cufix64> { }
+        //public class CUFix64 : Base<cufix64> { }
         public class CUInt : Base<cuint> { }
 
         public abstract class Base<T> : Numerics.Tests.OperatorTests.Base<T> where T : struct, INumeric<T>

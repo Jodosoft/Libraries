@@ -25,53 +25,53 @@ using System.Runtime.Serialization;
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
-    public readonly struct Angle<T> : IGeometric<Angle<T>> where T : struct, INumeric<T>
+    public readonly struct Angle<N> : IGeometric<Angle<N>> where N : struct, INumeric<N>
     {
-        public static readonly Angle<T> Zero = default;
-        public static readonly Angle<T> C90Degrees = FromDegrees(90);
-        public static readonly Angle<T> C180Degrees = C90Degrees + C90Degrees;
-        public static readonly Angle<T> C270Degrees = C90Degrees + C90Degrees + C90Degrees;
+        public static readonly Angle<N> Zero = default;
+        public static readonly Angle<N> C90Degrees = FromDegrees(90);
+        public static readonly Angle<N> C180Degrees = C90Degrees + C90Degrees;
+        public static readonly Angle<N> C270Degrees = C90Degrees + C90Degrees + C90Degrees;
 
-        public readonly T Degrees;
+        public readonly N Degrees;
 
-        public T Cosine => Math<T>.Cos(Radians);
-        public T HyperbolicCosine => Math<T>.Cosh(Radians);
-        public T HyperbolicSine => Math<T>.Sinh(Radians);
-        public T HyperbolicTangent => Math<T>.Tanh(Radians);
-        public T Radians => Math<T>.DegreesToRadians(Degrees);
-        public T Sine => Math<T>.Sin(Radians);
-        public T Tangent => Math<T>.Tan(Radians);
+        public N Cosine => Math<N>.Cos(Radians);
+        public N HyperbolicCosine => Math<N>.Cosh(Radians);
+        public N HyperbolicSine => Math<N>.Sinh(Radians);
+        public N HyperbolicTangent => Math<N>.Tanh(Radians);
+        public N Radians => Math<N>.DegreesToRadians(Degrees);
+        public N Sine => Math<N>.Sin(Radians);
+        public N Tangent => Math<N>.Tan(Radians);
 
-        IBitConverter<Angle<T>> IBitConvertible<Angle<T>>.BitConverter => throw new NotImplementedException();
+        IBitConverter<Angle<N>> IBitConvertible<Angle<N>>.BitConverter => throw new NotImplementedException();
 
-        IRandom<Angle<T>> IRandomisable<Angle<T>>.Random => throw new NotImplementedException();
+        IRandom<Angle<N>> IRandomisable<Angle<N>>.Random => throw new NotImplementedException();
 
-        IStringParser<Angle<T>> IStringParsable<Angle<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Angle<N>> IStringParsable<Angle<N>>.StringParser => throw new NotImplementedException();
 
-        public Angle(T degrees)
+        public Angle(N degrees)
         {
             Degrees = degrees;
         }
 
         private Angle(SerializationInfo info, StreamingContext context) : this(
-            (T)info.GetValue(nameof(Degrees), typeof(T)))
+            (N)info.GetValue(nameof(Degrees), typeof(N)))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-            => info.AddValue(nameof(Degrees), Degrees, typeof(T));
+            => info.AddValue(nameof(Degrees), Degrees, typeof(N));
 
-        public bool Equals(Angle<T> other) => Degrees.Equals(other.Degrees);
-        public override bool Equals(object? obj) => obj is Angle<T> angle && Equals(angle);
+        public bool Equals(Angle<N> other) => Degrees.Equals(other.Degrees);
+        public override bool Equals(object? obj) => obj is Angle<N> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
         public override string ToString() => StringRepresentation.Combine(GetType(), Degrees);
         public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
-        public static Angle<T> FromDegrees(T degrees) => new Angle<T>(degrees);
-        public static Angle<T> FromDegrees(byte degrees) => new Angle<T>(Convert<T>.ToValue(degrees));
-        public static Angle<T> FromRadians(T radians) => new Angle<T>(Math<T>.RadiansToDegrees(radians));
-        public static Angle<T> FromRadians(byte radians) => new Angle<T>(Math<T>.RadiansToDegrees(Convert<T>.ToValue(radians)));
+        public static Angle<N> FromDegrees(N degrees) => new Angle<N>(degrees);
+        public static Angle<N> FromDegrees(byte degrees) => new Angle<N>(Convert<N>.ToValue(degrees));
+        public static Angle<N> FromRadians(N radians) => new Angle<N>(Math<N>.RadiansToDegrees(radians));
+        public static Angle<N> FromRadians(byte radians) => new Angle<N>(Math<N>.RadiansToDegrees(Convert<N>.ToValue(radians)));
 
-        public static bool TryParse(string value, out Angle<T> result)
+        public static bool TryParse(string value, out Angle<N> result)
         {
             try
             {
@@ -85,26 +85,26 @@ namespace Jodo.Extensions.Geometry
             }
         }
 
-        public static Angle<T> Parse(string value)
+        public static Angle<N> Parse(string value)
         {
             var trimmed = value.Trim();
-            if (trimmed.EndsWith("Degrees", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringParser<T>.Parse(trimmed[0..^7]));
-            else if (trimmed.EndsWith("Degree", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringParser<T>.Parse(trimmed[0..^6]));
-            else if (trimmed.EndsWith("Radians", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^7]));
-            else if (trimmed.EndsWith("Radian", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^6]));
-            else if (trimmed.EndsWith("Deg", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringParser<T>.Parse(trimmed[0..^3]));
-            else if (trimmed.EndsWith("Rad", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^3]));
-            else if (trimmed.EndsWith("°", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromDegrees(StringParser<T>.Parse(trimmed[0..^1]));
-            else if (trimmed.EndsWith("C", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^1]));
-            else if (trimmed.EndsWith("R", StringComparison.InvariantCultureIgnoreCase)) return Angle<T>.FromRadians(StringParser<T>.Parse(trimmed[0..^1]));
-            else return Angle<T>.FromDegrees(StringParser<T>.Parse(trimmed));
+            if (trimmed.EndsWith("Degrees", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromDegrees(StringParser<N>.Parse(trimmed[0..^7]));
+            else if (trimmed.EndsWith("Degree", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromDegrees(StringParser<N>.Parse(trimmed[0..^6]));
+            else if (trimmed.EndsWith("Radians", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromRadians(StringParser<N>.Parse(trimmed[0..^7]));
+            else if (trimmed.EndsWith("Radian", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromRadians(StringParser<N>.Parse(trimmed[0..^6]));
+            else if (trimmed.EndsWith("Deg", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromDegrees(StringParser<N>.Parse(trimmed[0..^3]));
+            else if (trimmed.EndsWith("Rad", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromRadians(StringParser<N>.Parse(trimmed[0..^3]));
+            else if (trimmed.EndsWith("°", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromDegrees(StringParser<N>.Parse(trimmed[0..^1]));
+            else if (trimmed.EndsWith("C", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromRadians(StringParser<N>.Parse(trimmed[0..^1]));
+            else if (trimmed.EndsWith("R", StringComparison.InvariantCultureIgnoreCase)) return Angle<N>.FromRadians(StringParser<N>.Parse(trimmed[0..^1]));
+            else return Angle<N>.FromDegrees(StringParser<N>.Parse(trimmed));
         }
 
-        public static Angle<T> operator -(Angle<T> value) => FromDegrees(-value.Degrees);
-        public static Angle<T> operator -(Angle<T> value1, Angle<T> value2) => FromDegrees(value1.Degrees - value2.Degrees);
-        public static Angle<T> operator +(Angle<T> value) => value;
-        public static Angle<T> operator +(Angle<T> value1, Angle<T> value2) => FromDegrees(value1.Degrees + value2.Degrees);
-        public static bool operator !=(Angle<T> left, Angle<T> right) => !(left == right);
-        public static bool operator ==(Angle<T> left, Angle<T> right) => left.Equals(right);
+        public static Angle<N> operator -(Angle<N> value) => FromDegrees(-value.Degrees);
+        public static Angle<N> operator -(Angle<N> value1, Angle<N> value2) => FromDegrees(value1.Degrees - value2.Degrees);
+        public static Angle<N> operator +(Angle<N> value) => value;
+        public static Angle<N> operator +(Angle<N> value1, Angle<N> value2) => FromDegrees(value1.Degrees + value2.Degrees);
+        public static bool operator !=(Angle<N> left, Angle<N> right) => !(left == right);
+        public static bool operator ==(Angle<N> left, Angle<N> right) => left.Equals(right);
     }
 }

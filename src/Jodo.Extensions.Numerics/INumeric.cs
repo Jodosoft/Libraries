@@ -35,24 +35,38 @@ namespace Jodo.Extensions.Numerics
         bool IsLessThan(N value);
         bool IsLessThanOrEqualTo(N value);
         N Add(N value);
+        N BitwiseComplement();
         N Divide(N value);
+        N LeftShift(int count);
+        N LogicalAnd(N value);
+        N LogicalExclusiveOr(N value);
+        N LogicalOr(N value);
         N Multiply(N value);
         N Negative();
         N Positive();
         N Remainder(N value);
+        N RightShift(int count);
         N Subtract(N value);
+
+        string ToString(string format);
 
         public static bool operator <(INumeric<N> left, INumeric<N> right) => left.IsLessThan((N)right);
         public static bool operator <=(INumeric<N> left, INumeric<N> right) => left.IsLessThanOrEqualTo((N)right);
         public static bool operator >(INumeric<N> left, INumeric<N> right) => left.IsGreaterThan((N)right);
         public static bool operator >=(INumeric<N> left, INumeric<N> right) => left.IsGreaterThanOrEqualTo((N)right);
         public static N operator %(INumeric<N> left, INumeric<N> right) => left.Remainder((N)right);
+        public static N operator &(INumeric<N> left, INumeric<N> right) => left.LogicalAnd((N)right);
+        public static N operator -(INumeric<N> left) => left.Negative();
         public static N operator -(INumeric<N> left, INumeric<N> right) => left.Subtract((N)right);
         public static N operator *(INumeric<N> left, INumeric<N> right) => left.Multiply((N)right);
         public static N operator /(INumeric<N> left, INumeric<N> right) => left.Divide((N)right);
-        public static N operator +(INumeric<N> left, INumeric<N> right) => left.Add((N)right);
-        public static N operator -(INumeric<N> left) => left.Negative();
+        public static N operator ^(INumeric<N> left, INumeric<N> right) => left.LogicalExclusiveOr((N)right);
+        public static N operator |(INumeric<N> left, INumeric<N> right) => left.LogicalOr((N)right);
+        public static N operator ~(INumeric<N> left) => left.BitwiseComplement();
         public static N operator +(INumeric<N> left) => left.Positive();
+        public static N operator +(INumeric<N> left, INumeric<N> right) => left.Add((N)right);
+        public static N operator <<(INumeric<N> left, int right) => left.LeftShift(right);
+        public static N operator >>(INumeric<N> left, int right) => left.RightShift(right);
 
         public static bool operator <(INumeric<N> left, N right) => left.IsLessThan(right);
         public static bool operator <=(INumeric<N> left, N right) => left.IsLessThanOrEqualTo(right);
@@ -63,25 +77,5 @@ namespace Jodo.Extensions.Numerics
         public static N operator *(INumeric<N> left, N right) => left.Multiply(right);
         public static N operator /(INumeric<N> left, N right) => left.Divide(right);
         public static N operator +(INumeric<N> left, N right) => left.Add(right);
-
-        public static bool operator <(INumeric<N> left, byte b) => left < Convert<N>.ToValue(b);
-        public static bool operator <=(INumeric<N> left, byte b) => left <= Convert<N>.ToValue(b);
-        public static bool operator >(INumeric<N> left, byte b) => left > Convert<N>.ToValue(b);
-        public static bool operator >=(INumeric<N> left, byte b) => left >= Convert<N>.ToValue(b);
-        public static N operator %(INumeric<N> left, byte b) => left % Convert<N>.ToValue(b);
-        public static N operator -(INumeric<N> left, byte b) => left - Convert<N>.ToValue(b);
-        public static N operator *(INumeric<N> left, byte b) => left * Convert<N>.ToValue(b);
-        public static N operator /(INumeric<N> left, byte b) => left / Convert<N>.ToValue(b);
-        public static N operator +(INumeric<N> left, byte b) => left + Convert<N>.ToValue(b);
-
-        public static bool operator <(byte b, INumeric<N> left) => Convert<N>.ToValue(b) < left;
-        public static bool operator <=(byte b, INumeric<N> left) => Convert<N>.ToValue(b) <= left;
-        public static bool operator >(byte b, INumeric<N> left) => Convert<N>.ToValue(b) > left;
-        public static bool operator >=(byte b, INumeric<N> left) => Convert<N>.ToValue(b) >= left;
-        public static N operator %(byte b, INumeric<N> left) => Convert<N>.ToValue(b) % left;
-        public static N operator -(byte b, INumeric<N> left) => Convert<N>.ToValue(b) - left;
-        public static N operator *(byte b, INumeric<N> left) => Convert<N>.ToValue(b) * left;
-        public static N operator /(byte b, INumeric<N> left) => Convert<N>.ToValue(b) / left;
-        public static N operator +(byte b, INumeric<N> left) => Convert<N>.ToValue(b) + left;
     }
 }

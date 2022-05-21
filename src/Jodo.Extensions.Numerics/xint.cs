@@ -52,6 +52,7 @@ namespace Jodo.Extensions.Numerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out xint result) => Try.Run(() => Parse(s, provider), out result);
@@ -116,11 +117,17 @@ namespace Jodo.Extensions.Numerics
         bool INumeric<xint>.IsLessThan(xint value) => this < value;
         bool INumeric<xint>.IsLessThanOrEqualTo(xint value) => this <= value;
         xint INumeric<xint>.Add(xint value) => this + value;
+        xint INumeric<xint>.BitwiseComplement() => ~this;
         xint INumeric<xint>.Divide(xint value) => this / value;
+        xint INumeric<xint>.LeftShift(int count) => this << count;
+        xint INumeric<xint>.LogicalAnd(xint value) => this & value;
+        xint INumeric<xint>.LogicalExclusiveOr(xint value) => this ^ value;
+        xint INumeric<xint>.LogicalOr(xint value) => this | value;
         xint INumeric<xint>.Multiply(xint value) => this * value;
         xint INumeric<xint>.Negative() => -this;
         xint INumeric<xint>.Positive() => +this;
         xint INumeric<xint>.Remainder(xint value) => this % value;
+        xint INumeric<xint>.RightShift(int count) => this >> count;
         xint INumeric<xint>.Subtract(xint value) => this - value;
 
         IBitConverter<xint> IBitConvertible<xint>.BitConverter => Utilities.Instance;
@@ -140,16 +147,18 @@ namespace Jodo.Extensions.Numerics
 
             bool IMath<xint>.IsReal { get; } = false;
             bool IMath<xint>.IsSigned { get; } = true;
+            xint IMath<xint>.E { get; } = 2;
             xint IMath<xint>.Epsilon { get; } = 1;
             xint IMath<xint>.MaxUnit { get; } = 1;
             xint IMath<xint>.MaxValue => MaxValue;
             xint IMath<xint>.MinUnit { get; } = -1;
             xint IMath<xint>.MinValue => MinValue;
             xint IMath<xint>.One { get; } = 1;
-            xint IMath<xint>.Zero { get; } = 0;
-            xint IMath<xint>.E { get; } = 2;
             xint IMath<xint>.PI { get; } = 3;
             xint IMath<xint>.Tau { get; } = 6;
+            xint IMath<xint>.Ten { get; } = 10;
+            xint IMath<xint>.Two { get; } = 2;
+            xint IMath<xint>.Zero { get; } = 0;
 
             xint IMath<xint>.Abs(xint x) => Math.Abs(x._value);
             xint IMath<xint>.Acos(xint x) => (int)Math.Acos(x._value);

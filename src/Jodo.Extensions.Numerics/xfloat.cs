@@ -53,6 +53,7 @@ namespace Jodo.Extensions.Numerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool IsFinite(xfloat f) => float.IsFinite(f);
@@ -106,25 +107,37 @@ namespace Jodo.Extensions.Numerics
         public static bool operator >(xfloat left, xfloat right) => left._value > right._value;
         public static bool operator >=(xfloat left, xfloat right) => left._value >= right._value;
         public static xfloat operator %(xfloat left, xfloat right) => left._value % right._value;
+        public static xfloat operator &(xfloat left, xfloat right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
         public static xfloat operator -(xfloat left, xfloat right) => left._value - right._value;
         public static xfloat operator --(xfloat value) => value._value - 1;
         public static xfloat operator -(xfloat value) => -value._value;
         public static xfloat operator *(xfloat left, xfloat right) => left._value * right._value;
         public static xfloat operator /(xfloat left, xfloat right) => left._value / right._value;
+        public static xfloat operator ^(xfloat left, xfloat right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static xfloat operator |(xfloat left, xfloat right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
+        public static xfloat operator ~(xfloat left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
         public static xfloat operator +(xfloat left, xfloat right) => left._value + right._value;
         public static xfloat operator +(xfloat value) => value;
         public static xfloat operator ++(xfloat value) => value._value + 1;
+        public static xfloat operator <<(xfloat left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
+        public static xfloat operator >>(xfloat left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
 
         bool INumeric<xfloat>.IsGreaterThan(xfloat value) => this > value;
         bool INumeric<xfloat>.IsGreaterThanOrEqualTo(xfloat value) => this >= value;
         bool INumeric<xfloat>.IsLessThan(xfloat value) => this < value;
         bool INumeric<xfloat>.IsLessThanOrEqualTo(xfloat value) => this <= value;
         xfloat INumeric<xfloat>.Add(xfloat value) => this + value;
+        xfloat INumeric<xfloat>.BitwiseComplement() => ~this;
         xfloat INumeric<xfloat>.Divide(xfloat value) => this / value;
+        xfloat INumeric<xfloat>.LeftShift(int count) => this << count;
+        xfloat INumeric<xfloat>.LogicalAnd(xfloat value) => this & value;
+        xfloat INumeric<xfloat>.LogicalExclusiveOr(xfloat value) => this ^ value;
+        xfloat INumeric<xfloat>.LogicalOr(xfloat value) => this | value;
         xfloat INumeric<xfloat>.Multiply(xfloat value) => this * value;
         xfloat INumeric<xfloat>.Negative() => -this;
         xfloat INumeric<xfloat>.Positive() => +this;
         xfloat INumeric<xfloat>.Remainder(xfloat value) => this % value;
+        xfloat INumeric<xfloat>.RightShift(int count) => this >> count;
         xfloat INumeric<xfloat>.Subtract(xfloat value) => this - value;
 
         IBitConverter<xfloat> IBitConvertible<xfloat>.BitConverter => Utilities.Instance;
@@ -144,16 +157,18 @@ namespace Jodo.Extensions.Numerics
 
             bool IMath<xfloat>.IsReal { get; } = true;
             bool IMath<xfloat>.IsSigned { get; } = true;
+            xfloat IMath<xfloat>.E { get; } = MathF.E;
             xfloat IMath<xfloat>.Epsilon => Epsilon;
             xfloat IMath<xfloat>.MaxUnit { get; } = 1f;
             xfloat IMath<xfloat>.MaxValue => MaxValue;
             xfloat IMath<xfloat>.MinUnit { get; } = -1f;
             xfloat IMath<xfloat>.MinValue => MinValue;
             xfloat IMath<xfloat>.One { get; } = 1f;
-            xfloat IMath<xfloat>.Zero { get; } = 0f;
-            xfloat IMath<xfloat>.E { get; } = MathF.E;
             xfloat IMath<xfloat>.PI { get; } = MathF.PI;
             xfloat IMath<xfloat>.Tau { get; } = MathF.PI * 2;
+            xfloat IMath<xfloat>.Ten { get; } = 10f;
+            xfloat IMath<xfloat>.Two { get; } = 2f;
+            xfloat IMath<xfloat>.Zero { get; } = 0f;
 
             int IMath<xfloat>.Sign(xfloat x) => MathF.Sign(x._value);
             xfloat IMath<xfloat>.Abs(xfloat x) => MathF.Abs(x._value);

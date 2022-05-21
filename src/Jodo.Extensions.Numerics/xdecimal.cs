@@ -52,6 +52,7 @@ namespace Jodo.Extensions.Numerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out xdecimal result) => Try.Run(() => Parse(s, provider), out result);
@@ -96,25 +97,37 @@ namespace Jodo.Extensions.Numerics
         public static bool operator >(xdecimal left, xdecimal right) => left._value > right._value;
         public static bool operator >=(xdecimal left, xdecimal right) => left._value >= right._value;
         public static xdecimal operator %(xdecimal left, xdecimal right) => left._value % right._value;
+        public static xdecimal operator &(xdecimal left, xdecimal right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
         public static xdecimal operator -(xdecimal left, xdecimal right) => left._value - right._value;
         public static xdecimal operator --(xdecimal value) => value._value - 1;
         public static xdecimal operator -(xdecimal value) => -value._value;
         public static xdecimal operator *(xdecimal left, xdecimal right) => left._value * right._value;
         public static xdecimal operator /(xdecimal left, xdecimal right) => left._value / right._value;
+        public static xdecimal operator ^(xdecimal left, xdecimal right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static xdecimal operator |(xdecimal left, xdecimal right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
+        public static xdecimal operator ~(xdecimal left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
         public static xdecimal operator +(xdecimal left, xdecimal right) => left._value + right._value;
         public static xdecimal operator +(xdecimal value) => value;
         public static xdecimal operator ++(xdecimal value) => value._value + 1;
+        public static xdecimal operator <<(xdecimal left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
+        public static xdecimal operator >>(xdecimal left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
 
         bool INumeric<xdecimal>.IsGreaterThan(xdecimal value) => this > value;
         bool INumeric<xdecimal>.IsGreaterThanOrEqualTo(xdecimal value) => this >= value;
         bool INumeric<xdecimal>.IsLessThan(xdecimal value) => this < value;
         bool INumeric<xdecimal>.IsLessThanOrEqualTo(xdecimal value) => this <= value;
         xdecimal INumeric<xdecimal>.Add(xdecimal value) => this + value;
+        xdecimal INumeric<xdecimal>.BitwiseComplement() => ~this;
         xdecimal INumeric<xdecimal>.Divide(xdecimal value) => this / value;
+        xdecimal INumeric<xdecimal>.LeftShift(int count) => this << count;
+        xdecimal INumeric<xdecimal>.LogicalAnd(xdecimal value) => this & value;
+        xdecimal INumeric<xdecimal>.LogicalExclusiveOr(xdecimal value) => this ^ value;
+        xdecimal INumeric<xdecimal>.LogicalOr(xdecimal value) => this | value;
         xdecimal INumeric<xdecimal>.Multiply(xdecimal value) => this * value;
         xdecimal INumeric<xdecimal>.Negative() => -this;
         xdecimal INumeric<xdecimal>.Positive() => +this;
         xdecimal INumeric<xdecimal>.Remainder(xdecimal value) => this % value;
+        xdecimal INumeric<xdecimal>.RightShift(int count) => this >> count;
         xdecimal INumeric<xdecimal>.Subtract(xdecimal value) => this - value;
 
         IBitConverter<xdecimal> IBitConvertible<xdecimal>.BitConverter => Utilities.Instance;
@@ -134,16 +147,18 @@ namespace Jodo.Extensions.Numerics
 
             bool IMath<xdecimal>.IsReal { get; } = true;
             bool IMath<xdecimal>.IsSigned { get; } = true;
-            xdecimal IMath<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
-            xdecimal IMath<xdecimal>.MaxUnit { get; } = (decimal)1;
-            xdecimal IMath<xdecimal>.MaxValue => MaxValue;
-            xdecimal IMath<xdecimal>.MinUnit { get; } = (decimal)-1;
-            xdecimal IMath<xdecimal>.MinValue => MinValue;
-            xdecimal IMath<xdecimal>.One { get; } = (decimal)1;
-            xdecimal IMath<xdecimal>.Zero { get; } = (decimal)0;
             xdecimal IMath<xdecimal>.E { get; } = (decimal)Math.E;
+            xdecimal IMath<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
+            xdecimal IMath<xdecimal>.MaxUnit { get; } = 1m;
+            xdecimal IMath<xdecimal>.MaxValue => MaxValue;
+            xdecimal IMath<xdecimal>.MinUnit { get; } = -1m;
+            xdecimal IMath<xdecimal>.MinValue => MinValue;
+            xdecimal IMath<xdecimal>.One { get; } = 1m;
             xdecimal IMath<xdecimal>.PI { get; } = (decimal)Math.PI;
-            xdecimal IMath<xdecimal>.Tau { get; } = (decimal)Math.PI * 2;
+            xdecimal IMath<xdecimal>.Tau { get; } = (decimal)Math.PI * 2m;
+            xdecimal IMath<xdecimal>.Ten { get; } = 10m;
+            xdecimal IMath<xdecimal>.Two { get; } = 2m;
+            xdecimal IMath<xdecimal>.Zero { get; } = 0m;
 
             int IMath<xdecimal>.Sign(xdecimal x) => Math.Sign(x._value);
             xdecimal IMath<xdecimal>.Abs(xdecimal x) => Math.Abs(x._value);

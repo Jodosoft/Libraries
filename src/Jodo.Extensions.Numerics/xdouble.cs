@@ -53,6 +53,7 @@ namespace Jodo.Extensions.Numerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool IsFinite(xdouble d) => double.IsFinite(d);
@@ -106,25 +107,37 @@ namespace Jodo.Extensions.Numerics
         public static bool operator >(xdouble left, xdouble right) => left._value > right._value;
         public static bool operator >=(xdouble left, xdouble right) => left._value >= right._value;
         public static xdouble operator %(xdouble left, xdouble right) => left._value % right._value;
+        public static xdouble operator &(xdouble left, xdouble right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
         public static xdouble operator -(xdouble left, xdouble right) => left._value - right._value;
         public static xdouble operator --(xdouble value) => value._value - 1;
         public static xdouble operator -(xdouble value) => -value._value;
         public static xdouble operator *(xdouble left, xdouble right) => left._value * right._value;
         public static xdouble operator /(xdouble left, xdouble right) => left._value / right._value;
+        public static xdouble operator ^(xdouble left, xdouble right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static xdouble operator |(xdouble left, xdouble right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
+        public static xdouble operator ~(xdouble left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
         public static xdouble operator +(xdouble left, xdouble right) => left._value + right._value;
         public static xdouble operator +(xdouble value) => value;
         public static xdouble operator ++(xdouble value) => value._value + 1;
+        public static xdouble operator <<(xdouble left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
+        public static xdouble operator >>(xdouble left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
 
         bool INumeric<xdouble>.IsGreaterThan(xdouble value) => this > value;
         bool INumeric<xdouble>.IsGreaterThanOrEqualTo(xdouble value) => this >= value;
         bool INumeric<xdouble>.IsLessThan(xdouble value) => this < value;
         bool INumeric<xdouble>.IsLessThanOrEqualTo(xdouble value) => this <= value;
         xdouble INumeric<xdouble>.Add(xdouble value) => this + value;
+        xdouble INumeric<xdouble>.BitwiseComplement() => ~this;
         xdouble INumeric<xdouble>.Divide(xdouble value) => this / value;
+        xdouble INumeric<xdouble>.LeftShift(int count) => this << count;
+        xdouble INumeric<xdouble>.LogicalAnd(xdouble value) => this & value;
+        xdouble INumeric<xdouble>.LogicalExclusiveOr(xdouble value) => this ^ value;
+        xdouble INumeric<xdouble>.LogicalOr(xdouble value) => this | value;
         xdouble INumeric<xdouble>.Multiply(xdouble value) => this * value;
         xdouble INumeric<xdouble>.Negative() => -this;
         xdouble INumeric<xdouble>.Positive() => +this;
         xdouble INumeric<xdouble>.Remainder(xdouble value) => this % value;
+        xdouble INumeric<xdouble>.RightShift(int count) => this >> count;
         xdouble INumeric<xdouble>.Subtract(xdouble value) => this - value;
 
         IBitConverter<xdouble> IBitConvertible<xdouble>.BitConverter => Utilities.Instance;
@@ -144,16 +157,18 @@ namespace Jodo.Extensions.Numerics
 
             bool IMath<xdouble>.IsReal { get; } = true;
             bool IMath<xdouble>.IsSigned { get; } = true;
+            xdouble IMath<xdouble>.E { get; } = Math.E;
             xdouble IMath<xdouble>.Epsilon => Epsilon;
             xdouble IMath<xdouble>.MaxUnit { get; } = 1d;
             xdouble IMath<xdouble>.MaxValue => MaxValue;
             xdouble IMath<xdouble>.MinUnit { get; } = -1d;
             xdouble IMath<xdouble>.MinValue => MinValue;
             xdouble IMath<xdouble>.One { get; } = 1d;
-            xdouble IMath<xdouble>.Zero { get; } = 0d;
-            xdouble IMath<xdouble>.E { get; } = Math.E;
             xdouble IMath<xdouble>.PI { get; } = Math.PI;
             xdouble IMath<xdouble>.Tau { get; } = Math.PI * 2d;
+            xdouble IMath<xdouble>.Ten { get; } = 10d;
+            xdouble IMath<xdouble>.Two { get; } = 2d;
+            xdouble IMath<xdouble>.Zero { get; } = 0d;
 
             xdouble IMath<xdouble>.Abs(xdouble x) => Math.Abs(x._value);
             xdouble IMath<xdouble>.Acos(xdouble x) => Math.Acos(x._value);

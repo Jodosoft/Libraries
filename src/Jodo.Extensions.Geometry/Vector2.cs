@@ -105,18 +105,12 @@ namespace Jodo.Extensions.Geometry
 
         public static Vector2<T> operator -(Vector2<T> value) => new Vector2<T>(-value.X, -value.Y);
         public static Vector2<T> operator -(Vector2<T> value1, Vector2<T> value2) => new Vector2<T>(value1.X - value2.X, value1.Y - value2.Y);
-        public static Vector2<T> operator *(Vector2<T> value, byte scalar) => new Vector2<T>(value.X * scalar, value.Y * scalar);
         public static Vector2<T> operator *(Vector2<T> value, T scalar) => new Vector2<T>(value.X * scalar, value.Y * scalar);
-        public static Vector2<T> operator *(byte scalar, Vector2<T> value) => value * scalar;
         public static Vector2<T> operator *(T scalar, Vector2<T> value) => value * scalar;
-        public static Vector2<T> operator /(Vector2<T> value, byte scalar) => new Vector2<T>(value.X / scalar, value.Y / scalar);
         public static Vector2<T> operator /(Vector2<T> value, T scalar) => new Vector2<T>(value.X / scalar, value.Y / scalar);
         public static Vector2<T> operator +(Vector2<T> value) => value;
         public static Vector2<T> operator +(Vector2<T> value1, Vector2<T> value2) => new Vector2<T>(value1.X + value2.X, value1.Y + value2.Y);
         public static implicit operator Vector2<T>((T, T) value) => new Vector2<T>(value.Item1, value.Item2);
-        public static implicit operator Vector2<T>((byte, T) value) => new Vector2<T>(value.Item1, value.Item2);
-        public static implicit operator Vector2<T>((T, byte) value) => new Vector2<T>(value.Item1, value.Item2);
-        public static implicit operator Vector2<T>((byte, byte) value) => new Vector2<T>(value.Item1, value.Item2);
         public static implicit operator (T, T)(Vector2<T> value) => (value.X, value.Y);
         public static implicit operator Vector2<T>(Tuple<T, T> value) => new Vector2<T>(value.Item1, value.Item2);
         public static implicit operator Tuple<T, T>(Vector2<T> value) => new Tuple<T, T>(value.X, value.Y);

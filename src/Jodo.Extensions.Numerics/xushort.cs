@@ -52,6 +52,7 @@ namespace Jodo.Extensions.Numerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out xushort result) => Try.Run(() => Parse(s, provider), out result);
@@ -116,11 +117,17 @@ namespace Jodo.Extensions.Numerics
         bool INumeric<xushort>.IsLessThan(xushort value) => this < value;
         bool INumeric<xushort>.IsLessThanOrEqualTo(xushort value) => this <= value;
         xushort INumeric<xushort>.Add(xushort value) => this + value;
+        xushort INumeric<xushort>.BitwiseComplement() => ~this;
         xushort INumeric<xushort>.Divide(xushort value) => this / value;
+        xushort INumeric<xushort>.LeftShift(int count) => this << count;
+        xushort INumeric<xushort>.LogicalAnd(xushort value) => this & value;
+        xushort INumeric<xushort>.LogicalExclusiveOr(xushort value) => this ^ value;
+        xushort INumeric<xushort>.LogicalOr(xushort value) => this | value;
         xushort INumeric<xushort>.Multiply(xushort value) => this * value;
         xushort INumeric<xushort>.Negative() => -this;
         xushort INumeric<xushort>.Positive() => +this;
         xushort INumeric<xushort>.Remainder(xushort value) => this % value;
+        xushort INumeric<xushort>.RightShift(int count) => this >> count;
         xushort INumeric<xushort>.Subtract(xushort value) => this - value;
 
         IBitConverter<xushort> IBitConvertible<xushort>.BitConverter => Utilities.Instance;
@@ -140,16 +147,18 @@ namespace Jodo.Extensions.Numerics
 
             bool IMath<xushort>.IsReal { get; } = false;
             bool IMath<xushort>.IsSigned { get; } = false;
+            xushort IMath<xushort>.E { get; } = (ushort)2;
             xushort IMath<xushort>.Epsilon { get; } = (ushort)1;
             xushort IMath<xushort>.MaxUnit { get; } = (ushort)1;
             xushort IMath<xushort>.MaxValue => MaxValue;
             xushort IMath<xushort>.MinUnit { get; } = (ushort)0;
             xushort IMath<xushort>.MinValue => MinValue;
             xushort IMath<xushort>.One { get; } = (ushort)1;
-            xushort IMath<xushort>.Zero { get; } = (ushort)0;
-            xushort IMath<xushort>.E { get; } = (ushort)2;
             xushort IMath<xushort>.PI { get; } = (ushort)3;
             xushort IMath<xushort>.Tau { get; } = (ushort)6;
+            xushort IMath<xushort>.Ten { get; } = (ushort)10;
+            xushort IMath<xushort>.Two { get; } = (ushort)2;
+            xushort IMath<xushort>.Zero { get; } = (ushort)0;
 
             int IMath<xushort>.Sign(xushort x) => Math.Sign(x._value);
             xushort IMath<xushort>.Abs(xushort x) => x._value;

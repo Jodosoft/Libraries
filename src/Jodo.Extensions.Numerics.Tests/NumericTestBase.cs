@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
@@ -34,17 +35,17 @@ namespace Jodo.Extensions.Numerics.Tests
 
         protected void RealOnly()
         {
-            if (!Math<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not real type.");
+            if (!Math<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a real type.");
         }
 
         protected void SignedOnly()
         {
-            if (!Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not signed type.");
+            if (!Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a signed type.");
         }
 
         protected void UnsignedOnly()
         {
-            if (Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not unsigned type.");
+            if (Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an unsigned type.");
         }
 
         protected N NextSmallNumeric()
@@ -58,7 +59,7 @@ namespace Jodo.Extensions.Numerics.Tests
 
             if (Math<N>.IsReal)
             {
-                result /= 10;
+                result /= Convert<N>.ToValue(10);
             }
             return result;
         }
@@ -68,7 +69,7 @@ namespace Jodo.Extensions.Numerics.Tests
             N result = Random.NextNumeric<N>(0, 20);
             if (Math<N>.IsReal)
             {
-                result /= 10;
+                result /= Convert<N>.ToValue(10);
             }
             return result;
         }

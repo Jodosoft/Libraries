@@ -32,7 +32,7 @@ namespace System.Linq
             foreach (var item in source)
             {
                 sum += item;
-                count += 1;
+                count += Math<N>.One;
             }
             return sum / count;
         }

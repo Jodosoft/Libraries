@@ -53,6 +53,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out cuint result) => Try.Run(() => Parse(s, provider), out result);
@@ -117,11 +118,17 @@ namespace Jodo.Extensions.CheckedNumerics
         bool INumeric<cuint>.IsLessThan(cuint value) => this < value;
         bool INumeric<cuint>.IsLessThanOrEqualTo(cuint value) => this <= value;
         cuint INumeric<cuint>.Add(cuint value) => this + value;
+        cuint INumeric<cuint>.BitwiseComplement() => ~this;
         cuint INumeric<cuint>.Divide(cuint value) => this / value;
+        cuint INumeric<cuint>.LeftShift(int count) => this << count;
+        cuint INumeric<cuint>.LogicalAnd(cuint value) => this & value;
+        cuint INumeric<cuint>.LogicalExclusiveOr(cuint value) => this ^ value;
+        cuint INumeric<cuint>.LogicalOr(cuint value) => this | value;
         cuint INumeric<cuint>.Multiply(cuint value) => this * value;
         cuint INumeric<cuint>.Negative() => -this;
         cuint INumeric<cuint>.Positive() => +this;
         cuint INumeric<cuint>.Remainder(cuint value) => this % value;
+        cuint INumeric<cuint>.RightShift(int count) => this >> count;
         cuint INumeric<cuint>.Subtract(cuint value) => this - value;
 
         IBitConverter<cuint> IBitConvertible<cuint>.BitConverter => Utilities.Instance;
@@ -141,16 +148,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IMath<cuint>.IsReal { get; } = false;
             bool IMath<cuint>.IsSigned { get; } = false;
+            cuint IMath<cuint>.E { get; } = 2;
             cuint IMath<cuint>.Epsilon { get; } = 1;
             cuint IMath<cuint>.MaxUnit { get; } = 1;
             cuint IMath<cuint>.MaxValue => MaxValue;
             cuint IMath<cuint>.MinUnit { get; } = 0;
             cuint IMath<cuint>.MinValue => MinValue;
             cuint IMath<cuint>.One { get; } = 1;
-            cuint IMath<cuint>.Zero { get; } = 0;
-            cuint IMath<cuint>.E { get; } = 2;
             cuint IMath<cuint>.PI { get; } = 3;
             cuint IMath<cuint>.Tau { get; } = 6;
+            cuint IMath<cuint>.Ten { get; } = 10;
+            cuint IMath<cuint>.Two { get; } = 2;
+            cuint IMath<cuint>.Zero { get; } = 0;
 
             int IMath<cuint>.Sign(cuint x) => 1;
             cuint IMath<cuint>.Truncate(cuint x) => x;

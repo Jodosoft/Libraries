@@ -46,7 +46,7 @@ namespace FluentAssertions
                 Execute.Assertion
                     .ForCondition(actualValue == expectedValue)
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1}.", expected, actualValue);
+                    .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1}.", expectedValue, actualValue);
             }
 
             return new AndConstraint<ComparableTypeAssertions<T>>(parent);

@@ -19,7 +19,7 @@
 
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
-using Jodo.Extensions.Testing;
+using NUnit.Framework;
 using System;
 
 namespace Jodo.Extensions.Numerics.Tests
@@ -40,7 +40,7 @@ namespace Jodo.Extensions.Numerics.Tests
 
         public abstract class Base<N> : NumericTestBase<N> where N : struct, INumeric<N>
         {
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void Boolean_RoundTrip_SameValue()
             {
                 //arrange
@@ -53,7 +53,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void ToByte_RoundTrip_SameValue()
             {
                 //arrange
@@ -66,7 +66,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void ToChar_IntegralRoundTrip_SameValue()
             {
                 //arrange
@@ -80,7 +80,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void ToChar_Real_Throws()
             {
                 //arrange
@@ -120,7 +120,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void Int16_RoundTrip_SameValue()
             {
                 //arrange
@@ -133,7 +133,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void Int32_RoundTrip_SameValue()
             {
                 //arrange
@@ -146,7 +146,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void Int64_RoundTrip_SameValue()
             {
                 //arrange
@@ -159,7 +159,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void SByte_RoundTrip_SameValue()
             {
                 //arrange
@@ -172,7 +172,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void Single_RoundTrip_SameValue()
             {
                 //arrange
@@ -186,7 +186,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void UInt16_RoundTrip_SameValue()
             {
                 //arrange
@@ -199,7 +199,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void UInt32_RoundTrip_SameValue()
             {
                 //arrange
@@ -212,7 +212,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void UInt64_RoundTrip_SameValue()
             {
                 //arrange

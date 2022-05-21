@@ -26,57 +26,57 @@ using System.Runtime.Serialization;
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
-    public readonly struct Circle<T> : IGeometric<Circle<T>> where T : struct, INumeric<T>
+    public readonly struct Circle<N> : IGeometric<Circle<N>> where N : struct, INumeric<N>
     {
-        public readonly Vector2<T> Center;
-        public readonly T Radius;
+        public readonly Vector2<N> Center;
+        public readonly N Radius;
 
-        public T Diameter => 2 * Radius;
-        public T Area => Math<T>.PI * Math<T>.Pow(Radius, 2);
-        public T Circumeference => 2 * Math<T>.PI * Radius;
+        public N Diameter => Math<N>.Two * Radius;
+        public N Area => Math<N>.PI * Math<N>.Pow(Radius, Math<N>.Two);
+        public N Circumeference => Math<N>.Two * Math<N>.PI * Radius;
 
-        IBitConverter<Circle<T>> IBitConvertible<Circle<T>>.BitConverter => throw new NotImplementedException();
+        IBitConverter<Circle<N>> IBitConvertible<Circle<N>>.BitConverter => throw new NotImplementedException();
 
-        IRandom<Circle<T>> IRandomisable<Circle<T>>.Random => throw new NotImplementedException();
+        IRandom<Circle<N>> IRandomisable<Circle<N>>.Random => throw new NotImplementedException();
 
-        IStringParser<Circle<T>> IStringParsable<Circle<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Circle<N>> IStringParsable<Circle<N>>.StringParser => throw new NotImplementedException();
 
-        public Circle(Vector2<T> center, T radius)
+        public Circle(Vector2<N> center, N radius)
         {
             Center = center;
             Radius = radius;
         }
 
-        public Circle(T centerX, T centerY, T radius)
+        public Circle(N centerX, N centerY, N radius)
         {
-            Center = new Vector2<T>(centerX, centerY);
+            Center = new Vector2<N>(centerX, centerY);
             Radius = radius;
         }
 
         private Circle(SerializationInfo info, StreamingContext context) : this(
-            (Vector2<T>)info.GetValue(nameof(Center), typeof(Vector2<T>)),
-            (T)info.GetValue(nameof(Radius), typeof(T)))
+            (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>)),
+            (N)info.GetValue(nameof(Radius), typeof(N)))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Center), Center, typeof(Vector2<T>));
-            info.AddValue(nameof(Radius), Radius, typeof(T));
+            info.AddValue(nameof(Center), Center, typeof(Vector2<N>));
+            info.AddValue(nameof(Radius), Radius, typeof(N));
         }
 
-        public Circle<T> Translate(Vector2<T> delta) => new Circle<T>(Center.Translate(delta), Radius);
-        public Circle<T> Translate(T deltaX, T deltaY) => new Circle<T>(Center.Translate(deltaX, deltaY), Radius);
-        public AARectangle<T> GetBounds() => AARectangle<T>.FromCenter(Center, (Diameter, Diameter));
-        public bool IntersectsWith(Circle<T> other) => Center.DistanceFrom(other.Center) < Radius + other.Radius;
+        public Circle<N> Translate(Vector2<N> delta) => new Circle<N>(Center.Translate(delta), Radius);
+        public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate(deltaX, deltaY), Radius);
+        public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, (Diameter, Diameter));
+        public bool IntersectsWith(Circle<N> other) => Center.DistanceFrom(other.Center) < Radius + other.Radius;
 
 
-        public bool Equals(Circle<T> other) => Center.Equals(other.Center) && EqualityComparer<T>.Default.Equals(Radius, other.Radius);
-        public override bool Equals(object? obj) => obj is Circle<T> circle && Equals(circle);
+        public bool Equals(Circle<N> other) => Center.Equals(other.Center) && EqualityComparer<N>.Default.Equals(Radius, other.Radius);
+        public override bool Equals(object? obj) => obj is Circle<N> circle && Equals(circle);
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
         public override string ToString() => StringRepresentation.Combine(GetType(), Center, Radius);
         public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
-        public static bool operator ==(Circle<T> left, Circle<T> right) => left.Equals(right);
-        public static bool operator !=(Circle<T> left, Circle<T> right) => !(left == right);
+        public static bool operator ==(Circle<N> left, Circle<N> right) => left.Equals(right);
+        public static bool operator !=(Circle<N> left, Circle<N> right) => !(left == right);
     }
 }

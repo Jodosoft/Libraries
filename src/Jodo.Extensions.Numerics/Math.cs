@@ -39,6 +39,8 @@ namespace Jodo.Extensions.Numerics
         public static N One => Instance.One;
         public static N PI => Instance.PI;
         public static N Tau => Instance.Tau;
+        public static N Ten => Instance.Ten;
+        public static N Two => Instance.Two;
         public static N Zero => Instance.Zero;
 
         [DebuggerStepThrough]

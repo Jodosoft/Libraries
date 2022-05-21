@@ -52,6 +52,7 @@ namespace Jodo.Extensions.Numerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out xbyte result) => Try.Run(() => Parse(s, provider), out result);
@@ -116,11 +117,17 @@ namespace Jodo.Extensions.Numerics
         bool INumeric<xbyte>.IsLessThan(xbyte value) => this < value;
         bool INumeric<xbyte>.IsLessThanOrEqualTo(xbyte value) => this <= value;
         xbyte INumeric<xbyte>.Add(xbyte value) => this + value;
+        xbyte INumeric<xbyte>.BitwiseComplement() => ~this;
         xbyte INumeric<xbyte>.Divide(xbyte value) => this / value;
+        xbyte INumeric<xbyte>.LeftShift(int count) => this << count;
+        xbyte INumeric<xbyte>.LogicalAnd(xbyte value) => this & value;
+        xbyte INumeric<xbyte>.LogicalExclusiveOr(xbyte value) => this ^ value;
+        xbyte INumeric<xbyte>.LogicalOr(xbyte value) => this | value;
         xbyte INumeric<xbyte>.Multiply(xbyte value) => this * value;
         xbyte INumeric<xbyte>.Negative() => -this;
         xbyte INumeric<xbyte>.Positive() => +this;
         xbyte INumeric<xbyte>.Remainder(xbyte value) => this % value;
+        xbyte INumeric<xbyte>.RightShift(int count) => this >> count;
         xbyte INumeric<xbyte>.Subtract(xbyte value) => this - value;
 
         IBitConverter<xbyte> IBitConvertible<xbyte>.BitConverter => Utilities.Instance;
@@ -140,16 +147,18 @@ namespace Jodo.Extensions.Numerics
 
             bool IMath<xbyte>.IsReal { get; } = false;
             bool IMath<xbyte>.IsSigned { get; } = false;
+            xbyte IMath<xbyte>.E { get; } = 2;
             xbyte IMath<xbyte>.Epsilon { get; } = 1;
             xbyte IMath<xbyte>.MaxUnit { get; } = 1;
             xbyte IMath<xbyte>.MaxValue => MaxValue;
             xbyte IMath<xbyte>.MinUnit { get; } = 0;
             xbyte IMath<xbyte>.MinValue => MinValue;
             xbyte IMath<xbyte>.One { get; } = 1;
-            xbyte IMath<xbyte>.Zero { get; } = 0;
-            xbyte IMath<xbyte>.E { get; } = 2;
             xbyte IMath<xbyte>.PI { get; } = 3;
             xbyte IMath<xbyte>.Tau { get; } = 6;
+            xbyte IMath<xbyte>.Ten { get; } = 10;
+            xbyte IMath<xbyte>.Two { get; } = 2;
+            xbyte IMath<xbyte>.Zero { get; } = 0;
 
             int IMath<xbyte>.Sign(xbyte x) => Math.Sign(x._value);
             xbyte IMath<xbyte>.Abs(xbyte x) => x._value;

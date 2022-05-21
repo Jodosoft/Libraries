@@ -55,8 +55,9 @@ namespace Jodo.Extensions.CheckedNumerics
         public override bool Equals(object? obj) => obj is cufix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => ((double)this).ToString();
-        public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
-        public string ToString(string format, IFormatProvider formatProvider) => ((double)this).ToString(format, formatProvider);
+        public string ToString(IFormatProvider formatProvider) => $"{_scaledValue.ToString(formatProvider)}/{ScalingFactor.ToString(formatProvider)}";
+        public string ToString(string format) => $"{_scaledValue.ToString(format)}/{ScalingFactor.ToString(format)}";
+        public string ToString(string format, IFormatProvider formatProvider) => $"{_scaledValue.ToString(format, formatProvider)}/{ScalingFactor.ToString(format, formatProvider)}";
 
         public static bool TryParse(string s, IFormatProvider provider, out cufix64 result) => Try.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cufix64 result) => Try.Run(() => Parse(s, style, provider), out result);
@@ -120,11 +121,17 @@ namespace Jodo.Extensions.CheckedNumerics
         bool INumeric<cufix64>.IsLessThan(cufix64 value) => this < value;
         bool INumeric<cufix64>.IsLessThanOrEqualTo(cufix64 value) => this <= value;
         cufix64 INumeric<cufix64>.Add(cufix64 value) => this + value;
+        cufix64 INumeric<cufix64>.BitwiseComplement() => ~this;
         cufix64 INumeric<cufix64>.Divide(cufix64 value) => this / value;
+        cufix64 INumeric<cufix64>.LeftShift(int count) => this << count;
+        cufix64 INumeric<cufix64>.LogicalAnd(cufix64 value) => this & value;
+        cufix64 INumeric<cufix64>.LogicalExclusiveOr(cufix64 value) => this ^ value;
+        cufix64 INumeric<cufix64>.LogicalOr(cufix64 value) => this | value;
         cufix64 INumeric<cufix64>.Multiply(cufix64 value) => this * value;
         cufix64 INumeric<cufix64>.Negative() => -this;
         cufix64 INumeric<cufix64>.Positive() => +this;
         cufix64 INumeric<cufix64>.Remainder(cufix64 value) => this % value;
+        cufix64 INumeric<cufix64>.RightShift(int count) => this >> count;
         cufix64 INumeric<cufix64>.Subtract(cufix64 value) => this - value;
 
         IBitConverter<cufix64> IBitConvertible<cufix64>.BitConverter => Utilities.Instance;
@@ -144,16 +151,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IMath<cufix64>.IsReal { get; } = true;
             bool IMath<cufix64>.IsSigned { get; } = false;
+            cufix64 IMath<cufix64>.E { get; } = (cufix64)Math.E;
             cufix64 IMath<cufix64>.Epsilon { get; } = new cufix64(1);
             cufix64 IMath<cufix64>.MaxUnit { get; } = new cufix64(ScalingFactor);
             cufix64 IMath<cufix64>.MaxValue => MaxValue;
             cufix64 IMath<cufix64>.MinUnit { get; } = 0;
             cufix64 IMath<cufix64>.MinValue => MinValue;
             cufix64 IMath<cufix64>.One { get; } = new cufix64(ScalingFactor);
-            cufix64 IMath<cufix64>.Zero { get; } = 0;
-            cufix64 IMath<cufix64>.E { get; } = (cufix64)Math.E;
             cufix64 IMath<cufix64>.PI { get; } = (cufix64)Math.PI;
             cufix64 IMath<cufix64>.Tau { get; } = (cufix64)(Math.PI * 2d);
+            cufix64 IMath<cufix64>.Ten { get; } = new cufix64(10 * ScalingFactor);
+            cufix64 IMath<cufix64>.Two { get; } = new cufix64(2 * ScalingFactor);
+            cufix64 IMath<cufix64>.Zero { get; } = 0;
 
             cufix64 IMath<cufix64>.Abs(cufix64 x) => x;
             cufix64 IMath<cufix64>.Acos(cufix64 x) => (cufix64)Math.Acos((double)x);

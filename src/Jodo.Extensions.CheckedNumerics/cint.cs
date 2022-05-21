@@ -53,6 +53,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out cint result) => Try.Run(() => Parse(s, provider), out result);
@@ -117,11 +118,17 @@ namespace Jodo.Extensions.CheckedNumerics
         bool INumeric<cint>.IsLessThan(cint value) => this < value;
         bool INumeric<cint>.IsLessThanOrEqualTo(cint value) => this <= value;
         cint INumeric<cint>.Add(cint value) => this + value;
+        cint INumeric<cint>.BitwiseComplement() => ~this;
         cint INumeric<cint>.Divide(cint value) => this / value;
+        cint INumeric<cint>.LeftShift(int count) => this << count;
+        cint INumeric<cint>.LogicalAnd(cint value) => this & value;
+        cint INumeric<cint>.LogicalExclusiveOr(cint value) => this ^ value;
+        cint INumeric<cint>.LogicalOr(cint value) => this | value;
         cint INumeric<cint>.Multiply(cint value) => this * value;
         cint INumeric<cint>.Negative() => -this;
         cint INumeric<cint>.Positive() => +this;
         cint INumeric<cint>.Remainder(cint value) => this % value;
+        cint INumeric<cint>.RightShift(int count) => this >> count;
         cint INumeric<cint>.Subtract(cint value) => this - value;
 
         IBitConverter<cint> IBitConvertible<cint>.BitConverter => Utilities.Instance;
@@ -141,16 +148,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IMath<cint>.IsReal { get; } = false;
             bool IMath<cint>.IsSigned { get; } = true;
+            cint IMath<cint>.E { get; } = 2;
             cint IMath<cint>.Epsilon { get; } = 1;
             cint IMath<cint>.MaxUnit { get; } = 1;
             cint IMath<cint>.MaxValue => MaxValue;
             cint IMath<cint>.MinUnit { get; } = -1;
             cint IMath<cint>.MinValue => MinValue;
             cint IMath<cint>.One { get; } = 1;
-            cint IMath<cint>.Zero { get; } = 0;
-            cint IMath<cint>.E { get; } = 2;
             cint IMath<cint>.PI { get; } = 3;
             cint IMath<cint>.Tau { get; } = 6;
+            cint IMath<cint>.Ten { get; } = 10;
+            cint IMath<cint>.Two { get; } = 2;
+            cint IMath<cint>.Zero { get; } = 0;
 
             cint IMath<cint>.Abs(cint x) => Math.Abs(x._value);
             cint IMath<cint>.Acos(cint x) => (cint)Math.Acos(x._value);

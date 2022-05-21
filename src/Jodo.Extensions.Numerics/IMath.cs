@@ -34,6 +34,8 @@ namespace Jodo.Extensions.Numerics
         N One { get; }
         N PI { get; }
         N Tau { get; }
+        N Ten { get; }
+        N Two { get; }
         N Zero { get; }
 
         int Sign(N x);

@@ -52,6 +52,7 @@ namespace Jodo.Extensions.Numerics
         public override int GetHashCode() => _value.GetHashCode();
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
+        public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider provider, out xulong result) => Try.Run(() => Parse(s, provider), out result);
@@ -116,11 +117,17 @@ namespace Jodo.Extensions.Numerics
         bool INumeric<xulong>.IsLessThan(xulong value) => this < value;
         bool INumeric<xulong>.IsLessThanOrEqualTo(xulong value) => this <= value;
         xulong INumeric<xulong>.Add(xulong value) => this + value;
+        xulong INumeric<xulong>.BitwiseComplement() => ~this;
         xulong INumeric<xulong>.Divide(xulong value) => this / value;
+        xulong INumeric<xulong>.LeftShift(int count) => this << count;
+        xulong INumeric<xulong>.LogicalAnd(xulong value) => this & value;
+        xulong INumeric<xulong>.LogicalExclusiveOr(xulong value) => this ^ value;
+        xulong INumeric<xulong>.LogicalOr(xulong value) => this | value;
         xulong INumeric<xulong>.Multiply(xulong value) => this * value;
         xulong INumeric<xulong>.Negative() => -this;
         xulong INumeric<xulong>.Positive() => +this;
         xulong INumeric<xulong>.Remainder(xulong value) => this % value;
+        xulong INumeric<xulong>.RightShift(int count) => this >> count;
         xulong INumeric<xulong>.Subtract(xulong value) => this - value;
 
         IBitConverter<xulong> IBitConvertible<xulong>.BitConverter => Utilities.Instance;
@@ -140,16 +147,18 @@ namespace Jodo.Extensions.Numerics
 
             bool IMath<xulong>.IsReal { get; } = false;
             bool IMath<xulong>.IsSigned { get; } = false;
+            xulong IMath<xulong>.E { get; } = (xulong)2;
             xulong IMath<xulong>.Epsilon { get; } = (xulong)1;
             xulong IMath<xulong>.MaxUnit { get; } = (xulong)1;
             xulong IMath<xulong>.MaxValue => MaxValue;
             xulong IMath<xulong>.MinUnit { get; } = (xulong)0;
             xulong IMath<xulong>.MinValue => MinValue;
             xulong IMath<xulong>.One { get; } = (xulong)1;
-            xulong IMath<xulong>.Zero { get; } = (xulong)0;
-            xulong IMath<xulong>.E { get; } = (xulong)2;
             xulong IMath<xulong>.PI { get; } = (xulong)3;
             xulong IMath<xulong>.Tau { get; } = (xulong)6;
+            xulong IMath<xulong>.Ten { get; } = (xulong)10;
+            xulong IMath<xulong>.Two { get; } = (xulong)2;
+            xulong IMath<xulong>.Zero { get; } = (xulong)0;
 
             int IMath<xulong>.Sign(xulong x) => x == 0 ? 0 : 1;
             xulong IMath<xulong>.Abs(xulong x) => x;

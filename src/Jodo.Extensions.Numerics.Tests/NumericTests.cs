@@ -19,7 +19,7 @@
 
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
-using Jodo.Extensions.Testing;
+using NUnit.Framework;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -42,7 +42,7 @@ namespace Jodo.Extensions.Numerics.Tests
 
         public abstract class Base<N> : NumericTestBase<N> where N : struct, INumeric<N>
         {
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void Equals1_RandomValues_SameAsSystem()
             {
                 //arrange
@@ -58,7 +58,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input1.Equals(input2));
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void Equals2_RandomValues_SameAsSystem()
             {
                 //arrange
@@ -74,7 +74,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input1.Equals(input2));
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void CompareTo1_RandomValues_SameSignAsSystem()
             {
                 //arrange
@@ -90,7 +90,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math.Sign(input1.CompareTo(input2)));
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void CompareTo1_NullNullable_Returns1()
             {
                 //arrange
@@ -104,7 +104,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(1);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void CompareTo1_DifferentType_Returns1()
             {
                 //arrange
@@ -117,7 +117,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(1);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void GetHashCode_SameValue_SameResult()
             {
                 //arrange
@@ -131,7 +131,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result1.Should().Be(result2);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void GetHashCode_EqualValues_SameResult()
             {
                 //arrange
@@ -147,7 +147,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result1.Should().Be(result2);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void GetHashCode_DifferentSmallValues_DifferentResult()
             {
                 //arrange
@@ -165,7 +165,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result1.Should().NotBe(result2);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void Serialize_RoundTrip_SameAsOriginal()
             {
                 //arrange
@@ -182,7 +182,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void ToSingle_RandomValues_SameAsConvert()
             {
                 //arrange
@@ -195,7 +195,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Convert<N>.ToSingle(input));
             }
 
-            [TestRepeatedly]
+            [Test, Repeat(10)]
             public void ToDouble_RandomValues_SameAsConvert()
             {
                 //arrange
