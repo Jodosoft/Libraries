@@ -17,20 +17,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives.Tests;
+using Jodo.Extensions.Numerics;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public static class StringParserTests
     {
-        public class CDouble : StringParserTestsBase<cdouble> { }
-        //public class CFix64 : StringParserTestsBase<cfix64> { }
-        public class CFloat : StringParserTestsBase<cfloat> { }
-        public class CInt : StringParserTestsBase<cint> { }
-        public class CLong : StringParserTestsBase<clong> { }
-        public class CSByte : StringParserTestsBase<csbyte> { }
-        public class CShort : StringParserTestsBase<cshort> { }
-        //public class UCFix64 : StringParserTestsBase<cufix64> { }
-        public class UCInt : StringParserTestsBase<ucint> { }
+        public class CDouble : Base<cdouble> { }
+        //public class CFix64 : Base<cfix64> { }
+        public class CFloat : Base<cfloat> { }
+        public class CInt : Base<cint> { }
+        public class CLong : Base<clong> { }
+        public class CSByte : Base<csbyte> { }
+        public class CShort : Base<cshort> { }
+        //public class UCFix64 : Base<cufix64> { }
+        public class UCInt : Base<ucint> { }
+        public class UCShort : Base<ucshort> { }
+        public class CByte : Base<cbyte> { }
+
+        public abstract class Base<T> : Numerics.Tests.StringParserTests.Base<T> where T : struct, INumeric<T>
+        {
+
+        }
     }
 }

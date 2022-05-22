@@ -32,5 +32,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class CShort : BitConverterTestsBase<cshort> { }
         public class UCFix64 : BitConverterTestsBase<ucfix64> { }
         public class UCInt : BitConverterTestsBase<ucint> { }
+        public class UCShort : BitConverterTestsBase<ucshort> { }
+        public class CByte : BitConverterTestsBase<cbyte> { }
     }
 }

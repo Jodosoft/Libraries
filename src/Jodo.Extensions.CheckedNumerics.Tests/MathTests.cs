@@ -32,6 +32,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class CShort : Base<cshort> { }
         //public class UCFix64 : Base<cufix64> { }
         public class UCInt : Base<ucint> { }
+        public class UCShort : Base<ucshort> { }
+        public class CByte : Base<cbyte> { }
 
         public abstract class Base<T> : Numerics.Tests.MathTests.Base<T> where T : struct, INumeric<T>
         {

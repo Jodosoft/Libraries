@@ -227,7 +227,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acos_Random_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(-1, 1);
+                var input = Math<N>.Round(Random.NextNumeric<N>(-1, 1), 1);
 
                 //act
                 var result = Math<N>.Acos(input);

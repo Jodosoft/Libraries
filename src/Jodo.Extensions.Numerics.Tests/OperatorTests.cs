@@ -103,7 +103,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Positive_RandomValue_ReturnsSameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var input = NextLowPrecision();
 
                 //act
                 var result = +input;
@@ -157,7 +157,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Multiply_RandomValueByOne_ReturnSameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var input = NextLowPrecision();
 
                 //act
                 var result = input * Math<N>.One;
@@ -170,7 +170,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Divide_RandomValueByOne_ReturnsSameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var input = NextLowPrecision();
 
                 //act
                 var result = input / Math<N>.One;
@@ -183,7 +183,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Divide_RandomValueByItself_ReturnsOne()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var input = NextLowPrecision();
 
                 //act
                 var result = input / Math<N>.One;
@@ -360,7 +360,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var left = Random.NextNumeric<N>();
+                var left = NextLowPrecision();
 
                 //act
                 var result = ~~left;
@@ -374,7 +374,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var left = Random.NextNumeric<N>();
+                var left = NextLowPrecision();
 
                 //act
                 var result = ~left;
@@ -388,7 +388,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 RealOnly();
-                var left = Random.NextNumeric<N>();
+                var left = NextLowPrecision();
 
                 //act
                 var action = new Action(() => { left = ~left; });
