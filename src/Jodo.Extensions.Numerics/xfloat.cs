@@ -170,7 +170,16 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Two { get; } = 2f;
             xfloat IMath<xfloat>.Zero { get; } = 0f;
 
-            int IMath<xfloat>.Sign(xfloat x) => MathF.Sign(x._value);
+            int IMath<xfloat>.Sign(xfloat x) => Math.Sign(x._value);
+            bool IMath<xfloat>.IsFinite(xfloat x) => IsFinite(x);
+            bool IMath<xfloat>.IsInfinity(xfloat x) => IsInfinity(x);
+            bool IMath<xfloat>.IsNaN(xfloat x) => IsNaN(x);
+            bool IMath<xfloat>.IsNegative(xfloat x) => IsNegative(x);
+            bool IMath<xfloat>.IsNegativeInfinity(xfloat x) => IsNegativeInfinity(x);
+            bool IMath<xfloat>.IsNormal(xfloat x) => IsNormal(x);
+            bool IMath<xfloat>.IsPositiveInfinity(xfloat x) => IsPositiveInfinity(x);
+            bool IMath<xfloat>.IsSubnormal(xfloat x) => IsSubnormal(x);
+
             xfloat IMath<xfloat>.Abs(xfloat x) => MathF.Abs(x._value);
             xfloat IMath<xfloat>.Acos(xfloat x) => MathF.Acos(x._value);
             xfloat IMath<xfloat>.Acosh(xfloat x) => MathF.Acosh(x._value);
@@ -193,7 +202,6 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Log10(xfloat x) => MathF.Log10(x._value);
             xfloat IMath<xfloat>.Max(xfloat x, xfloat y) => MathF.Max(x._value, y._value);
             xfloat IMath<xfloat>.Min(xfloat x, xfloat y) => MathF.Min(x._value, y._value);
-            xfloat IMath<xfloat>.Pow(xfloat x, byte y) => MathF.Pow(x._value, y);
             xfloat IMath<xfloat>.Pow(xfloat x, xfloat y) => MathF.Pow(x._value, y._value);
             xfloat IMath<xfloat>.RadiansToDegrees(xfloat x) => x * Trig.DegreesPerRadianF;
             xfloat IMath<xfloat>.Round(xfloat x) => MathF.Round(x);
@@ -218,7 +226,6 @@ namespace Jodo.Extensions.Numerics
 
             bool IConvert<xfloat>.ToBoolean(xfloat value) => Convert.ToBoolean(value._value);
             byte IConvert<xfloat>.ToByte(xfloat value) => Convert.ToByte(value._value);
-            char IConvert<xfloat>.ToChar(xfloat value) => Convert.ToChar(value._value);
             decimal IConvert<xfloat>.ToDecimal(xfloat value) => Convert.ToDecimal(value._value);
             double IConvert<xfloat>.ToDouble(xfloat value) => Convert.ToDouble(value._value);
             float IConvert<xfloat>.ToSingle(xfloat value) => Convert.ToSingle(value._value);
@@ -234,7 +241,6 @@ namespace Jodo.Extensions.Numerics
 
             xfloat IConvert<xfloat>.ToValue(bool value) => Convert.ToSingle(value);
             xfloat IConvert<xfloat>.ToValue(byte value) => Convert.ToSingle(value);
-            xfloat IConvert<xfloat>.ToValue(char value) => Convert.ToSingle(value);
             xfloat IConvert<xfloat>.ToValue(float value) => Convert.ToSingle(value);
             xfloat IConvert<xfloat>.ToValue(double value) => Convert.ToSingle(value);
             xfloat IConvert<xfloat>.ToValue(decimal value) => Convert.ToSingle(value);

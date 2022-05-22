@@ -38,7 +38,16 @@ namespace Jodo.Extensions.Numerics
         N Two { get; }
         N Zero { get; }
 
+        bool IsFinite(N x);
+        bool IsInfinity(N x);
+        bool IsNaN(N x);
+        bool IsNegative(N x);
+        bool IsNegativeInfinity(N x);
+        bool IsNormal(N x);
+        bool IsPositiveInfinity(N x);
+        bool IsSubnormal(N x);
         int Sign(N x);
+
         N Abs(N x);
         N Acos(N x);
         N Acosh(N x);
@@ -61,7 +70,6 @@ namespace Jodo.Extensions.Numerics
         N Log10(N x);
         N Max(N x, N y);
         N Min(N x, N y);
-        N Pow(N x, byte y);
         N Pow(N x, N y);
         N RadiansToDegrees(N radians);
         N Round(N x);

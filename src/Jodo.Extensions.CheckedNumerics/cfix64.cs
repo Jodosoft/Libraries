@@ -164,6 +164,16 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IMath<cfix64>.Two { get; } = new cfix64(2 * ScalingFactor);
             cfix64 IMath<cfix64>.Zero { get; } = 0;
 
+            int IMath<cfix64>.Sign(cfix64 x) => x._scaledValue == 0 ? 0 : 1;
+            bool IMath<cfix64>.IsFinite(cfix64 x) => true;
+            bool IMath<cfix64>.IsInfinity(cfix64 x) => false;
+            bool IMath<cfix64>.IsNaN(cfix64 x) => false;
+            bool IMath<cfix64>.IsNegative(cfix64 x) => x._scaledValue < 0;
+            bool IMath<cfix64>.IsNegativeInfinity(cfix64 x) => false;
+            bool IMath<cfix64>.IsNormal(cfix64 x) => false;
+            bool IMath<cfix64>.IsPositiveInfinity(cfix64 x) => false;
+            bool IMath<cfix64>.IsSubnormal(cfix64 x) => false;
+
             cfix64 IMath<cfix64>.Abs(cfix64 x) => x._scaledValue < 0 ? -x : x;
             cfix64 IMath<cfix64>.Acos(cfix64 x) => (cfix64)Math.Acos((double)x);
             cfix64 IMath<cfix64>.Acosh(cfix64 x) => (cfix64)Math.Acosh((double)x);
@@ -186,7 +196,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IMath<cfix64>.Log10(cfix64 x) => (cfix64)Math.Log10((double)x);
             cfix64 IMath<cfix64>.Max(cfix64 x, cfix64 y) => new cfix64(Math.Max(x._scaledValue, y._scaledValue));
             cfix64 IMath<cfix64>.Min(cfix64 x, cfix64 y) => new cfix64(Math.Min(x._scaledValue, y._scaledValue));
-            cfix64 IMath<cfix64>.Pow(cfix64 x, byte y) => (cfix64)Math.Pow((double)x, y);
             cfix64 IMath<cfix64>.Pow(cfix64 x, cfix64 y) => (cfix64)Math.Pow((double)x, (double)y);
             cfix64 IMath<cfix64>.RadiansToDegrees(cfix64 x) => (cfix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerRadian);
             cfix64 IMath<cfix64>.Round(cfix64 x) => (cfix64)Math.Round((double)x);
@@ -199,7 +208,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IMath<cfix64>.Tan(cfix64 x) => (cfix64)Math.Tan((double)x);
             cfix64 IMath<cfix64>.Tanh(cfix64 x) => (cfix64)Math.Tanh((double)x);
             cfix64 IMath<cfix64>.Truncate(cfix64 x) => new cfix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            int IMath<cfix64>.Sign(cfix64 x) => Math.Sign(x._scaledValue);
 
             cfix64 IBitConverter<cfix64>.Read(IReadOnlyStream<byte> stream) => new cfix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
             void IBitConverter<cfix64>.Write(cfix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
@@ -212,7 +220,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IConvert<cfix64>.ToBoolean(cfix64 value) => value._scaledValue != 0;
             byte IConvert<cfix64>.ToByte(cfix64 value) => CheckedConvert.ToByte(value._scaledValue / ScalingFactor);
-            char IConvert<cfix64>.ToChar(cfix64 value) => throw new InvalidCastException($"Invalid cast from '{nameof(cfix64)}' to 'Char'.");
             decimal IConvert<cfix64>.ToDecimal(cfix64 value) => (decimal)value._scaledValue / ScalingFactor;
             double IConvert<cfix64>.ToDouble(cfix64 value) => (double)value._scaledValue / ScalingFactor;
             float IConvert<cfix64>.ToSingle(cfix64 value) => (float)value._scaledValue / ScalingFactor;
@@ -228,7 +235,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cfix64 IConvert<cfix64>.ToValue(bool value) => value ? ScalingFactor : 0;
             cfix64 IConvert<cfix64>.ToValue(byte value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(char value) => (cfix64)CheckedConvert.ToInt64(value);
             cfix64 IConvert<cfix64>.ToValue(decimal value) => (cfix64)value;
             cfix64 IConvert<cfix64>.ToValue(double value) => (cfix64)value;
             cfix64 IConvert<cfix64>.ToValue(float value) => value;

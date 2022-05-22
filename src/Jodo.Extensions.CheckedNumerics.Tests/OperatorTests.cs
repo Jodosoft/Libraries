@@ -30,8 +30,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class CLong : Base<clong> { }
         public class CSByte : Base<csbyte> { }
         public class CShort : Base<cshort> { }
-        //public class CUFix64 : Base<cufix64> { }
-        public class CUInt : Base<cuint> { }
+        //public class UCFix64 : Base<cufix64> { }
+        public class UCInt : Base<ucint> { }
 
         public abstract class Base<T> : Numerics.Tests.OperatorTests.Base<T> where T : struct, INumeric<T>
         {

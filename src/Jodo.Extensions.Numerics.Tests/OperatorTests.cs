@@ -21,6 +21,7 @@ using FluentAssertions;
 using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
+using System.Linq.Expressions;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -44,19 +45,19 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 var result = Random.NextNumeric<N>(0, 10);
 
-                if (Math<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToValue(2), 1);
-                if (Math<N>.IsSigned) result -= Convert<N>.ToValue(5);
+                if (Math<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToNumeric(2), 1);
+                if (Math<N>.IsSigned) result -= Convert<N>.ToNumeric(5);
                 return result;
             }
 
             public N NextSmallPositive()
             {
                 var result = Random.NextNumeric<N>(0, 10);
-                if (Math<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToValue(2), 1);
+                if (Math<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToNumeric(2), 1);
                 return result + Math<N>.One;
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Add_RandomValues_CorrectResult()
             {
                 //arrange
@@ -70,7 +71,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Convert<N>.ToDouble(left) + Convert<N>.ToDouble(right));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void AddSubtract_Random_CorrectResult()
             {
                 //arrange
@@ -84,7 +85,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Convert<N>.ToDouble(left));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Multiply_RandomValues_CorrectResult()
             {
                 //arrange
@@ -98,7 +99,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Convert<N>.ToDouble(left) * Convert<N>.ToDouble(right));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Positive_RandomValue_ReturnsSameValue()
             {
                 //arrange
@@ -111,22 +112,22 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Negative_RandomSignedValue_ReturnsSameAsAbs()
             {
                 //arrange
                 SignedOnly();
                 var input = Random.NextSByte(-127, -1);
-                var inputN = Convert<N>.ToValue(input);
+                var inputN = Convert<N>.ToNumeric(input);
 
                 //act
                 var result = -inputN;
 
                 //assert
-                result.Should().Be(Convert<N>.ToValue(input * -1));
+                result.Should().Be(Convert<N>.ToNumeric(input * -1));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Negative_Zero_ReturnsZero()
             {
                 //arrange
@@ -139,11 +140,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math<N>.Zero);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Multiply_RandomValueByZero_ReturnsZero()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var input = NextLowPrecision();
 
                 //act
                 var result = input * Math<N>.Zero;
@@ -152,7 +153,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math<N>.Zero);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Multiply_RandomValueByOne_ReturnSameValue()
             {
                 //arrange
@@ -165,7 +166,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Divide_RandomValueByOne_ReturnsSameValue()
             {
                 //arrange
@@ -178,7 +179,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Divide_RandomValueByItself_ReturnsOne()
             {
                 //arrange
@@ -191,7 +192,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Divide_RandomValues_CorrectResult()
             {
                 //arrange
@@ -205,14 +206,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Convert<N>.ToDouble(left) / Convert<N>.ToDouble(right));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void GreaterThan_RandomValues_SameAsSystem()
             {
                 //arrange
                 var left = Random.NextByte(0, 127);
                 var right = Random.NextByte(0, 127);
-                var leftN = Convert<N>.ToValue(left);
-                var rightN = Convert<N>.ToValue(right);
+                var leftN = Convert<N>.ToNumeric(left);
+                var rightN = Convert<N>.ToNumeric(right);
 
                 //act
                 var result = leftN > rightN;
@@ -221,14 +222,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(left > right);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void GreaterThanOrEqualTo_RandomValues_SameAsSystem()
             {
                 //arrange
                 var left = Random.NextByte(0, 127);
                 var right = Random.NextByte(0, 127);
-                var leftN = Convert<N>.ToValue(left);
-                var rightN = Convert<N>.ToValue(right);
+                var leftN = Convert<N>.ToNumeric(left);
+                var rightN = Convert<N>.ToNumeric(right);
 
                 //act
                 var result = leftN >= rightN;
@@ -237,14 +238,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(left >= right);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void LessThan_RandomValues_SameAsSystem()
             {
                 //arrange
                 var left = Random.NextByte(0, 127);
                 var right = Random.NextByte(0, 127);
-                var leftN = Convert<N>.ToValue(left);
-                var rightN = Convert<N>.ToValue(right);
+                var leftN = Convert<N>.ToNumeric(left);
+                var rightN = Convert<N>.ToNumeric(right);
 
                 //act
                 var result = leftN < rightN;
@@ -253,14 +254,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(left < right);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void LessThanOrEqualTo_RandomValues_SameAsSystem()
             {
                 //arrange
                 var left = Random.NextByte(0, 127);
                 var right = Random.NextByte(0, 127);
-                var leftN = Convert<N>.ToValue(left);
-                var rightN = Convert<N>.ToValue(right);
+                var leftN = Convert<N>.ToNumeric(left);
+                var rightN = Convert<N>.ToNumeric(right);
 
                 //act
                 var result = leftN <= rightN;
@@ -269,11 +270,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(left <= right);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Remainder_RandomValueByOne_ReturnsZero()
             {
                 //arrange
-                var input = Math<N>.Truncate(Random.NextNumeric<N>());
+                var input = Math<N>.Truncate(NextLowPrecision());
 
                 //act
                 var result = input % Math<N>.One;
@@ -282,11 +283,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math<N>.Zero);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Remainder_RandomValueByItself_ReturnsZero()
             {
                 //arrange
-                var input = Math<N>.Truncate(Random.NextNumeric<N>());
+                var input = Math<N>.Truncate(NextLowPrecision());
 
                 //act
                 var result = input % Math<N>.One;
@@ -295,7 +296,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math<N>.Zero);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Remainder_RandomValues_CorrectResult()
             {
                 //arrange
@@ -309,7 +310,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Convert<N>.ToDouble(left) % Convert<N>.ToDouble(right));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void LogicalAnd_RandomIntegralValues_CorrectResult()
             {
                 //arrange
@@ -324,7 +325,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Convert<N>.ToInt32(left) & Convert<N>.ToInt32(right));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void LogicalOr_RandomIntegralValues_CorrectResult()
             {
                 //arrange
@@ -339,7 +340,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Convert<N>.ToInt32(left) | Convert<N>.ToInt32(right));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void LogicalExclusiveOr_RandomIntegralValues_CorrectResult()
             {
                 //arrange
@@ -354,11 +355,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Convert<N>.ToInt32(left) ^ Convert<N>.ToInt32(right));
             }
 
-            [Test, Repeat(10)]
-            public void BitwiseComplement_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void BitwiseComplement_IntegralRoundTrip_SameValue()
             {
                 //arrange
-                var left = NextSmall();
+                IntegralOnly();
+                var left = Random.NextNumeric<N>();
 
                 //act
                 var result = ~~left;
@@ -367,11 +369,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(left);
             }
 
-            [Test, Repeat(10)]
-            public void BitwiseComplement_Once_DifferentValue()
+            [Test, Repeat(RandomVariations)]
+            public void BitwiseComplement_RandomIntegral_DifferentValue()
             {
                 //arrange
-                var left = NextSmall();
+                IntegralOnly();
+                var left = Random.NextNumeric<N>();
 
                 //act
                 var result = ~left;
@@ -380,7 +383,21 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().NotBe(left);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
+            public void BitwiseComplement_RandomReal_DoesntThrow()
+            {
+                //arrange
+                RealOnly();
+                var left = Random.NextNumeric<N>();
+
+                //act
+                var action = new Action(() => { left = ~left; });
+
+                //assert
+                action.Should().NotThrow();
+            }
+
+            [Test, Repeat(RandomVariations)]
             public void LeftShift_RandomIntegralValues_CorrectResult()
             {
                 //arrange
@@ -393,6 +410,27 @@ namespace Jodo.Extensions.Numerics.Tests
 
                 //assert
                 result.Should().BeApproximately(Convert<N>.ToInt32(left) << right);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void SByteConversion_SignedRoundTrip_CorrectResult()
+            {
+                //arrange
+                SignedOnly();
+                var input = Random.NextSByte();
+
+                //act
+                var result = Cast<sbyte>(Cast<N>(input));
+
+                //assert
+                result.Should().Be(input);
+            }
+
+            public static object Cast<T>(object data)
+            {
+                var parameter = Expression.Parameter(typeof(object), "data");
+                var body = Expression.Block(Expression.Convert(Expression.Convert(parameter, data.GetType()), typeof(T)));
+                return Expression.Lambda(body, parameter).Compile().DynamicInvoke(data);
             }
         }
     }

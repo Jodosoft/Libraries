@@ -161,6 +161,16 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Two { get; } = 2;
             csbyte IMath<csbyte>.Zero { get; } = 0;
 
+            int IMath<csbyte>.Sign(csbyte x) => Math.Sign(x._value);
+            bool IMath<csbyte>.IsFinite(csbyte x) => true;
+            bool IMath<csbyte>.IsInfinity(csbyte x) => false;
+            bool IMath<csbyte>.IsNaN(csbyte x) => false;
+            bool IMath<csbyte>.IsNegative(csbyte x) => x._value < 0;
+            bool IMath<csbyte>.IsNegativeInfinity(csbyte x) => false;
+            bool IMath<csbyte>.IsNormal(csbyte x) => false;
+            bool IMath<csbyte>.IsPositiveInfinity(csbyte x) => false;
+            bool IMath<csbyte>.IsSubnormal(csbyte x) => false;
+
             csbyte IMath<csbyte>.Abs(csbyte x) => Math.Abs(x._value);
             csbyte IMath<csbyte>.Acos(csbyte x) => (csbyte)Math.Acos(x._value);
             csbyte IMath<csbyte>.Acosh(csbyte x) => (csbyte)Math.Acosh(x._value);
@@ -183,7 +193,6 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Log10(csbyte x) => (csbyte)Math.Log10(x._value);
             csbyte IMath<csbyte>.Max(csbyte x, csbyte y) => Math.Max(x._value, y._value);
             csbyte IMath<csbyte>.Min(csbyte x, csbyte y) => Math.Min(x._value, y._value);
-            csbyte IMath<csbyte>.Pow(csbyte x, byte y) => CheckedArithmetic.Pow(x._value, (sbyte)y);
             csbyte IMath<csbyte>.Pow(csbyte x, csbyte y) => CheckedArithmetic.Pow(x._value, y._value);
             csbyte IMath<csbyte>.RadiansToDegrees(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             csbyte IMath<csbyte>.Round(csbyte x) => x;
@@ -196,7 +205,6 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Tan(csbyte x) => (csbyte)Math.Tan(x._value);
             csbyte IMath<csbyte>.Tanh(csbyte x) => (csbyte)Math.Tanh(x._value);
             csbyte IMath<csbyte>.Truncate(csbyte x) => x;
-            int IMath<csbyte>.Sign(csbyte x) => Math.Sign(x._value);
 
             csbyte IBitConverter<csbyte>.Read(IReadOnlyStream<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
             void IBitConverter<csbyte>.Write(csbyte value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -209,7 +217,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IConvert<csbyte>.ToBoolean(csbyte value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<csbyte>.ToByte(csbyte value) => CheckedConvert.ToByte(value._value);
-            char IConvert<csbyte>.ToChar(csbyte value) => CheckedConvert.ToChar(value._value);
             decimal IConvert<csbyte>.ToDecimal(csbyte value) => CheckedConvert.ToDecimal(value._value);
             double IConvert<csbyte>.ToDouble(csbyte value) => CheckedConvert.ToDouble(value._value);
             float IConvert<csbyte>.ToSingle(csbyte value) => CheckedConvert.ToSingle(value._value);
@@ -225,7 +232,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             csbyte IConvert<csbyte>.ToValue(bool value) => CheckedConvert.ToSByte(value);
             csbyte IConvert<csbyte>.ToValue(byte value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(char value) => CheckedConvert.ToSByte(value);
             csbyte IConvert<csbyte>.ToValue(decimal value) => CheckedConvert.ToSByte(value);
             csbyte IConvert<csbyte>.ToValue(double value) => CheckedConvert.ToSByte(value);
             csbyte IConvert<csbyte>.ToValue(float value) => CheckedConvert.ToSByte(value);

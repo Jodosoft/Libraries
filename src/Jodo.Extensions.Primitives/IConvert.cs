@@ -25,7 +25,6 @@ namespace Jodo.Extensions.Primitives
     {
         bool ToBoolean(T value);
         byte ToByte(T value);
-        char ToChar(T value);
         decimal ToDecimal(T value);
         double ToDouble(T value);
         float ToSingle(T value);
@@ -41,7 +40,6 @@ namespace Jodo.Extensions.Primitives
 
         T ToValue(bool value);
         T ToValue(byte value);
-        T ToValue(char value);
         T ToValue(decimal value);
         T ToValue(double value);
         T ToValue(float value);

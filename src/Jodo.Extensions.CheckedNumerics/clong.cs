@@ -161,6 +161,16 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Two { get; } = 2L;
             clong IMath<clong>.Zero { get; } = 0L;
 
+            int IMath<clong>.Sign(clong x) => Math.Sign(x._value);
+            bool IMath<clong>.IsFinite(clong x) => true;
+            bool IMath<clong>.IsInfinity(clong x) => false;
+            bool IMath<clong>.IsNaN(clong x) => false;
+            bool IMath<clong>.IsNegative(clong x) => x._value < 0;
+            bool IMath<clong>.IsNegativeInfinity(clong x) => false;
+            bool IMath<clong>.IsNormal(clong x) => false;
+            bool IMath<clong>.IsPositiveInfinity(clong x) => false;
+            bool IMath<clong>.IsSubnormal(clong x) => false;
+
             clong IMath<clong>.Abs(clong x) => Math.Abs(x);
             clong IMath<clong>.Acos(clong x) => (clong)Math.Acos(x);
             clong IMath<clong>.Acosh(clong x) => (clong)Math.Acosh(x);
@@ -183,7 +193,6 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Log10(clong x) => (clong)Math.Log10(x);
             clong IMath<clong>.Max(clong x, clong y) => Math.Max(x, y);
             clong IMath<clong>.Min(clong x, clong y) => Math.Min(x, y);
-            clong IMath<clong>.Pow(clong x, byte y) => CheckedArithmetic.Pow(x, y);
             clong IMath<clong>.Pow(clong x, clong y) => CheckedArithmetic.Pow(x, y);
             clong IMath<clong>.RadiansToDegrees(clong radians) => (clong)CheckedArithmetic.Multiply(radians, Trig.DegreesPerRadian);
             clong IMath<clong>.Round(clong x) => x;
@@ -196,7 +205,6 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Tan(clong x) => (clong)Math.Tan(x);
             clong IMath<clong>.Tanh(clong x) => (clong)Math.Tanh(x);
             clong IMath<clong>.Truncate(clong x) => x;
-            int IMath<clong>.Sign(clong x) => Math.Sign(x);
 
             clong IBitConverter<clong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));
             void IBitConverter<clong>.Write(clong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -209,7 +217,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IConvert<clong>.ToBoolean(clong value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<clong>.ToByte(clong value) => CheckedConvert.ToByte(value._value);
-            char IConvert<clong>.ToChar(clong value) => CheckedConvert.ToChar(value._value);
             decimal IConvert<clong>.ToDecimal(clong value) => CheckedConvert.ToDecimal(value._value);
             double IConvert<clong>.ToDouble(clong value) => CheckedConvert.ToDouble(value._value);
             float IConvert<clong>.ToSingle(clong value) => CheckedConvert.ToSingle(value._value);
@@ -225,7 +232,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             clong IConvert<clong>.ToValue(bool value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToValue(byte value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(char value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToValue(decimal value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToValue(double value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToValue(float value) => CheckedConvert.ToInt64(value);

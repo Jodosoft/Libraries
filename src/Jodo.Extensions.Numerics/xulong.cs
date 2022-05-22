@@ -160,7 +160,16 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Two { get; } = (xulong)2;
             xulong IMath<xulong>.Zero { get; } = (xulong)0;
 
-            int IMath<xulong>.Sign(xulong x) => x == 0 ? 0 : 1;
+            int IMath<xulong>.Sign(xulong x) => x._value == 0 ? 0 : 1;
+            bool IMath<xulong>.IsFinite(xulong x) => true;
+            bool IMath<xulong>.IsInfinity(xulong x) => false;
+            bool IMath<xulong>.IsNaN(xulong x) => false;
+            bool IMath<xulong>.IsNegative(xulong x) => false;
+            bool IMath<xulong>.IsNegativeInfinity(xulong x) => false;
+            bool IMath<xulong>.IsNormal(xulong x) => false;
+            bool IMath<xulong>.IsPositiveInfinity(xulong x) => false;
+            bool IMath<xulong>.IsSubnormal(xulong x) => false;
+
             xulong IMath<xulong>.Abs(xulong x) => x;
             xulong IMath<xulong>.Acos(xulong x) => (xulong)Math.Acos(x);
             xulong IMath<xulong>.Acosh(xulong x) => (xulong)Math.Acosh(x);
@@ -183,7 +192,6 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Log10(xulong x) => (xulong)Math.Log10(x);
             xulong IMath<xulong>.Max(xulong x, xulong y) => Math.Max(x, y);
             xulong IMath<xulong>.Min(xulong x, xulong y) => Math.Min(x, y);
-            xulong IMath<xulong>.Pow(xulong x, byte y) => y == 1 ? x : (xulong)Math.Pow(x, y);
             xulong IMath<xulong>.Pow(xulong x, xulong y) => y == 1 ? x : (xulong)Math.Pow(x, y);
             xulong IMath<xulong>.RadiansToDegrees(xulong x) => (xulong)(x * Trig.DegreesPerRadian);
             xulong IMath<xulong>.Round(xulong x) => x;
@@ -208,7 +216,6 @@ namespace Jodo.Extensions.Numerics
 
             bool IConvert<xulong>.ToBoolean(xulong value) => Convert.ToBoolean(value._value);
             byte IConvert<xulong>.ToByte(xulong value) => Convert.ToByte(value._value);
-            char IConvert<xulong>.ToChar(xulong value) => Convert.ToChar(value._value);
             decimal IConvert<xulong>.ToDecimal(xulong value) => Convert.ToDecimal(value._value);
             double IConvert<xulong>.ToDouble(xulong value) => Convert.ToDouble(value._value);
             float IConvert<xulong>.ToSingle(xulong value) => Convert.ToSingle(value._value);
@@ -224,7 +231,6 @@ namespace Jodo.Extensions.Numerics
 
             xulong IConvert<xulong>.ToValue(bool value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToValue(byte value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(char value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToValue(decimal value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToValue(double value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToValue(float value) => Convert.ToUInt64(value);

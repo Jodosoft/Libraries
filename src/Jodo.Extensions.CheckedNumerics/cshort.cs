@@ -161,6 +161,16 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Two { get; } = (short)2;
             cshort IMath<cshort>.Zero { get; } = (short)0;
 
+            int IMath<cshort>.Sign(cshort x) => Math.Sign(x._value);
+            bool IMath<cshort>.IsFinite(cshort x) => true;
+            bool IMath<cshort>.IsInfinity(cshort x) => false;
+            bool IMath<cshort>.IsNaN(cshort x) => false;
+            bool IMath<cshort>.IsNegative(cshort x) => x._value < 0;
+            bool IMath<cshort>.IsNegativeInfinity(cshort x) => false;
+            bool IMath<cshort>.IsNormal(cshort x) => false;
+            bool IMath<cshort>.IsPositiveInfinity(cshort x) => false;
+            bool IMath<cshort>.IsSubnormal(cshort x) => false;
+
             cshort IMath<cshort>.Abs(cshort x) => Math.Abs(x._value);
             cshort IMath<cshort>.Acos(cshort x) => (cshort)Math.Acos(x._value);
             cshort IMath<cshort>.Acosh(cshort x) => (cshort)Math.Acosh(x._value);
@@ -183,7 +193,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Log10(cshort x) => (cshort)Math.Log10(x._value);
             cshort IMath<cshort>.Max(cshort x, cshort y) => Math.Max(x._value, y._value);
             cshort IMath<cshort>.Min(cshort x, cshort y) => Math.Min(x._value, y._value);
-            cshort IMath<cshort>.Pow(cshort x, byte y) => CheckedArithmetic.Pow(x._value, y);
             cshort IMath<cshort>.Pow(cshort x, cshort y) => CheckedArithmetic.Pow(x._value, y._value);
             cshort IMath<cshort>.RadiansToDegrees(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             cshort IMath<cshort>.Round(cshort x) => x;
@@ -196,7 +205,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Tan(cshort x) => (cshort)Math.Tan(x._value);
             cshort IMath<cshort>.Tanh(cshort x) => (cshort)Math.Tanh(x._value);
             cshort IMath<cshort>.Truncate(cshort x) => x;
-            int IMath<cshort>.Sign(cshort x) => Math.Sign(x._value);
 
             cshort IBitConverter<cshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)));
             void IBitConverter<cshort>.Write(cshort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -209,7 +217,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IConvert<cshort>.ToBoolean(cshort value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cshort>.ToByte(cshort value) => CheckedConvert.ToByte(value._value);
-            char IConvert<cshort>.ToChar(cshort value) => CheckedConvert.ToChar(value._value);
             decimal IConvert<cshort>.ToDecimal(cshort value) => CheckedConvert.ToDecimal(value._value);
             double IConvert<cshort>.ToDouble(cshort value) => CheckedConvert.ToDouble(value._value);
             float IConvert<cshort>.ToSingle(cshort value) => CheckedConvert.ToSingle(value._value);
@@ -225,7 +232,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cshort IConvert<cshort>.ToValue(bool value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToValue(byte value) => CheckedConvert.ToInt16(value);
-            cshort IConvert<cshort>.ToValue(char value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToValue(decimal value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToValue(double value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToValue(float value) => CheckedConvert.ToInt16(value);

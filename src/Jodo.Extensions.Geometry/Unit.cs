@@ -25,40 +25,40 @@ using System.Runtime.Serialization;
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
-    public readonly struct Unit<T> : IGeometric<Unit<T>> where T : struct, INumeric<T>
+    public readonly struct Unit<N> : IGeometric<Unit<N>> where N : struct, INumeric<N>
     {
-        public readonly static Unit<T> Zero = new Unit<T>(Math<T>.Zero);
-        public readonly static Unit<T> MaxValue = new Unit<T>(Math<T>.MaxUnit);
-        public readonly static Unit<T> MinValue = new Unit<T>(Math<T>.MinUnit);
+        public readonly static Unit<N> Zero = new Unit<N>(Math<N>.Zero);
+        public readonly static Unit<N> MaxValue = new Unit<N>(Math<N>.MaxUnit);
+        public readonly static Unit<N> MinValue = new Unit<N>(Math<N>.MinUnit);
 
-        public readonly T Value { get; }
+        public readonly N Value { get; }
 
-        IBitConverter<Unit<T>> IBitConvertible<Unit<T>>.BitConverter => throw new NotImplementedException();
-        IRandom<Unit<T>> IRandomisable<Unit<T>>.Random => throw new NotImplementedException();
-        IStringParser<Unit<T>> IStringParsable<Unit<T>>.StringParser => throw new NotImplementedException();
+        IBitConverter<Unit<N>> IBitConvertible<Unit<N>>.BitConverter => throw new NotImplementedException();
+        IRandom<Unit<N>> IRandomisable<Unit<N>>.Random => throw new NotImplementedException();
+        IStringParser<Unit<N>> IStringParsable<Unit<N>>.StringParser => throw new NotImplementedException();
 
-        public Unit(T value)
+        public Unit(N value)
         {
-            Value = Math<T>.Clamp(value, Math<T>.MinUnit, Math<T>.MaxUnit);
+            Value = Math<N>.Clamp(value, Math<N>.MinUnit, Math<N>.MaxUnit);
         }
 
         private Unit(SerializationInfo info, StreamingContext context) : this(
-            (T)info.GetValue(nameof(Value), typeof(T)))
+            (N)info.GetValue(nameof(Value), typeof(N)))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-            => info.AddValue(nameof(Value), Value, typeof(T));
+            => info.AddValue(nameof(Value), Value, typeof(N));
 
-        public bool Equals(Unit<T> other) => Value.Equals(other.Value);
-        public override bool Equals(object? obj) => obj is Unit<T> unit && Equals(unit);
+        public bool Equals(Unit<N> other) => Value.Equals(other.Value);
+        public override bool Equals(object? obj) => obj is Unit<N> unit && Equals(unit);
         public override int GetHashCode() => Value.GetHashCode();
         public override string ToString() => Value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => Value.ToString(format, formatProvider);
 
-        public static implicit operator T(Unit<T> unit) => unit.Value;
-        public static explicit operator Unit<T>(T value) => new Unit<T>(value);
-        public static explicit operator Unit<T>(byte value) => new Unit<T>(Convert<T>.ToValue(value));
-        public static bool operator ==(Unit<T> left, Unit<T> right) => left.Equals(right);
-        public static bool operator !=(Unit<T> left, Unit<T> right) => !(left == right);
+        public static implicit operator N(Unit<N> unit) => unit.Value;
+        public static explicit operator Unit<N>(N value) => new Unit<N>(value);
+        public static explicit operator Unit<N>(byte value) => new Unit<N>(Convert<N>.ToNumeric(value));
+        public static bool operator ==(Unit<N> left, Unit<N> right) => left.Equals(right);
+        public static bool operator !=(Unit<N> left, Unit<N> right) => !(left == right);
     }
 }

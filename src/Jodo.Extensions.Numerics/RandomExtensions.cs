@@ -33,11 +33,11 @@ namespace System
         public static N NextNumeric<N>(this Random random, double bound1, double bound2) where N : struct, INumeric<N>
         {
             N minBound;
-            try { minBound = Convert<N>.ToValue(Math.Min(bound1, bound2)); }
+            try { minBound = Convert<N>.ToNumeric(Math.Min(bound1, bound2)); }
             catch (OverflowException) { minBound = Math<N>.MinValue; }
 
             N maxBound;
-            try { maxBound = Convert<N>.ToValue(Math.Max(bound1, bound2)); }
+            try { maxBound = Convert<N>.ToNumeric(Math.Max(bound1, bound2)); }
             catch (OverflowException) { maxBound = Math<N>.MaxValue; }
 
             return random.NextNumeric(minBound, maxBound);

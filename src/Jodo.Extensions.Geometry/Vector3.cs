@@ -25,21 +25,21 @@ using System.Runtime.Serialization;
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
-    public readonly struct Vector3<T> : IGeometric<Vector3<T>> where T : struct, INumeric<T>
+    public readonly struct Vector3<N> : IGeometric<Vector3<N>> where N : struct, INumeric<N>
     {
-        public readonly T X;
-        public readonly T Y;
-        public readonly T Z;
+        public readonly N X;
+        public readonly N Y;
+        public readonly N Z;
 
-        public T Length => Math<T>.Sqrt((X * X) + (Y * Y) + (Z * Z));
+        public N Length => Math<N>.Sqrt((X * X) + (Y * Y) + (Z * Z));
 
-        IBitConverter<Vector3<T>> IBitConvertible<Vector3<T>>.BitConverter => throw new NotImplementedException();
+        IBitConverter<Vector3<N>> IBitConvertible<Vector3<N>>.BitConverter => throw new NotImplementedException();
 
-        IRandom<Vector3<T>> IRandomisable<Vector3<T>>.Random => throw new NotImplementedException();
+        IRandom<Vector3<N>> IRandomisable<Vector3<N>>.Random => throw new NotImplementedException();
 
-        IStringParser<Vector3<T>> IStringParsable<Vector3<T>>.StringParser => throw new NotImplementedException();
+        IStringParser<Vector3<N>> IStringParsable<Vector3<N>>.StringParser => throw new NotImplementedException();
 
-        public Vector3(T x, T y, T z)
+        public Vector3(N x, N y, N z)
         {
             X = x;
             Y = y;
@@ -47,25 +47,25 @@ namespace Jodo.Extensions.Geometry
         }
 
         private Vector3(SerializationInfo info, StreamingContext context) : this(
-            (T)info.GetValue(nameof(X), typeof(T)),
-            (T)info.GetValue(nameof(Y), typeof(T)),
-            (T)info.GetValue(nameof(Z), typeof(T)))
+            (N)info.GetValue(nameof(X), typeof(N)),
+            (N)info.GetValue(nameof(Y), typeof(N)),
+            (N)info.GetValue(nameof(Z), typeof(N)))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(X), X, typeof(T));
-            info.AddValue(nameof(Y), Y, typeof(T));
-            info.AddValue(nameof(Z), Z, typeof(T));
+            info.AddValue(nameof(X), X, typeof(N));
+            info.AddValue(nameof(Y), Y, typeof(N));
+            info.AddValue(nameof(Z), Z, typeof(N));
         }
 
-        public bool Equals(Vector3<T> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-        public override bool Equals(object? obj) => obj is Vector3<T> vector && Equals(vector);
+        public bool Equals(Vector3<N> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+        public override bool Equals(object? obj) => obj is Vector3<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
         public override string ToString() => StringRepresentation.Combine(GetType(), X, Y, Z);
         public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
-        public static bool TryParse(string value, out Vector3<T> result)
+        public static bool TryParse(string value, out Vector3<N> result)
         {
             try
             {
@@ -79,29 +79,29 @@ namespace Jodo.Extensions.Geometry
             }
         }
 
-        public static Vector3<T> Parse(string value)
+        public static Vector3<N> Parse(string value)
         {
-            value = value.Replace(StringRepresentation.Combine(typeof(Vector3<T>)), string.Empty);
+            value = value.Replace(StringRepresentation.Combine(typeof(Vector3<N>)), string.Empty);
             var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
             if (args.Length != 3) throw new FormatException();
-            return new Vector3<T>(
-                StringParser<T>.Parse(args[0].Trim()),
-                StringParser<T>.Parse(args[1].Trim()),
-                StringParser<T>.Parse(args[2].Trim()));
+            return new Vector3<N>(
+                StringParser<N>.Parse(args[0].Trim()),
+                StringParser<N>.Parse(args[1].Trim()),
+                StringParser<N>.Parse(args[2].Trim()));
         }
 
-        public static Vector3<T> operator -(Vector3<T> value) => new Vector3<T>(-value.X, -value.Y, -value.Z);
-        public static Vector3<T> operator -(Vector3<T> value1, Vector3<T> value2) => new Vector3<T>(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);
-        public static Vector3<T> operator *(Vector3<T> value, T scalar) => new Vector3<T>(value.X * scalar, value.Y * scalar, value.Z * scalar);
-        public static Vector3<T> operator *(T scalar, Vector3<T> value) => value * scalar;
-        public static Vector3<T> operator /(Vector3<T> value, T scalar) => new Vector3<T>(value.X / scalar, value.Y / scalar, value.Z / scalar);
-        public static Vector3<T> operator +(Vector3<T> value) => value;
-        public static Vector3<T> operator +(Vector3<T> value1, Vector3<T> value2) => new Vector3<T>(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z);
-        public static implicit operator Vector3<T>((T, T, T) value) => new Vector3<T>(value.Item1, value.Item2, value.Item3);
-        public static implicit operator (T, T, T)(Vector3<T> value) => (value.X, value.Y, value.Z);
-        public static implicit operator Vector3<T>(Tuple<T, T, T> value) => new Vector3<T>(value.Item1, value.Item2, value.Item3);
-        public static implicit operator Tuple<T, T, T>(Vector3<T> value) => new Tuple<T, T, T>(value.X, value.Y, value.Z);
-        public static bool operator ==(Vector3<T> left, Vector3<T> right) => left.Equals(right);
-        public static bool operator !=(Vector3<T> left, Vector3<T> right) => !(left == right);
+        public static Vector3<N> operator -(Vector3<N> value) => new Vector3<N>(-value.X, -value.Y, -value.Z);
+        public static Vector3<N> operator -(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);
+        public static Vector3<N> operator *(Vector3<N> value, N scalar) => new Vector3<N>(value.X * scalar, value.Y * scalar, value.Z * scalar);
+        public static Vector3<N> operator *(N scalar, Vector3<N> value) => value * scalar;
+        public static Vector3<N> operator /(Vector3<N> value, N scalar) => new Vector3<N>(value.X / scalar, value.Y / scalar, value.Z / scalar);
+        public static Vector3<N> operator +(Vector3<N> value) => value;
+        public static Vector3<N> operator +(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z);
+        public static implicit operator Vector3<N>((N, N, N) value) => new Vector3<N>(value.Item1, value.Item2, value.Item3);
+        public static implicit operator (N, N, N)(Vector3<N> value) => (value.X, value.Y, value.Z);
+        public static implicit operator Vector3<N>(Tuple<N, N, N> value) => new Vector3<N>(value.Item1, value.Item2, value.Item3);
+        public static implicit operator Tuple<N, N, N>(Vector3<N> value) => new Tuple<N, N, N>(value.X, value.Y, value.Z);
+        public static bool operator ==(Vector3<N> left, Vector3<N> right) => left.Equals(right);
+        public static bool operator !=(Vector3<N> left, Vector3<N> right) => !(left == right);
     }
 }

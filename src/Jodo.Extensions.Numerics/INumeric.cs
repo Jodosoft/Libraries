@@ -49,6 +49,7 @@ namespace Jodo.Extensions.Numerics
         N Subtract(N value);
 
         string ToString(string format);
+        string ToString(IFormatProvider formatProvider);
 
         public static bool operator <(INumeric<N> left, INumeric<N> right) => left.IsLessThan((N)right);
         public static bool operator <=(INumeric<N> left, INumeric<N> right) => left.IsLessThanOrEqualTo((N)right);

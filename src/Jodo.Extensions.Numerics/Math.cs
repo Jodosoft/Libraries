@@ -47,6 +47,30 @@ namespace Jodo.Extensions.Numerics
         public static int Sign(N x) => Instance.Sign(x);
 
         [DebuggerStepThrough]
+        public static bool IsFinite(N x) => Instance.IsFinite(x);
+
+        [DebuggerStepThrough]
+        public static bool IsInfinity(N x) => Instance.IsInfinity(x);
+
+        [DebuggerStepThrough]
+        public static bool IsNaN(N x) => Instance.IsNaN(x);
+
+        [DebuggerStepThrough]
+        public static bool IsNegative(N x) => Instance.IsNegative(x);
+
+        [DebuggerStepThrough]
+        public static bool IsNegativeInfinity(N x) => Instance.IsNegativeInfinity(x);
+
+        [DebuggerStepThrough]
+        public static bool IsNormal(N x) => Instance.IsNormal(x);
+
+        [DebuggerStepThrough]
+        public static bool IsPositiveInfinity(N x) => Instance.IsPositiveInfinity(x);
+
+        [DebuggerStepThrough]
+        public static bool IsSubnormal(N x) => Instance.IsSubnormal(x);
+
+        [DebuggerStepThrough]
         public static N Abs(N x) => Instance.Abs(x);
 
         [DebuggerStepThrough]
@@ -111,9 +135,6 @@ namespace Jodo.Extensions.Numerics
 
         [DebuggerStepThrough]
         public static N Min(N x, N y) => Instance.Min(x, y);
-
-        [DebuggerStepThrough]
-        public static N Pow(N x, byte y) => Instance.Pow(x, y);
 
         [DebuggerStepThrough]
         public static N Pow(N x, N y) => Instance.Pow(x, y);

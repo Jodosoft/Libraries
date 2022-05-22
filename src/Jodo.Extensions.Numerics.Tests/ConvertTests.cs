@@ -21,6 +21,7 @@ using FluentAssertions;
 using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
+using System.Globalization;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -40,189 +41,189 @@ namespace Jodo.Extensions.Numerics.Tests
 
         public abstract class Base<N> : NumericTestBase<N> where N : struct, INumeric<N>
         {
-            [Test, Repeat(10)]
-            public void Boolean_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToBoolean_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Random.NextBoolean();
 
                 //act
-                var result = Convert<N>.ToBoolean(Convert<N>.ToValue(input));
+                var result = Convert<N>.ToBoolean(Convert<N>.ToNumeric(input));
 
                 //assert
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void ToByte_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Math<N>.Truncate(Random.NextNumeric<N>(byte.MinValue, byte.MaxValue));
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToByte(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToByte(input));
 
                 //assert
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
-            public void ToChar_IntegralRoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToDecimal_LowPrecisionRoundTrip_SameValue()
             {
                 //arrange
-                IntegralOnly();
-                var input = Random.NextNumeric<N>(char.MinValue, char.MaxValue);
+                var input = NextLowPrecision();
+                input = Math<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToChar(input));
-
-                //assert
-                result.Should().Be(input);
-            }
-
-            [Test, Repeat(10)]
-            public void ToChar_Real_Throws()
-            {
-                //arrange
-                RealOnly();
-                var input = Random.NextNumeric<N>();
-
-                //act
-                var action = new Action(() => Convert<N>.ToChar(input));
-
-                //assert
-                action.Should().Throw<InvalidCastException>();
-            }
-
-            public void Decimal_RoundTrip_SameValue()
-            {
-                //arrange
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
-                if (!Math<N>.IsReal) input = Math<N>.Truncate(input);
-
-                //act
-                var result = Convert<N>.ToValue(Convert<N>.ToDecimal(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToDecimal(input));
 
                 //assert
                 result.Should().BeApproximately(input);
             }
 
-            public void Double_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToDouble_LowPrecisionRoundTrip_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
-                if (!Math<N>.IsReal) input = Math<N>.Truncate(input);
+                var input = NextLowPrecision();
+                input = Math<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToDouble(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToDouble(input));
 
                 //assert
                 result.Should().BeApproximately(input);
             }
 
-            [Test, Repeat(10)]
-            public void Int16_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToInt16_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Math<N>.Truncate(Random.NextNumeric<N>(short.MinValue, short.MaxValue));
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToInt16(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToInt16(input));
 
                 //assert
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
-            public void Int32_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToInt32_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Math<N>.Truncate(Random.NextNumeric<N>(int.MinValue, int.MaxValue));
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToInt32(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToInt32(input));
 
                 //assert
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
-            public void Int64_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToInt64_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Math<N>.Truncate(Random.NextNumeric<N>(long.MinValue, long.MaxValue));
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToInt64(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToInt64(input));
 
                 //assert
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
-            public void SByte_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToSByte_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Math<N>.Truncate(Random.NextNumeric<N>(sbyte.MinValue, sbyte.MaxValue));
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToSByte(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToSByte(input));
 
                 //assert
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
-            public void Single_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToSingle_LowPrecisionRoundTrip_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
-                if (!Math<N>.IsReal) input = Math<N>.Truncate(input);
+                var input = NextLowPrecision();
+                input = Math<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToSingle(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToSingle(input));
 
                 //assert
                 result.Should().BeApproximately(input);
             }
 
-            [Test, Repeat(10)]
-            public void UInt16_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToUInt16_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Math<N>.Truncate(Random.NextNumeric<N>(ushort.MinValue, ushort.MaxValue));
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToUInt16(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToUInt16(input));
 
                 //assert
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
-            public void UInt32_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToUInt32_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Math<N>.Truncate(Random.NextNumeric<N>(uint.MinValue, uint.MaxValue));
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToUInt32(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToUInt32(input));
 
                 //assert
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
-            public void UInt64_RoundTrip_SameValue()
+            [Test, Repeat(RandomVariations)]
+            public void ToUInt64_RoundTrip_SameValue()
             {
                 //arrange
                 var input = Math<N>.Truncate(Random.NextNumeric<N>(ulong.MinValue, ulong.MaxValue));
 
                 //act
-                var result = Convert<N>.ToValue(Convert<N>.ToUInt64(input));
+                var result = Convert<N>.ToNumeric(Convert<N>.ToUInt64(input));
 
                 //assert
                 result.Should().Be(input);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void ToString1_Random_SameAsObjectToString()
+            {
+                //arrange
+                var input = Random.NextNumeric<N>();
+
+                //act
+                var result = Convert<N>.ToString(input);
+
+                //assert
+                result.Should().Be(input.ToString());
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void ToString1_RandomWithFormatProvider_SameAsNumericToString()
+            {
+                //arrange
+                var input = Random.NextNumeric<N>();
+
+                //act
+                var result = Convert<N>.ToString(input, NumberFormatInfo.InvariantInfo);
+
+                //assert
+                result.Should().Be(input.ToString(NumberFormatInfo.InvariantInfo));
             }
         }
     }

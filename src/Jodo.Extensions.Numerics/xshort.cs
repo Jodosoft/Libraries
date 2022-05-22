@@ -161,6 +161,15 @@ namespace Jodo.Extensions.Numerics
             xshort IMath<xshort>.Zero { get; } = (short)0;
 
             int IMath<xshort>.Sign(xshort x) => Math.Sign(x._value);
+            bool IMath<xshort>.IsFinite(xshort x) => true;
+            bool IMath<xshort>.IsInfinity(xshort x) => false;
+            bool IMath<xshort>.IsNaN(xshort x) => false;
+            bool IMath<xshort>.IsNegative(xshort x) => x._value < 0;
+            bool IMath<xshort>.IsNegativeInfinity(xshort x) => false;
+            bool IMath<xshort>.IsNormal(xshort x) => false;
+            bool IMath<xshort>.IsPositiveInfinity(xshort x) => false;
+            bool IMath<xshort>.IsSubnormal(xshort x) => false;
+
             xshort IMath<xshort>.Abs(xshort x) => Math.Abs(x._value);
             xshort IMath<xshort>.Acos(xshort x) => (short)Math.Acos(x._value);
             xshort IMath<xshort>.Acosh(xshort x) => (short)Math.Acosh(x._value);
@@ -183,7 +192,6 @@ namespace Jodo.Extensions.Numerics
             xshort IMath<xshort>.Log10(xshort x) => (short)Math.Log10(x._value);
             xshort IMath<xshort>.Max(xshort x, xshort y) => Math.Max(x._value, y._value);
             xshort IMath<xshort>.Min(xshort x, xshort y) => Math.Min(x._value, y._value);
-            xshort IMath<xshort>.Pow(xshort x, byte y) => (short)Math.Pow(x._value, y);
             xshort IMath<xshort>.Pow(xshort x, xshort y) => (short)Math.Pow(x._value, y._value);
             xshort IMath<xshort>.RadiansToDegrees(xshort x) => (short)(x * Trig.DegreesPerRadian);
             xshort IMath<xshort>.Round(xshort x) => x;
@@ -208,7 +216,6 @@ namespace Jodo.Extensions.Numerics
 
             bool IConvert<xshort>.ToBoolean(xshort value) => Convert.ToBoolean(value._value);
             byte IConvert<xshort>.ToByte(xshort value) => Convert.ToByte(value._value);
-            char IConvert<xshort>.ToChar(xshort value) => Convert.ToChar(value._value);
             decimal IConvert<xshort>.ToDecimal(xshort value) => Convert.ToDecimal(value._value);
             double IConvert<xshort>.ToDouble(xshort value) => Convert.ToDouble(value._value);
             float IConvert<xshort>.ToSingle(xshort value) => Convert.ToSingle(value._value);
@@ -224,7 +231,6 @@ namespace Jodo.Extensions.Numerics
 
             xshort IConvert<xshort>.ToValue(bool value) => Convert.ToInt16(value);
             xshort IConvert<xshort>.ToValue(byte value) => Convert.ToInt16(value);
-            xshort IConvert<xshort>.ToValue(char value) => Convert.ToInt16(value);
             xshort IConvert<xshort>.ToValue(decimal value) => Convert.ToInt16(value);
             xshort IConvert<xshort>.ToValue(double value) => Convert.ToInt16(value);
             xshort IConvert<xshort>.ToValue(float value) => Convert.ToInt16(value);

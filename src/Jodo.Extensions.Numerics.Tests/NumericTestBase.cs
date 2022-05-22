@@ -26,6 +26,12 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public abstract class NumericTestBase<N> : GlobalTestBase where N : struct, INumeric<N>
     {
+#if DEBUG
+        public const int RandomVariations = 8;
+#else
+        public const int RandomVariations = 64;
+#endif
+
         public const double MaxTestableReal = 100_000d;
 
         protected void IntegralOnly()
@@ -48,6 +54,16 @@ namespace Jodo.Extensions.Numerics.Tests
             if (Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an unsigned type.");
         }
 
+        protected N NextLowPrecision()
+        {
+            return Math<N>.Round(Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal), 1);
+        }
+
+        protected N NextLowPrecisionNonNegative()
+        {
+            return Math<N>.Round(Random.NextNumeric<N>(0, MaxTestableReal), 1);
+        }
+
         protected N NextSmallNumeric()
         {
             N result = Random.NextNumeric<N>(0, 20);
@@ -59,7 +75,7 @@ namespace Jodo.Extensions.Numerics.Tests
 
             if (Math<N>.IsReal)
             {
-                result /= Convert<N>.ToValue(10);
+                result /= Convert<N>.ToNumeric(10);
             }
             return result;
         }
@@ -69,7 +85,7 @@ namespace Jodo.Extensions.Numerics.Tests
             N result = Random.NextNumeric<N>(0, 20);
             if (Math<N>.IsReal)
             {
-                result /= Convert<N>.ToValue(10);
+                result /= Convert<N>.ToNumeric(10);
             }
             return result;
         }

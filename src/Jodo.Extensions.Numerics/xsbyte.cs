@@ -161,6 +161,15 @@ namespace Jodo.Extensions.Numerics
             xsbyte IMath<xsbyte>.Zero { get; } = 0;
 
             int IMath<xsbyte>.Sign(xsbyte x) => Math.Sign(x._value);
+            bool IMath<xsbyte>.IsFinite(xsbyte x) => true;
+            bool IMath<xsbyte>.IsInfinity(xsbyte x) => false;
+            bool IMath<xsbyte>.IsNaN(xsbyte x) => false;
+            bool IMath<xsbyte>.IsNegative(xsbyte x) => x._value < 0;
+            bool IMath<xsbyte>.IsNegativeInfinity(xsbyte x) => false;
+            bool IMath<xsbyte>.IsNormal(xsbyte x) => false;
+            bool IMath<xsbyte>.IsPositiveInfinity(xsbyte x) => false;
+            bool IMath<xsbyte>.IsSubnormal(xsbyte x) => false;
+
             xsbyte IMath<xsbyte>.Abs(xsbyte x) => Math.Abs(x._value);
             xsbyte IMath<xsbyte>.Acos(xsbyte x) => (sbyte)Math.Acos(x._value);
             xsbyte IMath<xsbyte>.Acosh(xsbyte x) => (sbyte)Math.Acosh(x._value);
@@ -183,7 +192,6 @@ namespace Jodo.Extensions.Numerics
             xsbyte IMath<xsbyte>.Log10(xsbyte x) => (sbyte)Math.Log10(x._value);
             xsbyte IMath<xsbyte>.Max(xsbyte x, xsbyte y) => Math.Max(x._value, y._value);
             xsbyte IMath<xsbyte>.Min(xsbyte x, xsbyte y) => Math.Min(x._value, y._value);
-            xsbyte IMath<xsbyte>.Pow(xsbyte x, byte y) => (sbyte)Math.Pow(x._value, y);
             xsbyte IMath<xsbyte>.Pow(xsbyte x, xsbyte y) => (sbyte)Math.Pow(x._value, y._value);
             xsbyte IMath<xsbyte>.RadiansToDegrees(xsbyte x) => (sbyte)(x * Trig.DegreesPerRadian);
             xsbyte IMath<xsbyte>.Round(xsbyte x) => x;
@@ -208,7 +216,6 @@ namespace Jodo.Extensions.Numerics
 
             bool IConvert<xsbyte>.ToBoolean(xsbyte value) => Convert.ToBoolean(value._value);
             byte IConvert<xsbyte>.ToByte(xsbyte value) => Convert.ToByte(value._value);
-            char IConvert<xsbyte>.ToChar(xsbyte value) => Convert.ToChar(value._value);
             decimal IConvert<xsbyte>.ToDecimal(xsbyte value) => Convert.ToDecimal(value._value);
             double IConvert<xsbyte>.ToDouble(xsbyte value) => Convert.ToDouble(value._value);
             float IConvert<xsbyte>.ToSingle(xsbyte value) => Convert.ToSingle(value._value);
@@ -224,7 +231,6 @@ namespace Jodo.Extensions.Numerics
 
             xsbyte IConvert<xsbyte>.ToValue(bool value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToValue(byte value) => Convert.ToSByte(value);
-            xsbyte IConvert<xsbyte>.ToValue(char value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToValue(decimal value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToValue(double value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToValue(float value) => Convert.ToSByte(value);

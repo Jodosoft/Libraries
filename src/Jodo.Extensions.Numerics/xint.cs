@@ -160,6 +160,16 @@ namespace Jodo.Extensions.Numerics
             xint IMath<xint>.Two { get; } = 2;
             xint IMath<xint>.Zero { get; } = 0;
 
+            int IMath<xint>.Sign(xint x) => Math.Sign(x._value);
+            bool IMath<xint>.IsFinite(xint x) => true;
+            bool IMath<xint>.IsInfinity(xint x) => false;
+            bool IMath<xint>.IsNaN(xint x) => false;
+            bool IMath<xint>.IsNegative(xint x) => x._value < 0;
+            bool IMath<xint>.IsNegativeInfinity(xint x) => false;
+            bool IMath<xint>.IsNormal(xint x) => false;
+            bool IMath<xint>.IsPositiveInfinity(xint x) => false;
+            bool IMath<xint>.IsSubnormal(xint x) => false;
+
             xint IMath<xint>.Abs(xint x) => Math.Abs(x._value);
             xint IMath<xint>.Acos(xint x) => (int)Math.Acos(x._value);
             xint IMath<xint>.Acosh(xint x) => (int)Math.Acosh(x._value);
@@ -182,7 +192,6 @@ namespace Jodo.Extensions.Numerics
             xint IMath<xint>.Log10(xint x) => (int)Math.Log10(x._value);
             xint IMath<xint>.Max(xint x, xint y) => Math.Max(x._value, y._value);
             xint IMath<xint>.Min(xint x, xint y) => Math.Min(x._value, y._value);
-            xint IMath<xint>.Pow(xint x, byte y) => (int)Math.Pow(x._value, y);
             xint IMath<xint>.Pow(xint x, xint y) => (int)Math.Pow(x._value, y._value);
             xint IMath<xint>.RadiansToDegrees(xint x) => (int)(x * Trig.DegreesPerRadian);
             xint IMath<xint>.Round(xint x) => x;
@@ -195,7 +204,6 @@ namespace Jodo.Extensions.Numerics
             xint IMath<xint>.Tan(xint x) => (int)Math.Tan(x._value);
             xint IMath<xint>.Tanh(xint x) => (int)Math.Tanh(x._value);
             xint IMath<xint>.Truncate(xint x) => x;
-            int IMath<xint>.Sign(xint x) => Math.Sign(x._value);
 
             xint IBitConverter<xint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)));
             void IBitConverter<xint>.Write(xint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -208,7 +216,6 @@ namespace Jodo.Extensions.Numerics
 
             bool IConvert<xint>.ToBoolean(xint value) => Convert.ToBoolean(value._value);
             byte IConvert<xint>.ToByte(xint value) => Convert.ToByte(value._value);
-            char IConvert<xint>.ToChar(xint value) => Convert.ToChar(value._value);
             decimal IConvert<xint>.ToDecimal(xint value) => Convert.ToDecimal(value._value);
             double IConvert<xint>.ToDouble(xint value) => Convert.ToDouble(value._value);
             float IConvert<xint>.ToSingle(xint value) => Convert.ToSingle(value._value);
@@ -224,7 +231,6 @@ namespace Jodo.Extensions.Numerics
 
             xint IConvert<xint>.ToValue(bool value) => Convert.ToInt32(value);
             xint IConvert<xint>.ToValue(byte value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(char value) => Convert.ToInt32(value);
             xint IConvert<xint>.ToValue(decimal value) => Convert.ToInt32(value);
             xint IConvert<xint>.ToValue(double value) => Convert.ToInt32(value);
             xint IConvert<xint>.ToValue(float value) => Convert.ToInt32(value);

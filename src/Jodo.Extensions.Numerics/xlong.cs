@@ -160,7 +160,16 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Two { get; } = 2L;
             xlong IMath<xlong>.Zero { get; } = 0;
 
-            int IMath<xlong>.Sign(xlong x) => Math.Sign(x);
+            int IMath<xlong>.Sign(xlong x) => Math.Sign(x._value);
+            bool IMath<xlong>.IsFinite(xlong x) => true;
+            bool IMath<xlong>.IsInfinity(xlong x) => false;
+            bool IMath<xlong>.IsNaN(xlong x) => false;
+            bool IMath<xlong>.IsNegative(xlong x) => x._value < 0;
+            bool IMath<xlong>.IsNegativeInfinity(xlong x) => false;
+            bool IMath<xlong>.IsNormal(xlong x) => false;
+            bool IMath<xlong>.IsPositiveInfinity(xlong x) => false;
+            bool IMath<xlong>.IsSubnormal(xlong x) => false;
+
             xlong IMath<xlong>.Abs(xlong x) => Math.Abs(x);
             xlong IMath<xlong>.Acos(xlong x) => (xlong)Math.Acos(x);
             xlong IMath<xlong>.Acosh(xlong x) => (xlong)Math.Acosh(x);
@@ -183,7 +192,6 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Log10(xlong x) => (xlong)Math.Log10(x);
             xlong IMath<xlong>.Max(xlong x, xlong y) => Math.Max(x, y);
             xlong IMath<xlong>.Min(xlong x, xlong y) => Math.Min(x, y);
-            xlong IMath<xlong>.Pow(xlong x, byte y) => y == 1 ? x : (xlong)Math.Pow(x, y);
             xlong IMath<xlong>.Pow(xlong x, xlong y) => y == 1 ? x : (xlong)Math.Pow(x, y);
             xlong IMath<xlong>.RadiansToDegrees(xlong x) => (xlong)(x * Trig.DegreesPerRadian);
             xlong IMath<xlong>.Round(xlong x) => x;
@@ -208,7 +216,6 @@ namespace Jodo.Extensions.Numerics
 
             bool IConvert<xlong>.ToBoolean(xlong value) => Convert.ToBoolean(value._value);
             byte IConvert<xlong>.ToByte(xlong value) => Convert.ToByte(value._value);
-            char IConvert<xlong>.ToChar(xlong value) => Convert.ToChar(value._value);
             decimal IConvert<xlong>.ToDecimal(xlong value) => Convert.ToDecimal(value._value);
             double IConvert<xlong>.ToDouble(xlong value) => Convert.ToDouble(value._value);
             float IConvert<xlong>.ToSingle(xlong value) => Convert.ToSingle(value._value);
@@ -224,7 +231,6 @@ namespace Jodo.Extensions.Numerics
 
             xlong IConvert<xlong>.ToValue(bool value) => Convert.ToInt64(value);
             xlong IConvert<xlong>.ToValue(byte value) => Convert.ToInt64(value);
-            xlong IConvert<xlong>.ToValue(char value) => Convert.ToInt64(value);
             xlong IConvert<xlong>.ToValue(decimal value) => Convert.ToInt64(value);
             xlong IConvert<xlong>.ToValue(double value) => Convert.ToInt64(value);
             xlong IConvert<xlong>.ToValue(float value) => Convert.ToInt64(value);

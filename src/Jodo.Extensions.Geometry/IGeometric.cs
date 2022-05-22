@@ -23,7 +23,7 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Geometry
 {
-    public interface IGeometric<T> : IBitConvertible<T>, IRandomisable<T>, IStringParsable<T>, IEquatable<T>, ISerializable, IFormattable where T : struct, IGeometric<T>
+    public interface IGeometric<N> : IBitConvertible<N>, IRandomisable<N>, IStringParsable<N>, IEquatable<N>, ISerializable, IFormattable where N : struct, IGeometric<N>
     {
     }
 }

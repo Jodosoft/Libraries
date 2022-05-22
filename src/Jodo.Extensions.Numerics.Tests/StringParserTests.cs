@@ -41,20 +41,24 @@ namespace Jodo.Extensions.Numerics.Tests
 
         public abstract class Base<N> : NumericTestBase<N> where N : struct, INumeric<N>
         {
-            public N NextSmall()
+            [Test, Repeat(RandomVariations)]
+            public void Parse1_RoundTripSmallValue_CorrectResult()
             {
-                var result = Random.NextNumeric<N>(0, 10);
+                //arrange
+                var input = NextLowPrecision();
 
-                if (Math<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToValue(2), 1);
-                if (Math<N>.IsSigned) result -= Convert<N>.ToValue(5);
-                return result;
+                //act
+                var result = StringParser<N>.Parse(input.ToString());
+
+                //assert
+                result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Parse1_RoundTripFormat_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Random.NextNumeric<N>(), 1);
+                var input = NextLowPrecision();
                 var format = "G";
 
                 //act
@@ -64,12 +68,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Parse1_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Random.NextNumeric<N>(), 1);
-                var format = "G";
+                var input = NextLowPrecision();
+                var format = "G17";
 
                 //act
                 var result = StringParser<N>.Parse(input.ToString(format, NumberFormatInfo.InvariantInfo));
@@ -78,11 +82,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Parse2_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Random.NextNumeric<N>(), 1);
+                var input = NextLowPrecision();
                 var format = "G";
                 var provider = NumberFormatInfo.InvariantInfo;
                 var numberStyles = NumberStyles.Any;
@@ -94,7 +98,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Parse2_SmallIntegralHexString_CorrectResult()
             {
                 //arrange
@@ -106,7 +110,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var result = StringParser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
 
                 //assert
-                result.Should().Be(Convert<N>.ToValue(input));
+                result.Should().Be(Convert<N>.ToNumeric(input));
             }
         }
     }

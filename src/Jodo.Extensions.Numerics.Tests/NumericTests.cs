@@ -42,14 +42,14 @@ namespace Jodo.Extensions.Numerics.Tests
 
         public abstract class Base<N> : NumericTestBase<N> where N : struct, INumeric<N>
         {
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Equals1_RandomValues_SameAsSystem()
             {
                 //arrange
                 var input1 = Random.NextByte(0, 2);
                 var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToValue(input1);
-                var sut2 = Convert<N>.ToValue(input2);
+                var sut1 = Convert<N>.ToNumeric(input1);
+                var sut2 = Convert<N>.ToNumeric(input2);
 
                 //act
                 var result = sut1.Equals(sut2);
@@ -58,14 +58,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input1.Equals(input2));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Equals2_RandomValues_SameAsSystem()
             {
                 //arrange
                 var input1 = Random.NextByte(0, 2);
                 var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToValue(input1);
-                var sut2 = Convert<N>.ToValue(input2);
+                var sut1 = Convert<N>.ToNumeric(input1);
+                var sut2 = Convert<N>.ToNumeric(input2);
 
                 //act
                 var result = sut1.Equals((object)sut2);
@@ -74,14 +74,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input1.Equals(input2));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void CompareTo1_RandomValues_SameSignAsSystem()
             {
                 //arrange
                 var input1 = Random.NextByte(0, 2);
                 var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToValue(input1);
-                var sut2 = Convert<N>.ToValue(input2);
+                var sut1 = Convert<N>.ToNumeric(input1);
+                var sut2 = Convert<N>.ToNumeric(input2);
 
                 //act
                 var result = Math.Sign(sut1.CompareTo(sut2));
@@ -90,7 +90,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math.Sign(input1.CompareTo(input2)));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void CompareTo1_NullNullable_Returns1()
             {
                 //arrange
@@ -104,7 +104,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(1);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void CompareTo1_DifferentType_Returns1()
             {
                 //arrange
@@ -117,7 +117,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(1);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void GetHashCode_SameValue_SameResult()
             {
                 //arrange
@@ -131,13 +131,13 @@ namespace Jodo.Extensions.Numerics.Tests
                 result1.Should().Be(result2);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void GetHashCode_EqualValues_SameResult()
             {
                 //arrange
                 var input = Random.NextByte(0, 127);
-                var sut1 = Convert<N>.ToValue(input);
-                var sut2 = Convert<N>.ToValue(input);
+                var sut1 = Convert<N>.ToNumeric(input);
+                var sut2 = Convert<N>.ToNumeric(input);
 
                 //act
                 var result1 = sut1.GetHashCode();
@@ -147,15 +147,15 @@ namespace Jodo.Extensions.Numerics.Tests
                 result1.Should().Be(result2);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void GetHashCode_DifferentSmallValues_DifferentResult()
             {
                 //arrange
                 var input1 = Random.NextByte(0, 127);
                 byte input2;
                 do { input2 = Random.NextByte(0, 127); ; } while (input2 == input1);
-                var sut1 = Convert<N>.ToValue(input1);
-                var sut2 = Convert<N>.ToValue(input2);
+                var sut1 = Convert<N>.ToNumeric(input1);
+                var sut2 = Convert<N>.ToNumeric(input2);
 
                 //act
                 var result1 = sut1.GetHashCode();
@@ -165,7 +165,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result1.Should().NotBe(result2);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Serialize_RoundTrip_SameAsOriginal()
             {
                 //arrange
@@ -182,11 +182,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void ToSingle_RandomValues_SameAsConvert()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
+                var input = NextLowPrecision();
 
                 //act
                 var result = input.ToSingle();
@@ -195,17 +195,32 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Convert<N>.ToSingle(input));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void ToDouble_RandomValues_SameAsConvert()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
+                var input = NextLowPrecision();
 
                 //act
                 var result = input.ToDouble();
 
                 //assert
                 result.Should().Be(Convert<N>.ToDouble(input));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void ToString_FormatIntegralHexidecimal_CorrectResult()
+            {
+                //arrange
+                IntegralOnly();
+                var input = Random.Next(0, 128);
+                var sut = Convert<N>.ToNumeric(input);
+
+                //act
+                var result = sut.ToString("X");
+
+                //assert
+                result.Should().Be(input.ToString("X"));
             }
         }
     }

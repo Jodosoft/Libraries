@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
 
@@ -194,7 +195,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 Math<N>.Zero.ToDouble().Should().Be(0);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Abs_Unsigned_SameValue()
             {
                 //arrange
@@ -208,7 +209,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Abs_NegativeSigned_SameValue()
             {
                 //arrange
@@ -222,7 +223,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math<N>.MinUnit * input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Acos_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -235,7 +236,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Acos(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Acos_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
@@ -261,11 +262,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Acos(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Acosh_Random_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(Math<N>.One, Math<N>.MaxValue);
+                var input = Random.NextNumeric<N>(1, MaxTestableReal);
 
                 //act
                 var result = Math<N>.Acosh(input);
@@ -300,7 +301,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Acosh(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Asin_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -339,11 +340,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Asin(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Asinh_Random_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var input = NextLowPrecision();
 
                 //act
                 var result = Math<N>.Asinh(input);
@@ -365,7 +366,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Asinh(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Asinh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
@@ -378,7 +379,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Asinh(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Atan_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -417,7 +418,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Atan(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Atan2_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -431,7 +432,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Atan2(input1.ToDouble(), input2.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Atan2_RandomBoundaries_EquivalentToSystemMath()
             {
                 //arrange
@@ -445,7 +446,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Atan2(input1.ToDouble(), input2.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Atanh_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -460,7 +461,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Atanh(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Cbrt_RandomIntegral_EquivalentToSystemMath()
             {
                 //arrange
@@ -474,7 +475,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Cbrt(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Cbrt_RandomReal_EquivalentToSystemMath()
             {
                 //arrange
@@ -529,12 +530,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Cbrt(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Ceiling_RandomIntegral_SameValue()
             {
                 //arrange
                 IntegralOnly();
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
+                var input = NextLowPrecision();
 
                 //act
                 var result = Math<N>.Ceiling(input);
@@ -571,12 +572,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Ceiling_RandomReal_EquivalentToSystemMath()
             {
                 //arrange
                 RealOnly();
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
+                var input = NextLowPrecision();
 
                 //act
                 var result = Math<N>.Ceiling(input);
@@ -585,11 +586,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Ceiling(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Cos_Random_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var input = NextLowPrecision();
 
                 //act
                 var result = Math<N>.Cos(input);
@@ -624,7 +625,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Cos(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Cosh_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -639,7 +640,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Cosh(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Exp_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -678,12 +679,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math<N>.E);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Floor_RandomIntegral_SameValue()
             {
                 //arrange
                 IntegralOnly();
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
+                var input = NextLowPrecision();
 
                 //act
                 var result = Math<N>.Floor(input);
@@ -720,12 +721,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Floor_RandomReal_EquivalentToSystemMath()
             {
                 //arrange
                 RealOnly();
-                var input = Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal);
+                var input = NextLowPrecision();
 
                 //act
                 var result = Math<N>.Floor(input);
@@ -748,7 +749,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.IEEERemainder(input1.ToDouble(), input2.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Log_EquivalentToSystemMath()
             {
                 //arrange
@@ -761,7 +762,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Log(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void LogN_EquivalentToSystemMath()
             {
                 //arrange
@@ -775,7 +776,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Log(input1.ToDouble(), input2.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Log10_EquivalentToSystemMath()
             {
                 //arrange
@@ -788,7 +789,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Log10(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Max_LargestValue()
             {
                 //arrange
@@ -802,7 +803,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input1 > input2 ? input1 : input2);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Min_SmallestValue()
             {
                 //arrange
@@ -816,7 +817,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input1 < input2 ? input1 : input2);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Pow_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -830,7 +831,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Pow(input1.ToDouble(), input2.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Pow_Zero_One()
             {
                 //arrange
@@ -843,7 +844,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math<N>.One);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Pow_One_SameValue()
             {
                 //arrange
@@ -856,7 +857,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Round1_Integral_SameValue()
             {
                 //arrange
@@ -870,21 +871,22 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Round1_Real_EquivalentToSystemMath()
             {
                 //arrange
                 RealOnly();
-                var input = Random.NextNumeric<N>();
+                var input = Math.Round(Random.NextDouble(), 5);
+                var numeric = Convert<N>.ToNumeric(input);
 
                 //act
-                var result = Math<N>.Round(input);
+                var result = Math<N>.Round(numeric);
 
                 //assert
-                result.Should().BeApproximately(Math.Round(input.ToDouble()));
+                result.Should().Be(Convert<N>.ToNumeric(Math.Round(input)));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Round2_Integral_SameValue()
             {
                 //arrange
@@ -898,22 +900,23 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Round2_Real_EquivalentToSystemMath()
             {
                 //arrange
                 RealOnly();
-                var input = Random.NextNumeric<N>();
+                var input = Math.Round(Random.NextDouble(), 5);
+                var numeric = Convert<N>.ToNumeric(input);
                 var digits = Random.NextByte(1, 3);
 
                 //act
-                var result = Math<N>.Round(input, digits);
+                var result = Math<N>.Round(numeric, digits);
 
                 //assert
-                result.Should().BeApproximately(Math.Round(input.ToDouble(), digits));
+                result.Should().Be(Convert<N>.ToNumeric(Math.Round(input, digits)));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Round3_Integral_SameValue()
             {
                 //arrange
@@ -927,22 +930,23 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Round3_Real_EquivalentToSystemMath()
             {
                 //arrange
                 RealOnly();
-                var input = Random.NextNumeric<N>();
+                var input = Math.Round(Random.NextDouble(), 5);
+                var numeric = Convert<N>.ToNumeric(input);
                 var mode = Random.NextEnum<MidpointRounding>();
 
                 //act
-                var result = Math<N>.Round(input, mode);
+                var result = Math<N>.Round(numeric, mode);
 
                 //assert
-                result.Should().BeApproximately(Math.Round(input.ToDouble(), mode));
+                result.Should().Be(Convert<N>.ToNumeric(Math.Round(input, mode)));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Round4_Integral_SameValue()
             {
                 //arrange
@@ -956,27 +960,28 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Round4_Real_EquivalentToSystemMath()
             {
                 //arrange
                 RealOnly();
-                var input = Random.NextNumeric<N>();
+                var input = Math.Round(Random.NextDouble(), 5);
+                var numeric = Convert<N>.ToNumeric(input);
                 var digits = Random.NextByte(1, 3);
                 var mode = Random.NextEnum<MidpointRounding>();
 
                 //act
-                var result = Math<N>.Round(input, digits, mode);
+                var result = Math<N>.Round(numeric, digits, mode);
 
                 //assert
-                result.Should().BeApproximately(Math.Round(input.ToDouble(), digits, mode));
+                result.Should().Be(Convert<N>.ToNumeric(Math.Round(input, digits, mode)));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Sin_Random_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var input = NextLowPrecision();
 
                 //act
                 var result = Math<N>.Sin(input);
@@ -1011,7 +1016,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Sin(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Sinh_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -1026,7 +1031,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Sinh(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Sqrt_RandomIntegral_EquivalentToSystemMath()
             {
                 //arrange
@@ -1040,12 +1045,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Sqrt(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Sqrt_RandomReal_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
-                var input = Random.NextNumeric<N>(0, MaxTestableReal);
+                RealOnly();
+                var input = NextLowPrecisionNonNegative();
 
                 //act
                 var result = Math<N>.Sqrt(input);
@@ -1067,12 +1072,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(Math<N>.Zero);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Tan_RandomSigned_EquivalentToSystemMath()
             {
                 //arrange
                 SignedOnly();
-                var input = Random.NextNumeric<N>();
+                var input = Math<N>.Round(Random.NextNumeric<N>(-10, 10), 1);
 
                 //act
                 var result = Math<N>.Tan(input);
@@ -1081,7 +1086,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Tan(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Tan_RandomUnsigned_EquivalentToSystemMath()
             {
                 //arrange
@@ -1122,7 +1127,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Tan(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Tanh_Random_EquivalentToSystemMath()
             {
                 //arrange
@@ -1137,7 +1142,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Tanh(input.ToDouble()));
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Truncate_RandomIntegral_SameValue()
             {
                 //arrange
@@ -1151,7 +1156,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().Be(input);
             }
 
-            [Test, Repeat(10)]
+            [Test, Repeat(RandomVariations)]
             public void Truncate_RandomReal_EquivalentToSystemMath()
             {
                 //arrange

@@ -160,7 +160,16 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Two { get; } = (ushort)2;
             xushort IMath<xushort>.Zero { get; } = (ushort)0;
 
-            int IMath<xushort>.Sign(xushort x) => Math.Sign(x._value);
+            int IMath<xushort>.Sign(xushort x) => x._value == 0 ? 0 : 1;
+            bool IMath<xushort>.IsFinite(xushort x) => true;
+            bool IMath<xushort>.IsInfinity(xushort x) => false;
+            bool IMath<xushort>.IsNaN(xushort x) => false;
+            bool IMath<xushort>.IsNegative(xushort x) => false;
+            bool IMath<xushort>.IsNegativeInfinity(xushort x) => false;
+            bool IMath<xushort>.IsNormal(xushort x) => false;
+            bool IMath<xushort>.IsPositiveInfinity(xushort x) => false;
+            bool IMath<xushort>.IsSubnormal(xushort x) => false;
+
             xushort IMath<xushort>.Abs(xushort x) => x._value;
             xushort IMath<xushort>.Acos(xushort x) => (ushort)Math.Acos(x._value);
             xushort IMath<xushort>.Acosh(xushort x) => (ushort)Math.Acosh(x._value);
@@ -183,7 +192,6 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Log10(xushort x) => (ushort)Math.Log10(x._value);
             xushort IMath<xushort>.Max(xushort x, xushort y) => Math.Max(x._value, y._value);
             xushort IMath<xushort>.Min(xushort x, xushort y) => Math.Min(x._value, y._value);
-            xushort IMath<xushort>.Pow(xushort x, byte y) => (ushort)Math.Pow(x._value, y);
             xushort IMath<xushort>.Pow(xushort x, xushort y) => (ushort)Math.Pow(x._value, y._value);
             xushort IMath<xushort>.RadiansToDegrees(xushort radians) => (ushort)(radians * Trig.DegreesPerRadian);
             xushort IMath<xushort>.Round(xushort x) => x;
@@ -208,7 +216,6 @@ namespace Jodo.Extensions.Numerics
 
             bool IConvert<xushort>.ToBoolean(xushort value) => Convert.ToBoolean(value._value);
             byte IConvert<xushort>.ToByte(xushort value) => Convert.ToByte(value._value);
-            char IConvert<xushort>.ToChar(xushort value) => Convert.ToChar(value._value);
             decimal IConvert<xushort>.ToDecimal(xushort value) => Convert.ToDecimal(value._value);
             double IConvert<xushort>.ToDouble(xushort value) => Convert.ToDouble(value._value);
             float IConvert<xushort>.ToSingle(xushort value) => Convert.ToSingle(value._value);
@@ -224,7 +231,6 @@ namespace Jodo.Extensions.Numerics
 
             xushort IConvert<xushort>.ToValue(bool value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToValue(byte value) => Convert.ToUInt16(value);
-            xushort IConvert<xushort>.ToValue(char value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToValue(decimal value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToValue(double value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToValue(float value) => Convert.ToUInt16(value);

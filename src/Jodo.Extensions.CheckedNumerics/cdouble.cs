@@ -169,6 +169,16 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Two { get; } = 2d;
             cdouble IMath<cdouble>.Zero { get; } = 0d;
 
+            int IMath<cdouble>.Sign(cdouble x) => Math.Sign(x._value);
+            bool IMath<cdouble>.IsFinite(cdouble x) => true;
+            bool IMath<cdouble>.IsInfinity(cdouble x) => false;
+            bool IMath<cdouble>.IsNaN(cdouble x) => false;
+            bool IMath<cdouble>.IsNegative(cdouble x) => x._value < 0;
+            bool IMath<cdouble>.IsNegativeInfinity(cdouble x) => false;
+            bool IMath<cdouble>.IsNormal(cdouble x) => IsNormal(x);
+            bool IMath<cdouble>.IsPositiveInfinity(cdouble x) => false;
+            bool IMath<cdouble>.IsSubnormal(cdouble x) => IsSubnormal(x);
+
             cdouble IMath<cdouble>.Abs(cdouble x) => Math.Abs(x._value);
             cdouble IMath<cdouble>.Acos(cdouble x) => Math.Acos(x._value);
             cdouble IMath<cdouble>.Acosh(cdouble x) => Math.Acosh(x._value);
@@ -191,7 +201,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Log10(cdouble x) => Math.Log10(x._value);
             cdouble IMath<cdouble>.Max(cdouble x, cdouble y) => Math.Max(x._value, y._value);
             cdouble IMath<cdouble>.Min(cdouble x, cdouble y) => Math.Min(x._value, y._value);
-            cdouble IMath<cdouble>.Pow(cdouble x, byte y) => Math.Pow(x._value, y);
             cdouble IMath<cdouble>.Pow(cdouble x, cdouble y) => Math.Pow(x._value, y._value);
             cdouble IMath<cdouble>.RadiansToDegrees(cdouble radians) => radians * Trig.DegreesPerRadian;
             cdouble IMath<cdouble>.Round(cdouble x) => Math.Round(x._value);
@@ -204,7 +213,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Tan(cdouble x) => Math.Tan(x._value);
             cdouble IMath<cdouble>.Tanh(cdouble x) => Math.Tanh(x._value);
             cdouble IMath<cdouble>.Truncate(cdouble x) => Math.Truncate(x._value);
-            int IMath<cdouble>.Sign(cdouble x) => Math.Sign(x._value);
 
             cdouble IBitConverter<cdouble>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)));
             void IBitConverter<cdouble>.Write(cdouble value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -217,7 +225,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IConvert<cdouble>.ToBoolean(cdouble value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cdouble>.ToByte(cdouble value) => CheckedConvert.ToByte(value._value);
-            char IConvert<cdouble>.ToChar(cdouble value) => CheckedConvert.ToChar(value._value);
             decimal IConvert<cdouble>.ToDecimal(cdouble value) => CheckedConvert.ToDecimal(value._value);
             double IConvert<cdouble>.ToDouble(cdouble value) => value._value;
             float IConvert<cdouble>.ToSingle(cdouble value) => CheckedConvert.ToSingle(value._value);
@@ -233,7 +240,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cdouble IConvert<cdouble>.ToValue(bool value) => CheckedConvert.ToDouble(value);
             cdouble IConvert<cdouble>.ToValue(byte value) => CheckedConvert.ToDouble(value);
-            cdouble IConvert<cdouble>.ToValue(char value) => CheckedConvert.ToDouble(value);
             cdouble IConvert<cdouble>.ToValue(decimal value) => CheckedConvert.ToDouble(value);
             cdouble IConvert<cdouble>.ToValue(double value) => value;
             cdouble IConvert<cdouble>.ToValue(float value) => CheckedConvert.ToDouble(value);

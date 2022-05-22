@@ -30,7 +30,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class CLong : BitConverterTestsBase<clong> { }
         public class CSByte : BitConverterTestsBase<csbyte> { }
         public class CShort : BitConverterTestsBase<cshort> { }
-        public class CUFix64 : BitConverterTestsBase<cufix64> { }
-        public class CUInt : BitConverterTestsBase<cuint> { }
+        public class UCFix64 : BitConverterTestsBase<ucfix64> { }
+        public class UCInt : BitConverterTestsBase<ucint> { }
     }
 }

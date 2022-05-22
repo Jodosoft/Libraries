@@ -30,7 +30,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class CLong : StringParserTestsBase<clong> { }
         public class CSByte : StringParserTestsBase<csbyte> { }
         public class CShort : StringParserTestsBase<cshort> { }
-        //public class CUFix64 : StringParserTestsBase<cufix64> { }
-        public class CUInt : StringParserTestsBase<cuint> { }
+        //public class UCFix64 : StringParserTestsBase<cufix64> { }
+        public class UCInt : StringParserTestsBase<ucint> { }
     }
 }

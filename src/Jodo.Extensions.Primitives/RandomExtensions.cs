@@ -150,10 +150,7 @@ namespace System
             }
             if (bound1 == bound2) return bound1;
 
-            var minBits = BitConverter.DoubleToInt64Bits(bound1);
-            var maxBits = BitConverter.DoubleToInt64Bits(bound2);
-            var index = random.NextInt64(bound1 < 0 ? long.MinValue - minBits : minBits, (bound2 < 0 ? long.MinValue - maxBits : maxBits) + 1);
-            return BitConverter.Int64BitsToDouble(index < 0 ? long.MinValue - index : index);
+            return random.NextDouble() * (bound2 - bound1) + bound1;
         }
 
         public static T NextElement<T>(this Random random, IReadOnlyList<T> list)

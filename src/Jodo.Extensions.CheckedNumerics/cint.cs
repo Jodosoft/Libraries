@@ -161,6 +161,16 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Two { get; } = 2;
             cint IMath<cint>.Zero { get; } = 0;
 
+            int IMath<cint>.Sign(cint x) => Math.Sign(x._value);
+            bool IMath<cint>.IsFinite(cint x) => true;
+            bool IMath<cint>.IsInfinity(cint x) => false;
+            bool IMath<cint>.IsNaN(cint x) => false;
+            bool IMath<cint>.IsNegative(cint x) => x._value < 0;
+            bool IMath<cint>.IsNegativeInfinity(cint x) => false;
+            bool IMath<cint>.IsNormal(cint x) => false;
+            bool IMath<cint>.IsPositiveInfinity(cint x) => false;
+            bool IMath<cint>.IsSubnormal(cint x) => false;
+
             cint IMath<cint>.Abs(cint x) => Math.Abs(x._value);
             cint IMath<cint>.Acos(cint x) => (cint)Math.Acos(x._value);
             cint IMath<cint>.Acosh(cint x) => (cint)Math.Acosh(x._value);
@@ -183,7 +193,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Log10(cint x) => (cint)Math.Log10(x._value);
             cint IMath<cint>.Max(cint x, cint y) => Math.Max(x._value, y._value);
             cint IMath<cint>.Min(cint x, cint y) => Math.Min(x._value, y._value);
-            cint IMath<cint>.Pow(cint x, byte y) => CheckedArithmetic.Pow(x._value, y);
             cint IMath<cint>.Pow(cint x, cint y) => CheckedArithmetic.Pow(x._value, y._value);
             cint IMath<cint>.RadiansToDegrees(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             cint IMath<cint>.Round(cint x) => x;
@@ -196,7 +205,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Tan(cint x) => (cint)Math.Tan(x._value);
             cint IMath<cint>.Tanh(cint x) => (cint)Math.Tanh(x._value);
             cint IMath<cint>.Truncate(cint x) => x;
-            int IMath<cint>.Sign(cint x) => Math.Sign(x._value);
 
             cint IBitConverter<cint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)));
             void IBitConverter<cint>.Write(cint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -209,7 +217,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             bool IConvert<cint>.ToBoolean(cint value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cint>.ToByte(cint value) => CheckedConvert.ToByte(value._value);
-            char IConvert<cint>.ToChar(cint value) => CheckedConvert.ToChar(value._value);
             decimal IConvert<cint>.ToDecimal(cint value) => CheckedConvert.ToDecimal(value._value);
             double IConvert<cint>.ToDouble(cint value) => CheckedConvert.ToDouble(value._value);
             float IConvert<cint>.ToSingle(cint value) => CheckedConvert.ToSingle(value._value);
@@ -225,7 +232,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cint IConvert<cint>.ToValue(bool value) => CheckedConvert.ToInt32(value);
             cint IConvert<cint>.ToValue(byte value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(char value) => CheckedConvert.ToInt32(value);
             cint IConvert<cint>.ToValue(decimal value) => CheckedConvert.ToInt32(value);
             cint IConvert<cint>.ToValue(double value) => CheckedConvert.ToInt32(value);
             cint IConvert<cint>.ToValue(float value) => CheckedConvert.ToInt32(value);

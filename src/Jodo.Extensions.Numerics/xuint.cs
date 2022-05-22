@@ -160,7 +160,16 @@ namespace Jodo.Extensions.Numerics
             xuint IMath<xuint>.Two { get; } = (uint)2;
             xuint IMath<xuint>.Zero { get; } = (uint)0;
 
-            int IMath<xuint>.Sign(xuint x) => Math.Sign(x._value);
+            int IMath<xuint>.Sign(xuint x) => x._value == 0 ? 0 : 1;
+            bool IMath<xuint>.IsFinite(xuint x) => true;
+            bool IMath<xuint>.IsInfinity(xuint x) => false;
+            bool IMath<xuint>.IsNaN(xuint x) => false;
+            bool IMath<xuint>.IsNegative(xuint x) => false;
+            bool IMath<xuint>.IsNegativeInfinity(xuint x) => false;
+            bool IMath<xuint>.IsNormal(xuint x) => false;
+            bool IMath<xuint>.IsPositiveInfinity(xuint x) => false;
+            bool IMath<xuint>.IsSubnormal(xuint x) => false;
+
             xuint IMath<xuint>.Abs(xuint x) => x._value;
             xuint IMath<xuint>.Acos(xuint x) => (uint)Math.Acos(x._value);
             xuint IMath<xuint>.Acosh(xuint x) => (uint)Math.Acosh(x._value);
@@ -183,7 +192,6 @@ namespace Jodo.Extensions.Numerics
             xuint IMath<xuint>.Log10(xuint x) => (uint)Math.Log10(x._value);
             xuint IMath<xuint>.Max(xuint x, xuint y) => Math.Max(x._value, y._value);
             xuint IMath<xuint>.Min(xuint x, xuint y) => Math.Min(x._value, y._value);
-            xuint IMath<xuint>.Pow(xuint x, byte y) => (uint)Math.Pow(x._value, y);
             xuint IMath<xuint>.Pow(xuint x, xuint y) => (uint)Math.Pow(x._value, y._value);
             xuint IMath<xuint>.RadiansToDegrees(xuint x) => (uint)(x * Trig.DegreesPerRadian);
             xuint IMath<xuint>.Round(xuint x) => x;
@@ -208,7 +216,6 @@ namespace Jodo.Extensions.Numerics
 
             bool IConvert<xuint>.ToBoolean(xuint value) => Convert.ToBoolean(value._value);
             byte IConvert<xuint>.ToByte(xuint value) => Convert.ToByte(value._value);
-            char IConvert<xuint>.ToChar(xuint value) => Convert.ToChar(value._value);
             decimal IConvert<xuint>.ToDecimal(xuint value) => Convert.ToDecimal(value._value);
             double IConvert<xuint>.ToDouble(xuint value) => Convert.ToDouble(value._value);
             float IConvert<xuint>.ToSingle(xuint value) => Convert.ToSingle(value._value);
@@ -224,7 +231,6 @@ namespace Jodo.Extensions.Numerics
 
             xuint IConvert<xuint>.ToValue(bool value) => Convert.ToUInt32(value);
             xuint IConvert<xuint>.ToValue(byte value) => Convert.ToUInt32(value);
-            xuint IConvert<xuint>.ToValue(char value) => Convert.ToUInt32(value);
             xuint IConvert<xuint>.ToValue(decimal value) => Convert.ToUInt32(value);
             xuint IConvert<xuint>.ToValue(double value) => Convert.ToUInt32(value);
             xuint IConvert<xuint>.ToValue(float value) => Convert.ToUInt32(value);
