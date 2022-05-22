@@ -735,12 +735,34 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Floor(input.ToDouble()));
             }
 
-            [Test, Ignore("")]
-            public void IEEERemainder_EquivalentToSystemMath()
+            [Test, Repeat(RandomVariations)]
+            public void IEEERemainder_Signed_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextNumeric<N>(1, 10);
-                var input2 = Random.NextNumeric<N>(1, 5);
+                SignedOnly();
+                var input1 = Math<N>.Round(Random.NextNumeric<N>(0, 10), 1);
+                var input2 = Math<N>.Round(Random.NextNumeric<N>(1, 10), 1);
+
+                //act
+                var result = Math<N>.IEEERemainder(input1, input2);
+
+                //assert
+                result.Should().BeApproximately(Math.IEEERemainder(input1.ToDouble(), input2.ToDouble()));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void IEEERemainder_Unsigned_EquivalentToSystemMath()
+            {
+                //arrange
+                UnsignedOnly();
+                N input1;
+                N input2;
+                do
+                {
+                    input1 = Math<N>.Round(Random.NextNumeric<N>(0, 10), 1);
+                    input2 = Math<N>.Round(Random.NextNumeric<N>(1, 10), 1);
+                } while (Math.IEEERemainder(input1.ToDouble(), input2.ToDouble()) < 0);
+
 
                 //act
                 var result = Math<N>.IEEERemainder(input1, input2);
