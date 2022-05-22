@@ -25,7 +25,7 @@ namespace System
     public static class RandomExtensions
     {
         public static N NextNumeric<N>(this Random random) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, Math<N>.MinValue, Math<N>.MaxValue);
+            => default(N).Random.Next(random, Numeric<N>.MinValue, Numeric<N>.MaxValue);
 
         public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
             => default(N).Random.Next(random, bound1, bound2);
@@ -34,11 +34,11 @@ namespace System
         {
             N minBound;
             try { minBound = Convert<N>.ToNumeric(Math.Min(bound1, bound2)); }
-            catch (OverflowException) { minBound = Math<N>.MinValue; }
+            catch (OverflowException) { minBound = Numeric<N>.MinValue; }
 
             N maxBound;
             try { maxBound = Convert<N>.ToNumeric(Math.Max(bound1, bound2)); }
-            catch (OverflowException) { maxBound = Math<N>.MaxValue; }
+            catch (OverflowException) { maxBound = Numeric<N>.MaxValue; }
 
             return random.NextNumeric(minBound, maxBound);
         }

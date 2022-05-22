@@ -72,7 +72,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 var input = NextLowPrecision();
-                input = Math<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
+                input = Numeric<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
 
                 //act
                 var result = Convert<N>.ToNumeric(Convert<N>.ToDecimal(input));
@@ -86,7 +86,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 var input = NextLowPrecision();
-                input = Math<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
+                input = Numeric<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
 
                 //act
                 var result = Convert<N>.ToNumeric(Convert<N>.ToDouble(input));
@@ -152,7 +152,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 var input = NextLowPrecision();
-                input = Math<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
+                input = Numeric<N>.IsReal ? Math<N>.Truncate(input) : Math<N>.Round(input, 1);
 
                 //act
                 var result = Convert<N>.ToNumeric(Convert<N>.ToSingle(input));

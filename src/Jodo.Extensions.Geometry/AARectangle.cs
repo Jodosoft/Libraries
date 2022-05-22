@@ -119,14 +119,14 @@ namespace Jodo.Extensions.Geometry
         public static AARectangle<N> FromTopCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetBottomCenter(bottomLeft, dimensions), dimensions);
         public static AARectangle<N> FromTopRight(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetBottomLeft(bottomLeft, dimensions), dimensions);
 
-        private static Vector2<N> GetBottomCenter(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X, center.Y + (dimensions.Y / Math<N>.Two));
-        private static Vector2<N> GetBottomLeft(Vector2<N> center, Vector2<N> dimensions) => center - (dimensions / Math<N>.Two);
-        private static Vector2<N> GetBottomRight(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X + (dimensions.X / Math<N>.Two), center.Y - (dimensions.Y / Math<N>.Two));
-        private static Vector2<N> GetLeftCenter(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X - (dimensions.X / Math<N>.Two), center.Y);
-        private static Vector2<N> GetRightCenter(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X + (dimensions.X / Math<N>.Two), center.Y);
-        private static Vector2<N> GetTopCenter(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X, center.Y + (dimensions.Y / Math<N>.Two));
-        private static Vector2<N> GetTopLeft(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X - (dimensions.X / Math<N>.Two), center.Y + (dimensions.Y / Math<N>.Two));
-        private static Vector2<N> GetTopRight(Vector2<N> center, Vector2<N> dimensions) => center + (dimensions / Math<N>.Two);
+        private static Vector2<N> GetBottomCenter(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X, center.Y + (dimensions.Y / Numeric<N>.Two));
+        private static Vector2<N> GetBottomLeft(Vector2<N> center, Vector2<N> dimensions) => center - (dimensions / Numeric<N>.Two);
+        private static Vector2<N> GetBottomRight(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X + (dimensions.X / Numeric<N>.Two), center.Y - (dimensions.Y / Numeric<N>.Two));
+        private static Vector2<N> GetLeftCenter(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X - (dimensions.X / Numeric<N>.Two), center.Y);
+        private static Vector2<N> GetRightCenter(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X + (dimensions.X / Numeric<N>.Two), center.Y);
+        private static Vector2<N> GetTopCenter(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X, center.Y + (dimensions.Y / Numeric<N>.Two));
+        private static Vector2<N> GetTopLeft(Vector2<N> center, Vector2<N> dimensions) => new Vector2<N>(center.X - (dimensions.X / Numeric<N>.Two), center.Y + (dimensions.Y / Numeric<N>.Two));
+        private static Vector2<N> GetTopRight(Vector2<N> center, Vector2<N> dimensions) => center + (dimensions / Numeric<N>.Two);
 
         public static bool operator ==(AARectangle<N> left, AARectangle<N> right) => left.Equals(right);
         public static bool operator !=(AARectangle<N> left, AARectangle<N> right) => !(left == right);

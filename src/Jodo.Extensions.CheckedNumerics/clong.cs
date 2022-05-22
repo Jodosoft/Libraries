@@ -134,6 +134,7 @@ namespace Jodo.Extensions.CheckedNumerics
         IBitConverter<clong> IBitConvertible<clong>.BitConverter => Utilities.Instance;
         IConvert<clong> IConvertible<clong>.Convert => Utilities.Instance;
         IMath<clong> INumeric<clong>.Math => Utilities.Instance;
+        INumericFunctions<clong> INumeric<clong>.NumericFunctions => Utilities.Instance;
         IRandom<clong> IRandomisable<clong>.Random => Utilities.Instance;
         IStringParser<clong> IStringParsable<clong>.StringParser => Utilities.Instance;
 
@@ -141,35 +142,37 @@ namespace Jodo.Extensions.CheckedNumerics
             IBitConverter<clong>,
             IConvert<clong>,
             IMath<clong>,
+            INumericFunctions<clong>,
             IRandom<clong>,
             IStringParser<clong>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<clong>.IsReal { get; } = false;
-            bool IMath<clong>.IsSigned { get; } = true;
+            bool INumericFunctions<clong>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<clong>.IsReal { get; } = false;
+            bool INumericFunctions<clong>.IsSigned { get; } = true;
             clong IMath<clong>.E { get; } = 2L;
-            clong IMath<clong>.Epsilon { get; } = 1L;
-            clong IMath<clong>.MaxUnit { get; } = 1L;
-            clong IMath<clong>.MaxValue => MaxValue;
-            clong IMath<clong>.MinUnit { get; } = -1L;
-            clong IMath<clong>.MinValue => MinValue;
-            clong IMath<clong>.One { get; } = 1L;
+            clong INumericFunctions<clong>.Epsilon { get; } = 1L;
+            clong INumericFunctions<clong>.MaxUnit { get; } = 1L;
+            clong INumericFunctions<clong>.MaxValue => MaxValue;
+            clong INumericFunctions<clong>.MinUnit { get; } = -1L;
+            clong INumericFunctions<clong>.MinValue => MinValue;
+            clong INumericFunctions<clong>.One { get; } = 1L;
             clong IMath<clong>.PI { get; } = 3L;
             clong IMath<clong>.Tau { get; } = 6L;
-            clong IMath<clong>.Ten { get; } = 10L;
-            clong IMath<clong>.Two { get; } = 2L;
-            clong IMath<clong>.Zero { get; } = 0L;
+            clong INumericFunctions<clong>.Ten { get; } = 10L;
+            clong INumericFunctions<clong>.Two { get; } = 2L;
+            clong INumericFunctions<clong>.Zero { get; } = 0L;
 
             int IMath<clong>.Sign(clong x) => Math.Sign(x._value);
-            bool IMath<clong>.IsFinite(clong x) => true;
-            bool IMath<clong>.IsInfinity(clong x) => false;
-            bool IMath<clong>.IsNaN(clong x) => false;
-            bool IMath<clong>.IsNegative(clong x) => x._value < 0;
-            bool IMath<clong>.IsNegativeInfinity(clong x) => false;
-            bool IMath<clong>.IsNormal(clong x) => false;
-            bool IMath<clong>.IsPositiveInfinity(clong x) => false;
-            bool IMath<clong>.IsSubnormal(clong x) => false;
+            bool INumericFunctions<clong>.IsFinite(clong x) => true;
+            bool INumericFunctions<clong>.IsInfinity(clong x) => false;
+            bool INumericFunctions<clong>.IsNaN(clong x) => false;
+            bool INumericFunctions<clong>.IsNegative(clong x) => x._value < 0;
+            bool INumericFunctions<clong>.IsNegativeInfinity(clong x) => false;
+            bool INumericFunctions<clong>.IsNormal(clong x) => false;
+            bool INumericFunctions<clong>.IsPositiveInfinity(clong x) => false;
+            bool INumericFunctions<clong>.IsSubnormal(clong x) => false;
 
             clong IMath<clong>.Abs(clong x) => Math.Abs(x);
             clong IMath<clong>.Acos(clong x) => (clong)Math.Acos(x);
@@ -212,9 +215,6 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IRandom<clong>.Next(Random random) => random.NextInt64();
             clong IRandom<clong>.Next(Random random, clong bound1, clong bound2) => random.NextInt64(bound1._value, bound2._value);
 
-            clong IStringParser<clong>.Parse(string s) => Parse(s);
-            clong IStringParser<clong>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<clong>.ToBoolean(clong value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<clong>.ToByte(clong value) => CheckedConvert.ToByte(value._value);
             decimal IConvert<clong>.ToDecimal(clong value) => CheckedConvert.ToDecimal(value._value);
@@ -244,6 +244,15 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IConvert<clong>.ToValue(uint value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToValue(ulong value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToValue(ushort value) => CheckedConvert.ToInt64(value);
+
+            bool IStringParser<clong>.TryParse(string s, IFormatProvider provider, out clong result) => TryParse(s, provider, out result);
+            bool IStringParser<clong>.TryParse(string s, NumberStyles style, IFormatProvider provider, out clong result) => TryParse(s, style, provider, out result);
+            bool IStringParser<clong>.TryParse(string s, NumberStyles style, out clong result) => TryParse(s, style, out result);
+            bool IStringParser<clong>.TryParse(string s, out clong result) => TryParse(s, out result);
+            clong IStringParser<clong>.Parse(string s) => Parse(s);
+            clong IStringParser<clong>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            clong IStringParser<clong>.Parse(string s, NumberStyles style) => Parse(s, style);
+            clong IStringParser<clong>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

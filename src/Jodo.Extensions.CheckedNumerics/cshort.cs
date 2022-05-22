@@ -134,6 +134,7 @@ namespace Jodo.Extensions.CheckedNumerics
         IBitConverter<cshort> IBitConvertible<cshort>.BitConverter => Utilities.Instance;
         IConvert<cshort> IConvertible<cshort>.Convert => Utilities.Instance;
         IMath<cshort> INumeric<cshort>.Math => Utilities.Instance;
+        INumericFunctions<cshort> INumeric<cshort>.NumericFunctions => Utilities.Instance;
         IRandom<cshort> IRandomisable<cshort>.Random => Utilities.Instance;
         IStringParser<cshort> IStringParsable<cshort>.StringParser => Utilities.Instance;
 
@@ -141,35 +142,37 @@ namespace Jodo.Extensions.CheckedNumerics
             IBitConverter<cshort>,
             IConvert<cshort>,
             IMath<cshort>,
+            INumericFunctions<cshort>,
             IRandom<cshort>,
             IStringParser<cshort>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<cshort>.IsReal { get; } = false;
-            bool IMath<cshort>.IsSigned { get; } = true;
+            bool INumericFunctions<cshort>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<cshort>.IsReal { get; } = false;
+            bool INumericFunctions<cshort>.IsSigned { get; } = true;
             cshort IMath<cshort>.E { get; } = (short)2;
-            cshort IMath<cshort>.Epsilon { get; } = (short)1;
-            cshort IMath<cshort>.MaxUnit { get; } = (short)1;
-            cshort IMath<cshort>.MaxValue => MaxValue;
-            cshort IMath<cshort>.MinUnit { get; } = (short)-1;
-            cshort IMath<cshort>.MinValue => MinValue;
-            cshort IMath<cshort>.One { get; } = (short)1;
+            cshort INumericFunctions<cshort>.Epsilon { get; } = (short)1;
+            cshort INumericFunctions<cshort>.MaxUnit { get; } = (short)1;
+            cshort INumericFunctions<cshort>.MaxValue => MaxValue;
+            cshort INumericFunctions<cshort>.MinUnit { get; } = (short)-1;
+            cshort INumericFunctions<cshort>.MinValue => MinValue;
+            cshort INumericFunctions<cshort>.One { get; } = (short)1;
             cshort IMath<cshort>.PI { get; } = (short)3;
             cshort IMath<cshort>.Tau { get; } = (short)6;
-            cshort IMath<cshort>.Ten { get; } = (short)10;
-            cshort IMath<cshort>.Two { get; } = (short)2;
-            cshort IMath<cshort>.Zero { get; } = (short)0;
+            cshort INumericFunctions<cshort>.Ten { get; } = (short)10;
+            cshort INumericFunctions<cshort>.Two { get; } = (short)2;
+            cshort INumericFunctions<cshort>.Zero { get; } = (short)0;
 
             int IMath<cshort>.Sign(cshort x) => Math.Sign(x._value);
-            bool IMath<cshort>.IsFinite(cshort x) => true;
-            bool IMath<cshort>.IsInfinity(cshort x) => false;
-            bool IMath<cshort>.IsNaN(cshort x) => false;
-            bool IMath<cshort>.IsNegative(cshort x) => x._value < 0;
-            bool IMath<cshort>.IsNegativeInfinity(cshort x) => false;
-            bool IMath<cshort>.IsNormal(cshort x) => false;
-            bool IMath<cshort>.IsPositiveInfinity(cshort x) => false;
-            bool IMath<cshort>.IsSubnormal(cshort x) => false;
+            bool INumericFunctions<cshort>.IsFinite(cshort x) => true;
+            bool INumericFunctions<cshort>.IsInfinity(cshort x) => false;
+            bool INumericFunctions<cshort>.IsNaN(cshort x) => false;
+            bool INumericFunctions<cshort>.IsNegative(cshort x) => x._value < 0;
+            bool INumericFunctions<cshort>.IsNegativeInfinity(cshort x) => false;
+            bool INumericFunctions<cshort>.IsNormal(cshort x) => false;
+            bool INumericFunctions<cshort>.IsPositiveInfinity(cshort x) => false;
+            bool INumericFunctions<cshort>.IsSubnormal(cshort x) => false;
 
             cshort IMath<cshort>.Abs(cshort x) => Math.Abs(x._value);
             cshort IMath<cshort>.Acos(cshort x) => (cshort)Math.Acos(x._value);
@@ -212,9 +215,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IRandom<cshort>.Next(Random random) => random.NextInt16();
             cshort IRandom<cshort>.Next(Random random, cshort bound1, cshort bound2) => random.NextInt16(bound1._value, bound2._value);
 
-            cshort IStringParser<cshort>.Parse(string s) => Parse(s);
-            cshort IStringParser<cshort>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<cshort>.ToBoolean(cshort value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cshort>.ToByte(cshort value) => CheckedConvert.ToByte(value._value);
             decimal IConvert<cshort>.ToDecimal(cshort value) => CheckedConvert.ToDecimal(value._value);
@@ -244,6 +244,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IConvert<cshort>.ToValue(uint value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToValue(ulong value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToValue(ushort value) => CheckedConvert.ToInt16(value);
+
+            bool IStringParser<cshort>.TryParse(string s, IFormatProvider provider, out cshort result) => TryParse(s, provider, out result);
+            bool IStringParser<cshort>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cshort result) => TryParse(s, style, provider, out result);
+            bool IStringParser<cshort>.TryParse(string s, NumberStyles style, out cshort result) => TryParse(s, style, out result);
+            bool IStringParser<cshort>.TryParse(string s, out cshort result) => TryParse(s, out result);
+            cshort IStringParser<cshort>.Parse(string s) => Parse(s);
+            cshort IStringParser<cshort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            cshort IStringParser<cshort>.Parse(string s, NumberStyles style) => Parse(s, style);
+            cshort IStringParser<cshort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

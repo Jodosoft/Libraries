@@ -133,6 +133,7 @@ namespace Jodo.Extensions.Numerics
         IBitConverter<xushort> IBitConvertible<xushort>.BitConverter => Utilities.Instance;
         IConvert<xushort> IConvertible<xushort>.Convert => Utilities.Instance;
         IMath<xushort> INumeric<xushort>.Math => Utilities.Instance;
+        INumericFunctions<xushort> INumeric<xushort>.NumericFunctions => Utilities.Instance;
         IRandom<xushort> IRandomisable<xushort>.Random => Utilities.Instance;
         IStringParser<xushort> IStringParsable<xushort>.StringParser => Utilities.Instance;
 
@@ -140,36 +141,37 @@ namespace Jodo.Extensions.Numerics
             IBitConverter<xushort>,
             IConvert<xushort>,
             IMath<xushort>,
+            INumericFunctions<xushort>,
             IRandom<xushort>,
             IStringParser<xushort>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<xushort>.IsReal { get; } = false;
-            bool IMath<xushort>.IsSigned { get; } = false;
+            bool INumericFunctions<xushort>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<xushort>.IsReal { get; } = false;
+            bool INumericFunctions<xushort>.IsSigned { get; } = false;
+            xushort INumericFunctions<xushort>.Epsilon { get; } = (ushort)1;
+            xushort INumericFunctions<xushort>.MaxUnit { get; } = (ushort)1;
+            xushort INumericFunctions<xushort>.MaxValue => MaxValue;
+            xushort INumericFunctions<xushort>.MinUnit { get; } = (ushort)0;
+            xushort INumericFunctions<xushort>.MinValue => MinValue;
+            xushort INumericFunctions<xushort>.One { get; } = (ushort)1;
+            xushort INumericFunctions<xushort>.Ten { get; } = (ushort)10;
+            xushort INumericFunctions<xushort>.Two { get; } = (ushort)2;
+            xushort INumericFunctions<xushort>.Zero { get; } = (ushort)0;
+            bool INumericFunctions<xushort>.IsFinite(xushort x) => true;
+            bool INumericFunctions<xushort>.IsInfinity(xushort x) => false;
+            bool INumericFunctions<xushort>.IsNaN(xushort x) => false;
+            bool INumericFunctions<xushort>.IsNegative(xushort x) => false;
+            bool INumericFunctions<xushort>.IsNegativeInfinity(xushort x) => false;
+            bool INumericFunctions<xushort>.IsNormal(xushort x) => false;
+            bool INumericFunctions<xushort>.IsPositiveInfinity(xushort x) => false;
+            bool INumericFunctions<xushort>.IsSubnormal(xushort x) => false;
+
             xushort IMath<xushort>.E { get; } = (ushort)2;
-            xushort IMath<xushort>.Epsilon { get; } = (ushort)1;
-            xushort IMath<xushort>.MaxUnit { get; } = (ushort)1;
-            xushort IMath<xushort>.MaxValue => MaxValue;
-            xushort IMath<xushort>.MinUnit { get; } = (ushort)0;
-            xushort IMath<xushort>.MinValue => MinValue;
-            xushort IMath<xushort>.One { get; } = (ushort)1;
             xushort IMath<xushort>.PI { get; } = (ushort)3;
             xushort IMath<xushort>.Tau { get; } = (ushort)6;
-            xushort IMath<xushort>.Ten { get; } = (ushort)10;
-            xushort IMath<xushort>.Two { get; } = (ushort)2;
-            xushort IMath<xushort>.Zero { get; } = (ushort)0;
-
             int IMath<xushort>.Sign(xushort x) => x._value == 0 ? 0 : 1;
-            bool IMath<xushort>.IsFinite(xushort x) => true;
-            bool IMath<xushort>.IsInfinity(xushort x) => false;
-            bool IMath<xushort>.IsNaN(xushort x) => false;
-            bool IMath<xushort>.IsNegative(xushort x) => false;
-            bool IMath<xushort>.IsNegativeInfinity(xushort x) => false;
-            bool IMath<xushort>.IsNormal(xushort x) => false;
-            bool IMath<xushort>.IsPositiveInfinity(xushort x) => false;
-            bool IMath<xushort>.IsSubnormal(xushort x) => false;
-
             xushort IMath<xushort>.Abs(xushort x) => x._value;
             xushort IMath<xushort>.Acos(xushort x) => (ushort)Math.Acos(x._value);
             xushort IMath<xushort>.Acosh(xushort x) => (ushort)Math.Acosh(x._value);
@@ -211,8 +213,8 @@ namespace Jodo.Extensions.Numerics
             xushort IRandom<xushort>.Next(Random random) => random.NextUInt16();
             xushort IRandom<xushort>.Next(Random random, xushort bound1, xushort bound2) => random.NextUInt16(bound1._value, bound2._value);
 
-            xushort IStringParser<xushort>.Parse(string s) => Parse(s);
-            xushort IStringParser<xushort>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
+            // xushort IStringParser<xushort>.Parse(string s) => Parse(s);
+            // xushort IStringParser<xushort>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
 
             bool IConvert<xushort>.ToBoolean(xushort value) => Convert.ToBoolean(value._value);
             byte IConvert<xushort>.ToByte(xushort value) => Convert.ToByte(value._value);
@@ -243,6 +245,15 @@ namespace Jodo.Extensions.Numerics
             xushort IConvert<xushort>.ToValue(uint value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToValue(ulong value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToValue(ushort value) => Convert.ToUInt16(value);
+
+            bool IStringParser<xushort>.TryParse(string s, IFormatProvider provider, out xushort result) => TryParse(s, provider, out result);
+            bool IStringParser<xushort>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xushort result) => TryParse(s, style, provider, out result);
+            bool IStringParser<xushort>.TryParse(string s, NumberStyles style, out xushort result) => TryParse(s, style, out result);
+            bool IStringParser<xushort>.TryParse(string s, out xushort result) => TryParse(s, out result);
+            xushort IStringParser<xushort>.Parse(string s) => Parse(s);
+            xushort IStringParser<xushort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            xushort IStringParser<xushort>.Parse(string s, NumberStyles style) => Parse(s, style);
+            xushort IStringParser<xushort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

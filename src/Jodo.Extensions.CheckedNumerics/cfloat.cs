@@ -140,6 +140,7 @@ namespace Jodo.Extensions.CheckedNumerics
         IBitConverter<cfloat> IBitConvertible<cfloat>.BitConverter => Utilities.Instance;
         IConvert<cfloat> IConvertible<cfloat>.Convert => Utilities.Instance;
         IMath<cfloat> INumeric<cfloat>.Math => Utilities.Instance;
+        INumericFunctions<cfloat> INumeric<cfloat>.NumericFunctions => Utilities.Instance;
         IRandom<cfloat> IRandomisable<cfloat>.Random => Utilities.Instance;
         IStringParser<cfloat> IStringParsable<cfloat>.StringParser => Utilities.Instance;
 
@@ -147,35 +148,37 @@ namespace Jodo.Extensions.CheckedNumerics
             IBitConverter<cfloat>,
             IConvert<cfloat>,
             IMath<cfloat>,
+            INumericFunctions<cfloat>,
             IRandom<cfloat>,
             IStringParser<cfloat>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<cfloat>.IsReal { get; } = true;
-            bool IMath<cfloat>.IsSigned { get; } = true;
+            bool INumericFunctions<cfloat>.HasFloatingPoint { get; } = true;
+            bool INumericFunctions<cfloat>.IsReal { get; } = true;
+            bool INumericFunctions<cfloat>.IsSigned { get; } = true;
             cfloat IMath<cfloat>.E { get; } = MathF.E;
-            cfloat IMath<cfloat>.Epsilon => Epsilon;
-            cfloat IMath<cfloat>.MaxUnit { get; } = 1;
-            cfloat IMath<cfloat>.MaxValue => MaxValue;
-            cfloat IMath<cfloat>.MinUnit { get; } = -1;
-            cfloat IMath<cfloat>.MinValue => MinValue;
-            cfloat IMath<cfloat>.One { get; } = 1;
+            cfloat INumericFunctions<cfloat>.Epsilon => Epsilon;
+            cfloat INumericFunctions<cfloat>.MaxUnit { get; } = 1;
+            cfloat INumericFunctions<cfloat>.MaxValue => MaxValue;
+            cfloat INumericFunctions<cfloat>.MinUnit { get; } = -1;
+            cfloat INumericFunctions<cfloat>.MinValue => MinValue;
+            cfloat INumericFunctions<cfloat>.One { get; } = 1;
             cfloat IMath<cfloat>.PI { get; } = MathF.PI;
             cfloat IMath<cfloat>.Tau { get; } = MathF.PI * 2f;
-            cfloat IMath<cfloat>.Ten { get; } = 10;
-            cfloat IMath<cfloat>.Two { get; } = 2;
-            cfloat IMath<cfloat>.Zero { get; } = 0;
+            cfloat INumericFunctions<cfloat>.Ten { get; } = 10;
+            cfloat INumericFunctions<cfloat>.Two { get; } = 2;
+            cfloat INumericFunctions<cfloat>.Zero { get; } = 0;
 
             int IMath<cfloat>.Sign(cfloat x) => Math.Sign(x._value);
-            bool IMath<cfloat>.IsFinite(cfloat x) => true;
-            bool IMath<cfloat>.IsInfinity(cfloat x) => false;
-            bool IMath<cfloat>.IsNaN(cfloat x) => false;
-            bool IMath<cfloat>.IsNegative(cfloat x) => x._value < 0;
-            bool IMath<cfloat>.IsNegativeInfinity(cfloat x) => false;
-            bool IMath<cfloat>.IsNormal(cfloat x) => IsNormal(x);
-            bool IMath<cfloat>.IsPositiveInfinity(cfloat x) => false;
-            bool IMath<cfloat>.IsSubnormal(cfloat x) => IsSubnormal(x);
+            bool INumericFunctions<cfloat>.IsFinite(cfloat x) => true;
+            bool INumericFunctions<cfloat>.IsInfinity(cfloat x) => false;
+            bool INumericFunctions<cfloat>.IsNaN(cfloat x) => false;
+            bool INumericFunctions<cfloat>.IsNegative(cfloat x) => x._value < 0;
+            bool INumericFunctions<cfloat>.IsNegativeInfinity(cfloat x) => false;
+            bool INumericFunctions<cfloat>.IsNormal(cfloat x) => IsNormal(x);
+            bool INumericFunctions<cfloat>.IsPositiveInfinity(cfloat x) => false;
+            bool INumericFunctions<cfloat>.IsSubnormal(cfloat x) => IsSubnormal(x);
 
             cfloat IMath<cfloat>.Abs(cfloat x) => MathF.Abs(x._value);
             cfloat IMath<cfloat>.Acos(cfloat x) => MathF.Acos(x._value);
@@ -218,9 +221,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IRandom<cfloat>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
             cfloat IRandom<cfloat>.Next(Random random, cfloat bound1, cfloat bound2) => random.NextSingle(bound1._value, bound2._value);
 
-            cfloat IStringParser<cfloat>.Parse(string s) => Parse(s);
-            cfloat IStringParser<cfloat>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<cfloat>.ToBoolean(cfloat value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cfloat>.ToByte(cfloat value) => CheckedConvert.ToByte(value._value);
             decimal IConvert<cfloat>.ToDecimal(cfloat value) => CheckedConvert.ToDecimal(value._value);
@@ -250,6 +250,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IConvert<cfloat>.ToValue(uint value) => CheckedConvert.ToSingle(value);
             cfloat IConvert<cfloat>.ToValue(ulong value) => CheckedConvert.ToSingle(value);
             cfloat IConvert<cfloat>.ToValue(ushort value) => CheckedConvert.ToSingle(value);
+
+            bool IStringParser<cfloat>.TryParse(string s, IFormatProvider provider, out cfloat result) => TryParse(s, provider, out result);
+            bool IStringParser<cfloat>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cfloat result) => TryParse(s, style, provider, out result);
+            bool IStringParser<cfloat>.TryParse(string s, NumberStyles style, out cfloat result) => TryParse(s, style, out result);
+            bool IStringParser<cfloat>.TryParse(string s, out cfloat result) => TryParse(s, out result);
+            cfloat IStringParser<cfloat>.Parse(string s) => Parse(s);
+            cfloat IStringParser<cfloat>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            cfloat IStringParser<cfloat>.Parse(string s, NumberStyles style) => Parse(s, style);
+            cfloat IStringParser<cfloat>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

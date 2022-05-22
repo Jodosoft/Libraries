@@ -133,6 +133,7 @@ namespace Jodo.Extensions.Numerics
         IBitConverter<xint> IBitConvertible<xint>.BitConverter => Utilities.Instance;
         IConvert<xint> IConvertible<xint>.Convert => Utilities.Instance;
         IMath<xint> INumeric<xint>.Math => Utilities.Instance;
+        INumericFunctions<xint> INumeric<xint>.NumericFunctions => Utilities.Instance;
         IRandom<xint> IRandomisable<xint>.Random => Utilities.Instance;
         IStringParser<xint> IStringParsable<xint>.StringParser => Utilities.Instance;
 
@@ -140,35 +141,37 @@ namespace Jodo.Extensions.Numerics
             IBitConverter<xint>,
             IConvert<xint>,
             IMath<xint>,
+            INumericFunctions<xint>,
             IRandom<xint>,
             IStringParser<xint>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<xint>.IsReal { get; } = false;
-            bool IMath<xint>.IsSigned { get; } = true;
+            bool INumericFunctions<xint>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<xint>.IsReal { get; } = false;
+            bool INumericFunctions<xint>.IsSigned { get; } = true;
             xint IMath<xint>.E { get; } = 2;
-            xint IMath<xint>.Epsilon { get; } = 1;
-            xint IMath<xint>.MaxUnit { get; } = 1;
-            xint IMath<xint>.MaxValue => MaxValue;
-            xint IMath<xint>.MinUnit { get; } = -1;
-            xint IMath<xint>.MinValue => MinValue;
-            xint IMath<xint>.One { get; } = 1;
+            xint INumericFunctions<xint>.Epsilon { get; } = 1;
+            xint INumericFunctions<xint>.MaxUnit { get; } = 1;
+            xint INumericFunctions<xint>.MaxValue => MaxValue;
+            xint INumericFunctions<xint>.MinUnit { get; } = -1;
+            xint INumericFunctions<xint>.MinValue => MinValue;
+            xint INumericFunctions<xint>.One { get; } = 1;
             xint IMath<xint>.PI { get; } = 3;
             xint IMath<xint>.Tau { get; } = 6;
-            xint IMath<xint>.Ten { get; } = 10;
-            xint IMath<xint>.Two { get; } = 2;
-            xint IMath<xint>.Zero { get; } = 0;
+            xint INumericFunctions<xint>.Ten { get; } = 10;
+            xint INumericFunctions<xint>.Two { get; } = 2;
+            xint INumericFunctions<xint>.Zero { get; } = 0;
 
             int IMath<xint>.Sign(xint x) => Math.Sign(x._value);
-            bool IMath<xint>.IsFinite(xint x) => true;
-            bool IMath<xint>.IsInfinity(xint x) => false;
-            bool IMath<xint>.IsNaN(xint x) => false;
-            bool IMath<xint>.IsNegative(xint x) => x._value < 0;
-            bool IMath<xint>.IsNegativeInfinity(xint x) => false;
-            bool IMath<xint>.IsNormal(xint x) => false;
-            bool IMath<xint>.IsPositiveInfinity(xint x) => false;
-            bool IMath<xint>.IsSubnormal(xint x) => false;
+            bool INumericFunctions<xint>.IsFinite(xint x) => true;
+            bool INumericFunctions<xint>.IsInfinity(xint x) => false;
+            bool INumericFunctions<xint>.IsNaN(xint x) => false;
+            bool INumericFunctions<xint>.IsNegative(xint x) => x._value < 0;
+            bool INumericFunctions<xint>.IsNegativeInfinity(xint x) => false;
+            bool INumericFunctions<xint>.IsNormal(xint x) => false;
+            bool INumericFunctions<xint>.IsPositiveInfinity(xint x) => false;
+            bool INumericFunctions<xint>.IsSubnormal(xint x) => false;
 
             xint IMath<xint>.Abs(xint x) => Math.Abs(x._value);
             xint IMath<xint>.Acos(xint x) => (int)Math.Acos(x._value);
@@ -211,9 +214,6 @@ namespace Jodo.Extensions.Numerics
             xint IRandom<xint>.Next(Random random) => random.NextInt32();
             xint IRandom<xint>.Next(Random random, xint bound1, xint bound2) => random.NextInt32(bound1._value, bound2._value);
 
-            xint IStringParser<xint>.Parse(string s) => Parse(s);
-            xint IStringParser<xint>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<xint>.ToBoolean(xint value) => Convert.ToBoolean(value._value);
             byte IConvert<xint>.ToByte(xint value) => Convert.ToByte(value._value);
             decimal IConvert<xint>.ToDecimal(xint value) => Convert.ToDecimal(value._value);
@@ -243,6 +243,15 @@ namespace Jodo.Extensions.Numerics
             xint IConvert<xint>.ToValue(uint value) => Convert.ToInt32(value);
             xint IConvert<xint>.ToValue(ulong value) => Convert.ToInt32(value);
             xint IConvert<xint>.ToValue(ushort value) => Convert.ToInt32(value);
+
+            bool IStringParser<xint>.TryParse(string s, IFormatProvider provider, out xint result) => TryParse(s, provider, out result);
+            bool IStringParser<xint>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xint result) => TryParse(s, style, provider, out result);
+            bool IStringParser<xint>.TryParse(string s, NumberStyles style, out xint result) => TryParse(s, style, out result);
+            bool IStringParser<xint>.TryParse(string s, out xint result) => TryParse(s, out result);
+            xint IStringParser<xint>.Parse(string s) => Parse(s);
+            xint IStringParser<xint>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            xint IStringParser<xint>.Parse(string s, NumberStyles style) => Parse(s, style);
+            xint IStringParser<xint>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

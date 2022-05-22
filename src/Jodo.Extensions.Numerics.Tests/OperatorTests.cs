@@ -45,16 +45,16 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 var result = Random.NextNumeric<N>(0, 10);
 
-                if (Math<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToNumeric(2), 1);
-                if (Math<N>.IsSigned) result -= Convert<N>.ToNumeric(5);
+                if (Numeric<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToNumeric(2), 1);
+                if (Numeric<N>.IsSigned) result -= Convert<N>.ToNumeric(5);
                 return result;
             }
 
             public N NextSmallPositive()
             {
                 var result = Random.NextNumeric<N>(0, 10);
-                if (Math<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToNumeric(2), 1);
-                return result + Math<N>.One;
+                if (Numeric<N>.IsReal) result = Math<N>.Round(result / Convert<N>.ToNumeric(2), 1);
+                return result + Numeric<N>.One;
             }
 
             [Test, Repeat(RandomVariations)]
@@ -131,13 +131,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Negative_Zero_ReturnsZero()
             {
                 //arrange
-                var input = Math<N>.Zero;
+                var input = Numeric<N>.Zero;
 
                 //act
                 var result = -input;
 
                 //assert
-                result.Should().Be(Math<N>.Zero);
+                result.Should().Be(Numeric<N>.Zero);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -147,10 +147,10 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = NextLowPrecision();
 
                 //act
-                var result = input * Math<N>.Zero;
+                var result = input * Numeric<N>.Zero;
 
                 //assert
-                result.Should().Be(Math<N>.Zero);
+                result.Should().Be(Numeric<N>.Zero);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -160,7 +160,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = NextLowPrecision();
 
                 //act
-                var result = input * Math<N>.One;
+                var result = input * Numeric<N>.One;
 
                 //assert
                 result.Should().Be(input);
@@ -173,7 +173,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = NextLowPrecision();
 
                 //act
-                var result = input / Math<N>.One;
+                var result = input / Numeric<N>.One;
 
                 //assert
                 result.Should().Be(input);
@@ -186,7 +186,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = NextLowPrecision();
 
                 //act
-                var result = input / Math<N>.One;
+                var result = input / Numeric<N>.One;
 
                 //assert
                 result.Should().Be(input);
@@ -277,10 +277,10 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = Math<N>.Truncate(NextLowPrecision());
 
                 //act
-                var result = input % Math<N>.One;
+                var result = input % Numeric<N>.One;
 
                 //assert
-                result.Should().Be(Math<N>.Zero);
+                result.Should().Be(Numeric<N>.Zero);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -290,10 +290,10 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = Math<N>.Truncate(NextLowPrecision());
 
                 //act
-                var result = input % Math<N>.One;
+                var result = input % Numeric<N>.One;
 
                 //assert
-                result.Should().Be(Math<N>.Zero);
+                result.Should().Be(Numeric<N>.Zero);
             }
 
             [Test, Repeat(RandomVariations)]

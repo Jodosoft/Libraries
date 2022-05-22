@@ -128,14 +128,14 @@ namespace Jodo.Extensions.Geometry
             return AARectangle<N>.FromBottomLeft((minX, minY), dimensions);
         }
 
-        private static Vector2<N> GetBottomCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X, center.Y + (dimensions.Y / Math<N>.Two)).RotateAround(center, angle);
-        private static Vector2<N> GetBottomLeft(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => (center - (dimensions / Math<N>.Two)).RotateAround(center, angle);
-        private static Vector2<N> GetBottomRight(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X + (dimensions.X / Math<N>.Two), center.Y - (dimensions.Y / Math<N>.Two)).RotateAround(center, angle);
-        private static Vector2<N> GetLeftCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X - (dimensions.X / Math<N>.Two), center.Y).RotateAround(center, angle);
-        private static Vector2<N> GetRightCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X + (dimensions.X / Math<N>.Two), center.Y).RotateAround(center, angle);
-        private static Vector2<N> GetTopCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X, center.Y + (dimensions.Y / Math<N>.Two)).RotateAround(center, angle);
-        private static Vector2<N> GetTopLeft(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X - (dimensions.X / Math<N>.Two), center.Y + (dimensions.Y / Math<N>.Two)).RotateAround(center, angle);
-        private static Vector2<N> GetTopRight(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => (center + (dimensions / Math<N>.Two)).RotateAround(center, angle);
+        private static Vector2<N> GetBottomCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X, center.Y + (dimensions.Y / Numeric<N>.Two)).RotateAround(center, angle);
+        private static Vector2<N> GetBottomLeft(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => (center - (dimensions / Numeric<N>.Two)).RotateAround(center, angle);
+        private static Vector2<N> GetBottomRight(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X + (dimensions.X / Numeric<N>.Two), center.Y - (dimensions.Y / Numeric<N>.Two)).RotateAround(center, angle);
+        private static Vector2<N> GetLeftCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X - (dimensions.X / Numeric<N>.Two), center.Y).RotateAround(center, angle);
+        private static Vector2<N> GetRightCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X + (dimensions.X / Numeric<N>.Two), center.Y).RotateAround(center, angle);
+        private static Vector2<N> GetTopCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X, center.Y + (dimensions.Y / Numeric<N>.Two)).RotateAround(center, angle);
+        private static Vector2<N> GetTopLeft(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X - (dimensions.X / Numeric<N>.Two), center.Y + (dimensions.Y / Numeric<N>.Two)).RotateAround(center, angle);
+        private static Vector2<N> GetTopRight(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => (center + (dimensions / Numeric<N>.Two)).RotateAround(center, angle);
 
         public static bool operator ==(Rectangle<N> left, Rectangle<N> right) => left.Equals(right);
         public static bool operator !=(Rectangle<N> left, Rectangle<N> right) => !(left == right);

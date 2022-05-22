@@ -54,98 +54,6 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test]
-            public void Epsilon_LessThanOrEqualToOne()
-            {
-                Math<N>.Epsilon.Should().BeLessThanOrEqualTo(Math<N>.One);
-            }
-
-            [Test]
-            public void Epsilon_Integral_IsOne()
-            {
-                IntegralOnly();
-                Math<N>.Epsilon.ToDouble().Should().Be(1);
-            }
-
-            [Test]
-            public void Epsilon_Real_GreaterThanZero()
-            {
-                RealOnly();
-                Math<N>.Epsilon.ToDouble().Should().BeGreaterThan(0);
-            }
-
-            [Test]
-            public void Epsilon_Real_LessThanOne()
-            {
-                RealOnly();
-                Math<N>.Epsilon.ToDouble().Should().BeLessThan(1);
-            }
-
-            [Test]
-            public void Epsilon_Real_ApproximatelyZero()
-            {
-                RealOnly();
-                Math<N>.Epsilon.ToDouble().Should().BeApproximately(0, 0.0001);
-            }
-
-            [Test]
-            public void MaxUnit_LessThanMaxValue()
-            {
-                Math<N>.MaxUnit.Should().BeLessThan(Math<N>.MaxValue);
-            }
-
-            [Test]
-            public void MaxUnit_IsOne()
-            {
-                Math<N>.MaxUnit.ToDouble().Should().Be(1);
-            }
-
-            [Test]
-            public void MinUnit_LessThanMaxUnit()
-            {
-                Math<N>.MinUnit.Should().BeLessThan(Math<N>.MaxUnit);
-            }
-
-            [Test]
-            public void MinUnit_Unsigned_IsZero()
-            {
-                UnsignedOnly();
-                Math<N>.MinUnit.Should().Be(Math<N>.Zero);
-            }
-
-            [Test]
-            public void MinUnit_Signed_IsMinusOne()
-            {
-                SignedOnly();
-                Math<N>.MinUnit.ToDouble().Should().Be(-1);
-            }
-
-            [Test]
-            public void MinValue_Unsigned_IsZero()
-            {
-                UnsignedOnly();
-                Math<N>.MinValue.Should().Be(Math<N>.Zero);
-            }
-
-            [Test]
-            public void MinValue_Signed_IsNegative()
-            {
-                SignedOnly();
-                Math<N>.MinValue.ToDouble().Should().BeLessThanOrEqualTo(sbyte.MinValue);
-            }
-
-            [Test]
-            public void MaxValue_IsPositive()
-            {
-                Math<N>.MaxValue.ToDouble().Should().BeGreaterThanOrEqualTo(sbyte.MaxValue);
-            }
-
-            [Test]
-            public void One_IsOne()
-            {
-                Math<N>.One.ToDouble().Should().Be(1);
-            }
-
-            [Test]
             public void PI_EquivalentToSystemMath()
             {
                 Math<N>.PI.Should().BeApproximately(Math.PI);
@@ -171,36 +79,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 Math<N>.Tau.ToDouble().Should().Be(6);
             }
 
-            [Test]
-            public void Ten_IsTen()
-            {
-                Math<N>.Ten.ToDouble().Should().Be(10);
-            }
-
-            [Test]
-            public void Two_IsTwo()
-            {
-                Math<N>.Two.ToDouble().Should().Be(2);
-            }
-
-            [Test]
-            public void Zero_LessThanEpsilon()
-            {
-                Math<N>.Zero.Should().BeLessThan(Math<N>.Epsilon);
-            }
-
-            [Test]
-            public void Zero_IsZero()
-            {
-                Math<N>.Zero.ToDouble().Should().Be(0);
-            }
-
             [Test, Repeat(RandomVariations)]
             public void Abs_Unsigned_SameValue()
             {
                 //arrange
                 UnsignedOnly();
-                var input = Random.NextNumeric(Math<N>.MinUnit, Math<N>.MinValue + Math<N>.MaxUnit);
+                var input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MinValue + Numeric<N>.MaxUnit);
 
                 //act
                 var result = Math<N>.Abs(input);
@@ -214,13 +98,13 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 SignedOnly();
-                var input = Random.NextNumeric(Math<N>.MinUnit, Math<N>.MinValue + Math<N>.MaxUnit);
+                var input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MinValue + Numeric<N>.MaxUnit);
 
                 //act
                 var result = Math<N>.Abs(input);
 
                 //assert
-                result.Should().Be(Math<N>.MinUnit * input);
+                result.Should().Be(Numeric<N>.MinUnit * input);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -253,7 +137,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acos_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.One;
+                var input = Numeric<N>.One;
 
                 //act
                 var result = Math<N>.Acos(input);
@@ -279,7 +163,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acosh_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.One;
+                var input = Numeric<N>.One;
 
                 //act
                 var result = Math<N>.Acosh(input);
@@ -292,7 +176,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acosh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Acosh(input);
@@ -318,7 +202,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asin_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MinUnit;
+                var input = Numeric<N>.MinUnit;
 
                 //act
                 var result = Math<N>.Asin(input);
@@ -331,7 +215,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asin_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.One;
+                var input = Numeric<N>.One;
 
                 //act
                 var result = Math<N>.Asin(input);
@@ -357,7 +241,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asinh_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MinValue;
+                var input = Numeric<N>.MinValue;
 
                 //act
                 var result = Math<N>.Asinh(input);
@@ -370,7 +254,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asinh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Asinh(input);
@@ -396,7 +280,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Atan_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MinValue;
+                var input = Numeric<N>.MinValue;
 
                 //act
                 var result = Math<N>.Atan(input);
@@ -409,7 +293,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Atan_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Atan(input);
@@ -436,8 +320,8 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Atan2_RandomBoundaries_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextBoolean() ? Math<N>.MinValue : Math<N>.MaxValue;
-                var input2 = Random.NextBoolean() ? Math<N>.MinValue : Math<N>.MaxValue;
+                var input1 = Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue;
+                var input2 = Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Atan2(input1, input2);
@@ -493,13 +377,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cbrt_Zero_Zero()
             {
                 //arrange
-                var input = Math<N>.Zero;
+                var input = Numeric<N>.Zero;
 
                 //act
                 var result = Math<N>.Cbrt(input);
 
                 //assert
-                result.Should().Be(Math<N>.Zero);
+                result.Should().Be(Numeric<N>.Zero);
             }
 
             [Test]
@@ -507,7 +391,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Cbrt(input);
@@ -521,7 +405,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Cbrt(input);
@@ -549,7 +433,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var input = Math<N>.MinValue;
+                var input = Numeric<N>.MinValue;
 
                 //act
                 var result = Math<N>.Ceiling(input);
@@ -563,7 +447,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Ceiling(input);
@@ -587,10 +471,26 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Cos_Random_EquivalentToSystemMath()
+            public void Cos_RandomSigned_EquivalentToSystemMath()
             {
                 //arrange
+                SignedOnly();
                 var input = NextLowPrecision();
+
+                //act
+                var result = Math<N>.Cos(input);
+
+                //assert
+                result.Should().BeApproximately(Math.Cos(input.ToDouble()));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Cos_RandomUnsigned_EquivalentToSystemMath()
+            {
+                //arrange
+                UnsignedOnly();
+                N input;
+                do { input = NextLowPrecision(); } while (Math.Cos(input.ToDouble()) < 0);
 
                 //act
                 var result = Math<N>.Cos(input);
@@ -603,7 +503,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cos_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MinValue;
+                var input = Numeric<N>.MinValue;
 
                 //act
                 var result = Math<N>.Cos(input);
@@ -616,7 +516,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cos_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Cos(input);
@@ -657,20 +557,20 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Exp_Zero_One()
             {
                 //arrange
-                var input = Math<N>.Zero;
+                var input = Numeric<N>.Zero;
 
                 //act
                 var result = Math<N>.Exp(input);
 
                 //assert
-                result.Should().Be(Math<N>.One);
+                result.Should().Be(Numeric<N>.One);
             }
 
             [Test]
             public void Exp_One_E()
             {
                 //arrange
-                var input = Math<N>.One;
+                var input = Numeric<N>.One;
 
                 //act
                 var result = Math<N>.Exp(input);
@@ -698,7 +598,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var input = Math<N>.MinValue;
+                var input = Numeric<N>.MinValue;
 
                 //act
                 var result = Math<N>.Floor(input);
@@ -712,7 +612,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Floor(input);
@@ -860,10 +760,10 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = Random.NextNumeric<N>();
 
                 //act
-                var result = Math<N>.Pow(input, Math<N>.Zero);
+                var result = Math<N>.Pow(input, Numeric<N>.Zero);
 
                 //assert
-                result.Should().Be(Math<N>.One);
+                result.Should().Be(Numeric<N>.One);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -873,7 +773,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = Random.NextNumeric<N>();
 
                 //act
-                var result = Math<N>.Pow(input, Math<N>.One);
+                var result = Math<N>.Pow(input, Numeric<N>.One);
 
                 //assert
                 result.Should().Be(input);
@@ -1000,10 +900,26 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Sin_Random_EquivalentToSystemMath()
+            public void Sin_RandomSigned_EquivalentToSystemMath()
             {
                 //arrange
+                SignedOnly();
                 var input = NextLowPrecision();
+
+                //act
+                var result = Math<N>.Sin(input);
+
+                //assert
+                result.Should().BeApproximately(Math.Sin(input.ToDouble()));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Sin_RandomUnsigned_EquivalentToSystemMath()
+            {
+                //arrange
+                UnsignedOnly();
+                N input;
+                do { input = NextLowPrecision(); } while (Math.Sin(input.ToDouble()) < 0);
 
                 //act
                 var result = Math<N>.Sin(input);
@@ -1016,7 +932,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sin_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MinValue;
+                var input = Numeric<N>.MinValue;
 
                 //act
                 var result = Math<N>.Sin(input);
@@ -1029,7 +945,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sin_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Sin(input);
@@ -1058,7 +974,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 IntegralOnly();
-                var input = Random.NextNumeric<N>(Math<N>.Zero, Math<N>.MaxValue);
+                var input = Random.NextNumeric<N>(Numeric<N>.Zero, Numeric<N>.MaxValue);
 
                 //act
                 var result = Math<N>.Sqrt(input);
@@ -1085,13 +1001,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sqrt_Zero_Zero()
             {
                 //arrange
-                var input = Math<N>.Zero;
+                var input = Numeric<N>.Zero;
 
                 //act
                 var result = Math<N>.Sqrt(input);
 
                 //assert
-                result.Should().Be(Math<N>.Zero);
+                result.Should().Be(Numeric<N>.Zero);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -1127,7 +1043,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Tan_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MinValue;
+                var input = Numeric<N>.MinValue;
 
                 //act
                 var result = Math<N>.Tan(input);
@@ -1140,7 +1056,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Tan_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Math<N>.MaxValue;
+                var input = Numeric<N>.MaxValue;
 
                 //act
                 var result = Math<N>.Tan(input);

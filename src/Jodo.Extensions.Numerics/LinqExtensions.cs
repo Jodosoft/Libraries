@@ -27,19 +27,19 @@ namespace System.Linq
 
         public static N Average<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
-            N sum = Math<N>.Zero;
-            N count = Math<N>.Zero;
+            N sum = Numeric<N>.Zero;
+            N count = Numeric<N>.Zero;
             foreach (var item in source)
             {
                 sum += item;
-                count += Math<N>.One;
+                count += Numeric<N>.One;
             }
             return sum / count;
         }
 
         public static N Sum<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
-            N sum = Math<N>.Zero;
+            N sum = Numeric<N>.Zero;
             foreach (var item in source)
             {
                 sum += item;

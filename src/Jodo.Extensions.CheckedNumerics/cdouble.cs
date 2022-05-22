@@ -142,42 +142,45 @@ namespace Jodo.Extensions.CheckedNumerics
         IBitConverter<cdouble> IBitConvertible<cdouble>.BitConverter => Utilities.Instance;
         IConvert<cdouble> IConvertible<cdouble>.Convert => Utilities.Instance;
         IMath<cdouble> INumeric<cdouble>.Math => Utilities.Instance;
+        INumericFunctions<cdouble> INumeric<cdouble>.NumericFunctions => Utilities.Instance;
         IRandom<cdouble> IRandomisable<cdouble>.Random => Utilities.Instance;
         IStringParser<cdouble> IStringParsable<cdouble>.StringParser => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<cdouble>,
-            IMath<cdouble>,
             IConvert<cdouble>,
+            IMath<cdouble>,
+            INumericFunctions<cdouble>,
             IRandom<cdouble>,
             IStringParser<cdouble>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<cdouble>.IsReal { get; } = true;
-            bool IMath<cdouble>.IsSigned { get; } = true;
+            bool INumericFunctions<cdouble>.HasFloatingPoint { get; } = true;
+            bool INumericFunctions<cdouble>.IsReal { get; } = true;
+            bool INumericFunctions<cdouble>.IsSigned { get; } = true;
             cdouble IMath<cdouble>.E { get; } = Math.E;
-            cdouble IMath<cdouble>.Epsilon => Epsilon;
-            cdouble IMath<cdouble>.MaxUnit { get; } = 1d;
-            cdouble IMath<cdouble>.MaxValue => MaxValue;
-            cdouble IMath<cdouble>.MinUnit { get; } = -1d;
-            cdouble IMath<cdouble>.MinValue => MinValue;
-            cdouble IMath<cdouble>.One { get; } = 1d;
+            cdouble INumericFunctions<cdouble>.Epsilon => Epsilon;
+            cdouble INumericFunctions<cdouble>.MaxUnit { get; } = 1d;
+            cdouble INumericFunctions<cdouble>.MaxValue => MaxValue;
+            cdouble INumericFunctions<cdouble>.MinUnit { get; } = -1d;
+            cdouble INumericFunctions<cdouble>.MinValue => MinValue;
+            cdouble INumericFunctions<cdouble>.One { get; } = 1d;
             cdouble IMath<cdouble>.PI { get; } = Math.PI;
             cdouble IMath<cdouble>.Tau { get; } = Math.PI * 2d;
-            cdouble IMath<cdouble>.Ten { get; } = 10d;
-            cdouble IMath<cdouble>.Two { get; } = 2d;
-            cdouble IMath<cdouble>.Zero { get; } = 0d;
+            cdouble INumericFunctions<cdouble>.Ten { get; } = 10d;
+            cdouble INumericFunctions<cdouble>.Two { get; } = 2d;
+            cdouble INumericFunctions<cdouble>.Zero { get; } = 0d;
 
             int IMath<cdouble>.Sign(cdouble x) => Math.Sign(x._value);
-            bool IMath<cdouble>.IsFinite(cdouble x) => true;
-            bool IMath<cdouble>.IsInfinity(cdouble x) => false;
-            bool IMath<cdouble>.IsNaN(cdouble x) => false;
-            bool IMath<cdouble>.IsNegative(cdouble x) => x._value < 0;
-            bool IMath<cdouble>.IsNegativeInfinity(cdouble x) => false;
-            bool IMath<cdouble>.IsNormal(cdouble x) => IsNormal(x);
-            bool IMath<cdouble>.IsPositiveInfinity(cdouble x) => false;
-            bool IMath<cdouble>.IsSubnormal(cdouble x) => IsSubnormal(x);
+            bool INumericFunctions<cdouble>.IsFinite(cdouble x) => true;
+            bool INumericFunctions<cdouble>.IsInfinity(cdouble x) => false;
+            bool INumericFunctions<cdouble>.IsNaN(cdouble x) => false;
+            bool INumericFunctions<cdouble>.IsNegative(cdouble x) => x._value < 0;
+            bool INumericFunctions<cdouble>.IsNegativeInfinity(cdouble x) => false;
+            bool INumericFunctions<cdouble>.IsNormal(cdouble x) => IsNormal(x);
+            bool INumericFunctions<cdouble>.IsPositiveInfinity(cdouble x) => false;
+            bool INumericFunctions<cdouble>.IsSubnormal(cdouble x) => IsSubnormal(x);
 
             cdouble IMath<cdouble>.Abs(cdouble x) => Math.Abs(x._value);
             cdouble IMath<cdouble>.Acos(cdouble x) => Math.Acos(x._value);
@@ -220,9 +223,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IRandom<cdouble>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);
             cdouble IRandom<cdouble>.Next(Random random, cdouble bound1, cdouble bound2) => random.NextDouble(bound1._value, bound2._value);
 
-            cdouble IStringParser<cdouble>.Parse(string s) => Parse(s);
-            cdouble IStringParser<cdouble>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<cdouble>.ToBoolean(cdouble value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cdouble>.ToByte(cdouble value) => CheckedConvert.ToByte(value._value);
             decimal IConvert<cdouble>.ToDecimal(cdouble value) => CheckedConvert.ToDecimal(value._value);
@@ -252,6 +252,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IConvert<cdouble>.ToValue(uint value) => CheckedConvert.ToDouble(value);
             cdouble IConvert<cdouble>.ToValue(ulong value) => CheckedConvert.ToDouble(value);
             cdouble IConvert<cdouble>.ToValue(ushort value) => CheckedConvert.ToDouble(value);
+
+            bool IStringParser<cdouble>.TryParse(string s, IFormatProvider provider, out cdouble result) => TryParse(s, provider, out result);
+            bool IStringParser<cdouble>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cdouble result) => TryParse(s, style, provider, out result);
+            bool IStringParser<cdouble>.TryParse(string s, NumberStyles style, out cdouble result) => TryParse(s, style, out result);
+            bool IStringParser<cdouble>.TryParse(string s, out cdouble result) => TryParse(s, out result);
+            cdouble IStringParser<cdouble>.Parse(string s) => Parse(s);
+            cdouble IStringParser<cdouble>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            cdouble IStringParser<cdouble>.Parse(string s, NumberStyles style) => Parse(s, style);
+            cdouble IStringParser<cdouble>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

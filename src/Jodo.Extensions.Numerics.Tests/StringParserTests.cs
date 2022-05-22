@@ -59,7 +59,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 var input = NextLowPrecision();
-                var format = "G";
+                var format = "G17";
 
                 //act
                 var result = StringParser<N>.Parse(input.ToString(format));
@@ -87,7 +87,7 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 var input = NextLowPrecision();
-                var format = "G";
+                var format = "G17";
                 var provider = NumberFormatInfo.InvariantInfo;
                 var numberStyles = NumberStyles.Any;
 

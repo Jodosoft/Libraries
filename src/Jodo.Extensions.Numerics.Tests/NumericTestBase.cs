@@ -36,22 +36,22 @@ namespace Jodo.Extensions.Numerics.Tests
 
         protected void IntegralOnly()
         {
-            if (Math<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an integral type.");
+            if (Numeric<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an integral type.");
         }
 
         protected void RealOnly()
         {
-            if (!Math<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a real type.");
+            if (!Numeric<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a real type.");
         }
 
         protected void SignedOnly()
         {
-            if (!Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a signed type.");
+            if (!Numeric<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a signed type.");
         }
 
         protected void UnsignedOnly()
         {
-            if (Math<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an unsigned type.");
+            if (Numeric<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an unsigned type.");
         }
 
         protected N NextLowPrecision()
@@ -68,12 +68,12 @@ namespace Jodo.Extensions.Numerics.Tests
         {
             N result = Random.NextNumeric<N>(0, 20);
 
-            if (Math<N>.IsSigned && Random.NextBoolean())
+            if (Numeric<N>.IsSigned && Random.NextBoolean())
             {
                 result = -result;
             }
 
-            if (Math<N>.IsReal)
+            if (Numeric<N>.IsReal)
             {
                 result /= Convert<N>.ToNumeric(10);
             }
@@ -83,7 +83,7 @@ namespace Jodo.Extensions.Numerics.Tests
         protected N NextSmallPositiveNumeric()
         {
             N result = Random.NextNumeric<N>(0, 20);
-            if (Math<N>.IsReal)
+            if (Numeric<N>.IsReal)
             {
                 result /= Convert<N>.ToNumeric(10);
             }

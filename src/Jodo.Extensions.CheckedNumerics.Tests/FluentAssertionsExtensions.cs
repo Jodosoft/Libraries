@@ -26,9 +26,9 @@ namespace FluentAssertions
 {
     public static class FluentAssertionsExtensions
     {
-        public static AndConstraint<ComparableTypeAssertions<T>> BeCheckedNumericEquivalentTo<T>(this ComparableTypeAssertions<T> parent, double expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        public static AndConstraint<ComparableTypeAssertions<N>> BeCheckedNumericEquivalentTo<N>(this ComparableTypeAssertions<N> parent, double expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
-            var actual = ((T)parent.Subject).ToDouble();
+            var actual = ((N)parent.Subject).ToDouble();
 
             if (double.IsNaN(expected))
             {
@@ -39,7 +39,7 @@ namespace FluentAssertions
             }
             else if (double.IsPositiveInfinity(expected))
             {
-                var expectedValue = Math<T>.MaxValue.ToDouble();
+                var expectedValue = Numeric<N>.MaxValue.ToDouble();
                 Execute.Assertion
                   .ForCondition(actual == expectedValue)
                   .BecauseOf(because, becauseArgs)
@@ -47,36 +47,36 @@ namespace FluentAssertions
             }
             else if (double.IsNegativeInfinity(expected))
             {
-                var expectedValue = Math<T>.MinValue.ToDouble();
+                var expectedValue = Numeric<N>.MinValue.ToDouble();
                 Execute.Assertion
                   .ForCondition(actual == expectedValue)
                   .BecauseOf(because, becauseArgs)
                   .FailWith("Expected {context:value} to be 0 (MinValue equivalent to NegativeInfinity){reason}, but it was {1}.", expectedValue, actual);
             }
-            else if (expected < 0 && !Math<T>.IsSigned)
+            else if (expected < 0 && !Numeric<N>.IsSigned)
             {
                 Execute.Assertion
                     .ForCondition(actual == 0)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be 0 (unsigned equivalent to {0}){reason}, but it was {1}.", expected, actual);
             }
-            else if (expected > Math<T>.MaxValue.ToDouble())
+            else if (expected > Numeric<N>.MaxValue.ToDouble())
             {
-                var expectedValue = Math<T>.MaxValue.ToDouble();
+                var expectedValue = Numeric<N>.MaxValue.ToDouble();
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0} (checked/clamped version of {1}){reason}, but it was {2}.", expectedValue, expected, actual);
             }
-            else if (expected < Math<T>.MinValue.ToDouble())
+            else if (expected < Numeric<N>.MinValue.ToDouble())
             {
-                var expectedValue = Math<T>.MinValue.ToDouble();
+                var expectedValue = Numeric<N>.MinValue.ToDouble();
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0} (checked/clamped version of {1}){reason}, but it was {2}.", expectedValue, expected, actual);
             }
-            else if (!Math<T>.IsReal)
+            else if (!Numeric<N>.IsReal)
             {
                 var expectedValue = Math.Truncate(expected);
                 Execute.Assertion
@@ -93,7 +93,7 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0}{reason}, but it was {1}.", expectedValue, actualValue);
             }
-            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
 
         public static AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>

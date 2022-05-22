@@ -132,6 +132,7 @@ namespace Jodo.Extensions.CheckedNumerics
         IBitConverter<cbyte> IBitConvertible<cbyte>.BitConverter => Utilities.Instance;
         IConvert<cbyte> IConvertible<cbyte>.Convert => Utilities.Instance;
         IMath<cbyte> INumeric<cbyte>.Math => Utilities.Instance;
+        INumericFunctions<cbyte> INumeric<cbyte>.NumericFunctions => Utilities.Instance;
         IRandom<cbyte> IRandomisable<cbyte>.Random => Utilities.Instance;
         IStringParser<cbyte> IStringParsable<cbyte>.StringParser => Utilities.Instance;
 
@@ -139,79 +140,77 @@ namespace Jodo.Extensions.CheckedNumerics
             IBitConverter<cbyte>,
             IConvert<cbyte>,
             IMath<cbyte>,
+            INumericFunctions<cbyte>,
             IRandom<cbyte>,
             IStringParser<cbyte>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<cbyte>.IsReal { get; } = false;
-            bool IMath<cbyte>.IsSigned { get; } = false;
-            cbyte IMath<cbyte>.E { get; } = 2;
-            cbyte IMath<cbyte>.Epsilon { get; } = 1;
-            cbyte IMath<cbyte>.MaxUnit { get; } = 1;
-            cbyte IMath<cbyte>.MaxValue => MaxValue;
-            cbyte IMath<cbyte>.MinUnit { get; } = 0;
-            cbyte IMath<cbyte>.MinValue => MinValue;
-            cbyte IMath<cbyte>.One { get; } = 1;
-            cbyte IMath<cbyte>.PI { get; } = 3;
-            cbyte IMath<cbyte>.Tau { get; } = 6;
-            cbyte IMath<cbyte>.Ten { get; } = 10;
-            cbyte IMath<cbyte>.Two { get; } = 2;
-            cbyte IMath<cbyte>.Zero { get; } = 0;
+            bool INumericFunctions<cbyte>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<cbyte>.IsFinite(cbyte x) => true;
+            bool INumericFunctions<cbyte>.IsInfinity(cbyte x) => false;
+            bool INumericFunctions<cbyte>.IsNaN(cbyte x) => false;
+            bool INumericFunctions<cbyte>.IsNegative(cbyte x) => false;
+            bool INumericFunctions<cbyte>.IsNegativeInfinity(cbyte x) => false;
+            bool INumericFunctions<cbyte>.IsNormal(cbyte x) => false;
+            bool INumericFunctions<cbyte>.IsPositiveInfinity(cbyte x) => false;
+            bool INumericFunctions<cbyte>.IsReal { get; } = false;
+            bool INumericFunctions<cbyte>.IsSigned { get; } = false;
+            bool INumericFunctions<cbyte>.IsSubnormal(cbyte x) => false;
+            cbyte INumericFunctions<cbyte>.Epsilon { get; } = 1;
+            cbyte INumericFunctions<cbyte>.MaxUnit { get; } = 1;
+            cbyte INumericFunctions<cbyte>.MaxValue => MaxValue;
+            cbyte INumericFunctions<cbyte>.MinUnit { get; } = 0;
+            cbyte INumericFunctions<cbyte>.MinValue => MinValue;
+            cbyte INumericFunctions<cbyte>.One { get; } = 1;
+            cbyte INumericFunctions<cbyte>.Ten { get; } = 10;
+            cbyte INumericFunctions<cbyte>.Two { get; } = 2;
+            cbyte INumericFunctions<cbyte>.Zero { get; } = 0;
 
-            int IMath<cbyte>.Sign(cbyte x) => x._value == 0 ? 0 : 1;
-            bool IMath<cbyte>.IsFinite(cbyte x) => true;
-            bool IMath<cbyte>.IsInfinity(cbyte x) => false;
-            bool IMath<cbyte>.IsNaN(cbyte x) => false;
-            bool IMath<cbyte>.IsNegative(cbyte x) => false;
-            bool IMath<cbyte>.IsNegativeInfinity(cbyte x) => false;
-            bool IMath<cbyte>.IsNormal(cbyte x) => false;
-            bool IMath<cbyte>.IsPositiveInfinity(cbyte x) => false;
-            bool IMath<cbyte>.IsSubnormal(cbyte x) => false;
-
-            cbyte IMath<cbyte>.Truncate(cbyte x) => x;
-            cbyte IMath<cbyte>.Tanh(cbyte x) => (cbyte)Math.Tanh(x._value);
-            cbyte IMath<cbyte>.Tan(cbyte x) => (cbyte)Math.Tan(x._value);
-            cbyte IMath<cbyte>.Sqrt(cbyte x) => (cbyte)Math.Sqrt(x._value);
-            cbyte IMath<cbyte>.Sinh(cbyte x) => (cbyte)Math.Sinh(x._value);
-            cbyte IMath<cbyte>.Sin(cbyte x) => (cbyte)Math.Sin(x._value);
-            cbyte IMath<cbyte>.Round(cbyte x, MidpointRounding mode) => x;
-            cbyte IMath<cbyte>.Round(cbyte x, int digits, MidpointRounding mode) => x;
-            cbyte IMath<cbyte>.Round(cbyte x, int digits) => x;
-            cbyte IMath<cbyte>.Round(cbyte x) => x;
-            cbyte IMath<cbyte>.RadiansToDegrees(cbyte x) => (cbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            cbyte IMath<cbyte>.Pow(cbyte x, cbyte y) => CheckedArithmetic.Pow(x._value, y._value);
-            cbyte IMath<cbyte>.Min(cbyte x, cbyte y) => Math.Min(x._value, y._value);
-            cbyte IMath<cbyte>.Max(cbyte x, cbyte y) => Math.Max(x._value, y._value);
-            cbyte IMath<cbyte>.Log10(cbyte x) => (cbyte)Math.Log10(x._value);
-            cbyte IMath<cbyte>.Log(cbyte x, cbyte y) => (cbyte)Math.Log(x._value, y._value);
-            cbyte IMath<cbyte>.Log(cbyte x) => (cbyte)Math.Log(x._value);
-            cbyte IMath<cbyte>.IEEERemainder(cbyte x, cbyte y) => (cbyte)Math.IEEERemainder(x._value, y._value);
-            cbyte IMath<cbyte>.Floor(cbyte x) => x;
-            cbyte IMath<cbyte>.Exp(cbyte x) => (cbyte)Math.Exp(x._value);
-            cbyte IMath<cbyte>.DegreesToRadians(cbyte x) => (cbyte)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
-            cbyte IMath<cbyte>.Cosh(cbyte x) => (cbyte)Math.Cosh(x._value);
-            cbyte IMath<cbyte>.Cos(cbyte x) => (cbyte)Math.Cos(x._value);
-            cbyte IMath<cbyte>.Clamp(cbyte x, cbyte bound1, cbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            cbyte IMath<cbyte>.Ceiling(cbyte x) => x;
-            cbyte IMath<cbyte>.Cbrt(cbyte x) => (cbyte)Math.Cbrt(x._value);
-            cbyte IMath<cbyte>.Atanh(cbyte x) => (cbyte)Math.Atanh(x._value);
-            cbyte IMath<cbyte>.Atan2(cbyte x, cbyte y) => (cbyte)Math.Atan2(x._value, y._value);
-            cbyte IMath<cbyte>.Atan(cbyte x) => (cbyte)Math.Atan(x._value);
-            cbyte IMath<cbyte>.Asinh(cbyte x) => (cbyte)Math.Asinh(x._value);
-            cbyte IMath<cbyte>.Asin(cbyte x) => (cbyte)Math.Asin(x._value);
-            cbyte IMath<cbyte>.Acosh(cbyte x) => (cbyte)Math.Acosh(x._value);
-            cbyte IMath<cbyte>.Acos(cbyte x) => (cbyte)Math.Acos(x._value);
             cbyte IMath<cbyte>.Abs(cbyte x) => x;
+            cbyte IMath<cbyte>.Acos(cbyte x) => (cbyte)Math.Acos(x._value);
+            cbyte IMath<cbyte>.Acosh(cbyte x) => (cbyte)Math.Acosh(x._value);
+            cbyte IMath<cbyte>.Asin(cbyte x) => (cbyte)Math.Asin(x._value);
+            cbyte IMath<cbyte>.Asinh(cbyte x) => (cbyte)Math.Asinh(x._value);
+            cbyte IMath<cbyte>.Atan(cbyte x) => (cbyte)Math.Atan(x._value);
+            cbyte IMath<cbyte>.Atan2(cbyte x, cbyte y) => (cbyte)Math.Atan2(x._value, y._value);
+            cbyte IMath<cbyte>.Atanh(cbyte x) => (cbyte)Math.Atanh(x._value);
+            cbyte IMath<cbyte>.Cbrt(cbyte x) => (cbyte)Math.Cbrt(x._value);
+            cbyte IMath<cbyte>.Ceiling(cbyte x) => x;
+            cbyte IMath<cbyte>.Clamp(cbyte x, cbyte bound1, cbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
+            cbyte IMath<cbyte>.Cos(cbyte x) => (cbyte)Math.Cos(x._value);
+            cbyte IMath<cbyte>.Cosh(cbyte x) => (cbyte)Math.Cosh(x._value);
+            cbyte IMath<cbyte>.DegreesToRadians(cbyte x) => (cbyte)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            cbyte IMath<cbyte>.E { get; } = 2;
+            cbyte IMath<cbyte>.Exp(cbyte x) => (cbyte)Math.Exp(x._value);
+            cbyte IMath<cbyte>.Floor(cbyte x) => x;
+            cbyte IMath<cbyte>.IEEERemainder(cbyte x, cbyte y) => (cbyte)Math.IEEERemainder(x._value, y._value);
+            cbyte IMath<cbyte>.Log(cbyte x) => (cbyte)Math.Log(x._value);
+            cbyte IMath<cbyte>.Log(cbyte x, cbyte y) => (cbyte)Math.Log(x._value, y._value);
+            cbyte IMath<cbyte>.Log10(cbyte x) => (cbyte)Math.Log10(x._value);
+            cbyte IMath<cbyte>.Max(cbyte x, cbyte y) => Math.Max(x._value, y._value);
+            cbyte IMath<cbyte>.Min(cbyte x, cbyte y) => Math.Min(x._value, y._value);
+            cbyte IMath<cbyte>.PI { get; } = 3;
+            cbyte IMath<cbyte>.Pow(cbyte x, cbyte y) => CheckedArithmetic.Pow(x._value, y._value);
+            cbyte IMath<cbyte>.RadiansToDegrees(cbyte x) => (cbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            cbyte IMath<cbyte>.Round(cbyte x) => x;
+            cbyte IMath<cbyte>.Round(cbyte x, int digits) => x;
+            cbyte IMath<cbyte>.Round(cbyte x, int digits, MidpointRounding mode) => x;
+            cbyte IMath<cbyte>.Round(cbyte x, MidpointRounding mode) => x;
+            cbyte IMath<cbyte>.Sin(cbyte x) => (cbyte)Math.Sin(x._value);
+            cbyte IMath<cbyte>.Sinh(cbyte x) => (cbyte)Math.Sinh(x._value);
+            cbyte IMath<cbyte>.Sqrt(cbyte x) => (cbyte)Math.Sqrt(x._value);
+            cbyte IMath<cbyte>.Tan(cbyte x) => (cbyte)Math.Tan(x._value);
+            cbyte IMath<cbyte>.Tanh(cbyte x) => (cbyte)Math.Tanh(x._value);
+            cbyte IMath<cbyte>.Tau { get; } = 6;
+            cbyte IMath<cbyte>.Truncate(cbyte x) => x;
+            int IMath<cbyte>.Sign(cbyte x) => x._value == 0 ? 0 : 1;
 
             cbyte IBitConverter<cbyte>.Read(IReadOnlyStream<byte> stream) => stream.Read(1)[0];
             void IBitConverter<cbyte>.Write(cbyte value, IWriteOnlyStream<byte> stream) => stream.Write(new[] { value._value });
 
             cbyte IRandom<cbyte>.Next(Random random) => random.NextByte();
             cbyte IRandom<cbyte>.Next(Random random, cbyte bound1, cbyte bound2) => random.NextByte(bound1._value, bound2._value);
-
-            cbyte IStringParser<cbyte>.Parse(string s) => Parse(s);
-            cbyte IStringParser<cbyte>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
 
             bool IConvert<cbyte>.ToBoolean(cbyte value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<cbyte>.ToByte(cbyte value) => value._value;
@@ -242,6 +241,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IConvert<cbyte>.ToValue(uint value) => CheckedConvert.ToByte(value);
             cbyte IConvert<cbyte>.ToValue(ulong value) => CheckedConvert.ToByte(value);
             cbyte IConvert<cbyte>.ToValue(ushort value) => value;
+
+            bool IStringParser<cbyte>.TryParse(string s, IFormatProvider provider, out cbyte result) => TryParse(s, provider, out result);
+            bool IStringParser<cbyte>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cbyte result) => TryParse(s, style, provider, out result);
+            bool IStringParser<cbyte>.TryParse(string s, NumberStyles style, out cbyte result) => TryParse(s, style, out result);
+            bool IStringParser<cbyte>.TryParse(string s, out cbyte result) => TryParse(s, out result);
+            cbyte IStringParser<cbyte>.Parse(string s) => Parse(s);
+            cbyte IStringParser<cbyte>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            cbyte IStringParser<cbyte>.Parse(string s, NumberStyles style) => Parse(s, style);
+            cbyte IStringParser<cbyte>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

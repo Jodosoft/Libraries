@@ -26,6 +26,7 @@ namespace Jodo.Extensions.Numerics
     public interface INumeric<N> : IBitConvertible<N>, IConvertible<N>, IRandomisable<N>, IStringParsable<N>, IComparable<N>, IEquatable<N>, IComparable, ISerializable, IFormattable where N : struct, INumeric<N>
     {
         IMath<N> Math { get; }
+        INumericFunctions<N> NumericFunctions { get; }
 
         public float ToSingle() => Convert<N>.ToSingle((N)this);
         public double ToDouble() => Convert<N>.ToDouble((N)this);

@@ -26,12 +26,12 @@ namespace FluentAssertions
 {
     public static class FluentAssertionsExtensions
     {
-        public static AndConstraint<ComparableTypeAssertions<T>> BeApproximately<T>(this ComparableTypeAssertions<T> parent, double expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        public static AndConstraint<ComparableTypeAssertions<N>> BeApproximately<N>(this ComparableTypeAssertions<N> parent, double expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
             if (!double.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
-            var actual = ((T)parent.Subject).ToDouble();
-            if (!Math<T>.IsReal)
+            var actual = ((N)parent.Subject).ToDouble();
+            if (!Numeric<N>.IsReal)
             {
                 var expectedValue = Math.Truncate(expected);
                 Execute.Assertion
@@ -49,7 +49,7 @@ namespace FluentAssertions
                     .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1}.", expectedValue, actualValue);
             }
 
-            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
 
         public static AndConstraint<ComparableTypeAssertions<T>> BeApproximately<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>

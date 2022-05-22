@@ -54,7 +54,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public bool Equals(ucfix64 other) => _scaledValue == other._scaledValue;
         public override bool Equals(object? obj) => obj is ucfix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
-        public override string ToString() => ((double)this).ToString();
+        public override string ToString() => $"{_scaledValue}/{ScalingFactor}";
         public string ToString(IFormatProvider formatProvider) => $"{_scaledValue.ToString(formatProvider)}/{ScalingFactor.ToString(formatProvider)}";
         public string ToString(string format) => $"{_scaledValue.ToString(format)}/{ScalingFactor.ToString(format)}";
         public string ToString(string format, IFormatProvider formatProvider) => $"{_scaledValue.ToString(format, formatProvider)}/{ScalingFactor.ToString(format, formatProvider)}";
@@ -63,10 +63,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ucfix64 result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out ucfix64 result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out ucfix64 result) => Try.Run(() => Parse(s), out result);
-        public static ucfix64 Parse(string s) => (ucfix64)double.Parse(s);
-        public static ucfix64 Parse(string s, IFormatProvider provider) => (ucfix64)double.Parse(s, provider);
-        public static ucfix64 Parse(string s, NumberStyles style) => (ucfix64)double.Parse(s, style);
-        public static ucfix64 Parse(string s, NumberStyles style, IFormatProvider provider) => (ucfix64)double.Parse(s, style, provider);
+        public static ucfix64 Parse(string s) => new ucfix64(ulong.Parse(s.Substring(0, s.IndexOf("/"))));
+        public static ucfix64 Parse(string s, IFormatProvider provider) => new ucfix64(ulong.Parse(s.Substring(0, s.IndexOf("/")), provider));
+        public static ucfix64 Parse(string s, NumberStyles style) => new ucfix64(ulong.Parse(s.Substring(0, s.IndexOf("/")), style));
+        public static ucfix64 Parse(string s, NumberStyles style, IFormatProvider provider) => new ucfix64(ulong.Parse(s.Substring(0, s.IndexOf("/")), style, provider));
 
         public static explicit operator ucfix64(decimal value) => new ucfix64(CheckedConvert.ToUInt64(value * ScalingFactor));
         public static explicit operator ucfix64(double value) => new ucfix64(CheckedConvert.ToUInt64(value * ScalingFactor));
@@ -100,7 +100,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(ucfix64 left, ucfix64 right) => left._scaledValue == right._scaledValue;
         public static bool operator >(ucfix64 left, ucfix64 right) => left._scaledValue > right._scaledValue;
         public static bool operator >=(ucfix64 left, ucfix64 right) => left._scaledValue >= right._scaledValue;
-        public static ucfix64 operator %(ucfix64 left, ucfix64 right) => new ucfix64(CheckedArithmetic.ScaledRemainder(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static ucfix64 operator %(ucfix64 left, ucfix64 right) => new ucfix64(CheckedArithmetic.Remainder(left._scaledValue, right._scaledValue));
         public static ucfix64 operator &(ucfix64 left, ucfix64 right) => new ucfix64(left._scaledValue & right._scaledValue);
         public static ucfix64 operator -(ucfix64 _) => 0;
         public static ucfix64 operator -(ucfix64 left, ucfix64 right) => new ucfix64(CheckedArithmetic.Subtract(left._scaledValue, right._scaledValue));
@@ -137,6 +137,7 @@ namespace Jodo.Extensions.CheckedNumerics
         IBitConverter<ucfix64> IBitConvertible<ucfix64>.BitConverter => Utilities.Instance;
         IConvert<ucfix64> IConvertible<ucfix64>.Convert => Utilities.Instance;
         IMath<ucfix64> INumeric<ucfix64>.Math => Utilities.Instance;
+        INumericFunctions<ucfix64> INumeric<ucfix64>.NumericFunctions => Utilities.Instance;
         IRandom<ucfix64> IRandomisable<ucfix64>.Random => Utilities.Instance;
         IStringParser<ucfix64> IStringParsable<ucfix64>.StringParser => Utilities.Instance;
 
@@ -144,35 +145,37 @@ namespace Jodo.Extensions.CheckedNumerics
             IBitConverter<ucfix64>,
             IConvert<ucfix64>,
             IMath<ucfix64>,
+            INumericFunctions<ucfix64>,
             IRandom<ucfix64>,
             IStringParser<ucfix64>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<ucfix64>.IsReal { get; } = true;
-            bool IMath<ucfix64>.IsSigned { get; } = false;
+            bool INumericFunctions<ucfix64>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<ucfix64>.IsReal { get; } = true;
+            bool INumericFunctions<ucfix64>.IsSigned { get; } = false;
             ucfix64 IMath<ucfix64>.E { get; } = (ucfix64)Math.E;
-            ucfix64 IMath<ucfix64>.Epsilon { get; } = new ucfix64(1);
-            ucfix64 IMath<ucfix64>.MaxUnit { get; } = new ucfix64(ScalingFactor);
-            ucfix64 IMath<ucfix64>.MaxValue => MaxValue;
-            ucfix64 IMath<ucfix64>.MinUnit { get; } = 0;
-            ucfix64 IMath<ucfix64>.MinValue => MinValue;
-            ucfix64 IMath<ucfix64>.One { get; } = new ucfix64(ScalingFactor);
+            ucfix64 INumericFunctions<ucfix64>.Epsilon { get; } = new ucfix64(1);
+            ucfix64 INumericFunctions<ucfix64>.MaxUnit { get; } = new ucfix64(ScalingFactor);
+            ucfix64 INumericFunctions<ucfix64>.MaxValue => MaxValue;
+            ucfix64 INumericFunctions<ucfix64>.MinUnit { get; } = 0;
+            ucfix64 INumericFunctions<ucfix64>.MinValue => MinValue;
+            ucfix64 INumericFunctions<ucfix64>.One { get; } = new ucfix64(ScalingFactor);
             ucfix64 IMath<ucfix64>.PI { get; } = (ucfix64)Math.PI;
             ucfix64 IMath<ucfix64>.Tau { get; } = (ucfix64)(Math.PI * 2d);
-            ucfix64 IMath<ucfix64>.Ten { get; } = new ucfix64(10 * ScalingFactor);
-            ucfix64 IMath<ucfix64>.Two { get; } = new ucfix64(2 * ScalingFactor);
-            ucfix64 IMath<ucfix64>.Zero { get; } = 0;
+            ucfix64 INumericFunctions<ucfix64>.Ten { get; } = new ucfix64(10 * ScalingFactor);
+            ucfix64 INumericFunctions<ucfix64>.Two { get; } = new ucfix64(2 * ScalingFactor);
+            ucfix64 INumericFunctions<ucfix64>.Zero { get; } = 0;
 
             int IMath<ucfix64>.Sign(ucfix64 x) => x._scaledValue == 0 ? 0 : 1;
-            bool IMath<ucfix64>.IsFinite(ucfix64 x) => true;
-            bool IMath<ucfix64>.IsInfinity(ucfix64 x) => false;
-            bool IMath<ucfix64>.IsNaN(ucfix64 x) => false;
-            bool IMath<ucfix64>.IsNegative(ucfix64 x) => false;
-            bool IMath<ucfix64>.IsNegativeInfinity(ucfix64 x) => false;
-            bool IMath<ucfix64>.IsNormal(ucfix64 x) => false;
-            bool IMath<ucfix64>.IsPositiveInfinity(ucfix64 x) => false;
-            bool IMath<ucfix64>.IsSubnormal(ucfix64 x) => false;
+            bool INumericFunctions<ucfix64>.IsFinite(ucfix64 x) => true;
+            bool INumericFunctions<ucfix64>.IsInfinity(ucfix64 x) => false;
+            bool INumericFunctions<ucfix64>.IsNaN(ucfix64 x) => false;
+            bool INumericFunctions<ucfix64>.IsNegative(ucfix64 x) => false;
+            bool INumericFunctions<ucfix64>.IsNegativeInfinity(ucfix64 x) => false;
+            bool INumericFunctions<ucfix64>.IsNormal(ucfix64 x) => false;
+            bool INumericFunctions<ucfix64>.IsPositiveInfinity(ucfix64 x) => false;
+            bool INumericFunctions<ucfix64>.IsSubnormal(ucfix64 x) => false;
 
             ucfix64 IMath<ucfix64>.Abs(ucfix64 x) => x;
             ucfix64 IMath<ucfix64>.Acos(ucfix64 x) => (ucfix64)Math.Acos((double)x);
@@ -196,7 +199,7 @@ namespace Jodo.Extensions.CheckedNumerics
             ucfix64 IMath<ucfix64>.Log10(ucfix64 x) => (ucfix64)Math.Log10((double)x);
             ucfix64 IMath<ucfix64>.Max(ucfix64 x, ucfix64 y) => new ucfix64(Math.Max(x._scaledValue, y._scaledValue));
             ucfix64 IMath<ucfix64>.Min(ucfix64 x, ucfix64 y) => new ucfix64(Math.Min(x._scaledValue, y._scaledValue));
-            ucfix64 IMath<ucfix64>.Pow(ucfix64 x, ucfix64 y) => (ucfix64)Math.Pow((double)x, (double)y);
+            ucfix64 IMath<ucfix64>.Pow(ucfix64 x, ucfix64 y) => y == 1 ? x : (ucfix64)Math.Pow((double)x, (double)y);
             ucfix64 IMath<ucfix64>.RadiansToDegrees(ucfix64 x) => (ucfix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerRadian);
             ucfix64 IMath<ucfix64>.Round(ucfix64 x) => (ucfix64)Math.Round((double)x);
             ucfix64 IMath<ucfix64>.Round(ucfix64 x, int digits) => (ucfix64)Math.Round((double)x, digits);
@@ -214,9 +217,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             ucfix64 IRandom<ucfix64>.Next(Random random) => new ucfix64(random.NextUInt64());
             ucfix64 IRandom<ucfix64>.Next(Random random, ucfix64 bound1, ucfix64 bound2) => new ucfix64(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
-
-            ucfix64 IStringParser<ucfix64>.Parse(string s) => Parse(s);
-            ucfix64 IStringParser<ucfix64>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
 
             bool IConvert<ucfix64>.ToBoolean(ucfix64 value) => value._scaledValue != 0;
             byte IConvert<ucfix64>.ToByte(ucfix64 value) => CheckedConvert.ToByte(value._scaledValue / ScalingFactor);
@@ -247,6 +247,15 @@ namespace Jodo.Extensions.CheckedNumerics
             ucfix64 IConvert<ucfix64>.ToValue(uint value) => (ucfix64)CheckedConvert.ToUInt64(value);
             ucfix64 IConvert<ucfix64>.ToValue(ulong value) => (ucfix64)value;
             ucfix64 IConvert<ucfix64>.ToValue(ushort value) => (ucfix64)CheckedConvert.ToUInt64(value);
+
+            bool IStringParser<ucfix64>.TryParse(string s, IFormatProvider provider, out ucfix64 result) => TryParse(s, provider, out result);
+            bool IStringParser<ucfix64>.TryParse(string s, NumberStyles style, IFormatProvider provider, out ucfix64 result) => TryParse(s, style, provider, out result);
+            bool IStringParser<ucfix64>.TryParse(string s, NumberStyles style, out ucfix64 result) => TryParse(s, style, out result);
+            bool IStringParser<ucfix64>.TryParse(string s, out ucfix64 result) => TryParse(s, out result);
+            ucfix64 IStringParser<ucfix64>.Parse(string s) => Parse(s);
+            ucfix64 IStringParser<ucfix64>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            ucfix64 IStringParser<ucfix64>.Parse(string s, NumberStyles style) => Parse(s, style);
+            ucfix64 IStringParser<ucfix64>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

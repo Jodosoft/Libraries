@@ -133,6 +133,7 @@ namespace Jodo.Extensions.Numerics
         IBitConverter<xdecimal> IBitConvertible<xdecimal>.BitConverter => Utilities.Instance;
         IConvert<xdecimal> IConvertible<xdecimal>.Convert => Utilities.Instance;
         IMath<xdecimal> INumeric<xdecimal>.Math => Utilities.Instance;
+        INumericFunctions<xdecimal> INumeric<xdecimal>.NumericFunctions => Utilities.Instance;
         IRandom<xdecimal> IRandomisable<xdecimal>.Random => Utilities.Instance;
         IStringParser<xdecimal> IStringParsable<xdecimal>.StringParser => Utilities.Instance;
 
@@ -140,35 +141,37 @@ namespace Jodo.Extensions.Numerics
             IBitConverter<xdecimal>,
             IConvert<xdecimal>,
             IMath<xdecimal>,
+            INumericFunctions<xdecimal>,
             IRandom<xdecimal>,
             IStringParser<xdecimal>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<xdecimal>.IsReal { get; } = true;
-            bool IMath<xdecimal>.IsSigned { get; } = true;
+            bool INumericFunctions<xdecimal>.HasFloatingPoint { get; } = true;
+            bool INumericFunctions<xdecimal>.IsReal { get; } = true;
+            bool INumericFunctions<xdecimal>.IsSigned { get; } = true;
             xdecimal IMath<xdecimal>.E { get; } = (decimal)Math.E;
-            xdecimal IMath<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
-            xdecimal IMath<xdecimal>.MaxUnit { get; } = 1m;
-            xdecimal IMath<xdecimal>.MaxValue => MaxValue;
-            xdecimal IMath<xdecimal>.MinUnit { get; } = -1m;
-            xdecimal IMath<xdecimal>.MinValue => MinValue;
-            xdecimal IMath<xdecimal>.One { get; } = 1m;
+            xdecimal INumericFunctions<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
+            xdecimal INumericFunctions<xdecimal>.MaxUnit { get; } = 1m;
+            xdecimal INumericFunctions<xdecimal>.MaxValue => MaxValue;
+            xdecimal INumericFunctions<xdecimal>.MinUnit { get; } = -1m;
+            xdecimal INumericFunctions<xdecimal>.MinValue => MinValue;
+            xdecimal INumericFunctions<xdecimal>.One { get; } = 1m;
             xdecimal IMath<xdecimal>.PI { get; } = (decimal)Math.PI;
             xdecimal IMath<xdecimal>.Tau { get; } = (decimal)Math.PI * 2m;
-            xdecimal IMath<xdecimal>.Ten { get; } = 10m;
-            xdecimal IMath<xdecimal>.Two { get; } = 2m;
-            xdecimal IMath<xdecimal>.Zero { get; } = 0m;
+            xdecimal INumericFunctions<xdecimal>.Ten { get; } = 10m;
+            xdecimal INumericFunctions<xdecimal>.Two { get; } = 2m;
+            xdecimal INumericFunctions<xdecimal>.Zero { get; } = 0m;
 
             int IMath<xdecimal>.Sign(xdecimal x) => Math.Sign(x._value);
-            bool IMath<xdecimal>.IsFinite(xdecimal x) => true;
-            bool IMath<xdecimal>.IsInfinity(xdecimal x) => false;
-            bool IMath<xdecimal>.IsNaN(xdecimal x) => false;
-            bool IMath<xdecimal>.IsNegative(xdecimal x) => x._value < 0;
-            bool IMath<xdecimal>.IsNegativeInfinity(xdecimal x) => false;
-            bool IMath<xdecimal>.IsNormal(xdecimal x) => false;
-            bool IMath<xdecimal>.IsPositiveInfinity(xdecimal x) => false;
-            bool IMath<xdecimal>.IsSubnormal(xdecimal x) => false;
+            bool INumericFunctions<xdecimal>.IsFinite(xdecimal x) => true;
+            bool INumericFunctions<xdecimal>.IsInfinity(xdecimal x) => false;
+            bool INumericFunctions<xdecimal>.IsNaN(xdecimal x) => false;
+            bool INumericFunctions<xdecimal>.IsNegative(xdecimal x) => x._value < 0;
+            bool INumericFunctions<xdecimal>.IsNegativeInfinity(xdecimal x) => false;
+            bool INumericFunctions<xdecimal>.IsNormal(xdecimal x) => false;
+            bool INumericFunctions<xdecimal>.IsPositiveInfinity(xdecimal x) => false;
+            bool INumericFunctions<xdecimal>.IsSubnormal(xdecimal x) => false;
 
             xdecimal IMath<xdecimal>.Abs(xdecimal x) => Math.Abs(x._value);
             xdecimal IMath<xdecimal>.Acos(xdecimal x) => (decimal)Math.Acos((double)x._value);
@@ -230,9 +233,6 @@ namespace Jodo.Extensions.Numerics
             xdecimal IRandom<xdecimal>.Next(Random random) => random.NextDecimal();
             xdecimal IRandom<xdecimal>.Next(Random random, xdecimal bound1, xdecimal bound2) => random.NextDecimal(bound1._value, bound2._value);
 
-            xdecimal IStringParser<xdecimal>.Parse(string s) => Parse(s);
-            xdecimal IStringParser<xdecimal>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<xdecimal>.ToBoolean(xdecimal value) => Convert.ToBoolean(value._value);
             byte IConvert<xdecimal>.ToByte(xdecimal value) => Convert.ToByte(value._value);
             decimal IConvert<xdecimal>.ToDecimal(xdecimal value) => value;
@@ -262,6 +262,15 @@ namespace Jodo.Extensions.Numerics
             xdecimal IConvert<xdecimal>.ToValue(uint value) => Convert.ToDecimal(value);
             xdecimal IConvert<xdecimal>.ToValue(ulong value) => Convert.ToDecimal(value);
             xdecimal IConvert<xdecimal>.ToValue(ushort value) => Convert.ToDecimal(value);
+
+            bool IStringParser<xdecimal>.TryParse(string s, IFormatProvider provider, out xdecimal result) => TryParse(s, provider, out result);
+            bool IStringParser<xdecimal>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xdecimal result) => TryParse(s, style, provider, out result);
+            bool IStringParser<xdecimal>.TryParse(string s, NumberStyles style, out xdecimal result) => TryParse(s, style, out result);
+            bool IStringParser<xdecimal>.TryParse(string s, out xdecimal result) => TryParse(s, out result);
+            xdecimal IStringParser<xdecimal>.Parse(string s) => Parse(s);
+            xdecimal IStringParser<xdecimal>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            xdecimal IStringParser<xdecimal>.Parse(string s, NumberStyles style) => Parse(s, style);
+            xdecimal IStringParser<xdecimal>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

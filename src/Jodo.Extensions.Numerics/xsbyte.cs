@@ -133,6 +133,7 @@ namespace Jodo.Extensions.Numerics
         IBitConverter<xsbyte> IBitConvertible<xsbyte>.BitConverter => Utilities.Instance;
         IConvert<xsbyte> IConvertible<xsbyte>.Convert => Utilities.Instance;
         IMath<xsbyte> INumeric<xsbyte>.Math => Utilities.Instance;
+        INumericFunctions<xsbyte> INumeric<xsbyte>.NumericFunctions => Utilities.Instance;
         IRandom<xsbyte> IRandomisable<xsbyte>.Random => Utilities.Instance;
         IStringParser<xsbyte> IStringParsable<xsbyte>.StringParser => Utilities.Instance;
 
@@ -140,35 +141,37 @@ namespace Jodo.Extensions.Numerics
             IBitConverter<xsbyte>,
             IConvert<xsbyte>,
             IMath<xsbyte>,
+            INumericFunctions<xsbyte>,
             IRandom<xsbyte>,
             IStringParser<xsbyte>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<xsbyte>.IsReal { get; } = false;
-            bool IMath<xsbyte>.IsSigned { get; } = true;
+            bool INumericFunctions<xsbyte>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<xsbyte>.IsReal { get; } = false;
+            bool INumericFunctions<xsbyte>.IsSigned { get; } = true;
             xsbyte IMath<xsbyte>.E { get; } = 2;
-            xsbyte IMath<xsbyte>.Epsilon { get; } = 1;
-            xsbyte IMath<xsbyte>.MaxUnit { get; } = 1;
-            xsbyte IMath<xsbyte>.MaxValue => MaxValue;
-            xsbyte IMath<xsbyte>.MinUnit { get; } = -1;
-            xsbyte IMath<xsbyte>.MinValue => MinValue;
-            xsbyte IMath<xsbyte>.One { get; } = 1;
+            xsbyte INumericFunctions<xsbyte>.Epsilon { get; } = 1;
+            xsbyte INumericFunctions<xsbyte>.MaxUnit { get; } = 1;
+            xsbyte INumericFunctions<xsbyte>.MaxValue => MaxValue;
+            xsbyte INumericFunctions<xsbyte>.MinUnit { get; } = -1;
+            xsbyte INumericFunctions<xsbyte>.MinValue => MinValue;
+            xsbyte INumericFunctions<xsbyte>.One { get; } = 1;
             xsbyte IMath<xsbyte>.PI { get; } = 3;
             xsbyte IMath<xsbyte>.Tau { get; } = 6;
-            xsbyte IMath<xsbyte>.Ten { get; } = 10;
-            xsbyte IMath<xsbyte>.Two { get; } = 2;
-            xsbyte IMath<xsbyte>.Zero { get; } = 0;
+            xsbyte INumericFunctions<xsbyte>.Ten { get; } = 10;
+            xsbyte INumericFunctions<xsbyte>.Two { get; } = 2;
+            xsbyte INumericFunctions<xsbyte>.Zero { get; } = 0;
 
             int IMath<xsbyte>.Sign(xsbyte x) => Math.Sign(x._value);
-            bool IMath<xsbyte>.IsFinite(xsbyte x) => true;
-            bool IMath<xsbyte>.IsInfinity(xsbyte x) => false;
-            bool IMath<xsbyte>.IsNaN(xsbyte x) => false;
-            bool IMath<xsbyte>.IsNegative(xsbyte x) => x._value < 0;
-            bool IMath<xsbyte>.IsNegativeInfinity(xsbyte x) => false;
-            bool IMath<xsbyte>.IsNormal(xsbyte x) => false;
-            bool IMath<xsbyte>.IsPositiveInfinity(xsbyte x) => false;
-            bool IMath<xsbyte>.IsSubnormal(xsbyte x) => false;
+            bool INumericFunctions<xsbyte>.IsFinite(xsbyte x) => true;
+            bool INumericFunctions<xsbyte>.IsInfinity(xsbyte x) => false;
+            bool INumericFunctions<xsbyte>.IsNaN(xsbyte x) => false;
+            bool INumericFunctions<xsbyte>.IsNegative(xsbyte x) => x._value < 0;
+            bool INumericFunctions<xsbyte>.IsNegativeInfinity(xsbyte x) => false;
+            bool INumericFunctions<xsbyte>.IsNormal(xsbyte x) => false;
+            bool INumericFunctions<xsbyte>.IsPositiveInfinity(xsbyte x) => false;
+            bool INumericFunctions<xsbyte>.IsSubnormal(xsbyte x) => false;
 
             xsbyte IMath<xsbyte>.Abs(xsbyte x) => Math.Abs(x._value);
             xsbyte IMath<xsbyte>.Acos(xsbyte x) => (sbyte)Math.Acos(x._value);
@@ -211,9 +214,6 @@ namespace Jodo.Extensions.Numerics
             xsbyte IRandom<xsbyte>.Next(Random random) => random.NextSByte();
             xsbyte IRandom<xsbyte>.Next(Random random, xsbyte bound1, xsbyte bound2) => random.NextSByte(bound1._value, bound2._value);
 
-            xsbyte IStringParser<xsbyte>.Parse(string s) => Parse(s);
-            xsbyte IStringParser<xsbyte>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<xsbyte>.ToBoolean(xsbyte value) => Convert.ToBoolean(value._value);
             byte IConvert<xsbyte>.ToByte(xsbyte value) => Convert.ToByte(value._value);
             decimal IConvert<xsbyte>.ToDecimal(xsbyte value) => Convert.ToDecimal(value._value);
@@ -243,6 +243,15 @@ namespace Jodo.Extensions.Numerics
             xsbyte IConvert<xsbyte>.ToValue(uint value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToValue(ulong value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToValue(ushort value) => Convert.ToSByte(value);
+
+            bool IStringParser<xsbyte>.TryParse(string s, IFormatProvider provider, out xsbyte result) => TryParse(s, provider, out result);
+            bool IStringParser<xsbyte>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xsbyte result) => TryParse(s, style, provider, out result);
+            bool IStringParser<xsbyte>.TryParse(string s, NumberStyles style, out xsbyte result) => TryParse(s, style, out result);
+            bool IStringParser<xsbyte>.TryParse(string s, out xsbyte result) => TryParse(s, out result);
+            xsbyte IStringParser<xsbyte>.Parse(string s) => Parse(s);
+            xsbyte IStringParser<xsbyte>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            xsbyte IStringParser<xsbyte>.Parse(string s, NumberStyles style) => Parse(s, style);
+            xsbyte IStringParser<xsbyte>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

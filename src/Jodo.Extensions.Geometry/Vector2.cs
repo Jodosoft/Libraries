@@ -68,7 +68,7 @@ namespace Jodo.Extensions.Geometry
                 (difference.X * newAngle.Sine) + (difference.Y * newAngle.Cosine));
         }
 
-        public N DistanceFrom(Vector2<N> point) => Math<N>.Sqrt(Math<N>.Pow(X - point.X, Math<N>.Two) + Math<N>.Pow(Y - point.Y, Math<N>.Two));
+        public N DistanceFrom(Vector2<N> point) => Math<N>.Sqrt(Math<N>.Pow(X - point.X, Numeric<N>.Two) + Math<N>.Pow(Y - point.Y, Numeric<N>.Two));
         public N DistanceFrom((N X, N Y) point) => DistanceFrom((Vector2<N>)point);
         public N DistanceFrom(N x, N y) => DistanceFrom((x, y));
         public Vector2<N> Translate((N X, N Y) delta) => new Vector2<N>(X + delta.X, Y + delta.Y);

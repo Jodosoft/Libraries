@@ -31,9 +31,9 @@ namespace Jodo.Extensions.Geometry
         public readonly Vector2<N> Center;
         public readonly N Radius;
 
-        public N Diameter => Math<N>.Two * Radius;
-        public N Area => Math<N>.PI * Math<N>.Pow(Radius, Math<N>.Two);
-        public N Circumeference => Math<N>.Two * Math<N>.PI * Radius;
+        public N Diameter => Numeric<N>.Two * Radius;
+        public N Area => Math<N>.PI * Math<N>.Pow(Radius, Numeric<N>.Two);
+        public N Circumeference => Numeric<N>.Two * Math<N>.PI * Radius;
 
         IBitConverter<Circle<N>> IBitConvertible<Circle<N>>.BitConverter => throw new NotImplementedException();
 

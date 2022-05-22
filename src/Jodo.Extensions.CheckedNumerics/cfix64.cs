@@ -63,10 +63,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cfix64 result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cfix64 result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cfix64 result) => Try.Run(() => Parse(s), out result);
-        public static cfix64 Parse(string s) => (cfix64)double.Parse(s);
-        public static cfix64 Parse(string s, IFormatProvider provider) => (cfix64)double.Parse(s, provider);
-        public static cfix64 Parse(string s, NumberStyles style) => (cfix64)double.Parse(s, style);
-        public static cfix64 Parse(string s, NumberStyles style, IFormatProvider provider) => (cfix64)double.Parse(s, style, provider);
+        public static cfix64 Parse(string s) => new cfix64(long.Parse(s.Substring(0, s.IndexOf("/"))));
+        public static cfix64 Parse(string s, IFormatProvider provider) => new cfix64(long.Parse(s.Substring(0, s.IndexOf("/")), provider));
+        public static cfix64 Parse(string s, NumberStyles style) => new cfix64(long.Parse(s.Substring(0, s.IndexOf("/")), style));
+        public static cfix64 Parse(string s, NumberStyles style, IFormatProvider provider) => new cfix64(long.Parse(s.Substring(0, s.IndexOf("/")), style, provider));
 
         public static explicit operator cfix64(decimal value) => new cfix64(CheckedConvert.ToInt64(value * ScalingFactor));
         public static explicit operator cfix64(double value) => new cfix64(CheckedConvert.ToInt64(CheckedArithmetic.Multiply(value, ScalingFactor)));
@@ -100,7 +100,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator ==(cfix64 left, cfix64 right) => left._scaledValue == right._scaledValue;
         public static bool operator >(cfix64 left, cfix64 right) => left._scaledValue > right._scaledValue;
         public static bool operator >=(cfix64 left, cfix64 right) => left._scaledValue >= right._scaledValue;
-        public static cfix64 operator %(cfix64 left, cfix64 right) => new cfix64(CheckedArithmetic.ScaledRemainder(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static cfix64 operator %(cfix64 left, cfix64 right) => new cfix64(CheckedArithmetic.Remainder(left._scaledValue, right._scaledValue));
         public static cfix64 operator &(cfix64 left, cfix64 right) => new cfix64(left._scaledValue & right._scaledValue);
         public static cfix64 operator -(cfix64 left, cfix64 right) => new cfix64(CheckedArithmetic.Subtract(left._scaledValue, right._scaledValue));
         public static cfix64 operator --(cfix64 value) => new cfix64(value._scaledValue - ScalingFactor);
@@ -137,42 +137,45 @@ namespace Jodo.Extensions.CheckedNumerics
         IBitConverter<cfix64> IBitConvertible<cfix64>.BitConverter => Utilities.Instance;
         IConvert<cfix64> IConvertible<cfix64>.Convert => Utilities.Instance;
         IMath<cfix64> INumeric<cfix64>.Math => Utilities.Instance;
+        INumericFunctions<cfix64> INumeric<cfix64>.NumericFunctions => Utilities.Instance;
         IRandom<cfix64> IRandomisable<cfix64>.Random => Utilities.Instance;
         IStringParser<cfix64> IStringParsable<cfix64>.StringParser => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<cfix64>,
-            IMath<cfix64>,
             IConvert<cfix64>,
+            IMath<cfix64>,
+            INumericFunctions<cfix64>,
             IRandom<cfix64>,
             IStringParser<cfix64>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<cfix64>.IsReal { get; } = true;
-            bool IMath<cfix64>.IsSigned { get; } = true;
+            bool INumericFunctions<cfix64>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<cfix64>.IsReal { get; } = true;
+            bool INumericFunctions<cfix64>.IsSigned { get; } = true;
             cfix64 IMath<cfix64>.E { get; } = (cfix64)Math.E;
-            cfix64 IMath<cfix64>.Epsilon { get; } = new cfix64(1);
-            cfix64 IMath<cfix64>.MaxUnit { get; } = new cfix64(ScalingFactor);
-            cfix64 IMath<cfix64>.MaxValue => MaxValue;
-            cfix64 IMath<cfix64>.MinUnit { get; } = new cfix64(-ScalingFactor);
-            cfix64 IMath<cfix64>.MinValue => MinValue;
-            cfix64 IMath<cfix64>.One { get; } = new cfix64(ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.Epsilon { get; } = new cfix64(1);
+            cfix64 INumericFunctions<cfix64>.MaxUnit { get; } = new cfix64(ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.MaxValue => MaxValue;
+            cfix64 INumericFunctions<cfix64>.MinUnit { get; } = new cfix64(-ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.MinValue => MinValue;
+            cfix64 INumericFunctions<cfix64>.One { get; } = new cfix64(ScalingFactor);
             cfix64 IMath<cfix64>.PI { get; } = (cfix64)Math.PI;
             cfix64 IMath<cfix64>.Tau { get; } = (cfix64)(Math.PI * 2d);
-            cfix64 IMath<cfix64>.Ten { get; } = new cfix64(10 * ScalingFactor);
-            cfix64 IMath<cfix64>.Two { get; } = new cfix64(2 * ScalingFactor);
-            cfix64 IMath<cfix64>.Zero { get; } = 0;
+            cfix64 INumericFunctions<cfix64>.Ten { get; } = new cfix64(10 * ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.Two { get; } = new cfix64(2 * ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.Zero { get; } = 0;
 
             int IMath<cfix64>.Sign(cfix64 x) => x._scaledValue == 0 ? 0 : 1;
-            bool IMath<cfix64>.IsFinite(cfix64 x) => true;
-            bool IMath<cfix64>.IsInfinity(cfix64 x) => false;
-            bool IMath<cfix64>.IsNaN(cfix64 x) => false;
-            bool IMath<cfix64>.IsNegative(cfix64 x) => x._scaledValue < 0;
-            bool IMath<cfix64>.IsNegativeInfinity(cfix64 x) => false;
-            bool IMath<cfix64>.IsNormal(cfix64 x) => false;
-            bool IMath<cfix64>.IsPositiveInfinity(cfix64 x) => false;
-            bool IMath<cfix64>.IsSubnormal(cfix64 x) => false;
+            bool INumericFunctions<cfix64>.IsFinite(cfix64 x) => true;
+            bool INumericFunctions<cfix64>.IsInfinity(cfix64 x) => false;
+            bool INumericFunctions<cfix64>.IsNaN(cfix64 x) => false;
+            bool INumericFunctions<cfix64>.IsNegative(cfix64 x) => x._scaledValue < 0;
+            bool INumericFunctions<cfix64>.IsNegativeInfinity(cfix64 x) => false;
+            bool INumericFunctions<cfix64>.IsNormal(cfix64 x) => false;
+            bool INumericFunctions<cfix64>.IsPositiveInfinity(cfix64 x) => false;
+            bool INumericFunctions<cfix64>.IsSubnormal(cfix64 x) => false;
 
             cfix64 IMath<cfix64>.Abs(cfix64 x) => x._scaledValue < 0 ? -x : x;
             cfix64 IMath<cfix64>.Acos(cfix64 x) => (cfix64)Math.Acos((double)x);
@@ -196,7 +199,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IMath<cfix64>.Log10(cfix64 x) => (cfix64)Math.Log10((double)x);
             cfix64 IMath<cfix64>.Max(cfix64 x, cfix64 y) => new cfix64(Math.Max(x._scaledValue, y._scaledValue));
             cfix64 IMath<cfix64>.Min(cfix64 x, cfix64 y) => new cfix64(Math.Min(x._scaledValue, y._scaledValue));
-            cfix64 IMath<cfix64>.Pow(cfix64 x, cfix64 y) => (cfix64)Math.Pow((double)x, (double)y);
+            cfix64 IMath<cfix64>.Pow(cfix64 x, cfix64 y) => y == 1 ? x : (cfix64)Math.Pow((double)x, (double)y);
             cfix64 IMath<cfix64>.RadiansToDegrees(cfix64 x) => (cfix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerRadian);
             cfix64 IMath<cfix64>.Round(cfix64 x) => (cfix64)Math.Round((double)x);
             cfix64 IMath<cfix64>.Round(cfix64 x, int digits) => (cfix64)Math.Round((double)x, digits);
@@ -214,9 +217,6 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cfix64 IRandom<cfix64>.Next(Random random) => new cfix64(random.NextInt64());
             cfix64 IRandom<cfix64>.Next(Random random, cfix64 bound1, cfix64 bound2) => new cfix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
-
-            cfix64 IStringParser<cfix64>.Parse(string s) => Parse(s);
-            cfix64 IStringParser<cfix64>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
 
             bool IConvert<cfix64>.ToBoolean(cfix64 value) => value._scaledValue != 0;
             byte IConvert<cfix64>.ToByte(cfix64 value) => CheckedConvert.ToByte(value._scaledValue / ScalingFactor);
@@ -247,6 +247,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IConvert<cfix64>.ToValue(uint value) => (cfix64)CheckedConvert.ToInt64(value);
             cfix64 IConvert<cfix64>.ToValue(ulong value) => (cfix64)CheckedConvert.ToInt64(value);
             cfix64 IConvert<cfix64>.ToValue(ushort value) => (cfix64)CheckedConvert.ToInt64(value);
+
+            bool IStringParser<cfix64>.TryParse(string s, IFormatProvider provider, out cfix64 result) => TryParse(s, provider, out result);
+            bool IStringParser<cfix64>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cfix64 result) => TryParse(s, style, provider, out result);
+            bool IStringParser<cfix64>.TryParse(string s, NumberStyles style, out cfix64 result) => TryParse(s, style, out result);
+            bool IStringParser<cfix64>.TryParse(string s, out cfix64 result) => TryParse(s, out result);
+            cfix64 IStringParser<cfix64>.Parse(string s) => Parse(s);
+            cfix64 IStringParser<cfix64>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            cfix64 IStringParser<cfix64>.Parse(string s, NumberStyles style) => Parse(s, style);
+            cfix64 IStringParser<cfix64>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

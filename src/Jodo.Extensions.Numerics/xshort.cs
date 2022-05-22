@@ -133,6 +133,7 @@ namespace Jodo.Extensions.Numerics
         IBitConverter<xshort> IBitConvertible<xshort>.BitConverter => Utilities.Instance;
         IConvert<xshort> IConvertible<xshort>.Convert => Utilities.Instance;
         IMath<xshort> INumeric<xshort>.Math => Utilities.Instance;
+        INumericFunctions<xshort> INumeric<xshort>.NumericFunctions => Utilities.Instance;
         IRandom<xshort> IRandomisable<xshort>.Random => Utilities.Instance;
         IStringParser<xshort> IStringParsable<xshort>.StringParser => Utilities.Instance;
 
@@ -140,35 +141,37 @@ namespace Jodo.Extensions.Numerics
             IBitConverter<xshort>,
             IConvert<xshort>,
             IMath<xshort>,
+            INumericFunctions<xshort>,
             IRandom<xshort>,
             IStringParser<xshort>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<xshort>.IsReal { get; } = false;
-            bool IMath<xshort>.IsSigned { get; } = true;
+            bool INumericFunctions<xshort>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<xshort>.IsReal { get; } = false;
+            bool INumericFunctions<xshort>.IsSigned { get; } = true;
             xshort IMath<xshort>.E { get; } = (short)2;
-            xshort IMath<xshort>.Epsilon { get; } = (short)1;
-            xshort IMath<xshort>.MaxUnit { get; } = (short)1;
-            xshort IMath<xshort>.MaxValue => MaxValue;
-            xshort IMath<xshort>.MinUnit { get; } = (short)-1;
-            xshort IMath<xshort>.MinValue => MinValue;
-            xshort IMath<xshort>.One { get; } = (short)1;
+            xshort INumericFunctions<xshort>.Epsilon { get; } = (short)1;
+            xshort INumericFunctions<xshort>.MaxUnit { get; } = (short)1;
+            xshort INumericFunctions<xshort>.MaxValue => MaxValue;
+            xshort INumericFunctions<xshort>.MinUnit { get; } = (short)-1;
+            xshort INumericFunctions<xshort>.MinValue => MinValue;
+            xshort INumericFunctions<xshort>.One { get; } = (short)1;
             xshort IMath<xshort>.PI { get; } = (short)3;
             xshort IMath<xshort>.Tau { get; } = (short)6;
-            xshort IMath<xshort>.Ten { get; } = (short)10;
-            xshort IMath<xshort>.Two { get; } = (short)2;
-            xshort IMath<xshort>.Zero { get; } = (short)0;
+            xshort INumericFunctions<xshort>.Ten { get; } = (short)10;
+            xshort INumericFunctions<xshort>.Two { get; } = (short)2;
+            xshort INumericFunctions<xshort>.Zero { get; } = (short)0;
 
             int IMath<xshort>.Sign(xshort x) => Math.Sign(x._value);
-            bool IMath<xshort>.IsFinite(xshort x) => true;
-            bool IMath<xshort>.IsInfinity(xshort x) => false;
-            bool IMath<xshort>.IsNaN(xshort x) => false;
-            bool IMath<xshort>.IsNegative(xshort x) => x._value < 0;
-            bool IMath<xshort>.IsNegativeInfinity(xshort x) => false;
-            bool IMath<xshort>.IsNormal(xshort x) => false;
-            bool IMath<xshort>.IsPositiveInfinity(xshort x) => false;
-            bool IMath<xshort>.IsSubnormal(xshort x) => false;
+            bool INumericFunctions<xshort>.IsFinite(xshort x) => true;
+            bool INumericFunctions<xshort>.IsInfinity(xshort x) => false;
+            bool INumericFunctions<xshort>.IsNaN(xshort x) => false;
+            bool INumericFunctions<xshort>.IsNegative(xshort x) => x._value < 0;
+            bool INumericFunctions<xshort>.IsNegativeInfinity(xshort x) => false;
+            bool INumericFunctions<xshort>.IsNormal(xshort x) => false;
+            bool INumericFunctions<xshort>.IsPositiveInfinity(xshort x) => false;
+            bool INumericFunctions<xshort>.IsSubnormal(xshort x) => false;
 
             xshort IMath<xshort>.Abs(xshort x) => Math.Abs(x._value);
             xshort IMath<xshort>.Acos(xshort x) => (short)Math.Acos(x._value);
@@ -211,9 +214,6 @@ namespace Jodo.Extensions.Numerics
             xshort IRandom<xshort>.Next(Random random) => random.NextInt16();
             xshort IRandom<xshort>.Next(Random random, xshort bound1, xshort bound2) => random.NextInt16(bound1._value, bound2._value);
 
-            xshort IStringParser<xshort>.Parse(string s) => Parse(s);
-            xshort IStringParser<xshort>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<xshort>.ToBoolean(xshort value) => Convert.ToBoolean(value._value);
             byte IConvert<xshort>.ToByte(xshort value) => Convert.ToByte(value._value);
             decimal IConvert<xshort>.ToDecimal(xshort value) => Convert.ToDecimal(value._value);
@@ -243,6 +243,15 @@ namespace Jodo.Extensions.Numerics
             xshort IConvert<xshort>.ToValue(uint value) => Convert.ToInt16(value);
             xshort IConvert<xshort>.ToValue(ulong value) => Convert.ToInt16(value);
             xshort IConvert<xshort>.ToValue(ushort value) => Convert.ToInt16(value);
+
+            bool IStringParser<xshort>.TryParse(string s, IFormatProvider provider, out xshort result) => TryParse(s, provider, out result);
+            bool IStringParser<xshort>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xshort result) => TryParse(s, style, provider, out result);
+            bool IStringParser<xshort>.TryParse(string s, NumberStyles style, out xshort result) => TryParse(s, style, out result);
+            bool IStringParser<xshort>.TryParse(string s, out xshort result) => TryParse(s, out result);
+            xshort IStringParser<xshort>.Parse(string s) => Parse(s);
+            xshort IStringParser<xshort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            xshort IStringParser<xshort>.Parse(string s, NumberStyles style) => Parse(s, style);
+            xshort IStringParser<xshort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

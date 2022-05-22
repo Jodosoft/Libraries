@@ -22,9 +22,15 @@ using System.Globalization;
 
 namespace Jodo.Extensions.Primitives
 {
-    public interface IStringParser<out T>
+    public interface IStringParser<T>
     {
+        bool TryParse(string s, IFormatProvider provider, out T result);
+        bool TryParse(string s, NumberStyles style, IFormatProvider provider, out T result);
+        bool TryParse(string s, NumberStyles style, out T result);
+        bool TryParse(string s, out T result);
         T Parse(string s);
-        T Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider);
+        T Parse(string s, IFormatProvider provider);
+        T Parse(string s, NumberStyles style);
+        T Parse(string s, NumberStyles style, IFormatProvider provider);
     }
 }

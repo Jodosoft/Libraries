@@ -17,51 +17,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
+using Jodo.Extensions.Numerics;
 
-namespace Jodo.Extensions.Numerics
+namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public interface IMath<N> where N : struct, INumeric<N>
+    public static class NumericFunctionsTests
     {
-        N E { get; }
-        N PI { get; }
-        N Tau { get; }
+        public class CDouble : Base<cdouble> { }
+        public class CFix64 : Base<cfix64> { }
+        public class CFloat : Base<cfloat> { }
+        public class CInt : Base<cint> { }
+        public class CLong : Base<clong> { }
+        public class CSByte : Base<csbyte> { }
+        public class CShort : Base<cshort> { }
+        public class UCFix64 : Base<ucfix64> { }
+        public class UCInt : Base<ucint> { }
+        public class UCShort : Base<ucshort> { }
+        public class CByte : Base<cbyte> { }
 
-        int Sign(N x);
+        public abstract class Base<T> : Numerics.Tests.NumericFunctionsTests.Base<T> where T : struct, INumeric<T>
+        {
 
-        N Abs(N x);
-        N Acos(N x);
-        N Acosh(N x);
-        N Asin(N x);
-        N Asinh(N x);
-        N Atan(N x);
-        N Atan2(N x, N y);
-        N Atanh(N x);
-        N Cbrt(N x);
-        N Ceiling(N x);
-        N Clamp(N x, N bound1, N bound2);
-        N Cos(N x);
-        N Cosh(N x);
-        N DegreesToRadians(N degrees);
-        N Exp(N x);
-        N Floor(N x);
-        N IEEERemainder(N x, N y);
-        N Log(N x);
-        N Log(N x, N y);
-        N Log10(N x);
-        N Max(N x, N y);
-        N Min(N x, N y);
-        N Pow(N x, N y);
-        N RadiansToDegrees(N radians);
-        N Round(N x);
-        N Round(N x, int digits);
-        N Round(N x, int digits, MidpointRounding mode);
-        N Round(N x, MidpointRounding mode);
-        N Sin(N x);
-        N Sinh(N x);
-        N Sqrt(N x);
-        N Tan(N x);
-        N Tanh(N x);
-        N Truncate(N x);
+        }
     }
 }

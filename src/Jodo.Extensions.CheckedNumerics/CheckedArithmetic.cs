@@ -374,49 +374,5 @@ namespace Jodo.Extensions.CheckedNumerics
                 return ulong.MaxValue;
             }
         }
-
-        public static long ScaledRemainder(long left, long right, long scalingFactor)
-        {
-            try
-            {
-                try
-                {
-                    checked
-                    {
-                        return left * scalingFactor % right;
-                    }
-                }
-                catch (OverflowException)
-                {
-                    return (long)(new BigInteger(left) * scalingFactor % new BigInteger(right));
-                }
-            }
-            catch (DivideByZeroException)
-            {
-                return 0;
-            }
-        }
-
-        public static ulong ScaledRemainder(ulong left, ulong right, ulong scalingFactor)
-        {
-            try
-            {
-                try
-                {
-                    checked
-                    {
-                        return left * scalingFactor % right;
-                    }
-                }
-                catch (OverflowException)
-                {
-                    return (ulong)(new BigInteger(left) * scalingFactor % new BigInteger(right));
-                }
-            }
-            catch (DivideByZeroException)
-            {
-                return 0;
-            }
-        }
     }
 }

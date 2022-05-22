@@ -133,6 +133,7 @@ namespace Jodo.Extensions.Numerics
         IBitConverter<xulong> IBitConvertible<xulong>.BitConverter => Utilities.Instance;
         IConvert<xulong> IConvertible<xulong>.Convert => Utilities.Instance;
         IMath<xulong> INumeric<xulong>.Math => Utilities.Instance;
+        INumericFunctions<xulong> INumeric<xulong>.NumericFunctions => Utilities.Instance;
         IRandom<xulong> IRandomisable<xulong>.Random => Utilities.Instance;
         IStringParser<xulong> IStringParsable<xulong>.StringParser => Utilities.Instance;
 
@@ -140,35 +141,37 @@ namespace Jodo.Extensions.Numerics
             IBitConverter<xulong>,
             IConvert<xulong>,
             IMath<xulong>,
+            INumericFunctions<xulong>,
             IRandom<xulong>,
             IStringParser<xulong>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool IMath<xulong>.IsReal { get; } = false;
-            bool IMath<xulong>.IsSigned { get; } = false;
+            bool INumericFunctions<xulong>.HasFloatingPoint { get; } = false;
+            bool INumericFunctions<xulong>.IsReal { get; } = false;
+            bool INumericFunctions<xulong>.IsSigned { get; } = false;
             xulong IMath<xulong>.E { get; } = (xulong)2;
-            xulong IMath<xulong>.Epsilon { get; } = (xulong)1;
-            xulong IMath<xulong>.MaxUnit { get; } = (xulong)1;
-            xulong IMath<xulong>.MaxValue => MaxValue;
-            xulong IMath<xulong>.MinUnit { get; } = (xulong)0;
-            xulong IMath<xulong>.MinValue => MinValue;
-            xulong IMath<xulong>.One { get; } = (xulong)1;
+            xulong INumericFunctions<xulong>.Epsilon { get; } = (xulong)1;
+            xulong INumericFunctions<xulong>.MaxUnit { get; } = (xulong)1;
+            xulong INumericFunctions<xulong>.MaxValue => MaxValue;
+            xulong INumericFunctions<xulong>.MinUnit { get; } = (xulong)0;
+            xulong INumericFunctions<xulong>.MinValue => MinValue;
+            xulong INumericFunctions<xulong>.One { get; } = (xulong)1;
             xulong IMath<xulong>.PI { get; } = (xulong)3;
             xulong IMath<xulong>.Tau { get; } = (xulong)6;
-            xulong IMath<xulong>.Ten { get; } = (xulong)10;
-            xulong IMath<xulong>.Two { get; } = (xulong)2;
-            xulong IMath<xulong>.Zero { get; } = (xulong)0;
+            xulong INumericFunctions<xulong>.Ten { get; } = (xulong)10;
+            xulong INumericFunctions<xulong>.Two { get; } = (xulong)2;
+            xulong INumericFunctions<xulong>.Zero { get; } = (xulong)0;
 
             int IMath<xulong>.Sign(xulong x) => x._value == 0 ? 0 : 1;
-            bool IMath<xulong>.IsFinite(xulong x) => true;
-            bool IMath<xulong>.IsInfinity(xulong x) => false;
-            bool IMath<xulong>.IsNaN(xulong x) => false;
-            bool IMath<xulong>.IsNegative(xulong x) => false;
-            bool IMath<xulong>.IsNegativeInfinity(xulong x) => false;
-            bool IMath<xulong>.IsNormal(xulong x) => false;
-            bool IMath<xulong>.IsPositiveInfinity(xulong x) => false;
-            bool IMath<xulong>.IsSubnormal(xulong x) => false;
+            bool INumericFunctions<xulong>.IsFinite(xulong x) => true;
+            bool INumericFunctions<xulong>.IsInfinity(xulong x) => false;
+            bool INumericFunctions<xulong>.IsNaN(xulong x) => false;
+            bool INumericFunctions<xulong>.IsNegative(xulong x) => false;
+            bool INumericFunctions<xulong>.IsNegativeInfinity(xulong x) => false;
+            bool INumericFunctions<xulong>.IsNormal(xulong x) => false;
+            bool INumericFunctions<xulong>.IsPositiveInfinity(xulong x) => false;
+            bool INumericFunctions<xulong>.IsSubnormal(xulong x) => false;
 
             xulong IMath<xulong>.Abs(xulong x) => x;
             xulong IMath<xulong>.Acos(xulong x) => (xulong)Math.Acos(x);
@@ -211,9 +214,6 @@ namespace Jodo.Extensions.Numerics
             xulong IRandom<xulong>.Next(Random random) => random.NextUInt64();
             xulong IRandom<xulong>.Next(Random random, xulong bound1, xulong bound2) => random.NextUInt64(bound1._value, bound2._value);
 
-            xulong IStringParser<xulong>.Parse(string s) => Parse(s);
-            xulong IStringParser<xulong>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<xulong>.ToBoolean(xulong value) => Convert.ToBoolean(value._value);
             byte IConvert<xulong>.ToByte(xulong value) => Convert.ToByte(value._value);
             decimal IConvert<xulong>.ToDecimal(xulong value) => Convert.ToDecimal(value._value);
@@ -243,6 +243,15 @@ namespace Jodo.Extensions.Numerics
             xulong IConvert<xulong>.ToValue(uint value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToValue(ulong value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToValue(ushort value) => Convert.ToUInt64(value);
+
+            bool IStringParser<xulong>.TryParse(string s, IFormatProvider provider, out xulong result) => TryParse(s, provider, out result);
+            bool IStringParser<xulong>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xulong result) => TryParse(s, style, provider, out result);
+            bool IStringParser<xulong>.TryParse(string s, NumberStyles style, out xulong result) => TryParse(s, style, out result);
+            bool IStringParser<xulong>.TryParse(string s, out xulong result) => TryParse(s, out result);
+            xulong IStringParser<xulong>.Parse(string s) => Parse(s);
+            xulong IStringParser<xulong>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
+            xulong IStringParser<xulong>.Parse(string s, NumberStyles style) => Parse(s, style);
+            xulong IStringParser<xulong>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
         }
     }
 }

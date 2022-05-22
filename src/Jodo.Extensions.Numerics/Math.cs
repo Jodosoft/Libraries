@@ -28,47 +28,12 @@ namespace Jodo.Extensions.Numerics
     {
         private static readonly IMath<N> Instance = default(N).Math;
 
-        public static bool IsReal => Instance.IsReal;
-        public static bool IsSigned => Instance.IsSigned;
         public static N E => Instance.E;
-        public static N Epsilon => Instance.Epsilon;
-        public static N MaxUnit => Instance.MaxUnit;
-        public static N MaxValue => Instance.MaxValue;
-        public static N MinUnit => Instance.MinUnit;
-        public static N MinValue => Instance.MinValue;
-        public static N One => Instance.One;
         public static N PI => Instance.PI;
         public static N Tau => Instance.Tau;
-        public static N Ten => Instance.Ten;
-        public static N Two => Instance.Two;
-        public static N Zero => Instance.Zero;
 
         [DebuggerStepThrough]
         public static int Sign(N x) => Instance.Sign(x);
-
-        [DebuggerStepThrough]
-        public static bool IsFinite(N x) => Instance.IsFinite(x);
-
-        [DebuggerStepThrough]
-        public static bool IsInfinity(N x) => Instance.IsInfinity(x);
-
-        [DebuggerStepThrough]
-        public static bool IsNaN(N x) => Instance.IsNaN(x);
-
-        [DebuggerStepThrough]
-        public static bool IsNegative(N x) => Instance.IsNegative(x);
-
-        [DebuggerStepThrough]
-        public static bool IsNegativeInfinity(N x) => Instance.IsNegativeInfinity(x);
-
-        [DebuggerStepThrough]
-        public static bool IsNormal(N x) => Instance.IsNormal(x);
-
-        [DebuggerStepThrough]
-        public static bool IsPositiveInfinity(N x) => Instance.IsPositiveInfinity(x);
-
-        [DebuggerStepThrough]
-        public static bool IsSubnormal(N x) => Instance.IsSubnormal(x);
 
         [DebuggerStepThrough]
         public static N Abs(N x) => Instance.Abs(x);
