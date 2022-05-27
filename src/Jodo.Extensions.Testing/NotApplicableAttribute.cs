@@ -17,30 +17,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal.Commands;
+using System;
 
-namespace System
+namespace Jodo.Extensions.Testing
 {
-    public static class RandomExtensions
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    public sealed partial class NotApplicableAttribute : PropertyAttribute, IWrapTestMethod
     {
-        public static N NextNumeric<N>(this Random random) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, Numeric<N>.MinValue, Numeric<N>.MaxValue);
+        public string Reason { get; set; }
 
-        public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, bound1, bound2);
-
-        public static N NextNumeric<N>(this Random random, double bound1, double bound2) where N : struct, INumeric<N>
-        {
-            N minBound;
-            try { minBound = Convert<N>.ToValue(Math.Min(bound1, bound2)); }
-            catch (OverflowException) { minBound = Numeric<N>.MinValue; }
-
-            N maxBound;
-            try { maxBound = Convert<N>.ToValue(Math.Max(bound1, bound2)); }
-            catch (OverflowException) { maxBound = Numeric<N>.MaxValue; }
-
-            return random.NextNumeric(minBound, maxBound);
-        }
+        public TestCommand Wrap(TestCommand command)
+            => new NotApplicableTestCommand(command, Reason);
     }
 }

@@ -102,7 +102,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse2_SmallIntegralHexString_CorrectResult()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.Next(0, 128);
                 var hexString = input.ToString("X");
 
@@ -110,7 +110,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var result = StringParser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
 
                 //assert
-                result.Should().Be(Convert<N>.ToNumeric(input));
+                result.Should().Be(Convert<N>.ToValue(input));
             }
         }
     }

@@ -48,8 +48,8 @@ namespace Jodo.Extensions.Numerics.Tests
                 //arrange
                 var input1 = Random.NextByte(0, 2);
                 var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToNumeric(input1);
-                var sut2 = Convert<N>.ToNumeric(input2);
+                var sut1 = Convert<N>.ToValue(input1);
+                var sut2 = Convert<N>.ToValue(input2);
 
                 //act
                 var result = sut1.Equals(sut2);
@@ -64,8 +64,8 @@ namespace Jodo.Extensions.Numerics.Tests
                 //arrange
                 var input1 = Random.NextByte(0, 2);
                 var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToNumeric(input1);
-                var sut2 = Convert<N>.ToNumeric(input2);
+                var sut1 = Convert<N>.ToValue(input1);
+                var sut2 = Convert<N>.ToValue(input2);
 
                 //act
                 var result = sut1.Equals((object)sut2);
@@ -80,8 +80,8 @@ namespace Jodo.Extensions.Numerics.Tests
                 //arrange
                 var input1 = Random.NextByte(0, 2);
                 var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToNumeric(input1);
-                var sut2 = Convert<N>.ToNumeric(input2);
+                var sut1 = Convert<N>.ToValue(input1);
+                var sut2 = Convert<N>.ToValue(input2);
 
                 //act
                 var result = Math.Sign(sut1.CompareTo(sut2));
@@ -136,8 +136,8 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 //arrange
                 var input = Random.NextByte(0, 127);
-                var sut1 = Convert<N>.ToNumeric(input);
-                var sut2 = Convert<N>.ToNumeric(input);
+                var sut1 = Convert<N>.ToValue(input);
+                var sut2 = Convert<N>.ToValue(input);
 
                 //act
                 var result1 = sut1.GetHashCode();
@@ -154,8 +154,8 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input1 = Random.NextByte(0, 127);
                 byte input2;
                 do { input2 = Random.NextByte(0, 127); ; } while (input2 == input1);
-                var sut1 = Convert<N>.ToNumeric(input1);
-                var sut2 = Convert<N>.ToNumeric(input2);
+                var sut1 = Convert<N>.ToValue(input1);
+                var sut2 = Convert<N>.ToValue(input2);
 
                 //act
                 var result1 = sut1.GetHashCode();
@@ -212,9 +212,9 @@ namespace Jodo.Extensions.Numerics.Tests
             public void ToString_FormatIntegralHexidecimal_CorrectResult()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.Next(0, 128);
-                var sut = Convert<N>.ToNumeric(input);
+                var sut = Convert<N>.ToValue(input);
 
                 //act
                 var result = sut.ToString("X");

@@ -141,6 +141,7 @@ namespace Jodo.Extensions.Numerics
         xdouble INumeric<xdouble>.Subtract(xdouble value) => this - value;
 
         IBitConverter<xdouble> IBitConvertible<xdouble>.BitConverter => Utilities.Instance;
+        ICast<xdouble> INumeric<xdouble>.Cast => Utilities.Instance;
         IConvert<xdouble> IConvertible<xdouble>.Convert => Utilities.Instance;
         IMath<xdouble> INumeric<xdouble>.Math => Utilities.Instance;
         INumericFunctions<xdouble> INumeric<xdouble>.NumericFunctions => Utilities.Instance;
@@ -149,6 +150,7 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xdouble>,
+            ICast<xdouble>,
             IConvert<xdouble>,
             IMath<xdouble>,
             INumericFunctions<xdouble>,
@@ -196,6 +198,7 @@ namespace Jodo.Extensions.Numerics
             xdouble IMath<xdouble>.Clamp(xdouble x, xdouble bound1, xdouble bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xdouble IMath<xdouble>.Cos(xdouble x) => Math.Cos(x._value);
             xdouble IMath<xdouble>.Cosh(xdouble x) => Math.Cosh(x._value);
+            xdouble IMath<xdouble>.DecimalTruncate(xdouble x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
             xdouble IMath<xdouble>.DegreesToRadians(xdouble x) => x * Trig.RadiansPerDegree;
             xdouble IMath<xdouble>.Exp(xdouble x) => Math.Exp(x._value);
             xdouble IMath<xdouble>.Floor(xdouble x) => Math.Floor(x._value);
@@ -262,6 +265,30 @@ namespace Jodo.Extensions.Numerics
             xdouble IStringParser<xdouble>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             xdouble IStringParser<xdouble>.Parse(string s, NumberStyles style) => Parse(s, style);
             xdouble IStringParser<xdouble>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<xdouble>.ToByte(xdouble value) => (byte)value;
+            decimal ICast<xdouble>.ToDecimal(xdouble value) => (decimal)value;
+            double ICast<xdouble>.ToDouble(xdouble value) => (double)value;
+            float ICast<xdouble>.ToSingle(xdouble value) => (float)value;
+            int ICast<xdouble>.ToInt32(xdouble value) => (int)value;
+            long ICast<xdouble>.ToInt64(xdouble value) => (long)value;
+            sbyte ICast<xdouble>.ToSByte(xdouble value) => (sbyte)value;
+            short ICast<xdouble>.ToInt16(xdouble value) => (short)value;
+            uint ICast<xdouble>.ToUInt32(xdouble value) => (uint)value;
+            ulong ICast<xdouble>.ToUInt64(xdouble value) => (ulong)value;
+            ushort ICast<xdouble>.ToUInt16(xdouble value) => (ushort)value;
+
+            xdouble ICast<xdouble>.ToValue(byte value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(decimal value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(double value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(float value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(int value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(long value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(sbyte value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(short value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(uint value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(ulong value) => (xdouble)value;
+            xdouble ICast<xdouble>.ToValue(ushort value) => (xdouble)value;
         }
     }
 }

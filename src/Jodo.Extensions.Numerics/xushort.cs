@@ -131,6 +131,7 @@ namespace Jodo.Extensions.Numerics
         xushort INumeric<xushort>.Subtract(xushort value) => this - value;
 
         IBitConverter<xushort> IBitConvertible<xushort>.BitConverter => Utilities.Instance;
+        ICast<xushort> INumeric<xushort>.Cast => Utilities.Instance;
         IConvert<xushort> IConvertible<xushort>.Convert => Utilities.Instance;
         IMath<xushort> INumeric<xushort>.Math => Utilities.Instance;
         INumericFunctions<xushort> INumeric<xushort>.NumericFunctions => Utilities.Instance;
@@ -139,6 +140,7 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xushort>,
+            ICast<xushort>,
             IConvert<xushort>,
             IMath<xushort>,
             INumericFunctions<xushort>,
@@ -185,6 +187,7 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Clamp(xushort x, xushort bound1, xushort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xushort IMath<xushort>.Cos(xushort x) => (ushort)Math.Cos(x._value);
             xushort IMath<xushort>.Cosh(xushort x) => (ushort)Math.Cosh(x._value);
+            xushort IMath<xushort>.DecimalTruncate(xushort x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
             xushort IMath<xushort>.DegreesToRadians(xushort degrees) => (ushort)(degrees * Trig.RadiansPerDegree);
             xushort IMath<xushort>.Exp(xushort x) => (ushort)Math.Exp(x._value);
             xushort IMath<xushort>.Floor(xushort x) => x;
@@ -254,6 +257,30 @@ namespace Jodo.Extensions.Numerics
             xushort IStringParser<xushort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             xushort IStringParser<xushort>.Parse(string s, NumberStyles style) => Parse(s, style);
             xushort IStringParser<xushort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<xushort>.ToByte(xushort value) => (byte)value;
+            decimal ICast<xushort>.ToDecimal(xushort value) => (decimal)value;
+            double ICast<xushort>.ToDouble(xushort value) => (double)value;
+            float ICast<xushort>.ToSingle(xushort value) => (float)value;
+            int ICast<xushort>.ToInt32(xushort value) => (int)value;
+            long ICast<xushort>.ToInt64(xushort value) => (long)value;
+            sbyte ICast<xushort>.ToSByte(xushort value) => (sbyte)value;
+            short ICast<xushort>.ToInt16(xushort value) => (short)value;
+            uint ICast<xushort>.ToUInt32(xushort value) => (uint)value;
+            ulong ICast<xushort>.ToUInt64(xushort value) => (ulong)value;
+            ushort ICast<xushort>.ToUInt16(xushort value) => (ushort)value;
+
+            xushort ICast<xushort>.ToValue(byte value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(decimal value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(double value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(float value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(int value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(long value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(sbyte value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(short value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(uint value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(ulong value) => (xushort)value;
+            xushort ICast<xushort>.ToValue(ushort value) => (xushort)value;
         }
     }
 }

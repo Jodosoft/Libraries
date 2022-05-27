@@ -131,6 +131,7 @@ namespace Jodo.Extensions.Numerics
         xdecimal INumeric<xdecimal>.Subtract(xdecimal value) => this - value;
 
         IBitConverter<xdecimal> IBitConvertible<xdecimal>.BitConverter => Utilities.Instance;
+        ICast<xdecimal> INumeric<xdecimal>.Cast => Utilities.Instance;
         IConvert<xdecimal> IConvertible<xdecimal>.Convert => Utilities.Instance;
         IMath<xdecimal> INumeric<xdecimal>.Math => Utilities.Instance;
         INumericFunctions<xdecimal> INumeric<xdecimal>.NumericFunctions => Utilities.Instance;
@@ -139,6 +140,7 @@ namespace Jodo.Extensions.Numerics
 
         private sealed class Utilities :
             IBitConverter<xdecimal>,
+            ICast<xdecimal>,
             IConvert<xdecimal>,
             IMath<xdecimal>,
             INumericFunctions<xdecimal>,
@@ -186,6 +188,7 @@ namespace Jodo.Extensions.Numerics
             xdecimal IMath<xdecimal>.Clamp(xdecimal x, xdecimal bound1, xdecimal bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xdecimal IMath<xdecimal>.Cos(xdecimal x) => (decimal)Math.Cos((double)x._value);
             xdecimal IMath<xdecimal>.Cosh(xdecimal x) => (decimal)Math.Cosh((double)x._value);
+            xdecimal IMath<xdecimal>.DecimalTruncate(xdecimal x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
             xdecimal IMath<xdecimal>.DegreesToRadians(xdecimal degrees) => degrees * Trig.RadiansPerDegreeM;
             xdecimal IMath<xdecimal>.Exp(xdecimal x) => (decimal)Math.Exp((double)x._value);
             xdecimal IMath<xdecimal>.Floor(xdecimal x) => decimal.Floor(x._value);
@@ -271,6 +274,30 @@ namespace Jodo.Extensions.Numerics
             xdecimal IStringParser<xdecimal>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             xdecimal IStringParser<xdecimal>.Parse(string s, NumberStyles style) => Parse(s, style);
             xdecimal IStringParser<xdecimal>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<xdecimal>.ToByte(xdecimal value) => (byte)value;
+            decimal ICast<xdecimal>.ToDecimal(xdecimal value) => (decimal)value;
+            double ICast<xdecimal>.ToDouble(xdecimal value) => (double)value;
+            float ICast<xdecimal>.ToSingle(xdecimal value) => (float)value;
+            int ICast<xdecimal>.ToInt32(xdecimal value) => (int)value;
+            long ICast<xdecimal>.ToInt64(xdecimal value) => (long)value;
+            sbyte ICast<xdecimal>.ToSByte(xdecimal value) => (sbyte)value;
+            short ICast<xdecimal>.ToInt16(xdecimal value) => (short)value;
+            uint ICast<xdecimal>.ToUInt32(xdecimal value) => (uint)value;
+            ulong ICast<xdecimal>.ToUInt64(xdecimal value) => (ulong)value;
+            ushort ICast<xdecimal>.ToUInt16(xdecimal value) => (ushort)value;
+
+            xdecimal ICast<xdecimal>.ToValue(byte value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(decimal value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(double value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(float value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(int value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(long value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(sbyte value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(short value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(uint value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(ulong value) => (xdecimal)value;
+            xdecimal ICast<xdecimal>.ToValue(ushort value) => (xdecimal)value;
         }
     }
 }

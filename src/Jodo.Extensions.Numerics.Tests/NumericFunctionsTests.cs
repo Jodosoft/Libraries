@@ -48,28 +48,28 @@ namespace Jodo.Extensions.Numerics.Tests
             [Test]
             public void Epsilon_Integral_IsOne()
             {
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 Numeric<N>.Epsilon.ToDouble().Should().Be(1);
             }
 
             [Test]
             public void Epsilon_Real_GreaterThanZero()
             {
-                RealOnly();
+                OnlyApplicableTo.Real();
                 Numeric<N>.Epsilon.ToDouble().Should().BeGreaterThan(0);
             }
 
             [Test]
             public void Epsilon_Real_LessThanOne()
             {
-                RealOnly();
+                OnlyApplicableTo.Real();
                 Numeric<N>.Epsilon.ToDouble().Should().BeLessThan(1);
             }
 
             [Test]
             public void Epsilon_Real_ApproximatelyZero()
             {
-                RealOnly();
+                OnlyApplicableTo.Real();
                 Numeric<N>.Epsilon.ToDouble().Should().BeApproximately(0, 0.0001);
             }
 
@@ -94,28 +94,28 @@ namespace Jodo.Extensions.Numerics.Tests
             [Test]
             public void MinUnit_Unsigned_IsZero()
             {
-                UnsignedOnly();
+                OnlyApplicableTo.Unsigned();
                 Numeric<N>.MinUnit.Should().Be(Numeric<N>.Zero);
             }
 
             [Test]
             public void MinUnit_Signed_IsMinusOne()
             {
-                SignedOnly();
+                OnlyApplicableTo.Signed();
                 Numeric<N>.MinUnit.ToDouble().Should().Be(-1);
             }
 
             [Test]
             public void MinValue_Unsigned_IsZero()
             {
-                UnsignedOnly();
+                OnlyApplicableTo.Unsigned();
                 Numeric<N>.MinValue.Should().Be(Numeric<N>.Zero);
             }
 
             [Test]
             public void MinValue_Signed_IsNegative()
             {
-                SignedOnly();
+                OnlyApplicableTo.Signed();
                 Numeric<N>.MinValue.ToDouble().Should().BeLessThanOrEqualTo(sbyte.MinValue);
             }
 
@@ -129,12 +129,6 @@ namespace Jodo.Extensions.Numerics.Tests
             public void One_IsOne()
             {
                 Numeric<N>.One.ToDouble().Should().Be(1);
-            }
-
-            [Test]
-            public void PI_EquivalentToSystemMath()
-            {
-                Math<N>.PI.Should().BeApproximately(Math.PI);
             }
 
             [Test]
@@ -165,7 +159,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsFinite_RandomIntegral_AlwaysTrue()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -179,7 +173,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsInfinity_RandomIntegral_AlwaysFalse()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -193,7 +187,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNaN_RandomIntegral_AlwaysFalse()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -207,7 +201,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNaN_RandomUnsigned_AlwaysFalse()
             {
                 //arrange
-                UnsignedOnly();
+                OnlyApplicableTo.Unsigned();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -221,7 +215,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNegativeInfinity_RandomIntegral_AlwaysFalse()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -235,7 +229,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNormal_RandomIntegral_AlwaysFalse()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -249,7 +243,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsPositiveInfinity_RandomIntegral_AlwaysFalse()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -263,7 +257,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsSubnormal_RandomIntegral_AlwaysFalse()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act

@@ -36,7 +36,7 @@
       <ItemGroup>
         <Compile Include="..\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
         <None Include="..\..\LICENSE.md" Link="Properties\LICENSE.md" Pack="true" PackagePath="\" />
-        <None Include="..\..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
+        <None Include="..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
       </ItemGroup>
       <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>

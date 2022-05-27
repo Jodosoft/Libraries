@@ -75,6 +75,9 @@ namespace Jodo.Extensions.Numerics
         public static N Cosh(N x) => Instance.Cosh(x);
 
         [DebuggerStepThrough]
+        public static N DecimalTruncate(N x, int significantDigits) => Instance.DecimalTruncate(x, significantDigits);
+
+        [DebuggerStepThrough]
         public static N DegreesToRadians(N x) => Instance.DegreesToRadians(x);
 
         [DebuggerStepThrough]

@@ -23,9 +23,20 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Numerics
 {
-    public interface INumeric<N> : IBitConvertible<N>, IConvertible<N>, IRandomisable<N>, IStringParsable<N>, IComparable<N>, IEquatable<N>, IComparable, ISerializable, IFormattable where N : struct, INumeric<N>
+    public interface INumeric<N> :
+            IBitConvertible<N>,
+            IComparable,
+            IComparable<N>,
+            IConvertible<N>,
+            IEquatable<N>,
+            IFormattable,
+            IRandomisable<N>,
+            ISerializable,
+            IStringParsable<N>
+        where N : struct, INumeric<N>
     {
         IMath<N> Math { get; }
+        ICast<N> Cast { get; }
         INumericFunctions<N> NumericFunctions { get; }
 
         public float ToSingle() => Convert<N>.ToSingle((N)this);

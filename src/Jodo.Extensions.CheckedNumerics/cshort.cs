@@ -74,14 +74,11 @@ namespace Jodo.Extensions.CheckedNumerics
         public static explicit operator cshort(ulong value) => new cshort(CheckedConvert.ToInt16(value));
         public static explicit operator cshort(ushort value) => new cshort(CheckedConvert.ToInt16(value));
         public static implicit operator cshort(byte value) => new cshort(value);
-        public static implicit operator cshort(char value) => new cshort(CheckedConvert.ToInt16(value));
         public static implicit operator cshort(sbyte value) => new cshort(value);
         public static implicit operator cshort(short value) => new cshort(value);
 
         public static explicit operator byte(cshort value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator char(cshort value) => CheckedConvert.ToChar(value._value);
         public static explicit operator sbyte(cshort value) => CheckedConvert.ToSByte(value._value);
-        public static explicit operator short(cshort value) => CheckedConvert.ToInt16(value._value);
         public static explicit operator uint(cshort value) => CheckedConvert.ToUInt16(value._value);
         public static explicit operator ulong(cshort value) => CheckedConvert.ToUInt64(value._value);
         public static explicit operator ushort(cshort value) => CheckedConvert.ToUInt16(value._value);
@@ -90,6 +87,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static implicit operator float(cshort value) => value._value;
         public static implicit operator int(cshort value) => value._value;
         public static implicit operator long(cshort value) => value._value;
+        public static implicit operator short(cshort value) => value._value;
 
         public static bool operator !=(cshort left, cshort right) => left._value != right._value;
         public static bool operator <(cshort left, cshort right) => left._value < right._value;
@@ -132,6 +130,7 @@ namespace Jodo.Extensions.CheckedNumerics
         cshort INumeric<cshort>.Subtract(cshort value) => this - value;
 
         IBitConverter<cshort> IBitConvertible<cshort>.BitConverter => Utilities.Instance;
+        ICast<cshort> INumeric<cshort>.Cast => Utilities.Instance;
         IConvert<cshort> IConvertible<cshort>.Convert => Utilities.Instance;
         IMath<cshort> INumeric<cshort>.Math => Utilities.Instance;
         INumericFunctions<cshort> INumeric<cshort>.NumericFunctions => Utilities.Instance;
@@ -140,6 +139,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cshort>,
+            ICast<cshort>,
             IConvert<cshort>,
             IMath<cshort>,
             INumericFunctions<cshort>,
@@ -187,6 +187,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Clamp(cshort x, cshort bound1, cshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cshort IMath<cshort>.Cos(cshort x) => (cshort)Math.Cos(x._value);
             cshort IMath<cshort>.Cosh(cshort x) => (cshort)Math.Cosh(x._value);
+            cshort IMath<cshort>.DecimalTruncate(cshort x, int significantDigits) => Truncate.ToDigits(x._value, significantDigits);
             cshort IMath<cshort>.DegreesToRadians(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
             cshort IMath<cshort>.Exp(cshort x) => (cshort)Math.Exp(x._value);
             cshort IMath<cshort>.Floor(cshort x) => x;
@@ -253,6 +254,30 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IStringParser<cshort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             cshort IStringParser<cshort>.Parse(string s, NumberStyles style) => Parse(s, style);
             cshort IStringParser<cshort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<cshort>.ToByte(cshort value) => (byte)value;
+            decimal ICast<cshort>.ToDecimal(cshort value) => (decimal)value;
+            double ICast<cshort>.ToDouble(cshort value) => (double)value;
+            float ICast<cshort>.ToSingle(cshort value) => (float)value;
+            int ICast<cshort>.ToInt32(cshort value) => (int)value;
+            long ICast<cshort>.ToInt64(cshort value) => (long)value;
+            sbyte ICast<cshort>.ToSByte(cshort value) => (sbyte)value;
+            short ICast<cshort>.ToInt16(cshort value) => (short)value;
+            uint ICast<cshort>.ToUInt32(cshort value) => (uint)value;
+            ulong ICast<cshort>.ToUInt64(cshort value) => (ulong)value;
+            ushort ICast<cshort>.ToUInt16(cshort value) => (ushort)value;
+
+            cshort ICast<cshort>.ToValue(byte value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(decimal value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(double value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(float value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(int value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(long value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(sbyte value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(short value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(uint value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(ulong value) => (cshort)value;
+            cshort ICast<cshort>.ToValue(ushort value) => (cshort)value;
         }
     }
 }

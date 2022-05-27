@@ -34,24 +34,28 @@ namespace Jodo.Extensions.Numerics.Tests
 
         public const double MaxTestableReal = 100_000d;
 
-        protected void IntegralOnly()
+        protected double ToDoubleSafe(N value)
         {
-            if (Numeric<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an integral type.");
-        }
-
-        protected void RealOnly()
-        {
-            if (!Numeric<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a real type.");
-        }
-
-        protected void SignedOnly()
-        {
-            if (!Numeric<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a signed type.");
-        }
-
-        protected void UnsignedOnly()
-        {
-            if (Numeric<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an unsigned type.");
+            if (value.Equals(Numeric<N>.Zero)) return 0;
+            checked
+            {
+                while (!value.Equals(Numeric<N>.Zero))
+                {
+                    try
+                    {
+                        var result = Cast<N>.ToDouble(value);
+                        if (Cast<N>.ToValue(result).Equals(value))
+                        {
+                            return result;
+                        }
+                    }
+                    catch (OverflowException)
+                    {
+                    }
+                    value /= Numeric<N>.Two;
+                }
+                throw new InvalidOperationException();
+            }
         }
 
         protected N NextLowPrecision()
@@ -75,7 +79,7 @@ namespace Jodo.Extensions.Numerics.Tests
 
             if (Numeric<N>.IsReal)
             {
-                result /= Convert<N>.ToNumeric(10);
+                result /= Convert<N>.ToValue(10);
             }
             return result;
         }
@@ -85,9 +89,33 @@ namespace Jodo.Extensions.Numerics.Tests
             N result = Random.NextNumeric<N>(0, 20);
             if (Numeric<N>.IsReal)
             {
-                result /= Convert<N>.ToNumeric(10);
+                result /= Convert<N>.ToValue(10);
             }
             return result;
+        }
+
+        public static class OnlyApplicableTo
+        {
+
+            public static void Integral()
+            {
+                if (Numeric<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an integral numeric type.");
+            }
+
+            public static void Real()
+            {
+                if (!Numeric<N>.IsReal) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a real numeric type.");
+            }
+
+            public static void Signed()
+            {
+                if (!Numeric<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a signed numeric type.");
+            }
+
+            public static void Unsigned()
+            {
+                if (Numeric<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an unsigned numeric type.");
+            }
         }
     }
 }

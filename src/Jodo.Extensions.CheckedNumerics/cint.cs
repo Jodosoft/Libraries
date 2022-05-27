@@ -132,6 +132,7 @@ namespace Jodo.Extensions.CheckedNumerics
         cint INumeric<cint>.Subtract(cint value) => this - value;
 
         IBitConverter<cint> IBitConvertible<cint>.BitConverter => Utilities.Instance;
+        ICast<cint> INumeric<cint>.Cast => Utilities.Instance;
         IConvert<cint> IConvertible<cint>.Convert => Utilities.Instance;
         IMath<cint> INumeric<cint>.Math => Utilities.Instance;
         INumericFunctions<cint> INumeric<cint>.NumericFunctions => Utilities.Instance;
@@ -140,6 +141,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cint>,
+            ICast<cint>,
             IConvert<cint>,
             IMath<cint>,
             INumericFunctions<cint>,
@@ -187,6 +189,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Clamp(cint x, cint bound1, cint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cint IMath<cint>.Cos(cint x) => (cint)Math.Cos(x._value);
             cint IMath<cint>.Cosh(cint x) => (cint)Math.Cosh(x._value);
+            cint IMath<cint>.DecimalTruncate(cint x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
             cint IMath<cint>.DegreesToRadians(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
             cint IMath<cint>.Exp(cint x) => (cint)Math.Exp(x._value);
             cint IMath<cint>.Floor(cint x) => x;
@@ -253,6 +256,30 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IStringParser<cint>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             cint IStringParser<cint>.Parse(string s, NumberStyles style) => Parse(s, style);
             cint IStringParser<cint>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<cint>.ToByte(cint value) => (byte)value;
+            decimal ICast<cint>.ToDecimal(cint value) => (decimal)value;
+            double ICast<cint>.ToDouble(cint value) => (double)value;
+            float ICast<cint>.ToSingle(cint value) => (float)value;
+            int ICast<cint>.ToInt32(cint value) => (int)value;
+            long ICast<cint>.ToInt64(cint value) => (long)value;
+            sbyte ICast<cint>.ToSByte(cint value) => (sbyte)value;
+            short ICast<cint>.ToInt16(cint value) => (short)value;
+            uint ICast<cint>.ToUInt32(cint value) => (uint)value;
+            ulong ICast<cint>.ToUInt64(cint value) => (ulong)value;
+            ushort ICast<cint>.ToUInt16(cint value) => (ushort)value;
+
+            cint ICast<cint>.ToValue(byte value) => (cint)value;
+            cint ICast<cint>.ToValue(decimal value) => (cint)value;
+            cint ICast<cint>.ToValue(double value) => (cint)value;
+            cint ICast<cint>.ToValue(float value) => (cint)value;
+            cint ICast<cint>.ToValue(int value) => (cint)value;
+            cint ICast<cint>.ToValue(long value) => (cint)value;
+            cint ICast<cint>.ToValue(sbyte value) => (cint)value;
+            cint ICast<cint>.ToValue(short value) => (cint)value;
+            cint ICast<cint>.ToValue(uint value) => (cint)value;
+            cint ICast<cint>.ToValue(ulong value) => (cint)value;
+            cint ICast<cint>.ToValue(ushort value) => (cint)value;
         }
     }
 }

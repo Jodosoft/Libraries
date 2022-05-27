@@ -41,19 +41,19 @@ namespace Jodo.Extensions.Primitives
         [DebuggerStepThrough] public static ulong ToUInt64(T value) => DefaultInstance.ToUInt64(value);
         [DebuggerStepThrough] public static ushort ToUInt16(T value) => DefaultInstance.ToUInt16(value);
 
-        [DebuggerStepThrough] public static T ToNumeric(bool value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(byte value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(decimal value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(double value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(float value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(int value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(long value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(sbyte value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(short value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(string value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(string value, IFormatProvider provider) => DefaultInstance.ToValue(value, provider);
-        [DebuggerStepThrough] public static T ToNumeric(uint value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(ulong value) => DefaultInstance.ToValue(value);
-        [DebuggerStepThrough] public static T ToNumeric(ushort value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(bool value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(byte value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(decimal value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(double value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(float value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(int value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(long value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(sbyte value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(short value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(string value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(string value, IFormatProvider provider) => DefaultInstance.ToValue(value, provider);
+        [DebuggerStepThrough] public static T ToValue(uint value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(ulong value) => DefaultInstance.ToValue(value);
+        [DebuggerStepThrough] public static T ToValue(ushort value) => DefaultInstance.ToValue(value);
     }
 }

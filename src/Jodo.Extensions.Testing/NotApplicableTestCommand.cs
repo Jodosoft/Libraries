@@ -17,30 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
+using NUnit.Framework;
+using NUnit.Framework.Internal;
+using NUnit.Framework.Internal.Commands;
 
-namespace System
+namespace Jodo.Extensions.Testing
 {
-    public static class RandomExtensions
+    public class NotApplicableTestCommand : DelegatingTestCommand
     {
-        public static N NextNumeric<N>(this Random random) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, Numeric<N>.MinValue, Numeric<N>.MaxValue);
+        private readonly string _reason;
 
-        public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, bound1, bound2);
-
-        public static N NextNumeric<N>(this Random random, double bound1, double bound2) where N : struct, INumeric<N>
+        public NotApplicableTestCommand(TestCommand innerCommand, string reason) : base(innerCommand)
         {
-            N minBound;
-            try { minBound = Convert<N>.ToValue(Math.Min(bound1, bound2)); }
-            catch (OverflowException) { minBound = Numeric<N>.MinValue; }
-
-            N maxBound;
-            try { maxBound = Convert<N>.ToValue(Math.Max(bound1, bound2)); }
-            catch (OverflowException) { maxBound = Numeric<N>.MaxValue; }
-
-            return random.NextNumeric(minBound, maxBound);
+            _reason = reason;
         }
+
+        public override TestResult Execute(TestExecutionContext context)
+            => throw new SuccessException(_reason);
     }
 }

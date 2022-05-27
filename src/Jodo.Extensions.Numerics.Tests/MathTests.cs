@@ -43,48 +43,40 @@ namespace Jodo.Extensions.Numerics.Tests
             [Test]
             public void E_EquivalentToSystemMath()
             {
-                Math<N>.E.Should().BeApproximately(Math.E);
-            }
-
-            [Test]
-            public void E_Integral_Two()
-            {
-                IntegralOnly();
-                Math<N>.E.ToDouble().Should().Be(2);
+                Math<N>.E.Should().BeApproximately(Cast<N>.ToValue(Math.E));
             }
 
             [Test]
             public void PI_EquivalentToSystemMath()
             {
-                Math<N>.PI.Should().BeApproximately(Math.PI);
+                Math<N>.PI.Should().BeApproximately(Cast<N>.ToValue(Math.PI));
             }
 
             [Test]
-            public void PI_Integral_Three()
+            public void Tau_TwoPi()
             {
-                IntegralOnly();
-                Math<N>.PI.ToDouble().Should().Be(3);
+                Math<N>.Tau.Should().BeApproximately(Cast<N>.ToValue(Math.PI * 2));
             }
 
             [Test]
-            public void Tau_EquivalentToTwoPi()
+            public void Abs_Zero_SameValue()
             {
-                Math<N>.Tau.Should().BeApproximately(Math.PI * 2);
-            }
+                //arrange
+                var input = Numeric<N>.Zero;
 
-            [Test]
-            public void Tau_Integral_Six()
-            {
-                IntegralOnly();
-                Math<N>.Tau.ToDouble().Should().Be(6);
+                //act
+                var result = Math<N>.Abs(input);
+
+                //assert
+                result.Should().Be(input);
             }
 
             [Test, Repeat(RandomVariations)]
             public void Abs_Unsigned_SameValue()
             {
                 //arrange
-                UnsignedOnly();
-                var input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MinValue + Numeric<N>.MaxUnit);
+                OnlyApplicableTo.Unsigned();
+                var input = Random.NextNumeric<N>();
 
                 //act
                 var result = Math<N>.Abs(input);
@@ -94,667 +86,796 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Abs_NegativeSigned_SameValue()
+            public void Abs_Positive_SameValue()
             {
                 //arrange
-                SignedOnly();
-                var input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MinValue + Numeric<N>.MaxUnit);
+                var input = Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue);
 
                 //act
                 var result = Math<N>.Abs(input);
 
                 //assert
-                result.Should().Be(Numeric<N>.MinUnit * input);
+                result.Should().Be(input);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Acos_Random_EquivalentToSystemMath()
+            public void Abs_Negative_PositiveEquivalent()
             {
                 //arrange
-                var input = Math<N>.Round(Random.NextNumeric<N>(-1, 1), 1);
+                OnlyApplicableTo.Signed();
+                var input = Random.NextNumeric(Numeric<N>.MinValue + Numeric<N>.MaxUnit, Numeric<N>.MinUnit);
+                var expected = Numeric<N>.MinUnit * input;
+
+                //act
+                var result = Math<N>.Abs(input);
+
+                //assert
+                result.Should().Be(expected);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Acos_RandomValue_EquivalentToSystemMath()
+            {
+                //arrange
+                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Acos(randomValue));
 
                 //act
                 var result = Math<N>.Acos(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Acos(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
-            [Test, Repeat(RandomVariations)]
+            [Test]
             public void Acos_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(-1, 1);
+                var lowerBound = Numeric<N>.IsSigned ? -1 : 0;
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Acos(lowerBound));
 
                 //act
                 var result = Math<N>.Acos(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Acos(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Acos_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.One;
+                var upperBound = 1;
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Acos(upperBound));
 
                 //act
                 var result = Math<N>.Acos(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Acos(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Acosh_Random_EquivalentToSystemMath()
+            public void Acosh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(1, MaxTestableReal);
+                var randomValue = Random.NextDouble(1, 10);
+                if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Acosh(randomValue));
 
                 //act
                 var result = Math<N>.Acosh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Acosh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Acosh_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.One;
+                var lowerBound = 1;
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Acosh(lowerBound));
 
                 //act
                 var result = Math<N>.Acosh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Acosh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Acosh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.MaxValue;
+                var upperBound = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Acosh(upperBound));
 
                 //act
                 var result = Math<N>.Acosh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Acosh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Asin_Random_EquivalentToSystemMath()
+            public void Asin_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(-1, 1);
+                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Asin(randomValue));
 
                 //act
                 var result = Math<N>.Asin(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Asin(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Asin_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.MinUnit;
+                var lowerBound = Numeric<N>.IsSigned ? -1 : 0;
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Asin(lowerBound));
 
                 //act
                 var result = Math<N>.Asin(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Asin(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Asin_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.One;
+                var upperBound = 1;
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Asin(upperBound));
 
                 //act
                 var result = Math<N>.Asin(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Asin(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Asinh_Random_EquivalentToSystemMath()
+            public void Asinh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = NextLowPrecision();
+                var randomValue = Random.NextDouble();
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Asinh(randomValue));
 
                 //act
                 var result = Math<N>.Asinh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Asinh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Asinh_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.MinValue;
+                var lowerBound = ToDoubleSafe(Numeric<N>.MinValue);
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Asinh(lowerBound));
 
                 //act
                 var result = Math<N>.Asinh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Asinh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
-            [Test, Repeat(RandomVariations)]
+            [Test]
             public void Asinh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.MaxValue;
+                var upperBound = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Asinh(upperBound));
 
                 //act
                 var result = Math<N>.Asinh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Asinh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Atan_Random_EquivalentToSystemMath()
+            public void Atan_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                var randomValue = ToDoubleSafe(Random.NextNumeric<N>());
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Atan(randomValue));
 
                 //act
                 var result = Math<N>.Atan(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Atan(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Atan_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.MinValue;
+                var lowerBound = ToDoubleSafe(Numeric<N>.MinValue);
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Atan(lowerBound));
 
                 //act
                 var result = Math<N>.Atan(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Atan(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Atan_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.MaxValue;
+                var upperBound = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Atan(upperBound));
 
                 //act
                 var result = Math<N>.Atan(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Atan(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Atan2_Random_EquivalentToSystemMath()
+            public void Atan2_RandomValues_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextNumeric<N>();
-                var input2 = Random.NextNumeric<N>();
+                var randomValue1 = ToDoubleSafe(Random.NextNumeric<N>());
+                var randomValue2 = ToDoubleSafe(Random.NextNumeric<N>());
+                var input1 = Cast<N>.ToValue(randomValue1);
+                var input2 = Cast<N>.ToValue(randomValue2);
+                var expected = Cast<N>.ToValue(Math.Atan2(randomValue1, randomValue2));
 
                 //act
                 var result = Math<N>.Atan2(input1, input2);
 
                 //assert
-                result.Should().BeApproximately(Math.Atan2(input1.ToDouble(), input2.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
             public void Atan2_RandomBoundaries_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue;
-                var input2 = Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue;
+                var randomBoundary1 = ToDoubleSafe(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
+                var randomBoundary2 = ToDoubleSafe(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
+                var input1 = Cast<N>.ToValue(randomBoundary1);
+                var input2 = Cast<N>.ToValue(randomBoundary2);
+                var expected = Cast<N>.ToValue(Math.Atan2(randomBoundary1, randomBoundary2));
 
                 //act
                 var result = Math<N>.Atan2(input1, input2);
 
                 //assert
-                result.Should().BeApproximately(Math.Atan2(input1.ToDouble(), input2.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Atanh_Random_EquivalentToSystemMath()
+            public void Atanh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                N input;
-                do { input = Random.NextNumeric<N>(-1, 1); }
-                while (!double.IsFinite(Math.Atanh(input.ToDouble())));
+                double randomValue;
+                do
+                {
+                    randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                    if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                }
+                while (!double.IsFinite(Math.Atanh(randomValue)));
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Atanh(randomValue));
 
                 //act
                 var result = Math<N>.Atanh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Atanh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Cbrt_RandomIntegral_EquivalentToSystemMath()
+            public void Cbrt_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
-                var input = Random.NextNumeric<N>();
+                var randomValue = ToDoubleSafe(Random.NextNumeric<N>());
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Cbrt(randomValue));
 
                 //act
                 var result = Math<N>.Cbrt(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Cbrt(input.ToDouble()));
+                result.Should().BeApproximately(expected);
+            }
+
+            [Test]
+            public void Cbrt_Zero_EquivalentToSystemMath()
+            {
+                //arrange
+                var input = Cast<N>.ToValue(0);
+                var expected = Cast<N>.ToValue(Math.Cbrt(0d));
+
+                //act
+                var result = Math<N>.Cbrt(input);
+
+                //assert
+                result.Should().Be(expected);
+            }
+
+            [Test]
+            public void Cbrt_LowerBound_EquivalentToSystemMath()
+            {
+                //arrange
+                var lowerBound = ToDoubleSafe(Numeric<N>.MinValue);
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Cbrt(lowerBound));
+
+                //act
+                var result = Math<N>.Cbrt(input);
+
+                //assert
+                result.Should().BeApproximately(expected);
+            }
+
+            [Test]
+            public void Cbrt_UpperBound_EquivalentToSystemMath()
+            {
+                //arrange
+                var upperBound = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Cbrt(upperBound));
+
+                //act
+                var result = Math<N>.Cbrt(input);
+
+                //assert
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Cbrt_RandomReal_EquivalentToSystemMath()
+            public void Ceiling_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
-                var input = Random.NextNumeric<N>();
-
-                //act
-                var result = Math<N>.Cbrt(input);
-
-                //assert
-                result.Should().BeApproximately(Math.Cbrt(input.ToDouble()));
-            }
-
-            [Test]
-            public void Cbrt_Zero_Zero()
-            {
-                //arrange
-                var input = Numeric<N>.Zero;
-
-                //act
-                var result = Math<N>.Cbrt(input);
-
-                //assert
-                result.Should().Be(Numeric<N>.Zero);
-            }
-
-            [Test]
-            public void Cbrt_IntegralLowerBound_EquivalentToSystemMath()
-            {
-                //arrange
-                IntegralOnly();
-                var input = Numeric<N>.MaxValue;
-
-                //act
-                var result = Math<N>.Cbrt(input);
-
-                //assert
-                result.Should().BeApproximately(Math.Cbrt(input.ToDouble()));
-            }
-
-            [Test]
-            public void Cbrt_IntegralUpperBound_EquivalentToSystemMath()
-            {
-                //arrange
-                IntegralOnly();
-                var input = Numeric<N>.MaxValue;
-
-                //act
-                var result = Math<N>.Cbrt(input);
-
-                //assert
-                result.Should().BeApproximately(Math.Cbrt(input.ToDouble()));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Ceiling_RandomIntegral_SameValue()
-            {
-                //arrange
-                IntegralOnly();
-                var input = NextLowPrecision();
+                var randomValue = ToDoubleSafe(Random.NextNumeric<N>());
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Ceiling(randomValue));
 
                 //act
                 var result = Math<N>.Ceiling(input);
 
                 //assert
-                result.Should().Be(input);
+                result.Should().Be(expected);
             }
 
             [Test]
-            public void Ceiling_IntegralLowerBound_SameValue()
+            public void Ceiling_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
-                var input = Numeric<N>.MinValue;
+                var lowerBound = ToDoubleSafe(Numeric<N>.MinValue);
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Ceiling(lowerBound));
 
                 //act
                 var result = Math<N>.Ceiling(input);
 
                 //assert
-                result.Should().Be(input);
+                result.Should().Be(expected);
             }
 
             [Test]
-            public void Ceiling_IntegralUpperBound_SameValue()
+            public void Ceiling_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
-                var input = Numeric<N>.MaxValue;
+                var upperBound = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Ceiling(upperBound));
 
                 //act
                 var result = Math<N>.Ceiling(input);
 
                 //assert
-                result.Should().Be(input);
+                result.Should().Be(expected);
             }
 
-            [Test, Repeat(RandomVariations)]
-            public void Ceiling_RandomReal_EquivalentToSystemMath()
+            [Test]
+            public void Ceiling_Zero_EquivalentToSystemMath()
             {
                 //arrange
-                RealOnly();
-                var input = NextLowPrecision();
+                var input = Cast<N>.ToValue(0);
+                var expected = Cast<N>.ToValue(Math.Ceiling(0d));
 
                 //act
                 var result = Math<N>.Ceiling(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Ceiling(input.ToDouble()));
+                result.Should().Be(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Cos_RandomSigned_EquivalentToSystemMath()
+            public void Cos_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                SignedOnly();
-                var input = NextLowPrecision();
+                var randomValue = ToDoubleSafe(Random.NextNumeric<N>());
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Cos(randomValue));
 
                 //act
                 var result = Math<N>.Cos(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Cos(input.ToDouble()));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Cos_RandomUnsigned_EquivalentToSystemMath()
-            {
-                //arrange
-                UnsignedOnly();
-                N input;
-                do { input = NextLowPrecision(); } while (Math.Cos(input.ToDouble()) < 0);
-
-                //act
-                var result = Math<N>.Cos(input);
-
-                //assert
-                result.Should().BeApproximately(Math.Cos(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Cos_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.MinValue;
+                var lowerBound = ToDoubleSafe(Numeric<N>.MinValue);
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Cos(lowerBound));
 
                 //act
                 var result = Math<N>.Cos(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Cos(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
             public void Cos_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.MaxValue;
+                var upperBound = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Cos(upperBound));
 
                 //act
                 var result = Math<N>.Cos(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Cos(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Cosh_Random_EquivalentToSystemMath()
+            public void Cosh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                N input;
-                do { input = Random.NextNumeric<N>(-1, 1); }
-                while (!double.IsFinite(Math.Cosh(input.ToDouble())));
+                double randomValue;
+                do
+                {
+                    randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                    if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                }
+                while (!double.IsFinite(Math.Cosh(randomValue)));
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Cosh(randomValue));
 
                 //act
                 var result = Math<N>.Cosh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Cosh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
             public void Exp_Random_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(-1, 4);
+                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 4);
+                if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Exp(randomValue));
 
                 //act
                 var result = Math<N>.Exp(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Exp(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
-            public void Exp_Zero_One()
+            public void Exp_Zero_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.Zero;
+                var input = Cast<N>.ToValue(0);
+                var expected = Cast<N>.ToValue(Math.Exp(0d));
 
                 //act
                 var result = Math<N>.Exp(input);
 
                 //assert
-                result.Should().Be(Numeric<N>.One);
+                result.Should().Be(expected);
             }
 
             [Test]
-            public void Exp_One_E()
+            public void Exp_One_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Numeric<N>.One;
+                var input = Cast<N>.ToValue(1);
+                var expected = Cast<N>.ToValue(Math.Exp(1d));
 
                 //act
                 var result = Math<N>.Exp(input);
 
                 //assert
-                result.Should().Be(Math<N>.E);
+                result.Should().Be(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Floor_RandomIntegral_SameValue()
+            public void Floor_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
-                var input = NextLowPrecision();
+                var randomValue = ToDoubleSafe(Random.NextNumeric<N>());
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Floor(randomValue));
 
                 //act
                 var result = Math<N>.Floor(input);
 
                 //assert
-                result.Should().Be(input);
+                result.Should().Be(expected);
             }
 
             [Test]
-            public void Floor_IntegralLowerBound_SameValue()
+            public void Floor_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
-                var input = Numeric<N>.MinValue;
+                var lowerBound = ToDoubleSafe(Numeric<N>.MinValue);
+                var input = Cast<N>.ToValue(lowerBound);
+                var expected = Cast<N>.ToValue(Math.Floor(lowerBound));
 
                 //act
                 var result = Math<N>.Floor(input);
 
                 //assert
-                result.Should().Be(input);
+                result.Should().Be(expected);
             }
 
             [Test]
-            public void Floor_IntegralUpperBound_SameValue()
+            public void Floor_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
-                var input = Numeric<N>.MaxValue;
+                var upperBound = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(upperBound);
+                var expected = Cast<N>.ToValue(Math.Floor(upperBound));
 
                 //act
                 var result = Math<N>.Floor(input);
 
                 //assert
-                result.Should().Be(input);
+                result.Should().Be(expected);
             }
 
-            [Test, Repeat(RandomVariations)]
-            public void Floor_RandomReal_EquivalentToSystemMath()
+            [Test]
+            public void Floor_Zero_EquivalentToSystemMath()
             {
                 //arrange
-                RealOnly();
-                var input = NextLowPrecision();
+                var input = Cast<N>.ToValue(0);
+                var expected = Cast<N>.ToValue(Math.Floor(0d));
 
                 //act
                 var result = Math<N>.Floor(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Floor(input.ToDouble()));
+                result.Should().Be(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void IEEERemainder_Signed_EquivalentToSystemMath()
+            public void IEEERemainder_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                SignedOnly();
-                var input1 = Math<N>.Round(Random.NextNumeric<N>(0, 10), 1);
-                var input2 = Math<N>.Round(Random.NextNumeric<N>(1, 10), 1);
-
-                //act
-                var result = Math<N>.IEEERemainder(input1, input2);
-
-                //assert
-                result.Should().BeApproximately(Math.IEEERemainder(input1.ToDouble(), input2.ToDouble()));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void IEEERemainder_Unsigned_EquivalentToSystemMath()
-            {
-                //arrange
-                UnsignedOnly();
-                N input1;
-                N input2;
+                double randomValue1;
+                double randomValue2;
                 do
                 {
-                    input1 = Math<N>.Round(Random.NextNumeric<N>(0, 10), 1);
-                    input2 = Math<N>.Round(Random.NextNumeric<N>(1, 10), 1);
-                } while (Math.IEEERemainder(input1.ToDouble(), input2.ToDouble()) < 0);
-
+                    randomValue1 = Random.NextDouble(0, 10);
+                    randomValue2 = Random.NextDouble(1, 10);
+                    if (!Numeric<N>.IsReal)
+                    {
+                        randomValue1 = Math.Round(randomValue1);
+                        randomValue2 = Math.Round(randomValue2);
+                    }
+                } while (!Numeric<N>.IsSigned && Math.IEEERemainder(randomValue1, randomValue2) < 0);
+                var input1 = Cast<N>.ToValue(randomValue1);
+                var input2 = Cast<N>.ToValue(randomValue2);
+                var expected = Cast<N>.ToValue(Math.IEEERemainder(randomValue1, randomValue2));
 
                 //act
                 var result = Math<N>.IEEERemainder(input1, input2);
 
                 //assert
-                result.Should().BeApproximately(Math.IEEERemainder(input1.ToDouble(), input2.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Log_EquivalentToSystemMath()
+            public void Log_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(100, 127);
+                var randomValue = ToDoubleSafe(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Log(randomValue));
 
                 //act
                 var result = Math<N>.Log(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Log(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void LogN_EquivalentToSystemMath()
+            public void Log_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextNumeric<N>(100, 127);
-                var input2 = Random.NextNumeric<N>(2, 10);
+                var randomValue = Cast<N>.ToDouble(Numeric<N>.Epsilon);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Log(randomValue));
+
+                //act
+                var result = Math<N>.Log(input);
+
+                //assert
+                result.Should().BeApproximately(expected);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Log_UpperBound_EquivalentToSystemMath()
+            {
+                //arrange
+                var randomValue = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Log(randomValue));
+
+                //act
+                var result = Math<N>.Log(input);
+
+                //assert
+                result.Should().BeApproximately(expected);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LogN_RandomValues_EquivalentToSystemMath()
+            {
+                //arrange
+                double randomValue1;
+                double randomValue2;
+                do
+                {
+                    randomValue1 = ToDoubleSafe(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
+                    randomValue2 = ToDoubleSafe(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
+                } while (randomValue1 <= 0 || randomValue2 <= 1);
+                var input1 = Cast<N>.ToValue(randomValue1);
+                var input2 = Cast<N>.ToValue(randomValue2);
+                var expected = Cast<N>.ToValue(Math.Log(randomValue1, randomValue2));
 
                 //act
                 var result = Math<N>.Log(input1, input2);
 
                 //assert
-                result.Should().BeApproximately(Math.Log(input1.ToDouble(), input2.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Log10_EquivalentToSystemMath()
+            public void Log10_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Random.NextNumeric<N>(1, 127);
+                var randomValue = ToDoubleSafe(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Log10(randomValue));
 
                 //act
                 var result = Math<N>.Log10(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Log10(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Max_LargestValue()
+            public void Log10_LowerBound_EquivalentToSystemMath()
+            {
+                //arrange
+                var randomValue = Cast<N>.ToDouble(Numeric<N>.Epsilon);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Log10(randomValue));
+
+                //act
+                var result = Math<N>.Log10(input);
+
+                //assert
+                result.Should().BeApproximately(expected);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Log10_UpperBound_EquivalentToSystemMath()
+            {
+                //arrange
+                var randomValue = ToDoubleSafe(Numeric<N>.MaxValue);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Log10(randomValue));
+
+                //act
+                var result = Math<N>.Log10(input);
+
+                //assert
+                result.Should().BeApproximately(expected);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Max_RandomValues_LargestValue()
             {
                 //arrange
                 var input1 = Random.NextNumeric<N>();
                 var input2 = Random.NextNumeric<N>();
+                var expected = input1 > input2 ? input1 : input2;
 
                 //act
                 var result = Math<N>.Max(input1, input2);
 
                 //assert
-                result.Should().Be(input1 > input2 ? input1 : input2);
+                result.Should().Be(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Min_SmallestValue()
+            public void Min_RandomValues_SmallestValue()
             {
                 //arrange
                 var input1 = Random.NextNumeric<N>();
                 var input2 = Random.NextNumeric<N>();
+                var expected = input1 < input2 ? input1 : input2;
 
                 //act
                 var result = Math<N>.Min(input1, input2);
 
                 //assert
-                result.Should().Be(input1 < input2 ? input1 : input2);
+                result.Should().Be(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Pow_Random_EquivalentToSystemMath()
+            public void Pow_RandomValues_EquivalentToSystemMath()
             {
                 //arrange
-                var input1 = Random.NextNumeric<N>(.9, 3);
-                var input2 = Random.NextNumeric<N>(.9, 3);
+                double randomValue1;
+                double randomValue2;
+                do
+                {
+                    randomValue1 = ToDoubleSafe(Random.NextNumeric(Numeric<N>.Zero, Cast<N>.ToValue(3)));
+                    randomValue2 = ToDoubleSafe(Random.NextNumeric(Numeric<N>.Zero, Cast<N>.ToValue(3)));
+                } while (randomValue1 < .9);
+                var input1 = Cast<N>.ToValue(randomValue1);
+                var input2 = Cast<N>.ToValue(randomValue2);
+                var expected = Cast<N>.ToValue(Math.Pow(randomValue1, randomValue2));
 
                 //act
                 var result = Math<N>.Pow(input1, input2);
 
                 //assert
-                result.Should().BeApproximately(Math.Pow(input1.ToDouble(), input2.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Pow_Zero_One()
+            public void Pow_RandomValueByZero_One()
             {
                 //arrange
                 var input = Random.NextNumeric<N>();
@@ -767,7 +888,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Pow_One_SameValue()
+            public void Pow_RandomValueByOne_SameValue()
             {
                 //arrange
                 var input = Random.NextNumeric<N>();
@@ -783,7 +904,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round1_Integral_SameValue()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -797,22 +918,22 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round1_Real_EquivalentToSystemMath()
             {
                 //arrange
-                RealOnly();
+                OnlyApplicableTo.Real();
                 var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Convert<N>.ToNumeric(input);
+                var numeric = Convert<N>.ToValue(input);
 
                 //act
                 var result = Math<N>.Round(numeric);
 
                 //assert
-                result.Should().Be(Convert<N>.ToNumeric(Math.Round(input)));
+                result.Should().Be(Convert<N>.ToValue(Math.Round(input)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Round2_Integral_SameValue()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -826,23 +947,23 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round2_Real_EquivalentToSystemMath()
             {
                 //arrange
-                RealOnly();
+                OnlyApplicableTo.Real();
                 var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Convert<N>.ToNumeric(input);
+                var numeric = Convert<N>.ToValue(input);
                 var digits = Random.NextByte(1, 3);
 
                 //act
                 var result = Math<N>.Round(numeric, digits);
 
                 //assert
-                result.Should().Be(Convert<N>.ToNumeric(Math.Round(input, digits)));
+                result.Should().Be(Convert<N>.ToValue(Math.Round(input, digits)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Round3_Integral_SameValue()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -856,23 +977,23 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round3_Real_EquivalentToSystemMath()
             {
                 //arrange
-                RealOnly();
+                OnlyApplicableTo.Real();
                 var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Convert<N>.ToNumeric(input);
+                var numeric = Convert<N>.ToValue(input);
                 var mode = Random.NextEnum<MidpointRounding>();
 
                 //act
                 var result = Math<N>.Round(numeric, mode);
 
                 //assert
-                result.Should().Be(Convert<N>.ToNumeric(Math.Round(input, mode)));
+                result.Should().Be(Convert<N>.ToValue(Math.Round(input, mode)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Round4_Integral_SameValue()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -886,9 +1007,9 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round4_Real_EquivalentToSystemMath()
             {
                 //arrange
-                RealOnly();
+                OnlyApplicableTo.Real();
                 var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Convert<N>.ToNumeric(input);
+                var numeric = Convert<N>.ToValue(input);
                 var digits = Random.NextByte(1, 3);
                 var mode = Random.NextEnum<MidpointRounding>();
 
@@ -896,14 +1017,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 var result = Math<N>.Round(numeric, digits, mode);
 
                 //assert
-                result.Should().Be(Convert<N>.ToNumeric(Math.Round(input, digits, mode)));
+                result.Should().Be(Convert<N>.ToValue(Math.Round(input, digits, mode)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Sin_RandomSigned_EquivalentToSystemMath()
             {
                 //arrange
-                SignedOnly();
+                OnlyApplicableTo.Signed();
                 var input = NextLowPrecision();
 
                 //act
@@ -917,7 +1038,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sin_RandomUnsigned_EquivalentToSystemMath()
             {
                 //arrange
-                UnsignedOnly();
+                OnlyApplicableTo.Unsigned();
                 N input;
                 do { input = NextLowPrecision(); } while (Math.Sin(input.ToDouble()) < 0);
 
@@ -973,7 +1094,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sqrt_RandomIntegral_EquivalentToSystemMath()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>(Numeric<N>.Zero, Numeric<N>.MaxValue);
 
                 //act
@@ -987,7 +1108,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sqrt_RandomReal_EquivalentToSystemMath()
             {
                 //arrange
-                RealOnly();
+                OnlyApplicableTo.Real();
                 var input = NextLowPrecisionNonNegative();
 
                 //act
@@ -1014,7 +1135,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Tan_RandomSigned_EquivalentToSystemMath()
             {
                 //arrange
-                SignedOnly();
+                OnlyApplicableTo.Signed();
                 var input = Math<N>.Round(Random.NextNumeric<N>(-10, 10), 1);
 
                 //act
@@ -1028,7 +1149,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Tan_RandomUnsigned_EquivalentToSystemMath()
             {
                 //arrange
-                UnsignedOnly();
+                OnlyApplicableTo.Unsigned();
                 N input;
                 do { input = Random.NextNumeric<N>(); } while (Math.Tan(input.ToDouble()) < 0);
 
@@ -1065,26 +1186,31 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Tan(input.ToDouble()));
             }
 
-            [Test, Repeat(RandomVariations)]
+            [Test, Repeat(RandomVariations), Ignore("wip")]
             public void Tanh_Random_EquivalentToSystemMath()
             {
                 //arrange
-                N input;
-                do { input = Random.NextNumeric<N>(-1, 1); }
-                while (!double.IsFinite(Math.Tanh(input.ToDouble())));
+                double input;
+                do
+                {
+                    input = Random.NextDouble(-1, 1);
+                }
+                while (!double.IsFinite(Math.Tanh(input)));
+                var sut = Convert<N>.ToValue(input);
+                var expected = Convert<N>.ToValue(Math.Tanh(input));
 
                 //act
-                var result = Math<N>.Tanh(input);
+                var result = Math<N>.Tanh(sut);
 
                 //assert
-                result.Should().BeApproximately(Math.Tanh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
             public void Truncate_RandomIntegral_SameValue()
             {
                 //arrange
-                IntegralOnly();
+                OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
 
                 //act
@@ -1098,14 +1224,16 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Truncate_RandomReal_EquivalentToSystemMath()
             {
                 //arrange
-                RealOnly();
-                var input = Random.NextNumeric<N>();
+                OnlyApplicableTo.Real();
+                var input = Random.NextDouble(-MaxTestableReal, MaxTestableReal);
+                var sut = Convert<N>.ToValue(input);
+                var expected = Convert<N>.ToValue(Math.Truncate(input));
 
                 //act
-                var result = Math<N>.Truncate(input);
+                var result = Math<N>.Truncate(sut);
 
                 //assert
-                result.ToDouble().Should().Be(Math.Truncate(input.ToDouble()));
+                result.Should().Be(expected);
             }
         }
     }

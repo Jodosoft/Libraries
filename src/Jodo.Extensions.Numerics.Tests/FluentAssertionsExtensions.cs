@@ -41,8 +41,8 @@ namespace FluentAssertions
             }
             else
             {
-                var expectedValue = Math.Round(expected, 3);
-                var actualValue = Math.Round(actual, 3);
+                var expectedValue = Math.Round(expected, 2);
+                var actualValue = Math.Round(actual, 2);
                 Execute.Assertion
                     .ForCondition(actualValue == expectedValue)
                     .BecauseOf(because, becauseArgs)
@@ -52,16 +52,18 @@ namespace FluentAssertions
             return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
 
-        public static AndConstraint<ComparableTypeAssertions<T>> BeApproximately<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        public static AndConstraint<ComparableTypeAssertions<N>> BeApproximately<N>(this ComparableTypeAssertions<N> parent, N expected, byte significantDigits = 3, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
-            var actualValue = Math.Round(((T)parent.Subject).ToDouble(), 3);
-            var expectedValue = Math.Round(expected.ToDouble(), 3);
-            Execute.Assertion
-                .ForCondition(actualValue == expectedValue)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1}.", expected, actualValue);
+            var actualTruncated = Math<N>.DecimalTruncate((N)parent.Subject, significantDigits);
+            var expectedTruncated = Math<N>.DecimalTruncate(expected, significantDigits);
 
-            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+            Execute.Assertion
+                .ForCondition(actualTruncated.Equals(expectedTruncated))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:value} to be {0} (approximate of {1}){reason}, but it was {2} (approximate of {3}).",
+                    expectedTruncated, expected, actualTruncated, parent.Subject);
+
+            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
     }
 }

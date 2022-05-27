@@ -132,6 +132,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ucint INumeric<ucint>.Subtract(ucint value) => this - value;
 
         IBitConverter<ucint> IBitConvertible<ucint>.BitConverter => Utilities.Instance;
+        ICast<ucint> INumeric<ucint>.Cast => Utilities.Instance;
         IConvert<ucint> IConvertible<ucint>.Convert => Utilities.Instance;
         IMath<ucint> INumeric<ucint>.Math => Utilities.Instance;
         INumericFunctions<ucint> INumeric<ucint>.NumericFunctions => Utilities.Instance;
@@ -140,6 +141,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<ucint>,
+            ICast<ucint>,
             IConvert<ucint>,
             IMath<ucint>,
             INumericFunctions<ucint>,
@@ -174,40 +176,41 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<ucint>.IsPositiveInfinity(ucint x) => false;
             bool INumericFunctions<ucint>.IsSubnormal(ucint x) => false;
 
-            ucint IMath<ucint>.Truncate(ucint x) => x;
-            ucint IMath<ucint>.Tanh(ucint x) => (ucint)Math.Tanh(x._value);
-            ucint IMath<ucint>.Tan(ucint x) => (ucint)Math.Tan(x._value);
-            ucint IMath<ucint>.Sqrt(ucint x) => (ucint)Math.Sqrt(x._value);
-            ucint IMath<ucint>.Sinh(ucint x) => (ucint)Math.Sinh(x._value);
-            ucint IMath<ucint>.Sin(ucint x) => (ucint)Math.Sin(x._value);
-            ucint IMath<ucint>.Round(ucint x, MidpointRounding mode) => x;
-            ucint IMath<ucint>.Round(ucint x, int digits, MidpointRounding mode) => x;
-            ucint IMath<ucint>.Round(ucint x, int digits) => x;
-            ucint IMath<ucint>.Round(ucint x) => x;
-            ucint IMath<ucint>.RadiansToDegrees(ucint x) => (ucint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            ucint IMath<ucint>.Pow(ucint x, ucint y) => CheckedArithmetic.Pow(x._value, y._value);
-            ucint IMath<ucint>.Min(ucint x, ucint y) => Math.Min(x._value, y._value);
-            ucint IMath<ucint>.Max(ucint x, ucint y) => Math.Max(x._value, y._value);
-            ucint IMath<ucint>.Log10(ucint x) => (ucint)Math.Log10(x._value);
-            ucint IMath<ucint>.Log(ucint x, ucint y) => (ucint)Math.Log(x._value, y._value);
-            ucint IMath<ucint>.Log(ucint x) => (ucint)Math.Log(x._value);
-            ucint IMath<ucint>.IEEERemainder(ucint x, ucint y) => (ucint)Math.IEEERemainder(x._value, y._value);
-            ucint IMath<ucint>.Floor(ucint x) => x;
-            ucint IMath<ucint>.Exp(ucint x) => (ucint)Math.Exp(x._value);
-            ucint IMath<ucint>.DegreesToRadians(ucint x) => (ucint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
-            ucint IMath<ucint>.Cosh(ucint x) => (ucint)Math.Cosh(x._value);
-            ucint IMath<ucint>.Cos(ucint x) => (ucint)Math.Cos(x._value);
-            ucint IMath<ucint>.Clamp(ucint x, ucint bound1, ucint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            ucint IMath<ucint>.Ceiling(ucint x) => x;
-            ucint IMath<ucint>.Cbrt(ucint x) => (ucint)Math.Cbrt(x._value);
-            ucint IMath<ucint>.Atanh(ucint x) => (ucint)Math.Atanh(x._value);
-            ucint IMath<ucint>.Atan2(ucint x, ucint y) => (ucint)Math.Atan2(x._value, y._value);
-            ucint IMath<ucint>.Atan(ucint x) => (ucint)Math.Atan(x._value);
-            ucint IMath<ucint>.Asinh(ucint x) => (ucint)Math.Asinh(x._value);
-            ucint IMath<ucint>.Asin(ucint x) => (ucint)Math.Asin(x._value);
-            ucint IMath<ucint>.Acosh(ucint x) => (ucint)Math.Acosh(x._value);
-            ucint IMath<ucint>.Acos(ucint x) => (ucint)Math.Acos(x._value);
             ucint IMath<ucint>.Abs(ucint x) => x;
+            ucint IMath<ucint>.Acos(ucint x) => (ucint)Math.Acos(x._value);
+            ucint IMath<ucint>.Acosh(ucint x) => (ucint)Math.Acosh(x._value);
+            ucint IMath<ucint>.Asin(ucint x) => (ucint)Math.Asin(x._value);
+            ucint IMath<ucint>.Asinh(ucint x) => (ucint)Math.Asinh(x._value);
+            ucint IMath<ucint>.Atan(ucint x) => (ucint)Math.Atan(x._value);
+            ucint IMath<ucint>.Atan2(ucint x, ucint y) => (ucint)Math.Atan2(x._value, y._value);
+            ucint IMath<ucint>.Atanh(ucint x) => (ucint)Math.Atanh(x._value);
+            ucint IMath<ucint>.Cbrt(ucint x) => (ucint)Math.Cbrt(x._value);
+            ucint IMath<ucint>.Ceiling(ucint x) => x;
+            ucint IMath<ucint>.Clamp(ucint x, ucint bound1, ucint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
+            ucint IMath<ucint>.Cos(ucint x) => (ucint)Math.Cos(x._value);
+            ucint IMath<ucint>.Cosh(ucint x) => (ucint)Math.Cosh(x._value);
+            ucint IMath<ucint>.DecimalTruncate(ucint x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            ucint IMath<ucint>.DegreesToRadians(ucint x) => (ucint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            ucint IMath<ucint>.Exp(ucint x) => (ucint)Math.Exp(x._value);
+            ucint IMath<ucint>.Floor(ucint x) => x;
+            ucint IMath<ucint>.IEEERemainder(ucint x, ucint y) => (ucint)Math.IEEERemainder(x._value, y._value);
+            ucint IMath<ucint>.Log(ucint x) => (ucint)Math.Log(x._value);
+            ucint IMath<ucint>.Log(ucint x, ucint y) => (ucint)Math.Log(x._value, y._value);
+            ucint IMath<ucint>.Log10(ucint x) => (ucint)Math.Log10(x._value);
+            ucint IMath<ucint>.Max(ucint x, ucint y) => Math.Max(x._value, y._value);
+            ucint IMath<ucint>.Min(ucint x, ucint y) => Math.Min(x._value, y._value);
+            ucint IMath<ucint>.Pow(ucint x, ucint y) => CheckedArithmetic.Pow(x._value, y._value);
+            ucint IMath<ucint>.RadiansToDegrees(ucint x) => (ucint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            ucint IMath<ucint>.Round(ucint x) => x;
+            ucint IMath<ucint>.Round(ucint x, int digits) => x;
+            ucint IMath<ucint>.Round(ucint x, int digits, MidpointRounding mode) => x;
+            ucint IMath<ucint>.Round(ucint x, MidpointRounding mode) => x;
+            ucint IMath<ucint>.Sin(ucint x) => (ucint)Math.Sin(x._value);
+            ucint IMath<ucint>.Sinh(ucint x) => (ucint)Math.Sinh(x._value);
+            ucint IMath<ucint>.Sqrt(ucint x) => (ucint)Math.Sqrt(x._value);
+            ucint IMath<ucint>.Tan(ucint x) => (ucint)Math.Tan(x._value);
+            ucint IMath<ucint>.Tanh(ucint x) => (ucint)Math.Tanh(x._value);
+            ucint IMath<ucint>.Truncate(ucint x) => x;
 
             ucint IBitConverter<ucint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
             void IBitConverter<ucint>.Write(ucint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -253,6 +256,30 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IStringParser<ucint>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             ucint IStringParser<ucint>.Parse(string s, NumberStyles style) => Parse(s, style);
             ucint IStringParser<ucint>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<ucint>.ToByte(ucint value) => (byte)value;
+            decimal ICast<ucint>.ToDecimal(ucint value) => (decimal)value;
+            double ICast<ucint>.ToDouble(ucint value) => (double)value;
+            float ICast<ucint>.ToSingle(ucint value) => (float)value;
+            int ICast<ucint>.ToInt32(ucint value) => (int)value;
+            long ICast<ucint>.ToInt64(ucint value) => (long)value;
+            sbyte ICast<ucint>.ToSByte(ucint value) => (sbyte)value;
+            short ICast<ucint>.ToInt16(ucint value) => (short)value;
+            uint ICast<ucint>.ToUInt32(ucint value) => (uint)value;
+            ulong ICast<ucint>.ToUInt64(ucint value) => (ulong)value;
+            ushort ICast<ucint>.ToUInt16(ucint value) => (ushort)value;
+
+            ucint ICast<ucint>.ToValue(byte value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(decimal value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(double value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(float value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(int value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(long value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(sbyte value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(short value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(uint value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(ulong value) => (ucint)value;
+            ucint ICast<ucint>.ToValue(ushort value) => (ucint)value;
         }
     }
 }

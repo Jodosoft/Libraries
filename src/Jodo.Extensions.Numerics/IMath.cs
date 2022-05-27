@@ -42,6 +42,7 @@ namespace Jodo.Extensions.Numerics
         N Clamp(N x, N bound1, N bound2);
         N Cos(N x);
         N Cosh(N x);
+        N DecimalTruncate(N x, int significantDigits);
         N DegreesToRadians(N degrees);
         N Exp(N x);
         N Floor(N x);

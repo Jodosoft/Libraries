@@ -37,7 +37,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static readonly ucfix64 MaxValue = new ucfix64(ulong.MaxValue);
         public static readonly ucfix64 MinValue = new ucfix64(ulong.MinValue);
 
-        private const ulong ScalingFactor = 0b1000_0000_0000_0000_0000_0000;
+        private const ulong ScalingFactor = 1_000_000;
 
         private readonly ulong _scaledValue;
 
@@ -67,6 +67,12 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ucfix64 Parse(string s, IFormatProvider provider) => new ucfix64(ulong.Parse(s.Substring(0, s.IndexOf("/")), provider));
         public static ucfix64 Parse(string s, NumberStyles style) => new ucfix64(ulong.Parse(s.Substring(0, s.IndexOf("/")), style));
         public static ucfix64 Parse(string s, NumberStyles style, IFormatProvider provider) => new ucfix64(ulong.Parse(s.Substring(0, s.IndexOf("/")), style, provider));
+
+        private static ucfix64 Round(ucfix64 value, int digits, MidpointRounding mode)
+        {
+            if (digits < 0 || digits > 5) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be between 0 and 5 (inclusive).");
+            return new ucfix64(Numerics.Round.RoundDigits(value._scaledValue, 5 - digits, mode));
+        }
 
         public static explicit operator ucfix64(decimal value) => new ucfix64(CheckedConvert.ToUInt64(value * ScalingFactor));
         public static explicit operator ucfix64(double value) => new ucfix64(CheckedConvert.ToUInt64(value * ScalingFactor));
@@ -135,6 +141,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ucfix64 INumeric<ucfix64>.Subtract(ucfix64 value) => this - value;
 
         IBitConverter<ucfix64> IBitConvertible<ucfix64>.BitConverter => Utilities.Instance;
+        ICast<ucfix64> INumeric<ucfix64>.Cast => Utilities.Instance;
         IConvert<ucfix64> IConvertible<ucfix64>.Convert => Utilities.Instance;
         IMath<ucfix64> INumeric<ucfix64>.Math => Utilities.Instance;
         INumericFunctions<ucfix64> INumeric<ucfix64>.NumericFunctions => Utilities.Instance;
@@ -143,6 +150,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<ucfix64>,
+            ICast<ucfix64>,
             IConvert<ucfix64>,
             IMath<ucfix64>,
             INumericFunctions<ucfix64>,
@@ -190,6 +198,7 @@ namespace Jodo.Extensions.CheckedNumerics
             ucfix64 IMath<ucfix64>.Clamp(ucfix64 x, ucfix64 bound1, ucfix64 bound2) => bound1 > bound2 ? (ucfix64)Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : (ucfix64)Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
             ucfix64 IMath<ucfix64>.Cos(ucfix64 x) => (ucfix64)Math.Cos((double)x);
             ucfix64 IMath<ucfix64>.Cosh(ucfix64 x) => (ucfix64)Math.Cosh((double)x);
+            ucfix64 IMath<ucfix64>.DecimalTruncate(ucfix64 x, int significantDigits) => new ucfix64(Truncate.ToDigits(x._scaledValue, significantDigits));
             ucfix64 IMath<ucfix64>.DegreesToRadians(ucfix64 x) => (ucfix64)CheckedArithmetic.Multiply((double)x, Trig.RadiansPerDegree);
             ucfix64 IMath<ucfix64>.Exp(ucfix64 x) => (ucfix64)Math.Exp((double)x);
             ucfix64 IMath<ucfix64>.Floor(ucfix64 x) => new ucfix64(x._scaledValue / ScalingFactor * ScalingFactor);
@@ -201,10 +210,10 @@ namespace Jodo.Extensions.CheckedNumerics
             ucfix64 IMath<ucfix64>.Min(ucfix64 x, ucfix64 y) => new ucfix64(Math.Min(x._scaledValue, y._scaledValue));
             ucfix64 IMath<ucfix64>.Pow(ucfix64 x, ucfix64 y) => y == 1 ? x : (ucfix64)Math.Pow((double)x, (double)y);
             ucfix64 IMath<ucfix64>.RadiansToDegrees(ucfix64 x) => (ucfix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerRadian);
-            ucfix64 IMath<ucfix64>.Round(ucfix64 x) => (ucfix64)Math.Round((double)x);
-            ucfix64 IMath<ucfix64>.Round(ucfix64 x, int digits) => (ucfix64)Math.Round((double)x, digits);
-            ucfix64 IMath<ucfix64>.Round(ucfix64 x, int digits, MidpointRounding mode) => (ucfix64)Math.Round((double)x, digits, mode);
-            ucfix64 IMath<ucfix64>.Round(ucfix64 x, MidpointRounding mode) => (ucfix64)Math.Round((double)x, mode);
+            ucfix64 IMath<ucfix64>.Round(ucfix64 x) => Round(x, 0, MidpointRounding.ToEven);
+            ucfix64 IMath<ucfix64>.Round(ucfix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
+            ucfix64 IMath<ucfix64>.Round(ucfix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);
+            ucfix64 IMath<ucfix64>.Round(ucfix64 x, MidpointRounding mode) => Round(x, 0, mode);
             ucfix64 IMath<ucfix64>.Sin(ucfix64 x) => (ucfix64)Math.Sin((double)x);
             ucfix64 IMath<ucfix64>.Sinh(ucfix64 x) => (ucfix64)Math.Sinh((double)x);
             ucfix64 IMath<ucfix64>.Sqrt(ucfix64 x) => (ucfix64)Math.Sqrt((double)x);
@@ -256,6 +265,30 @@ namespace Jodo.Extensions.CheckedNumerics
             ucfix64 IStringParser<ucfix64>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             ucfix64 IStringParser<ucfix64>.Parse(string s, NumberStyles style) => Parse(s, style);
             ucfix64 IStringParser<ucfix64>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<ucfix64>.ToByte(ucfix64 value) => (byte)value;
+            decimal ICast<ucfix64>.ToDecimal(ucfix64 value) => (decimal)value;
+            double ICast<ucfix64>.ToDouble(ucfix64 value) => (double)value;
+            float ICast<ucfix64>.ToSingle(ucfix64 value) => (float)value;
+            int ICast<ucfix64>.ToInt32(ucfix64 value) => (int)value;
+            long ICast<ucfix64>.ToInt64(ucfix64 value) => (long)value;
+            sbyte ICast<ucfix64>.ToSByte(ucfix64 value) => (sbyte)value;
+            short ICast<ucfix64>.ToInt16(ucfix64 value) => (short)value;
+            uint ICast<ucfix64>.ToUInt32(ucfix64 value) => (uint)value;
+            ulong ICast<ucfix64>.ToUInt64(ucfix64 value) => (ulong)value;
+            ushort ICast<ucfix64>.ToUInt16(ucfix64 value) => (ushort)value;
+
+            ucfix64 ICast<ucfix64>.ToValue(byte value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(decimal value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(double value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(float value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(int value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(long value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(sbyte value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(short value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(uint value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(ulong value) => (ucfix64)value;
+            ucfix64 ICast<ucfix64>.ToValue(ushort value) => (ucfix64)value;
         }
     }
 }

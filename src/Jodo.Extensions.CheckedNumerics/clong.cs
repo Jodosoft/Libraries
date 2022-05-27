@@ -132,6 +132,7 @@ namespace Jodo.Extensions.CheckedNumerics
         clong INumeric<clong>.Subtract(clong value) => this - value;
 
         IBitConverter<clong> IBitConvertible<clong>.BitConverter => Utilities.Instance;
+        ICast<clong> INumeric<clong>.Cast => Utilities.Instance;
         IConvert<clong> IConvertible<clong>.Convert => Utilities.Instance;
         IMath<clong> INumeric<clong>.Math => Utilities.Instance;
         INumericFunctions<clong> INumeric<clong>.NumericFunctions => Utilities.Instance;
@@ -140,6 +141,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<clong>,
+            ICast<clong>,
             IConvert<clong>,
             IMath<clong>,
             INumericFunctions<clong>,
@@ -187,6 +189,7 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Clamp(clong x, clong bound1, clong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             clong IMath<clong>.Cos(clong x) => (clong)Math.Cos(x);
             clong IMath<clong>.Cosh(clong x) => (clong)Math.Cosh(x);
+            clong IMath<clong>.DecimalTruncate(clong x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
             clong IMath<clong>.DegreesToRadians(clong degrees) => (clong)CheckedArithmetic.Multiply(degrees, Trig.RadiansPerDegree);
             clong IMath<clong>.Exp(clong x) => (clong)Math.Exp(x);
             clong IMath<clong>.Floor(clong x) => x;
@@ -253,6 +256,30 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IStringParser<clong>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             clong IStringParser<clong>.Parse(string s, NumberStyles style) => Parse(s, style);
             clong IStringParser<clong>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<clong>.ToByte(clong value) => (byte)value;
+            decimal ICast<clong>.ToDecimal(clong value) => (decimal)value;
+            double ICast<clong>.ToDouble(clong value) => (double)value;
+            float ICast<clong>.ToSingle(clong value) => (float)value;
+            int ICast<clong>.ToInt32(clong value) => (int)value;
+            long ICast<clong>.ToInt64(clong value) => (long)value;
+            sbyte ICast<clong>.ToSByte(clong value) => (sbyte)value;
+            short ICast<clong>.ToInt16(clong value) => (short)value;
+            uint ICast<clong>.ToUInt32(clong value) => (uint)value;
+            ulong ICast<clong>.ToUInt64(clong value) => (ulong)value;
+            ushort ICast<clong>.ToUInt16(clong value) => (ushort)value;
+
+            clong ICast<clong>.ToValue(byte value) => (clong)value;
+            clong ICast<clong>.ToValue(decimal value) => (clong)value;
+            clong ICast<clong>.ToValue(double value) => (clong)value;
+            clong ICast<clong>.ToValue(float value) => (clong)value;
+            clong ICast<clong>.ToValue(int value) => (clong)value;
+            clong ICast<clong>.ToValue(long value) => (clong)value;
+            clong ICast<clong>.ToValue(sbyte value) => (clong)value;
+            clong ICast<clong>.ToValue(short value) => (clong)value;
+            clong ICast<clong>.ToValue(uint value) => (clong)value;
+            clong ICast<clong>.ToValue(ulong value) => (clong)value;
+            clong ICast<clong>.ToValue(ushort value) => (clong)value;
         }
     }
 }

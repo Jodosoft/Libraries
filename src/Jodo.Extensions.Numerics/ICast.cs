@@ -17,30 +17,32 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
-
-namespace System
+namespace Jodo.Extensions.Numerics
 {
-    public static class RandomExtensions
+    public interface ICast<N> where N : struct, INumeric<N>
     {
-        public static N NextNumeric<N>(this Random random) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, Numeric<N>.MinValue, Numeric<N>.MaxValue);
+        byte ToByte(N value);
+        decimal ToDecimal(N value);
+        double ToDouble(N value);
+        float ToSingle(N value);
+        int ToInt32(N value);
+        long ToInt64(N value);
+        sbyte ToSByte(N value);
+        short ToInt16(N value);
+        uint ToUInt32(N value);
+        ulong ToUInt64(N value);
+        ushort ToUInt16(N value);
 
-        public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, bound1, bound2);
-
-        public static N NextNumeric<N>(this Random random, double bound1, double bound2) where N : struct, INumeric<N>
-        {
-            N minBound;
-            try { minBound = Convert<N>.ToValue(Math.Min(bound1, bound2)); }
-            catch (OverflowException) { minBound = Numeric<N>.MinValue; }
-
-            N maxBound;
-            try { maxBound = Convert<N>.ToValue(Math.Max(bound1, bound2)); }
-            catch (OverflowException) { maxBound = Numeric<N>.MaxValue; }
-
-            return random.NextNumeric(minBound, maxBound);
-        }
+        N ToValue(byte value);
+        N ToValue(decimal value);
+        N ToValue(double value);
+        N ToValue(float value);
+        N ToValue(int value);
+        N ToValue(long value);
+        N ToValue(sbyte value);
+        N ToValue(short value);
+        N ToValue(uint value);
+        N ToValue(ulong value);
+        N ToValue(ushort value);
     }
 }

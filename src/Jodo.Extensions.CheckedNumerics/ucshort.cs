@@ -104,7 +104,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ucshort operator /(ucshort left, ucshort right) => CheckedArithmetic.Divide(left._value, right._value);
         public static ucshort operator ^(ucshort left, ucshort right) => (ushort)(left._value ^ right._value);
         public static ucshort operator |(ucshort left, ucshort right) => (ushort)(left._value | right._value);
-        public static ucshort operator ~(ucshort value) => (ushort)(~value._value);
+        public static ucshort operator ~(ucshort value) => (ushort)~value._value;
         public static ucshort operator +(ucshort left, ucshort right) => CheckedArithmetic.Add(left._value, right._value);
         public static ucshort operator +(ucshort value) => value;
         public static ucshort operator ++(ucshort value) => value + 1;
@@ -130,6 +130,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ucshort INumeric<ucshort>.Subtract(ucshort value) => this - value;
 
         IBitConverter<ucshort> IBitConvertible<ucshort>.BitConverter => Utilities.Instance;
+        ICast<ucshort> INumeric<ucshort>.Cast => Utilities.Instance;
         IConvert<ucshort> IConvertible<ucshort>.Convert => Utilities.Instance;
         IMath<ucshort> INumeric<ucshort>.Math => Utilities.Instance;
         INumericFunctions<ucshort> INumeric<ucshort>.NumericFunctions => Utilities.Instance;
@@ -138,6 +139,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<ucshort>,
+            ICast<ucshort>,
             IConvert<ucshort>,
             IMath<ucshort>,
             INumericFunctions<ucshort>,
@@ -172,40 +174,41 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<ucshort>.IsPositiveInfinity(ucshort x) => false;
             bool INumericFunctions<ucshort>.IsSubnormal(ucshort x) => false;
 
-            ucshort IMath<ucshort>.Truncate(ucshort x) => x;
-            ucshort IMath<ucshort>.Tanh(ucshort x) => (ucshort)Math.Tanh(x._value);
-            ucshort IMath<ucshort>.Tan(ucshort x) => (ucshort)Math.Tan(x._value);
-            ucshort IMath<ucshort>.Sqrt(ucshort x) => (ucshort)Math.Sqrt(x._value);
-            ucshort IMath<ucshort>.Sinh(ucshort x) => (ucshort)Math.Sinh(x._value);
-            ucshort IMath<ucshort>.Sin(ucshort x) => (ucshort)Math.Sin(x._value);
-            ucshort IMath<ucshort>.Round(ucshort x, MidpointRounding mode) => x;
-            ucshort IMath<ucshort>.Round(ucshort x, int digits, MidpointRounding mode) => x;
-            ucshort IMath<ucshort>.Round(ucshort x, int digits) => x;
-            ucshort IMath<ucshort>.Round(ucshort x) => x;
-            ucshort IMath<ucshort>.RadiansToDegrees(ucshort x) => (ucshort)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
-            ucshort IMath<ucshort>.Pow(ucshort x, ucshort y) => CheckedArithmetic.Pow(x._value, y._value);
-            ucshort IMath<ucshort>.Min(ucshort x, ucshort y) => Math.Min(x._value, y._value);
-            ucshort IMath<ucshort>.Max(ucshort x, ucshort y) => Math.Max(x._value, y._value);
-            ucshort IMath<ucshort>.Log10(ucshort x) => (ucshort)Math.Log10(x._value);
-            ucshort IMath<ucshort>.Log(ucshort x, ucshort y) => (ucshort)Math.Log(x._value, y._value);
-            ucshort IMath<ucshort>.Log(ucshort x) => (ucshort)Math.Log(x._value);
-            ucshort IMath<ucshort>.IEEERemainder(ucshort x, ucshort y) => (ucshort)Math.IEEERemainder(x._value, y._value);
-            ucshort IMath<ucshort>.Floor(ucshort x) => x;
-            ucshort IMath<ucshort>.Exp(ucshort x) => (ucshort)Math.Exp(x._value);
-            ucshort IMath<ucshort>.DegreesToRadians(ucshort x) => (ucshort)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
-            ucshort IMath<ucshort>.Cosh(ucshort x) => (ucshort)Math.Cosh(x._value);
-            ucshort IMath<ucshort>.Cos(ucshort x) => (ucshort)Math.Cos(x._value);
-            ucshort IMath<ucshort>.Clamp(ucshort x, ucshort bound1, ucshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            ucshort IMath<ucshort>.Ceiling(ucshort x) => x;
-            ucshort IMath<ucshort>.Cbrt(ucshort x) => (ucshort)Math.Cbrt(x._value);
-            ucshort IMath<ucshort>.Atanh(ucshort x) => (ucshort)Math.Atanh(x._value);
-            ucshort IMath<ucshort>.Atan2(ucshort x, ucshort y) => (ucshort)Math.Atan2(x._value, y._value);
-            ucshort IMath<ucshort>.Atan(ucshort x) => (ucshort)Math.Atan(x._value);
-            ucshort IMath<ucshort>.Asinh(ucshort x) => (ucshort)Math.Asinh(x._value);
-            ucshort IMath<ucshort>.Asin(ucshort x) => (ucshort)Math.Asin(x._value);
-            ucshort IMath<ucshort>.Acosh(ucshort x) => (ucshort)Math.Acosh(x._value);
-            ucshort IMath<ucshort>.Acos(ucshort x) => (ucshort)Math.Acos(x._value);
             ucshort IMath<ucshort>.Abs(ucshort x) => x;
+            ucshort IMath<ucshort>.Acos(ucshort x) => (ucshort)Math.Acos(x._value);
+            ucshort IMath<ucshort>.Acosh(ucshort x) => (ucshort)Math.Acosh(x._value);
+            ucshort IMath<ucshort>.Asin(ucshort x) => (ucshort)Math.Asin(x._value);
+            ucshort IMath<ucshort>.Asinh(ucshort x) => (ucshort)Math.Asinh(x._value);
+            ucshort IMath<ucshort>.Atan(ucshort x) => (ucshort)Math.Atan(x._value);
+            ucshort IMath<ucshort>.Atan2(ucshort x, ucshort y) => (ucshort)Math.Atan2(x._value, y._value);
+            ucshort IMath<ucshort>.Atanh(ucshort x) => (ucshort)Math.Atanh(x._value);
+            ucshort IMath<ucshort>.Cbrt(ucshort x) => (ucshort)Math.Cbrt(x._value);
+            ucshort IMath<ucshort>.Ceiling(ucshort x) => x;
+            ucshort IMath<ucshort>.Clamp(ucshort x, ucshort bound1, ucshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
+            ucshort IMath<ucshort>.Cos(ucshort x) => (ucshort)Math.Cos(x._value);
+            ucshort IMath<ucshort>.Cosh(ucshort x) => (ucshort)Math.Cosh(x._value);
+            ucshort IMath<ucshort>.DecimalTruncate(ucshort x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            ucshort IMath<ucshort>.DegreesToRadians(ucshort x) => (ucshort)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            ucshort IMath<ucshort>.Exp(ucshort x) => (ucshort)Math.Exp(x._value);
+            ucshort IMath<ucshort>.Floor(ucshort x) => x;
+            ucshort IMath<ucshort>.IEEERemainder(ucshort x, ucshort y) => (ucshort)Math.IEEERemainder(x._value, y._value);
+            ucshort IMath<ucshort>.Log(ucshort x) => (ucshort)Math.Log(x._value);
+            ucshort IMath<ucshort>.Log(ucshort x, ucshort y) => (ucshort)Math.Log(x._value, y._value);
+            ucshort IMath<ucshort>.Log10(ucshort x) => (ucshort)Math.Log10(x._value);
+            ucshort IMath<ucshort>.Max(ucshort x, ucshort y) => Math.Max(x._value, y._value);
+            ucshort IMath<ucshort>.Min(ucshort x, ucshort y) => Math.Min(x._value, y._value);
+            ucshort IMath<ucshort>.Pow(ucshort x, ucshort y) => CheckedArithmetic.Pow(x._value, y._value);
+            ucshort IMath<ucshort>.RadiansToDegrees(ucshort x) => (ucshort)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            ucshort IMath<ucshort>.Round(ucshort x) => x;
+            ucshort IMath<ucshort>.Round(ucshort x, int digits) => x;
+            ucshort IMath<ucshort>.Round(ucshort x, int digits, MidpointRounding mode) => x;
+            ucshort IMath<ucshort>.Round(ucshort x, MidpointRounding mode) => x;
+            ucshort IMath<ucshort>.Sin(ucshort x) => (ucshort)Math.Sin(x._value);
+            ucshort IMath<ucshort>.Sinh(ucshort x) => (ucshort)Math.Sinh(x._value);
+            ucshort IMath<ucshort>.Sqrt(ucshort x) => (ucshort)Math.Sqrt(x._value);
+            ucshort IMath<ucshort>.Tan(ucshort x) => (ucshort)Math.Tan(x._value);
+            ucshort IMath<ucshort>.Tanh(ucshort x) => (ucshort)Math.Tanh(x._value);
+            ucshort IMath<ucshort>.Truncate(ucshort x) => x;
 
             ucshort IBitConverter<ucshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)));
             void IBitConverter<ucshort>.Write(ucshort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
@@ -251,6 +254,30 @@ namespace Jodo.Extensions.CheckedNumerics
             ucshort IStringParser<ucshort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
             ucshort IStringParser<ucshort>.Parse(string s, NumberStyles style) => Parse(s, style);
             ucshort IStringParser<ucshort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+
+            byte ICast<ucshort>.ToByte(ucshort value) => (byte)value;
+            decimal ICast<ucshort>.ToDecimal(ucshort value) => (decimal)value;
+            double ICast<ucshort>.ToDouble(ucshort value) => (double)value;
+            float ICast<ucshort>.ToSingle(ucshort value) => (float)value;
+            int ICast<ucshort>.ToInt32(ucshort value) => (int)value;
+            long ICast<ucshort>.ToInt64(ucshort value) => (long)value;
+            sbyte ICast<ucshort>.ToSByte(ucshort value) => (sbyte)value;
+            short ICast<ucshort>.ToInt16(ucshort value) => (short)value;
+            uint ICast<ucshort>.ToUInt32(ucshort value) => (uint)value;
+            ulong ICast<ucshort>.ToUInt64(ucshort value) => (ulong)value;
+            ushort ICast<ucshort>.ToUInt16(ucshort value) => (ushort)value;
+
+            ucshort ICast<ucshort>.ToValue(byte value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(decimal value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(double value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(float value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(int value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(long value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(sbyte value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(short value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(uint value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(ulong value) => (ucshort)value;
+            ucshort ICast<ucshort>.ToValue(ushort value) => (ucshort)value;
         }
     }
 }

@@ -1,4 +1,4 @@
-<p align="center"><img src="RepositoryBanner.png" alt="Logo" height="128"/></p>
+<p align="center"><img src="Banner.png" alt="Logo" height="128"/></p>
 
 <h1 align="center">Jodo.Extensions</h1>
 

@@ -38,9 +38,9 @@ namespace Jodo.Extensions.Geometry
 
         IStringParser<Vector2<N>> IStringParsable<Vector2<N>>.StringParser => throw new NotImplementedException();
 
-        public Vector2(byte x, N y) : this(Convert<N>.ToNumeric(x), y) { }
-        public Vector2(N x, byte y) : this(x, Convert<N>.ToNumeric(y)) { }
-        public Vector2(byte x, byte y) : this(Convert<N>.ToNumeric(x), Convert<N>.ToNumeric(y)) { }
+        public Vector2(byte x, N y) : this(Convert<N>.ToValue(x), y) { }
+        public Vector2(N x, byte y) : this(x, Convert<N>.ToValue(y)) { }
+        public Vector2(byte x, byte y) : this(Convert<N>.ToValue(x), Convert<N>.ToValue(y)) { }
 
         public Vector2(N x, N y)
         {
