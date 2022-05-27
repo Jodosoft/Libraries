@@ -216,9 +216,6 @@ namespace Jodo.Extensions.Numerics
             xushort IRandom<xushort>.Next(Random random) => random.NextUInt16();
             xushort IRandom<xushort>.Next(Random random, xushort bound1, xushort bound2) => random.NextUInt16(bound1._value, bound2._value);
 
-            // xushort IStringParser<xushort>.Parse(string s) => Parse(s);
-            // xushort IStringParser<xushort>.Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Parse(s, numberStyles, formatProvider);
-
             bool IConvert<xushort>.ToBoolean(xushort value) => Convert.ToBoolean(value._value);
             byte IConvert<xushort>.ToByte(xushort value) => Convert.ToByte(value._value);
             decimal IConvert<xushort>.ToDecimal(xushort value) => Convert.ToDecimal(value._value);

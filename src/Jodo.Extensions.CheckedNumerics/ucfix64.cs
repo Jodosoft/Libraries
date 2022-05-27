@@ -71,7 +71,7 @@ namespace Jodo.Extensions.CheckedNumerics
         private static ucfix64 Round(ucfix64 value, int digits, MidpointRounding mode)
         {
             if (digits < 0 || digits > 5) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be between 0 and 5 (inclusive).");
-            return new ucfix64(Numerics.Round.RoundDigits(value._scaledValue, 5 - digits, mode));
+            return new ucfix64(Numerics.Round.Digits(value._scaledValue, 5 - digits, mode));
         }
 
         public static explicit operator ucfix64(decimal value) => new ucfix64(CheckedConvert.ToUInt64(value * ScalingFactor));

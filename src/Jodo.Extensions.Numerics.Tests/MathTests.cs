@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
-using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
 
@@ -920,13 +919,13 @@ namespace Jodo.Extensions.Numerics.Tests
                 //arrange
                 OnlyApplicableTo.Real();
                 var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Convert<N>.ToValue(input);
+                var numeric = Cast<N>.ToValue(input);
 
                 //act
                 var result = Math<N>.Round(numeric);
 
                 //assert
-                result.Should().Be(Convert<N>.ToValue(Math.Round(input)));
+                result.Should().Be(Cast<N>.ToValue(Math.Round(input)));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -949,14 +948,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 //arrange
                 OnlyApplicableTo.Real();
                 var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Convert<N>.ToValue(input);
+                var numeric = Cast<N>.ToValue(input);
                 var digits = Random.NextByte(1, 3);
 
                 //act
                 var result = Math<N>.Round(numeric, digits);
 
                 //assert
-                result.Should().Be(Convert<N>.ToValue(Math.Round(input, digits)));
+                result.Should().Be(Cast<N>.ToValue(Math.Round(input, digits)));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -979,14 +978,14 @@ namespace Jodo.Extensions.Numerics.Tests
                 //arrange
                 OnlyApplicableTo.Real();
                 var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Convert<N>.ToValue(input);
+                var numeric = Cast<N>.ToValue(input);
                 var mode = Random.NextEnum<MidpointRounding>();
 
                 //act
                 var result = Math<N>.Round(numeric, mode);
 
                 //assert
-                result.Should().Be(Convert<N>.ToValue(Math.Round(input, mode)));
+                result.Should().Be(Cast<N>.ToValue(Math.Round(input, mode)));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -1009,7 +1008,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 //arrange
                 OnlyApplicableTo.Real();
                 var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Convert<N>.ToValue(input);
+                var numeric = Cast<N>.ToValue(input);
                 var digits = Random.NextByte(1, 3);
                 var mode = Random.NextEnum<MidpointRounding>();
 
@@ -1017,36 +1016,24 @@ namespace Jodo.Extensions.Numerics.Tests
                 var result = Math<N>.Round(numeric, digits, mode);
 
                 //assert
-                result.Should().Be(Convert<N>.ToValue(Math.Round(input, digits, mode)));
+                result.Should().Be(Cast<N>.ToValue(Math.Round(input, digits, mode)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Sin_RandomSigned_EquivalentToSystemMath()
             {
                 //arrange
-                OnlyApplicableTo.Signed();
-                var input = NextLowPrecision();
+                double randomValue;
+                do { randomValue = ToDoubleSafe(Random.NextNumeric<N>()); }
+                while (!Numeric<N>.IsSigned && Math.Sin(randomValue) < 0);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Sin(randomValue));
 
                 //act
                 var result = Math<N>.Sin(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Sin(input.ToDouble()));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Sin_RandomUnsigned_EquivalentToSystemMath()
-            {
-                //arrange
-                OnlyApplicableTo.Unsigned();
-                N input;
-                do { input = NextLowPrecision(); } while (Math.Sin(input.ToDouble()) < 0);
-
-                //act
-                var result = Math<N>.Sin(input);
-
-                //assert
-                result.Should().BeApproximately(Math.Sin(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test]
@@ -1169,7 +1156,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 //act
                 var result = Math<N>.Tan(input);
 
-                //assert
+                //asserti
                 result.Should().BeApproximately(Math.Tan(input.ToDouble()));
             }
 
@@ -1186,18 +1173,18 @@ namespace Jodo.Extensions.Numerics.Tests
                 result.Should().BeApproximately(Math.Tan(input.ToDouble()));
             }
 
-            [Test, Repeat(RandomVariations), Ignore("wip")]
+            [Test, Repeat(RandomVariations)]
             public void Tanh_Random_EquivalentToSystemMath()
             {
                 //arrange
                 double input;
                 do
                 {
-                    input = Random.NextDouble(-1, 1);
+                    input = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
                 }
                 while (!double.IsFinite(Math.Tanh(input)));
-                var sut = Convert<N>.ToValue(input);
-                var expected = Convert<N>.ToValue(Math.Tanh(input));
+                var sut = Cast<N>.ToValue(input);
+                var expected = Cast<N>.ToValue(Math.Tanh(input));
 
                 //act
                 var result = Math<N>.Tanh(sut);
@@ -1207,30 +1194,15 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Truncate_RandomIntegral_SameValue()
+            public void Truncate_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                OnlyApplicableTo.Integral();
-                var input = Random.NextNumeric<N>();
+                var randomValue = ToDoubleSafe(Random.NextNumeric<N>());
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Truncate(randomValue));
 
                 //act
                 var result = Math<N>.Truncate(input);
-
-                //assert
-                result.Should().Be(input);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Truncate_RandomReal_EquivalentToSystemMath()
-            {
-                //arrange
-                OnlyApplicableTo.Real();
-                var input = Random.NextDouble(-MaxTestableReal, MaxTestableReal);
-                var sut = Convert<N>.ToValue(input);
-                var expected = Convert<N>.ToValue(Math.Truncate(input));
-
-                //act
-                var result = Math<N>.Truncate(sut);
 
                 //assert
                 result.Should().Be(expected);
