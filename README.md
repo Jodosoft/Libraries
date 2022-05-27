@@ -20,13 +20,22 @@
 
 <h2>Jodo.Extensions.Numerics</h2>
 
-Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utility classes that support the creation of used-defined numeric types.
+Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
 
-Fixed-point implementations are provided (<a href="#fix64"><code>fix64</code></a> and <a href="#fix64"><code>ufix64</code></a>), as well as wrappers for the built-in numeric types (`int`, `float` etc.).
+<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided.
 
-The following code sample demonstrates their usage:
+Usage is the same as with built-in numeric types, with familiar operations provided by <a href="#mathn">Math&lt;N&gt;</a>, <a href="#convertn">Convert&lt;N&gt;</a>, etc. The following code example demonstrated usage:
+
 ```csharp
-// placeholder
+xint intValue = 2048;
+xint shifted = intValue >> 3;
+
+xfloat floatValue = 1.23e6f;
+xfloat sqrt = Math<xfloat>.Sqrt(floatValue);
+
+Console.WriteLine($"{intValue} -> {shifted}"); // outputs: 2048 -> 256
+
+Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
 ```
 
 ### Types
@@ -38,55 +47,52 @@ The following code sample demonstrates their usage:
   </tr>
   <tr>
     <td id="inumericn">INumeric&lt;N&gt;</td>
-    <td>
-      <ul>
-        <li>To be implemented by user-defined numeric value types.</li>
-        <li>Allows for the creation numeric types that can used interchangeably with generics.</li>
-      </ul>
-    </td>
+    <td>Implemented by custom number types. Allows for numeric types to be used interchangeably in generic systems.</td>
   </tr>
   <tr>
-    <td id="mathn">Math&lt;N&gt;</td>
-    <td>
-      <ul>
-        <li>A static class that provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>N Log(N)</code>, <code>N Pow(N)</code> and <code>N Sqrt(N)</code>.</li>
-        <li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li>
-      </ul>
-    </td>
+    <td id="mathn">Math&lt;N&gt;<sup><a href="#footnote1">†</a></sup></td>
+    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>N Log(N)</code>, <code>N Acosh(N)</code> and <code>N Round(N, int)</code>.</td>
   </tr>
   <tr>
-    <td id="mathn">Convert&lt;N&gt;</td>
-    <td>
-      <ul>
-        <li>A static class that provides equivalents methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>.</li>
-        <li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li>
-      </ul>
-    </td>
+    <td id="convertn">Convert&lt;N&gt;<sup><a href="#footnote1">†</a></sup></td>
+    <td>Provides equivalents methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, allowing for conversion to and from built-in numeric types.</td>
   </tr>
   <tr>
-    <td id="bitconvertern">BitConverter&lt;N&gt;</td>
-    <td>
-      <ul><li>A static class that provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>.</li><li>Allows conversion to and from <code>ReadOnlySpan&lt;byte&gt;</code>.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</li></ul>
-    </td>
+    <td id="bitconvertern">BitConverter&lt;N&gt;<sup><a href="#footnote1">†</a></sup></td>
+    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, allowing conversion to and from ReadOnlySpan&lt;byte&gt;.</td>
   </tr>
   <tr>
-    <td id="stringformattern">StringParser&lt;N&gt;</td>
-    <td>
-      <ul><li>A static class that provides string parsing and formatting methods.</li><li>Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a> including user-defined types.</li></ul>
+    <td id="stringformattern">StringParser&lt;N&gt;<sup><a href="#footnote1">†</a></sup></td>
+    <td>Provides string parsing and formatting methods.</td>
+  </tr>
+  <tr>
+    <td id="fix64"><code>fix64</code>, <code>ufix64</code></td>
+    <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Stores a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (unsigned ±1.0 x 10<sup>−6</sup> to ±1.8 x 10<sup>13</sup>). Uses 8 byte integers.</td>
+  </tr>
+  <tr>
+    <td id="wrappers">
+      <code>xbyte</code>, <code>xsbyte</code>,<br />
+      <code>xshort</code>, <code>xushort</code>,<br />
+      <code>xint</code>, <code>xuint</code>,<br />
+      <code>xlong</code>, <code>xulong</code>,<br />
+      <code>xfloat</code>, <code>xdouble</code>,<br />
+      <code>xdecimal</code>
     </td>
+    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> with identical usage and implicit conversions.</td>
   </tr>
 </table>
+<p id="footnote1"><sup>†</sup> Static class available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</p>
 
 ### Other features
 
 | Feature | Notes |
 | - | - |
-| Overloaded operators | <ul><li>`==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/` and `%` are overloaded, allowing for use in expressions.</li><li>`&`, `\|`, `^`, `~`, `<<` and `>>` are overloaded for types based on integral primitives.</li><li>Implicit conversions from built-in numeric types are provided, allowing use in expressions with numeric literals.</li><li>The `INumeric<N>` interface defines overloads the `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/` and `%` operators, allowing for limited expressions in a generic context (note: equality and conversion operators are not supported on interfaces).</li></ul> |
-| Float conversion | <ul><li>A method on `INumeric<N>`, `float Approximate(float offset)`, provides easy conversion to floats for use in graphical applications.</li></ul> |
-| Formattable | <ul><li>All the [numeric value types](#jodo-extensions-numerics) implement [IFormattable](https://docs.microsoft.com/en-us/dotnet/api/system.iformattable) and can be used with [standard numeric format strings](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings).</li></ul> |
-| Random generation | <ul><li>An extension method for [Random](https://docs.microsoft.com/en-us/dotnet/api/system.random), `NextNumeric<N>`, provides randomly generated values.</li><li>Values can be generated between two bounds or without bounds.</li><li>Available for all types that implement `INumeric<N>` including user-defined types.</li></ul> |
-| Serialization | <ul><li>All the [numeric value types](#numeric-value-types) implement [ISerializable](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable), have the [Serializable](https://docs.microsoft.com/en-us/dotnet/api/system.serializableattribute) attribute and a deserialization constructor.</li></ul> |
-| _Miscellaneous_ | <ul><li>All numeric value types implement [IEquatable\<T\>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1), [IComparable\<T\>](https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1) and [IComparable](https://docs.microsoft.com/en-us/dotnet/api/system.icomparable), override `EqualTo(object)`, `GetHashCode()` and `ToString()` and have a [DebuggerDisplay](https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.debuggerdisplayattribute) attribute.</li></ul>
+| Overloaded operators | <ul><li>`==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/` and `%` are overloaded by all the provided numeric types, allowing for use in expressions.</li><li>`&`, `\|`, `^`, `~`, `<<` and `>>` are overloaded by all the provided integral types.</li><li>Implicit conversions from built-in numeric types are provided, allowing use in expressions with numeric literals.</li><li><a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/`, `%`, `&`, `\|`, `^`, `~`, `<<` and `>>` operators, allowing for limited expressions in a generic context (note: equality and conversion operators are not supported on interfaces).</li></ul> |
+| Formattable | <ul><li>All the provided numeric types implement [IFormattable](https://docs.microsoft.com/en-us/dotnet/api/system.iformattable) and can be used with [numeric format strings](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings).</li></ul> |
+| Random generation | <ul><li>An extension method for [Random](https://docs.microsoft.com/en-us/dotnet/api/system.random), `NextNumeric<N>`<sup><a href="#footnote1">†</a></sup>, provides randomly generated values.</li><li>Values can be generated between two bounds or without bounds.</li></ul> |
+| Serialization | <ul><li>All the provided numeric types implement [ISerializable](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable), have the [Serializable](https://docs.microsoft.com/en-us/dotnet/api/system.serializableattribute) attribute and a deserialization constructor.</li></ul> |
+| _Miscellaneous_ | <ul><li>All the provided numeric types implement [IEquatable\<T\>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1), [IComparable\<T\>](https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1) and [IComparable](https://docs.microsoft.com/en-us/dotnet/api/system.icomparable), override `EqualTo(object)`, `GetHashCode()` and `ToString()` and have a [DebuggerDisplay](https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.debuggerdisplayattribute) attribute.</li></ul>
+<p id="footnote2"><sup>†</sup> Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</p>
 
 ### Performance considerations
 
