@@ -24,7 +24,9 @@ Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities 
 
 <a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided.
 
-Usage is the same as with built-in numeric types, with familiar operations provided by <a href="#mathn">Math&lt;N&gt;</a>, <a href="#convertn">Convert&lt;N&gt;</a>, etc. The following code example demonstrated usage:
+Usage is the same as with built-in numeric types. Familiar operations provided by <a href="#mathn">Math&lt;N&gt;</a>, <a href="#convertn">Convert&lt;N&gt;</a>, etc.
+
+The following code example demonstrates usage:
 
 ```csharp
 xint intValue = 2048;
@@ -67,7 +69,7 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
   </tr>
   <tr>
     <td id="fix64"><code>fix64</code>, <code>ufix64</code></td>
-    <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Stores a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (unsigned ±1.0 x 10<sup>−6</sup> to ±1.8 x 10<sup>13</sup>). Uses 8 byte integers.</td>
+    <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Stores a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (unsigned 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup>). Implemented using 8-byte integers.</td>
   </tr>
   <tr>
     <td id="wrappers">
@@ -78,7 +80,7 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
       <code>xfloat</code>, <code>xdouble</code>,<br />
       <code>xdecimal</code>
     </td>
-    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> with identical usage and implicit conversions.</td>
+    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> with identical usage. Implicit conversions allow for easy transition to and from the built-in numeric types.</td>
   </tr>
 </table>
 <p id="footnote1"><sup>†</sup> Static class available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</p>
@@ -96,7 +98,7 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
 
 ### Performance considerations
 
-The numeric value types provided by this package are [readonly structs](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-struct) that wrap built-in numeric types. Therefore they may consume more memory at runtime compared to using built-in numeric types alone.
+The numeric types provided by this package are structs that wrap values and operations provided by built-in numeric types. Therefore they may consume more CPU time and runtime memory compared to using built-in numeric types alone.
 
 If developing a performance-sensitive application, use a profiler to assess the impact on performance.
 
@@ -106,23 +108,12 @@ Sample output can be seen below:
   
 *tbc*
 
-<details>
-  <summary><h2>Jodo.Extensions.CheckedNumerics</summary>
+<h2>Jodo.Extensions.CheckedNumerics</h2>
+  
+Provides numeric types (implementing <a href="#inumericn">INumeric&lt;N&gt;</a>) and utilities with built-in protection from overflow.
 
-Provides numeric value types that [INumeric\<N\>](#numeric-value-types) with built-in protection from overflow. Useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
-
-### Numeric value types
-
-> **Note:** These types increase CPU and memory usage compared to using built-in numeric types. See the [Performance considerations](#performance-considerations) section for more details.
-
-The following table summarizes the types and their behaviour:
-
-| Jodo Type | Corresponding CLR type | Difference in behaviour |
-| - | - | - |
-| `cint`<br />`ucint` | `int`<br />`uint` | <ul><li>Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow.</li><li>Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`.</li></ul> |
-| `cfloat`<br />`cdouble` | `float`<br />`double` | <ul><li>Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively.</li><li>Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`.</li><li>It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`.</li></ul> |
-| `fix64`<br />`ufix64` | _N/A_ | <ul><li>A fixed-precision number with a 40-bit integral part and a 24-bit mantissa.</li><li>Has a range of values from -549,755,813,888 to 549,755,813,888 for `fix64` and 0 to 1,099,511,693,312.004 for `ufix64`.</li><li>Useful in systems where high precision is required regardless of magnitude.</li></ul> |
-
+Useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
+        
 Usage is the same as with built-in numeric types but yields different results as demonstrated by the following code example:
 ```csharp
 var x1 = cint.MaxValue + 1;
@@ -132,16 +123,22 @@ var x2 = (cfloat)4 / 0;
 Console.WriteLine(x2);  // output: 3.402823E+38
 ```
 
-### Other types
+### Types
 
-| Jodo Type | Description |
-| - | - |
+The following table summarizes the types and their behaviour:
+
+| Type | Description |
+| --- | --- |
+| `cint`<br />`ucint` | <ul><li>Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow.</li><li>Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`.</li></ul> |
+| `cfloat`<br />`cdouble` | <ul><li>Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively.</li><li>Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`.</li><li>It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`.</li></ul> |
+| `fix64`<br />`ufix64` | <ul><li>A fixed-precision number with a 40-bit integral part and a 24-bit mantissa.</li><li>Has a range of values from -549,755,813,888 to 549,755,813,888 for `fix64` and 0 to 1,099,511,693,312.004 for `ufix64`.</li><li>Useful in systems where high precision is required regardless of magnitude.</li></ul> |
 | `CheckedArithmetic` | <ul><li>A static class that provides checked arithmetic methods for the built-in numeric types.</li></ul> |
 | `CheckedConvert` | <ul><li>A static class, similar to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert), that provides checked conversion between the built-in numeric types.</li></ul> |
 
 ### Performance considerations
 
-The numeric value types provided by this package are [readonly structs](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-struct) that wrap built-in numeric types. Therefore they may consume more memory at runtime compared to using built-in numeric types alone.
+The numeric types provided by this package are structs that wrap values and operations provided by built-in numeric types. Therefore they may consume more CPU time and runtime memory compared to using built-in numeric types alone.
+  
 Additionally, the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword is used for conversion and arithmetic with these types. Therefore they use more CPU time compared to built-in numeric types, especially in cases of overflow.
 
 If developing a performance-sensitive application, use a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive applications, such as graphics or big-data.
@@ -158,16 +155,15 @@ Sample output can be seen below:
   > * **OS:** Windows 10 (64-bit)
   > * **Seconds per Benchmark:** 10.0
 
-  | Name | Baseline Ops Per Second | Baseline Time | Subject Ops Per Second | Subject Time | Observation |
+  | Name | Baseline Ops Per Second | Baseline Time | Ops Per Second | Time | Observation |
   | --- | --- | --- | --- | --- | --- |
-  | CInt_Negation_Vs_Int | 2.172E+08 | *<1μs* | 1.131E+08 | *<1μs* | 1.92x slower |
-  | CInt_Division_Vs_Int | 3.417E+08 | *<1μs* | 1.112E+08 | *<1μs* | 3.074x slower |
-  | CInt_ConversionToFloat_Vs_Int | 3.815E+08 | *<1μs* | 2.487E+08 | *<1μs* | 1.534x slower |
-  | CInt_StringParsing_Vs_Int | 7.443E+07 | *<1μs* | 5.885E+07 | *<1μs* | 1.265x slower |
+  | CInt_Negation_Vs_Int | 2.172E+08 | *<1μs* | 1.131E+08 | *<1μs* | 1.9x slower |
+  | CInt_Division_Vs_Int | 3.417E+08 | *<1μs* | 1.112E+08 | *<1μs* | 3.0x slower |
+  | CInt_ConversionToFloat_Vs_Int | 3.815E+08 | *<1μs* | 2.487E+08 | *<1μs* | 1.5x slower |
+  | CInt_StringParsing_Vs_Int | 7.443E+07 | *<1μs* | 5.885E+07 | *<1μs* | 1.3x slower |
   | **CInt_MultiplicationOverflow_Vs_Int** | **3.725E+08** | ***<1μs*** | **1.453E+05** | **6.8μs** | **2563x slower** |
 
   </details>
-</details>
     
 <details>
   <summary><h2>Jodo.Extensions.Geometry</summary>
