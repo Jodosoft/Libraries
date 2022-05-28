@@ -90,17 +90,17 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
 | Feature | Notes |
 | - | - |
 | Overloaded operators | <ul><li>`==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/` and `%` are overloaded by all the provided numeric types, allowing for use in expressions.</li><li>`&`, `\|`, `^`, `~`, `<<` and `>>` are overloaded by all the provided integral types.</li><li>Implicit conversions from built-in numeric types are provided, allowing use in expressions with numeric literals.</li><li><a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/`, `%`, `&`, `\|`, `^`, `~`, `<<` and `>>` operators, allowing for limited expressions in a generic context (note: equality and conversion operators are not supported on interfaces).</li></ul> |
-| Formattable | <ul><li>All the provided numeric types implement [IFormattable](https://docs.microsoft.com/en-us/dotnet/api/system.iformattable) and can be used with [numeric format strings](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings).</li></ul> |
+| Formatting | <ul><li>All the provided numeric types implement [IFormattable](https://docs.microsoft.com/en-us/dotnet/api/system.iformattable) and can be used with [numeric format strings](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings).</li></ul> |
 | Random generation | <ul><li>An extension method for [Random](https://docs.microsoft.com/en-us/dotnet/api/system.random), `NextNumeric<N>`<sup><a href="#footnote1">†</a></sup>, provides randomly generated values.</li><li>Values can be generated between two bounds or without bounds.</li></ul> |
 | Serialization | <ul><li>All the provided numeric types implement [ISerializable](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable), have the [Serializable](https://docs.microsoft.com/en-us/dotnet/api/system.serializableattribute) attribute and a deserialization constructor.</li></ul> |
-| _Miscellaneous_ | <ul><li>All the provided numeric types implement [IEquatable\<T\>](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1), [IComparable\<T\>](https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1) and [IComparable](https://docs.microsoft.com/en-us/dotnet/api/system.icomparable), override `EqualTo(object)`, `GetHashCode()` and `ToString()` and have a [DebuggerDisplay](https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.debuggerdisplayattribute) attribute.</li></ul>
+
 <p id="footnote2"><sup>†</sup> Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</p>
 
 ### Performance considerations
 
-The numeric types provided by this package are structs that wrap values and operations provided by built-in numeric types. Therefore they may consume more CPU time and runtime memory compared to using built-in numeric types alone.
+The numeric types provided by this package are structs that wrap the built-in numeric types. Therefore they consume more CPU time and memory compared to using built-in numeric types alone.
 
-If developing a performance-sensitive application, use a profiler to assess the impact on performance.
+If developing a performance-sensitive application, use a profiler to assess the impact.
 
 Benchmarks are provided with this repository to facilitate comparison the built-in numeric types. To run the benchmarks, clone the repository then build and run `Jodo.Extensions.Numerics.Benchmarks` in RELEASE mode.
 
