@@ -98,11 +98,11 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
 
 ### Performance considerations
 
-The numeric types provided by this package are structs that wrap the built-in numeric types. Therefore they consume more CPU time and memory compared to using built-in numeric types alone.
+The numeric types provided by this package are structs that wrap built-in types and operators. Therefore they consume more memory and CPU time compared to using the built-in types alone.
 
 If developing a performance-sensitive application, use a profiler to assess the impact.
 
-Benchmarks are provided with this repository to facilitate comparison the built-in numeric types. To run the benchmarks, clone the repository then build and run `Jodo.Extensions.Numerics.Benchmarks` in RELEASE mode.
+Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Extensions.Numerics.Benchmarks* in RELEASE mode.
 
 Sample output can be seen below:
   
