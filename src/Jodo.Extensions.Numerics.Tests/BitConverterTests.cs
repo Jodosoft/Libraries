@@ -17,22 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives.Tests;
-
 namespace Jodo.Extensions.Numerics.Tests
 {
     public static class BitConverterTests
     {
-        public class XByte : BitConverterTestsBase<xbyte> { }
-        public class XDecimal : BitConverterTestsBase<xdecimal> { }
-        public class XDouble : BitConverterTestsBase<xdouble> { }
-        public class XFloat : BitConverterTestsBase<xfloat> { }
-        public class XInt : BitConverterTestsBase<xint> { }
-        public class XLong : BitConverterTestsBase<xlong> { }
-        public class XSByte : BitConverterTestsBase<xsbyte> { }
-        public class XShort : BitConverterTestsBase<xshort> { }
-        public class XUInt : BitConverterTestsBase<xuint> { }
-        public class XULong : BitConverterTestsBase<xushort> { }
-        public class XUShort : BitConverterTestsBase<xushort> { }
+        public class XByte : Base<xbyte> { }
+        public class XDecimal : Base<xdecimal> { }
+        public class XDouble : Base<xdouble> { }
+        public class XFloat : Base<xfloat> { }
+        public class XInt : Base<xint> { }
+        public class XLong : Base<xlong> { }
+        public class XSByte : Base<xsbyte> { }
+        public class XShort : Base<xshort> { }
+        public class XUInt : Base<xuint> { }
+        public class XULong : Base<xushort> { }
+        public class XUShort : Base<xushort> { }
+
+        public abstract class Base<T> : Primitives.Tests.BitConverterTests.Base<T> where T : struct, INumeric<T>
+        {
+
+        }
     }
 }

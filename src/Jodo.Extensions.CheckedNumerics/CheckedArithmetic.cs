@@ -28,6 +28,7 @@ namespace Jodo.Extensions.CheckedNumerics
     {
         public static byte Add(byte x, byte y) { try { checked { return (byte)(x + y); } } catch (OverflowException) { return byte.MaxValue; } }
         public static int Add(int x, int y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? int.MaxValue : int.MinValue; } }
+        public static decimal Add(decimal x, decimal y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? decimal.MaxValue : decimal.MinValue; } }
         public static long Add(long x, long y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? long.MaxValue : long.MinValue; } }
         public static sbyte Add(sbyte x, sbyte y) { try { checked { return (sbyte)(x + y); } } catch (OverflowException) { return y > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
         public static short Add(short x, short y) { try { checked { return (short)(x + y); } } catch (OverflowException) { return y > 0 ? short.MaxValue : short.MinValue; } }
@@ -55,6 +56,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static byte Divide(byte x, byte y) { try { return (byte)(x / y); } catch (DivideByZeroException) { return byte.MaxValue; } }
         public static int Divide(int x, int y) { try { return x / y; } catch (DivideByZeroException) { return int.MaxValue; } }
+        public static decimal Divide(decimal x, decimal y) { try { return x / y; } catch (DivideByZeroException) { return decimal.MaxValue; } }
         public static long Divide(long x, long y) { try { return x / y; } catch (DivideByZeroException) { return long.MaxValue; } }
         public static sbyte Divide(sbyte x, sbyte y) { try { return (sbyte)(x / y); } catch (DivideByZeroException) { return sbyte.MaxValue; } }
         public static short Divide(short x, short y) { try { return (short)(x / y); } catch (DivideByZeroException) { return short.MaxValue; } }
@@ -82,6 +84,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static byte Multiply(byte x, byte y) { try { checked { return (byte)(x * y); } } catch (OverflowException) { return byte.MaxValue; } }
         public static int Multiply(int x, int y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? int.MaxValue : int.MinValue; } }
+        public static decimal Multiply(decimal x, decimal y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? decimal.MaxValue : decimal.MinValue; } }
         public static long Multiply(long x, long y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? long.MaxValue : long.MinValue; } }
         public static sbyte Multiply(sbyte x, sbyte y) { try { checked { return (sbyte)(x * y); } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? sbyte.MaxValue : sbyte.MinValue; } }
         public static short Multiply(short x, short y) { try { checked { return (short)(x * y); } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? short.MaxValue : short.MinValue; } }
@@ -109,6 +112,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static byte Remainder(byte x, byte y) { try { return (byte)(x % y); } catch (DivideByZeroException) { return 0; } }
         public static int Remainder(int x, int y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
+        public static decimal Remainder(decimal x, decimal y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
         public static long Remainder(long x, long y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
         public static sbyte Remainder(sbyte x, sbyte y) { try { return (sbyte)(x % y); } catch (DivideByZeroException) { return 0; } }
         public static short Remainder(short x, short y) { try { return (short)(x % y); } catch (DivideByZeroException) { return 0; } }
@@ -136,6 +140,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static byte Subtract(byte x, byte y) { try { checked { return (byte)(x - y); } } catch (OverflowException) { return byte.MinValue; } }
         public static int Subtract(int x, int y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? int.MaxValue : int.MinValue; } }
+        public static decimal Subtract(decimal x, decimal y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? decimal.MaxValue : decimal.MinValue; } }
         public static long Subtract(long x, long y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? long.MaxValue : long.MinValue; } }
         public static sbyte Subtract(sbyte x, sbyte y) { try { checked { return (sbyte)(x - y); } } catch (OverflowException) { return y < 0 ? sbyte.MaxValue : sbyte.MinValue; } }
         public static short Subtract(short x, short y) { try { checked { return (short)(x - y); } } catch (OverflowException) { return y < 0 ? short.MaxValue : short.MinValue; } }
@@ -255,6 +260,20 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        public static decimal Pow(decimal x, decimal y)
+        {
+            if (y < 0) return 0;
+            if (y == 0) return 1;
+            if (y == 1) return x;
+            var result = x;
+            for (int i = 1; i < y; i++)
+            {
+                try { checked { result *= x; } }
+                catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? decimal.MaxValue : decimal.MinValue; }
+            }
+            return result;
+        }
+
         public static long Pow(long x, long y)
         {
             if (y < 0) return 0;
@@ -287,7 +306,7 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
-        public static long ScaledMultiply(long left, long right, long scalingFactor)
+        public static long ScaledMultiply(long scaledLeft, long scaledRight, long scalingFactor)
         {
             try
             {
@@ -295,12 +314,12 @@ namespace Jodo.Extensions.CheckedNumerics
                 {
                     checked
                     {
-                        return left * right / scalingFactor;
+                        return scaledLeft * scaledRight / scalingFactor;
                     }
                 }
                 catch (OverflowException)
                 {
-                    return (long)(new BigInteger(left) * new BigInteger(right) / scalingFactor);
+                    return (long)(new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor);
                 }
             }
             catch (DivideByZeroException)
@@ -309,7 +328,7 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
-        public static ulong ScaledMultiply(ulong left, ulong right, ulong scalingFactor)
+        public static ulong ScaledMultiply(ulong scaledLeft, ulong scaledRight, ulong scalingFactor)
         {
             try
             {
@@ -317,12 +336,12 @@ namespace Jodo.Extensions.CheckedNumerics
                 {
                     checked
                     {
-                        return left * right / scalingFactor;
+                        return scaledLeft * scaledRight / scalingFactor;
                     }
                 }
                 catch (OverflowException)
                 {
-                    return (ulong)(new BigInteger(left) * new BigInteger(right) / scalingFactor);
+                    return (ulong)(new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor);
                 }
             }
             catch (DivideByZeroException)
@@ -331,7 +350,7 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
-        public static long ScaledDivide(long left, long right, long scalingFactor)
+        public static long ScaledDivide(long scaledLeft, long scaledRight, long scalingFactor)
         {
             try
             {
@@ -339,12 +358,12 @@ namespace Jodo.Extensions.CheckedNumerics
                 {
                     checked
                     {
-                        return left * scalingFactor / right;
+                        return scaledLeft * scalingFactor / scaledRight;
                     }
                 }
                 catch (OverflowException)
                 {
-                    return (long)(new BigInteger(left) * scalingFactor / new BigInteger(right));
+                    return (long)(new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight));
                 }
             }
             catch (DivideByZeroException)
@@ -353,7 +372,7 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
-        public static ulong ScaledDivide(ulong left, ulong right, ulong scalingFactor)
+        public static ulong ScaledDivide(ulong scaledLeft, ulong scaledRight, ulong scalingFactor)
         {
             try
             {
@@ -361,18 +380,43 @@ namespace Jodo.Extensions.CheckedNumerics
                 {
                     checked
                     {
-                        return left * scalingFactor / right;
+                        return scaledLeft * scalingFactor / scaledRight;
                     }
                 }
                 catch (OverflowException)
                 {
-                    return (ulong)(new BigInteger(left) * scalingFactor / new BigInteger(right));
+                    return (ulong)(new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight));
                 }
             }
             catch (DivideByZeroException)
             {
                 return ulong.MaxValue;
             }
+        }
+
+        public static long ScaledCeiling(long scaledValue, long scalingFactor)
+        {
+            if (scaledValue % scalingFactor == 0) return scaledValue;
+            if (scaledValue < 0) return scaledValue / scalingFactor * scalingFactor;
+            return (scaledValue / scalingFactor * scalingFactor) + scalingFactor;
+        }
+
+        public static long ScaledFloor(long scaledValue, long scalingFactor)
+        {
+            if (scaledValue % scalingFactor == 0) return scaledValue;
+            if (scaledValue < 0) return (scaledValue / scalingFactor * scalingFactor) + scalingFactor;
+            return scaledValue / scalingFactor * scalingFactor;
+        }
+
+        public static ulong ScaledCeiling(ulong scaledValue, ulong scalingFactor)
+        {
+            if (scaledValue % scalingFactor == 0) return scaledValue;
+            return (scaledValue / scalingFactor * scalingFactor) + scalingFactor;
+        }
+
+        public static ulong ScaledFloor(ulong scaledValue, ulong scalingFactor)
+        {
+            return scaledValue / scalingFactor * scalingFactor;
         }
     }
 }

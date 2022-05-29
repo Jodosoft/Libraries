@@ -116,6 +116,16 @@ namespace Jodo.Extensions.Numerics.Tests
             {
                 if (Numeric<N>.IsSigned) Assert.Pass($"This test is N/A because {typeof(N).Name} is not an unsigned numeric type.");
             }
+
+            public static void FloatingPoint()
+            {
+                if (!Numeric<N>.HasFloatingPoint) Assert.Pass($"This test is N/A because {typeof(N).Name} is not a floating-point numeric type.");
+            }
+
+            public static void NonFloatingPoint()
+            {
+                if (Numeric<N>.HasFloatingPoint) Assert.Pass($"This test is N/A because {typeof(N).Name} is a floating-point numeric type.");
+            }
         }
     }
 }

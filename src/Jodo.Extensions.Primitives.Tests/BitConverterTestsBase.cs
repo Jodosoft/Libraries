@@ -24,44 +24,47 @@ using System;
 
 namespace Jodo.Extensions.Primitives.Tests
 {
-    public abstract class BitConverterTestsBase<T> : GlobalTestBase where T : IBitConvertible<T>, IRandomisable<T>, new()
+    public static class BitConverterTests
     {
-        [Test]
-        public void GetBytes_RandomValue_ReturnsBytes()
+        public abstract class Base<T> : GlobalTestBase where T : IBitConvertible<T>, IRandomisable<T>, new()
         {
-            //arrange
-            var input = Random.NextRandomizable<T>();
+            [Test]
+            public void GetBytes_RandomValue_ReturnsBytes()
+            {
+                //arrange
+                var input = Random.NextRandomizable<T>();
 
-            //act
-            var result = BitConverter<T>.GetBytes(input);
+                //act
+                var result = BitConverter<T>.GetBytes(input);
 
-            //assert
-            result.Length.Should().BeGreaterThan(0);
-        }
+                //assert
+                result.Length.Should().BeGreaterThan(0);
+            }
 
-        [Test]
-        public void GetBytes_RoundTrip_SameAsOriginal()
-        {
-            //arrange
-            var input = Random.NextRandomizable<T>();
+            [Test]
+            public void GetBytes_RoundTrip_SameAsOriginal()
+            {
+                //arrange
+                var input = Random.NextRandomizable<T>();
 
-            //act
-            var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
+                //act
+                var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
 
-            //assert
-            result.Should().BeEquivalentTo(input);
-        }
+                //assert
+                result.Should().BeEquivalentTo(input);
+            }
 
-        [Test]
-        public void FromBytes_ZeroLength_Throws()
-        {
-            //arrange
+            [Test]
+            public void FromBytes_ZeroLength_Throws()
+            {
+                //arrange
 
-            //act
-            var action = new Action(() => BitConverter<T>.FromBytes(new byte[0].AsSpan()));
+                //act
+                var action = new Action(() => BitConverter<T>.FromBytes(new byte[0].AsSpan()));
 
-            //assert
-            action.Should().Throw<ArgumentException>();
+                //assert
+                action.Should().Throw<ArgumentException>();
+            }
         }
     }
 }

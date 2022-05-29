@@ -23,6 +23,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public static class NumericTests
     {
+        public class CByte : Base<cbyte> { }
+        public class CDecimal : Base<cdecimal> { }
         public class CDouble : Base<cdouble> { }
         public class CFix64 : Base<cfix64> { }
         public class CFloat : Base<cfloat> { }
@@ -32,8 +34,8 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class CShort : Base<cshort> { }
         public class UCFix64 : Base<ucfix64> { }
         public class UCInt : Base<ucint> { }
+        public class UCLong : Base<uclong> { }
         public class UCShort : Base<ucshort> { }
-        public class CByte : Base<cbyte> { }
 
         public abstract class Base<T> : Numerics.Tests.NumericTests.Base<T> where T : struct, INumeric<T>
         {

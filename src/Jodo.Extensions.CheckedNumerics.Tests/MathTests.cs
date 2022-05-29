@@ -18,22 +18,25 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.Numerics;
+using NUnit.Framework;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public static class MathTests
     {
+        public class CByte : Base<cbyte> { }
+        public class CDecimal : Base<cdecimal> { }
         public class CDouble : Base<cdouble> { }
-        //public class CFix64 : Base<cfix64> { }
+        [Ignore("WIP")] public class CFix64 : Base<cfix64> { }
         public class CFloat : Base<cfloat> { }
         public class CInt : Base<cint> { }
         public class CLong : Base<clong> { }
         public class CSByte : Base<csbyte> { }
         public class CShort : Base<cshort> { }
-        //public class UCFix64 : Base<ucfix64> { }
+        [Ignore("WIP")] public class UCFix64 : Base<ucfix64> { }
         public class UCInt : Base<ucint> { }
+        public class UCLong : Base<uclong> { }
         public class UCShort : Base<ucshort> { }
-        public class CByte : Base<cbyte> { }
 
         public abstract class Base<T> : Numerics.Tests.MathTests.Base<T> where T : struct, INumeric<T>
         {

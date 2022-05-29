@@ -28,7 +28,7 @@ namespace Jodo.Extensions.Numerics
         {
             if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (value == 0) return 0;
-            var currentDigits = (int)Math.Log10(Math.Abs(value)) + 1;
+            var currentDigits = Digits.Count(value);
             if (currentDigits <= digits) return value;
             var factor = (int)Math.Pow(10, currentDigits - digits);
             return (byte)(value / factor * factor);
@@ -38,17 +38,18 @@ namespace Jodo.Extensions.Numerics
         {
             if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (value == 0) return 0;
-            var currentDigits = (int)Math.Log10(Math.Abs(value)) + 1;
+            var currentDigits = Digits.Count(value);
             if (currentDigits <= digits) return value;
             var factor = (int)Math.Pow(10, currentDigits - digits);
             return value / factor * factor;
         }
 
+
         public static short ToDigits(short value, int digits)
         {
             if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (value == 0) return 0;
-            var currentDigits = (short)Math.Log10(Math.Abs(value)) + 1;
+            var currentDigits = Digits.Count(value);
             if (currentDigits <= digits) return value;
             var factor = (short)Math.Pow(10, currentDigits - digits);
             return (short)(value / factor * factor);
@@ -58,7 +59,7 @@ namespace Jodo.Extensions.Numerics
         {
             if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (value == 0) return 0;
-            var currentDigits = (long)Math.Log10(Math.Abs(value)) + 1;
+            var currentDigits = Digits.Count(value);
             if (currentDigits <= digits) return value;
             var factor = (long)Math.Pow(10, currentDigits - digits);
             return value / factor * factor;
@@ -68,7 +69,7 @@ namespace Jodo.Extensions.Numerics
         {
             if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (value == 0) return 0;
-            var currentDigits = (sbyte)Math.Log10(Math.Abs(value)) + 1;
+            var currentDigits = Digits.Count(value);
             if (currentDigits <= digits) return value;
             var factor = (sbyte)Math.Pow(10, currentDigits - digits);
             return (sbyte)(value / factor * factor);
@@ -78,7 +79,7 @@ namespace Jodo.Extensions.Numerics
         {
             if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (value == 0) return 0;
-            var currentDigits = (ushort)Math.Log10(Math.Abs(value)) + 1;
+            var currentDigits = Digits.Count(value);
             if (currentDigits <= digits) return value;
             var factor = (ushort)Math.Pow(10, currentDigits - digits);
             return (ushort)(value / factor * factor);
@@ -88,7 +89,7 @@ namespace Jodo.Extensions.Numerics
         {
             if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (value == 0) return 0;
-            var currentDigits = (uint)Math.Log10(Math.Abs(value)) + 1;
+            var currentDigits = Digits.Count(value);
             if (currentDigits <= digits) return value;
             var factor = (uint)Math.Pow(10, currentDigits - digits);
             return value / factor * factor;
@@ -98,7 +99,7 @@ namespace Jodo.Extensions.Numerics
         {
             if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (value == 0) return 0;
-            var currentDigits = (ulong)Math.Log10(Math.Abs((double)value)) + 1;
+            var currentDigits = Digits.Count(value);
             if (currentDigits <= (ulong)digits) return value;
             var factor = (ulong)Math.Pow(10, currentDigits - (ulong)digits);
             return value / factor * factor;

@@ -17,22 +17,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives.Tests;
+using Jodo.Extensions.Numerics;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     public static class BitConverterTests
     {
-        public class CDouble : BitConverterTestsBase<cdouble> { }
-        public class CFix64 : BitConverterTestsBase<cfix64> { }
-        public class CFloat : BitConverterTestsBase<cfloat> { }
-        public class CInt : BitConverterTestsBase<cint> { }
-        public class CLong : BitConverterTestsBase<clong> { }
-        public class CSByte : BitConverterTestsBase<csbyte> { }
-        public class CShort : BitConverterTestsBase<cshort> { }
-        public class UCFix64 : BitConverterTestsBase<ucfix64> { }
-        public class UCInt : BitConverterTestsBase<ucint> { }
-        public class UCShort : BitConverterTestsBase<ucshort> { }
-        public class CByte : BitConverterTestsBase<cbyte> { }
+        public class CByte : Base<cbyte> { }
+        public class CDecimal : Base<cdecimal> { }
+        public class CDouble : Base<cdouble> { }
+        public class CFix64 : Base<cfix64> { }
+        public class CFloat : Base<cfloat> { }
+        public class CInt : Base<cint> { }
+        public class CLong : Base<clong> { }
+        public class CSByte : Base<csbyte> { }
+        public class CShort : Base<cshort> { }
+        public class UCFix64 : Base<ucfix64> { }
+        public class UCInt : Base<ucint> { }
+        public class UCLong : Base<uclong> { }
+        public class UCShort : Base<ucshort> { }
+
+
+        public abstract class Base<T> : Numerics.Tests.BitConverterTests.Base<T> where T : struct, INumeric<T>
+        {
+
+        }
     }
 }
