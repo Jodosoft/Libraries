@@ -24,7 +24,8 @@ Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities 
 
 <a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for built-in types</a> are provided.
 
-Usage is the same as with built-in numeric types, with full operator support and familiar methods provided by <a href="#mathn">Math&lt;N&gt;</a>, <a href="#convertn">Convert&lt;N&gt;</a>.
+Usage is the same as with built-in numeric types. 
+All operators are overloaded, commonly used interfaces such as <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">IFormattable</a> are implemented, and familiar methods are provided by static classes such as <a href="#mathn">Math&lt;N&gt;</a>.
 
 The following code example demonstrates usage:
 
@@ -52,19 +53,19 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
     <td>Implemented by custom numeric types. Allows for numeric types to be used interchangeably in generic systems.</td>
   </tr>
   <tr>
-    <td id="mathn">Math&lt;N&gt;<sup><a href="#footnote1">†</a></sup></td>
+    <td id="mathn">Math&lt;N&gt;</td>
     <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>N Log(N)</code>, <code>N Acosh(N)</code> and <code>N Round(N, int)</code>.</td>
   </tr>
   <tr>
-    <td id="convertn">Convert&lt;N&gt;<sup><a href="#footnote1">†</a></sup></td>
+    <td id="convertn">Convert&lt;N&gt;</td>
     <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, allowing for conversion to and from built-in numeric types.</td>
   </tr>
   <tr>
-    <td id="bitconvertern">BitConverter&lt;N&gt;<sup><a href="#footnote1">†</a></sup></td>
+    <td id="bitconvertern">BitConverter&lt;N&gt;</td>
     <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, allowing conversion to and from ReadOnlySpan&lt;byte&gt;.</td>
   </tr>
   <tr>
-    <td id="stringformattern">StringParser&lt;N&gt;<sup><a href="#footnote1">†</a></sup></td>
+    <td id="stringformattern">StringParser&lt;N&gt;</td>
     <td>Provides static string parsing and formatting methods.</td>
   </tr>
   <tr>
@@ -83,7 +84,6 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
     <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> with identical usage. Implicit conversions allow for easy transition to and from the built-in numeric types.</td>
   </tr>
 </table>
-<p id="footnote1"><sup>†</sup> Static class available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</p>
 
 ### Other features
 
