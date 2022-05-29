@@ -24,7 +24,7 @@ Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities 
 
 <a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for built-in types</a> are provided.
 
-Usage is the same as with built-in numeric types. Familiar operations are provided by <a href="#mathn">Math&lt;N&gt;</a>, <a href="#convertn">Convert&lt;N&gt;</a>.
+Usage is the same as with built-in numeric types, with full operator support and familiar methods provided by <a href="#mathn">Math&lt;N&gt;</a>, <a href="#convertn">Convert&lt;N&gt;</a>.
 
 The following code example demonstrates usage:
 
