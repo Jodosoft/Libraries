@@ -22,10 +22,9 @@
 
 Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
 
-<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for built-in types</a> are provided.
+<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
 
-Usage is the same as with built-in numeric types. 
-All operators are overloaded, commonly used interfaces such as <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">IFormattable</a> are implemented, and familiar methods are provided by static classes such as <a href="#mathn">Math&lt;N&gt;</a>.
+Usage is the same as with built-in numeric types. All operators are overloaded, commonly used interfaces such as <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">IFormattable</a> are implemented, and familiar static methods are provided by classes such as <a href="#mathn">Math&lt;N&gt;</a>.
 
 The following code example demonstrates usage:
 
