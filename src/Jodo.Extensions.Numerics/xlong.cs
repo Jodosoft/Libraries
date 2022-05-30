@@ -188,7 +188,7 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Clamp(xlong x, xlong bound1, xlong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xlong IMath<xlong>.Cos(xlong x) => (xlong)Math.Cos(x);
             xlong IMath<xlong>.Cosh(xlong x) => (xlong)Math.Cosh(x);
-            xlong IMath<xlong>.DecimalTruncate(xlong x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            xlong IMath<xlong>.DecimalTruncate(xlong x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xlong IMath<xlong>.DegreesToRadians(xlong x) => (xlong)(x * Trig.RadiansPerDegree);
             xlong IMath<xlong>.Exp(xlong x) => (xlong)Math.Exp(x);
             xlong IMath<xlong>.Floor(xlong x) => x;

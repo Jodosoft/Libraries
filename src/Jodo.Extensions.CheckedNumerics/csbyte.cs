@@ -189,7 +189,7 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Clamp(csbyte x, csbyte bound1, csbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             csbyte IMath<csbyte>.Cos(csbyte x) => (csbyte)Math.Cos(x._value);
             csbyte IMath<csbyte>.Cosh(csbyte x) => (csbyte)Math.Cosh(x._value);
-            csbyte IMath<csbyte>.DecimalTruncate(csbyte x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            csbyte IMath<csbyte>.DecimalTruncate(csbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
             csbyte IMath<csbyte>.DegreesToRadians(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
             csbyte IMath<csbyte>.Exp(csbyte x) => (csbyte)Math.Exp(x._value);
             csbyte IMath<csbyte>.Floor(csbyte x) => x;

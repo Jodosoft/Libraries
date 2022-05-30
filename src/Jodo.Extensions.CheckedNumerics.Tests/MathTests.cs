@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.Numerics;
-using NUnit.Framework;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
@@ -27,13 +26,13 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class CByte : Base<cbyte> { }
         public class CDecimal : Base<cdecimal> { }
         public class CDouble : Base<cdouble> { }
-        [Ignore("WIP")] public class CFix64 : Base<cfix64> { }
+        public class CFix64 : Base<cfix64> { }
         public class CFloat : Base<cfloat> { }
         public class CInt : Base<cint> { }
         public class CLong : Base<clong> { }
         public class CSByte : Base<csbyte> { }
         public class CShort : Base<cshort> { }
-        [Ignore("WIP")] public class UCFix64 : Base<ucfix64> { }
+        public class UCFix64 : Base<ucfix64> { }
         public class UCInt : Base<ucint> { }
         public class UCLong : Base<uclong> { }
         public class UCShort : Base<ucshort> { }

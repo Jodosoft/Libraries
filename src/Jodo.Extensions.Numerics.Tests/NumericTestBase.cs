@@ -26,12 +26,6 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public abstract class NumericTestBase<N> : GlobalTestBase where N : struct, INumeric<N>
     {
-#if DEBUG
-        public const int RandomVariations = 8;
-#else
-        public const int RandomVariations = 64;
-#endif
-
         public const double MaxTestableReal = 100_000d;
 
         protected double ToDoubleSafe(N value)

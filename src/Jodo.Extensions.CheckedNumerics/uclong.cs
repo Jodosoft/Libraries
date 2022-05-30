@@ -96,20 +96,20 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator >(uclong left, uclong right) => left._value > right._value;
         public static bool operator >=(uclong left, uclong right) => left._value >= right._value;
         public static uclong operator %(uclong left, uclong right) => CheckedArithmetic.Remainder(left._value, right._value);
-        public static uclong operator &(uclong left, uclong right) => (ulong)(left._value & right._value);
+        public static uclong operator &(uclong left, uclong right) => left._value & right._value;
         public static uclong operator -(uclong _) => MinValue;
         public static uclong operator -(uclong left, uclong right) => CheckedArithmetic.Subtract(left._value, right._value);
         public static uclong operator --(uclong value) => value - 1;
         public static uclong operator *(uclong left, uclong right) => CheckedArithmetic.Multiply(left._value, right._value);
         public static uclong operator /(uclong left, uclong right) => CheckedArithmetic.Divide(left._value, right._value);
-        public static uclong operator ^(uclong left, uclong right) => (ulong)(left._value ^ right._value);
-        public static uclong operator |(uclong left, uclong right) => (ulong)(left._value | right._value);
-        public static uclong operator ~(uclong value) => (ulong)~value._value;
+        public static uclong operator ^(uclong left, uclong right) => left._value ^ right._value;
+        public static uclong operator |(uclong left, uclong right) => left._value | right._value;
+        public static uclong operator ~(uclong value) => ~value._value;
         public static uclong operator +(uclong left, uclong right) => CheckedArithmetic.Add(left._value, right._value);
         public static uclong operator +(uclong value) => value;
         public static uclong operator ++(uclong value) => value + 1;
-        public static uclong operator <<(uclong left, int right) => (ulong)(left._value << right);
-        public static uclong operator >>(uclong left, int right) => (ulong)(left._value >> right);
+        public static uclong operator <<(uclong left, int right) => left._value << right;
+        public static uclong operator >>(uclong left, int right) => left._value >> right;
 
         bool INumeric<uclong>.IsGreaterThan(uclong value) => this > value;
         bool INumeric<uclong>.IsGreaterThanOrEqualTo(uclong value) => this >= value;
@@ -187,7 +187,7 @@ namespace Jodo.Extensions.CheckedNumerics
             uclong IMath<uclong>.Clamp(uclong x, uclong bound1, uclong bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             uclong IMath<uclong>.Cos(uclong x) => (uclong)Math.Cos(x._value);
             uclong IMath<uclong>.Cosh(uclong x) => (uclong)Math.Cosh(x._value);
-            uclong IMath<uclong>.DecimalTruncate(uclong x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            uclong IMath<uclong>.DecimalTruncate(uclong x, int significantDigits) => Digits.Truncate(x, significantDigits);
             uclong IMath<uclong>.DegreesToRadians(uclong x) => (uclong)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
             uclong IMath<uclong>.Exp(uclong x) => (uclong)Math.Exp(x._value);
             uclong IMath<uclong>.Floor(uclong x) => x;

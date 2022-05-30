@@ -187,7 +187,7 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Clamp(xushort x, xushort bound1, xushort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xushort IMath<xushort>.Cos(xushort x) => (ushort)Math.Cos(x._value);
             xushort IMath<xushort>.Cosh(xushort x) => (ushort)Math.Cosh(x._value);
-            xushort IMath<xushort>.DecimalTruncate(xushort x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            xushort IMath<xushort>.DecimalTruncate(xushort x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xushort IMath<xushort>.DegreesToRadians(xushort degrees) => (ushort)(degrees * Trig.RadiansPerDegree);
             xushort IMath<xushort>.Exp(xushort x) => (ushort)Math.Exp(x._value);
             xushort IMath<xushort>.Floor(xushort x) => x;

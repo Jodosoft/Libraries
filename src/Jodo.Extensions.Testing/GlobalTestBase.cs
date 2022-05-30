@@ -25,6 +25,12 @@ namespace Jodo.Extensions.Testing
 {
     public abstract class GlobalTestBase
     {
+#if DEBUG
+        public const int RandomVariations = 16;
+#else
+        public const int RandomVariations = 128;
+#endif
+
         public Random Random { get; private set; }
         public Fixture Fixture { get; private set; }
         public Exception Exception { get; private set; }

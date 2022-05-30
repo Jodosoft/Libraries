@@ -186,7 +186,7 @@ namespace Jodo.Extensions.Numerics
             xbyte IMath<xbyte>.Clamp(xbyte x, xbyte bound1, xbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xbyte IMath<xbyte>.Cos(xbyte x) => (byte)(Math.Cos(x._value));
             xbyte IMath<xbyte>.Cosh(xbyte x) => (byte)(Math.Cosh(x._value));
-            xbyte IMath<xbyte>.DecimalTruncate(xbyte x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            xbyte IMath<xbyte>.DecimalTruncate(xbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xbyte IMath<xbyte>.DegreesToRadians(xbyte x) => (byte)(x * Trig.RadiansPerDegree);
             xbyte IMath<xbyte>.Exp(xbyte x) => (byte)(Math.Exp(x._value));
             xbyte IMath<xbyte>.Floor(xbyte x) => x;

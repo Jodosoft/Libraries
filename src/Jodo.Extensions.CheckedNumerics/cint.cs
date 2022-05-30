@@ -189,7 +189,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Clamp(cint x, cint bound1, cint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cint IMath<cint>.Cos(cint x) => (cint)Math.Cos(x._value);
             cint IMath<cint>.Cosh(cint x) => (cint)Math.Cosh(x._value);
-            cint IMath<cint>.DecimalTruncate(cint x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            cint IMath<cint>.DecimalTruncate(cint x, int significantDigits) => Digits.Truncate(x, significantDigits);
             cint IMath<cint>.DegreesToRadians(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
             cint IMath<cint>.Exp(cint x) => (cint)Math.Exp(x._value);
             cint IMath<cint>.Floor(cint x) => x;

@@ -902,7 +902,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Round1_Integral_SameValue()
+            public void Round1_RandomIntegral_SameValue()
             {
                 //arrange
                 OnlyApplicableTo.Integral();
@@ -916,109 +916,133 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Round1_Real_EquivalentToSystemMath()
+            public void Round1_RandomFloatingPoint_EquivalentToSystemMath()
             {
                 //arrange
-                OnlyApplicableTo.Real();
-                var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Cast<N>.ToValue(input);
+                OnlyApplicableTo.FloatingPoint();
+                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Round(randomValue));
 
                 //act
-                var result = Math<N>.Round(numeric);
+                var result = Math<N>.Round(input);
 
                 //assert
-                result.Should().Be(Cast<N>.ToValue(Math.Round(input)));
+                result.Should().Be(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Round2_Integral_SameValue()
+            public void Round1_RandomReal_EquivalentToSystemMath()
+            {
+                //arrange
+                OnlyApplicableTo.Real();
+                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Round(randomValue));
+
+                //act
+                var result = Math<N>.Round(input);
+
+                //assert
+                result.Should().Be(expected);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Round2_RandomIntegral_SameValue()
             {
                 //arrange
                 OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
+                var digits = Random.NextInt32(0, 10);
 
                 //act
-                var result = Math<N>.Round(input, Random.NextByte());
+                var result = Math<N>.Round(input, digits);
 
                 //assert
                 result.Should().Be(input);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Round2_Real_EquivalentToSystemMath()
+            public void Round2_RandomFloatingPoint_EquivalentToSystemMath()
             {
                 //arrange
-                OnlyApplicableTo.Real();
-                var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Cast<N>.ToValue(input);
-                var digits = Random.NextByte(1, 3);
+                OnlyApplicableTo.FloatingPoint();
+                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                var digits = Random.NextInt32(0, 3);
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Round(randomValue, digits));
 
                 //act
-                var result = Math<N>.Round(numeric, digits);
+                var result = Math<N>.Round(input, digits);
 
                 //assert
-                result.Should().Be(Cast<N>.ToValue(Math.Round(input, digits)));
+                result.Should().Be(expected);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Round3_Integral_SameValue()
+            public void Round3_RandomIntegral_SameValue()
             {
                 //arrange
                 OnlyApplicableTo.Integral();
                 var input = Random.NextNumeric<N>();
-
-                //act
-                var result = Math<N>.Round(input, Random.NextEnum<MidpointRounding>());
-
-                //assert
-                result.Should().Be(input);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Round3_Real_EquivalentToSystemMath()
-            {
-                //arrange
-                OnlyApplicableTo.Real();
-                var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Cast<N>.ToValue(input);
                 var mode = Random.NextEnum<MidpointRounding>();
 
                 //act
-                var result = Math<N>.Round(numeric, mode);
-
-                //assert
-                result.Should().Be(Cast<N>.ToValue(Math.Round(input, mode)));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Round4_Integral_SameValue()
-            {
-                //arrange
-                OnlyApplicableTo.Integral();
-                var input = Random.NextNumeric<N>();
-
-                //act
-                var result = Math<N>.Round(input, Random.NextByte(), Random.NextEnum<MidpointRounding>());
+                var result = Math<N>.Round(input, mode);
 
                 //assert
                 result.Should().Be(input);
             }
 
             [Test, Repeat(RandomVariations)]
-            public void Round4_Real_EquivalentToSystemMath()
+            public void Round3_RandomFloatingPoint_SameValue()
             {
                 //arrange
-                OnlyApplicableTo.Real();
-                var input = Math.Round(Random.NextDouble(), 5);
-                var numeric = Cast<N>.ToValue(input);
-                var digits = Random.NextByte(1, 3);
+                OnlyApplicableTo.FloatingPoint();
+                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                var mode = Random.NextEnum<MidpointRounding>();
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Round(randomValue, mode));
+
+                //act
+                var result = Math<N>.Round(input, mode);
+
+                //assert
+                result.Should().Be(expected);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Round4_RandomIntegral_SameValue()
+            {
+                //arrange
+                OnlyApplicableTo.Integral();
+                var input = Random.NextNumeric<N>();
+                var digits = Random.NextInt32(0, 10);
                 var mode = Random.NextEnum<MidpointRounding>();
 
                 //act
-                var result = Math<N>.Round(numeric, digits, mode);
+                var result = Math<N>.Round(input, digits, mode);
 
                 //assert
-                result.Should().Be(Cast<N>.ToValue(Math.Round(input, digits, mode)));
+                result.Should().Be(input);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Round4_RandomFloatingPoint_EquivalentToSystemMath()
+            {
+                //arrange
+                OnlyApplicableTo.FloatingPoint();
+                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                var digits = Random.NextInt32(0, 3);
+                var mode = Random.NextEnum<MidpointRounding>();
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Round(randomValue, digits, mode));
+
+                //act
+                var result = Math<N>.Round(input, digits, mode);
+
+                //assert
+                result.Should().Be(expected);
             }
 
             [Test, Repeat(RandomVariations)]

@@ -70,8 +70,9 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private static ucfix64 Round(ucfix64 value, int digits, MidpointRounding mode)
         {
-            if (digits < 0 || digits > 5) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be between 0 and 5 (inclusive).");
-            return new ucfix64(Numerics.Round.Digits(value._scaledValue, 5 - digits, mode));
+            if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
+            if (digits > 5) return value;
+            return new ucfix64(Digits.Round(value._scaledValue, 6 - digits, mode));
         }
 
         private static ucfix64 ParseDouble(double value)
@@ -213,7 +214,7 @@ namespace Jodo.Extensions.CheckedNumerics
             ucfix64 IMath<ucfix64>.Clamp(ucfix64 x, ucfix64 bound1, ucfix64 bound2) => bound1 > bound2 ? (ucfix64)Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : (ucfix64)Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
             ucfix64 IMath<ucfix64>.Cos(ucfix64 x) => (ucfix64)Math.Cos((double)x);
             ucfix64 IMath<ucfix64>.Cosh(ucfix64 x) => (ucfix64)Math.Cosh((double)x);
-            ucfix64 IMath<ucfix64>.DecimalTruncate(ucfix64 x, int significantDigits) => new ucfix64(Truncate.ToDigits(x._scaledValue, significantDigits));
+            ucfix64 IMath<ucfix64>.DecimalTruncate(ucfix64 x, int significantDigits) => new ucfix64(Digits.Truncate(x._scaledValue, significantDigits));
             ucfix64 IMath<ucfix64>.DegreesToRadians(ucfix64 x) => (ucfix64)CheckedArithmetic.Multiply((double)x, Trig.RadiansPerDegree);
             ucfix64 IMath<ucfix64>.Exp(ucfix64 x) => (ucfix64)Math.Exp((double)x);
             ucfix64 IMath<ucfix64>.Floor(ucfix64 x) => new ucfix64(CheckedArithmetic.ScaledFloor(x._scaledValue, ScalingFactor));

@@ -198,7 +198,7 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Clamp(xfloat x, xfloat bound1, xfloat bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             xfloat IMath<xfloat>.Cos(xfloat x) => MathF.Cos(x._value);
             xfloat IMath<xfloat>.Cosh(xfloat x) => MathF.Cosh(x._value);
-            xfloat IMath<xfloat>.DecimalTruncate(xfloat x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            xfloat IMath<xfloat>.DecimalTruncate(xfloat x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xfloat IMath<xfloat>.DegreesToRadians(xfloat x) => x * Trig.RadiansPerDegreeF;
             xfloat IMath<xfloat>.Exp(xfloat x) => MathF.Exp(x._value);
             xfloat IMath<xfloat>.Floor(xfloat x) => MathF.Floor(x._value);

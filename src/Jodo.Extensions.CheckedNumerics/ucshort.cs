@@ -187,7 +187,7 @@ namespace Jodo.Extensions.CheckedNumerics
             ucshort IMath<ucshort>.Clamp(ucshort x, ucshort bound1, ucshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             ucshort IMath<ucshort>.Cos(ucshort x) => (ucshort)Math.Cos(x._value);
             ucshort IMath<ucshort>.Cosh(ucshort x) => (ucshort)Math.Cosh(x._value);
-            ucshort IMath<ucshort>.DecimalTruncate(ucshort x, int significantDigits) => Truncate.ToDigits(x, significantDigits);
+            ucshort IMath<ucshort>.DecimalTruncate(ucshort x, int significantDigits) => Digits.Truncate(x, significantDigits);
             ucshort IMath<ucshort>.DegreesToRadians(ucshort x) => (ucshort)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
             ucshort IMath<ucshort>.Exp(ucshort x) => (ucshort)Math.Exp(x._value);
             ucshort IMath<ucshort>.Floor(ucshort x) => x;
