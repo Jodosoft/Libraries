@@ -151,22 +151,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<ucint>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<ucint>.IsReal { get; } = false;
-            bool INumericFunctions<ucint>.IsSigned { get; } = false;
-            ucint IMath<ucint>.E { get; } = 2;
-            ucint INumericFunctions<ucint>.Epsilon { get; } = 1;
-            ucint INumericFunctions<ucint>.MaxUnit { get; } = 1;
-            ucint INumericFunctions<ucint>.MaxValue => MaxValue;
-            ucint INumericFunctions<ucint>.MinUnit { get; } = 0;
-            ucint INumericFunctions<ucint>.MinValue => MinValue;
-            ucint INumericFunctions<ucint>.One { get; } = 1;
-            ucint IMath<ucint>.PI { get; } = 3;
-            ucint IMath<ucint>.Tau { get; } = 6;
-            ucint INumericFunctions<ucint>.Ten { get; } = 10;
-            ucint INumericFunctions<ucint>.Two { get; } = 2;
-            ucint INumericFunctions<ucint>.Zero { get; } = 0;
-
-            int IMath<ucint>.Sign(ucint x) => x._value == 0 ? 0 : 1;
             bool INumericFunctions<ucint>.IsFinite(ucint x) => true;
             bool INumericFunctions<ucint>.IsInfinity(ucint x) => false;
             bool INumericFunctions<ucint>.IsNaN(ucint x) => false;
@@ -174,8 +158,20 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<ucint>.IsNegativeInfinity(ucint x) => false;
             bool INumericFunctions<ucint>.IsNormal(ucint x) => false;
             bool INumericFunctions<ucint>.IsPositiveInfinity(ucint x) => false;
+            bool INumericFunctions<ucint>.IsReal { get; } = false;
+            bool INumericFunctions<ucint>.IsSigned { get; } = false;
             bool INumericFunctions<ucint>.IsSubnormal(ucint x) => false;
+            ucint INumericFunctions<ucint>.Epsilon { get; } = 1;
+            ucint INumericFunctions<ucint>.MaxUnit { get; } = 1;
+            ucint INumericFunctions<ucint>.MaxValue => MaxValue;
+            ucint INumericFunctions<ucint>.MinUnit { get; } = 0;
+            ucint INumericFunctions<ucint>.MinValue => MinValue;
+            ucint INumericFunctions<ucint>.One { get; } = 1;
+            ucint INumericFunctions<ucint>.Ten { get; } = 10;
+            ucint INumericFunctions<ucint>.Two { get; } = 2;
+            ucint INumericFunctions<ucint>.Zero { get; } = 0;
 
+            int IMath<ucint>.Sign(ucint x) => x._value == 0 ? 0 : 1;
             ucint IMath<ucint>.Abs(ucint x) => x;
             ucint IMath<ucint>.Acos(ucint x) => (ucint)Math.Acos(x._value);
             ucint IMath<ucint>.Acosh(ucint x) => (ucint)Math.Acosh(x._value);
@@ -189,8 +185,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IMath<ucint>.Clamp(ucint x, ucint bound1, ucint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             ucint IMath<ucint>.Cos(ucint x) => (ucint)Math.Cos(x._value);
             ucint IMath<ucint>.Cosh(ucint x) => (ucint)Math.Cosh(x._value);
-            ucint IMath<ucint>.DecimalTruncate(ucint x, int significantDigits) => Digits.Truncate(x, significantDigits);
             ucint IMath<ucint>.DegreesToRadians(ucint x) => (ucint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            ucint IMath<ucint>.E { get; } = 2;
             ucint IMath<ucint>.Exp(ucint x) => (ucint)Math.Exp(x._value);
             ucint IMath<ucint>.Floor(ucint x) => x;
             ucint IMath<ucint>.IEEERemainder(ucint x, ucint y) => (ucint)Math.IEEERemainder(x._value, y._value);
@@ -199,18 +195,22 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IMath<ucint>.Log10(ucint x) => (ucint)Math.Log10(x._value);
             ucint IMath<ucint>.Max(ucint x, ucint y) => Math.Max(x._value, y._value);
             ucint IMath<ucint>.Min(ucint x, ucint y) => Math.Min(x._value, y._value);
+            ucint IMath<ucint>.PI { get; } = 3;
             ucint IMath<ucint>.Pow(ucint x, ucint y) => CheckedArithmetic.Pow(x._value, y._value);
             ucint IMath<ucint>.RadiansToDegrees(ucint x) => (ucint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             ucint IMath<ucint>.Round(ucint x) => x;
             ucint IMath<ucint>.Round(ucint x, int digits) => x;
             ucint IMath<ucint>.Round(ucint x, int digits, MidpointRounding mode) => x;
             ucint IMath<ucint>.Round(ucint x, MidpointRounding mode) => x;
+            ucint IMath<ucint>.RoundToSignificance(ucint x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             ucint IMath<ucint>.Sin(ucint x) => (ucint)Math.Sin(x._value);
             ucint IMath<ucint>.Sinh(ucint x) => (ucint)Math.Sinh(x._value);
             ucint IMath<ucint>.Sqrt(ucint x) => (ucint)Math.Sqrt(x._value);
             ucint IMath<ucint>.Tan(ucint x) => (ucint)Math.Tan(x._value);
             ucint IMath<ucint>.Tanh(ucint x) => (ucint)Math.Tanh(x._value);
+            ucint IMath<ucint>.Tau { get; } = 6;
             ucint IMath<ucint>.Truncate(ucint x) => x;
+            ucint IMath<ucint>.TruncateToSignificance(ucint x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             ucint IBitConverter<ucint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
             void IBitConverter<ucint>.Write(ucint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

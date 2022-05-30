@@ -149,22 +149,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<cshort>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<cshort>.IsReal { get; } = false;
-            bool INumericFunctions<cshort>.IsSigned { get; } = true;
-            cshort IMath<cshort>.E { get; } = (short)2;
-            cshort INumericFunctions<cshort>.Epsilon { get; } = (short)1;
-            cshort INumericFunctions<cshort>.MaxUnit { get; } = (short)1;
-            cshort INumericFunctions<cshort>.MaxValue => MaxValue;
-            cshort INumericFunctions<cshort>.MinUnit { get; } = (short)-1;
-            cshort INumericFunctions<cshort>.MinValue => MinValue;
-            cshort INumericFunctions<cshort>.One { get; } = (short)1;
-            cshort IMath<cshort>.PI { get; } = (short)3;
-            cshort IMath<cshort>.Tau { get; } = (short)6;
-            cshort INumericFunctions<cshort>.Ten { get; } = (short)10;
-            cshort INumericFunctions<cshort>.Two { get; } = (short)2;
-            cshort INumericFunctions<cshort>.Zero { get; } = (short)0;
-
-            int IMath<cshort>.Sign(cshort x) => Math.Sign(x._value);
             bool INumericFunctions<cshort>.IsFinite(cshort x) => true;
             bool INumericFunctions<cshort>.IsInfinity(cshort x) => false;
             bool INumericFunctions<cshort>.IsNaN(cshort x) => false;
@@ -172,7 +156,18 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<cshort>.IsNegativeInfinity(cshort x) => false;
             bool INumericFunctions<cshort>.IsNormal(cshort x) => false;
             bool INumericFunctions<cshort>.IsPositiveInfinity(cshort x) => false;
+            bool INumericFunctions<cshort>.IsReal { get; } = false;
+            bool INumericFunctions<cshort>.IsSigned { get; } = true;
             bool INumericFunctions<cshort>.IsSubnormal(cshort x) => false;
+            cshort INumericFunctions<cshort>.Epsilon { get; } = (short)1;
+            cshort INumericFunctions<cshort>.MaxUnit { get; } = (short)1;
+            cshort INumericFunctions<cshort>.MaxValue => MaxValue;
+            cshort INumericFunctions<cshort>.MinUnit { get; } = (short)-1;
+            cshort INumericFunctions<cshort>.MinValue => MinValue;
+            cshort INumericFunctions<cshort>.One { get; } = (short)1;
+            cshort INumericFunctions<cshort>.Ten { get; } = (short)10;
+            cshort INumericFunctions<cshort>.Two { get; } = (short)2;
+            cshort INumericFunctions<cshort>.Zero { get; } = (short)0;
 
             cshort IMath<cshort>.Abs(cshort x) => Math.Abs(x._value);
             cshort IMath<cshort>.Acos(cshort x) => (cshort)Math.Acos(x._value);
@@ -187,8 +182,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Clamp(cshort x, cshort bound1, cshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cshort IMath<cshort>.Cos(cshort x) => (cshort)Math.Cos(x._value);
             cshort IMath<cshort>.Cosh(cshort x) => (cshort)Math.Cosh(x._value);
-            cshort IMath<cshort>.DecimalTruncate(cshort x, int significantDigits) => Digits.Truncate(x._value, significantDigits);
             cshort IMath<cshort>.DegreesToRadians(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            cshort IMath<cshort>.E { get; } = (short)2;
             cshort IMath<cshort>.Exp(cshort x) => (cshort)Math.Exp(x._value);
             cshort IMath<cshort>.Floor(cshort x) => x;
             cshort IMath<cshort>.IEEERemainder(cshort x, cshort y) => (cshort)Math.IEEERemainder(x._value, y._value);
@@ -197,18 +192,23 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Log10(cshort x) => (cshort)Math.Log10(x._value);
             cshort IMath<cshort>.Max(cshort x, cshort y) => Math.Max(x._value, y._value);
             cshort IMath<cshort>.Min(cshort x, cshort y) => Math.Min(x._value, y._value);
+            cshort IMath<cshort>.PI { get; } = (short)3;
             cshort IMath<cshort>.Pow(cshort x, cshort y) => CheckedArithmetic.Pow(x._value, y._value);
             cshort IMath<cshort>.RadiansToDegrees(cshort x) => (cshort)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             cshort IMath<cshort>.Round(cshort x) => x;
             cshort IMath<cshort>.Round(cshort x, int digits) => x;
             cshort IMath<cshort>.Round(cshort x, int digits, MidpointRounding mode) => x;
             cshort IMath<cshort>.Round(cshort x, MidpointRounding mode) => x;
+            cshort IMath<cshort>.RoundToSignificance(cshort x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cshort IMath<cshort>.Sin(cshort x) => (cshort)Math.Sin(x._value);
             cshort IMath<cshort>.Sinh(cshort x) => (cshort)Math.Sinh(x._value);
             cshort IMath<cshort>.Sqrt(cshort x) => (cshort)Math.Sqrt(x._value);
             cshort IMath<cshort>.Tan(cshort x) => (cshort)Math.Tan(x._value);
             cshort IMath<cshort>.Tanh(cshort x) => (cshort)Math.Tanh(x._value);
+            cshort IMath<cshort>.Tau { get; } = (short)6;
             cshort IMath<cshort>.Truncate(cshort x) => x;
+            cshort IMath<cshort>.TruncateToSignificance(cshort x, int significantDigits) => Digits.Truncate(x._value, significantDigits);
+            int IMath<cshort>.Sign(cshort x) => Math.Sign(x._value);
 
             cshort IBitConverter<cshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)));
             void IBitConverter<cshort>.Write(cshort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

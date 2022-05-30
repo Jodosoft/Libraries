@@ -170,9 +170,6 @@ namespace Jodo.Extensions.Numerics
             bool INumericFunctions<xushort>.IsPositiveInfinity(xushort x) => false;
             bool INumericFunctions<xushort>.IsSubnormal(xushort x) => false;
 
-            xushort IMath<xushort>.E { get; } = (ushort)2;
-            xushort IMath<xushort>.PI { get; } = (ushort)3;
-            xushort IMath<xushort>.Tau { get; } = (ushort)6;
             int IMath<xushort>.Sign(xushort x) => x._value == 0 ? 0 : 1;
             xushort IMath<xushort>.Abs(xushort x) => x._value;
             xushort IMath<xushort>.Acos(xushort x) => (ushort)Math.Acos(x._value);
@@ -187,8 +184,8 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Clamp(xushort x, xushort bound1, xushort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xushort IMath<xushort>.Cos(xushort x) => (ushort)Math.Cos(x._value);
             xushort IMath<xushort>.Cosh(xushort x) => (ushort)Math.Cosh(x._value);
-            xushort IMath<xushort>.DecimalTruncate(xushort x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xushort IMath<xushort>.DegreesToRadians(xushort degrees) => (ushort)(degrees * Trig.RadiansPerDegree);
+            xushort IMath<xushort>.E { get; } = (ushort)2;
             xushort IMath<xushort>.Exp(xushort x) => (ushort)Math.Exp(x._value);
             xushort IMath<xushort>.Floor(xushort x) => x;
             xushort IMath<xushort>.IEEERemainder(xushort x, xushort y) => (ushort)Math.IEEERemainder(x._value, y._value);
@@ -197,18 +194,22 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Log10(xushort x) => (ushort)Math.Log10(x._value);
             xushort IMath<xushort>.Max(xushort x, xushort y) => Math.Max(x._value, y._value);
             xushort IMath<xushort>.Min(xushort x, xushort y) => Math.Min(x._value, y._value);
+            xushort IMath<xushort>.PI { get; } = (ushort)3;
             xushort IMath<xushort>.Pow(xushort x, xushort y) => (ushort)Math.Pow(x._value, y._value);
             xushort IMath<xushort>.RadiansToDegrees(xushort radians) => (ushort)(radians * Trig.DegreesPerRadian);
             xushort IMath<xushort>.Round(xushort x) => x;
             xushort IMath<xushort>.Round(xushort x, int digits) => x;
             xushort IMath<xushort>.Round(xushort x, int digits, MidpointRounding mode) => x;
             xushort IMath<xushort>.Round(xushort x, MidpointRounding mode) => x;
+            xushort IMath<xushort>.RoundToSignificance(xushort x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xushort IMath<xushort>.Sin(xushort x) => (ushort)Math.Sin(x._value);
             xushort IMath<xushort>.Sinh(xushort x) => (ushort)Math.Sinh(x._value);
             xushort IMath<xushort>.Sqrt(xushort x) => (ushort)Math.Sqrt(x._value);
             xushort IMath<xushort>.Tan(xushort x) => (ushort)Math.Tan(x._value);
             xushort IMath<xushort>.Tanh(xushort x) => (ushort)Math.Tanh(x._value);
+            xushort IMath<xushort>.Tau { get; } = (ushort)6;
             xushort IMath<xushort>.Truncate(xushort x) => x;
+            xushort IMath<xushort>.TruncateToSignificance(xushort x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xushort IBitConverter<xushort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)));
             void IBitConverter<xushort>.Write(xushort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

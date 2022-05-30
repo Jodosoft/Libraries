@@ -150,22 +150,6 @@ namespace Jodo.Extensions.Numerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<xdecimal>.HasFloatingPoint { get; } = true;
-            bool INumericFunctions<xdecimal>.IsReal { get; } = true;
-            bool INumericFunctions<xdecimal>.IsSigned { get; } = true;
-            xdecimal IMath<xdecimal>.E { get; } = (decimal)Math.E;
-            xdecimal INumericFunctions<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
-            xdecimal INumericFunctions<xdecimal>.MaxUnit { get; } = 1m;
-            xdecimal INumericFunctions<xdecimal>.MaxValue => MaxValue;
-            xdecimal INumericFunctions<xdecimal>.MinUnit { get; } = -1m;
-            xdecimal INumericFunctions<xdecimal>.MinValue => MinValue;
-            xdecimal INumericFunctions<xdecimal>.One { get; } = 1m;
-            xdecimal IMath<xdecimal>.PI { get; } = (decimal)Math.PI;
-            xdecimal IMath<xdecimal>.Tau { get; } = (decimal)Math.PI * 2m;
-            xdecimal INumericFunctions<xdecimal>.Ten { get; } = 10m;
-            xdecimal INumericFunctions<xdecimal>.Two { get; } = 2m;
-            xdecimal INumericFunctions<xdecimal>.Zero { get; } = 0m;
-
-            int IMath<xdecimal>.Sign(xdecimal x) => Math.Sign(x._value);
             bool INumericFunctions<xdecimal>.IsFinite(xdecimal x) => true;
             bool INumericFunctions<xdecimal>.IsInfinity(xdecimal x) => false;
             bool INumericFunctions<xdecimal>.IsNaN(xdecimal x) => false;
@@ -173,8 +157,11 @@ namespace Jodo.Extensions.Numerics
             bool INumericFunctions<xdecimal>.IsNegativeInfinity(xdecimal x) => false;
             bool INumericFunctions<xdecimal>.IsNormal(xdecimal x) => false;
             bool INumericFunctions<xdecimal>.IsPositiveInfinity(xdecimal x) => false;
+            bool INumericFunctions<xdecimal>.IsReal { get; } = true;
+            bool INumericFunctions<xdecimal>.IsSigned { get; } = true;
             bool INumericFunctions<xdecimal>.IsSubnormal(xdecimal x) => false;
 
+            int IMath<xdecimal>.Sign(xdecimal x) => Math.Sign(x._value);
             xdecimal IMath<xdecimal>.Abs(xdecimal x) => Math.Abs(x._value);
             xdecimal IMath<xdecimal>.Acos(xdecimal x) => (decimal)Math.Acos((double)x._value);
             xdecimal IMath<xdecimal>.Acosh(xdecimal x) => (decimal)Math.Acosh((double)x._value);
@@ -188,8 +175,8 @@ namespace Jodo.Extensions.Numerics
             xdecimal IMath<xdecimal>.Clamp(xdecimal x, xdecimal bound1, xdecimal bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xdecimal IMath<xdecimal>.Cos(xdecimal x) => (decimal)Math.Cos((double)x._value);
             xdecimal IMath<xdecimal>.Cosh(xdecimal x) => (decimal)Math.Cosh((double)x._value);
-            xdecimal IMath<xdecimal>.DecimalTruncate(xdecimal x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xdecimal IMath<xdecimal>.DegreesToRadians(xdecimal degrees) => degrees * Trig.RadiansPerDegreeM;
+            xdecimal IMath<xdecimal>.E { get; } = (decimal)Math.E;
             xdecimal IMath<xdecimal>.Exp(xdecimal x) => (decimal)Math.Exp((double)x._value);
             xdecimal IMath<xdecimal>.Floor(xdecimal x) => decimal.Floor(x._value);
             xdecimal IMath<xdecimal>.IEEERemainder(xdecimal x, xdecimal y) => (decimal)Math.IEEERemainder((double)x._value, (double)y._value);
@@ -198,18 +185,31 @@ namespace Jodo.Extensions.Numerics
             xdecimal IMath<xdecimal>.Log10(xdecimal x) => (decimal)Math.Log10((double)x._value);
             xdecimal IMath<xdecimal>.Max(xdecimal x, xdecimal y) => Math.Max(x._value, y._value);
             xdecimal IMath<xdecimal>.Min(xdecimal x, xdecimal y) => Math.Min(x._value, y._value);
+            xdecimal IMath<xdecimal>.PI { get; } = (decimal)Math.PI;
             xdecimal IMath<xdecimal>.Pow(xdecimal x, xdecimal y) => (decimal)Math.Pow((double)x._value, (double)y._value);
             xdecimal IMath<xdecimal>.RadiansToDegrees(xdecimal radians) => radians * Trig.DegreesPerRadianM;
             xdecimal IMath<xdecimal>.Round(xdecimal x) => decimal.Round(x);
             xdecimal IMath<xdecimal>.Round(xdecimal x, int digits) => decimal.Round(x, digits);
             xdecimal IMath<xdecimal>.Round(xdecimal x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);
             xdecimal IMath<xdecimal>.Round(xdecimal x, MidpointRounding mode) => decimal.Round(x, mode);
+            xdecimal IMath<xdecimal>.RoundToSignificance(xdecimal x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xdecimal IMath<xdecimal>.Sin(xdecimal x) => (decimal)Math.Sin((double)x._value);
             xdecimal IMath<xdecimal>.Sinh(xdecimal x) => (decimal)Math.Sinh((double)x._value);
             xdecimal IMath<xdecimal>.Sqrt(xdecimal x) => (decimal)Math.Sqrt((double)x._value);
             xdecimal IMath<xdecimal>.Tan(xdecimal x) => (decimal)Math.Tan((double)x._value);
             xdecimal IMath<xdecimal>.Tanh(xdecimal x) => (decimal)Math.Tanh((double)x._value);
+            xdecimal IMath<xdecimal>.Tau { get; } = (decimal)Math.PI * 2m;
             xdecimal IMath<xdecimal>.Truncate(xdecimal x) => decimal.Truncate(x._value);
+            xdecimal IMath<xdecimal>.TruncateToSignificance(xdecimal x, int significantDigits) => Digits.Truncate(x, significantDigits);
+            xdecimal INumericFunctions<xdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
+            xdecimal INumericFunctions<xdecimal>.MaxUnit { get; } = 1m;
+            xdecimal INumericFunctions<xdecimal>.MaxValue => MaxValue;
+            xdecimal INumericFunctions<xdecimal>.MinUnit { get; } = -1m;
+            xdecimal INumericFunctions<xdecimal>.MinValue => MinValue;
+            xdecimal INumericFunctions<xdecimal>.One { get; } = 1m;
+            xdecimal INumericFunctions<xdecimal>.Ten { get; } = 10m;
+            xdecimal INumericFunctions<xdecimal>.Two { get; } = 2m;
+            xdecimal INumericFunctions<xdecimal>.Zero { get; } = 0m;
 
             xdecimal IBitConverter<xdecimal>.Read(IReadOnlyStream<byte> stream)
             {

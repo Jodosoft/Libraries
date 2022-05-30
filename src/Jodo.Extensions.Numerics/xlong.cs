@@ -150,22 +150,6 @@ namespace Jodo.Extensions.Numerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<xlong>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<xlong>.IsReal { get; } = false;
-            bool INumericFunctions<xlong>.IsSigned { get; } = true;
-            xlong IMath<xlong>.E { get; } = 2L;
-            xlong INumericFunctions<xlong>.Epsilon { get; } = 1L;
-            xlong INumericFunctions<xlong>.MaxUnit { get; } = 1L;
-            xlong INumericFunctions<xlong>.MaxValue => MaxValue;
-            xlong INumericFunctions<xlong>.MinUnit { get; } = -1L;
-            xlong INumericFunctions<xlong>.MinValue => MinValue;
-            xlong INumericFunctions<xlong>.One { get; } = 1L;
-            xlong IMath<xlong>.PI { get; } = 3L;
-            xlong IMath<xlong>.Tau { get; } = 6L;
-            xlong INumericFunctions<xlong>.Ten { get; } = 10L;
-            xlong INumericFunctions<xlong>.Two { get; } = 2L;
-            xlong INumericFunctions<xlong>.Zero { get; } = 0;
-
-            int IMath<xlong>.Sign(xlong x) => Math.Sign(x._value);
             bool INumericFunctions<xlong>.IsFinite(xlong x) => true;
             bool INumericFunctions<xlong>.IsInfinity(xlong x) => false;
             bool INumericFunctions<xlong>.IsNaN(xlong x) => false;
@@ -173,8 +157,20 @@ namespace Jodo.Extensions.Numerics
             bool INumericFunctions<xlong>.IsNegativeInfinity(xlong x) => false;
             bool INumericFunctions<xlong>.IsNormal(xlong x) => false;
             bool INumericFunctions<xlong>.IsPositiveInfinity(xlong x) => false;
+            bool INumericFunctions<xlong>.IsReal { get; } = false;
+            bool INumericFunctions<xlong>.IsSigned { get; } = true;
             bool INumericFunctions<xlong>.IsSubnormal(xlong x) => false;
+            xlong INumericFunctions<xlong>.Epsilon { get; } = 1L;
+            xlong INumericFunctions<xlong>.MaxUnit { get; } = 1L;
+            xlong INumericFunctions<xlong>.MaxValue => MaxValue;
+            xlong INumericFunctions<xlong>.MinUnit { get; } = -1L;
+            xlong INumericFunctions<xlong>.MinValue => MinValue;
+            xlong INumericFunctions<xlong>.One { get; } = 1L;
+            xlong INumericFunctions<xlong>.Ten { get; } = 10L;
+            xlong INumericFunctions<xlong>.Two { get; } = 2L;
+            xlong INumericFunctions<xlong>.Zero { get; } = 0;
 
+            int IMath<xlong>.Sign(xlong x) => Math.Sign(x._value);
             xlong IMath<xlong>.Abs(xlong x) => Math.Abs(x);
             xlong IMath<xlong>.Acos(xlong x) => (xlong)Math.Acos(x);
             xlong IMath<xlong>.Acosh(xlong x) => (xlong)Math.Acosh(x);
@@ -188,8 +184,8 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Clamp(xlong x, xlong bound1, xlong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xlong IMath<xlong>.Cos(xlong x) => (xlong)Math.Cos(x);
             xlong IMath<xlong>.Cosh(xlong x) => (xlong)Math.Cosh(x);
-            xlong IMath<xlong>.DecimalTruncate(xlong x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xlong IMath<xlong>.DegreesToRadians(xlong x) => (xlong)(x * Trig.RadiansPerDegree);
+            xlong IMath<xlong>.E { get; } = 2L;
             xlong IMath<xlong>.Exp(xlong x) => (xlong)Math.Exp(x);
             xlong IMath<xlong>.Floor(xlong x) => x;
             xlong IMath<xlong>.IEEERemainder(xlong x, xlong y) => (xlong)Math.IEEERemainder(x, y);
@@ -198,18 +194,22 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Log10(xlong x) => (xlong)Math.Log10(x);
             xlong IMath<xlong>.Max(xlong x, xlong y) => Math.Max(x, y);
             xlong IMath<xlong>.Min(xlong x, xlong y) => Math.Min(x, y);
+            xlong IMath<xlong>.PI { get; } = 3L;
             xlong IMath<xlong>.Pow(xlong x, xlong y) => y == 1 ? x : (xlong)Math.Pow(x, y);
             xlong IMath<xlong>.RadiansToDegrees(xlong x) => (xlong)(x * Trig.DegreesPerRadian);
             xlong IMath<xlong>.Round(xlong x) => x;
             xlong IMath<xlong>.Round(xlong x, int digits) => x;
             xlong IMath<xlong>.Round(xlong x, int digits, MidpointRounding mode) => x;
             xlong IMath<xlong>.Round(xlong x, MidpointRounding mode) => x;
+            xlong IMath<xlong>.RoundToSignificance(xlong x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xlong IMath<xlong>.Sin(xlong x) => (xlong)Math.Sin(x);
             xlong IMath<xlong>.Sinh(xlong x) => (xlong)Math.Sinh(x);
             xlong IMath<xlong>.Sqrt(xlong x) => (xlong)Math.Sqrt(x);
             xlong IMath<xlong>.Tan(xlong x) => (xlong)Math.Tan(x);
             xlong IMath<xlong>.Tanh(xlong x) => (xlong)Math.Tanh(x);
+            xlong IMath<xlong>.Tau { get; } = 6L;
             xlong IMath<xlong>.Truncate(xlong x) => x;
+            xlong IMath<xlong>.TruncateToSignificance(xlong x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xlong IBitConverter<xlong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));
             void IBitConverter<xlong>.Write(xlong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

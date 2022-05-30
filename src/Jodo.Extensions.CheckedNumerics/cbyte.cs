@@ -182,7 +182,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IMath<cbyte>.Clamp(cbyte x, cbyte bound1, cbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cbyte IMath<cbyte>.Cos(cbyte x) => CheckedCast.ToByte(Math.Cos(x._value));
             cbyte IMath<cbyte>.Cosh(cbyte x) => CheckedCast.ToByte(Math.Cosh(x._value));
-            cbyte IMath<cbyte>.DecimalTruncate(cbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
             cbyte IMath<cbyte>.DegreesToRadians(cbyte x) => CheckedCast.ToByte(CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree));
             cbyte IMath<cbyte>.E { get; } = 2;
             cbyte IMath<cbyte>.Exp(cbyte x) => CheckedCast.ToByte(Math.Exp(x._value));
@@ -200,6 +199,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IMath<cbyte>.Round(cbyte x, int digits) => x;
             cbyte IMath<cbyte>.Round(cbyte x, int digits, MidpointRounding mode) => x;
             cbyte IMath<cbyte>.Round(cbyte x, MidpointRounding mode) => x;
+            cbyte IMath<cbyte>.RoundToSignificance(cbyte x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cbyte IMath<cbyte>.Sin(cbyte x) => CheckedCast.ToByte(Math.Sin(x._value));
             cbyte IMath<cbyte>.Sinh(cbyte x) => CheckedCast.ToByte(Math.Sinh(x._value));
             cbyte IMath<cbyte>.Sqrt(cbyte x) => CheckedCast.ToByte(Math.Sqrt(x._value));
@@ -207,6 +207,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IMath<cbyte>.Tanh(cbyte x) => CheckedCast.ToByte(Math.Tanh(x._value));
             cbyte IMath<cbyte>.Tau { get; } = 6;
             cbyte IMath<cbyte>.Truncate(cbyte x) => x;
+            cbyte IMath<cbyte>.TruncateToSignificance(cbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
             int IMath<cbyte>.Sign(cbyte x) => x._value == 0 ? 0 : 1;
 
             cbyte IBitConverter<cbyte>.Read(IReadOnlyStream<byte> stream) => stream.Read(1)[0];

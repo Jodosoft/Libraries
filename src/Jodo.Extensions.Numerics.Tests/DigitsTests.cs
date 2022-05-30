@@ -545,5 +545,20 @@ namespace Jodo.Extensions.Numerics.Tests
             //assert
             result.Should().Be(expected);
         }
+
+        [TestCase(233_254f, 3, MidpointRounding.ToEven, 233_000f)]
+        [TestCase(233_554f, 3, MidpointRounding.ToEven, 234_000f)]
+        [TestCase(233_254f, 3, MidpointRounding.ToPositiveInfinity, 234_000f)]
+        [TestCase(233_554f, 3, MidpointRounding.ToPositiveInfinity, 234_000f)]
+        public void RoundToSignificance_SingleExamples_ExpectedResult(float input, int digits, MidpointRounding mode, float expected)
+        {
+            //arrange
+
+            //act
+            var result = Digits.RoundToSignificance(input, digits, mode);
+
+            //assert
+            result.Should().Be(expected);
+        }
     }
 }

@@ -151,22 +151,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<cdecimal>.HasFloatingPoint { get; } = true;
-            bool INumericFunctions<cdecimal>.IsReal { get; } = true;
-            bool INumericFunctions<cdecimal>.IsSigned { get; } = true;
-            cdecimal IMath<cdecimal>.E { get; } = (decimal)Math.E;
-            cdecimal INumericFunctions<cdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
-            cdecimal INumericFunctions<cdecimal>.MaxUnit { get; } = 1m;
-            cdecimal INumericFunctions<cdecimal>.MaxValue => MaxValue;
-            cdecimal INumericFunctions<cdecimal>.MinUnit { get; } = -1m;
-            cdecimal INumericFunctions<cdecimal>.MinValue => MinValue;
-            cdecimal INumericFunctions<cdecimal>.One { get; } = 1m;
-            cdecimal IMath<cdecimal>.PI { get; } = (decimal)Math.PI;
-            cdecimal IMath<cdecimal>.Tau { get; } = (decimal)Math.PI * 2m;
-            cdecimal INumericFunctions<cdecimal>.Ten { get; } = 10m;
-            cdecimal INumericFunctions<cdecimal>.Two { get; } = 2m;
-            cdecimal INumericFunctions<cdecimal>.Zero { get; } = 0m;
-
-            int IMath<cdecimal>.Sign(cdecimal x) => Math.Sign(x._value);
             bool INumericFunctions<cdecimal>.IsFinite(cdecimal x) => true;
             bool INumericFunctions<cdecimal>.IsInfinity(cdecimal x) => false;
             bool INumericFunctions<cdecimal>.IsNaN(cdecimal x) => false;
@@ -174,7 +158,18 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<cdecimal>.IsNegativeInfinity(cdecimal x) => false;
             bool INumericFunctions<cdecimal>.IsNormal(cdecimal x) => false;
             bool INumericFunctions<cdecimal>.IsPositiveInfinity(cdecimal x) => false;
+            bool INumericFunctions<cdecimal>.IsReal { get; } = true;
+            bool INumericFunctions<cdecimal>.IsSigned { get; } = true;
             bool INumericFunctions<cdecimal>.IsSubnormal(cdecimal x) => false;
+            cdecimal INumericFunctions<cdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
+            cdecimal INumericFunctions<cdecimal>.MaxUnit { get; } = 1m;
+            cdecimal INumericFunctions<cdecimal>.MaxValue => MaxValue;
+            cdecimal INumericFunctions<cdecimal>.MinUnit { get; } = -1m;
+            cdecimal INumericFunctions<cdecimal>.MinValue => MinValue;
+            cdecimal INumericFunctions<cdecimal>.One { get; } = 1m;
+            cdecimal INumericFunctions<cdecimal>.Ten { get; } = 10m;
+            cdecimal INumericFunctions<cdecimal>.Two { get; } = 2m;
+            cdecimal INumericFunctions<cdecimal>.Zero { get; } = 0m;
 
             cdecimal IMath<cdecimal>.Abs(cdecimal x) => Math.Abs(x._value);
             cdecimal IMath<cdecimal>.Acos(cdecimal x) => CheckedCast.ToDecimal(Math.Acos(CheckedCast.ToDouble(x._value)));
@@ -189,8 +184,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cdecimal IMath<cdecimal>.Clamp(cdecimal x, cdecimal bound1, cdecimal bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cdecimal IMath<cdecimal>.Cos(cdecimal x) => CheckedCast.ToDecimal(Math.Cos(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Cosh(cdecimal x) => CheckedCast.ToDecimal(Math.Cosh(CheckedCast.ToDouble(x._value)));
-            cdecimal IMath<cdecimal>.DecimalTruncate(cdecimal x, int significantDigits) => Digits.Truncate(x, significantDigits);
             cdecimal IMath<cdecimal>.DegreesToRadians(cdecimal degrees) => degrees * Trig.RadiansPerDegreeM;
+            cdecimal IMath<cdecimal>.E { get; } = (decimal)Math.E;
             cdecimal IMath<cdecimal>.Exp(cdecimal x) => CheckedCast.ToDecimal(Math.Exp(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Floor(cdecimal x) => decimal.Floor(x._value);
             cdecimal IMath<cdecimal>.IEEERemainder(cdecimal x, cdecimal y) => CheckedCast.ToDecimal(Math.IEEERemainder(CheckedCast.ToDouble(x._value), CheckedCast.ToDouble(y._value)));
@@ -199,18 +194,23 @@ namespace Jodo.Extensions.CheckedNumerics
             cdecimal IMath<cdecimal>.Log10(cdecimal x) => CheckedCast.ToDecimal(Math.Log10(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Max(cdecimal x, cdecimal y) => Math.Max(x._value, y._value);
             cdecimal IMath<cdecimal>.Min(cdecimal x, cdecimal y) => Math.Min(x._value, y._value);
+            cdecimal IMath<cdecimal>.PI { get; } = (decimal)Math.PI;
             cdecimal IMath<cdecimal>.Pow(cdecimal x, cdecimal y) => CheckedCast.ToDecimal(Math.Pow(CheckedCast.ToDouble(x._value), CheckedCast.ToDouble(y._value)));
             cdecimal IMath<cdecimal>.RadiansToDegrees(cdecimal radians) => radians * Trig.DegreesPerRadianM;
             cdecimal IMath<cdecimal>.Round(cdecimal x) => decimal.Round(x);
             cdecimal IMath<cdecimal>.Round(cdecimal x, int digits) => decimal.Round(x, digits);
             cdecimal IMath<cdecimal>.Round(cdecimal x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);
             cdecimal IMath<cdecimal>.Round(cdecimal x, MidpointRounding mode) => decimal.Round(x, mode);
+            cdecimal IMath<cdecimal>.RoundToSignificance(cdecimal x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cdecimal IMath<cdecimal>.Sin(cdecimal x) => CheckedCast.ToDecimal(Math.Sin(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Sinh(cdecimal x) => CheckedCast.ToDecimal(Math.Sinh(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Sqrt(cdecimal x) => CheckedCast.ToDecimal(Math.Sqrt(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Tan(cdecimal x) => CheckedCast.ToDecimal(Math.Tan(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Tanh(cdecimal x) => CheckedCast.ToDecimal(Math.Tanh(CheckedCast.ToDouble(x._value)));
+            cdecimal IMath<cdecimal>.Tau { get; } = (decimal)Math.PI * 2m;
             cdecimal IMath<cdecimal>.Truncate(cdecimal x) => decimal.Truncate(x._value);
+            cdecimal IMath<cdecimal>.TruncateToSignificance(cdecimal x, int significantDigits) => Digits.Truncate(x, significantDigits);
+            int IMath<cdecimal>.Sign(cdecimal x) => Math.Sign(x._value);
 
             cdecimal IBitConverter<cdecimal>.Read(IReadOnlyStream<byte> stream)
             {

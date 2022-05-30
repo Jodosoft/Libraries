@@ -150,22 +150,6 @@ namespace Jodo.Extensions.Numerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<xint>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<xint>.IsReal { get; } = false;
-            bool INumericFunctions<xint>.IsSigned { get; } = true;
-            xint IMath<xint>.E { get; } = 2;
-            xint INumericFunctions<xint>.Epsilon { get; } = 1;
-            xint INumericFunctions<xint>.MaxUnit { get; } = 1;
-            xint INumericFunctions<xint>.MaxValue => MaxValue;
-            xint INumericFunctions<xint>.MinUnit { get; } = -1;
-            xint INumericFunctions<xint>.MinValue => MinValue;
-            xint INumericFunctions<xint>.One { get; } = 1;
-            xint IMath<xint>.PI { get; } = 3;
-            xint IMath<xint>.Tau { get; } = 6;
-            xint INumericFunctions<xint>.Ten { get; } = 10;
-            xint INumericFunctions<xint>.Two { get; } = 2;
-            xint INumericFunctions<xint>.Zero { get; } = 0;
-
-            int IMath<xint>.Sign(xint x) => Math.Sign(x._value);
             bool INumericFunctions<xint>.IsFinite(xint x) => true;
             bool INumericFunctions<xint>.IsInfinity(xint x) => false;
             bool INumericFunctions<xint>.IsNaN(xint x) => false;
@@ -173,8 +157,20 @@ namespace Jodo.Extensions.Numerics
             bool INumericFunctions<xint>.IsNegativeInfinity(xint x) => false;
             bool INumericFunctions<xint>.IsNormal(xint x) => false;
             bool INumericFunctions<xint>.IsPositiveInfinity(xint x) => false;
+            bool INumericFunctions<xint>.IsReal { get; } = false;
+            bool INumericFunctions<xint>.IsSigned { get; } = true;
             bool INumericFunctions<xint>.IsSubnormal(xint x) => false;
+            xint INumericFunctions<xint>.Epsilon { get; } = 1;
+            xint INumericFunctions<xint>.MaxUnit { get; } = 1;
+            xint INumericFunctions<xint>.MaxValue => MaxValue;
+            xint INumericFunctions<xint>.MinUnit { get; } = -1;
+            xint INumericFunctions<xint>.MinValue => MinValue;
+            xint INumericFunctions<xint>.One { get; } = 1;
+            xint INumericFunctions<xint>.Ten { get; } = 10;
+            xint INumericFunctions<xint>.Two { get; } = 2;
+            xint INumericFunctions<xint>.Zero { get; } = 0;
 
+            int IMath<xint>.Sign(xint x) => Math.Sign(x._value);
             xint IMath<xint>.Abs(xint x) => Math.Abs(x._value);
             xint IMath<xint>.Acos(xint x) => (int)Math.Acos(x._value);
             xint IMath<xint>.Acosh(xint x) => (int)Math.Acosh(x._value);
@@ -188,8 +184,8 @@ namespace Jodo.Extensions.Numerics
             xint IMath<xint>.Clamp(xint x, xint bound1, xint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xint IMath<xint>.Cos(xint x) => (int)Math.Cos(x._value);
             xint IMath<xint>.Cosh(xint x) => (int)Math.Cosh(x._value);
-            xint IMath<xint>.DecimalTruncate(xint x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xint IMath<xint>.DegreesToRadians(xint x) => (int)(x * Trig.RadiansPerDegree);
+            xint IMath<xint>.E { get; } = 2;
             xint IMath<xint>.Exp(xint x) => (int)Math.Exp(x._value);
             xint IMath<xint>.Floor(xint x) => x;
             xint IMath<xint>.IEEERemainder(xint x, xint y) => (int)Math.IEEERemainder(x._value, y._value);
@@ -198,18 +194,22 @@ namespace Jodo.Extensions.Numerics
             xint IMath<xint>.Log10(xint x) => (int)Math.Log10(x._value);
             xint IMath<xint>.Max(xint x, xint y) => Math.Max(x._value, y._value);
             xint IMath<xint>.Min(xint x, xint y) => Math.Min(x._value, y._value);
+            xint IMath<xint>.PI { get; } = 3;
             xint IMath<xint>.Pow(xint x, xint y) => (int)Math.Pow(x._value, y._value);
             xint IMath<xint>.RadiansToDegrees(xint x) => (int)(x * Trig.DegreesPerRadian);
             xint IMath<xint>.Round(xint x) => x;
             xint IMath<xint>.Round(xint x, int digits) => x;
             xint IMath<xint>.Round(xint x, int digits, MidpointRounding mode) => x;
             xint IMath<xint>.Round(xint x, MidpointRounding mode) => x;
+            xint IMath<xint>.RoundToSignificance(xint x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xint IMath<xint>.Sin(xint x) => (int)Math.Sin(x._value);
             xint IMath<xint>.Sinh(xint x) => (int)Math.Sinh(x._value);
             xint IMath<xint>.Sqrt(xint x) => (int)Math.Sqrt(x._value);
             xint IMath<xint>.Tan(xint x) => (int)Math.Tan(x._value);
             xint IMath<xint>.Tanh(xint x) => (int)Math.Tanh(x._value);
+            xint IMath<xint>.Tau { get; } = 6;
             xint IMath<xint>.Truncate(xint x) => x;
+            xint IMath<xint>.TruncateToSignificance(xint x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xint IBitConverter<xint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)));
             void IBitConverter<xint>.Write(xint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

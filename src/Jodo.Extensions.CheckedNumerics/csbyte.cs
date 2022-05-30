@@ -151,22 +151,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<csbyte>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<csbyte>.IsReal { get; } = false;
-            bool INumericFunctions<csbyte>.IsSigned { get; } = true;
-            csbyte IMath<csbyte>.E { get; } = 2;
-            csbyte INumericFunctions<csbyte>.Epsilon { get; } = 1;
-            csbyte INumericFunctions<csbyte>.MaxUnit { get; } = 1;
-            csbyte INumericFunctions<csbyte>.MaxValue => MaxValue;
-            csbyte INumericFunctions<csbyte>.MinUnit { get; } = -1;
-            csbyte INumericFunctions<csbyte>.MinValue => MinValue;
-            csbyte INumericFunctions<csbyte>.One { get; } = 1;
-            csbyte IMath<csbyte>.PI { get; } = 3;
-            csbyte IMath<csbyte>.Tau { get; } = 6;
-            csbyte INumericFunctions<csbyte>.Ten { get; } = 10;
-            csbyte INumericFunctions<csbyte>.Two { get; } = 2;
-            csbyte INumericFunctions<csbyte>.Zero { get; } = 0;
-
-            int IMath<csbyte>.Sign(csbyte x) => Math.Sign(x._value);
             bool INumericFunctions<csbyte>.IsFinite(csbyte x) => true;
             bool INumericFunctions<csbyte>.IsInfinity(csbyte x) => false;
             bool INumericFunctions<csbyte>.IsNaN(csbyte x) => false;
@@ -174,7 +158,18 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<csbyte>.IsNegativeInfinity(csbyte x) => false;
             bool INumericFunctions<csbyte>.IsNormal(csbyte x) => false;
             bool INumericFunctions<csbyte>.IsPositiveInfinity(csbyte x) => false;
+            bool INumericFunctions<csbyte>.IsReal { get; } = false;
+            bool INumericFunctions<csbyte>.IsSigned { get; } = true;
             bool INumericFunctions<csbyte>.IsSubnormal(csbyte x) => false;
+            csbyte INumericFunctions<csbyte>.Epsilon { get; } = 1;
+            csbyte INumericFunctions<csbyte>.MaxUnit { get; } = 1;
+            csbyte INumericFunctions<csbyte>.MaxValue => MaxValue;
+            csbyte INumericFunctions<csbyte>.MinUnit { get; } = -1;
+            csbyte INumericFunctions<csbyte>.MinValue => MinValue;
+            csbyte INumericFunctions<csbyte>.One { get; } = 1;
+            csbyte INumericFunctions<csbyte>.Ten { get; } = 10;
+            csbyte INumericFunctions<csbyte>.Two { get; } = 2;
+            csbyte INumericFunctions<csbyte>.Zero { get; } = 0;
 
             csbyte IMath<csbyte>.Abs(csbyte x) => Math.Abs(x._value);
             csbyte IMath<csbyte>.Acos(csbyte x) => (csbyte)Math.Acos(x._value);
@@ -189,8 +184,8 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Clamp(csbyte x, csbyte bound1, csbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             csbyte IMath<csbyte>.Cos(csbyte x) => (csbyte)Math.Cos(x._value);
             csbyte IMath<csbyte>.Cosh(csbyte x) => (csbyte)Math.Cosh(x._value);
-            csbyte IMath<csbyte>.DecimalTruncate(csbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
             csbyte IMath<csbyte>.DegreesToRadians(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            csbyte IMath<csbyte>.E { get; } = 2;
             csbyte IMath<csbyte>.Exp(csbyte x) => (csbyte)Math.Exp(x._value);
             csbyte IMath<csbyte>.Floor(csbyte x) => x;
             csbyte IMath<csbyte>.IEEERemainder(csbyte x, csbyte y) => (csbyte)Math.IEEERemainder(x._value, y._value);
@@ -199,18 +194,23 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Log10(csbyte x) => (csbyte)Math.Log10(x._value);
             csbyte IMath<csbyte>.Max(csbyte x, csbyte y) => Math.Max(x._value, y._value);
             csbyte IMath<csbyte>.Min(csbyte x, csbyte y) => Math.Min(x._value, y._value);
+            csbyte IMath<csbyte>.PI { get; } = 3;
             csbyte IMath<csbyte>.Pow(csbyte x, csbyte y) => CheckedArithmetic.Pow(x._value, y._value);
             csbyte IMath<csbyte>.RadiansToDegrees(csbyte x) => (csbyte)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             csbyte IMath<csbyte>.Round(csbyte x) => x;
             csbyte IMath<csbyte>.Round(csbyte x, int digits) => x;
             csbyte IMath<csbyte>.Round(csbyte x, int digits, MidpointRounding mode) => x;
             csbyte IMath<csbyte>.Round(csbyte x, MidpointRounding mode) => x;
+            csbyte IMath<csbyte>.RoundToSignificance(csbyte x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             csbyte IMath<csbyte>.Sin(csbyte x) => (csbyte)Math.Sin(x._value);
             csbyte IMath<csbyte>.Sinh(csbyte x) => (csbyte)Math.Sinh(x._value);
             csbyte IMath<csbyte>.Sqrt(csbyte x) => (csbyte)Math.Sqrt(x._value);
             csbyte IMath<csbyte>.Tan(csbyte x) => (csbyte)Math.Tan(x._value);
             csbyte IMath<csbyte>.Tanh(csbyte x) => (csbyte)Math.Tanh(x._value);
+            csbyte IMath<csbyte>.Tau { get; } = 6;
             csbyte IMath<csbyte>.Truncate(csbyte x) => x;
+            csbyte IMath<csbyte>.TruncateToSignificance(csbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
+            int IMath<csbyte>.Sign(csbyte x) => Math.Sign(x._value);
 
             csbyte IBitConverter<csbyte>.Read(IReadOnlyStream<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
             void IBitConverter<csbyte>.Write(csbyte value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

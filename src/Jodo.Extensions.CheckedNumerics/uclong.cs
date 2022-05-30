@@ -149,22 +149,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<uclong>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<uclong>.IsReal { get; } = false;
-            bool INumericFunctions<uclong>.IsSigned { get; } = false;
-            uclong IMath<uclong>.E { get; } = 2;
-            uclong INumericFunctions<uclong>.Epsilon { get; } = 1;
-            uclong INumericFunctions<uclong>.MaxUnit { get; } = 1;
-            uclong INumericFunctions<uclong>.MaxValue => MaxValue;
-            uclong INumericFunctions<uclong>.MinUnit { get; } = 0;
-            uclong INumericFunctions<uclong>.MinValue => MinValue;
-            uclong INumericFunctions<uclong>.One { get; } = 1;
-            uclong IMath<uclong>.PI { get; } = 3;
-            uclong IMath<uclong>.Tau { get; } = 6;
-            uclong INumericFunctions<uclong>.Ten { get; } = 10;
-            uclong INumericFunctions<uclong>.Two { get; } = 2;
-            uclong INumericFunctions<uclong>.Zero { get; } = 0;
-
-            int IMath<uclong>.Sign(uclong x) => x._value == 0 ? 0 : 1;
             bool INumericFunctions<uclong>.IsFinite(uclong x) => true;
             bool INumericFunctions<uclong>.IsInfinity(uclong x) => false;
             bool INumericFunctions<uclong>.IsNaN(uclong x) => false;
@@ -172,8 +156,20 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<uclong>.IsNegativeInfinity(uclong x) => false;
             bool INumericFunctions<uclong>.IsNormal(uclong x) => false;
             bool INumericFunctions<uclong>.IsPositiveInfinity(uclong x) => false;
+            bool INumericFunctions<uclong>.IsReal { get; } = false;
+            bool INumericFunctions<uclong>.IsSigned { get; } = false;
             bool INumericFunctions<uclong>.IsSubnormal(uclong x) => false;
+            uclong INumericFunctions<uclong>.Epsilon { get; } = 1;
+            uclong INumericFunctions<uclong>.MaxUnit { get; } = 1;
+            uclong INumericFunctions<uclong>.MaxValue => MaxValue;
+            uclong INumericFunctions<uclong>.MinUnit { get; } = 0;
+            uclong INumericFunctions<uclong>.MinValue => MinValue;
+            uclong INumericFunctions<uclong>.One { get; } = 1;
+            uclong INumericFunctions<uclong>.Ten { get; } = 10;
+            uclong INumericFunctions<uclong>.Two { get; } = 2;
+            uclong INumericFunctions<uclong>.Zero { get; } = 0;
 
+            int IMath<uclong>.Sign(uclong x) => x._value == 0 ? 0 : 1;
             uclong IMath<uclong>.Abs(uclong x) => x;
             uclong IMath<uclong>.Acos(uclong x) => (uclong)Math.Acos(x._value);
             uclong IMath<uclong>.Acosh(uclong x) => (uclong)Math.Acosh(x._value);
@@ -187,8 +183,8 @@ namespace Jodo.Extensions.CheckedNumerics
             uclong IMath<uclong>.Clamp(uclong x, uclong bound1, uclong bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             uclong IMath<uclong>.Cos(uclong x) => (uclong)Math.Cos(x._value);
             uclong IMath<uclong>.Cosh(uclong x) => (uclong)Math.Cosh(x._value);
-            uclong IMath<uclong>.DecimalTruncate(uclong x, int significantDigits) => Digits.Truncate(x, significantDigits);
             uclong IMath<uclong>.DegreesToRadians(uclong x) => (uclong)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            uclong IMath<uclong>.E { get; } = 2;
             uclong IMath<uclong>.Exp(uclong x) => (uclong)Math.Exp(x._value);
             uclong IMath<uclong>.Floor(uclong x) => x;
             uclong IMath<uclong>.IEEERemainder(uclong x, uclong y) => (uclong)Math.IEEERemainder(x._value, y._value);
@@ -197,18 +193,22 @@ namespace Jodo.Extensions.CheckedNumerics
             uclong IMath<uclong>.Log10(uclong x) => (uclong)Math.Log10(x._value);
             uclong IMath<uclong>.Max(uclong x, uclong y) => Math.Max(x._value, y._value);
             uclong IMath<uclong>.Min(uclong x, uclong y) => Math.Min(x._value, y._value);
+            uclong IMath<uclong>.PI { get; } = 3;
             uclong IMath<uclong>.Pow(uclong x, uclong y) => CheckedArithmetic.Pow(x._value, y._value);
             uclong IMath<uclong>.RadiansToDegrees(uclong x) => (uclong)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             uclong IMath<uclong>.Round(uclong x) => x;
             uclong IMath<uclong>.Round(uclong x, int digits) => x;
             uclong IMath<uclong>.Round(uclong x, int digits, MidpointRounding mode) => x;
             uclong IMath<uclong>.Round(uclong x, MidpointRounding mode) => x;
+            uclong IMath<uclong>.RoundToSignificance(uclong x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             uclong IMath<uclong>.Sin(uclong x) => (uclong)Math.Sin(x._value);
             uclong IMath<uclong>.Sinh(uclong x) => (uclong)Math.Sinh(x._value);
             uclong IMath<uclong>.Sqrt(uclong x) => (uclong)Math.Sqrt(x._value);
             uclong IMath<uclong>.Tan(uclong x) => (uclong)Math.Tan(x._value);
             uclong IMath<uclong>.Tanh(uclong x) => (uclong)Math.Tanh(x._value);
+            uclong IMath<uclong>.Tau { get; } = 6;
             uclong IMath<uclong>.Truncate(uclong x) => x;
+            uclong IMath<uclong>.TruncateToSignificance(uclong x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             uclong IBitConverter<uclong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)));
             void IBitConverter<uclong>.Write(uclong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

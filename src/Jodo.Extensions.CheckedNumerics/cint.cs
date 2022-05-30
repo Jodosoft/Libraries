@@ -151,22 +151,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<cint>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<cint>.IsReal { get; } = false;
-            bool INumericFunctions<cint>.IsSigned { get; } = true;
-            cint IMath<cint>.E { get; } = 2;
-            cint INumericFunctions<cint>.Epsilon { get; } = 1;
-            cint INumericFunctions<cint>.MaxUnit { get; } = 1;
-            cint INumericFunctions<cint>.MaxValue => MaxValue;
-            cint INumericFunctions<cint>.MinUnit { get; } = -1;
-            cint INumericFunctions<cint>.MinValue => MinValue;
-            cint INumericFunctions<cint>.One { get; } = 1;
-            cint IMath<cint>.PI { get; } = 3;
-            cint IMath<cint>.Tau { get; } = 6;
-            cint INumericFunctions<cint>.Ten { get; } = 10;
-            cint INumericFunctions<cint>.Two { get; } = 2;
-            cint INumericFunctions<cint>.Zero { get; } = 0;
-
-            int IMath<cint>.Sign(cint x) => Math.Sign(x._value);
             bool INumericFunctions<cint>.IsFinite(cint x) => true;
             bool INumericFunctions<cint>.IsInfinity(cint x) => false;
             bool INumericFunctions<cint>.IsNaN(cint x) => false;
@@ -174,7 +158,18 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<cint>.IsNegativeInfinity(cint x) => false;
             bool INumericFunctions<cint>.IsNormal(cint x) => false;
             bool INumericFunctions<cint>.IsPositiveInfinity(cint x) => false;
+            bool INumericFunctions<cint>.IsReal { get; } = false;
+            bool INumericFunctions<cint>.IsSigned { get; } = true;
             bool INumericFunctions<cint>.IsSubnormal(cint x) => false;
+            cint INumericFunctions<cint>.Epsilon { get; } = 1;
+            cint INumericFunctions<cint>.MaxUnit { get; } = 1;
+            cint INumericFunctions<cint>.MaxValue => MaxValue;
+            cint INumericFunctions<cint>.MinUnit { get; } = -1;
+            cint INumericFunctions<cint>.MinValue => MinValue;
+            cint INumericFunctions<cint>.One { get; } = 1;
+            cint INumericFunctions<cint>.Ten { get; } = 10;
+            cint INumericFunctions<cint>.Two { get; } = 2;
+            cint INumericFunctions<cint>.Zero { get; } = 0;
 
             cint IMath<cint>.Abs(cint x) => Math.Abs(x._value);
             cint IMath<cint>.Acos(cint x) => (cint)Math.Acos(x._value);
@@ -189,8 +184,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Clamp(cint x, cint bound1, cint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cint IMath<cint>.Cos(cint x) => (cint)Math.Cos(x._value);
             cint IMath<cint>.Cosh(cint x) => (cint)Math.Cosh(x._value);
-            cint IMath<cint>.DecimalTruncate(cint x, int significantDigits) => Digits.Truncate(x, significantDigits);
             cint IMath<cint>.DegreesToRadians(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            cint IMath<cint>.E { get; } = 2;
             cint IMath<cint>.Exp(cint x) => (cint)Math.Exp(x._value);
             cint IMath<cint>.Floor(cint x) => x;
             cint IMath<cint>.IEEERemainder(cint x, cint y) => (cint)Math.IEEERemainder(x._value, y._value);
@@ -199,18 +194,23 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Log10(cint x) => (cint)Math.Log10(x._value);
             cint IMath<cint>.Max(cint x, cint y) => Math.Max(x._value, y._value);
             cint IMath<cint>.Min(cint x, cint y) => Math.Min(x._value, y._value);
+            cint IMath<cint>.PI { get; } = 3;
             cint IMath<cint>.Pow(cint x, cint y) => CheckedArithmetic.Pow(x._value, y._value);
             cint IMath<cint>.RadiansToDegrees(cint x) => (cint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             cint IMath<cint>.Round(cint x) => x;
             cint IMath<cint>.Round(cint x, int digits) => x;
             cint IMath<cint>.Round(cint x, int digits, MidpointRounding mode) => x;
             cint IMath<cint>.Round(cint x, MidpointRounding mode) => x;
+            cint IMath<cint>.RoundToSignificance(cint x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cint IMath<cint>.Sin(cint x) => (cint)Math.Sin(x._value);
             cint IMath<cint>.Sinh(cint x) => (cint)Math.Sinh(x._value);
             cint IMath<cint>.Sqrt(cint x) => (cint)Math.Sqrt(x._value);
             cint IMath<cint>.Tan(cint x) => (cint)Math.Tan(x._value);
             cint IMath<cint>.Tanh(cint x) => (cint)Math.Tanh(x._value);
+            cint IMath<cint>.Tau { get; } = 6;
             cint IMath<cint>.Truncate(cint x) => x;
+            cint IMath<cint>.TruncateToSignificance(cint x, int significantDigits) => Digits.Truncate(x, significantDigits);
+            int IMath<cint>.Sign(cint x) => Math.Sign(x._value);
 
             cint IBitConverter<cint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)));
             void IBitConverter<cint>.Write(cint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

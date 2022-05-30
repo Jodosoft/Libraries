@@ -91,9 +91,7 @@ namespace System
             if (bound1 == bound2) return bound1;
             if (bound1 > bound2)
             {
-                var t = bound1;
-                bound1 = bound2;
-                bound2 = t;
+                (bound2, bound1) = (bound1, bound2);
             }
             var range = bound2 - bound1;
 
@@ -120,9 +118,7 @@ namespace System
             if (!float.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, "Must be finite.");
             if (bound1 > bound2)
             {
-                var t = bound1;
-                bound1 = bound2;
-                bound2 = t;
+                (bound2, bound1) = (bound1, bound2);
             }
             if (bound1 == bound2) return bound1;
 
@@ -144,13 +140,30 @@ namespace System
             if (!double.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, "Must be finite.");
             if (bound1 > bound2)
             {
-                var t = bound1;
-                bound1 = bound2;
-                bound2 = t;
+                (bound2, bound1) = (bound1, bound2);
             }
             if (bound1 == bound2) return bound1;
 
-            return random.NextDouble() * (bound2 - bound1) + bound1;
+            var difference = (bound2 - bound1) + bound1;
+            if (double.IsFinite(difference))
+            {
+                return random.NextDouble() * difference;
+            }
+            else
+            {
+                double res;
+                var i = 0;
+                do
+                {
+                    res = BitConverter.ToDouble(random.NextBytes(8));
+                    i++;
+                    if (i > 10)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                } while (res < bound1 || res > bound2);
+                return res;
+            }
         }
 
         public static T NextElement<T>(this Random random, IReadOnlyList<T> list)

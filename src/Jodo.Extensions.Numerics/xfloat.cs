@@ -160,22 +160,6 @@ namespace Jodo.Extensions.Numerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<xfloat>.HasFloatingPoint { get; } = true;
-            bool INumericFunctions<xfloat>.IsReal { get; } = true;
-            bool INumericFunctions<xfloat>.IsSigned { get; } = true;
-            xfloat IMath<xfloat>.E { get; } = MathF.E;
-            xfloat INumericFunctions<xfloat>.Epsilon => Epsilon;
-            xfloat INumericFunctions<xfloat>.MaxUnit { get; } = 1f;
-            xfloat INumericFunctions<xfloat>.MaxValue => MaxValue;
-            xfloat INumericFunctions<xfloat>.MinUnit { get; } = -1f;
-            xfloat INumericFunctions<xfloat>.MinValue => MinValue;
-            xfloat INumericFunctions<xfloat>.One { get; } = 1f;
-            xfloat IMath<xfloat>.PI { get; } = MathF.PI;
-            xfloat IMath<xfloat>.Tau { get; } = MathF.PI * 2;
-            xfloat INumericFunctions<xfloat>.Ten { get; } = 10f;
-            xfloat INumericFunctions<xfloat>.Two { get; } = 2f;
-            xfloat INumericFunctions<xfloat>.Zero { get; } = 0f;
-
-            int IMath<xfloat>.Sign(xfloat x) => Math.Sign(x._value);
             bool INumericFunctions<xfloat>.IsFinite(xfloat x) => IsFinite(x);
             bool INumericFunctions<xfloat>.IsInfinity(xfloat x) => IsInfinity(x);
             bool INumericFunctions<xfloat>.IsNaN(xfloat x) => IsNaN(x);
@@ -183,8 +167,20 @@ namespace Jodo.Extensions.Numerics
             bool INumericFunctions<xfloat>.IsNegativeInfinity(xfloat x) => IsNegativeInfinity(x);
             bool INumericFunctions<xfloat>.IsNormal(xfloat x) => IsNormal(x);
             bool INumericFunctions<xfloat>.IsPositiveInfinity(xfloat x) => IsPositiveInfinity(x);
+            bool INumericFunctions<xfloat>.IsReal { get; } = true;
+            bool INumericFunctions<xfloat>.IsSigned { get; } = true;
             bool INumericFunctions<xfloat>.IsSubnormal(xfloat x) => IsSubnormal(x);
+            xfloat INumericFunctions<xfloat>.Epsilon => Epsilon;
+            xfloat INumericFunctions<xfloat>.MaxUnit { get; } = 1f;
+            xfloat INumericFunctions<xfloat>.MaxValue => MaxValue;
+            xfloat INumericFunctions<xfloat>.MinUnit { get; } = -1f;
+            xfloat INumericFunctions<xfloat>.MinValue => MinValue;
+            xfloat INumericFunctions<xfloat>.One { get; } = 1f;
+            xfloat INumericFunctions<xfloat>.Ten { get; } = 10f;
+            xfloat INumericFunctions<xfloat>.Two { get; } = 2f;
+            xfloat INumericFunctions<xfloat>.Zero { get; } = 0f;
 
+            int IMath<xfloat>.Sign(xfloat x) => Math.Sign(x._value);
             xfloat IMath<xfloat>.Abs(xfloat x) => MathF.Abs(x._value);
             xfloat IMath<xfloat>.Acos(xfloat x) => MathF.Acos(x._value);
             xfloat IMath<xfloat>.Acosh(xfloat x) => MathF.Acosh(x._value);
@@ -198,8 +194,8 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Clamp(xfloat x, xfloat bound1, xfloat bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             xfloat IMath<xfloat>.Cos(xfloat x) => MathF.Cos(x._value);
             xfloat IMath<xfloat>.Cosh(xfloat x) => MathF.Cosh(x._value);
-            xfloat IMath<xfloat>.DecimalTruncate(xfloat x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xfloat IMath<xfloat>.DegreesToRadians(xfloat x) => x * Trig.RadiansPerDegreeF;
+            xfloat IMath<xfloat>.E { get; } = MathF.E;
             xfloat IMath<xfloat>.Exp(xfloat x) => MathF.Exp(x._value);
             xfloat IMath<xfloat>.Floor(xfloat x) => MathF.Floor(x._value);
             xfloat IMath<xfloat>.IEEERemainder(xfloat x, xfloat y) => MathF.IEEERemainder(x._value, y._value);
@@ -208,18 +204,22 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Log10(xfloat x) => MathF.Log10(x._value);
             xfloat IMath<xfloat>.Max(xfloat x, xfloat y) => MathF.Max(x._value, y._value);
             xfloat IMath<xfloat>.Min(xfloat x, xfloat y) => MathF.Min(x._value, y._value);
+            xfloat IMath<xfloat>.PI { get; } = MathF.PI;
             xfloat IMath<xfloat>.Pow(xfloat x, xfloat y) => MathF.Pow(x._value, y._value);
             xfloat IMath<xfloat>.RadiansToDegrees(xfloat x) => x * Trig.DegreesPerRadianF;
             xfloat IMath<xfloat>.Round(xfloat x) => MathF.Round(x);
             xfloat IMath<xfloat>.Round(xfloat x, int digits) => MathF.Round(x, digits);
             xfloat IMath<xfloat>.Round(xfloat x, int digits, MidpointRounding mode) => MathF.Round(x, digits, mode);
             xfloat IMath<xfloat>.Round(xfloat x, MidpointRounding mode) => MathF.Round(x, mode);
+            xfloat IMath<xfloat>.RoundToSignificance(xfloat x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xfloat IMath<xfloat>.Sin(xfloat x) => MathF.Sin(x._value);
             xfloat IMath<xfloat>.Sinh(xfloat x) => MathF.Sinh(x._value);
             xfloat IMath<xfloat>.Sqrt(xfloat x) => MathF.Sqrt(x._value);
             xfloat IMath<xfloat>.Tan(xfloat x) => MathF.Tan(x._value);
             xfloat IMath<xfloat>.Tanh(xfloat x) => MathF.Tanh(x._value);
+            xfloat IMath<xfloat>.Tau { get; } = MathF.PI * 2;
             xfloat IMath<xfloat>.Truncate(xfloat x) => MathF.Truncate(x._value);
+            xfloat IMath<xfloat>.TruncateToSignificance(xfloat x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xfloat IBitConverter<xfloat>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)));
             void IBitConverter<xfloat>.Write(xfloat value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

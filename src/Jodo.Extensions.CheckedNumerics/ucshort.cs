@@ -149,22 +149,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<ucshort>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<ucshort>.IsReal { get; } = false;
-            bool INumericFunctions<ucshort>.IsSigned { get; } = false;
-            ucshort IMath<ucshort>.E { get; } = 2;
-            ucshort INumericFunctions<ucshort>.Epsilon { get; } = 1;
-            ucshort INumericFunctions<ucshort>.MaxUnit { get; } = 1;
-            ucshort INumericFunctions<ucshort>.MaxValue => MaxValue;
-            ucshort INumericFunctions<ucshort>.MinUnit { get; } = 0;
-            ucshort INumericFunctions<ucshort>.MinValue => MinValue;
-            ucshort INumericFunctions<ucshort>.One { get; } = 1;
-            ucshort IMath<ucshort>.PI { get; } = 3;
-            ucshort IMath<ucshort>.Tau { get; } = 6;
-            ucshort INumericFunctions<ucshort>.Ten { get; } = 10;
-            ucshort INumericFunctions<ucshort>.Two { get; } = 2;
-            ucshort INumericFunctions<ucshort>.Zero { get; } = 0;
-
-            int IMath<ucshort>.Sign(ucshort x) => x._value == 0 ? 0 : 1;
             bool INumericFunctions<ucshort>.IsFinite(ucshort x) => true;
             bool INumericFunctions<ucshort>.IsInfinity(ucshort x) => false;
             bool INumericFunctions<ucshort>.IsNaN(ucshort x) => false;
@@ -172,8 +156,20 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<ucshort>.IsNegativeInfinity(ucshort x) => false;
             bool INumericFunctions<ucshort>.IsNormal(ucshort x) => false;
             bool INumericFunctions<ucshort>.IsPositiveInfinity(ucshort x) => false;
+            bool INumericFunctions<ucshort>.IsReal { get; } = false;
+            bool INumericFunctions<ucshort>.IsSigned { get; } = false;
             bool INumericFunctions<ucshort>.IsSubnormal(ucshort x) => false;
+            ucshort INumericFunctions<ucshort>.Epsilon { get; } = 1;
+            ucshort INumericFunctions<ucshort>.MaxUnit { get; } = 1;
+            ucshort INumericFunctions<ucshort>.MaxValue => MaxValue;
+            ucshort INumericFunctions<ucshort>.MinUnit { get; } = 0;
+            ucshort INumericFunctions<ucshort>.MinValue => MinValue;
+            ucshort INumericFunctions<ucshort>.One { get; } = 1;
+            ucshort INumericFunctions<ucshort>.Ten { get; } = 10;
+            ucshort INumericFunctions<ucshort>.Two { get; } = 2;
+            ucshort INumericFunctions<ucshort>.Zero { get; } = 0;
 
+            int IMath<ucshort>.Sign(ucshort x) => x._value == 0 ? 0 : 1;
             ucshort IMath<ucshort>.Abs(ucshort x) => x;
             ucshort IMath<ucshort>.Acos(ucshort x) => (ucshort)Math.Acos(x._value);
             ucshort IMath<ucshort>.Acosh(ucshort x) => (ucshort)Math.Acosh(x._value);
@@ -187,8 +183,8 @@ namespace Jodo.Extensions.CheckedNumerics
             ucshort IMath<ucshort>.Clamp(ucshort x, ucshort bound1, ucshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             ucshort IMath<ucshort>.Cos(ucshort x) => (ucshort)Math.Cos(x._value);
             ucshort IMath<ucshort>.Cosh(ucshort x) => (ucshort)Math.Cosh(x._value);
-            ucshort IMath<ucshort>.DecimalTruncate(ucshort x, int significantDigits) => Digits.Truncate(x, significantDigits);
             ucshort IMath<ucshort>.DegreesToRadians(ucshort x) => (ucshort)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            ucshort IMath<ucshort>.E { get; } = 2;
             ucshort IMath<ucshort>.Exp(ucshort x) => (ucshort)Math.Exp(x._value);
             ucshort IMath<ucshort>.Floor(ucshort x) => x;
             ucshort IMath<ucshort>.IEEERemainder(ucshort x, ucshort y) => (ucshort)Math.IEEERemainder(x._value, y._value);
@@ -197,18 +193,22 @@ namespace Jodo.Extensions.CheckedNumerics
             ucshort IMath<ucshort>.Log10(ucshort x) => (ucshort)Math.Log10(x._value);
             ucshort IMath<ucshort>.Max(ucshort x, ucshort y) => Math.Max(x._value, y._value);
             ucshort IMath<ucshort>.Min(ucshort x, ucshort y) => Math.Min(x._value, y._value);
+            ucshort IMath<ucshort>.PI { get; } = 3;
             ucshort IMath<ucshort>.Pow(ucshort x, ucshort y) => CheckedArithmetic.Pow(x._value, y._value);
             ucshort IMath<ucshort>.RadiansToDegrees(ucshort x) => (ucshort)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
             ucshort IMath<ucshort>.Round(ucshort x) => x;
             ucshort IMath<ucshort>.Round(ucshort x, int digits) => x;
             ucshort IMath<ucshort>.Round(ucshort x, int digits, MidpointRounding mode) => x;
             ucshort IMath<ucshort>.Round(ucshort x, MidpointRounding mode) => x;
+            ucshort IMath<ucshort>.RoundToSignificance(ucshort x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             ucshort IMath<ucshort>.Sin(ucshort x) => (ucshort)Math.Sin(x._value);
             ucshort IMath<ucshort>.Sinh(ucshort x) => (ucshort)Math.Sinh(x._value);
             ucshort IMath<ucshort>.Sqrt(ucshort x) => (ucshort)Math.Sqrt(x._value);
             ucshort IMath<ucshort>.Tan(ucshort x) => (ucshort)Math.Tan(x._value);
             ucshort IMath<ucshort>.Tanh(ucshort x) => (ucshort)Math.Tanh(x._value);
+            ucshort IMath<ucshort>.Tau { get; } = 6;
             ucshort IMath<ucshort>.Truncate(ucshort x) => x;
+            ucshort IMath<ucshort>.TruncateToSignificance(ucshort x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             ucshort IBitConverter<ucshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)));
             void IBitConverter<ucshort>.Write(ucshort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

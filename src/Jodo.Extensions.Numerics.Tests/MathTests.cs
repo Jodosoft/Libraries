@@ -116,7 +116,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acos_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 var input = Cast<N>.ToValue(randomValue);
                 var expected = Cast<N>.ToValue(Math.Acos(randomValue));
@@ -162,8 +162,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acosh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble(1, 10);
-                if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                double randomValue;
+                do
+                {
+                    randomValue = Math.Round(Random.NextDouble(1, 10), 2);
+                    if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                }
+                while (!double.IsFinite(Math.Acosh(randomValue)));
                 var input = Cast<N>.ToValue(randomValue);
                 var expected = Cast<N>.ToValue(Math.Acosh(randomValue));
 
@@ -208,7 +213,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asin_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 var input = Cast<N>.ToValue(randomValue);
                 var expected = Cast<N>.ToValue(Math.Asin(randomValue));
@@ -254,7 +259,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asinh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble();
+                var randomValue = Math.Round(Random.NextDouble(), 2);
                 var input = Cast<N>.ToValue(randomValue);
                 var expected = Cast<N>.ToValue(Math.Asinh(randomValue));
 
@@ -381,7 +386,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 double randomValue;
                 do
                 {
-                    randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                    randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
                 while (!double.IsFinite(Math.Atanh(randomValue)));
@@ -566,7 +571,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 double randomValue;
                 do
                 {
-                    randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                    randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
                 while (!double.IsFinite(Math.Cosh(randomValue)));
@@ -584,7 +589,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Exp_Random_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 4);
+                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 4), 2);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 var input = Cast<N>.ToValue(randomValue);
                 var expected = Cast<N>.ToValue(Math.Exp(randomValue));
@@ -692,8 +697,8 @@ namespace Jodo.Extensions.Numerics.Tests
                 double randomValue2;
                 do
                 {
-                    randomValue1 = Random.NextDouble(0, 10);
-                    randomValue2 = Random.NextDouble(1, 10);
+                    randomValue1 = Math.Round(Random.NextDouble(0, 10), 2);
+                    randomValue2 = Math.Round(Random.NextDouble(1, 10), 2);
                     if (!Numeric<N>.IsReal)
                     {
                         randomValue1 = Math.Round(randomValue1);
@@ -1156,7 +1161,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Tan_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 2);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 var input = Cast<N>.ToValue(randomValue);
                 var expected = Cast<N>.ToValue(Math.Tan(randomValue));
@@ -1205,7 +1210,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 double input;
                 do
                 {
-                    input = Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1);
+                    input = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                 }
                 while (!double.IsFinite(Math.Tanh(input)));
                 var sut = Cast<N>.ToValue(input);

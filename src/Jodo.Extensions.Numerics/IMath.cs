@@ -42,7 +42,6 @@ namespace Jodo.Extensions.Numerics
         N Clamp(N x, N bound1, N bound2);
         N Cos(N x);
         N Cosh(N x);
-        N DecimalTruncate(N x, int significantDigits);
         N DegreesToRadians(N degrees);
         N Exp(N x);
         N Floor(N x);
@@ -58,11 +57,13 @@ namespace Jodo.Extensions.Numerics
         N Round(N x, int digits);
         N Round(N x, int digits, MidpointRounding mode);
         N Round(N x, MidpointRounding mode);
+        N RoundToSignificance(N x, int significantDigits, MidpointRounding mode);
         N Sin(N x);
         N Sinh(N x);
         N Sqrt(N x);
         N Tan(N x);
         N Tanh(N x);
         N Truncate(N x);
+        N TruncateToSignificance(N x, int significantDigits);
     }
 }

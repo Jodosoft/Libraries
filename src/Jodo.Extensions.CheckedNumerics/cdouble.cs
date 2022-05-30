@@ -159,22 +159,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<cdouble>.HasFloatingPoint { get; } = true;
-            bool INumericFunctions<cdouble>.IsReal { get; } = true;
-            bool INumericFunctions<cdouble>.IsSigned { get; } = true;
-            cdouble IMath<cdouble>.E { get; } = Math.E;
-            cdouble INumericFunctions<cdouble>.Epsilon => Epsilon;
-            cdouble INumericFunctions<cdouble>.MaxUnit { get; } = 1d;
-            cdouble INumericFunctions<cdouble>.MaxValue => MaxValue;
-            cdouble INumericFunctions<cdouble>.MinUnit { get; } = -1d;
-            cdouble INumericFunctions<cdouble>.MinValue => MinValue;
-            cdouble INumericFunctions<cdouble>.One { get; } = 1d;
-            cdouble IMath<cdouble>.PI { get; } = Math.PI;
-            cdouble IMath<cdouble>.Tau { get; } = Math.PI * 2d;
-            cdouble INumericFunctions<cdouble>.Ten { get; } = 10d;
-            cdouble INumericFunctions<cdouble>.Two { get; } = 2d;
-            cdouble INumericFunctions<cdouble>.Zero { get; } = 0d;
-
-            int IMath<cdouble>.Sign(cdouble x) => Math.Sign(x._value);
             bool INumericFunctions<cdouble>.IsFinite(cdouble x) => true;
             bool INumericFunctions<cdouble>.IsInfinity(cdouble x) => false;
             bool INumericFunctions<cdouble>.IsNaN(cdouble x) => false;
@@ -182,7 +166,18 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<cdouble>.IsNegativeInfinity(cdouble x) => false;
             bool INumericFunctions<cdouble>.IsNormal(cdouble x) => IsNormal(x);
             bool INumericFunctions<cdouble>.IsPositiveInfinity(cdouble x) => false;
+            bool INumericFunctions<cdouble>.IsReal { get; } = true;
+            bool INumericFunctions<cdouble>.IsSigned { get; } = true;
             bool INumericFunctions<cdouble>.IsSubnormal(cdouble x) => IsSubnormal(x);
+            cdouble INumericFunctions<cdouble>.Epsilon => Epsilon;
+            cdouble INumericFunctions<cdouble>.MaxUnit { get; } = 1d;
+            cdouble INumericFunctions<cdouble>.MaxValue => MaxValue;
+            cdouble INumericFunctions<cdouble>.MinUnit { get; } = -1d;
+            cdouble INumericFunctions<cdouble>.MinValue => MinValue;
+            cdouble INumericFunctions<cdouble>.One { get; } = 1d;
+            cdouble INumericFunctions<cdouble>.Ten { get; } = 10d;
+            cdouble INumericFunctions<cdouble>.Two { get; } = 2d;
+            cdouble INumericFunctions<cdouble>.Zero { get; } = 0d;
 
             cdouble IMath<cdouble>.Abs(cdouble x) => Math.Abs(x._value);
             cdouble IMath<cdouble>.Acos(cdouble x) => Math.Acos(x._value);
@@ -197,8 +192,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Clamp(cdouble x, cdouble bound1, cdouble bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cdouble IMath<cdouble>.Cos(cdouble x) => Math.Cos(x._value);
             cdouble IMath<cdouble>.Cosh(cdouble x) => Math.Cosh(x._value);
-            cdouble IMath<cdouble>.DecimalTruncate(cdouble x, int significantDigits) => Digits.Truncate(x, significantDigits);
             cdouble IMath<cdouble>.DegreesToRadians(cdouble degrees) => degrees * Trig.RadiansPerDegree;
+            cdouble IMath<cdouble>.E { get; } = Math.E;
             cdouble IMath<cdouble>.Exp(cdouble x) => Math.Exp(x._value);
             cdouble IMath<cdouble>.Floor(cdouble x) => Math.Floor(x._value);
             cdouble IMath<cdouble>.IEEERemainder(cdouble x, cdouble y) => Math.IEEERemainder(x._value, y._value);
@@ -207,18 +202,23 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Log10(cdouble x) => Math.Log10(x._value);
             cdouble IMath<cdouble>.Max(cdouble x, cdouble y) => Math.Max(x._value, y._value);
             cdouble IMath<cdouble>.Min(cdouble x, cdouble y) => Math.Min(x._value, y._value);
+            cdouble IMath<cdouble>.PI { get; } = Math.PI;
             cdouble IMath<cdouble>.Pow(cdouble x, cdouble y) => Math.Pow(x._value, y._value);
             cdouble IMath<cdouble>.RadiansToDegrees(cdouble radians) => radians * Trig.DegreesPerRadian;
             cdouble IMath<cdouble>.Round(cdouble x) => Math.Round(x._value);
             cdouble IMath<cdouble>.Round(cdouble x, int digits) => Math.Round(x._value, digits);
             cdouble IMath<cdouble>.Round(cdouble x, int digits, MidpointRounding mode) => Math.Round(x._value, digits, mode);
             cdouble IMath<cdouble>.Round(cdouble x, MidpointRounding mode) => Math.Round(x._value, mode);
+            cdouble IMath<cdouble>.RoundToSignificance(cdouble x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cdouble IMath<cdouble>.Sin(cdouble x) => Math.Sin(x._value);
             cdouble IMath<cdouble>.Sinh(cdouble x) => Math.Sinh(x._value);
             cdouble IMath<cdouble>.Sqrt(cdouble x) => Math.Sqrt(x._value);
             cdouble IMath<cdouble>.Tan(cdouble x) => Math.Tan(x._value);
             cdouble IMath<cdouble>.Tanh(cdouble x) => Math.Tanh(x._value);
+            cdouble IMath<cdouble>.Tau { get; } = Math.PI * 2d;
             cdouble IMath<cdouble>.Truncate(cdouble x) => Math.Truncate(x._value);
+            cdouble IMath<cdouble>.TruncateToSignificance(cdouble x, int significantDigits) => Digits.Truncate(x, significantDigits);
+            int IMath<cdouble>.Sign(cdouble x) => Math.Sign(x._value);
 
             cdouble IBitConverter<cdouble>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)));
             void IBitConverter<cdouble>.Write(cdouble value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

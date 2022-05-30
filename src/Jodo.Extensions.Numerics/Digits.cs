@@ -26,11 +26,122 @@ namespace Jodo.Extensions.Numerics
     [SuppressMessage("csharpsquid", "S3776")] // false positives
     public static class Digits
     {
+        public static byte RoundToSignificance(byte value, int significantDigits, MidpointRounding mode)
+        {
+            var currentDigits = Count(value);
+            return (byte)Round(value, currentDigits - significantDigits, mode);
+        }
+
+        public static sbyte RoundToSignificance(sbyte value, int significantDigits, MidpointRounding mode)
+        {
+            var currentDigits = Count(value);
+            return (sbyte)Round(value, currentDigits - significantDigits, mode);
+        }
+
+        public static short RoundToSignificance(short value, int significantDigits, MidpointRounding mode)
+        {
+            var currentDigits = Count(value);
+            return (short)Round(value, currentDigits - significantDigits, mode);
+        }
+
+        public static ushort RoundToSignificance(ushort value, int significantDigits, MidpointRounding mode)
+        {
+            var currentDigits = Count(value);
+            return (ushort)Round(value, currentDigits - significantDigits, mode);
+        }
+
+        public static int RoundToSignificance(int value, int significantDigits, MidpointRounding mode)
+        {
+            var currentDigits = Count(value);
+            return (int)Round(value, currentDigits - significantDigits, mode);
+        }
+
+        public static uint RoundToSignificance(uint value, int significantDigits, MidpointRounding mode)
+        {
+            var currentDigits = Count(value);
+            return (uint)Round(value, currentDigits - significantDigits, mode);
+        }
+
+        public static long RoundToSignificance(long value, int significantDigits, MidpointRounding mode)
+        {
+            var currentDigits = Count(value);
+            return Round(value, currentDigits - significantDigits, mode);
+        }
+
+        public static ulong RoundToSignificance(ulong value, int significantDigits, MidpointRounding mode)
+        {
+            var currentDigits = Count(value);
+            return Round(value, currentDigits - significantDigits, mode);
+        }
+
+        public static float RoundToSignificance(float value, int digits, MidpointRounding mode)
+        {
+            if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
+            if (value == 0) return 0;
+            var log10 = (int)MathF.Floor(MathF.Log10(MathF.Abs(value)));
+            if (log10 < -1 && log10 < -digits) return 0;
+            if (log10 < digits)
+            {
+                var scalingFactor = (int)Math.Pow(10, digits - log10);
+                var scaled = MathF.Round(value * scalingFactor, mode);
+                scaled -= scaled % 10;
+                return scaled / scalingFactor;
+            }
+            else
+            {
+                var scalingFactor = (int)Math.Pow(10, log10 - digits + 1);
+                return MathF.Round(value / scalingFactor, mode) * scalingFactor;
+            }
+        }
+
+        public static double RoundToSignificance(double value, int digits, MidpointRounding mode)
+        {
+            if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
+            if (value == 0) return 0;
+            var log10 = (int)Math.Floor(Math.Log10(Math.Abs(value)));
+            if (log10 < -1 && log10 < -digits) return 0;
+            if (log10 < digits)
+            {
+                var scalingFactor = (int)Math.Pow(10, digits - log10);
+                var scaled = Math.Round(value * scalingFactor, mode);
+                scaled -= scaled % 10;
+                return scaled / scalingFactor;
+            }
+            else
+            {
+                var scalingFactor = (int)Math.Pow(10, log10 - digits + 1);
+                return Math.Round(value / scalingFactor, mode) * scalingFactor;
+            }
+        }
+
+        public static decimal RoundToSignificance(decimal value, int digits, MidpointRounding mode)
+        {
+            if (digits <= 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
+            if (value == 0) return 0;
+            var log10 = (int)Math.Floor(Math.Log10(Math.Abs((double)value)));
+            if (log10 < -1 && log10 < -digits) return 0;
+            if (log10 < digits)
+            {
+                var scalingFactor = (int)Math.Pow(10, digits - log10);
+                var scaled = Math.Round(value * scalingFactor, mode);
+                scaled -= scaled % 10;
+                return scaled / scalingFactor;
+            }
+            else
+            {
+                var scalingFactor = (int)Math.Pow(10, log10 - digits + 1);
+                return Math.Round(value / scalingFactor, mode) * scalingFactor;
+            }
+        }
+
         public static long Round(long value, int times, MidpointRounding mode)
         {
-            for (int i = 1; i < times; i++) value /= 10;
-            value = Round(value, mode) / 10;
-            for (int i = 0; i < times; i++) value *= 10;
+            if (times > 0)
+            {
+                for (int i = 1; i < times; i++) value /= 10;
+                value = Round(value, mode) / 10;
+                for (int i = 0; i < times; i++) value *= 10;
+            }
             return value;
         }
 
@@ -57,7 +168,7 @@ namespace Jodo.Extensions.Numerics
             MidpointRounding.ToEven => RoundToEven(value),
             MidpointRounding.AwayFromZero => RoundAwayFromZero(value),
             (MidpointRounding)2 => RoundToZero(value),
-            (MidpointRounding)3 => RoundToNegativeInfinity(value),
+            (MidpointRounding)3 => RoundToZero(value),
             (MidpointRounding)4 => RoundToPositiveInfinity(value),
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, $"Unknown value of {nameof(MidpointRounding)}"),
         };
@@ -463,13 +574,6 @@ namespace Jodo.Extensions.Numerics
             if (remainder == 0) return value;
             if (value > 0) return value - remainder;
             return value - (10 + remainder);
-        }
-
-        private static ulong RoundToNegativeInfinity(ulong value)
-        {
-            var remainder = value % 10;
-            if (remainder == 0) return value;
-            return value - remainder;
         }
     }
 }

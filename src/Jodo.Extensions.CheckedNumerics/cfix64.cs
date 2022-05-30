@@ -75,10 +75,12 @@ namespace Jodo.Extensions.CheckedNumerics
             return new cfix64(Digits.Round(value._scaledValue, 6 - digits, mode));
         }
 
-        private static cfix64 ParseDouble(double value)
+        private static cfix64 FromDouble(double value)
         {
-            string str = string.Format(CultureInfo.InvariantCulture, "{0:0.0000000}", value)
-                            .Replace(".", string.Empty)[..^1];
+            string str = string
+                .Format(CultureInfo.InvariantCulture, "{0:0.0000000}", value)
+                .Replace(".", string.Empty)
+                [..^1];
             if (long.TryParse(str, out var lng))
             {
                 return new cfix64(lng);
@@ -90,8 +92,18 @@ namespace Jodo.Extensions.CheckedNumerics
             }
         }
 
+        private static double ToDouble(cfix64 value)
+        {
+            var integral = value._scaledValue / ScalingFactor;
+            var mantissa = value._scaledValue % ScalingFactor;
+
+            var result = (double)mantissa / ScalingFactor;
+            result += integral;
+            return result;
+        }
+
         public static explicit operator cfix64(decimal value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
-        public static explicit operator cfix64(double value) => ParseDouble(value);
+        public static explicit operator cfix64(double value) => FromDouble(value);
         public static explicit operator cfix64(long value) => new cfix64(value * ScalingFactor);
         public static explicit operator cfix64(ulong value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
         public static implicit operator cfix64(byte value) => new cfix64(value * ScalingFactor);
@@ -106,7 +118,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public static explicit operator byte(cfix64 value) => CheckedCast.ToByte(value._scaledValue / ScalingFactor);
         public static explicit operator char(cfix64 value) => CheckedCast.ToChar(value._scaledValue / ScalingFactor);
         public static explicit operator decimal(cfix64 value) => (decimal)value._scaledValue / ScalingFactor;
-        public static explicit operator double(cfix64 value) => (double)value._scaledValue / ScalingFactor;
+        public static explicit operator double(cfix64 value) => ToDouble(value);
         public static explicit operator float(cfix64 value) => (float)value._scaledValue / ScalingFactor;
         public static explicit operator int(cfix64 value) => CheckedCast.ToInt32(value._scaledValue / ScalingFactor);
         public static explicit operator long(cfix64 value) => value._scaledValue / ScalingFactor;
@@ -176,22 +188,6 @@ namespace Jodo.Extensions.CheckedNumerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<cfix64>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<cfix64>.IsReal { get; } = true;
-            bool INumericFunctions<cfix64>.IsSigned { get; } = true;
-            cfix64 IMath<cfix64>.E { get; } = (cfix64)Math.E;
-            cfix64 INumericFunctions<cfix64>.Epsilon { get; } = new cfix64(1);
-            cfix64 INumericFunctions<cfix64>.MaxUnit { get; } = new cfix64(ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.MaxValue => MaxValue;
-            cfix64 INumericFunctions<cfix64>.MinUnit { get; } = new cfix64(-ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.MinValue => MinValue;
-            cfix64 INumericFunctions<cfix64>.One { get; } = new cfix64(ScalingFactor);
-            cfix64 IMath<cfix64>.PI { get; } = (cfix64)Math.PI;
-            cfix64 IMath<cfix64>.Tau { get; } = (cfix64)(Math.PI * 2d);
-            cfix64 INumericFunctions<cfix64>.Ten { get; } = new cfix64(10 * ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.Two { get; } = new cfix64(2 * ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.Zero { get; } = 0;
-
-            int IMath<cfix64>.Sign(cfix64 x) => x._scaledValue == 0 ? 0 : 1;
             bool INumericFunctions<cfix64>.IsFinite(cfix64 x) => true;
             bool INumericFunctions<cfix64>.IsInfinity(cfix64 x) => false;
             bool INumericFunctions<cfix64>.IsNaN(cfix64 x) => false;
@@ -199,7 +195,18 @@ namespace Jodo.Extensions.CheckedNumerics
             bool INumericFunctions<cfix64>.IsNegativeInfinity(cfix64 x) => false;
             bool INumericFunctions<cfix64>.IsNormal(cfix64 x) => false;
             bool INumericFunctions<cfix64>.IsPositiveInfinity(cfix64 x) => false;
+            bool INumericFunctions<cfix64>.IsReal { get; } = true;
+            bool INumericFunctions<cfix64>.IsSigned { get; } = true;
             bool INumericFunctions<cfix64>.IsSubnormal(cfix64 x) => false;
+            cfix64 INumericFunctions<cfix64>.Epsilon { get; } = new cfix64(1);
+            cfix64 INumericFunctions<cfix64>.MaxUnit { get; } = new cfix64(ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.MaxValue => MaxValue;
+            cfix64 INumericFunctions<cfix64>.MinUnit { get; } = new cfix64(-ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.MinValue => MinValue;
+            cfix64 INumericFunctions<cfix64>.One { get; } = new cfix64(ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.Ten { get; } = new cfix64(10 * ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.Two { get; } = new cfix64(2 * ScalingFactor);
+            cfix64 INumericFunctions<cfix64>.Zero { get; } = 0;
 
             cfix64 IMath<cfix64>.Abs(cfix64 x) => x._scaledValue < 0 ? -x : x;
             cfix64 IMath<cfix64>.Acos(cfix64 x) => (cfix64)Math.Acos((double)x);
@@ -214,8 +221,8 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IMath<cfix64>.Clamp(cfix64 x, cfix64 bound1, cfix64 bound2) => bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
             cfix64 IMath<cfix64>.Cos(cfix64 x) => (cfix64)Math.Cos((double)x);
             cfix64 IMath<cfix64>.Cosh(cfix64 x) => (cfix64)Math.Cosh((double)x);
-            cfix64 IMath<cfix64>.DecimalTruncate(cfix64 x, int significantDigits) => new cfix64(Digits.Truncate(x._scaledValue, significantDigits));
             cfix64 IMath<cfix64>.DegreesToRadians(cfix64 x) => (cfix64)CheckedArithmetic.Multiply((double)x, Trig.RadiansPerDegree);
+            cfix64 IMath<cfix64>.E { get; } = (cfix64)Math.E;
             cfix64 IMath<cfix64>.Exp(cfix64 x) => (cfix64)Math.Exp((double)x);
             cfix64 IMath<cfix64>.Floor(cfix64 x) => new cfix64(CheckedArithmetic.ScaledFloor(x._scaledValue, ScalingFactor));
             cfix64 IMath<cfix64>.IEEERemainder(cfix64 x, cfix64 y) => (cfix64)Math.IEEERemainder((double)x, (double)y);
@@ -224,18 +231,23 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IMath<cfix64>.Log10(cfix64 x) => (cfix64)Math.Log10((double)x);
             cfix64 IMath<cfix64>.Max(cfix64 x, cfix64 y) => new cfix64(Math.Max(x._scaledValue, y._scaledValue));
             cfix64 IMath<cfix64>.Min(cfix64 x, cfix64 y) => new cfix64(Math.Min(x._scaledValue, y._scaledValue));
+            cfix64 IMath<cfix64>.PI { get; } = (cfix64)Math.PI;
             cfix64 IMath<cfix64>.Pow(cfix64 x, cfix64 y) => y == 1 ? x : (cfix64)Math.Pow((double)x, (double)y);
             cfix64 IMath<cfix64>.RadiansToDegrees(cfix64 x) => (cfix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerRadian);
             cfix64 IMath<cfix64>.Round(cfix64 x) => Round(x, 0, MidpointRounding.ToEven);
             cfix64 IMath<cfix64>.Round(cfix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             cfix64 IMath<cfix64>.Round(cfix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);
             cfix64 IMath<cfix64>.Round(cfix64 x, MidpointRounding mode) => Round(x, 0, mode);
+            cfix64 IMath<cfix64>.RoundToSignificance(cfix64 x, int significantDigits, MidpointRounding mode) => new cfix64(Digits.RoundToSignificance(x._scaledValue, significantDigits, mode));
             cfix64 IMath<cfix64>.Sin(cfix64 x) => (cfix64)Math.Sin((double)x);
             cfix64 IMath<cfix64>.Sinh(cfix64 x) => (cfix64)Math.Sinh((double)x);
             cfix64 IMath<cfix64>.Sqrt(cfix64 x) => (cfix64)Math.Sqrt((double)x);
             cfix64 IMath<cfix64>.Tan(cfix64 x) => (cfix64)Math.Tan((double)x);
             cfix64 IMath<cfix64>.Tanh(cfix64 x) => (cfix64)Math.Tanh((double)x);
+            cfix64 IMath<cfix64>.Tau { get; } = (cfix64)(Math.PI * 2d);
             cfix64 IMath<cfix64>.Truncate(cfix64 x) => new cfix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            cfix64 IMath<cfix64>.TruncateToSignificance(cfix64 x, int significantDigits) => new cfix64(Digits.Truncate(x._scaledValue, significantDigits));
+            int IMath<cfix64>.Sign(cfix64 x) => x._scaledValue == 0 ? 0 : 1;
 
             cfix64 IBitConverter<cfix64>.Read(IReadOnlyStream<byte> stream) => new cfix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
             void IBitConverter<cfix64>.Write(cfix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));

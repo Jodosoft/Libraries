@@ -54,14 +54,19 @@ namespace FluentAssertions
 
         public static AndConstraint<ComparableTypeAssertions<N>> BeApproximately<N>(this ComparableTypeAssertions<N> parent, N expected, byte significantDigits = 3, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
-            var actualTruncated = Math<N>.DecimalTruncate((N)parent.Subject, significantDigits);
-            var expectedTruncated = Math<N>.DecimalTruncate(expected, significantDigits);
+            if (!Numeric<N>.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
+
+            var difference = Math<N>.Abs(((N)parent.Subject) - expected);
+
+            N tolerance = expected > Numeric<N>.MinUnit && expected < Numeric<N>.MaxUnit ?
+                (Numeric<N>.One / Numeric<N>.Ten) :
+                Math<N>.Abs(expected / Numeric<N>.Ten);
 
             Execute.Assertion
-                .ForCondition(actualTruncated.Equals(expectedTruncated))
+                .ForCondition(difference <= tolerance)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:value} to be {0} (approximate of {1}){reason}, but it was {2} (approximate of {3}).",
-                    expectedTruncated, expected, actualTruncated, parent.Subject);
+                .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1} (difference of {2}).",
+                expected, parent.Subject, difference);
 
             return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }

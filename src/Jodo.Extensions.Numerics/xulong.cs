@@ -150,22 +150,6 @@ namespace Jodo.Extensions.Numerics
             public readonly static Utilities Instance = new Utilities();
 
             bool INumericFunctions<xulong>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<xulong>.IsReal { get; } = false;
-            bool INumericFunctions<xulong>.IsSigned { get; } = false;
-            xulong IMath<xulong>.E { get; } = (xulong)2;
-            xulong INumericFunctions<xulong>.Epsilon { get; } = (xulong)1;
-            xulong INumericFunctions<xulong>.MaxUnit { get; } = (xulong)1;
-            xulong INumericFunctions<xulong>.MaxValue => MaxValue;
-            xulong INumericFunctions<xulong>.MinUnit { get; } = (xulong)0;
-            xulong INumericFunctions<xulong>.MinValue => MinValue;
-            xulong INumericFunctions<xulong>.One { get; } = (xulong)1;
-            xulong IMath<xulong>.PI { get; } = (xulong)3;
-            xulong IMath<xulong>.Tau { get; } = (xulong)6;
-            xulong INumericFunctions<xulong>.Ten { get; } = (xulong)10;
-            xulong INumericFunctions<xulong>.Two { get; } = (xulong)2;
-            xulong INumericFunctions<xulong>.Zero { get; } = (xulong)0;
-
-            int IMath<xulong>.Sign(xulong x) => x._value == 0 ? 0 : 1;
             bool INumericFunctions<xulong>.IsFinite(xulong x) => true;
             bool INumericFunctions<xulong>.IsInfinity(xulong x) => false;
             bool INumericFunctions<xulong>.IsNaN(xulong x) => false;
@@ -173,8 +157,20 @@ namespace Jodo.Extensions.Numerics
             bool INumericFunctions<xulong>.IsNegativeInfinity(xulong x) => false;
             bool INumericFunctions<xulong>.IsNormal(xulong x) => false;
             bool INumericFunctions<xulong>.IsPositiveInfinity(xulong x) => false;
+            bool INumericFunctions<xulong>.IsReal { get; } = false;
+            bool INumericFunctions<xulong>.IsSigned { get; } = false;
             bool INumericFunctions<xulong>.IsSubnormal(xulong x) => false;
+            xulong INumericFunctions<xulong>.Epsilon { get; } = (xulong)1;
+            xulong INumericFunctions<xulong>.MaxUnit { get; } = (xulong)1;
+            xulong INumericFunctions<xulong>.MaxValue => MaxValue;
+            xulong INumericFunctions<xulong>.MinUnit { get; } = (xulong)0;
+            xulong INumericFunctions<xulong>.MinValue => MinValue;
+            xulong INumericFunctions<xulong>.One { get; } = (xulong)1;
+            xulong INumericFunctions<xulong>.Ten { get; } = (xulong)10;
+            xulong INumericFunctions<xulong>.Two { get; } = (xulong)2;
+            xulong INumericFunctions<xulong>.Zero { get; } = (xulong)0;
 
+            int IMath<xulong>.Sign(xulong x) => x._value == 0 ? 0 : 1;
             xulong IMath<xulong>.Abs(xulong x) => x;
             xulong IMath<xulong>.Acos(xulong x) => (xulong)Math.Acos(x);
             xulong IMath<xulong>.Acosh(xulong x) => (xulong)Math.Acosh(x);
@@ -188,8 +184,8 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Clamp(xulong x, xulong bound1, xulong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xulong IMath<xulong>.Cos(xulong x) => (xulong)Math.Cos(x);
             xulong IMath<xulong>.Cosh(xulong x) => (xulong)Math.Cosh(x);
-            xulong IMath<xulong>.DecimalTruncate(xulong x, int significantDigits) => Digits.Truncate(x, significantDigits);
             xulong IMath<xulong>.DegreesToRadians(xulong x) => (xulong)(x * Trig.RadiansPerDegree);
+            xulong IMath<xulong>.E { get; } = (xulong)2;
             xulong IMath<xulong>.Exp(xulong x) => (xulong)Math.Exp(x);
             xulong IMath<xulong>.Floor(xulong x) => x;
             xulong IMath<xulong>.IEEERemainder(xulong x, xulong y) => (xulong)Math.IEEERemainder(x, y);
@@ -198,18 +194,22 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Log10(xulong x) => (xulong)Math.Log10(x);
             xulong IMath<xulong>.Max(xulong x, xulong y) => Math.Max(x, y);
             xulong IMath<xulong>.Min(xulong x, xulong y) => Math.Min(x, y);
+            xulong IMath<xulong>.PI { get; } = (xulong)3;
             xulong IMath<xulong>.Pow(xulong x, xulong y) => y == 1 ? x : (xulong)Math.Pow(x, y);
             xulong IMath<xulong>.RadiansToDegrees(xulong x) => (xulong)(x * Trig.DegreesPerRadian);
             xulong IMath<xulong>.Round(xulong x) => x;
             xulong IMath<xulong>.Round(xulong x, int digits) => x;
             xulong IMath<xulong>.Round(xulong x, int digits, MidpointRounding mode) => x;
             xulong IMath<xulong>.Round(xulong x, MidpointRounding mode) => x;
+            xulong IMath<xulong>.RoundToSignificance(xulong x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xulong IMath<xulong>.Sin(xulong x) => (xulong)Math.Sin(x);
             xulong IMath<xulong>.Sinh(xulong x) => (xulong)Math.Sinh(x);
             xulong IMath<xulong>.Sqrt(xulong x) => (xulong)Math.Sqrt(x);
             xulong IMath<xulong>.Tan(xulong x) => (xulong)Math.Tan(x);
             xulong IMath<xulong>.Tanh(xulong x) => (xulong)Math.Tanh(x);
+            xulong IMath<xulong>.Tau { get; } = (xulong)6;
             xulong IMath<xulong>.Truncate(xulong x) => x;
+            xulong IMath<xulong>.TruncateToSignificance(xulong x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xulong IBitConverter<xulong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)));
             void IBitConverter<xulong>.Write(xulong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

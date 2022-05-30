@@ -75,9 +75,6 @@ namespace Jodo.Extensions.Numerics
         public static N Cosh(N x) => Instance.Cosh(x);
 
         [DebuggerStepThrough]
-        public static N DecimalTruncate(N x, int significantDigits) => Instance.DecimalTruncate(x, significantDigits);
-
-        [DebuggerStepThrough]
         public static N DegreesToRadians(N x) => Instance.DegreesToRadians(x);
 
         [DebuggerStepThrough]
@@ -123,6 +120,9 @@ namespace Jodo.Extensions.Numerics
         public static N Round(N x, MidpointRounding mode) => Instance.Round(x, mode);
 
         [DebuggerStepThrough]
+        public static N RoundToSignificance(N x, int significantDigits, MidpointRounding mode) => Instance.RoundToSignificance(x, significantDigits, mode);
+
+        [DebuggerStepThrough]
         public static N Sin(N x) => Instance.Sin(x);
 
         [DebuggerStepThrough]
@@ -139,5 +139,8 @@ namespace Jodo.Extensions.Numerics
 
         [DebuggerStepThrough]
         public static N Truncate(N x) => Instance.Truncate(x);
+
+        [DebuggerStepThrough]
+        public static N TruncateToSignificance(N x, int significantDigits) => Instance.TruncateToSignificance(x, significantDigits);
     }
 }
