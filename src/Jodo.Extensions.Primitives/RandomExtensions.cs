@@ -132,37 +132,58 @@ namespace System
         public static decimal NextDecimal(this Random random) => new decimal(random.NextInt32(), random.NextInt32(), random.NextInt32(), random.NextBoolean(), random.NextByte(0, 28));
 
         public static decimal NextDecimal(this Random random, decimal bound1, decimal bound2)
-            => (decimal)random.NextDouble((double)bound1, (double)bound2);
+        {
+            if (bound1 == bound2) return bound1;
+            if (bound1 > bound2) (bound2, bound1) = (bound1, bound2);
+
+            decimal difference;
+            try
+            {
+                checked { difference = bound2 - bound1; }
+
+
+                var scalar = (decimal)(random.Next() / (1.0 * (int.MaxValue - 1)));
+                var result = bound1 + (difference * scalar);
+                return result;
+            }
+            catch (OverflowException)
+            {
+                decimal result;
+                do
+                {
+                    result = new decimal(
+                        random.NextInt32(),
+                        random.NextInt32(),
+                        random.NextInt32(),
+                        random.NextBoolean(),
+                        random.NextByte(0, 28));
+                } while (result < bound1 || result > bound2);
+                return result;
+            }
+        }
 
         public static double NextDouble(this Random random, double bound1, double bound2)
         {
             if (!double.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, "Must be finite.");
             if (!double.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, "Must be finite.");
-            if (bound1 > bound2)
-            {
-                (bound2, bound1) = (bound1, bound2);
-            }
             if (bound1 == bound2) return bound1;
+            if (bound1 > bound2) (bound2, bound1) = (bound1, bound2);
 
-            var difference = (bound2 - bound1) + bound1;
-            if (double.IsFinite(difference))
+            var difference = bound2 - bound1;
+            if (double.IsPositiveInfinity(difference))
             {
-                return random.NextDouble() * difference;
+                double result;
+                do
+                {
+                    result = BitConverter.ToDouble(random.NextBytes(8));
+                } while (!double.IsFinite(result) || result < bound1 || result > bound2);
+                return result;
             }
             else
             {
-                double res;
-                var i = 0;
-                do
-                {
-                    res = BitConverter.ToDouble(random.NextBytes(8));
-                    i++;
-                    if (i > 10)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                } while (res < bound1 || res > bound2);
-                return res;
+                var scalar = random.Next() / (1.0 * (int.MaxValue - 1));
+                var result = bound1 + (difference * scalar);
+                return result;
             }
         }
 

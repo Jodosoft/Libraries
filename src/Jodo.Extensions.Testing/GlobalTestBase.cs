@@ -23,6 +23,7 @@ using System;
 
 namespace Jodo.Extensions.Testing
 {
+    [Timeout(10000)]
     public abstract class GlobalTestBase
     {
 #if DEBUG

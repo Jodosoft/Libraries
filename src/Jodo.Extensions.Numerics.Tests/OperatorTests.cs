@@ -196,12 +196,18 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Divide_RandomValues_CorrectResult()
             {
                 //arrange
-                var randomValue1 = ToDoubleSafe(Random.NextNumeric<N>());
-                double randomValue2;
-                do
+                var randomValue1 = Random.NextDouble(1, 10);
+                var randomValue2 = Random.NextDouble(1, randomValue1);
+                if (!Numeric<N>.IsReal)
                 {
-                    randomValue2 = ToDoubleSafe(Random.NextNumeric<N>());
-                } while (randomValue2 > -1 && randomValue2 < 1);
+                    randomValue1 = Math.Truncate(randomValue1);
+                    randomValue2 = Math.Truncate(randomValue2);
+                }
+                if (Numeric<N>.IsSigned)
+                {
+                    if (Random.NextBoolean()) randomValue1 = -randomValue1;
+                    if (Random.NextBoolean()) randomValue2 = -randomValue2;
+                }
                 var left = Numerics.Cast<N>.ToValue(randomValue1);
                 var right = Numerics.Cast<N>.ToValue(randomValue2);
                 var expected = Numerics.Cast<N>.ToValue(randomValue1 / randomValue2);

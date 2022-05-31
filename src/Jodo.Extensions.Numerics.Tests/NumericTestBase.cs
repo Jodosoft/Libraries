@@ -28,28 +28,18 @@ namespace Jodo.Extensions.Numerics.Tests
     {
         public const double MaxTestableReal = 100_000d;
 
-        protected double ToDoubleSafe(N value)
+        protected double FindTestableDouble(N value)
         {
-            if (value.Equals(Numeric<N>.Zero)) return 0;
-            checked
+            var result = Math.Round(Cast<N>.ToDouble(value), 6);
+            var log10 = (int)Math.Log10(Math.Abs(result / 10));
+            if (log10 < -1) result *= 1000;
+            else if (log10 > 3) result /= Math.Pow(10, log10 - 3);
+
+            if (!Numeric<N>.IsFinite(Cast<N>.ToValue(result)))
             {
-                while (!value.Equals(Numeric<N>.Zero))
-                {
-                    try
-                    {
-                        var result = Cast<N>.ToDouble(value);
-                        if (Cast<N>.ToValue(result).Equals(value))
-                        {
-                            return result;
-                        }
-                    }
-                    catch (OverflowException)
-                    {
-                    }
-                    value /= Numeric<N>.Two;
-                }
                 throw new InvalidOperationException();
             }
+            return Math.Round(result, 6);
         }
 
         protected N NextLowPrecision()

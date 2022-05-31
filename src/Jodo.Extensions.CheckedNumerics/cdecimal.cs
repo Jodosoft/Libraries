@@ -195,7 +195,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cdecimal IMath<cdecimal>.Max(cdecimal x, cdecimal y) => Math.Max(x._value, y._value);
             cdecimal IMath<cdecimal>.Min(cdecimal x, cdecimal y) => Math.Min(x._value, y._value);
             cdecimal IMath<cdecimal>.PI { get; } = (decimal)Math.PI;
-            cdecimal IMath<cdecimal>.Pow(cdecimal x, cdecimal y) => CheckedCast.ToDecimal(Math.Pow(CheckedCast.ToDouble(x._value), CheckedCast.ToDouble(y._value)));
+            cdecimal IMath<cdecimal>.Pow(cdecimal x, cdecimal y) => y == 1 ? x : (cdecimal)CheckedCast.ToDecimal(Math.Pow(CheckedCast.ToDouble(x._value), CheckedCast.ToDouble(y._value)));
             cdecimal IMath<cdecimal>.RadiansToDegrees(cdecimal radians) => radians * Trig.DegreesPerRadianM;
             cdecimal IMath<cdecimal>.Round(cdecimal x) => decimal.Round(x);
             cdecimal IMath<cdecimal>.Round(cdecimal x, int digits) => decimal.Round(x, digits);

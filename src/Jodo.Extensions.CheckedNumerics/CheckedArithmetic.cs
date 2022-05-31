@@ -409,12 +409,14 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static long ScaledFloor(long scaledValue, long scalingFactor)
         {
+            if (scaledValue % scalingFactor == 0) return scaledValue;
             if (scaledValue < 0) return (scaledValue / scalingFactor * scalingFactor) - scalingFactor;
             return scaledValue / scalingFactor * scalingFactor;
         }
 
         public static ulong ScaledFloor(ulong scaledValue, ulong scalingFactor)
         {
+            if (scaledValue % scalingFactor == 0) return scaledValue;
             return scaledValue / scalingFactor * scalingFactor;
         }
     }
