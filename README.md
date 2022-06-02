@@ -20,9 +20,9 @@
 
 <h2>Jodo.Extensions.Numerics</h2>
 
-Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
+Provides <a href="#inumericn">INumeric&lt;N&gt;</a> and utilities for creating custom numeric types.
 
-<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
+<a href="#inumericn">Fixed-point numeric types</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
 
 Usage is identical to the built-in numeric types, with full operator support, type conversions, commonly used interfaces and familiar static classes.
 This is demonstrated by the following code example:
