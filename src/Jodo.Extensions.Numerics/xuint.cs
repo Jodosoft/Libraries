@@ -73,12 +73,10 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator xuint(short value) => new xuint((uint)value);
         public static explicit operator xuint(ulong value) => new xuint((uint)value);
         public static implicit operator xuint(byte value) => new xuint(value);
-        public static implicit operator xuint(char value) => new xuint(value);
         public static implicit operator xuint(uint value) => new xuint(value);
         public static implicit operator xuint(ushort value) => new xuint(value);
 
         public static explicit operator byte(xuint value) => (byte)value._value;
-        public static explicit operator char(xuint value) => (char)value._value;
         public static explicit operator int(xuint value) => (int)value._value;
         public static explicit operator sbyte(xuint value) => (sbyte)value._value;
         public static explicit operator short(xuint value) => (short)value._value;
@@ -130,13 +128,13 @@ namespace Jodo.Extensions.Numerics
         xuint INumeric<xuint>.RightShift(int count) => this >> count;
         xuint INumeric<xuint>.Subtract(xuint value) => this - value;
 
-        IBitConverter<xuint> IBitConvertible<xuint>.BitConverter => Utilities.Instance;
-        ICast<xuint> INumeric<xuint>.Cast => Utilities.Instance;
-        IConvert<xuint> IConvertible<xuint>.Convert => Utilities.Instance;
-        IMath<xuint> INumeric<xuint>.Math => Utilities.Instance;
-        INumericFunctions<xuint> INumeric<xuint>.NumericFunctions => Utilities.Instance;
-        IRandom<xuint> IRandomisable<xuint>.Random => Utilities.Instance;
-        IStringParser<xuint> IStringParsable<xuint>.StringParser => Utilities.Instance;
+        IBitConverter<xuint> IProvider<IBitConverter<xuint>>.GetInstance() => Utilities.Instance;
+        ICast<xuint> IProvider<ICast<xuint>>.GetInstance() => Utilities.Instance;
+        IConvert<xuint> IProvider<IConvert<xuint>>.GetInstance() => Utilities.Instance;
+        IMath<xuint> IProvider<IMath<xuint>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<xuint> IProvider<INumericFunctions<xuint>>.GetInstance() => Utilities.Instance;
+        IRandom<xuint> IProvider<IRandom<xuint>>.GetInstance() => Utilities.Instance;
+        IStringParser<xuint> IProvider<IStringParser<xuint>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xuint>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.Numerics
             xuint IMath<xuint>.Round(xuint x, int digits) => x;
             xuint IMath<xuint>.Round(xuint x, int digits, MidpointRounding mode) => x;
             xuint IMath<xuint>.Round(xuint x, MidpointRounding mode) => x;
-            xuint IMath<xuint>.RoundToSignificance(xuint x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xuint IMath<xuint>.Sin(xuint x) => (uint)Math.Sin(x._value);
             xuint IMath<xuint>.Sinh(xuint x) => (uint)Math.Sinh(x._value);
             xuint IMath<xuint>.Sqrt(xuint x) => (uint)Math.Sqrt(x._value);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.Numerics
             xuint IMath<xuint>.Tanh(xuint x) => (uint)Math.Tanh(x._value);
             xuint IMath<xuint>.Tau { get; } = (uint)6;
             xuint IMath<xuint>.Truncate(xuint x) => x;
-            xuint IMath<xuint>.TruncateToSignificance(xuint x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xuint IBitConverter<xuint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
             void IBitConverter<xuint>.Write(xuint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

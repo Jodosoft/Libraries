@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
 
@@ -25,6 +26,8 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class NumericFunctionsTests
     {
+        public class Fix64 : Base<fix64> { }
+        public class UFix64 : Base<ufix64> { }
         public class XByte : Base<xbyte> { }
         public class XDecimal : Base<xdecimal> { }
         public class XDouble : Base<xdouble> { }
@@ -49,28 +52,28 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Epsilon_Integral_IsOne()
             {
                 OnlyApplicableTo.Integral();
-                Numeric<N>.Epsilon.ToDouble().Should().Be(1);
+                Convert<N>.ToDouble(Numeric<N>.Epsilon).Should().Be(1);
             }
 
             [Test]
             public void Epsilon_Real_GreaterThanZero()
             {
                 OnlyApplicableTo.Real();
-                Numeric<N>.Epsilon.ToDouble().Should().BeGreaterThan(0);
+                Convert<N>.ToDouble(Numeric<N>.Epsilon).Should().BeGreaterThan(0);
             }
 
             [Test]
             public void Epsilon_Real_LessThanOne()
             {
                 OnlyApplicableTo.Real();
-                Numeric<N>.Epsilon.ToDouble().Should().BeLessThan(1);
+                Convert<N>.ToDouble(Numeric<N>.Epsilon).Should().BeLessThan(1);
             }
 
             [Test]
             public void Epsilon_Real_ApproximatelyZero()
             {
                 OnlyApplicableTo.Real();
-                Numeric<N>.Epsilon.ToDouble().Should().BeApproximately(0, 0.0001);
+                Convert<N>.ToDouble(Numeric<N>.Epsilon).Should().BeApproximately(0, 0.0001);
             }
 
             [Test]
@@ -82,7 +85,7 @@ namespace Jodo.Extensions.Numerics.Tests
             [Test]
             public void MaxUnit_IsOne()
             {
-                Numeric<N>.MaxUnit.ToDouble().Should().Be(1);
+                Convert<N>.ToDouble(Numeric<N>.MaxUnit).Should().Be(1);
             }
 
             [Test]
@@ -102,7 +105,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void MinUnit_Signed_IsMinusOne()
             {
                 OnlyApplicableTo.Signed();
-                Numeric<N>.MinUnit.ToDouble().Should().Be(-1);
+                Convert<N>.ToDouble(Numeric<N>.MinUnit).Should().Be(-1);
             }
 
             [Test]
@@ -116,31 +119,31 @@ namespace Jodo.Extensions.Numerics.Tests
             public void MinValue_Signed_IsNegative()
             {
                 OnlyApplicableTo.Signed();
-                Numeric<N>.MinValue.ToDouble().Should().BeLessThanOrEqualTo(sbyte.MinValue);
+                Convert<N>.ToDouble(Numeric<N>.MinValue).Should().BeLessThanOrEqualTo(sbyte.MinValue);
             }
 
             [Test]
             public void MaxValue_IsPositive()
             {
-                Numeric<N>.MaxValue.ToDouble().Should().BeGreaterThanOrEqualTo(sbyte.MaxValue);
+                Convert<N>.ToDouble(Numeric<N>.MaxValue).Should().BeGreaterThanOrEqualTo(sbyte.MaxValue);
             }
 
             [Test]
             public void One_IsOne()
             {
-                Numeric<N>.One.ToDouble().Should().Be(1);
+                Convert<N>.ToDouble(Numeric<N>.One).Should().Be(1);
             }
 
             [Test]
             public void Ten_IsTen()
             {
-                Numeric<N>.Ten.ToDouble().Should().Be(10);
+                Convert<N>.ToDouble(Numeric<N>.Ten).Should().Be(10);
             }
 
             [Test]
             public void Two_IsTwo()
             {
-                Numeric<N>.Two.ToDouble().Should().Be(2);
+                Convert<N>.ToDouble(Numeric<N>.Two).Should().Be(2);
             }
 
             [Test]
@@ -152,7 +155,7 @@ namespace Jodo.Extensions.Numerics.Tests
             [Test]
             public void Zero_IsZero()
             {
-                Numeric<N>.Zero.ToDouble().Should().Be(0);
+                Convert<N>.ToDouble(Numeric<N>.Zero).Should().Be(0);
             }
 
             [Test]

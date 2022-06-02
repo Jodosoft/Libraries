@@ -38,7 +38,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class UCShort : Base<ucshort> { }
 
 
-        public abstract class Base<T> : Numerics.Tests.BitConverterTests.Base<T> where T : struct, INumeric<T>
+        public abstract class Base<N> : Numerics.Tests.BitConverterTests.Base<N> where N : struct, INumeric<N>
         {
 
         }

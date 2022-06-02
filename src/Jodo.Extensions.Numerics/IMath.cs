@@ -21,7 +21,7 @@ using System;
 
 namespace Jodo.Extensions.Numerics
 {
-    public interface IMath<N> where N : struct, INumeric<N>
+    public interface IMath<N>
     {
         N E { get; }
         N PI { get; }
@@ -57,13 +57,11 @@ namespace Jodo.Extensions.Numerics
         N Round(N x, int digits);
         N Round(N x, int digits, MidpointRounding mode);
         N Round(N x, MidpointRounding mode);
-        N RoundToSignificance(N x, int significantDigits, MidpointRounding mode);
         N Sin(N x);
         N Sinh(N x);
         N Sqrt(N x);
         N Tan(N x);
         N Tanh(N x);
         N Truncate(N x);
-        N TruncateToSignificance(N x, int significantDigits);
     }
 }

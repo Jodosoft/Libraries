@@ -20,6 +20,7 @@
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
 using System;
 
 namespace FluentAssertions
@@ -28,7 +29,7 @@ namespace FluentAssertions
     {
         public static AndConstraint<ComparableTypeAssertions<N>> BeCheckedNumericEquivalentTo<N>(this ComparableTypeAssertions<N> parent, double expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
-            var actual = ((N)parent.Subject).ToDouble();
+            var actual = Convert<N>.ToDouble((N)parent.Subject);
 
             if (double.IsNaN(expected))
             {
@@ -39,7 +40,7 @@ namespace FluentAssertions
             }
             else if (double.IsPositiveInfinity(expected))
             {
-                var expectedValue = Numeric<N>.MaxValue.ToDouble();
+                var expectedValue = Convert<N>.ToDouble(Numeric<N>.MaxValue);
                 Execute.Assertion
                   .ForCondition(actual == expectedValue)
                   .BecauseOf(because, becauseArgs)
@@ -47,7 +48,7 @@ namespace FluentAssertions
             }
             else if (double.IsNegativeInfinity(expected))
             {
-                var expectedValue = Numeric<N>.MinValue.ToDouble();
+                var expectedValue = Convert<N>.ToDouble(Numeric<N>.MinValue);
                 Execute.Assertion
                   .ForCondition(actual == expectedValue)
                   .BecauseOf(because, becauseArgs)
@@ -60,17 +61,17 @@ namespace FluentAssertions
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be 0 (unsigned equivalent to {0}){reason}, but it was {1}.", expected, actual);
             }
-            else if (expected > Numeric<N>.MaxValue.ToDouble())
+            else if (expected > Convert<N>.ToDouble(Numeric<N>.MaxValue))
             {
-                var expectedValue = Numeric<N>.MaxValue.ToDouble();
+                var expectedValue = Convert<N>.ToDouble(Numeric<N>.MaxValue);
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:value} to be {0} (checked/clamped version of {1}){reason}, but it was {2}.", expectedValue, expected, actual);
             }
-            else if (expected < Numeric<N>.MinValue.ToDouble())
+            else if (expected < Convert<N>.ToDouble(Numeric<N>.MinValue))
             {
-                var expectedValue = Numeric<N>.MinValue.ToDouble();
+                var expectedValue = Convert<N>.ToDouble(Numeric<N>.MinValue);
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
@@ -96,44 +97,44 @@ namespace FluentAssertions
             return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
 
-        public static AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        public static AndConstraint<ComparableTypeAssertions<N>> BeGreaterThan<N>(this ComparableTypeAssertions<N> parent, N expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
             Execute.Assertion
-                .ForCondition((T)parent.Subject > expected)
+                .ForCondition((N)parent.Subject > expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be greater than {0}{reason}, but it was {1}.", expected, parent.Subject);
 
-            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
 
-        public static AndConstraint<ComparableTypeAssertions<T>> BeGreaterThanOrEqualTo<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        public static AndConstraint<ComparableTypeAssertions<N>> BeGreaterThanOrEqualTo<N>(this ComparableTypeAssertions<N> parent, N expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
             Execute.Assertion
-                .ForCondition((T)parent.Subject >= expected)
+                .ForCondition((N)parent.Subject >= expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be greater than or equal to {0}{reason}, but it was {1}.", expected, parent.Subject);
 
-            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
 
-        public static AndConstraint<ComparableTypeAssertions<T>> BeLessThan<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        public static AndConstraint<ComparableTypeAssertions<N>> BeLessThan<N>(this ComparableTypeAssertions<N> parent, N expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
             Execute.Assertion
-                .ForCondition((T)parent.Subject < expected)
+                .ForCondition((N)parent.Subject < expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be less than {0}{reason}, but it was {1}.", expected, parent.Subject);
 
-            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
 
-        public static AndConstraint<ComparableTypeAssertions<T>> BeLessThanOrEqualTo<T>(this ComparableTypeAssertions<T> parent, T expected, string because = "", params object[] becauseArgs) where T : struct, INumeric<T>
+        public static AndConstraint<ComparableTypeAssertions<N>> BeLessThanOrEqualTo<N>(this ComparableTypeAssertions<N> parent, N expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
             Execute.Assertion
-                .ForCondition((T)parent.Subject <= expected)
+                .ForCondition((N)parent.Subject <= expected)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:value} to be less than or equal to {0}{reason}, but it was {1}.", expected, parent.Subject);
 
-            return new AndConstraint<ComparableTypeAssertions<T>>(parent);
+            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
     }
 }

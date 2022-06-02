@@ -77,7 +77,6 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator xfloat(decimal value) => new xfloat((float)value);
         public static explicit operator xfloat(double value) => new xfloat((float)value);
         public static implicit operator xfloat(byte value) => new xfloat(value);
-        public static implicit operator xfloat(char value) => new xfloat(value);
         public static implicit operator xfloat(float value) => new xfloat(value);
         public static implicit operator xfloat(int value) => new xfloat(value);
         public static implicit operator xfloat(long value) => new xfloat(value);
@@ -88,7 +87,6 @@ namespace Jodo.Extensions.Numerics
         public static implicit operator xfloat(ushort value) => new xfloat(value);
 
         public static explicit operator byte(xfloat value) => (byte)value._value;
-        public static explicit operator char(xfloat value) => (char)value._value;
         public static explicit operator decimal(xfloat value) => (decimal)value._value;
         public static explicit operator int(xfloat value) => (int)value._value;
         public static explicit operator long(xfloat value) => (long)value._value;
@@ -140,13 +138,13 @@ namespace Jodo.Extensions.Numerics
         xfloat INumeric<xfloat>.RightShift(int count) => this >> count;
         xfloat INumeric<xfloat>.Subtract(xfloat value) => this - value;
 
-        IBitConverter<xfloat> IBitConvertible<xfloat>.BitConverter => Utilities.Instance;
-        ICast<xfloat> INumeric<xfloat>.Cast => Utilities.Instance;
-        IConvert<xfloat> IConvertible<xfloat>.Convert => Utilities.Instance;
-        IMath<xfloat> INumeric<xfloat>.Math => Utilities.Instance;
-        INumericFunctions<xfloat> INumeric<xfloat>.NumericFunctions => Utilities.Instance;
-        IRandom<xfloat> IRandomisable<xfloat>.Random => Utilities.Instance;
-        IStringParser<xfloat> IStringParsable<xfloat>.StringParser => Utilities.Instance;
+        IBitConverter<xfloat> IProvider<IBitConverter<xfloat>>.GetInstance() => Utilities.Instance;
+        ICast<xfloat> IProvider<ICast<xfloat>>.GetInstance() => Utilities.Instance;
+        IConvert<xfloat> IProvider<IConvert<xfloat>>.GetInstance() => Utilities.Instance;
+        IMath<xfloat> IProvider<IMath<xfloat>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<xfloat> IProvider<INumericFunctions<xfloat>>.GetInstance() => Utilities.Instance;
+        IRandom<xfloat> IProvider<IRandom<xfloat>>.GetInstance() => Utilities.Instance;
+        IStringParser<xfloat> IProvider<IStringParser<xfloat>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xfloat>,
@@ -211,7 +209,6 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Round(xfloat x, int digits) => MathF.Round(x, digits);
             xfloat IMath<xfloat>.Round(xfloat x, int digits, MidpointRounding mode) => MathF.Round(x, digits, mode);
             xfloat IMath<xfloat>.Round(xfloat x, MidpointRounding mode) => MathF.Round(x, mode);
-            xfloat IMath<xfloat>.RoundToSignificance(xfloat x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xfloat IMath<xfloat>.Sin(xfloat x) => MathF.Sin(x._value);
             xfloat IMath<xfloat>.Sinh(xfloat x) => MathF.Sinh(x._value);
             xfloat IMath<xfloat>.Sqrt(xfloat x) => MathF.Sqrt(x._value);
@@ -219,7 +216,6 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Tanh(xfloat x) => MathF.Tanh(x._value);
             xfloat IMath<xfloat>.Tau { get; } = MathF.PI * 2;
             xfloat IMath<xfloat>.Truncate(xfloat x) => MathF.Truncate(x._value);
-            xfloat IMath<xfloat>.TruncateToSignificance(xfloat x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xfloat IBitConverter<xfloat>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)));
             void IBitConverter<xfloat>.Write(xfloat value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

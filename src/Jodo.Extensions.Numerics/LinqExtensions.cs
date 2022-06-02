@@ -24,7 +24,6 @@ namespace System.Linq
 {
     public static class LinqExtensions
     {
-
         public static N Average<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
             N sum = Numeric<N>.Zero;
@@ -46,6 +45,5 @@ namespace System.Linq
             }
             return sum;
         }
-
     }
 }

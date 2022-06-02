@@ -74,7 +74,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static explicit operator cfloat(decimal value) => new cfloat(CheckedConvert.ToSingle(value));
         public static explicit operator cfloat(double value) => new cfloat(CheckedConvert.ToSingle(value));
         public static implicit operator cfloat(byte value) => new cfloat(value);
-        public static implicit operator cfloat(char value) => new cfloat(value);
         public static implicit operator cfloat(float value) => new cfloat(value);
         public static implicit operator cfloat(int value) => new cfloat(value);
         public static implicit operator cfloat(long value) => new cfloat(value);
@@ -85,7 +84,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static implicit operator cfloat(ushort value) => new cfloat(value);
 
         public static explicit operator byte(cfloat value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator char(cfloat value) => CheckedConvert.ToChar(value._value);
         public static explicit operator decimal(cfloat value) => CheckedConvert.ToDecimal(value._value);
         public static explicit operator int(cfloat value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator long(cfloat value) => CheckedConvert.ToInt64(value._value);
@@ -137,13 +135,13 @@ namespace Jodo.Extensions.CheckedNumerics
         cfloat INumeric<cfloat>.RightShift(int count) => this >> count;
         cfloat INumeric<cfloat>.Subtract(cfloat value) => this - value;
 
-        IBitConverter<cfloat> IBitConvertible<cfloat>.BitConverter => Utilities.Instance;
-        ICast<cfloat> INumeric<cfloat>.Cast => Utilities.Instance;
-        IConvert<cfloat> IConvertible<cfloat>.Convert => Utilities.Instance;
-        IMath<cfloat> INumeric<cfloat>.Math => Utilities.Instance;
-        INumericFunctions<cfloat> INumeric<cfloat>.NumericFunctions => Utilities.Instance;
-        IRandom<cfloat> IRandomisable<cfloat>.Random => Utilities.Instance;
-        IStringParser<cfloat> IStringParsable<cfloat>.StringParser => Utilities.Instance;
+        IBitConverter<cfloat> IProvider<IBitConverter<cfloat>>.GetInstance() => Utilities.Instance;
+        ICast<cfloat> IProvider<ICast<cfloat>>.GetInstance() => Utilities.Instance;
+        IConvert<cfloat> IProvider<IConvert<cfloat>>.GetInstance() => Utilities.Instance;
+        IMath<cfloat> IProvider<IMath<cfloat>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<cfloat> IProvider<INumericFunctions<cfloat>>.GetInstance() => Utilities.Instance;
+        IRandom<cfloat> IProvider<IRandom<cfloat>>.GetInstance() => Utilities.Instance;
+        IStringParser<cfloat> IProvider<IStringParser<cfloat>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<cfloat>,
@@ -207,7 +205,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Round(cfloat x, int digits) => MathF.Round(x._value, digits);
             cfloat IMath<cfloat>.Round(cfloat x, int digits, MidpointRounding mode) => MathF.Round(x._value, digits, mode);
             cfloat IMath<cfloat>.Round(cfloat x, MidpointRounding mode) => MathF.Round(x._value, mode);
-            cfloat IMath<cfloat>.RoundToSignificance(cfloat x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cfloat IMath<cfloat>.Sin(cfloat x) => MathF.Sin(x._value);
             cfloat IMath<cfloat>.Sinh(cfloat x) => MathF.Sinh(x._value);
             cfloat IMath<cfloat>.Sqrt(cfloat x) => MathF.Sqrt(x._value);
@@ -215,7 +212,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Tanh(cfloat x) => MathF.Tanh(x._value);
             cfloat IMath<cfloat>.Tau { get; } = MathF.PI * 2f;
             cfloat IMath<cfloat>.Truncate(cfloat x) => MathF.Truncate(x._value);
-            cfloat IMath<cfloat>.TruncateToSignificance(cfloat x, int significantDigits) => Digits.Truncate(x, significantDigits);
             int IMath<cfloat>.Sign(cfloat x) => Math.Sign(x._value);
 
             cfloat IBitConverter<cfloat>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)));

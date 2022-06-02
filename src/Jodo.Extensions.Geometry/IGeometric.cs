@@ -17,13 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Geometry
 {
-    public interface IGeometric<N> : IBitConvertible<N>, IRandomisable<N>, IStringParsable<N>, IEquatable<N>, ISerializable, IFormattable where N : struct, IGeometric<N>
+    public interface IGeometric<G> : IEquatable<G>, ISerializable, IFormattable where G : struct, IGeometric<G>
     {
     }
 }

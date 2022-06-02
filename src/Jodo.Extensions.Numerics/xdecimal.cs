@@ -67,7 +67,6 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator xdecimal(double value) => new xdecimal((decimal)value);
         public static explicit operator xdecimal(float value) => new xdecimal((decimal)value);
         public static implicit operator xdecimal(byte value) => new xdecimal(value);
-        public static implicit operator xdecimal(char value) => new xdecimal(value);
         public static implicit operator xdecimal(decimal value) => new xdecimal(value);
         public static implicit operator xdecimal(int value) => new xdecimal(value);
         public static implicit operator xdecimal(long value) => new xdecimal(value);
@@ -78,7 +77,6 @@ namespace Jodo.Extensions.Numerics
         public static implicit operator xdecimal(ushort value) => new xdecimal(value);
 
         public static explicit operator byte(xdecimal value) => (byte)value._value;
-        public static explicit operator char(xdecimal value) => (char)value._value;
         public static explicit operator double(xdecimal value) => (double)value._value;
         public static explicit operator float(xdecimal value) => (float)value._value;
         public static explicit operator int(xdecimal value) => (int)value._value;
@@ -130,13 +128,13 @@ namespace Jodo.Extensions.Numerics
         xdecimal INumeric<xdecimal>.RightShift(int count) => this >> count;
         xdecimal INumeric<xdecimal>.Subtract(xdecimal value) => this - value;
 
-        IBitConverter<xdecimal> IBitConvertible<xdecimal>.BitConverter => Utilities.Instance;
-        ICast<xdecimal> INumeric<xdecimal>.Cast => Utilities.Instance;
-        IConvert<xdecimal> IConvertible<xdecimal>.Convert => Utilities.Instance;
-        IMath<xdecimal> INumeric<xdecimal>.Math => Utilities.Instance;
-        INumericFunctions<xdecimal> INumeric<xdecimal>.NumericFunctions => Utilities.Instance;
-        IRandom<xdecimal> IRandomisable<xdecimal>.Random => Utilities.Instance;
-        IStringParser<xdecimal> IStringParsable<xdecimal>.StringParser => Utilities.Instance;
+        IBitConverter<xdecimal> IProvider<IBitConverter<xdecimal>>.GetInstance() => Utilities.Instance;
+        ICast<xdecimal> IProvider<ICast<xdecimal>>.GetInstance() => Utilities.Instance;
+        IConvert<xdecimal> IProvider<IConvert<xdecimal>>.GetInstance() => Utilities.Instance;
+        IMath<xdecimal> IProvider<IMath<xdecimal>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<xdecimal> IProvider<INumericFunctions<xdecimal>>.GetInstance() => Utilities.Instance;
+        IRandom<xdecimal> IProvider<IRandom<xdecimal>>.GetInstance() => Utilities.Instance;
+        IStringParser<xdecimal> IProvider<IStringParser<xdecimal>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xdecimal>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.Numerics
             xdecimal IMath<xdecimal>.Round(xdecimal x, int digits) => decimal.Round(x, digits);
             xdecimal IMath<xdecimal>.Round(xdecimal x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);
             xdecimal IMath<xdecimal>.Round(xdecimal x, MidpointRounding mode) => decimal.Round(x, mode);
-            xdecimal IMath<xdecimal>.RoundToSignificance(xdecimal x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xdecimal IMath<xdecimal>.Sin(xdecimal x) => (xdecimal)Math.Sin((double)x);
             xdecimal IMath<xdecimal>.Sinh(xdecimal x) => (xdecimal)Math.Sinh((double)x);
             xdecimal IMath<xdecimal>.Sqrt(xdecimal x) => (xdecimal)Math.Sqrt((double)x);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.Numerics
             xdecimal IMath<xdecimal>.Tanh(xdecimal x) => (xdecimal)Math.Tanh((double)x);
             xdecimal IMath<xdecimal>.Tau { get; } = (xdecimal)Math.PI * 2m;
             xdecimal IMath<xdecimal>.Truncate(xdecimal x) => decimal.Truncate(x);
-            xdecimal IMath<xdecimal>.TruncateToSignificance(xdecimal x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xdecimal IBitConverter<xdecimal>.Read(IReadOnlyStream<byte> stream)
             {

@@ -22,35 +22,35 @@ using System.Collections.Generic;
 
 namespace Jodo.Extensions.Primitives
 {
-    public static class BitConverter<T> where T : IBitConvertible<T>, new()
+    public static class BitConverter<T> where T : struct, IProvider<IBitConverter<T>>
     {
-        private static readonly IBitConverter<T> DefaultInstance = new T().BitConverter;
+        private static readonly IBitConverter<T> Default = default(T).GetInstance();
 
         public static ReadOnlySpan<byte> GetBytes(T value)
         {
             var list = new List<byte>();
-            DefaultInstance.Write(value, list.AsWriteOnlyStream());
+            Default.Write(value, list.AsWriteOnlyStream());
             return list.ToArray();
         }
 
         public static T FromBytes(ReadOnlySpan<byte> bytes)
         {
-            return DefaultInstance.Read(bytes.ToArray().AsReadOnlyStream());
+            return Default.Read(bytes.ToArray().AsReadOnlyStream());
         }
 
         public static T FromBytes(IReadOnlyList<byte> bytes)
         {
-            return DefaultInstance.Read(bytes.AsReadOnlyStream());
+            return Default.Read(bytes.AsReadOnlyStream());
         }
 
         public static T Read(IReadOnlyStream<byte> stream)
         {
-            return DefaultInstance.Read(stream);
+            return Default.Read(stream);
         }
 
         public static void Write(IWriteOnlyStream<byte> stream, T value)
         {
-            DefaultInstance.Write(value, stream);
+            Default.Write(value, stream);
         }
     }
 }

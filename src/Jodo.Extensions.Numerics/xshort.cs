@@ -64,7 +64,6 @@ namespace Jodo.Extensions.Numerics
         public static xshort Parse(string s, NumberStyles style) => short.Parse(s, style);
         public static xshort Parse(string s, NumberStyles style, IFormatProvider provider) => short.Parse(s, style, provider);
 
-        public static explicit operator xshort(char value) => new xshort((short)value);
         public static explicit operator xshort(decimal value) => new xshort((short)value);
         public static explicit operator xshort(double value) => new xshort((short)value);
         public static explicit operator xshort(float value) => new xshort((short)value);
@@ -78,7 +77,6 @@ namespace Jodo.Extensions.Numerics
         public static implicit operator xshort(short value) => new xshort(value);
 
         public static explicit operator byte(xshort value) => (byte)value._value;
-        public static explicit operator char(xshort value) => (char)value._value;
         public static explicit operator sbyte(xshort value) => (sbyte)value._value;
         public static explicit operator uint(xshort value) => (uint)value._value;
         public static explicit operator ulong(xshort value) => (ulong)value._value;
@@ -130,13 +128,13 @@ namespace Jodo.Extensions.Numerics
         xshort INumeric<xshort>.RightShift(int count) => this >> count;
         xshort INumeric<xshort>.Subtract(xshort value) => this - value;
 
-        IBitConverter<xshort> IBitConvertible<xshort>.BitConverter => Utilities.Instance;
-        ICast<xshort> INumeric<xshort>.Cast => Utilities.Instance;
-        IConvert<xshort> IConvertible<xshort>.Convert => Utilities.Instance;
-        IMath<xshort> INumeric<xshort>.Math => Utilities.Instance;
-        INumericFunctions<xshort> INumeric<xshort>.NumericFunctions => Utilities.Instance;
-        IRandom<xshort> IRandomisable<xshort>.Random => Utilities.Instance;
-        IStringParser<xshort> IStringParsable<xshort>.StringParser => Utilities.Instance;
+        IBitConverter<xshort> IProvider<IBitConverter<xshort>>.GetInstance() => Utilities.Instance;
+        ICast<xshort> IProvider<ICast<xshort>>.GetInstance() => Utilities.Instance;
+        IConvert<xshort> IProvider<IConvert<xshort>>.GetInstance() => Utilities.Instance;
+        IMath<xshort> IProvider<IMath<xshort>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<xshort> IProvider<INumericFunctions<xshort>>.GetInstance() => Utilities.Instance;
+        IRandom<xshort> IProvider<IRandom<xshort>>.GetInstance() => Utilities.Instance;
+        IStringParser<xshort> IProvider<IStringParser<xshort>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xshort>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.Numerics
             xshort IMath<xshort>.Round(xshort x, int digits) => x;
             xshort IMath<xshort>.Round(xshort x, int digits, MidpointRounding mode) => x;
             xshort IMath<xshort>.Round(xshort x, MidpointRounding mode) => x;
-            xshort IMath<xshort>.RoundToSignificance(xshort x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xshort IMath<xshort>.Sin(xshort x) => (short)Math.Sin(x._value);
             xshort IMath<xshort>.Sinh(xshort x) => (short)Math.Sinh(x._value);
             xshort IMath<xshort>.Sqrt(xshort x) => (short)Math.Sqrt(x._value);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.Numerics
             xshort IMath<xshort>.Tanh(xshort x) => (short)Math.Tanh(x._value);
             xshort IMath<xshort>.Tau { get; } = (short)6;
             xshort IMath<xshort>.Truncate(xshort x) => x;
-            xshort IMath<xshort>.TruncateToSignificance(xshort x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xshort IBitConverter<xshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)));
             void IBitConverter<xshort>.Write(xshort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

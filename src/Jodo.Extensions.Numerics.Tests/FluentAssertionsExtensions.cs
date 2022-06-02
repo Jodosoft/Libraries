@@ -20,6 +20,7 @@
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
 using System;
 
 namespace FluentAssertions
@@ -30,7 +31,7 @@ namespace FluentAssertions
         {
             if (!double.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
-            var actual = ((N)parent.Subject).ToDouble();
+            var actual = Convert<N>.ToDouble((N)parent.Subject);
             if (!Numeric<N>.IsReal)
             {
                 var expectedValue = Math.Truncate(expected);
@@ -56,7 +57,8 @@ namespace FluentAssertions
         {
             if (!Numeric<N>.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
-            var difference = Math<N>.Abs(((N)parent.Subject) - expected);
+            var actual = (N)parent.Subject;
+            var difference = Math<N>.Max(actual, expected) - Math<N>.Min(actual, expected);
 
             N tolerance = expected > Numeric<N>.MinUnit && expected < Numeric<N>.MaxUnit ?
                 (Numeric<N>.One / Numeric<N>.Ten) :

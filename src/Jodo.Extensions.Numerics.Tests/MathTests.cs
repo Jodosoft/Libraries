@@ -25,6 +25,8 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class MathTests
     {
+        public class Fix64 : Base<fix64> { }
+        public class UFix64 : Base<ufix64> { }
         public class XByte : Base<xbyte> { }
         public class XDecimal : Base<xdecimal> { }
         public class XDouble : Base<xdouble> { }
@@ -1105,22 +1107,28 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sinh_Random_EquivalentToSystemMath()
             {
                 //arrange
-                N input;
-                do { input = Random.NextNumeric<N>(-1, 1); }
-                while (!double.IsFinite(Math.Sinh(input.ToDouble())));
+                double randomValue;
+                do
+                {
+                    randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
+                    if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
+                }
+                while (!double.IsFinite(Math.Sinh(randomValue)));
+                var input = Cast<N>.ToValue(randomValue);
+                var expected = Cast<N>.ToValue(Math.Sinh(randomValue));
 
                 //act
                 var result = Math<N>.Sinh(input);
 
                 //assert
-                result.Should().BeApproximately(Math.Sinh(input.ToDouble()));
+                result.Should().BeApproximately(expected);
             }
 
             [Test, Repeat(RandomVariations)]
             public void Sqrt_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = FindTestableDouble(Random.NextNumeric<N>(Numeric<N>.Zero, Numeric<N>.MaxValue));
+                var randomValue = FindTestableDouble(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
                 var input = Cast<N>.ToValue(randomValue);
                 var expected = Cast<N>.ToValue(Math.Sqrt(randomValue));
 

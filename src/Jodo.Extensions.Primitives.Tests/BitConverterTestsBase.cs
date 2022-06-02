@@ -26,9 +26,9 @@ namespace Jodo.Extensions.Primitives.Tests
 {
     public static class BitConverterTests
     {
-        public abstract class Base<T> : GlobalTestBase where T : IBitConvertible<T>, IRandomisable<T>, new()
+        public abstract class Base<T> : GlobalTestBase where T : struct, IProvider<IBitConverter<T>>, IProvider<IRandom<T>>
         {
-            [Test]
+            [Test, Repeat(RandomVariations)]
             public void GetBytes_RandomValue_ReturnsBytes()
             {
                 //arrange
@@ -41,7 +41,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 result.Length.Should().BeGreaterThan(0);
             }
 
-            [Test]
+            [Test, Repeat(RandomVariations)]
             public void GetBytes_RoundTrip_SameAsOriginal()
             {
                 //arrange

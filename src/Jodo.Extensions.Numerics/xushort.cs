@@ -74,11 +74,9 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator xushort(uint value) => new xushort((ushort)value);
         public static explicit operator xushort(ulong value) => new xushort((ushort)value);
         public static implicit operator xushort(byte value) => new xushort(value);
-        public static implicit operator xushort(char value) => new xushort(value);
         public static implicit operator xushort(ushort value) => new xushort(value);
 
         public static explicit operator byte(xushort value) => (byte)value._value;
-        public static explicit operator char(xushort value) => (char)value._value;
         public static explicit operator sbyte(xushort value) => (sbyte)value._value;
         public static explicit operator short(xushort value) => (short)value._value;
         public static implicit operator decimal(xushort value) => value._value;
@@ -130,13 +128,13 @@ namespace Jodo.Extensions.Numerics
         xushort INumeric<xushort>.RightShift(int count) => this >> count;
         xushort INumeric<xushort>.Subtract(xushort value) => this - value;
 
-        IBitConverter<xushort> IBitConvertible<xushort>.BitConverter => Utilities.Instance;
-        ICast<xushort> INumeric<xushort>.Cast => Utilities.Instance;
-        IConvert<xushort> IConvertible<xushort>.Convert => Utilities.Instance;
-        IMath<xushort> INumeric<xushort>.Math => Utilities.Instance;
-        INumericFunctions<xushort> INumeric<xushort>.NumericFunctions => Utilities.Instance;
-        IRandom<xushort> IRandomisable<xushort>.Random => Utilities.Instance;
-        IStringParser<xushort> IStringParsable<xushort>.StringParser => Utilities.Instance;
+        IBitConverter<xushort> IProvider<IBitConverter<xushort>>.GetInstance() => Utilities.Instance;
+        ICast<xushort> IProvider<ICast<xushort>>.GetInstance() => Utilities.Instance;
+        IConvert<xushort> IProvider<IConvert<xushort>>.GetInstance() => Utilities.Instance;
+        IMath<xushort> IProvider<IMath<xushort>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<xushort> IProvider<INumericFunctions<xushort>>.GetInstance() => Utilities.Instance;
+        IRandom<xushort> IProvider<IRandom<xushort>>.GetInstance() => Utilities.Instance;
+        IStringParser<xushort> IProvider<IStringParser<xushort>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xushort>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Round(xushort x, int digits) => x;
             xushort IMath<xushort>.Round(xushort x, int digits, MidpointRounding mode) => x;
             xushort IMath<xushort>.Round(xushort x, MidpointRounding mode) => x;
-            xushort IMath<xushort>.RoundToSignificance(xushort x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xushort IMath<xushort>.Sin(xushort x) => (ushort)Math.Sin(x._value);
             xushort IMath<xushort>.Sinh(xushort x) => (ushort)Math.Sinh(x._value);
             xushort IMath<xushort>.Sqrt(xushort x) => (ushort)Math.Sqrt(x._value);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Tanh(xushort x) => (ushort)Math.Tanh(x._value);
             xushort IMath<xushort>.Tau { get; } = (ushort)6;
             xushort IMath<xushort>.Truncate(xushort x) => x;
-            xushort IMath<xushort>.TruncateToSignificance(xushort x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xushort IBitConverter<xushort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)));
             void IBitConverter<xushort>.Write(xushort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

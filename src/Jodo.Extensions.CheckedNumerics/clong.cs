@@ -70,7 +70,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static explicit operator clong(float value) => new clong(CheckedTruncate.ToInt64(value));
         public static explicit operator clong(ulong value) => new clong(CheckedConvert.ToInt64(value));
         public static implicit operator clong(byte value) => new clong(value);
-        public static implicit operator clong(char value) => new clong(value);
         public static implicit operator clong(int value) => new clong(value);
         public static implicit operator clong(long value) => new clong(value);
         public static implicit operator clong(sbyte value) => new clong(value);
@@ -79,7 +78,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static implicit operator clong(ushort value) => new clong(value);
 
         public static explicit operator byte(clong value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator char(clong value) => CheckedConvert.ToChar(value._value);
         public static explicit operator int(clong value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator sbyte(clong value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(clong value) => CheckedConvert.ToInt16(value._value);
@@ -131,13 +129,13 @@ namespace Jodo.Extensions.CheckedNumerics
         clong INumeric<clong>.RightShift(int count) => this >> count;
         clong INumeric<clong>.Subtract(clong value) => this - value;
 
-        IBitConverter<clong> IBitConvertible<clong>.BitConverter => Utilities.Instance;
-        ICast<clong> INumeric<clong>.Cast => Utilities.Instance;
-        IConvert<clong> IConvertible<clong>.Convert => Utilities.Instance;
-        IMath<clong> INumeric<clong>.Math => Utilities.Instance;
-        INumericFunctions<clong> INumeric<clong>.NumericFunctions => Utilities.Instance;
-        IRandom<clong> IRandomisable<clong>.Random => Utilities.Instance;
-        IStringParser<clong> IStringParsable<clong>.StringParser => Utilities.Instance;
+        IBitConverter<clong> IProvider<IBitConverter<clong>>.GetInstance() => Utilities.Instance;
+        ICast<clong> IProvider<ICast<clong>>.GetInstance() => Utilities.Instance;
+        IConvert<clong> IProvider<IConvert<clong>>.GetInstance() => Utilities.Instance;
+        IMath<clong> IProvider<IMath<clong>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<clong> IProvider<INumericFunctions<clong>>.GetInstance() => Utilities.Instance;
+        IRandom<clong> IProvider<IRandom<clong>>.GetInstance() => Utilities.Instance;
+        IStringParser<clong> IProvider<IStringParser<clong>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<clong>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Round(clong x, int digits) => x;
             clong IMath<clong>.Round(clong x, int digits, MidpointRounding mode) => x;
             clong IMath<clong>.Round(clong x, MidpointRounding mode) => x;
-            clong IMath<clong>.RoundToSignificance(clong x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             clong IMath<clong>.Sin(clong x) => (clong)Math.Sin(x);
             clong IMath<clong>.Sinh(clong x) => (clong)Math.Sinh(x);
             clong IMath<clong>.Sqrt(clong x) => (clong)Math.Sqrt(x);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Tanh(clong x) => (clong)Math.Tanh(x);
             clong IMath<clong>.Tau { get; } = 6L;
             clong IMath<clong>.Truncate(clong x) => x;
-            clong IMath<clong>.TruncateToSignificance(clong x, int significantDigits) => Digits.Truncate(x, significantDigits);
             int IMath<clong>.Sign(clong x) => Math.Sign(x._value);
 
             clong IBitConverter<clong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));

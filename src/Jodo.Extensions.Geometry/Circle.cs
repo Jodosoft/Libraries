@@ -35,11 +35,6 @@ namespace Jodo.Extensions.Geometry
         public N Area => Math<N>.PI * Math<N>.Pow(Radius, Numeric<N>.Two);
         public N Circumeference => Numeric<N>.Two * Math<N>.PI * Radius;
 
-        IBitConverter<Circle<N>> IBitConvertible<Circle<N>>.BitConverter => throw new NotImplementedException();
-
-        IRandom<Circle<N>> IRandomisable<Circle<N>>.Random => throw new NotImplementedException();
-
-        IStringParser<Circle<N>> IStringParsable<Circle<N>>.StringParser => throw new NotImplementedException();
 
         public Circle(Vector2<N> center, N radius)
         {

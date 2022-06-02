@@ -78,11 +78,6 @@ namespace Jodo.Extensions.Geometry
         public Vector2<N> TopLeft => GetTopLeft(Center, Dimensions, Angle);
         public Vector2<N> TopRight => GetTopRight(Center, Dimensions, Angle);
 
-        IBitConverter<Rectangle<N>> IBitConvertible<Rectangle<N>>.BitConverter => throw new NotImplementedException();
-
-        IRandom<Rectangle<N>> IRandomisable<Rectangle<N>>.Random => throw new NotImplementedException();
-
-        IStringParser<Rectangle<N>> IStringParsable<Rectangle<N>>.StringParser => throw new NotImplementedException();
 
         public Rectangle<N> Grow((N, N) delta) => Grow((Vector2<N>)delta);
         public Rectangle<N> Grow(N delta) => Grow(new Vector2<N>(delta, delta));

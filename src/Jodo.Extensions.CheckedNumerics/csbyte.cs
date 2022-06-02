@@ -66,7 +66,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static csbyte Parse(string s, NumberStyles style, IFormatProvider provider) => sbyte.Parse(s, style, provider);
 
         public static explicit operator csbyte(byte value) => new csbyte(CheckedConvert.ToSByte(value));
-        public static explicit operator csbyte(char value) => new csbyte(CheckedConvert.ToSByte(value));
         public static explicit operator csbyte(decimal value) => new csbyte(CheckedTruncate.ToSByte(value));
         public static explicit operator csbyte(double value) => new csbyte(CheckedTruncate.ToSByte(value));
         public static explicit operator csbyte(float value) => new csbyte(CheckedTruncate.ToSByte(value));
@@ -79,7 +78,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static implicit operator csbyte(sbyte value) => new csbyte(value);
 
         public static explicit operator byte(csbyte value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator char(csbyte value) => CheckedConvert.ToChar(value._value);
         public static explicit operator uint(csbyte value) => CheckedConvert.ToUInt32(value._value);
         public static explicit operator ulong(csbyte value) => CheckedConvert.ToUInt64(value._value);
         public static explicit operator ushort(csbyte value) => CheckedConvert.ToUInt16(value._value);
@@ -131,13 +129,13 @@ namespace Jodo.Extensions.CheckedNumerics
         csbyte INumeric<csbyte>.RightShift(int count) => this >> count;
         csbyte INumeric<csbyte>.Subtract(csbyte value) => this - value;
 
-        IBitConverter<csbyte> IBitConvertible<csbyte>.BitConverter => Utilities.Instance;
-        ICast<csbyte> INumeric<csbyte>.Cast => Utilities.Instance;
-        IConvert<csbyte> IConvertible<csbyte>.Convert => Utilities.Instance;
-        IMath<csbyte> INumeric<csbyte>.Math => Utilities.Instance;
-        INumericFunctions<csbyte> INumeric<csbyte>.NumericFunctions => Utilities.Instance;
-        IRandom<csbyte> IRandomisable<csbyte>.Random => Utilities.Instance;
-        IStringParser<csbyte> IStringParsable<csbyte>.StringParser => Utilities.Instance;
+        IBitConverter<csbyte> IProvider<IBitConverter<csbyte>>.GetInstance() => Utilities.Instance;
+        ICast<csbyte> IProvider<ICast<csbyte>>.GetInstance() => Utilities.Instance;
+        IConvert<csbyte> IProvider<IConvert<csbyte>>.GetInstance() => Utilities.Instance;
+        IMath<csbyte> IProvider<IMath<csbyte>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<csbyte> IProvider<INumericFunctions<csbyte>>.GetInstance() => Utilities.Instance;
+        IRandom<csbyte> IProvider<IRandom<csbyte>>.GetInstance() => Utilities.Instance;
+        IStringParser<csbyte> IProvider<IStringParser<csbyte>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<csbyte>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Round(csbyte x, int digits) => x;
             csbyte IMath<csbyte>.Round(csbyte x, int digits, MidpointRounding mode) => x;
             csbyte IMath<csbyte>.Round(csbyte x, MidpointRounding mode) => x;
-            csbyte IMath<csbyte>.RoundToSignificance(csbyte x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             csbyte IMath<csbyte>.Sin(csbyte x) => (csbyte)Math.Sin(x._value);
             csbyte IMath<csbyte>.Sinh(csbyte x) => (csbyte)Math.Sinh(x._value);
             csbyte IMath<csbyte>.Sqrt(csbyte x) => (csbyte)Math.Sqrt(x._value);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte IMath<csbyte>.Tanh(csbyte x) => (csbyte)Math.Tanh(x._value);
             csbyte IMath<csbyte>.Tau { get; } = 6;
             csbyte IMath<csbyte>.Truncate(csbyte x) => x;
-            csbyte IMath<csbyte>.TruncateToSignificance(csbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
             int IMath<csbyte>.Sign(csbyte x) => Math.Sign(x._value);
 
             csbyte IBitConverter<csbyte>.Read(IReadOnlyStream<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);

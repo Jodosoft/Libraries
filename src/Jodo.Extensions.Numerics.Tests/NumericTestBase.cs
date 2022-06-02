@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
@@ -40,42 +39,6 @@ namespace Jodo.Extensions.Numerics.Tests
                 throw new InvalidOperationException();
             }
             return Math.Round(result, 6);
-        }
-
-        protected N NextLowPrecision()
-        {
-            return Math<N>.Round(Random.NextNumeric<N>(-MaxTestableReal, MaxTestableReal), 1);
-        }
-
-        protected N NextLowPrecisionNonNegative()
-        {
-            return Math<N>.Round(Random.NextNumeric<N>(0, MaxTestableReal), 1);
-        }
-
-        protected N NextSmallNumeric()
-        {
-            N result = Random.NextNumeric<N>(0, 20);
-
-            if (Numeric<N>.IsSigned && Random.NextBoolean())
-            {
-                result = -result;
-            }
-
-            if (Numeric<N>.IsReal)
-            {
-                result /= Convert<N>.ToValue(10);
-            }
-            return result;
-        }
-
-        protected N NextSmallPositiveNumeric()
-        {
-            N result = Random.NextNumeric<N>(0, 20);
-            if (Numeric<N>.IsReal)
-            {
-                result /= Convert<N>.ToValue(10);
-            }
-            return result;
         }
 
         public static class OnlyApplicableTo

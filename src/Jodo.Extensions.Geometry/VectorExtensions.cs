@@ -17,10 +17,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Extensions.Primitives
+using Jodo.Extensions.Numerics;
+
+namespace Jodo.Extensions.Geometry
 {
-    public interface IStringParsable<T> where T : IStringParsable<T>, new()
+    public static class VectorExtensions
     {
-        IStringParser<T> StringParser { get; }
+        public static Vector2<N> RotateAround<N>(this Vector2<N> value, Vector2<N> pivot, Angle<N> angle) where N : struct, INumeric<N>
+        {
+            var newAngle = -angle;
+            var difference = value - pivot;
+            return pivot + new Vector2<N>(
+                (difference.X * newAngle.Cosine) - (difference.Y * newAngle.Sine),
+                (difference.X * newAngle.Sine) + (difference.Y * newAngle.Cosine));
+        }
     }
 }

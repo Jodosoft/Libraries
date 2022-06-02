@@ -37,7 +37,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public class UCLong : Base<uclong> { }
         public class UCShort : Base<ucshort> { }
 
-        public abstract class Base<T> : Numerics.Tests.StringParserTests.Base<T> where T : struct, INumeric<T>
+        public abstract class Base<N> : Numerics.Tests.StringParserTests.Base<N> where N : struct, INumeric<N>
         {
 
         }

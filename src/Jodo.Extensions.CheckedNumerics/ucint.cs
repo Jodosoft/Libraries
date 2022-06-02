@@ -74,12 +74,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static explicit operator ucint(short value) => new ucint(CheckedConvert.ToUInt32(value));
         public static explicit operator ucint(ulong value) => new ucint(CheckedConvert.ToUInt32(value));
         public static implicit operator ucint(byte value) => new ucint(value);
-        public static implicit operator ucint(char value) => new ucint(value);
         public static implicit operator ucint(uint value) => new ucint(value);
         public static implicit operator ucint(ushort value) => new ucint(value);
 
         public static explicit operator byte(ucint value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator char(ucint value) => CheckedConvert.ToChar(value._value);
         public static explicit operator int(ucint value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator sbyte(ucint value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(ucint value) => CheckedConvert.ToInt16(value._value);
@@ -131,13 +129,13 @@ namespace Jodo.Extensions.CheckedNumerics
         ucint INumeric<ucint>.RightShift(int count) => this >> count;
         ucint INumeric<ucint>.Subtract(ucint value) => this - value;
 
-        IBitConverter<ucint> IBitConvertible<ucint>.BitConverter => Utilities.Instance;
-        ICast<ucint> INumeric<ucint>.Cast => Utilities.Instance;
-        IConvert<ucint> IConvertible<ucint>.Convert => Utilities.Instance;
-        IMath<ucint> INumeric<ucint>.Math => Utilities.Instance;
-        INumericFunctions<ucint> INumeric<ucint>.NumericFunctions => Utilities.Instance;
-        IRandom<ucint> IRandomisable<ucint>.Random => Utilities.Instance;
-        IStringParser<ucint> IStringParsable<ucint>.StringParser => Utilities.Instance;
+        IBitConverter<ucint> IProvider<IBitConverter<ucint>>.GetInstance() => Utilities.Instance;
+        ICast<ucint> IProvider<ICast<ucint>>.GetInstance() => Utilities.Instance;
+        IConvert<ucint> IProvider<IConvert<ucint>>.GetInstance() => Utilities.Instance;
+        IMath<ucint> IProvider<IMath<ucint>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<ucint> IProvider<INumericFunctions<ucint>>.GetInstance() => Utilities.Instance;
+        IRandom<ucint> IProvider<IRandom<ucint>>.GetInstance() => Utilities.Instance;
+        IStringParser<ucint> IProvider<IStringParser<ucint>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<ucint>,
@@ -202,7 +200,6 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IMath<ucint>.Round(ucint x, int digits) => x;
             ucint IMath<ucint>.Round(ucint x, int digits, MidpointRounding mode) => x;
             ucint IMath<ucint>.Round(ucint x, MidpointRounding mode) => x;
-            ucint IMath<ucint>.RoundToSignificance(ucint x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             ucint IMath<ucint>.Sin(ucint x) => (ucint)Math.Sin(x._value);
             ucint IMath<ucint>.Sinh(ucint x) => (ucint)Math.Sinh(x._value);
             ucint IMath<ucint>.Sqrt(ucint x) => (ucint)Math.Sqrt(x._value);
@@ -210,7 +207,6 @@ namespace Jodo.Extensions.CheckedNumerics
             ucint IMath<ucint>.Tanh(ucint x) => (ucint)Math.Tanh(x._value);
             ucint IMath<ucint>.Tau { get; } = 6;
             ucint IMath<ucint>.Truncate(ucint x) => x;
-            ucint IMath<ucint>.TruncateToSignificance(ucint x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             ucint IBitConverter<ucint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
             void IBitConverter<ucint>.Write(ucint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

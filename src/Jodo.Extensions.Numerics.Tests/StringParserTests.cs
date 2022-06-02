@@ -27,6 +27,8 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class StringParserTests
     {
+        public class Fix64 : Base<fix64> { }
+        public class UFix64 : Base<ufix64> { }
         public class XByte : Base<xbyte> { }
         public class XDecimal : Base<xdecimal> { }
         public class XDouble : Base<xdouble> { }
@@ -45,7 +47,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse1_RoundTripSmallValue_CorrectResult()
             {
                 //arrange
-                var input = NextLowPrecision();
+                var input = Math<N>.Round(Clamp<N>.ToValue(Random.NextDouble(-10, 10)), 2);
 
                 //act
                 var result = StringParser<N>.Parse(input.ToString());
@@ -58,7 +60,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse1_RoundTripFormat_CorrectResult()
             {
                 //arrange
-                var input = NextLowPrecision();
+                var input = Math<N>.Round(Clamp<N>.ToValue(Random.NextDouble(-10, 10)), 2);
                 var format = "G17";
 
                 //act
@@ -72,7 +74,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse1_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                var input = NextLowPrecision();
+                var input = Math<N>.Round(Clamp<N>.ToValue(Random.NextDouble(-10, 10)), 2);
                 var format = "G17";
 
                 //act
@@ -86,7 +88,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse2_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                var input = NextLowPrecision();
+                var input = Math<N>.Round(Clamp<N>.ToValue(Random.NextDouble(-10, 10)), 2);
                 var format = "G17";
                 var provider = NumberFormatInfo.InvariantInfo;
                 var numberStyles = NumberStyles.Any;

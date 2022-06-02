@@ -209,10 +209,10 @@ namespace System
             return new ReadOnlySpan<byte>(bytes);
         }
 
-        public static T NextRandomizable<T>(this Random random) where T : IRandomisable<T>, new()
-            => IRandomisable<T>.DefaultInstance.Next(random);
+        public static T NextRandomizable<T>(this Random random) where T : struct, IProvider<IRandom<T>>
+            => default(T).GetInstance().Next(random);
 
-        public static T NextRandomizable<T>(this Random random, T bound1, T bound2) where T : IRandomisable<T>, new()
-            => IRandomisable<T>.DefaultInstance.Next(random, bound1, bound2);
+        public static T NextRandomizable<T>(this Random random, T bound1, T bound2) where T : struct, IProvider<IRandom<T>>
+            => default(T).GetInstance().Next(random, bound1, bound2);
     }
 }

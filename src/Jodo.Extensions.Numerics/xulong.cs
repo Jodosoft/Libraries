@@ -72,13 +72,11 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator xulong(sbyte value) => new xulong((ulong)value);
         public static explicit operator xulong(short value) => new xulong((ulong)value);
         public static implicit operator xulong(byte value) => new xulong(value);
-        public static implicit operator xulong(char value) => new xulong(value);
         public static implicit operator xulong(uint value) => new xulong(value);
         public static implicit operator xulong(ulong value) => new xulong(value);
         public static implicit operator xulong(ushort value) => new xulong(value);
 
         public static explicit operator byte(xulong value) => (byte)value._value;
-        public static explicit operator char(xulong value) => (char)value._value;
         public static explicit operator int(xulong value) => (int)value._value;
         public static explicit operator long(xulong value) => (long)value._value;
         public static explicit operator sbyte(xulong value) => (sbyte)value._value;
@@ -130,13 +128,13 @@ namespace Jodo.Extensions.Numerics
         xulong INumeric<xulong>.RightShift(int count) => this >> count;
         xulong INumeric<xulong>.Subtract(xulong value) => this - value;
 
-        IBitConverter<xulong> IBitConvertible<xulong>.BitConverter => Utilities.Instance;
-        ICast<xulong> INumeric<xulong>.Cast => Utilities.Instance;
-        IConvert<xulong> IConvertible<xulong>.Convert => Utilities.Instance;
-        IMath<xulong> INumeric<xulong>.Math => Utilities.Instance;
-        INumericFunctions<xulong> INumeric<xulong>.NumericFunctions => Utilities.Instance;
-        IRandom<xulong> IRandomisable<xulong>.Random => Utilities.Instance;
-        IStringParser<xulong> IStringParsable<xulong>.StringParser => Utilities.Instance;
+        IBitConverter<xulong> IProvider<IBitConverter<xulong>>.GetInstance() => Utilities.Instance;
+        ICast<xulong> IProvider<ICast<xulong>>.GetInstance() => Utilities.Instance;
+        IConvert<xulong> IProvider<IConvert<xulong>>.GetInstance() => Utilities.Instance;
+        IMath<xulong> IProvider<IMath<xulong>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<xulong> IProvider<INumericFunctions<xulong>>.GetInstance() => Utilities.Instance;
+        IRandom<xulong> IProvider<IRandom<xulong>>.GetInstance() => Utilities.Instance;
+        IStringParser<xulong> IProvider<IStringParser<xulong>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xulong>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Round(xulong x, int digits) => x;
             xulong IMath<xulong>.Round(xulong x, int digits, MidpointRounding mode) => x;
             xulong IMath<xulong>.Round(xulong x, MidpointRounding mode) => x;
-            xulong IMath<xulong>.RoundToSignificance(xulong x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xulong IMath<xulong>.Sin(xulong x) => (xulong)Math.Sin(x);
             xulong IMath<xulong>.Sinh(xulong x) => (xulong)Math.Sinh(x);
             xulong IMath<xulong>.Sqrt(xulong x) => (xulong)Math.Sqrt(x);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Tanh(xulong x) => (xulong)Math.Tanh(x);
             xulong IMath<xulong>.Tau { get; } = (xulong)6;
             xulong IMath<xulong>.Truncate(xulong x) => x;
-            xulong IMath<xulong>.TruncateToSignificance(xulong x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xulong IBitConverter<xulong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)));
             void IBitConverter<xulong>.Write(xulong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

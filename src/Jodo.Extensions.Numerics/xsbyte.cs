@@ -65,7 +65,6 @@ namespace Jodo.Extensions.Numerics
         public static xsbyte Parse(string s, NumberStyles style, IFormatProvider provider) => sbyte.Parse(s, style, provider);
 
         public static explicit operator xsbyte(byte value) => new xsbyte((sbyte)value);
-        public static explicit operator xsbyte(char value) => new xsbyte((sbyte)value);
         public static explicit operator xsbyte(decimal value) => new xsbyte((sbyte)value);
         public static explicit operator xsbyte(double value) => new xsbyte((sbyte)value);
         public static explicit operator xsbyte(float value) => new xsbyte((sbyte)value);
@@ -78,7 +77,6 @@ namespace Jodo.Extensions.Numerics
         public static implicit operator xsbyte(sbyte value) => new xsbyte(value);
 
         public static explicit operator byte(xsbyte value) => (byte)value._value;
-        public static explicit operator char(xsbyte value) => (char)value._value;
         public static explicit operator uint(xsbyte value) => (uint)value._value;
         public static explicit operator ulong(xsbyte value) => (ulong)value._value;
         public static explicit operator ushort(xsbyte value) => (ushort)value._value;
@@ -130,13 +128,13 @@ namespace Jodo.Extensions.Numerics
         xsbyte INumeric<xsbyte>.RightShift(int count) => this >> count;
         xsbyte INumeric<xsbyte>.Subtract(xsbyte value) => this - value;
 
-        IBitConverter<xsbyte> IBitConvertible<xsbyte>.BitConverter => Utilities.Instance;
-        ICast<xsbyte> INumeric<xsbyte>.Cast => Utilities.Instance;
-        IConvert<xsbyte> IConvertible<xsbyte>.Convert => Utilities.Instance;
-        IMath<xsbyte> INumeric<xsbyte>.Math => Utilities.Instance;
-        INumericFunctions<xsbyte> INumeric<xsbyte>.NumericFunctions => Utilities.Instance;
-        IRandom<xsbyte> IRandomisable<xsbyte>.Random => Utilities.Instance;
-        IStringParser<xsbyte> IStringParsable<xsbyte>.StringParser => Utilities.Instance;
+        IBitConverter<xsbyte> IProvider<IBitConverter<xsbyte>>.GetInstance() => Utilities.Instance;
+        ICast<xsbyte> IProvider<ICast<xsbyte>>.GetInstance() => Utilities.Instance;
+        IConvert<xsbyte> IProvider<IConvert<xsbyte>>.GetInstance() => Utilities.Instance;
+        IMath<xsbyte> IProvider<IMath<xsbyte>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<xsbyte> IProvider<INumericFunctions<xsbyte>>.GetInstance() => Utilities.Instance;
+        IRandom<xsbyte> IProvider<IRandom<xsbyte>>.GetInstance() => Utilities.Instance;
+        IStringParser<xsbyte> IProvider<IStringParser<xsbyte>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xsbyte>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.Numerics
             xsbyte IMath<xsbyte>.Round(xsbyte x, int digits) => x;
             xsbyte IMath<xsbyte>.Round(xsbyte x, int digits, MidpointRounding mode) => x;
             xsbyte IMath<xsbyte>.Round(xsbyte x, MidpointRounding mode) => x;
-            xsbyte IMath<xsbyte>.RoundToSignificance(xsbyte x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xsbyte IMath<xsbyte>.Sin(xsbyte x) => (sbyte)Math.Sin(x._value);
             xsbyte IMath<xsbyte>.Sinh(xsbyte x) => (sbyte)Math.Sinh(x._value);
             xsbyte IMath<xsbyte>.Sqrt(xsbyte x) => (sbyte)Math.Sqrt(x._value);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.Numerics
             xsbyte IMath<xsbyte>.Tanh(xsbyte x) => (sbyte)Math.Tanh(x._value);
             xsbyte IMath<xsbyte>.Tau { get; } = 6;
             xsbyte IMath<xsbyte>.Truncate(xsbyte x) => x;
-            xsbyte IMath<xsbyte>.TruncateToSignificance(xsbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xsbyte IBitConverter<xsbyte>.Read(IReadOnlyStream<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
             void IBitConverter<xsbyte>.Write(xsbyte value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

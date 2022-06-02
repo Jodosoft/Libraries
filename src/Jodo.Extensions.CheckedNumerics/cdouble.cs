@@ -74,7 +74,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static explicit operator cdouble(decimal value) => new cdouble(CheckedConvert.ToDouble(value));
         public static implicit operator cdouble(bool value) => new cdouble(value ? 1 : 0);
         public static implicit operator cdouble(byte value) => new cdouble(value);
-        public static implicit operator cdouble(char value) => new cdouble(value);
         public static implicit operator cdouble(double value) => new cdouble(value);
         public static implicit operator cdouble(float value) => new cdouble(value);
         public static implicit operator cdouble(int value) => new cdouble(value);
@@ -86,7 +85,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static implicit operator cdouble(ushort value) => new cdouble(value);
 
         public static explicit operator bool(cdouble value) => CheckedConvert.ToBoolean(value._value);
-        public static explicit operator char(cdouble value) => CheckedConvert.ToChar(value._value);
         public static explicit operator byte(cdouble value) => CheckedConvert.ToByte(value._value);
         public static explicit operator decimal(cdouble value) => CheckedConvert.ToDecimal(value._value);
         public static explicit operator float(cdouble value) => CheckedConvert.ToSingle(value._value);
@@ -139,13 +137,13 @@ namespace Jodo.Extensions.CheckedNumerics
         cdouble INumeric<cdouble>.RightShift(int count) => this >> count;
         cdouble INumeric<cdouble>.Subtract(cdouble value) => this - value;
 
-        IBitConverter<cdouble> IBitConvertible<cdouble>.BitConverter => Utilities.Instance;
-        ICast<cdouble> INumeric<cdouble>.Cast => Utilities.Instance;
-        IConvert<cdouble> IConvertible<cdouble>.Convert => Utilities.Instance;
-        IMath<cdouble> INumeric<cdouble>.Math => Utilities.Instance;
-        INumericFunctions<cdouble> INumeric<cdouble>.NumericFunctions => Utilities.Instance;
-        IRandom<cdouble> IRandomisable<cdouble>.Random => Utilities.Instance;
-        IStringParser<cdouble> IStringParsable<cdouble>.StringParser => Utilities.Instance;
+        IBitConverter<cdouble> IProvider<IBitConverter<cdouble>>.GetInstance() => Utilities.Instance;
+        ICast<cdouble> IProvider<ICast<cdouble>>.GetInstance() => Utilities.Instance;
+        IConvert<cdouble> IProvider<IConvert<cdouble>>.GetInstance() => Utilities.Instance;
+        IMath<cdouble> IProvider<IMath<cdouble>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<cdouble> IProvider<INumericFunctions<cdouble>>.GetInstance() => Utilities.Instance;
+        IRandom<cdouble> IProvider<IRandom<cdouble>>.GetInstance() => Utilities.Instance;
+        IStringParser<cdouble> IProvider<IStringParser<cdouble>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<cdouble>,
@@ -209,7 +207,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Round(cdouble x, int digits) => Math.Round(x._value, digits);
             cdouble IMath<cdouble>.Round(cdouble x, int digits, MidpointRounding mode) => Math.Round(x._value, digits, mode);
             cdouble IMath<cdouble>.Round(cdouble x, MidpointRounding mode) => Math.Round(x._value, mode);
-            cdouble IMath<cdouble>.RoundToSignificance(cdouble x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cdouble IMath<cdouble>.Sin(cdouble x) => Math.Sin(x._value);
             cdouble IMath<cdouble>.Sinh(cdouble x) => Math.Sinh(x._value);
             cdouble IMath<cdouble>.Sqrt(cdouble x) => Math.Sqrt(x._value);
@@ -217,7 +214,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Tanh(cdouble x) => Math.Tanh(x._value);
             cdouble IMath<cdouble>.Tau { get; } = Math.PI * 2d;
             cdouble IMath<cdouble>.Truncate(cdouble x) => Math.Truncate(x._value);
-            cdouble IMath<cdouble>.TruncateToSignificance(cdouble x, int significantDigits) => Digits.Truncate(x, significantDigits);
             int IMath<cdouble>.Sign(cdouble x) => Math.Sign(x._value);
 
             cdouble IBitConverter<cdouble>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)));

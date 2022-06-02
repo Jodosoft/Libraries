@@ -69,7 +69,6 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator xlong(float value) => new xlong((long)value);
         public static explicit operator xlong(ulong value) => new xlong((long)value);
         public static implicit operator xlong(byte value) => new xlong(value);
-        public static implicit operator xlong(char value) => new xlong(value);
         public static implicit operator xlong(int value) => new xlong(value);
         public static implicit operator xlong(long value) => new xlong(value);
         public static implicit operator xlong(sbyte value) => new xlong(value);
@@ -78,7 +77,6 @@ namespace Jodo.Extensions.Numerics
         public static implicit operator xlong(ushort value) => new xlong(value);
 
         public static explicit operator byte(xlong value) => (byte)value._value;
-        public static explicit operator char(xlong value) => (char)value._value;
         public static explicit operator int(xlong value) => (int)value._value;
         public static explicit operator sbyte(xlong value) => (sbyte)value._value;
         public static explicit operator short(xlong value) => (short)value._value;
@@ -130,13 +128,13 @@ namespace Jodo.Extensions.Numerics
         xlong INumeric<xlong>.RightShift(int count) => this >> count;
         xlong INumeric<xlong>.Subtract(xlong value) => this - value;
 
-        IBitConverter<xlong> IBitConvertible<xlong>.BitConverter => Utilities.Instance;
-        ICast<xlong> INumeric<xlong>.Cast => Utilities.Instance;
-        IConvert<xlong> IConvertible<xlong>.Convert => Utilities.Instance;
-        IMath<xlong> INumeric<xlong>.Math => Utilities.Instance;
-        INumericFunctions<xlong> INumeric<xlong>.NumericFunctions => Utilities.Instance;
-        IRandom<xlong> IRandomisable<xlong>.Random => Utilities.Instance;
-        IStringParser<xlong> IStringParsable<xlong>.StringParser => Utilities.Instance;
+        IBitConverter<xlong> IProvider<IBitConverter<xlong>>.GetInstance() => Utilities.Instance;
+        ICast<xlong> IProvider<ICast<xlong>>.GetInstance() => Utilities.Instance;
+        IConvert<xlong> IProvider<IConvert<xlong>>.GetInstance() => Utilities.Instance;
+        IMath<xlong> IProvider<IMath<xlong>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<xlong> IProvider<INumericFunctions<xlong>>.GetInstance() => Utilities.Instance;
+        IRandom<xlong> IProvider<IRandom<xlong>>.GetInstance() => Utilities.Instance;
+        IStringParser<xlong> IProvider<IStringParser<xlong>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xlong>,
@@ -201,7 +199,6 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Round(xlong x, int digits) => x;
             xlong IMath<xlong>.Round(xlong x, int digits, MidpointRounding mode) => x;
             xlong IMath<xlong>.Round(xlong x, MidpointRounding mode) => x;
-            xlong IMath<xlong>.RoundToSignificance(xlong x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             xlong IMath<xlong>.Sin(xlong x) => (xlong)Math.Sin(x);
             xlong IMath<xlong>.Sinh(xlong x) => (xlong)Math.Sinh(x);
             xlong IMath<xlong>.Sqrt(xlong x) => (xlong)Math.Sqrt(x);
@@ -209,7 +206,6 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Tanh(xlong x) => (xlong)Math.Tanh(x);
             xlong IMath<xlong>.Tau { get; } = 6L;
             xlong IMath<xlong>.Truncate(xlong x) => x;
-            xlong IMath<xlong>.TruncateToSignificance(xlong x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             xlong IBitConverter<xlong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));
             void IBitConverter<xlong>.Write(xlong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

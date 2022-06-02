@@ -17,15 +17,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Runtime.Serialization;
 
-namespace Jodo.Extensions.Geometry
+namespace Jodo.Extensions.Numerics
 {
     [Serializable]
-    public readonly struct Unit<N> : IGeometric<Unit<N>> where N : struct, INumeric<N>
+    public readonly struct Unit<N> :
+        IProvider<IBitConverter<Unit<N>>>,
+        IProvider<IRandom<Unit<N>>>,
+        IProvider<IStringParser<Unit<N>>>,
+        ISerializable
+        where N : struct, INumeric<N>
     {
         public readonly static Unit<N> Zero = new Unit<N>(Numeric<N>.Zero);
         public readonly static Unit<N> MaxValue = new Unit<N>(Numeric<N>.MaxUnit);
@@ -33,18 +37,16 @@ namespace Jodo.Extensions.Geometry
 
         public readonly N Value { get; }
 
-        IBitConverter<Unit<N>> IBitConvertible<Unit<N>>.BitConverter => throw new NotImplementedException();
-        IRandom<Unit<N>> IRandomisable<Unit<N>>.Random => throw new NotImplementedException();
-        IStringParser<Unit<N>> IStringParsable<Unit<N>>.StringParser => throw new NotImplementedException();
 
         public Unit(N value)
         {
             Value = Math<N>.Clamp(value, Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
         }
 
-        private Unit(SerializationInfo info, StreamingContext context) : this(
-            (N)info.GetValue(nameof(Value), typeof(N)))
-        { }
+        private Unit(SerializationInfo info, StreamingContext context)
+        {
+            Value = Math<N>.Clamp((N)info.GetValue(nameof(Value), typeof(N)), Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+        }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
             => info.AddValue(nameof(Value), Value, typeof(N));
@@ -54,6 +56,21 @@ namespace Jodo.Extensions.Geometry
         public override int GetHashCode() => Value.GetHashCode();
         public override string ToString() => Value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => Value.ToString(format, formatProvider);
+
+        IBitConverter<Unit<N>> IProvider<IBitConverter<Unit<N>>>.GetInstance()
+        {
+            throw new NotImplementedException();
+        }
+
+        IRandom<Unit<N>> IProvider<IRandom<Unit<N>>>.GetInstance()
+        {
+            throw new NotImplementedException();
+        }
+
+        IStringParser<Unit<N>> IProvider<IStringParser<Unit<N>>>.GetInstance()
+        {
+            throw new NotImplementedException();
+        }
 
         public static implicit operator N(Unit<N> unit) => unit.Value;
         public static explicit operator Unit<N>(N value) => new Unit<N>(value);

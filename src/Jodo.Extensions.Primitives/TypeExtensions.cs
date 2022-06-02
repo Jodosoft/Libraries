@@ -42,7 +42,7 @@ namespace Jodo.Extensions.Primitives
                     .Select(x => CreateDisplayName(x))
                     .Aggregate((x, y) => $"{x}, {y}");
 
-                var name = type.Name.Substring(0, type.Name.IndexOf("`"));
+                var name = type.Name[..type.Name.IndexOf("`")];
                 return $"{name}<{parameterNames}>";
             }
             return type.Name;

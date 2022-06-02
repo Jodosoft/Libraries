@@ -19,7 +19,7 @@
 
 namespace Jodo.Extensions.Numerics
 {
-    public interface INumericFunctions<N> where N : struct, INumeric<N>
+    public interface INumericFunctions<N>
     {
         bool HasFloatingPoint { get; }
         bool IsReal { get; }

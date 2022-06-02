@@ -17,51 +17,52 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Extensions.Primitives;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.Numerics
 {
     [SuppressMessage("csharpsquid", "S2743")]
-    public static class Numeric<N> where N : struct, INumeric<N>
+    public static class Numeric<T> where T : struct, IProvider<INumericFunctions<T>>
     {
-        private static readonly INumericFunctions<N> Default = default(N).NumericFunctions;
+        private static readonly INumericFunctions<T> Default = default(T).GetInstance();
 
         public static bool HasFloatingPoint => Default.HasFloatingPoint;
         public static bool IsReal => Default.IsReal;
         public static bool IsSigned => Default.IsSigned;
-        public static N Epsilon => Default.Epsilon;
-        public static N MaxUnit => Default.MaxUnit;
-        public static N MaxValue => Default.MaxValue;
-        public static N MinUnit => Default.MinUnit;
-        public static N MinValue => Default.MinValue;
-        public static N One => Default.One;
-        public static N Ten => Default.Ten;
-        public static N Two => Default.Two;
-        public static N Zero => Default.Zero;
+        public static T Epsilon => Default.Epsilon;
+        public static T MaxUnit => Default.MaxUnit;
+        public static T MaxValue => Default.MaxValue;
+        public static T MinUnit => Default.MinUnit;
+        public static T MinValue => Default.MinValue;
+        public static T One => Default.One;
+        public static T Ten => Default.Ten;
+        public static T Two => Default.Two;
+        public static T Zero => Default.Zero;
 
         [DebuggerStepThrough]
-        public static bool IsFinite(N x) => Default.IsFinite(x);
+        public static bool IsFinite(T x) => Default.IsFinite(x);
 
         [DebuggerStepThrough]
-        public static bool IsInfinity(N x) => Default.IsInfinity(x);
+        public static bool IsInfinity(T x) => Default.IsInfinity(x);
 
         [DebuggerStepThrough]
-        public static bool IsNaN(N x) => Default.IsNaN(x);
+        public static bool IsNaN(T x) => Default.IsNaN(x);
 
         [DebuggerStepThrough]
-        public static bool IsNegative(N x) => Default.IsNegative(x);
+        public static bool IsNegative(T x) => Default.IsNegative(x);
 
         [DebuggerStepThrough]
-        public static bool IsNegativeInfinity(N x) => Default.IsNegativeInfinity(x);
+        public static bool IsNegativeInfinity(T x) => Default.IsNegativeInfinity(x);
 
         [DebuggerStepThrough]
-        public static bool IsNormal(N x) => Default.IsNormal(x);
+        public static bool IsNormal(T x) => Default.IsNormal(x);
 
         [DebuggerStepThrough]
-        public static bool IsPositiveInfinity(N x) => Default.IsPositiveInfinity(x);
+        public static bool IsPositiveInfinity(T x) => Default.IsPositiveInfinity(x);
 
         [DebuggerStepThrough]
-        public static bool IsSubnormal(N x) => Default.IsSubnormal(x);
+        public static bool IsSubnormal(T x) => Default.IsSubnormal(x);
     }
 }

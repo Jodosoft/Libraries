@@ -28,6 +28,8 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class NumericTests
     {
+        public class Fix64 : Base<fix64> { }
+        public class UFix64 : Base<ufix64> { }
         public class XByte : Base<xbyte> { }
         public class XDecimal : Base<xdecimal> { }
         public class XDouble : Base<xdouble> { }
@@ -180,32 +182,6 @@ namespace Jodo.Extensions.Numerics.Tests
 
                 //assert
                 result.Should().Be(input);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void ToSingle_RandomValues_SameAsConvert()
-            {
-                //arrange
-                var input = NextLowPrecision();
-
-                //act
-                var result = input.ToSingle();
-
-                //assert
-                result.Should().Be(Convert<N>.ToSingle(input));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void ToDouble_RandomValues_SameAsConvert()
-            {
-                //arrange
-                var input = NextLowPrecision();
-
-                //act
-                var result = input.ToDouble();
-
-                //assert
-                result.Should().Be(Convert<N>.ToDouble(input));
             }
 
             [Test, Repeat(RandomVariations)]

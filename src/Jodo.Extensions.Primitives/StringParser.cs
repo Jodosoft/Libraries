@@ -18,18 +18,19 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace Jodo.Extensions.Primitives
 {
-    public static class StringParser<T> where T : IStringParsable<T>, new()
+    public static class StringParser<T> where T : struct, IProvider<IStringParser<T>>
     {
-        private static readonly IStringParser<T> DefaultInstance = new T().StringParser;
+        private static readonly IStringParser<T> Default = default(T).GetInstance();
 
-        public static T Parse(string s)
-            => DefaultInstance.Parse(s);
+        [DebuggerStepThrough]
+        public static T Parse(string s) => Default.Parse(s);
 
-        public static T Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider)
-            => DefaultInstance.Parse(s, numberStyles, formatProvider);
+        [DebuggerStepThrough]
+        public static T Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Default.Parse(s, numberStyles, formatProvider);
     }
 }

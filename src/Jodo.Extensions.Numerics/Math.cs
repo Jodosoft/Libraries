@@ -17,130 +17,123 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.Numerics
 {
-    [SuppressMessage("csharpsquid", "S2743")]
-    public static class Math<N> where N : struct, INumeric<N>
+    public static class Math<T> where T : struct, IProvider<IMath<T>>
     {
-        private static readonly IMath<N> Instance = default(N).Math;
+        private static readonly IMath<T> Default = default(T).GetInstance();
 
-        public static N E => Instance.E;
-        public static N PI => Instance.PI;
-        public static N Tau => Instance.Tau;
-
-        [DebuggerStepThrough]
-        public static int Sign(N x) => Instance.Sign(x);
+        public static T E => Default.E;
+        public static T PI => Default.PI;
+        public static T Tau => Default.Tau;
 
         [DebuggerStepThrough]
-        public static N Abs(N x) => Instance.Abs(x);
+        public static int Sign(T x) => Default.Sign(x);
 
         [DebuggerStepThrough]
-        public static N Acos(N x) => Instance.Acos(x);
+        public static T Abs(T x) => Default.Abs(x);
 
         [DebuggerStepThrough]
-        public static N Acosh(N x) => Instance.Acosh(x);
+        public static T Acos(T x) => Default.Acos(x);
 
         [DebuggerStepThrough]
-        public static N Asin(N x) => Instance.Asin(x);
+        public static T Acosh(T x) => Default.Acosh(x);
 
         [DebuggerStepThrough]
-        public static N Asinh(N x) => Instance.Asinh(x);
+        public static T Asin(T x) => Default.Asin(x);
 
         [DebuggerStepThrough]
-        public static N Atan(N x) => Instance.Atan(x);
+        public static T Asinh(T x) => Default.Asinh(x);
 
         [DebuggerStepThrough]
-        public static N Atan2(N x, N y) => Instance.Atan2(x, y);
+        public static T Atan(T x) => Default.Atan(x);
 
         [DebuggerStepThrough]
-        public static N Atanh(N x) => Instance.Atanh(x);
+        public static T Atan2(T x, T y) => Default.Atan2(x, y);
 
         [DebuggerStepThrough]
-        public static N Cbrt(N x) => Instance.Cbrt(x);
+        public static T Atanh(T x) => Default.Atanh(x);
 
         [DebuggerStepThrough]
-        public static N Ceiling(N x) => Instance.Ceiling(x);
+        public static T Cbrt(T x) => Default.Cbrt(x);
 
         [DebuggerStepThrough]
-        public static N Clamp(N x, N bound1, N bound2) => Instance.Clamp(x, bound1, bound2);
+        public static T Ceiling(T x) => Default.Ceiling(x);
 
         [DebuggerStepThrough]
-        public static N Cos(N x) => Instance.Cos(x);
+        public static T Clamp(T x, T bound1, T bound2) => Default.Clamp(x, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static N Cosh(N x) => Instance.Cosh(x);
+        public static T Cos(T x) => Default.Cos(x);
 
         [DebuggerStepThrough]
-        public static N DegreesToRadians(N x) => Instance.DegreesToRadians(x);
+        public static T Cosh(T x) => Default.Cosh(x);
 
         [DebuggerStepThrough]
-        public static N Exp(N x) => Instance.Exp(x);
+        public static T DegreesToRadians(T x) => Default.DegreesToRadians(x);
 
         [DebuggerStepThrough]
-        public static N Floor(N x) => Instance.Floor(x);
+        public static T Exp(T x) => Default.Exp(x);
 
         [DebuggerStepThrough]
-        public static N IEEERemainder(N x, N y) => Instance.IEEERemainder(x, y);
+        public static T Floor(T x) => Default.Floor(x);
 
         [DebuggerStepThrough]
-        public static N Log(N x) => Instance.Log(x);
+        public static T IEEERemainder(T x, T y) => Default.IEEERemainder(x, y);
 
         [DebuggerStepThrough]
-        public static N Log(N x, N y) => Instance.Log(x, y);
+        public static T Log(T x) => Default.Log(x);
 
         [DebuggerStepThrough]
-        public static N Log10(N x) => Instance.Log10(x);
+        public static T Log(T x, T y) => Default.Log(x, y);
 
         [DebuggerStepThrough]
-        public static N Max(N x, N y) => Instance.Max(x, y);
+        public static T Log10(T x) => Default.Log10(x);
 
         [DebuggerStepThrough]
-        public static N Min(N x, N y) => Instance.Min(x, y);
+        public static T Max(T x, T y) => Default.Max(x, y);
 
         [DebuggerStepThrough]
-        public static N Pow(N x, N y) => Instance.Pow(x, y);
+        public static T Min(T x, T y) => Default.Min(x, y);
 
         [DebuggerStepThrough]
-        public static N RadiansToDegrees(N x) => Instance.RadiansToDegrees(x);
+        public static T Pow(T x, T y) => Default.Pow(x, y);
 
         [DebuggerStepThrough]
-        public static N Round(N x) => Instance.Round(x);
+        public static T RadiansToDegrees(T x) => Default.RadiansToDegrees(x);
 
         [DebuggerStepThrough]
-        public static N Round(N x, int digits) => Instance.Round(x, digits);
+        public static T Round(T x) => Default.Round(x);
 
         [DebuggerStepThrough]
-        public static N Round(N x, int digits, MidpointRounding mode) => Instance.Round(x, digits, mode);
+        public static T Round(T x, int digits) => Default.Round(x, digits);
 
         [DebuggerStepThrough]
-        public static N Round(N x, MidpointRounding mode) => Instance.Round(x, mode);
+        public static T Round(T x, int digits, MidpointRounding mode) => Default.Round(x, digits, mode);
 
         [DebuggerStepThrough]
-        public static N RoundToSignificance(N x, int significantDigits, MidpointRounding mode) => Instance.RoundToSignificance(x, significantDigits, mode);
+        public static T Round(T x, MidpointRounding mode) => Default.Round(x, mode);
 
         [DebuggerStepThrough]
-        public static N Sin(N x) => Instance.Sin(x);
+        public static T Sin(T x) => Default.Sin(x);
 
         [DebuggerStepThrough]
-        public static N Sinh(N x) => Instance.Sinh(x);
+        public static T Sinh(T x) => Default.Sinh(x);
 
         [DebuggerStepThrough]
-        public static N Sqrt(N x) => Instance.Sqrt(x);
+        public static T Sqrt(T x) => Default.Sqrt(x);
 
         [DebuggerStepThrough]
-        public static N Tan(N x) => Instance.Tan(x);
+        public static T Tan(T x) => Default.Tan(x);
 
         [DebuggerStepThrough]
-        public static N Tanh(N x) => Instance.Tanh(x);
+        public static T Tanh(T x) => Default.Tanh(x);
 
         [DebuggerStepThrough]
-        public static N Truncate(N x) => Instance.Truncate(x);
-
-        [DebuggerStepThrough]
-        public static N TruncateToSignificance(N x, int significantDigits) => Instance.TruncateToSignificance(x, significantDigits);
+        public static T Truncate(T x) => Default.Truncate(x);
     }
 }

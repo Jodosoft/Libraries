@@ -129,13 +129,13 @@ namespace Jodo.Extensions.CheckedNumerics
         cshort INumeric<cshort>.RightShift(int count) => this >> count;
         cshort INumeric<cshort>.Subtract(cshort value) => this - value;
 
-        IBitConverter<cshort> IBitConvertible<cshort>.BitConverter => Utilities.Instance;
-        ICast<cshort> INumeric<cshort>.Cast => Utilities.Instance;
-        IConvert<cshort> IConvertible<cshort>.Convert => Utilities.Instance;
-        IMath<cshort> INumeric<cshort>.Math => Utilities.Instance;
-        INumericFunctions<cshort> INumeric<cshort>.NumericFunctions => Utilities.Instance;
-        IRandom<cshort> IRandomisable<cshort>.Random => Utilities.Instance;
-        IStringParser<cshort> IStringParsable<cshort>.StringParser => Utilities.Instance;
+        IBitConverter<cshort> IProvider<IBitConverter<cshort>>.GetInstance() => Utilities.Instance;
+        ICast<cshort> IProvider<ICast<cshort>>.GetInstance() => Utilities.Instance;
+        IConvert<cshort> IProvider<IConvert<cshort>>.GetInstance() => Utilities.Instance;
+        IMath<cshort> IProvider<IMath<cshort>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<cshort> IProvider<INumericFunctions<cshort>>.GetInstance() => Utilities.Instance;
+        IRandom<cshort> IProvider<IRandom<cshort>>.GetInstance() => Utilities.Instance;
+        IStringParser<cshort> IProvider<IStringParser<cshort>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<cshort>,
@@ -199,7 +199,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Round(cshort x, int digits) => x;
             cshort IMath<cshort>.Round(cshort x, int digits, MidpointRounding mode) => x;
             cshort IMath<cshort>.Round(cshort x, MidpointRounding mode) => x;
-            cshort IMath<cshort>.RoundToSignificance(cshort x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cshort IMath<cshort>.Sin(cshort x) => (cshort)Math.Sin(x._value);
             cshort IMath<cshort>.Sinh(cshort x) => (cshort)Math.Sinh(x._value);
             cshort IMath<cshort>.Sqrt(cshort x) => (cshort)Math.Sqrt(x._value);
@@ -207,7 +206,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IMath<cshort>.Tanh(cshort x) => (cshort)Math.Tanh(x._value);
             cshort IMath<cshort>.Tau { get; } = (short)6;
             cshort IMath<cshort>.Truncate(cshort x) => x;
-            cshort IMath<cshort>.TruncateToSignificance(cshort x, int significantDigits) => Digits.Truncate(x._value, significantDigits);
             int IMath<cshort>.Sign(cshort x) => Math.Sign(x._value);
 
             cshort IBitConverter<cshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)));

@@ -129,13 +129,13 @@ namespace Jodo.Extensions.CheckedNumerics
         cbyte INumeric<cbyte>.RightShift(int count) => this >> count;
         cbyte INumeric<cbyte>.Subtract(cbyte value) => this - value;
 
-        IBitConverter<cbyte> IBitConvertible<cbyte>.BitConverter => Utilities.Instance;
-        ICast<cbyte> INumeric<cbyte>.Cast => Utilities.Instance;
-        IConvert<cbyte> IConvertible<cbyte>.Convert => Utilities.Instance;
-        IMath<cbyte> INumeric<cbyte>.Math => Utilities.Instance;
-        INumericFunctions<cbyte> INumeric<cbyte>.NumericFunctions => Utilities.Instance;
-        IRandom<cbyte> IRandomisable<cbyte>.Random => Utilities.Instance;
-        IStringParser<cbyte> IStringParsable<cbyte>.StringParser => Utilities.Instance;
+        IBitConverter<cbyte> IProvider<IBitConverter<cbyte>>.GetInstance() => Utilities.Instance;
+        ICast<cbyte> IProvider<ICast<cbyte>>.GetInstance() => Utilities.Instance;
+        IConvert<cbyte> IProvider<IConvert<cbyte>>.GetInstance() => Utilities.Instance;
+        IMath<cbyte> IProvider<IMath<cbyte>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<cbyte> IProvider<INumericFunctions<cbyte>>.GetInstance() => Utilities.Instance;
+        IRandom<cbyte> IProvider<IRandom<cbyte>>.GetInstance() => Utilities.Instance;
+        IStringParser<cbyte> IProvider<IStringParser<cbyte>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<cbyte>,
@@ -199,7 +199,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IMath<cbyte>.Round(cbyte x, int digits) => x;
             cbyte IMath<cbyte>.Round(cbyte x, int digits, MidpointRounding mode) => x;
             cbyte IMath<cbyte>.Round(cbyte x, MidpointRounding mode) => x;
-            cbyte IMath<cbyte>.RoundToSignificance(cbyte x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             cbyte IMath<cbyte>.Sin(cbyte x) => CheckedCast.ToByte(Math.Sin(x._value));
             cbyte IMath<cbyte>.Sinh(cbyte x) => CheckedCast.ToByte(Math.Sinh(x._value));
             cbyte IMath<cbyte>.Sqrt(cbyte x) => CheckedCast.ToByte(Math.Sqrt(x._value));
@@ -207,7 +206,6 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IMath<cbyte>.Tanh(cbyte x) => CheckedCast.ToByte(Math.Tanh(x._value));
             cbyte IMath<cbyte>.Tau { get; } = 6;
             cbyte IMath<cbyte>.Truncate(cbyte x) => x;
-            cbyte IMath<cbyte>.TruncateToSignificance(cbyte x, int significantDigits) => Digits.Truncate(x, significantDigits);
             int IMath<cbyte>.Sign(cbyte x) => x._value == 0 ? 0 : 1;
 
             cbyte IBitConverter<cbyte>.Read(IReadOnlyStream<byte> stream) => stream.Read(1)[0];

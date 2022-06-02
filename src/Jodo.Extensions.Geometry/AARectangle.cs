@@ -47,11 +47,6 @@ namespace Jodo.Extensions.Geometry
         public Vector2<N> TopLeft => GetTopLeft(Center, Dimensions);
         public Vector2<N> TopRight => GetTopRight(Center, Dimensions);
 
-        IBitConverter<AARectangle<N>> IBitConvertible<AARectangle<N>>.BitConverter => throw new NotImplementedException();
-
-        IRandom<AARectangle<N>> IRandomisable<AARectangle<N>>.Random => throw new NotImplementedException();
-
-        IStringParser<AARectangle<N>> IStringParsable<AARectangle<N>>.StringParser => throw new NotImplementedException();
 
         private AARectangle(Vector2<N> center, Vector2<N> dimensions)
         {

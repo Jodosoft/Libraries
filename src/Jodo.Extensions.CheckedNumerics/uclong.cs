@@ -129,13 +129,13 @@ namespace Jodo.Extensions.CheckedNumerics
         uclong INumeric<uclong>.RightShift(int count) => this >> count;
         uclong INumeric<uclong>.Subtract(uclong value) => this - value;
 
-        IBitConverter<uclong> IBitConvertible<uclong>.BitConverter => Utilities.Instance;
-        ICast<uclong> INumeric<uclong>.Cast => Utilities.Instance;
-        IConvert<uclong> IConvertible<uclong>.Convert => Utilities.Instance;
-        IMath<uclong> INumeric<uclong>.Math => Utilities.Instance;
-        INumericFunctions<uclong> INumeric<uclong>.NumericFunctions => Utilities.Instance;
-        IRandom<uclong> IRandomisable<uclong>.Random => Utilities.Instance;
-        IStringParser<uclong> IStringParsable<uclong>.StringParser => Utilities.Instance;
+        IBitConverter<uclong> IProvider<IBitConverter<uclong>>.GetInstance() => Utilities.Instance;
+        ICast<uclong> IProvider<ICast<uclong>>.GetInstance() => Utilities.Instance;
+        IConvert<uclong> IProvider<IConvert<uclong>>.GetInstance() => Utilities.Instance;
+        IMath<uclong> IProvider<IMath<uclong>>.GetInstance() => Utilities.Instance;
+        INumericFunctions<uclong> IProvider<INumericFunctions<uclong>>.GetInstance() => Utilities.Instance;
+        IRandom<uclong> IProvider<IRandom<uclong>>.GetInstance() => Utilities.Instance;
+        IStringParser<uclong> IProvider<IStringParser<uclong>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<uclong>,
@@ -200,7 +200,6 @@ namespace Jodo.Extensions.CheckedNumerics
             uclong IMath<uclong>.Round(uclong x, int digits) => x;
             uclong IMath<uclong>.Round(uclong x, int digits, MidpointRounding mode) => x;
             uclong IMath<uclong>.Round(uclong x, MidpointRounding mode) => x;
-            uclong IMath<uclong>.RoundToSignificance(uclong x, int significantDigits, MidpointRounding mode) => Digits.RoundToSignificance(x, significantDigits, mode);
             uclong IMath<uclong>.Sin(uclong x) => (uclong)Math.Sin(x._value);
             uclong IMath<uclong>.Sinh(uclong x) => (uclong)Math.Sinh(x._value);
             uclong IMath<uclong>.Sqrt(uclong x) => (uclong)Math.Sqrt(x._value);
@@ -208,7 +207,6 @@ namespace Jodo.Extensions.CheckedNumerics
             uclong IMath<uclong>.Tanh(uclong x) => (uclong)Math.Tanh(x._value);
             uclong IMath<uclong>.Tau { get; } = 6;
             uclong IMath<uclong>.Truncate(uclong x) => x;
-            uclong IMath<uclong>.TruncateToSignificance(uclong x, int significantDigits) => Digits.Truncate(x, significantDigits);
 
             uclong IBitConverter<uclong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)));
             void IBitConverter<uclong>.Write(uclong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));

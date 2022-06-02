@@ -24,24 +24,20 @@ using System.Runtime.Serialization;
 namespace Jodo.Extensions.Numerics
 {
     public interface INumeric<N> :
-            IBitConvertible<N>,
             IComparable,
             IComparable<N>,
-            IConvertible<N>,
             IEquatable<N>,
             IFormattable,
-            IRandomisable<N>,
-            ISerializable,
-            IStringParsable<N>
+            IProvider<IBitConverter<N>>,
+            IProvider<ICast<N>>,
+            IProvider<IConvert<N>>,
+            IProvider<IMath<N>>,
+            IProvider<INumericFunctions<N>>,
+            IProvider<IRandom<N>>,
+            IProvider<IStringParser<N>>,
+            ISerializable
         where N : struct, INumeric<N>
     {
-        IMath<N> Math { get; }
-        ICast<N> Cast { get; }
-        INumericFunctions<N> NumericFunctions { get; }
-
-        public float ToSingle() => Convert<N>.ToSingle((N)this);
-        public double ToDouble() => Convert<N>.ToDouble((N)this);
-
         bool IsGreaterThan(N value);
         bool IsGreaterThanOrEqualTo(N value);
         bool IsLessThan(N value);
@@ -80,15 +76,5 @@ namespace Jodo.Extensions.Numerics
         public static N operator +(INumeric<N> left, INumeric<N> right) => left.Add((N)right);
         public static N operator <<(INumeric<N> left, int right) => left.LeftShift(right);
         public static N operator >>(INumeric<N> left, int right) => left.RightShift(right);
-
-        public static bool operator <(INumeric<N> left, N right) => left.IsLessThan(right);
-        public static bool operator <=(INumeric<N> left, N right) => left.IsLessThanOrEqualTo(right);
-        public static bool operator >(INumeric<N> left, N right) => left.IsGreaterThan(right);
-        public static bool operator >=(INumeric<N> left, N right) => left.IsGreaterThanOrEqualTo(right);
-        public static N operator %(INumeric<N> left, N right) => left.Remainder(right);
-        public static N operator -(INumeric<N> left, N right) => left.Subtract(right);
-        public static N operator *(INumeric<N> left, N right) => left.Multiply(right);
-        public static N operator /(INumeric<N> left, N right) => left.Divide(right);
-        public static N operator +(INumeric<N> left, N right) => left.Add(right);
     }
 }

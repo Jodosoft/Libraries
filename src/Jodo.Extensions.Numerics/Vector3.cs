@@ -17,15 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
 using System.Runtime.Serialization;
 
-namespace Jodo.Extensions.Geometry
+namespace Jodo.Extensions.Numerics
 {
     [Serializable]
-    public readonly struct Vector3<N> : IGeometric<Vector3<N>> where N : struct, INumeric<N>
+    public readonly struct Vector3<N> : ISerializable where N : struct, INumeric<N>
     {
         public readonly N X;
         public readonly N Y;
@@ -33,11 +32,7 @@ namespace Jodo.Extensions.Geometry
 
         public N Length => Math<N>.Sqrt((X * X) + (Y * Y) + (Z * Z));
 
-        IBitConverter<Vector3<N>> IBitConvertible<Vector3<N>>.BitConverter => throw new NotImplementedException();
 
-        IRandom<Vector3<N>> IRandomisable<Vector3<N>>.Random => throw new NotImplementedException();
-
-        IStringParser<Vector3<N>> IStringParsable<Vector3<N>>.StringParser => throw new NotImplementedException();
 
         public Vector3(N x, N y, N z)
         {

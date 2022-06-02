@@ -19,7 +19,7 @@
 
 namespace Jodo.Extensions.Numerics
 {
-    public interface ICast<N> where N : struct, INumeric<N>
+    public interface ICast<N>
     {
         byte ToByte(N value);
         decimal ToDecimal(N value);

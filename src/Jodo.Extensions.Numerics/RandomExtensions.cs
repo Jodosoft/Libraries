@@ -19,28 +19,18 @@
 
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
+using System.Diagnostics;
 
 namespace System
 {
     public static class RandomExtensions
     {
+        [DebuggerStepThrough]
         public static N NextNumeric<N>(this Random random) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, Numeric<N>.MinValue, Numeric<N>.MaxValue);
+            => ((IProvider<IRandom<N>>)default(N)).GetInstance().Next(random);
 
+        [DebuggerStepThrough]
         public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
-            => default(N).Random.Next(random, bound1, bound2);
-
-        public static N NextNumeric<N>(this Random random, double bound1, double bound2) where N : struct, INumeric<N>
-        {
-            N minBound;
-            try { minBound = Convert<N>.ToValue(Math.Min(bound1, bound2)); }
-            catch (OverflowException) { minBound = Numeric<N>.MinValue; }
-
-            N maxBound;
-            try { maxBound = Convert<N>.ToValue(Math.Max(bound1, bound2)); }
-            catch (OverflowException) { maxBound = Numeric<N>.MaxValue; }
-
-            return random.NextNumeric(minBound, maxBound);
-        }
+            => ((IProvider<IRandom<N>>)default(N)).GetInstance().Next(random, bound1, bound2);
     }
 }

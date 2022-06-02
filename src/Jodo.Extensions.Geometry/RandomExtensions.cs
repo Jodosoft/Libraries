@@ -17,16 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Geometry;
-
 namespace System
 {
     public static class RandomExtensions
     {
-        public static N NextGeometric<N>(this Random random) where N : struct, IGeometric<N>
-            => default(N).Random.Next(random);
-
-        public static N NextGeometric<N>(this Random random, N bound1, N bound2) where N : struct, IGeometric<N>
-            => default(N).Random.Next(random, bound1, bound2);
+        // public static N NextGeometric<N>(this Random random) where N : struct, IGeometric<N>
+        //     => default(N).GetRandom.Next(random);
+        //
+        // public static N NextGeometric<N>(this Random random, N bound1, N bound2) where N : struct, IGeometric<N>
+        //     => default(N).GetRandom.Next(random, bound1, bound2);
     }
 }

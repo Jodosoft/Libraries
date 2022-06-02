@@ -19,10 +19,8 @@
 
 namespace Jodo.Extensions.Primitives
 {
-    public interface IRandomisable<T> where T : IRandomisable<T>, new()
+    public interface IProvider<T>
     {
-        public static readonly IRandom<T> DefaultInstance = new T().Random;
-
-        IRandom<T> Random { get; }
+        T GetInstance();
     }
 }

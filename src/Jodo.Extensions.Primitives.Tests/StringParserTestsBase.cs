@@ -24,7 +24,7 @@ using System;
 
 namespace Jodo.Extensions.Primitives.Tests
 {
-    public abstract class StringParserTestsBase<T> : GlobalTestBase where T : IStringParsable<T>, IRandomisable<T>, new()
+    public abstract class StringParserTestsBase<T> : GlobalTestBase where T : struct, IProvider<IStringParser<T>>, IProvider<IRandom<T>>
     {
         [Test]
         public void Parse1_RandomValueRoundTrip_SameAsInput()
