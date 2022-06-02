@@ -27,7 +27,7 @@ namespace Jodo.Extensions.Testing
     public abstract class GlobalTestBase
     {
 #if DEBUG
-        public const int RandomVariations = 200;
+        public const int RandomVariations = 16;
 #else
         public const int RandomVariations = 128;
 #endif

@@ -9,7 +9,7 @@ namespace Jodo.Extensions.Primitives.Tests
     public sealed class RandomExtensionsTests : GlobalTestBase
     {
         public readonly static decimal DecimalEpsilon = new decimal(1, 0, 0, false, 28);
-        public const int NumberToGenerate = 100;
+        public const int NumberToGenerate = 1000;
         public const int ExpectedUniqueCount = NumberToGenerate / 10;
         public const int BoundedRange = 3;
         public const int BoundedNumberToGenerate = BoundedRange * ExpectedUniqueCount;
