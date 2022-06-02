@@ -64,9 +64,10 @@ namespace Jodo.Extensions.Numerics
             try { checked { return Convert<N>.ToValue(value); } }
             catch (OverflowException)
             {
-                if (value < -1 || (value < 0 && !Numeric<N>.IsSigned)) return Numeric<N>.MinValue;
+                if (value < 0 && !Numeric<N>.IsSigned) return Numeric<N>.MinValue;
+                if (value < -1) return Numeric<N>.MinValue;
                 if (value > 1) return Numeric<N>.MaxValue;
-                if (value > -1 && value < 0) return -Numeric<N>.Epsilon;
+                if (value < 0) return -Numeric<N>.Epsilon;
                 return Numeric<N>.Epsilon;
             }
         }
@@ -82,9 +83,10 @@ namespace Jodo.Extensions.Numerics
             try { checked { return Convert<N>.ToValue(value); } }
             catch (OverflowException)
             {
-                if (value < -1 || (value < 0 && !Numeric<N>.IsSigned)) return Numeric<N>.MinValue;
+                if (value < 0 && !Numeric<N>.IsSigned) return Numeric<N>.MinValue;
+                if (value < -1) return Numeric<N>.MinValue;
                 if (value > 1) return Numeric<N>.MaxValue;
-                if (value > -1 && value < 0) return -Numeric<N>.Epsilon;
+                if (value < 0) return -Numeric<N>.Epsilon;
                 return Numeric<N>.Epsilon;
             }
         }
@@ -94,9 +96,10 @@ namespace Jodo.Extensions.Numerics
             try { checked { return Convert<N>.ToValue(value); } }
             catch (OverflowException)
             {
-                if (value < -1 || (value < 0 && !Numeric<N>.IsSigned)) return Numeric<N>.MinValue;
+                if (value < 0 && !Numeric<N>.IsSigned) return Numeric<N>.MinValue;
+                if (value < -1) return Numeric<N>.MinValue;
                 if (value > 1) return Numeric<N>.MaxValue;
-                if (value > -1 && value < 0) return -Numeric<N>.Epsilon;
+                if (value < 0) return -Numeric<N>.Epsilon;
                 return Numeric<N>.Epsilon;
             }
         }
