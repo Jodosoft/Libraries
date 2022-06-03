@@ -1,5 +1,4 @@
 <p align="center"><img src="Banner.png" alt="Logo" height="96"/></p>
-
 <h1 align="center">Jodo.Extensions</h1>
 
 <p align="center">C# extension libraries written in the style of the .NET SDK.</p>
@@ -22,19 +21,22 @@
 
 Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
 
-<a href="#inumericn">Fixed-point numeric types</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
+<a href="#inumericn">Fixed-point types</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
 
-Usage is easy and familiar--with all the expected operators, interfaces and static methods--as demonstrated by the following code sample:
+Usage is easy, with fully supported operators, commonly-used interfaces and familiar static methods–as demonstrated by the following code sample:
 
 ```csharp
-var i = xint.Parse("2048");
-var shifted = i >> 3;
+var xint1 = (xint)1234;
+var xint2 = xint1 >> 0b11;
 
-xfloat j = 1.23e6f;
-xfloat sqrt = Math<xfloat>.Sqrt(j);
+Console.WriteLine(xint1); // outputs: 1234
+Console.WriteLine($"{xint2:X}"); // outputs: 9A
 
-Console.WriteLine($"{i} -> {shifted}"); // outputs: 2048 -> 256
-Console.WriteLine($"{j:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
+var fixed1 = 2 * Math<fix64>.PI;
+var fixed2 = fixed1 / 1000;
+
+Console.WriteLine(fixed1); // outputs: 6.283184
+Console.WriteLine(fixed2); // outputs: 0.006283
 ```
 
 ### Types
@@ -45,31 +47,51 @@ Console.WriteLine($"{j:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
     <th>Description</th>
   </tr>
   <tr>
-    <td id="inumericn">INumeric&lt;N&gt;</td>
+    <td id="inumericn"><sub><em>interface</em></sub><br />INumeric&lt;N&gt;</td>
     <td>Provides a definition for custom numeric types and allows them to be used interchangeably with generics.</td>
   </tr>
   <tr>
-    <td id="mathn">Math&lt;N&gt;</td>
-    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>N Log(N)</code>, <code>N Acosh(N)</code> and <code>N Round(N, int)</code>.</td>
+    <td id="mathn"><sub><em>static class</em></sub><br />Math&lt;N&gt;</td>
+    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>Log(N)</code>, <code>Acosh(N)</code> and <code>Round(N, int)</code>.</td>
   </tr>
   <tr>
-    <td id="convertn">Convert&lt;N&gt;</td>
-    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, supporting conversion to and from built-in numeric types.</td>
+    <td id="bitconvertern"><sub><em>static class</em></sub><br />BitConverter&lt;N&gt;</td>
+    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, supporting conversion to and from byte arrays.</td>
   </tr>
   <tr>
-    <td id="bitconvertern">BitConverter&lt;N&gt;</td>
-    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, supporting conversion to and from byte arrays.</td>
+    <td id="convertn"><sub><em>static class</em></sub><br />Convert&lt;N&gt;</td>
+    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, supporting conversion to and from built-in numeric types.</td>
   </tr>
   <tr>
-    <td id="stringformattern">StringParser&lt;N&gt;</td>
-    <td>Provides static string parsing and formatting methods.</td>
+    <td id="castn"><sub><em>static class</em></sub><br />Cast&lt;N&gt;</td>
+    <td>Provides access to numeric conversion operators (casts) from within a generic context.</td>
   </tr>
   <tr>
-    <td id="fix64"><code>fix64</code>, <code>ufix64</code></td>
+    <td id="castn"><sub><em>static class</em></sub><br />Clamp&lt;N&gt;</td>
+    <td>Allows conversion to and from the built-in numeric types whilst preventing overflow by clamping to the <code>MinValue</code> and <code>MaxValue</code> of the target type.</td>
+  </tr>
+  <tr>
+    <td id="stringformattern"><sub><em>static class</em></sub><br />StringParser&lt;N&gt;</td>
+    <td>Provides string parsing methods with support for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.numberstyles">NumberStyles</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider">IFormatProvider</a>.</td>
+  </tr>
+  <tr>
+    <td id="castn"><sub><em>readonly struct</em></sub><br />Unit&lt;N&gt;</td>
+    <td>A wrapper for numeric types the clamps values between -1 and 1 (or 0 and 1 when unsigned) with extensive interface and operator support.</td>
+  </tr>
+  <tr>
+    <td id="castn"><sub><em>readonly struct</em></sub><br />Vector2&lt;N&gt;</td>
+    <td>A collection of two numeric values, <code>X</code> and <code>Y</code> with extensive interface and operator support.</td>
+  </tr>
+  <tr>
+    <td id="castn"><sub><em>readonly struct</em></sub><br />Vector3&lt;N&gt;</td>
+    <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code> with extensive interface and operator support.</td>
+  </tr>
+  <tr>
+    <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>fix64</code>,<br /><code>ufix64</code></td>
     <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Supporting a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned). Represented internally by 64-bit integers.</td>
   </tr>
   <tr>
-    <td id="wrappers">
+    <td id="wrappers"><sub><em>readonly struct</em></sub><br />
       <code>xbyte</code>, <code>xsbyte</code>,<br />
       <code>xshort</code>, <code>xushort</code>,<br />
       <code>xint</code>, <code>xuint</code>,<br />
@@ -77,20 +99,63 @@ Console.WriteLine($"{j:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
       <code>xfloat</code>, <code>xdouble</code>,<br />
       <code>xdecimal</code>
     </td>
-    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a>. Implicit conversions are provided to allow for easy migration.</td>
+    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> with identical behaviour, allowing them to be used interchangeably with generics.</td>
   </tr>
 </table>
 
 ### Other features
 
-| Feature | Notes |
-| - | - |
-| Overloaded operators | <ul><li>`==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/` and `%` are overloaded by all the provided numeric types, allowing for use in expressions.</li><li>`&`, `\|`, `^`, `~`, `<<` and `>>` are overloaded by all the provided integral types.</li><li>Implicit conversions from built-in numeric types are provided, allowing use in expressions with numeric literals.</li><li><a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/`, `%`, `&`, `\|`, `^`, `~`, `<<` and `>>` operators, allowing for limited expressions in a generic context (note: equality and conversion operators are not supported on interfaces).</li></ul> |
-| Formatting | <ul><li>All the provided numeric types implement [IFormattable](https://docs.microsoft.com/en-us/dotnet/api/system.iformattable) and can be used with [numeric format strings](https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings).</li></ul> |
-| Random generation | <ul><li>An extension method for [Random](https://docs.microsoft.com/en-us/dotnet/api/system.random), `NextNumeric<N>`<sup><a href="#footnote1">†</a></sup>, provides randomly generated values.</li><li>Values can be generated between two bounds or without bounds.</li></ul> |
-| Serialization | <ul><li>All the provided numeric types implement [ISerializable](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable), have the [Serializable](https://docs.microsoft.com/en-us/dotnet/api/system.serializableattribute) attribute and a deserialization constructor.</li></ul> |
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Overloaded operators</td>
+    <td>
+      <p>All the provided numeric types have a full suite of overloaded operators, including:
+      <ul>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Equality operators</a> <code>==</code> and  <code>!=</code></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Comparison operators</a> <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code> and <code>&gt;=</code></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators">Arithmetic operators</a> <code>++</code>, <code>--</code>, <code>+</code> (plus), <code>-</code> (minus), <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code> and <code>-</code></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/bitwise-and-shift-operators">Bitwise and shift operators</a> <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators">Conversion operators</a> for all the built-in numeric types</li>
+      </ul>
+  </p>
+   <p>
+<a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>++</code>, <code>--</code>, <code>+</code> (plus), <code>-</code> (minus), <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code>, allowing for limited expressions in a generic context (note that equality and conversion operators are not supported on interfaces).
+  </p>
+  <p> <em>Note: The bitwise and shift operators are overloaded for non-integral types. These operators perform the correct bitwise operations, but are unlikely to produce useful results.</em></p>
+      </td>
+    </tr>
+   <tr>
+<td> String formatting </td>
+<td>
+<p>All the provided numeric types can be used with <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings">numeric format strings</a>, as in the following code sample:</p>
+  <pre lang="csharp"><code>var var1 = (xint)1024;
+var var2 = (fix64)99.54322f;
 
-<p id="footnote2"><sup>†</sup> Available for all types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>.</p>
+Console.WriteLine($"{var1:N}"); // outputs: 1,024.00
+Console.WriteLine($"{var1:X}"); // outputs: 400
+Console.WriteLine($"{var2:E}"); // outputs: 9.954322E+001
+Console.WriteLine($"{var2:000.000}"); // outputs: 099.543</code></pre>
+</td>
+</tr>
+<tr>
+<td>Random generation</td>
+  <td>Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">Random</a> provide randomly generated values. Values can be generated between two bounds or without bounds, as in the following code sample:</p>
+  <pre lang="csharp"><code>var var1 = Random.NextNumeric&lt;xdouble&gt;();
+var var2 = Random.NextNumeric&lt;xdouble&gt;(100, 120);
+
+Console.WriteLine(var1); // outputs: -7.405808417991177E+115 (example)
+Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
+  
+  </td>
+</tr>
+<tr>
+<td>Commonly-used abstractions</td> <td>All the provided numeric types implement <a href="">IComparable</a>, <a href="">IComparable&lt;T&gt;</a>. <a href="">IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">ISerializable</a>, override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
+</tr>
+</table>
 
 ### Performance considerations
 
@@ -98,11 +163,29 @@ The numeric types provided by this package are structs that wrap built-in types 
 
 If developing a performance-sensitive application, use a profiler to assess the impact.
 
-Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Extensions.Numerics.Benchmarks* in RELEASE mode.
+Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Extensions.Numerics.Benchmarks.exe* in RELEASE mode.
 
 Sample output can be seen below:
   
-*tbc*
+
+<details>
+<summary><em>Jodo.Extensions.Numerics.Benchmarks - Results from 2022-06-03T21:30:27.6877090Z</em></summary>
+
+  > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
+  > * **Architecture:** x64-based processor
+  > * **RAM:** 16.0 GB
+  > * **OS:** Windows 10 (64-bit)
+  > * **Seconds per Benchmark:** 60.0
+
+| Name | Ops Per Second | Time | Baseline Ops Per Second | Baseline Time | Observation |
+| --- | --- | --- | --- | --- | --- |
+| XInt_Versus_Int32_Division | 1.798E+08 | *<1μs* | 1.94E+08 | *<1μs* | *Marginal difference* |
+| XInt_Versus_Int32_StringParsing | 7.305E+07 | *<1μs* | 6.734E+07 | *<1μs* | *Marginal difference* |
+| XDouble_Versus_Double_StringParsing | 1.663E+06 | *<1μs* | 1.624E+06 | *<1μs* | *Marginal difference* |
+| Fix64_Versus_Double_Division | 1.455E+07 | *<1μs* | 1.593E+08 | *<1μs* | 10.9x slower |
+
+</details>
+
 
 <h2>Jodo.Extensions.CheckedNumerics</h2>
   
@@ -121,28 +204,26 @@ Console.WriteLine(x2);  // output: 3.402823E+38
 
 ### Types
 
-The following table summarizes the types and their behaviour:
-
 | Type | Description |
 | --- | --- |
-| `cint`<br />`ucint` | <ul><li>Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow.</li><li>Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`.</li></ul> |
-| `cfloat`<br />`cdouble` | <ul><li>Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively.</li><li>Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`.</li><li>It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`.</li></ul> |
-| `fix64`<br />`ufix64` | <ul><li>A fixed-precision number with a 40-bit integral part and a 24-bit mantissa.</li><li>Has a range of values from -549,755,813,888 to 549,755,813,888 for `fix64` and 0 to 1,099,511,693,312.004 for `ufix64`.</li><li>Useful in systems where high precision is required regardless of magnitude.</li></ul> |
-| `CheckedArithmetic` | <ul><li>A static class that provides checked arithmetic methods for the built-in numeric types.</li></ul> |
-| `CheckedConvert` | <ul><li>A static class, similar to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert), that provides checked conversion between the built-in numeric types.</li></ul> |
+| <sub><em>static class</em></sub><br />CheckedArithmetic | Provides checked arithmetic methods for the built-in numeric types. |
+| <sub><em>static class</em></sub><br />CheckedConvert | Provides checked equivalents to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert). |
+| <sub><em>readonly struct</em></sub><br />`cbyte`, `csbyte`,<br />`cshort`, `cushort`,<br />`cint`, `cuint`,<br />`clong`, `culong`,<br />`cdecimal` | Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow. Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`. |
+| <sub><em>readonly struct</em></sub><br />`cfloat`,<br />`cdouble` | Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively. Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`. It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`. |
+| <sub><em>readonly struct</em></sub><br />`cfix64`,<br />`cufix64` | <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Supporting a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned). Represented internally by 64-bit integers. |
 
 ### Performance considerations
 
-The numeric types provided by this package are structs that wrap values and operations provided by built-in numeric types. Therefore they may consume more CPU time and runtime memory compared to using built-in numeric types alone.
-  
+The numeric types provided by this package are structs that wrap built-in types and operators. Therefore they consume more memory and CPU time compared to using the built-in types alone.
+
 Additionally, the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword is used for conversion and arithmetic with these types. Therefore they use more CPU time compared to built-in numeric types, especially in cases of overflow.
 
-If developing a performance-sensitive application, use a profiler to assess the impact on performance. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive applications, such as graphics or big-data.
+If developing a performance-sensitive application, use a profiler to assess the impact. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive applications, such as 3D graphics or big-data.
 
-Benchmarks are provided with this repository to facilitate comparison with the built-in numeric types. To run the benchmarks, clone the repository then build and run `Jodo.Extensions.CheckedNumerics.Benchmarks` in RELEASE mode.
+Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Extensions.CheckedNumerics.Benchmarks.exe* in RELEASE mode.
 
 Sample output can be seen below:
-  <details>
+<details>
   <summary><em>Jodo.Extensions.CheckedNumerics.Benchmarks - Results from 2022-05-11T18:11:17.8665440Z</em></summary>
 
   > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
@@ -159,10 +240,11 @@ Sample output can be seen below:
   | CInt_StringParsing_Vs_Int | 7.443E+07 | *<1μs* | 5.885E+07 | *<1μs* | 1.3x slower |
   | **CInt_MultiplicationOverflow_Vs_Int** | **3.725E+08** | ***<1μs*** | **1.453E+05** | **6.8μs** | **2563x slower** |
 
-  </details>
-    
-<details>
-  <summary><h2>Jodo.Extensions.Geometry</summary>
+</details>
+
+<h2>Jodo.Extensions.Geometry</h2>
+
+> This package is a work in progress.
 
 Provides geometric value types.
 
@@ -172,13 +254,7 @@ Provides geometric value types.
 | Rectangle\<T\> |  |
 | Circle\<T\> |  |
 | Angle\<T\> |  |
-| Unit\<T\> |  |
-| Vector2\<T\> |  |
-| Vector3\<T\> |  |
 
-</details>
+<h2>Jodo.Extensions.Collections</h2>
 
-<details>
-  <summary><h2>Jodo.Extensions.Collections</summary>
-
-</details>
+> This package is a work in progress.
