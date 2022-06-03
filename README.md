@@ -14,7 +14,7 @@
   <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo.Extensions/1?logo=azuredevops&style=flat-square"></a>
   <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo.Extensions/1/main?logo=azuredevops&style=flat-square"></a>
 <br />
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square" /></a>
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square" /></a>
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square"></a>
 </p>
 
@@ -22,22 +22,19 @@
 
 Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
 
-<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
+<a href="#inumericn">Fixed-point numeric types</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
 
-Usage is the same as with built-in numeric types. All operators are overloaded, commonly used interfaces such as <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">IFormattable</a> are implemented, and familiar static methods are provided by classes such as <a href="#mathn">Math&lt;N&gt;</a>.
-
-The following code example demonstrates usage:
+Usage is easy and familiar--with all the expected operators, interfaces and static methods--as demonstrated by the following code sample:
 
 ```csharp
-xint intValue = 2048;
-xint shifted = intValue >> 3;
+var i = xint.Parse("2048");
+var shifted = i >> 3;
 
-xfloat floatValue = 1.23e6f;
-xfloat sqrt = Math<xfloat>.Sqrt(floatValue);
+xfloat j = 1.23e6f;
+xfloat sqrt = Math<xfloat>.Sqrt(j);
 
-Console.WriteLine($"{intValue} -> {shifted}"); // outputs: 2048 -> 256
-
-Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
+Console.WriteLine($"{i} -> {shifted}"); // outputs: 2048 -> 256
+Console.WriteLine($"{j:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
 ```
 
 ### Types
@@ -49,7 +46,7 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
   </tr>
   <tr>
     <td id="inumericn">INumeric&lt;N&gt;</td>
-    <td>Implemented by custom numeric types. Allows for numeric types to be used interchangeably in generic systems.</td>
+    <td>Provides a definition for custom numeric types and allows them to be used interchangeably with generics.</td>
   </tr>
   <tr>
     <td id="mathn">Math&lt;N&gt;</td>
@@ -57,11 +54,11 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
   </tr>
   <tr>
     <td id="convertn">Convert&lt;N&gt;</td>
-    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, allowing for conversion to and from built-in numeric types.</td>
+    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, supporting conversion to and from built-in numeric types.</td>
   </tr>
   <tr>
     <td id="bitconvertern">BitConverter&lt;N&gt;</td>
-    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, allowing conversion to and from ReadOnlySpan&lt;byte&gt;.</td>
+    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, supporting conversion to and from byte arrays.</td>
   </tr>
   <tr>
     <td id="stringformattern">StringParser&lt;N&gt;</td>
@@ -69,7 +66,7 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
   </tr>
   <tr>
     <td id="fix64"><code>fix64</code>, <code>ufix64</code></td>
-    <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Stores a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (unsigned 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup>). Implemented using 8-byte integers.</td>
+    <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Supporting a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned). Represented internally by 64-bit integers.</td>
   </tr>
   <tr>
     <td id="wrappers">
@@ -80,7 +77,7 @@ Console.WriteLine($"{floatValue:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 
       <code>xfloat</code>, <code>xdouble</code>,<br />
       <code>xdecimal</code>
     </td>
-    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> with identical usage. Implicit conversions allow for easy transition to and from the built-in numeric types.</td>
+    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a>. Implicit conversions are provided to allow for easy migration.</td>
   </tr>
 </table>
 
