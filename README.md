@@ -20,7 +20,7 @@
 
 <h2>Jodo.Extensions.Numerics</h2>
 
-Provides <a href="#inumericn">INumeric&lt;N&gt;</a> and utilities for creating custom numeric types.
+Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
 
 <a href="#inumericn">Fixed-point numeric types</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
 
