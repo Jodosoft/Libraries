@@ -4,13 +4,15 @@
     <AssemblyName>Jodo.Extensions.Numerics</AssemblyName>
     <AssemblyTitle>Jodo.Extensions.Numerics</AssemblyTitle>
     <PackageId>Jodo.Extensions.Numerics</PackageId>
-    <PackageTags>numeric, numerics, number, numbers, math, maths, arithmetic</PackageTags>
+    <PackageTags>numeric, numerics, number, numbers, math, maths, arithmetic, fixed, point</PackageTags>
     <RootNamespace>Jodo.Extensions.Numerics</RootNamespace>
-    <Description>Provides the interface INumeric&lt;N&gt; and accompanying utilities classes, allowing for the creation of numeric types that can used interchangeably with generics.
+    <Description>Provides the INumeric&lt;N&gt; interface and utilities for creating custom numeric types.
 
 Commonly Used Types:
 Jodo.Extensions.Numerics.INumeric&lt;N&gt;
 Jodo.Extensions.Numerics.Math&lt;N&gt;
+Jodo.Extensions.Numerics.fix64
+Jodo.Extensions.Numerics.ufix64
     </Description>
     <Title>Jodo.Extensions.Numerics</Title>
   </PropertyGroup>

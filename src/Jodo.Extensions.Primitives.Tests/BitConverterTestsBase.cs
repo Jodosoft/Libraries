@@ -58,7 +58,7 @@ namespace Jodo.Extensions.Primitives.Tests
             //arrange
 
             //act
-            var action = new Action(() => BitConverter<T>.FromBytes(new byte[0].AsSpan()));
+            var action = new Action(() => BitConverter<T>.FromBytes(Array.Empty<byte>().AsSpan()));
 
             //assert
             action.Should().Throw<ArgumentException>();

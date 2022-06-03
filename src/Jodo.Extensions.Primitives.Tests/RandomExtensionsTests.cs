@@ -23,7 +23,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextByte()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextByte(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -54,7 +54,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextByte(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -113,7 +113,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextSByte()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextSByte(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -144,7 +144,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextSByte(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -203,7 +203,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt16()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -218,7 +218,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt16(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -234,7 +234,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt16(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -293,7 +293,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt16()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -308,7 +308,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt16(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -324,7 +324,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt16(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -383,7 +383,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt32()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -398,7 +398,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt32(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -414,7 +414,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt32(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -473,7 +473,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt32()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -488,7 +488,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt32(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -504,7 +504,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt32(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -563,7 +563,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt64WithoutBounds()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -578,7 +578,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt64WithBounds(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -594,7 +594,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextInt64WithBounds(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -653,7 +653,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt64()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -668,7 +668,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt64(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -684,7 +684,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextUInt64(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -743,7 +743,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextSingle()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -758,7 +758,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextSingle(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -774,7 +774,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextSingle(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -835,7 +835,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextDouble()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -850,7 +850,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextDouble(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -882,7 +882,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextDouble(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -992,7 +992,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextDecimal()).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
         }
 
         [Test]
@@ -1007,7 +1007,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextDecimal(min, max)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
@@ -1039,7 +1039,7 @@ namespace Jodo.Extensions.Primitives.Tests
                 .Select(_ => Random.NextDecimal(max, min)).Distinct().ToArray();
 
             //assert
-            results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
+            results.Length.Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
             results.Should().OnlyContain(x => x >= min && x <= max);
         }
 
