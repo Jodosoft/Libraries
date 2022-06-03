@@ -22,7 +22,7 @@ using System.Globalization;
 
 namespace Jodo.Extensions.Primitives
 {
-    public interface IStringParser<T>
+    public interface IStringParser<out T>
     {
         T Parse(string s);
         T Parse(string s, NumberStyles style, IFormatProvider? provider);
