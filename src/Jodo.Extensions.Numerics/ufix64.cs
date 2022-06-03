@@ -56,7 +56,7 @@ namespace Jodo.Extensions.Numerics
         public override string ToString() => ScaledArithmetic.ToString(_scaledValue, ScalingFactor);
         public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
         public string ToString(string format) => ((double)this).ToString(format);
-        public string ToString(string format, IFormatProvider formatProvider) => ((double)this).ToString(format, formatProvider);
+        public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
 
         public static bool TryParse(string s, IFormatProvider? provider, out ufix64 result) => Try.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out ufix64 result) => Try.Run(() => Parse(s, style, provider), out result);

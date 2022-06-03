@@ -48,10 +48,12 @@ namespace Jodo.Extensions.Geometry
             Radius = radius;
         }
 
+#pragma warning disable CS8605 // Unboxing a possibly null value.
         private Circle(SerializationInfo info, StreamingContext context) : this(
             (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>)),
             (N)info.GetValue(nameof(Radius), typeof(N)))
         { }
+#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -69,7 +71,7 @@ namespace Jodo.Extensions.Geometry
         public override bool Equals(object? obj) => obj is Circle<N> circle && Equals(circle);
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
         public override string ToString() => StringRepresentation.Combine(GetType(), Center, Radius);
-        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
+        public string ToString(string? format, IFormatProvider? formatProvider) => throw new NotImplementedException();
 
         public static bool operator ==(Circle<N> left, Circle<N> right) => left.Equals(right);
         public static bool operator !=(Circle<N> left, Circle<N> right) => !(left == right);

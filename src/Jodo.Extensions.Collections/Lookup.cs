@@ -23,6 +23,7 @@ namespace Jodo.Extensions.Collections
 {
     public static class Lookup
     {
-        public static IReadOnlyLookup<TKey, TValue> Empty<TKey, TValue>() => new Dictionary<TKey, TValue>(0).ToLookup();
+        public static IReadOnlyLookup<TKey, TValue> Empty<TKey, TValue>() where TKey : notnull
+            => new Dictionary<TKey, TValue>(0).ToLookup();
     }
 }

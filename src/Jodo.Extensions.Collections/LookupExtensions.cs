@@ -36,13 +36,13 @@ namespace Jodo.Extensions.Collections
             return false;
         }
 
-        public static IReadOnlyLookup<TKey, TValue> ToReadOnlyLookup<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary) =>
-            new DictionaryLookup<TKey, TValue>(dictionary.ToDictionary(x => x.Key, x => x.Value));
+        public static IReadOnlyLookup<TKey, TValue> ToReadOnlyLookup<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary) where TKey : notnull
+            => new DictionaryLookup<TKey, TValue>(dictionary.ToDictionary(x => x.Key, x => x.Value));
 
-        public static IReadOnlyLookup<TKey, TSource> ToReadOnlyLookup<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) =>
-            new DictionaryLookup<TKey, TSource>(source.ToDictionary(keySelector));
+        public static IReadOnlyLookup<TKey, TSource> ToReadOnlyLookup<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) where TKey : notnull
+            => new DictionaryLookup<TKey, TSource>(source.ToDictionary(keySelector));
 
-        public static IReadOnlyLookup<TKey, TElement> ToReadOnlyLookup<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector) =>
-            new DictionaryLookup<TKey, TElement>(source.ToDictionary(keySelector, elementSelector));
+        public static IReadOnlyLookup<TKey, TElement> ToReadOnlyLookup<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector) where TKey : notnull
+            => new DictionaryLookup<TKey, TElement>(source.ToDictionary(keySelector, elementSelector));
     }
 }

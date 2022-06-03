@@ -37,11 +37,13 @@ namespace Jodo.Extensions.Numerics
             Z = z;
         }
 
+#pragma warning disable CS8605 // Unboxing a possibly null value.
         private Vector3(SerializationInfo info, StreamingContext context) : this(
             (N)info.GetValue(nameof(X), typeof(N)),
             (N)info.GetValue(nameof(Y), typeof(N)),
             (N)info.GetValue(nameof(Z), typeof(N)))
         { }
+#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {

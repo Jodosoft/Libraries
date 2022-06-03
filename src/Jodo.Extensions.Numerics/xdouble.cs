@@ -54,7 +54,7 @@ namespace Jodo.Extensions.Numerics
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format) => _value.ToString(format);
-        public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
+        public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool IsFinite(xdouble d) => double.IsFinite(d);
         public static bool IsInfinity(xdouble d) => double.IsInfinity(d);

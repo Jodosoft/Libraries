@@ -199,7 +199,9 @@ namespace System
         public static TEnum NextEnum<TEnum>(this Random random) where TEnum : Enum
         {
             var values = Enum.GetValues(typeof(TEnum));
+#pragma warning disable CS8600, CS8603
             return (TEnum)values.GetValue(random.Next(0, values.Length));
+#pragma warning restore CS8600, CS8603
         }
 
         public static ReadOnlySpan<byte> NextBytes(this Random random, int count)

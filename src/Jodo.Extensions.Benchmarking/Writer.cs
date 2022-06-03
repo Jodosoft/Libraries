@@ -32,10 +32,13 @@ namespace Jodo.Extensions.Benchmarking
 
         public static void WriteHeader()
         {
+#pragma warning disable CS8602
+            string? assemblyName = Assembly.GetEntryAssembly().GetName().Name;
+#pragma warning restore CS8602
             var lines = new[] {
                     string.Empty,
                     "<details>",
-                    $"<summary><em>{Assembly.GetEntryAssembly().GetName().Name} - Results from {DateTime.UtcNow:O}</em></summary>",
+                    $"<summary><em>{assemblyName} - Results from {DateTime.UtcNow:O}</em></summary>",
                     string.Empty,
                     "> * **Processor:** *tbc*",
                     "> * **Architecture:** *tbc*",

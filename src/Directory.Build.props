@@ -15,6 +15,7 @@
       <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Nullable>disable</Nullable>
       </PropertyGroup>
       <ItemGroup>
         <Compile Include="..\Jodo.Extensions.Benchmarking\Program.cs" Link="Program.cs" />
@@ -23,6 +24,7 @@
     <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing'))">
       <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Nullable>disable</Nullable>
       </PropertyGroup>
       <ItemGroup>
         <PackageReference Include="NUnit" Version="3.13.3" />
@@ -39,7 +41,7 @@
         <None Include="..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
       </ItemGroup>
       <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFrameworks>netstandard2.1;net5.0;net6.0</TargetFrameworks>
         <Nullable>enable</Nullable>
       </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -49,7 +51,7 @@
         <Copyright>Copyright © Joseph J. Short 2022</Copyright>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <EnablePackageValidation>true</EnablePackageValidation>
-        <FileVersion>0.0.1</FileVersion>
+        <FileVersion>1.0.0</FileVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <IncludeSymbols>true</IncludeSymbols>
         <MinClientVersion>2.12</MinClientVersion>

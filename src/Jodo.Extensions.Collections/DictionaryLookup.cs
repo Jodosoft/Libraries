@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace Jodo.Extensions.Collections
 {
-    public sealed class DictionaryLookup<TKey, TValue> : IReadOnlyLookup<TKey, TValue>
+    public sealed class DictionaryLookup<TKey, TValue> : IReadOnlyLookup<TKey, TValue> where TKey : notnull
     {
         private readonly Dictionary<TKey, TValue> _dictionary;
 

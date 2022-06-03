@@ -23,9 +23,10 @@ namespace Jodo.Extensions.Collections
 {
     public static class DictionaryExtensions
     {
-        public static DictionaryLookup<TKey, TValue> ToLookup<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) =>
-            new DictionaryLookup<TKey, TValue>(dictionary);
-        public static SortedDictionaryLookup<TKey, TValue> ToLookup<TKey, TValue>(this SortedDictionary<TKey, TValue> dictionary) =>
-            new SortedDictionaryLookup<TKey, TValue>(dictionary);
+        public static DictionaryLookup<TKey, TValue> ToLookup<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) where TKey : notnull
+            => new DictionaryLookup<TKey, TValue>(dictionary);
+
+        public static SortedDictionaryLookup<TKey, TValue> ToLookup<TKey, TValue>(this SortedDictionary<TKey, TValue> dictionary) where TKey : notnull
+            => new SortedDictionaryLookup<TKey, TValue>(dictionary);
     }
 }

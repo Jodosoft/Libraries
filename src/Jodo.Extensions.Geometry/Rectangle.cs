@@ -46,11 +46,13 @@ namespace Jodo.Extensions.Geometry
             Angle = Angle<N>.FromDegrees(degrees);
         }
 
+#pragma warning disable CS8605 // Unboxing a possibly null value.
         private Rectangle(SerializationInfo info, StreamingContext context) : this(
             (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>)),
             (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>)),
             (Angle<N>)info.GetValue(nameof(Angle), typeof(Angle<N>)))
         { }
+#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -63,7 +65,7 @@ namespace Jodo.Extensions.Geometry
         public override bool Equals(object? obj) => obj is Rectangle<N> rectangle && Equals(rectangle);
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions, Angle);
         public override string ToString() => StringRepresentation.Combine(GetType(), Center, Dimensions, Angle);
-        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
+        public string ToString(string? format, IFormatProvider? formatProvider) => throw new NotImplementedException();
 
         public N Area => Math<N>.Abs(Width * Height);
         public N Height => Dimensions.Y;

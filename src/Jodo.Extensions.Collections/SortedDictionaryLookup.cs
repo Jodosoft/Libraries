@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 namespace Jodo.Extensions.Collections
 {
-    public sealed class SortedDictionaryLookup<TKey, TValue> : IReadOnlyLookup<TKey, TValue>
+    public sealed class SortedDictionaryLookup<TKey, TValue> : IReadOnlyLookup<TKey, TValue> where TKey : notnull
     {
         private readonly SortedDictionary<TKey, TValue> _dictionary;
 

@@ -42,7 +42,9 @@ namespace Jodo.Extensions.Benchmarking
             subjectMeasurement = Adjust(subjectMeasurement, voidMeasurement);
             baselineMeasurement = Adjust(baselineMeasurement, voidMeasurement);
 
+#pragma warning disable CS8602
             Writer.Write(new StackTrace().GetFrame(1).GetMethod().Name, subjectMeasurement, baselineMeasurement);
+#pragma warning restore CS8602
         }
 
         private static Measurement Adjust(Measurement measurement, Measurement voidMeasurement)

@@ -48,9 +48,11 @@ namespace Jodo.Extensions.Geometry
             Degrees = degrees;
         }
 
+#pragma warning disable CS8605 // Unboxing a possibly null value.
         private Angle(SerializationInfo info, StreamingContext context) : this(
             (N)info.GetValue(nameof(Degrees), typeof(N)))
         { }
+#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
             => info.AddValue(nameof(Degrees), Degrees, typeof(N));
@@ -59,7 +61,7 @@ namespace Jodo.Extensions.Geometry
         public override bool Equals(object? obj) => obj is Angle<N> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
         public override string ToString() => StringRepresentation.Combine(GetType(), Degrees);
-        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
+        public string ToString(string? format, IFormatProvider? formatProvider) => throw new NotImplementedException();
 
         public static Angle<N> FromDegrees(N degrees) => new Angle<N>(degrees);
         public static Angle<N> FromDegrees(byte degrees) => new Angle<N>(Convert<N>.ToNumeric(degrees));

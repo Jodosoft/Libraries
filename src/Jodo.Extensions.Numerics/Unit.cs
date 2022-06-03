@@ -53,21 +53,23 @@ namespace Jodo.Extensions.Numerics
             Value = Math<N>.Clamp(value, Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
         }
 
+#pragma warning disable CS8605 // Unboxing a possibly null value.
         private Unit(SerializationInfo info, StreamingContext context)
         {
-            Value = Math<N>.Clamp((N)info.GetValue(nameof(Value), typeof(N)), Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+            Value = Math<N>.Clamp((N)info.GetValue(nameof(Value), typeof(N) ?? throw new InvalidOperationException()), Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
         }
+#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
             => info.AddValue(nameof(Value), Value, typeof(N));
 
-        public int CompareTo(object obj) => obj is xfloat other ? CompareTo(other) : 1;
+        public int CompareTo(object? obj) => obj is xfloat other ? CompareTo(other) : 1;
         public int CompareTo(Unit<N> other) => Value.CompareTo(other.Value);
         public bool Equals(Unit<N> other) => Value.Equals(other.Value);
         public override bool Equals(object? obj) => obj is Unit<N> unit && Equals(unit);
         public override int GetHashCode() => Value.GetHashCode();
-        public override string ToString() => Value.ToString();
-        public string ToString(string format, IFormatProvider formatProvider) => Value.ToString(format, formatProvider);
+        public override string? ToString() => Value.ToString();
+        public string ToString(string? format, IFormatProvider? formatProvider) => Value.ToString(format, formatProvider);
 
         public static Unit<N> Clamp(N value) => new Unit<N>(value);
 

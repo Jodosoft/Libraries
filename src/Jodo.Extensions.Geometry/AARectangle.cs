@@ -60,10 +60,12 @@ namespace Jodo.Extensions.Geometry
             Dimensions = new Vector2<N>(width, height);
         }
 
+#pragma warning disable CS8605 // Unboxing a possibly null value.
         private AARectangle(SerializationInfo info, StreamingContext context) : this(
             (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>)),
             (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>)))
         { }
+#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -102,7 +104,7 @@ namespace Jodo.Extensions.Geometry
         public override bool Equals(object? obj) => obj is AARectangle<N> fix && Equals(fix);
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions);
         public override string ToString() => StringRepresentation.Combine(GetType(), Center, Dimensions);
-        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
+        public string ToString(string? format, IFormatProvider? formatProvider) => throw new NotImplementedException();
 
         public static AARectangle<N> FromCenter(Vector2<N> center, Vector2<N> dimensions) => new AARectangle<N>(center, dimensions);
         public static AARectangle<N> FromBottomLeft(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetTopRight(bottomLeft, dimensions), dimensions);

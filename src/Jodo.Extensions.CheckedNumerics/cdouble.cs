@@ -58,7 +58,7 @@ namespace Jodo.Extensions.CheckedNumerics
         public override string ToString() => _value.ToString();
         public string ToString(IFormatProvider formatProvider) => _value.ToString(formatProvider);
         public string ToString(string format) => _value.ToString(format);
-        public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
+        public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
         public static bool IsNormal(cdouble d) => double.IsNormal(d._value);
         public static bool IsSubnormal(cdouble d) => double.IsSubnormal(d._value);
