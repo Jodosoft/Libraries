@@ -104,14 +104,14 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator ufix64(decimal value) => value < 0 ? new ufix64(0) : new ufix64((ulong)(value * ScalingFactor));
         public static explicit operator ufix64(double value) => value < 0 ? new ufix64(0) : FromDouble(value);
         public static explicit operator ufix64(float value) => value < 0 ? new ufix64(0) : new ufix64((ulong)(value * ScalingFactor));
-        public static explicit operator ufix64(int value) => new ufix64((ulong)(value) * ScalingFactor);
-        public static explicit operator ufix64(long value) => new ufix64((ulong)(value) * ScalingFactor);
-        public static explicit operator ufix64(sbyte value) => new ufix64((ulong)(value) * ScalingFactor);
-        public static explicit operator ufix64(short value) => new ufix64((ulong)(value) * ScalingFactor);
+        public static explicit operator ufix64(int value) => new ufix64((ulong)value * ScalingFactor);
+        public static explicit operator ufix64(long value) => new ufix64((ulong)value * ScalingFactor);
+        public static explicit operator ufix64(sbyte value) => new ufix64((ulong)value * ScalingFactor);
+        public static explicit operator ufix64(short value) => new ufix64((ulong)value * ScalingFactor);
         public static explicit operator ufix64(ulong value) => new ufix64(value * ScalingFactor);
         public static implicit operator ufix64(byte value) => new ufix64(value * ScalingFactor);
-        public static implicit operator ufix64(uint value) => new ufix64((ulong)(value) * ScalingFactor);
-        public static implicit operator ufix64(ushort value) => new ufix64((ulong)(value) * ScalingFactor);
+        public static implicit operator ufix64(uint value) => new ufix64((ulong)value * ScalingFactor);
+        public static implicit operator ufix64(ushort value) => new ufix64((ulong)value * ScalingFactor);
 
         public static explicit operator byte(ufix64 value) => (byte)(value._scaledValue / ScalingFactor);
         public static explicit operator decimal(ufix64 value) => (decimal)value._scaledValue / ScalingFactor;
@@ -131,17 +131,17 @@ namespace Jodo.Extensions.Numerics
         public static bool operator ==(ufix64 left, ufix64 right) => left._scaledValue == right._scaledValue;
         public static bool operator >(ufix64 left, ufix64 right) => left._scaledValue > right._scaledValue;
         public static bool operator >=(ufix64 left, ufix64 right) => left._scaledValue >= right._scaledValue;
-        public static ufix64 operator %(ufix64 left, ufix64 right) => new ufix64((left._scaledValue % right._scaledValue));
+        public static ufix64 operator %(ufix64 left, ufix64 right) => new ufix64(left._scaledValue % right._scaledValue);
         public static ufix64 operator &(ufix64 left, ufix64 right) => new ufix64(left._scaledValue & right._scaledValue);
         public static ufix64 operator -(ufix64 _) => 0;
-        public static ufix64 operator -(ufix64 left, ufix64 right) => new ufix64((left._scaledValue - right._scaledValue));
+        public static ufix64 operator -(ufix64 left, ufix64 right) => new ufix64(left._scaledValue - right._scaledValue);
         public static ufix64 operator --(ufix64 value) => new ufix64(value._scaledValue - ScalingFactor);
         public static ufix64 operator *(ufix64 left, ufix64 right) => new ufix64(ScaledArithmetic.Multiply(left._scaledValue, right._scaledValue, ScalingFactor));
         public static ufix64 operator /(ufix64 left, ufix64 right) => new ufix64(ScaledArithmetic.Divide(left._scaledValue, right._scaledValue, ScalingFactor));
         public static ufix64 operator ^(ufix64 left, ufix64 right) => new ufix64(left._scaledValue ^ right._scaledValue);
         public static ufix64 operator |(ufix64 left, ufix64 right) => new ufix64(left._scaledValue | right._scaledValue);
         public static ufix64 operator ~(ufix64 value) => new ufix64(~value._scaledValue);
-        public static ufix64 operator +(ufix64 left, ufix64 right) => new ufix64((left._scaledValue + right._scaledValue));
+        public static ufix64 operator +(ufix64 left, ufix64 right) => new ufix64(left._scaledValue + right._scaledValue);
         public static ufix64 operator +(ufix64 value) => value;
         public static ufix64 operator ++(ufix64 value) => new ufix64(value._scaledValue + ScalingFactor);
         public static ufix64 operator <<(ufix64 left, int right) => new ufix64(left._scaledValue << right);
@@ -169,7 +169,7 @@ namespace Jodo.Extensions.Numerics
         ICast<ufix64> IProvider<ICast<ufix64>>.GetInstance() => Utilities.Instance;
         IConvert<ufix64> IProvider<IConvert<ufix64>>.GetInstance() => Utilities.Instance;
         IMath<ufix64> IProvider<IMath<ufix64>>.GetInstance() => Utilities.Instance;
-        INumericFunctions<ufix64> IProvider<INumericFunctions<ufix64>>.GetInstance() => Utilities.Instance;
+        INumericStatic<ufix64> IProvider<INumericStatic<ufix64>>.GetInstance() => Utilities.Instance;
         IRandom<ufix64> IProvider<IRandom<ufix64>>.GetInstance() => Utilities.Instance;
         IStringParser<ufix64> IProvider<IStringParser<ufix64>>.GetInstance() => Utilities.Instance;
 
@@ -178,32 +178,34 @@ namespace Jodo.Extensions.Numerics
             ICast<ufix64>,
             IConvert<ufix64>,
             IMath<ufix64>,
-            INumericFunctions<ufix64>,
+            INumericStatic<ufix64>,
             IRandom<ufix64>,
             IStringParser<ufix64>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool INumericFunctions<ufix64>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<ufix64>.IsFinite(ufix64 x) => true;
-            bool INumericFunctions<ufix64>.IsInfinity(ufix64 x) => false;
-            bool INumericFunctions<ufix64>.IsNaN(ufix64 x) => false;
-            bool INumericFunctions<ufix64>.IsNegative(ufix64 x) => false;
-            bool INumericFunctions<ufix64>.IsNegativeInfinity(ufix64 x) => false;
-            bool INumericFunctions<ufix64>.IsNormal(ufix64 x) => false;
-            bool INumericFunctions<ufix64>.IsPositiveInfinity(ufix64 x) => false;
-            bool INumericFunctions<ufix64>.IsReal { get; } = true;
-            bool INumericFunctions<ufix64>.IsSigned { get; } = false;
-            bool INumericFunctions<ufix64>.IsSubnormal(ufix64 x) => false;
-            ufix64 INumericFunctions<ufix64>.Epsilon { get; } = new ufix64(1);
-            ufix64 INumericFunctions<ufix64>.MaxUnit { get; } = new ufix64(ScalingFactor);
-            ufix64 INumericFunctions<ufix64>.MaxValue => MaxValue;
-            ufix64 INumericFunctions<ufix64>.MinUnit { get; } = 0;
-            ufix64 INumericFunctions<ufix64>.MinValue => MinValue;
-            ufix64 INumericFunctions<ufix64>.One { get; } = new ufix64(ScalingFactor);
-            ufix64 INumericFunctions<ufix64>.Ten { get; } = new ufix64(10 * ScalingFactor);
-            ufix64 INumericFunctions<ufix64>.Two { get; } = new ufix64(2 * ScalingFactor);
-            ufix64 INumericFunctions<ufix64>.Zero { get; } = 0;
+            bool INumericStatic<ufix64>.HasFloatingPoint { get; } = false;
+            bool INumericStatic<ufix64>.HasInfinity { get; } = false;
+            bool INumericStatic<ufix64>.HasNaN { get; } = false;
+            bool INumericStatic<ufix64>.IsFinite(ufix64 x) => true;
+            bool INumericStatic<ufix64>.IsInfinity(ufix64 x) => false;
+            bool INumericStatic<ufix64>.IsNaN(ufix64 x) => false;
+            bool INumericStatic<ufix64>.IsNegative(ufix64 x) => false;
+            bool INumericStatic<ufix64>.IsNegativeInfinity(ufix64 x) => false;
+            bool INumericStatic<ufix64>.IsNormal(ufix64 x) => false;
+            bool INumericStatic<ufix64>.IsPositiveInfinity(ufix64 x) => false;
+            bool INumericStatic<ufix64>.IsReal { get; } = true;
+            bool INumericStatic<ufix64>.IsSigned { get; } = false;
+            bool INumericStatic<ufix64>.IsSubnormal(ufix64 x) => false;
+            ufix64 INumericStatic<ufix64>.Epsilon { get; } = new ufix64(1);
+            ufix64 INumericStatic<ufix64>.MaxUnit { get; } = new ufix64(ScalingFactor);
+            ufix64 INumericStatic<ufix64>.MaxValue => MaxValue;
+            ufix64 INumericStatic<ufix64>.MinUnit { get; } = 0;
+            ufix64 INumericStatic<ufix64>.MinValue => MinValue;
+            ufix64 INumericStatic<ufix64>.One { get; } = new ufix64(ScalingFactor);
+            ufix64 INumericStatic<ufix64>.Ten { get; } = new ufix64(10 * ScalingFactor);
+            ufix64 INumericStatic<ufix64>.Two { get; } = new ufix64(2 * ScalingFactor);
+            ufix64 INumericStatic<ufix64>.Zero { get; } = 0;
 
             int IMath<ufix64>.Sign(ufix64 x) => x._scaledValue == 0 ? 0 : 1;
             ufix64 IMath<ufix64>.Abs(ufix64 x) => x;
@@ -265,20 +267,20 @@ namespace Jodo.Extensions.Numerics
             ulong IConvert<ufix64>.ToUInt64(ufix64 value) => value._scaledValue / ScalingFactor;
             ushort IConvert<ufix64>.ToUInt16(ufix64 value) => Convert.ToUInt16(value._scaledValue / ScalingFactor);
 
-            ufix64 IConvert<ufix64>.ToValue(bool value) => value ? new ufix64(ScalingFactor) : new ufix64(0);
-            ufix64 IConvert<ufix64>.ToValue(byte value) => (ufix64)Convert.ToUInt64(value);
-            ufix64 IConvert<ufix64>.ToValue(decimal value) => (ufix64)value;
-            ufix64 IConvert<ufix64>.ToValue(double value) => (ufix64)value;
-            ufix64 IConvert<ufix64>.ToValue(float value) => (ufix64)value;
-            ufix64 IConvert<ufix64>.ToValue(int value) => (ufix64)Convert.ToUInt64(value);
-            ufix64 IConvert<ufix64>.ToValue(long value) => (ufix64)value;
-            ufix64 IConvert<ufix64>.ToValue(sbyte value) => (ufix64)Convert.ToUInt64(value);
-            ufix64 IConvert<ufix64>.ToValue(short value) => (ufix64)Convert.ToUInt64(value);
-            ufix64 IConvert<ufix64>.ToValue(string value) => (ufix64)Convert.ToUInt64(value);
-            ufix64 IConvert<ufix64>.ToValue(string value, IFormatProvider provider) => (ufix64)Convert.ToUInt64(value, provider);
-            ufix64 IConvert<ufix64>.ToValue(uint value) => (ufix64)Convert.ToUInt64(value);
-            ufix64 IConvert<ufix64>.ToValue(ulong value) => (ufix64)value;
-            ufix64 IConvert<ufix64>.ToValue(ushort value) => (ufix64)Convert.ToUInt64(value);
+            ufix64 IConvert<ufix64>.ToNumeric(bool value) => value ? new ufix64(ScalingFactor) : new ufix64(0);
+            ufix64 IConvert<ufix64>.ToNumeric(byte value) => (ufix64)Convert.ToUInt64(value);
+            ufix64 IConvert<ufix64>.ToNumeric(decimal value) => (ufix64)value;
+            ufix64 IConvert<ufix64>.ToNumeric(double value) => (ufix64)value;
+            ufix64 IConvert<ufix64>.ToNumeric(float value) => (ufix64)value;
+            ufix64 IConvert<ufix64>.ToNumeric(int value) => (ufix64)Convert.ToUInt64(value);
+            ufix64 IConvert<ufix64>.ToNumeric(long value) => (ufix64)value;
+            ufix64 IConvert<ufix64>.ToNumeric(sbyte value) => (ufix64)Convert.ToUInt64(value);
+            ufix64 IConvert<ufix64>.ToNumeric(short value) => (ufix64)Convert.ToUInt64(value);
+            ufix64 IConvert<ufix64>.ToNumeric(string value) => (ufix64)Convert.ToUInt64(value);
+            ufix64 IConvert<ufix64>.ToNumeric(string value, IFormatProvider provider) => (ufix64)Convert.ToUInt64(value, provider);
+            ufix64 IConvert<ufix64>.ToNumeric(uint value) => (ufix64)Convert.ToUInt64(value);
+            ufix64 IConvert<ufix64>.ToNumeric(ulong value) => (ufix64)value;
+            ufix64 IConvert<ufix64>.ToNumeric(ushort value) => (ufix64)Convert.ToUInt64(value);
 
             bool IStringParser<ufix64>.TryParse(string s, IFormatProvider provider, out ufix64 result) => TryParse(s, provider, out result);
             bool IStringParser<ufix64>.TryParse(string s, NumberStyles style, IFormatProvider provider, out ufix64 result) => TryParse(s, style, provider, out result);
@@ -301,17 +303,17 @@ namespace Jodo.Extensions.Numerics
             ulong ICast<ufix64>.ToUInt64(ufix64 value) => (ulong)value;
             ushort ICast<ufix64>.ToUInt16(ufix64 value) => (ushort)value;
 
-            ufix64 ICast<ufix64>.ToValue(byte value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(decimal value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(double value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(float value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(int value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(long value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(sbyte value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(short value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(uint value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(ulong value) => (ufix64)value;
-            ufix64 ICast<ufix64>.ToValue(ushort value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(byte value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(decimal value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(double value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(float value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(int value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(long value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(sbyte value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(short value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(uint value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(ulong value) => (ufix64)value;
+            ufix64 ICast<ufix64>.ToNumeric(ushort value) => (ufix64)value;
         }
     }
 }

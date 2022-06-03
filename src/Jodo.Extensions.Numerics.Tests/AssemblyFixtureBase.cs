@@ -17,31 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using AutoFixture;
-using NUnit.Framework;
+using Jodo.Extensions.Testing;
 using System;
 
-namespace Jodo.Extensions.Testing
+namespace Jodo.Extensions.Numerics.Tests
 {
-    [Timeout(10000)]
-    public abstract class GlobalTestBase
+    public abstract class AssemblyFixtureBase : GlobalFixtureBase
     {
-#if DEBUG
-        public const int RandomVariations = 16;
-#else
-        public const int RandomVariations = 128;
-#endif
-
-        public Random Random { get; private set; }
-        public Fixture Fixture { get; private set; }
-        public Exception Exception { get; private set; }
-
-        [SetUp]
-        public void GlobalSetUp()
+        protected double ClosestTestableDouble<N>(N value) where N : struct, INumeric<N>
         {
-            Random = new Random();
-            Fixture = new Fixture();
-            Exception = Fixture.Create<Exception>();
+            var result = Math.Round(Cast<N>.ToDouble(value), 6);
+            var log10 = (int)Math.Log10(Math.Abs(result / 10));
+            if (log10 < -1) result *= 1000;
+            else if (log10 > 3) result /= Math.Pow(10, log10 - 3);
+
+            if (!Numeric<N>.IsFinite(Cast<N>.ToNumeric(result)))
+            {
+                throw new InvalidOperationException();
+            }
+            return Math.Round(result, 6);
         }
     }
 }

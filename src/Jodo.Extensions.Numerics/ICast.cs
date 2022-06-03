@@ -19,7 +19,7 @@
 
 namespace Jodo.Extensions.Numerics
 {
-    public interface ICast<N>
+    public interface ICast<N> where N : struct, INumeric<N>
     {
         byte ToByte(N value);
         decimal ToDecimal(N value);
@@ -33,16 +33,16 @@ namespace Jodo.Extensions.Numerics
         ulong ToUInt64(N value);
         ushort ToUInt16(N value);
 
-        N ToValue(byte value);
-        N ToValue(decimal value);
-        N ToValue(double value);
-        N ToValue(float value);
-        N ToValue(int value);
-        N ToValue(long value);
-        N ToValue(sbyte value);
-        N ToValue(short value);
-        N ToValue(uint value);
-        N ToValue(ulong value);
-        N ToValue(ushort value);
+        N ToNumeric(byte value);
+        N ToNumeric(decimal value);
+        N ToNumeric(double value);
+        N ToNumeric(float value);
+        N ToNumeric(int value);
+        N ToNumeric(long value);
+        N ToNumeric(sbyte value);
+        N ToNumeric(short value);
+        N ToNumeric(uint value);
+        N ToNumeric(ulong value);
+        N ToNumeric(ushort value);
     }
 }

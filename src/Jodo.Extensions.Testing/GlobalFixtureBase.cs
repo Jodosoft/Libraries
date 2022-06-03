@@ -17,29 +17,31 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
+using AutoFixture;
+using NUnit.Framework;
+using System;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Testing
 {
-    public static class OperatorTests
+    [Timeout(10000)]
+    public abstract class GlobalFixtureBase
     {
-        public class CByte : Base<cbyte> { }
-        public class CDecimal : Base<cdecimal> { }
-        public class CDouble : Base<cdouble> { }
-        public class CFix64 : Base<cfix64> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class CLong : Base<clong> { }
-        public class CSByte : Base<csbyte> { }
-        public class CShort : Base<cshort> { }
-        public class UCFix64 : Base<ucfix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UCLong : Base<uclong> { }
-        public class UCShort : Base<ucshort> { }
+#if DEBUG
+        public const int RandomVariations = 16;
+#else
+        public const int RandomVariations = 128;
+#endif
 
-        public abstract class Base<N> : Numerics.Tests.OperatorTests.Base<N> where N : struct, INumeric<N>
+        public Random Random { get; private set; }
+        public Fixture Fixture { get; private set; }
+        public Exception Exception { get; private set; }
+
+        [SetUp]
+        public void GlobalSetUp()
         {
-
+            Random = new Random();
+            Fixture = new Fixture();
+            Exception = Fixture.Create<Exception>();
         }
     }
 }

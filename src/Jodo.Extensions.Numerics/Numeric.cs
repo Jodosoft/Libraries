@@ -24,11 +24,13 @@ using System.Diagnostics.CodeAnalysis;
 namespace Jodo.Extensions.Numerics
 {
     [SuppressMessage("csharpsquid", "S2743")]
-    public static class Numeric<T> where T : struct, IProvider<INumericFunctions<T>>
+    public static class Numeric<T> where T : struct, IProvider<INumericStatic<T>>
     {
-        private static readonly INumericFunctions<T> Default = default(T).GetInstance();
+        private static readonly INumericStatic<T> Default = default(T).GetInstance();
 
         public static bool HasFloatingPoint => Default.HasFloatingPoint;
+        public static bool HasInfinity => Default.HasInfinity;
+        public static bool HasNaN => Default.HasNaN;
         public static bool IsReal => Default.IsReal;
         public static bool IsSigned => Default.IsSigned;
         public static T Epsilon => Default.Epsilon;

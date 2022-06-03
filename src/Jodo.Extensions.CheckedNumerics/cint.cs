@@ -133,7 +133,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ICast<cint> IProvider<ICast<cint>>.GetInstance() => Utilities.Instance;
         IConvert<cint> IProvider<IConvert<cint>>.GetInstance() => Utilities.Instance;
         IMath<cint> IProvider<IMath<cint>>.GetInstance() => Utilities.Instance;
-        INumericFunctions<cint> IProvider<INumericFunctions<cint>>.GetInstance() => Utilities.Instance;
+        INumericStatic<cint> IProvider<INumericStatic<cint>>.GetInstance() => Utilities.Instance;
         IRandom<cint> IProvider<IRandom<cint>>.GetInstance() => Utilities.Instance;
         IStringParser<cint> IProvider<IStringParser<cint>>.GetInstance() => Utilities.Instance;
 
@@ -142,32 +142,34 @@ namespace Jodo.Extensions.CheckedNumerics
             ICast<cint>,
             IConvert<cint>,
             IMath<cint>,
-            INumericFunctions<cint>,
+            INumericStatic<cint>,
             IRandom<cint>,
             IStringParser<cint>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool INumericFunctions<cint>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<cint>.IsFinite(cint x) => true;
-            bool INumericFunctions<cint>.IsInfinity(cint x) => false;
-            bool INumericFunctions<cint>.IsNaN(cint x) => false;
-            bool INumericFunctions<cint>.IsNegative(cint x) => x._value < 0;
-            bool INumericFunctions<cint>.IsNegativeInfinity(cint x) => false;
-            bool INumericFunctions<cint>.IsNormal(cint x) => false;
-            bool INumericFunctions<cint>.IsPositiveInfinity(cint x) => false;
-            bool INumericFunctions<cint>.IsReal { get; } = false;
-            bool INumericFunctions<cint>.IsSigned { get; } = true;
-            bool INumericFunctions<cint>.IsSubnormal(cint x) => false;
-            cint INumericFunctions<cint>.Epsilon { get; } = 1;
-            cint INumericFunctions<cint>.MaxUnit { get; } = 1;
-            cint INumericFunctions<cint>.MaxValue => MaxValue;
-            cint INumericFunctions<cint>.MinUnit { get; } = -1;
-            cint INumericFunctions<cint>.MinValue => MinValue;
-            cint INumericFunctions<cint>.One { get; } = 1;
-            cint INumericFunctions<cint>.Ten { get; } = 10;
-            cint INumericFunctions<cint>.Two { get; } = 2;
-            cint INumericFunctions<cint>.Zero { get; } = 0;
+            bool INumericStatic<cint>.HasFloatingPoint { get; } = false;
+            bool INumericStatic<cint>.HasInfinity { get; } = false;
+            bool INumericStatic<cint>.HasNaN { get; } = false;
+            bool INumericStatic<cint>.IsFinite(cint x) => true;
+            bool INumericStatic<cint>.IsInfinity(cint x) => false;
+            bool INumericStatic<cint>.IsNaN(cint x) => false;
+            bool INumericStatic<cint>.IsNegative(cint x) => x._value < 0;
+            bool INumericStatic<cint>.IsNegativeInfinity(cint x) => false;
+            bool INumericStatic<cint>.IsNormal(cint x) => false;
+            bool INumericStatic<cint>.IsPositiveInfinity(cint x) => false;
+            bool INumericStatic<cint>.IsReal { get; } = false;
+            bool INumericStatic<cint>.IsSigned { get; } = true;
+            bool INumericStatic<cint>.IsSubnormal(cint x) => false;
+            cint INumericStatic<cint>.Epsilon { get; } = 1;
+            cint INumericStatic<cint>.MaxUnit { get; } = 1;
+            cint INumericStatic<cint>.MaxValue => MaxValue;
+            cint INumericStatic<cint>.MinUnit { get; } = -1;
+            cint INumericStatic<cint>.MinValue => MinValue;
+            cint INumericStatic<cint>.One { get; } = 1;
+            cint INumericStatic<cint>.Ten { get; } = 10;
+            cint INumericStatic<cint>.Two { get; } = 2;
+            cint INumericStatic<cint>.Zero { get; } = 0;
 
             cint IMath<cint>.Abs(cint x) => Math.Abs(x._value);
             cint IMath<cint>.Acos(cint x) => (cint)Math.Acos(x._value);
@@ -229,20 +231,20 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong IConvert<cint>.ToUInt64(cint value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cint>.ToUInt16(cint value) => CheckedConvert.ToUInt16(value._value);
 
-            cint IConvert<cint>.ToValue(bool value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(byte value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(decimal value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(double value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(float value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(int value) => value;
-            cint IConvert<cint>.ToValue(long value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(sbyte value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(short value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(string value) => Convert.ToInt32(value);
-            cint IConvert<cint>.ToValue(string value, IFormatProvider provider) => Convert.ToInt32(value, provider);
-            cint IConvert<cint>.ToValue(uint value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(ulong value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToValue(ushort value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(bool value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(byte value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(decimal value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(double value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(float value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(int value) => value;
+            cint IConvert<cint>.ToNumeric(long value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(sbyte value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(short value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(string value) => Convert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(string value, IFormatProvider provider) => Convert.ToInt32(value, provider);
+            cint IConvert<cint>.ToNumeric(uint value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(ulong value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToNumeric(ushort value) => CheckedConvert.ToInt32(value);
 
             bool IStringParser<cint>.TryParse(string s, IFormatProvider provider, out cint result) => TryParse(s, provider, out result);
             bool IStringParser<cint>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cint result) => TryParse(s, style, provider, out result);
@@ -265,17 +267,17 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong ICast<cint>.ToUInt64(cint value) => (ulong)value;
             ushort ICast<cint>.ToUInt16(cint value) => (ushort)value;
 
-            cint ICast<cint>.ToValue(byte value) => (cint)value;
-            cint ICast<cint>.ToValue(decimal value) => (cint)value;
-            cint ICast<cint>.ToValue(double value) => (cint)value;
-            cint ICast<cint>.ToValue(float value) => (cint)value;
-            cint ICast<cint>.ToValue(int value) => (cint)value;
-            cint ICast<cint>.ToValue(long value) => (cint)value;
-            cint ICast<cint>.ToValue(sbyte value) => (cint)value;
-            cint ICast<cint>.ToValue(short value) => (cint)value;
-            cint ICast<cint>.ToValue(uint value) => (cint)value;
-            cint ICast<cint>.ToValue(ulong value) => (cint)value;
-            cint ICast<cint>.ToValue(ushort value) => (cint)value;
+            cint ICast<cint>.ToNumeric(byte value) => (cint)value;
+            cint ICast<cint>.ToNumeric(decimal value) => (cint)value;
+            cint ICast<cint>.ToNumeric(double value) => (cint)value;
+            cint ICast<cint>.ToNumeric(float value) => (cint)value;
+            cint ICast<cint>.ToNumeric(int value) => (cint)value;
+            cint ICast<cint>.ToNumeric(long value) => (cint)value;
+            cint ICast<cint>.ToNumeric(sbyte value) => (cint)value;
+            cint ICast<cint>.ToNumeric(short value) => (cint)value;
+            cint ICast<cint>.ToNumeric(uint value) => (cint)value;
+            cint ICast<cint>.ToNumeric(ulong value) => (cint)value;
+            cint ICast<cint>.ToNumeric(ushort value) => (cint)value;
         }
     }
 }

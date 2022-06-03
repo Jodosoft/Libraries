@@ -17,40 +17,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-
-namespace Jodo.Extensions.Primitives
+namespace Jodo.Extensions.Numerics.Tests
 {
-    public interface IConvert<T>
+    public static class XIntTests
     {
-        bool ToBoolean(T value);
-        byte ToByte(T value);
-        decimal ToDecimal(T value);
-        double ToDouble(T value);
-        float ToSingle(T value);
-        int ToInt32(T value);
-        long ToInt64(T value);
-        sbyte ToSByte(T value);
-        short ToInt16(T value);
-        string ToString(T value);
-        string ToString(T value, IFormatProvider provider);
-        uint ToUInt32(T value);
-        ulong ToUInt64(T value);
-        ushort ToUInt16(T value);
-
-        T ToValue(bool value);
-        T ToValue(byte value);
-        T ToValue(decimal value);
-        T ToValue(double value);
-        T ToValue(float value);
-        T ToValue(int value);
-        T ToValue(long value);
-        T ToValue(sbyte value);
-        T ToValue(short value);
-        T ToValue(string value);
-        T ToValue(string value, IFormatProvider provider);
-        T ToValue(uint value);
-        T ToValue(ulong value);
-        T ToValue(ushort value);
+        public sealed class BitConverter : BitConverterTests<xint> { }
+        public sealed class Cast : CastTests<xint> { }
+        public sealed class ConvertTests : ConvertTests<xint> { }
+        public sealed class MathGeneral : MathTests.General<xint> { }
+        public sealed class MathIntegral : MathTests.Integral<xint> { }
+        public sealed class MathSigned : MathTests.Signed<xint> { }
+        public sealed class NumericGeneral : NumericTests.General<xint> { }
+        public sealed class NumericIntegral : NumericTests.Integral<xint> { }
+        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<xint> { }
+        public sealed class NumericNoInfinity : NumericTests.NoInfinity<xint> { }
+        public sealed class NumericNoNaN : NumericTests.NoNaN<xint> { }
+        public sealed class NumericSigned : NumericTests.Signed<xint> { }
+        public sealed class StringParserGeneral : StringParserTests.General<xint> { }
+        public sealed class StringParserIntegral : StringParserTests.Integral<xint> { }
     }
 }

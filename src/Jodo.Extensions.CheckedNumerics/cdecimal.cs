@@ -133,7 +133,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ICast<cdecimal> IProvider<ICast<cdecimal>>.GetInstance() => Utilities.Instance;
         IConvert<cdecimal> IProvider<IConvert<cdecimal>>.GetInstance() => Utilities.Instance;
         IMath<cdecimal> IProvider<IMath<cdecimal>>.GetInstance() => Utilities.Instance;
-        INumericFunctions<cdecimal> IProvider<INumericFunctions<cdecimal>>.GetInstance() => Utilities.Instance;
+        INumericStatic<cdecimal> IProvider<INumericStatic<cdecimal>>.GetInstance() => Utilities.Instance;
         IRandom<cdecimal> IProvider<IRandom<cdecimal>>.GetInstance() => Utilities.Instance;
         IStringParser<cdecimal> IProvider<IStringParser<cdecimal>>.GetInstance() => Utilities.Instance;
 
@@ -142,32 +142,34 @@ namespace Jodo.Extensions.CheckedNumerics
             ICast<cdecimal>,
             IConvert<cdecimal>,
             IMath<cdecimal>,
-            INumericFunctions<cdecimal>,
+            INumericStatic<cdecimal>,
             IRandom<cdecimal>,
             IStringParser<cdecimal>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool INumericFunctions<cdecimal>.HasFloatingPoint { get; } = true;
-            bool INumericFunctions<cdecimal>.IsFinite(cdecimal x) => true;
-            bool INumericFunctions<cdecimal>.IsInfinity(cdecimal x) => false;
-            bool INumericFunctions<cdecimal>.IsNaN(cdecimal x) => false;
-            bool INumericFunctions<cdecimal>.IsNegative(cdecimal x) => x._value < 0;
-            bool INumericFunctions<cdecimal>.IsNegativeInfinity(cdecimal x) => false;
-            bool INumericFunctions<cdecimal>.IsNormal(cdecimal x) => false;
-            bool INumericFunctions<cdecimal>.IsPositiveInfinity(cdecimal x) => false;
-            bool INumericFunctions<cdecimal>.IsReal { get; } = true;
-            bool INumericFunctions<cdecimal>.IsSigned { get; } = true;
-            bool INumericFunctions<cdecimal>.IsSubnormal(cdecimal x) => false;
-            cdecimal INumericFunctions<cdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
-            cdecimal INumericFunctions<cdecimal>.MaxUnit { get; } = 1m;
-            cdecimal INumericFunctions<cdecimal>.MaxValue => MaxValue;
-            cdecimal INumericFunctions<cdecimal>.MinUnit { get; } = -1m;
-            cdecimal INumericFunctions<cdecimal>.MinValue => MinValue;
-            cdecimal INumericFunctions<cdecimal>.One { get; } = 1m;
-            cdecimal INumericFunctions<cdecimal>.Ten { get; } = 10m;
-            cdecimal INumericFunctions<cdecimal>.Two { get; } = 2m;
-            cdecimal INumericFunctions<cdecimal>.Zero { get; } = 0m;
+            bool INumericStatic<cdecimal>.HasFloatingPoint { get; } = true;
+            bool INumericStatic<cdecimal>.HasInfinity { get; } = false;
+            bool INumericStatic<cdecimal>.HasNaN { get; } = false;
+            bool INumericStatic<cdecimal>.IsFinite(cdecimal x) => true;
+            bool INumericStatic<cdecimal>.IsInfinity(cdecimal x) => false;
+            bool INumericStatic<cdecimal>.IsNaN(cdecimal x) => false;
+            bool INumericStatic<cdecimal>.IsNegative(cdecimal x) => x._value < 0;
+            bool INumericStatic<cdecimal>.IsNegativeInfinity(cdecimal x) => false;
+            bool INumericStatic<cdecimal>.IsNormal(cdecimal x) => false;
+            bool INumericStatic<cdecimal>.IsPositiveInfinity(cdecimal x) => false;
+            bool INumericStatic<cdecimal>.IsReal { get; } = true;
+            bool INumericStatic<cdecimal>.IsSigned { get; } = true;
+            bool INumericStatic<cdecimal>.IsSubnormal(cdecimal x) => false;
+            cdecimal INumericStatic<cdecimal>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
+            cdecimal INumericStatic<cdecimal>.MaxUnit { get; } = 1m;
+            cdecimal INumericStatic<cdecimal>.MaxValue => MaxValue;
+            cdecimal INumericStatic<cdecimal>.MinUnit { get; } = -1m;
+            cdecimal INumericStatic<cdecimal>.MinValue => MinValue;
+            cdecimal INumericStatic<cdecimal>.One { get; } = 1m;
+            cdecimal INumericStatic<cdecimal>.Ten { get; } = 10m;
+            cdecimal INumericStatic<cdecimal>.Two { get; } = 2m;
+            cdecimal INumericStatic<cdecimal>.Zero { get; } = 0m;
 
             cdecimal IMath<cdecimal>.Abs(cdecimal x) => Math.Abs(x._value);
             cdecimal IMath<cdecimal>.Acos(cdecimal x) => CheckedCast.ToDecimal(Math.Acos(CheckedCast.ToDouble(x._value)));
@@ -248,20 +250,20 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong IConvert<cdecimal>.ToUInt64(cdecimal value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cdecimal>.ToUInt16(cdecimal value) => CheckedConvert.ToUInt16(value._value);
 
-            cdecimal IConvert<cdecimal>.ToValue(bool value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(byte value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(decimal value) => value;
-            cdecimal IConvert<cdecimal>.ToValue(double value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(float value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(int value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(long value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(sbyte value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(short value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(string value) => Convert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(string value, IFormatProvider provider) => Convert.ToDecimal(value, provider);
-            cdecimal IConvert<cdecimal>.ToValue(uint value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(ulong value) => CheckedConvert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToValue(ushort value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(bool value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(byte value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(decimal value) => value;
+            cdecimal IConvert<cdecimal>.ToNumeric(double value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(float value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(int value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(long value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(sbyte value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(short value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(string value) => Convert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(string value, IFormatProvider provider) => Convert.ToDecimal(value, provider);
+            cdecimal IConvert<cdecimal>.ToNumeric(uint value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(ulong value) => CheckedConvert.ToDecimal(value);
+            cdecimal IConvert<cdecimal>.ToNumeric(ushort value) => CheckedConvert.ToDecimal(value);
 
             bool IStringParser<cdecimal>.TryParse(string s, IFormatProvider provider, out cdecimal result) => TryParse(s, provider, out result);
             bool IStringParser<cdecimal>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cdecimal result) => TryParse(s, style, provider, out result);
@@ -284,17 +286,17 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong ICast<cdecimal>.ToUInt64(cdecimal value) => (ulong)value;
             ushort ICast<cdecimal>.ToUInt16(cdecimal value) => (ushort)value;
 
-            cdecimal ICast<cdecimal>.ToValue(byte value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(decimal value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(double value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(float value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(int value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(long value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(sbyte value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(short value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(uint value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(ulong value) => (cdecimal)value;
-            cdecimal ICast<cdecimal>.ToValue(ushort value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(byte value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(decimal value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(double value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(float value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(int value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(long value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(sbyte value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(short value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(uint value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(ulong value) => (cdecimal)value;
+            cdecimal ICast<cdecimal>.ToNumeric(ushort value) => (cdecimal)value;
         }
     }
 }

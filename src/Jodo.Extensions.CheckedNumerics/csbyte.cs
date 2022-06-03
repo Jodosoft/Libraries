@@ -133,7 +133,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ICast<csbyte> IProvider<ICast<csbyte>>.GetInstance() => Utilities.Instance;
         IConvert<csbyte> IProvider<IConvert<csbyte>>.GetInstance() => Utilities.Instance;
         IMath<csbyte> IProvider<IMath<csbyte>>.GetInstance() => Utilities.Instance;
-        INumericFunctions<csbyte> IProvider<INumericFunctions<csbyte>>.GetInstance() => Utilities.Instance;
+        INumericStatic<csbyte> IProvider<INumericStatic<csbyte>>.GetInstance() => Utilities.Instance;
         IRandom<csbyte> IProvider<IRandom<csbyte>>.GetInstance() => Utilities.Instance;
         IStringParser<csbyte> IProvider<IStringParser<csbyte>>.GetInstance() => Utilities.Instance;
 
@@ -142,32 +142,34 @@ namespace Jodo.Extensions.CheckedNumerics
             ICast<csbyte>,
             IConvert<csbyte>,
             IMath<csbyte>,
-            INumericFunctions<csbyte>,
+            INumericStatic<csbyte>,
             IRandom<csbyte>,
             IStringParser<csbyte>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool INumericFunctions<csbyte>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<csbyte>.IsFinite(csbyte x) => true;
-            bool INumericFunctions<csbyte>.IsInfinity(csbyte x) => false;
-            bool INumericFunctions<csbyte>.IsNaN(csbyte x) => false;
-            bool INumericFunctions<csbyte>.IsNegative(csbyte x) => x._value < 0;
-            bool INumericFunctions<csbyte>.IsNegativeInfinity(csbyte x) => false;
-            bool INumericFunctions<csbyte>.IsNormal(csbyte x) => false;
-            bool INumericFunctions<csbyte>.IsPositiveInfinity(csbyte x) => false;
-            bool INumericFunctions<csbyte>.IsReal { get; } = false;
-            bool INumericFunctions<csbyte>.IsSigned { get; } = true;
-            bool INumericFunctions<csbyte>.IsSubnormal(csbyte x) => false;
-            csbyte INumericFunctions<csbyte>.Epsilon { get; } = 1;
-            csbyte INumericFunctions<csbyte>.MaxUnit { get; } = 1;
-            csbyte INumericFunctions<csbyte>.MaxValue => MaxValue;
-            csbyte INumericFunctions<csbyte>.MinUnit { get; } = -1;
-            csbyte INumericFunctions<csbyte>.MinValue => MinValue;
-            csbyte INumericFunctions<csbyte>.One { get; } = 1;
-            csbyte INumericFunctions<csbyte>.Ten { get; } = 10;
-            csbyte INumericFunctions<csbyte>.Two { get; } = 2;
-            csbyte INumericFunctions<csbyte>.Zero { get; } = 0;
+            bool INumericStatic<csbyte>.HasFloatingPoint { get; } = false;
+            bool INumericStatic<csbyte>.HasInfinity { get; } = false;
+            bool INumericStatic<csbyte>.HasNaN { get; } = false;
+            bool INumericStatic<csbyte>.IsFinite(csbyte x) => true;
+            bool INumericStatic<csbyte>.IsInfinity(csbyte x) => false;
+            bool INumericStatic<csbyte>.IsNaN(csbyte x) => false;
+            bool INumericStatic<csbyte>.IsNegative(csbyte x) => x._value < 0;
+            bool INumericStatic<csbyte>.IsNegativeInfinity(csbyte x) => false;
+            bool INumericStatic<csbyte>.IsNormal(csbyte x) => false;
+            bool INumericStatic<csbyte>.IsPositiveInfinity(csbyte x) => false;
+            bool INumericStatic<csbyte>.IsReal { get; } = false;
+            bool INumericStatic<csbyte>.IsSigned { get; } = true;
+            bool INumericStatic<csbyte>.IsSubnormal(csbyte x) => false;
+            csbyte INumericStatic<csbyte>.Epsilon { get; } = 1;
+            csbyte INumericStatic<csbyte>.MaxUnit { get; } = 1;
+            csbyte INumericStatic<csbyte>.MaxValue => MaxValue;
+            csbyte INumericStatic<csbyte>.MinUnit { get; } = -1;
+            csbyte INumericStatic<csbyte>.MinValue => MinValue;
+            csbyte INumericStatic<csbyte>.One { get; } = 1;
+            csbyte INumericStatic<csbyte>.Ten { get; } = 10;
+            csbyte INumericStatic<csbyte>.Two { get; } = 2;
+            csbyte INumericStatic<csbyte>.Zero { get; } = 0;
 
             csbyte IMath<csbyte>.Abs(csbyte x) => Math.Abs(x._value);
             csbyte IMath<csbyte>.Acos(csbyte x) => (csbyte)Math.Acos(x._value);
@@ -229,20 +231,20 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong IConvert<csbyte>.ToUInt64(csbyte value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<csbyte>.ToUInt16(csbyte value) => CheckedConvert.ToUInt16(value._value);
 
-            csbyte IConvert<csbyte>.ToValue(bool value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(byte value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(decimal value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(double value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(float value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(int value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(long value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(sbyte value) => value;
-            csbyte IConvert<csbyte>.ToValue(short value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(string value) => Convert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(string value, IFormatProvider provider) => Convert.ToSByte(value, provider);
-            csbyte IConvert<csbyte>.ToValue(uint value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(ulong value) => CheckedConvert.ToSByte(value);
-            csbyte IConvert<csbyte>.ToValue(ushort value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(bool value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(byte value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(decimal value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(double value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(float value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(int value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(long value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(sbyte value) => value;
+            csbyte IConvert<csbyte>.ToNumeric(short value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(string value) => Convert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(string value, IFormatProvider provider) => Convert.ToSByte(value, provider);
+            csbyte IConvert<csbyte>.ToNumeric(uint value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(ulong value) => CheckedConvert.ToSByte(value);
+            csbyte IConvert<csbyte>.ToNumeric(ushort value) => CheckedConvert.ToSByte(value);
 
             bool IStringParser<csbyte>.TryParse(string s, IFormatProvider provider, out csbyte result) => TryParse(s, provider, out result);
             bool IStringParser<csbyte>.TryParse(string s, NumberStyles style, IFormatProvider provider, out csbyte result) => TryParse(s, style, provider, out result);
@@ -265,17 +267,17 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong ICast<csbyte>.ToUInt64(csbyte value) => (ulong)value;
             ushort ICast<csbyte>.ToUInt16(csbyte value) => (ushort)value;
 
-            csbyte ICast<csbyte>.ToValue(byte value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(decimal value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(double value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(float value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(int value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(long value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(sbyte value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(short value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(uint value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(ulong value) => (csbyte)value;
-            csbyte ICast<csbyte>.ToValue(ushort value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(byte value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(decimal value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(double value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(float value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(int value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(long value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(sbyte value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(short value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(uint value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(ulong value) => (csbyte)value;
+            csbyte ICast<csbyte>.ToNumeric(ushort value) => (csbyte)value;
         }
     }
 }

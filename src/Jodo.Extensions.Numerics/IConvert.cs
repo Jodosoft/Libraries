@@ -17,29 +17,40 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
+using System;
 
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Numerics
 {
-    public static class CastTests
+    public interface IConvert<N> where N : struct, INumeric<N>
     {
-        public class CByte : Base<cbyte> { }
-        public class CDecimal : Base<cdecimal> { }
-        public class CDouble : Base<cdouble> { }
-        public class CFix64 : Base<cfix64> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class CLong : Base<clong> { }
-        public class CSByte : Base<csbyte> { }
-        public class CShort : Base<cshort> { }
-        public class UCFix64 : Base<ucfix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UCLong : Base<uclong> { }
-        public class UCShort : Base<ucshort> { }
+        bool ToBoolean(N value);
+        byte ToByte(N value);
+        decimal ToDecimal(N value);
+        double ToDouble(N value);
+        float ToSingle(N value);
+        int ToInt32(N value);
+        long ToInt64(N value);
+        sbyte ToSByte(N value);
+        short ToInt16(N value);
+        string ToString(N value);
+        string ToString(N value, IFormatProvider provider);
+        uint ToUInt32(N value);
+        ulong ToUInt64(N value);
+        ushort ToUInt16(N value);
 
-        public abstract class Base<N> : Numerics.Tests.CastTests.Base<N> where N : struct, INumeric<N>
-        {
-
-        }
+        N ToNumeric(bool value);
+        N ToNumeric(byte value);
+        N ToNumeric(decimal value);
+        N ToNumeric(double value);
+        N ToNumeric(float value);
+        N ToNumeric(int value);
+        N ToNumeric(long value);
+        N ToNumeric(sbyte value);
+        N ToNumeric(short value);
+        N ToNumeric(string value);
+        N ToNumeric(string value, IFormatProvider provider);
+        N ToNumeric(uint value);
+        N ToNumeric(ulong value);
+        N ToNumeric(ushort value);
     }
 }

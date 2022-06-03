@@ -132,7 +132,7 @@ namespace Jodo.Extensions.Numerics
         ICast<xint> IProvider<ICast<xint>>.GetInstance() => Utilities.Instance;
         IConvert<xint> IProvider<IConvert<xint>>.GetInstance() => Utilities.Instance;
         IMath<xint> IProvider<IMath<xint>>.GetInstance() => Utilities.Instance;
-        INumericFunctions<xint> IProvider<INumericFunctions<xint>>.GetInstance() => Utilities.Instance;
+        INumericStatic<xint> IProvider<INumericStatic<xint>>.GetInstance() => Utilities.Instance;
         IRandom<xint> IProvider<IRandom<xint>>.GetInstance() => Utilities.Instance;
         IStringParser<xint> IProvider<IStringParser<xint>>.GetInstance() => Utilities.Instance;
 
@@ -141,32 +141,34 @@ namespace Jodo.Extensions.Numerics
             ICast<xint>,
             IConvert<xint>,
             IMath<xint>,
-            INumericFunctions<xint>,
+            INumericStatic<xint>,
             IRandom<xint>,
             IStringParser<xint>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool INumericFunctions<xint>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<xint>.IsFinite(xint x) => true;
-            bool INumericFunctions<xint>.IsInfinity(xint x) => false;
-            bool INumericFunctions<xint>.IsNaN(xint x) => false;
-            bool INumericFunctions<xint>.IsNegative(xint x) => x._value < 0;
-            bool INumericFunctions<xint>.IsNegativeInfinity(xint x) => false;
-            bool INumericFunctions<xint>.IsNormal(xint x) => false;
-            bool INumericFunctions<xint>.IsPositiveInfinity(xint x) => false;
-            bool INumericFunctions<xint>.IsReal { get; } = false;
-            bool INumericFunctions<xint>.IsSigned { get; } = true;
-            bool INumericFunctions<xint>.IsSubnormal(xint x) => false;
-            xint INumericFunctions<xint>.Epsilon { get; } = 1;
-            xint INumericFunctions<xint>.MaxUnit { get; } = 1;
-            xint INumericFunctions<xint>.MaxValue => MaxValue;
-            xint INumericFunctions<xint>.MinUnit { get; } = -1;
-            xint INumericFunctions<xint>.MinValue => MinValue;
-            xint INumericFunctions<xint>.One { get; } = 1;
-            xint INumericFunctions<xint>.Ten { get; } = 10;
-            xint INumericFunctions<xint>.Two { get; } = 2;
-            xint INumericFunctions<xint>.Zero { get; } = 0;
+            bool INumericStatic<xint>.HasFloatingPoint { get; } = false;
+            bool INumericStatic<xint>.HasInfinity { get; } = false;
+            bool INumericStatic<xint>.HasNaN { get; } = false;
+            bool INumericStatic<xint>.IsFinite(xint x) => true;
+            bool INumericStatic<xint>.IsInfinity(xint x) => false;
+            bool INumericStatic<xint>.IsNaN(xint x) => false;
+            bool INumericStatic<xint>.IsNegative(xint x) => x._value < 0;
+            bool INumericStatic<xint>.IsNegativeInfinity(xint x) => false;
+            bool INumericStatic<xint>.IsNormal(xint x) => false;
+            bool INumericStatic<xint>.IsPositiveInfinity(xint x) => false;
+            bool INumericStatic<xint>.IsReal { get; } = false;
+            bool INumericStatic<xint>.IsSigned { get; } = true;
+            bool INumericStatic<xint>.IsSubnormal(xint x) => false;
+            xint INumericStatic<xint>.Epsilon { get; } = 1;
+            xint INumericStatic<xint>.MaxUnit { get; } = 1;
+            xint INumericStatic<xint>.MaxValue => MaxValue;
+            xint INumericStatic<xint>.MinUnit { get; } = -1;
+            xint INumericStatic<xint>.MinValue => MinValue;
+            xint INumericStatic<xint>.One { get; } = 1;
+            xint INumericStatic<xint>.Ten { get; } = 10;
+            xint INumericStatic<xint>.Two { get; } = 2;
+            xint INumericStatic<xint>.Zero { get; } = 0;
 
             int IMath<xint>.Sign(xint x) => Math.Sign(x._value);
             xint IMath<xint>.Abs(xint x) => Math.Abs(x._value);
@@ -228,20 +230,20 @@ namespace Jodo.Extensions.Numerics
             ulong IConvert<xint>.ToUInt64(xint value) => Convert.ToUInt64(value._value);
             ushort IConvert<xint>.ToUInt16(xint value) => Convert.ToUInt16(value._value);
 
-            xint IConvert<xint>.ToValue(bool value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(byte value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(decimal value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(double value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(float value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(int value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(long value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(sbyte value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(short value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(string value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(string value, IFormatProvider provider) => Convert.ToInt32(value, provider);
-            xint IConvert<xint>.ToValue(uint value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(ulong value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToValue(ushort value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(bool value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(byte value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(decimal value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(double value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(float value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(int value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(long value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(sbyte value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(short value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(string value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(string value, IFormatProvider provider) => Convert.ToInt32(value, provider);
+            xint IConvert<xint>.ToNumeric(uint value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(ulong value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToNumeric(ushort value) => Convert.ToInt32(value);
 
             bool IStringParser<xint>.TryParse(string s, IFormatProvider provider, out xint result) => TryParse(s, provider, out result);
             bool IStringParser<xint>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xint result) => TryParse(s, style, provider, out result);
@@ -264,17 +266,17 @@ namespace Jodo.Extensions.Numerics
             ulong ICast<xint>.ToUInt64(xint value) => (ulong)value;
             ushort ICast<xint>.ToUInt16(xint value) => (ushort)value;
 
-            xint ICast<xint>.ToValue(byte value) => (xint)value;
-            xint ICast<xint>.ToValue(decimal value) => (xint)value;
-            xint ICast<xint>.ToValue(double value) => (xint)value;
-            xint ICast<xint>.ToValue(float value) => (xint)value;
-            xint ICast<xint>.ToValue(int value) => (xint)value;
-            xint ICast<xint>.ToValue(long value) => (xint)value;
-            xint ICast<xint>.ToValue(sbyte value) => (xint)value;
-            xint ICast<xint>.ToValue(short value) => (xint)value;
-            xint ICast<xint>.ToValue(uint value) => (xint)value;
-            xint ICast<xint>.ToValue(ulong value) => (xint)value;
-            xint ICast<xint>.ToValue(ushort value) => (xint)value;
+            xint ICast<xint>.ToNumeric(byte value) => (xint)value;
+            xint ICast<xint>.ToNumeric(decimal value) => (xint)value;
+            xint ICast<xint>.ToNumeric(double value) => (xint)value;
+            xint ICast<xint>.ToNumeric(float value) => (xint)value;
+            xint ICast<xint>.ToNumeric(int value) => (xint)value;
+            xint ICast<xint>.ToNumeric(long value) => (xint)value;
+            xint ICast<xint>.ToNumeric(sbyte value) => (xint)value;
+            xint ICast<xint>.ToNumeric(short value) => (xint)value;
+            xint ICast<xint>.ToNumeric(uint value) => (xint)value;
+            xint ICast<xint>.ToNumeric(ulong value) => (xint)value;
+            xint ICast<xint>.ToNumeric(ushort value) => (xint)value;
         }
     }
 }

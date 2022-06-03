@@ -17,31 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Extensions.Numerics
+namespace Jodo.Extensions.Numerics.Tests
 {
-    public interface INumericFunctions<N>
+    public static class Fix64Tests
     {
-        bool HasFloatingPoint { get; }
-        bool IsReal { get; }
-        bool IsSigned { get; }
-
-        N Epsilon { get; }
-        N MaxUnit { get; }
-        N MaxValue { get; }
-        N MinUnit { get; }
-        N MinValue { get; }
-        N One { get; }
-        N Ten { get; }
-        N Two { get; }
-        N Zero { get; }
-
-        bool IsFinite(N x);
-        bool IsInfinity(N x);
-        bool IsNaN(N x);
-        bool IsNegative(N x);
-        bool IsNegativeInfinity(N x);
-        bool IsNormal(N x);
-        bool IsPositiveInfinity(N x);
-        bool IsSubnormal(N x);
+        public sealed class BitConverter : BitConverterTests<fix64> { }
+        public sealed class Cast : CastTests<fix64> { }
+        public sealed class ConvertTests : ConvertTests<fix64> { }
+        public sealed class MathGeneral : MathTests.General<fix64> { }
+        public sealed class MathReal : MathTests.Real<fix64> { }
+        public sealed class MathSigned : MathTests.Signed<fix64> { }
+        public sealed class NumericGeneral : NumericTests.General<fix64> { }
+        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<fix64> { }
+        public sealed class NumericNoInfinity : NumericTests.NoInfinity<fix64> { }
+        public sealed class NumericNoNaN : NumericTests.NoNaN<fix64> { }
+        public sealed class NumericReal : NumericTests.Real<fix64> { }
+        public sealed class NumericSigned : NumericTests.Signed<fix64> { }
+        public sealed class StringParserGeneral : StringParserTests.General<fix64> { }
     }
 }

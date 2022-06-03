@@ -17,30 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Numerics.Tests;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public static class BitConverterTests
+    public static class CUFix64Tests
     {
-        public class CByte : Base<cbyte> { }
-        public class CDecimal : Base<cdecimal> { }
-        public class CDouble : Base<cdouble> { }
-        public class CFix64 : Base<cfix64> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class CLong : Base<clong> { }
-        public class CSByte : Base<csbyte> { }
-        public class CShort : Base<cshort> { }
-        public class UCFix64 : Base<ucfix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UCLong : Base<uclong> { }
-        public class UCShort : Base<ucshort> { }
-
-
-        public abstract class Base<N> : Numerics.Tests.BitConverterTests.Base<N> where N : struct, INumeric<N>
-        {
-
-        }
+        public sealed class BitConverter : BitConverterTests<cufix64> { }
+        public sealed class Cast : CastTests<cufix64> { }
+        public sealed class CheckedNumeric : CheckedNumericTests<cufix64> { }
+        public sealed class ConvertTests : ConvertTests<cufix64> { }
+        public sealed class MathGeneral : MathTests.General<cufix64> { }
+        public sealed class MathReal : MathTests.Real<cufix64> { }
+        public sealed class MathUnsigned : NumericTests.Unsigned<cufix64> { }
+        public sealed class NumericGeneral : NumericTests.General<cufix64> { }
+        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<cufix64> { }
+        public sealed class NumericNoInfinity : NumericTests.NoInfinity<cufix64> { }
+        public sealed class NumericNoNaN : NumericTests.NoNaN<cufix64> { }
+        public sealed class NumericReal : NumericTests.Real<cufix64> { }
+        public sealed class NumericUnsigned : NumericTests.Unsigned<cufix64> { }
+        public sealed class StringParserGeneral : StringParserTests.General<cufix64> { }
     }
 }

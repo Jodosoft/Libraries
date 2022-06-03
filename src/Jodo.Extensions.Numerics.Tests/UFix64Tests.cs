@@ -17,29 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-
-namespace Jodo.Extensions.CheckedNumerics.Tests
+namespace Jodo.Extensions.Numerics.Tests
 {
-    public static class NumericTests
+    public static class UFix64Tests
     {
-        public class CByte : Base<cbyte> { }
-        public class CDecimal : Base<cdecimal> { }
-        public class CDouble : Base<cdouble> { }
-        public class CFix64 : Base<cfix64> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class CLong : Base<clong> { }
-        public class CSByte : Base<csbyte> { }
-        public class CShort : Base<cshort> { }
-        public class UCFix64 : Base<ucfix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UCLong : Base<uclong> { }
-        public class UCShort : Base<ucshort> { }
-
-        public abstract class Base<N> : Numerics.Tests.NumericTests.Base<N> where N : struct, INumeric<N>
-        {
-
-        }
+        public sealed class BitConverter : BitConverterTests<ufix64> { }
+        public sealed class Cast : CastTests<ufix64> { }
+        public sealed class ConvertTests : ConvertTests<ufix64> { }
+        public sealed class MathGeneral : MathTests.General<ufix64> { }
+        public sealed class MathReal : MathTests.Real<ufix64> { }
+        public sealed class MathUnsigned : NumericTests.Unsigned<ufix64> { }
+        public sealed class NumericGeneral : NumericTests.General<ufix64> { }
+        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<ufix64> { }
+        public sealed class NumericNoInfinity : NumericTests.NoInfinity<ufix64> { }
+        public sealed class NumericNoNaN : NumericTests.NoNaN<ufix64> { }
+        public sealed class NumericReal : NumericTests.Real<ufix64> { }
+        public sealed class NumericUnsigned : NumericTests.Unsigned<ufix64> { }
+        public sealed class StringParserGeneral : StringParserTests.General<ufix64> { }
     }
 }

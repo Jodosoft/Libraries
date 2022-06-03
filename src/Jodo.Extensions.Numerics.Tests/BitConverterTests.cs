@@ -24,75 +24,58 @@ using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
-    public static class BitConverterTests
+    public abstract class BitConverterTests<N> : Primitives.Tests.BitConverterTests<N> where N : struct, INumeric<N>
     {
-        public class Fix64 : Base<fix64> { }
-        public class UFix64 : Base<ufix64> { }
-        public class XByte : Base<xbyte> { }
-        public class XDecimal : Base<xdecimal> { }
-        public class XDouble : Base<xdouble> { }
-        public class XFloat : Base<xfloat> { }
-        public class XInt : Base<xint> { }
-        public class XLong : Base<xlong> { }
-        public class XSByte : Base<xsbyte> { }
-        public class XShort : Base<xshort> { }
-        public class XUInt : Base<xuint> { }
-        public class XULong : Base<xushort> { }
-        public class XUShort : Base<xushort> { }
-
-        public abstract class Base<N> : Primitives.Tests.BitConverterTests.Base<N> where N : struct, INumeric<N>
+        [Test, Repeat(RandomVariations)]
+        public void GetBytes_RandomSmallValue_SameAsOriginal()
         {
-            [Test, Repeat(RandomVariations)]
-            public void GetBytes_RandomSmallValue_SameAsOriginal()
-            {
-                //arrange
-                var input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+            //arrange
+            var input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
 
-                //act
-                var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            //act
+            var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
 
-                //assert
-                result.Should().Be(input);
-            }
+            //assert
+            result.Should().Be(input);
+        }
 
-            [Test]
-            public void GetBytes_MaxValueRoundTrip_SameAsOriginal()
-            {
-                //arrange
-                var input = Numeric<N>.MaxValue;
+        [Test]
+        public void GetBytes_MaxValueRoundTrip_SameAsOriginal()
+        {
+            //arrange
+            var input = Numeric<N>.MaxValue;
 
-                //act
-                var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            //act
+            var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
 
-                //assert
-                result.Should().Be(input);
-            }
+            //assert
+            result.Should().Be(input);
+        }
 
-            [Test]
-            public void GetBytes_MinValueRoundTrip_SameAsOriginal()
-            {
-                //arrange
-                var input = Numeric<N>.MinValue;
+        [Test]
+        public void GetBytes_MinValueRoundTrip_SameAsOriginal()
+        {
+            //arrange
+            var input = Numeric<N>.MinValue;
 
-                //act
-                var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            //act
+            var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
 
-                //assert
-                result.Should().Be(input);
-            }
+            //assert
+            result.Should().Be(input);
+        }
 
-            [Test]
-            public void GetBytes_EpsilonRoundTrip_SameAsOriginal()
-            {
-                //arrange
-                var input = Numeric<N>.Epsilon;
+        [Test]
+        public void GetBytes_EpsilonRoundTrip_SameAsOriginal()
+        {
+            //arrange
+            var input = Numeric<N>.Epsilon;
 
-                //act
-                var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            //act
+            var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
 
-                //assert
-                result.Should().Be(input);
-            }
+            //assert
+            result.Should().Be(input);
         }
     }
 }

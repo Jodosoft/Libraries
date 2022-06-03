@@ -1,65 +1,64 @@
-﻿using Jodo.Extensions.Primitives;
-using System;
+﻿using System;
 
 namespace Jodo.Extensions.Numerics
 {
     public static class Clamp<N> where N : struct, INumeric<N>
     {
-        public static N ToValue(byte value)
+        public static N ToNumeric(byte value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
-        public static N ToValue(sbyte value)
+        public static N ToNumeric(sbyte value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
-        public static N ToValue(short value)
+        public static N ToNumeric(short value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
-        public static N ToValue(ushort value)
+        public static N ToNumeric(ushort value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
-        public static N ToValue(int value)
+        public static N ToNumeric(int value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
-        public static N ToValue(uint value)
+        public static N ToNumeric(uint value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
-        public static N ToValue(long value)
+        public static N ToNumeric(long value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
-        public static N ToValue(ulong value)
+        public static N ToNumeric(ulong value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
-        public static N ToValue(float value)
+        public static N ToNumeric(float value)
         {
             if (float.IsPositiveInfinity(value)) return Numeric<N>.MaxValue;
             if (float.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
             if (float.IsNaN(value)) return Numeric<N>.Zero;
 
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException)
             {
                 if (value < 0 && !Numeric<N>.IsSigned) return Numeric<N>.MinValue;
@@ -70,13 +69,13 @@ namespace Jodo.Extensions.Numerics
             }
         }
 
-        public static N ToValue(double value)
+        public static N ToNumeric(double value)
         {
             if (double.IsPositiveInfinity(value)) return Numeric<N>.MaxValue;
             if (double.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
             if (double.IsNaN(value)) return Numeric<N>.Zero;
 
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException)
             {
                 if (value < 0 && !Numeric<N>.IsSigned) return Numeric<N>.MinValue;
@@ -87,9 +86,9 @@ namespace Jodo.Extensions.Numerics
             }
         }
 
-        public static N ToValue(decimal value)
+        public static N ToNumeric(decimal value)
         {
-            try { checked { return Convert<N>.ToValue(value); } }
+            try { checked { return Convert<N>.ToNumeric(value); } }
             catch (OverflowException)
             {
                 if (value < 0 && !Numeric<N>.IsSigned) return Numeric<N>.MinValue;

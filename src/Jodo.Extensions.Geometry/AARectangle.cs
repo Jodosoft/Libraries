@@ -31,11 +31,11 @@ namespace Jodo.Extensions.Geometry
         public readonly Vector2<N> Dimensions;
 
         public N Area => Math<N>.Abs(Dimensions.X * Dimensions.Y);
-        public N Bottom => Center.Y - (Dimensions.Y / Primitives.Convert<N>.ToValue(2));
+        public N Bottom => Center.Y - (Dimensions.Y / Cast<N>.ToNumeric(2));
         public N Height => Dimensions.Y;
-        public N Left => Center.X - (Dimensions.X / Primitives.Convert<N>.ToValue(2));
-        public N Right => Center.X + (Dimensions.X / Primitives.Convert<N>.ToValue(2));
-        public N Top => Center.Y + (Dimensions.Y / Primitives.Convert<N>.ToValue(2));
+        public N Left => Center.X - (Dimensions.X / Cast<N>.ToNumeric(2));
+        public N Right => Center.X + (Dimensions.X / Cast<N>.ToNumeric(2));
+        public N Top => Center.Y + (Dimensions.Y / Cast<N>.ToNumeric(2));
         public N Width => Dimensions.X;
 
         public Vector2<N> BottomCenter => GetBottomCenter(Center, Dimensions);

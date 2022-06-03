@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Jodo.Extensions.Primitives.Tests
 {
-    public sealed class RandomExtensionsTests : GlobalTestBase
+    public sealed class RandomExtensionsTests : GlobalFixtureBase
     {
         public readonly static decimal DecimalEpsilon = new decimal(1, 0, 0, false, 28);
         public const int NumberToGenerate = 1000;

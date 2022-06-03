@@ -29,7 +29,7 @@ namespace Jodo.Extensions.Geometry.Tests
         public class Circle : Base<Circle<cfloat>> { }
         public class Rectangle : Base<Rectangle<cfloat>> { }
 
-        public abstract class Base<T> : GlobalTestBase where T : struct, IGeometric<T>
+        public abstract class Base<T> : GlobalFixtureBase where T : struct, IGeometric<T>
         {
 
         }

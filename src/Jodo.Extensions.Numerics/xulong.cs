@@ -132,7 +132,7 @@ namespace Jodo.Extensions.Numerics
         ICast<xulong> IProvider<ICast<xulong>>.GetInstance() => Utilities.Instance;
         IConvert<xulong> IProvider<IConvert<xulong>>.GetInstance() => Utilities.Instance;
         IMath<xulong> IProvider<IMath<xulong>>.GetInstance() => Utilities.Instance;
-        INumericFunctions<xulong> IProvider<INumericFunctions<xulong>>.GetInstance() => Utilities.Instance;
+        INumericStatic<xulong> IProvider<INumericStatic<xulong>>.GetInstance() => Utilities.Instance;
         IRandom<xulong> IProvider<IRandom<xulong>>.GetInstance() => Utilities.Instance;
         IStringParser<xulong> IProvider<IStringParser<xulong>>.GetInstance() => Utilities.Instance;
 
@@ -141,32 +141,34 @@ namespace Jodo.Extensions.Numerics
             ICast<xulong>,
             IConvert<xulong>,
             IMath<xulong>,
-            INumericFunctions<xulong>,
+            INumericStatic<xulong>,
             IRandom<xulong>,
             IStringParser<xulong>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool INumericFunctions<xulong>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<xulong>.IsFinite(xulong x) => true;
-            bool INumericFunctions<xulong>.IsInfinity(xulong x) => false;
-            bool INumericFunctions<xulong>.IsNaN(xulong x) => false;
-            bool INumericFunctions<xulong>.IsNegative(xulong x) => false;
-            bool INumericFunctions<xulong>.IsNegativeInfinity(xulong x) => false;
-            bool INumericFunctions<xulong>.IsNormal(xulong x) => false;
-            bool INumericFunctions<xulong>.IsPositiveInfinity(xulong x) => false;
-            bool INumericFunctions<xulong>.IsReal { get; } = false;
-            bool INumericFunctions<xulong>.IsSigned { get; } = false;
-            bool INumericFunctions<xulong>.IsSubnormal(xulong x) => false;
-            xulong INumericFunctions<xulong>.Epsilon { get; } = (xulong)1;
-            xulong INumericFunctions<xulong>.MaxUnit { get; } = (xulong)1;
-            xulong INumericFunctions<xulong>.MaxValue => MaxValue;
-            xulong INumericFunctions<xulong>.MinUnit { get; } = (xulong)0;
-            xulong INumericFunctions<xulong>.MinValue => MinValue;
-            xulong INumericFunctions<xulong>.One { get; } = (xulong)1;
-            xulong INumericFunctions<xulong>.Ten { get; } = (xulong)10;
-            xulong INumericFunctions<xulong>.Two { get; } = (xulong)2;
-            xulong INumericFunctions<xulong>.Zero { get; } = (xulong)0;
+            bool INumericStatic<xulong>.HasFloatingPoint { get; } = false;
+            bool INumericStatic<xulong>.HasInfinity { get; } = false;
+            bool INumericStatic<xulong>.HasNaN { get; } = false;
+            bool INumericStatic<xulong>.IsFinite(xulong x) => true;
+            bool INumericStatic<xulong>.IsInfinity(xulong x) => false;
+            bool INumericStatic<xulong>.IsNaN(xulong x) => false;
+            bool INumericStatic<xulong>.IsNegative(xulong x) => false;
+            bool INumericStatic<xulong>.IsNegativeInfinity(xulong x) => false;
+            bool INumericStatic<xulong>.IsNormal(xulong x) => false;
+            bool INumericStatic<xulong>.IsPositiveInfinity(xulong x) => false;
+            bool INumericStatic<xulong>.IsReal { get; } = false;
+            bool INumericStatic<xulong>.IsSigned { get; } = false;
+            bool INumericStatic<xulong>.IsSubnormal(xulong x) => false;
+            xulong INumericStatic<xulong>.Epsilon { get; } = (xulong)1;
+            xulong INumericStatic<xulong>.MaxUnit { get; } = (xulong)1;
+            xulong INumericStatic<xulong>.MaxValue => MaxValue;
+            xulong INumericStatic<xulong>.MinUnit { get; } = (xulong)0;
+            xulong INumericStatic<xulong>.MinValue => MinValue;
+            xulong INumericStatic<xulong>.One { get; } = (xulong)1;
+            xulong INumericStatic<xulong>.Ten { get; } = (xulong)10;
+            xulong INumericStatic<xulong>.Two { get; } = (xulong)2;
+            xulong INumericStatic<xulong>.Zero { get; } = (xulong)0;
 
             int IMath<xulong>.Sign(xulong x) => x._value == 0 ? 0 : 1;
             xulong IMath<xulong>.Abs(xulong x) => x;
@@ -228,20 +230,20 @@ namespace Jodo.Extensions.Numerics
             ulong IConvert<xulong>.ToUInt64(xulong value) => Convert.ToUInt64(value._value);
             ushort IConvert<xulong>.ToUInt16(xulong value) => Convert.ToUInt16(value._value);
 
-            xulong IConvert<xulong>.ToValue(bool value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(byte value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(decimal value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(double value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(float value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(int value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(long value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(sbyte value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(short value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(string value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(string value, IFormatProvider provider) => Convert.ToUInt64(value, provider);
-            xulong IConvert<xulong>.ToValue(uint value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(ulong value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToValue(ushort value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(bool value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(byte value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(decimal value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(double value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(float value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(int value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(long value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(sbyte value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(short value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(string value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(string value, IFormatProvider provider) => Convert.ToUInt64(value, provider);
+            xulong IConvert<xulong>.ToNumeric(uint value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(ulong value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToNumeric(ushort value) => Convert.ToUInt64(value);
 
             bool IStringParser<xulong>.TryParse(string s, IFormatProvider provider, out xulong result) => TryParse(s, provider, out result);
             bool IStringParser<xulong>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xulong result) => TryParse(s, style, provider, out result);
@@ -264,17 +266,17 @@ namespace Jodo.Extensions.Numerics
             ulong ICast<xulong>.ToUInt64(xulong value) => (ulong)value;
             ushort ICast<xulong>.ToUInt16(xulong value) => (ushort)value;
 
-            xulong ICast<xulong>.ToValue(byte value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(decimal value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(double value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(float value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(int value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(long value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(sbyte value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(short value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(uint value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(ulong value) => (xulong)value;
-            xulong ICast<xulong>.ToValue(ushort value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(byte value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(decimal value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(double value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(float value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(int value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(long value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(sbyte value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(short value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(uint value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(ulong value) => (xulong)value;
+            xulong ICast<xulong>.ToNumeric(ushort value) => (xulong)value;
         }
     }
 }

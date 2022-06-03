@@ -170,7 +170,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ICast<cfix64> IProvider<ICast<cfix64>>.GetInstance() => Utilities.Instance;
         IConvert<cfix64> IProvider<IConvert<cfix64>>.GetInstance() => Utilities.Instance;
         IMath<cfix64> IProvider<IMath<cfix64>>.GetInstance() => Utilities.Instance;
-        INumericFunctions<cfix64> IProvider<INumericFunctions<cfix64>>.GetInstance() => Utilities.Instance;
+        INumericStatic<cfix64> IProvider<INumericStatic<cfix64>>.GetInstance() => Utilities.Instance;
         IRandom<cfix64> IProvider<IRandom<cfix64>>.GetInstance() => Utilities.Instance;
         IStringParser<cfix64> IProvider<IStringParser<cfix64>>.GetInstance() => Utilities.Instance;
 
@@ -179,32 +179,34 @@ namespace Jodo.Extensions.CheckedNumerics
             ICast<cfix64>,
             IConvert<cfix64>,
             IMath<cfix64>,
-            INumericFunctions<cfix64>,
+            INumericStatic<cfix64>,
             IRandom<cfix64>,
             IStringParser<cfix64>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool INumericFunctions<cfix64>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<cfix64>.IsFinite(cfix64 x) => true;
-            bool INumericFunctions<cfix64>.IsInfinity(cfix64 x) => false;
-            bool INumericFunctions<cfix64>.IsNaN(cfix64 x) => false;
-            bool INumericFunctions<cfix64>.IsNegative(cfix64 x) => x._scaledValue < 0;
-            bool INumericFunctions<cfix64>.IsNegativeInfinity(cfix64 x) => false;
-            bool INumericFunctions<cfix64>.IsNormal(cfix64 x) => false;
-            bool INumericFunctions<cfix64>.IsPositiveInfinity(cfix64 x) => false;
-            bool INumericFunctions<cfix64>.IsReal { get; } = true;
-            bool INumericFunctions<cfix64>.IsSigned { get; } = true;
-            bool INumericFunctions<cfix64>.IsSubnormal(cfix64 x) => false;
-            cfix64 INumericFunctions<cfix64>.Epsilon { get; } = new cfix64(1);
-            cfix64 INumericFunctions<cfix64>.MaxUnit { get; } = new cfix64(ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.MaxValue => MaxValue;
-            cfix64 INumericFunctions<cfix64>.MinUnit { get; } = new cfix64(-ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.MinValue => MinValue;
-            cfix64 INumericFunctions<cfix64>.One { get; } = new cfix64(ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.Ten { get; } = new cfix64(10 * ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.Two { get; } = new cfix64(2 * ScalingFactor);
-            cfix64 INumericFunctions<cfix64>.Zero { get; } = 0;
+            bool INumericStatic<cfix64>.HasFloatingPoint { get; } = false;
+            bool INumericStatic<cfix64>.HasInfinity { get; } = false;
+            bool INumericStatic<cfix64>.HasNaN { get; } = false;
+            bool INumericStatic<cfix64>.IsFinite(cfix64 x) => true;
+            bool INumericStatic<cfix64>.IsInfinity(cfix64 x) => false;
+            bool INumericStatic<cfix64>.IsNaN(cfix64 x) => false;
+            bool INumericStatic<cfix64>.IsNegative(cfix64 x) => x._scaledValue < 0;
+            bool INumericStatic<cfix64>.IsNegativeInfinity(cfix64 x) => false;
+            bool INumericStatic<cfix64>.IsNormal(cfix64 x) => false;
+            bool INumericStatic<cfix64>.IsPositiveInfinity(cfix64 x) => false;
+            bool INumericStatic<cfix64>.IsReal { get; } = true;
+            bool INumericStatic<cfix64>.IsSigned { get; } = true;
+            bool INumericStatic<cfix64>.IsSubnormal(cfix64 x) => false;
+            cfix64 INumericStatic<cfix64>.Epsilon { get; } = new cfix64(1);
+            cfix64 INumericStatic<cfix64>.MaxUnit { get; } = new cfix64(ScalingFactor);
+            cfix64 INumericStatic<cfix64>.MaxValue => MaxValue;
+            cfix64 INumericStatic<cfix64>.MinUnit { get; } = new cfix64(-ScalingFactor);
+            cfix64 INumericStatic<cfix64>.MinValue => MinValue;
+            cfix64 INumericStatic<cfix64>.One { get; } = new cfix64(ScalingFactor);
+            cfix64 INumericStatic<cfix64>.Ten { get; } = new cfix64(10 * ScalingFactor);
+            cfix64 INumericStatic<cfix64>.Two { get; } = new cfix64(2 * ScalingFactor);
+            cfix64 INumericStatic<cfix64>.Zero { get; } = 0;
 
             cfix64 IMath<cfix64>.Abs(cfix64 x) => x._scaledValue < 0 ? -x : x;
             cfix64 IMath<cfix64>.Acos(cfix64 x) => (cfix64)Math.Acos((double)x);
@@ -266,20 +268,20 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong IConvert<cfix64>.ToUInt64(cfix64 value) => CheckedConvert.ToUInt64(value._scaledValue / ScalingFactor);
             ushort IConvert<cfix64>.ToUInt16(cfix64 value) => CheckedConvert.ToUInt16(value._scaledValue / ScalingFactor);
 
-            cfix64 IConvert<cfix64>.ToValue(bool value) => value ? ScalingFactor : 0;
-            cfix64 IConvert<cfix64>.ToValue(byte value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(decimal value) => (cfix64)value;
-            cfix64 IConvert<cfix64>.ToValue(double value) => (cfix64)value;
-            cfix64 IConvert<cfix64>.ToValue(float value) => value;
-            cfix64 IConvert<cfix64>.ToValue(int value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(long value) => (cfix64)value;
-            cfix64 IConvert<cfix64>.ToValue(sbyte value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(short value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(string value) => (cfix64)Convert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(string value, IFormatProvider provider) => Convert.ToInt64(value, provider);
-            cfix64 IConvert<cfix64>.ToValue(uint value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(ulong value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToValue(ushort value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToNumeric(bool value) => value ? ScalingFactor : 0;
+            cfix64 IConvert<cfix64>.ToNumeric(byte value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToNumeric(decimal value) => (cfix64)value;
+            cfix64 IConvert<cfix64>.ToNumeric(double value) => (cfix64)value;
+            cfix64 IConvert<cfix64>.ToNumeric(float value) => value;
+            cfix64 IConvert<cfix64>.ToNumeric(int value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToNumeric(long value) => (cfix64)value;
+            cfix64 IConvert<cfix64>.ToNumeric(sbyte value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToNumeric(short value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToNumeric(string value) => (cfix64)Convert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToNumeric(string value, IFormatProvider provider) => Convert.ToInt64(value, provider);
+            cfix64 IConvert<cfix64>.ToNumeric(uint value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToNumeric(ulong value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToNumeric(ushort value) => (cfix64)CheckedConvert.ToInt64(value);
 
             bool IStringParser<cfix64>.TryParse(string s, IFormatProvider provider, out cfix64 result) => TryParse(s, provider, out result);
             bool IStringParser<cfix64>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cfix64 result) => TryParse(s, style, provider, out result);
@@ -302,17 +304,17 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong ICast<cfix64>.ToUInt64(cfix64 value) => (ulong)value;
             ushort ICast<cfix64>.ToUInt16(cfix64 value) => (ushort)value;
 
-            cfix64 ICast<cfix64>.ToValue(byte value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(decimal value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(double value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(float value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(int value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(long value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(sbyte value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(short value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(uint value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(ulong value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToValue(ushort value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(byte value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(decimal value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(double value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(float value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(int value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(long value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(sbyte value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(short value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(uint value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(ulong value) => (cfix64)value;
+            cfix64 ICast<cfix64>.ToNumeric(ushort value) => (cfix64)value;
         }
     }
 }

@@ -308,90 +308,37 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static long ScaledMultiply(long scaledLeft, long scaledRight, long scalingFactor)
         {
-            try
-            {
-                try
-                {
-                    checked
-                    {
-                        return scaledLeft * scaledRight / scalingFactor;
-                    }
-                }
-                catch (OverflowException)
-                {
-                    return (long)(new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor);
-                }
-            }
-            catch (DivideByZeroException)
-            {
-                return long.MaxValue;
-            }
+            var result = new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor;
+            if (result < long.MinValue) return long.MinValue;
+            if (result > long.MaxValue) return long.MaxValue;
+            return (long)result;
+
         }
 
         public static ulong ScaledMultiply(ulong scaledLeft, ulong scaledRight, ulong scalingFactor)
         {
-            try
-            {
-                try
-                {
-                    checked
-                    {
-                        return scaledLeft * scaledRight / scalingFactor;
-                    }
-                }
-                catch (OverflowException)
-                {
-                    return (ulong)(new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor);
-                }
-            }
-            catch (DivideByZeroException)
-            {
-                return ulong.MaxValue;
-            }
+            var result = new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor;
+            if (result < ulong.MinValue) return ulong.MinValue;
+            if (result > ulong.MaxValue) return ulong.MaxValue;
+            return (ulong)result;
         }
 
         public static long ScaledDivide(long scaledLeft, long scaledRight, long scalingFactor)
         {
-            try
-            {
-                try
-                {
-                    checked
-                    {
-                        return scaledLeft * scalingFactor / scaledRight;
-                    }
-                }
-                catch (OverflowException)
-                {
-                    return (long)(new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight));
-                }
-            }
-            catch (DivideByZeroException)
-            {
-                return long.MaxValue;
-            }
+            if (scaledRight == 0) return long.MaxValue;
+            var result = new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight);
+            if (result < long.MinValue) return long.MinValue;
+            if (result > long.MaxValue) return long.MaxValue;
+            return (long)result;
         }
 
         public static ulong ScaledDivide(ulong scaledLeft, ulong scaledRight, ulong scalingFactor)
         {
-            try
-            {
-                try
-                {
-                    checked
-                    {
-                        return scaledLeft * scalingFactor / scaledRight;
-                    }
-                }
-                catch (OverflowException)
-                {
-                    return (ulong)(new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight));
-                }
-            }
-            catch (DivideByZeroException)
-            {
-                return ulong.MaxValue;
-            }
+            if (scaledRight == 0) return ulong.MaxValue;
+            var result = new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight);
+            if (result < ulong.MinValue) return ulong.MinValue;
+            if (result > ulong.MaxValue) return ulong.MaxValue;
+            return (ulong)result;
         }
     }
 }

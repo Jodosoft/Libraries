@@ -34,7 +34,7 @@ namespace Jodo.Extensions.Numerics
             IProvider<ICast<N>>,
             IProvider<IConvert<N>>,
             IProvider<IMath<N>>,
-            IProvider<INumericFunctions<N>>,
+            IProvider<INumericStatic<N>>,
             IProvider<IRandom<N>>,
             IProvider<IStringParser<N>>,
             ISerializable

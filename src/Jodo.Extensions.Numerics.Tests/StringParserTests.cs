@@ -27,27 +27,13 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class StringParserTests
     {
-        public class Fix64 : Base<fix64> { }
-        public class UFix64 : Base<ufix64> { }
-        public class XByte : Base<xbyte> { }
-        public class XDecimal : Base<xdecimal> { }
-        public class XDouble : Base<xdouble> { }
-        public class XFloat : Base<xfloat> { }
-        public class XInt : Base<xint> { }
-        public class XLong : Base<xlong> { }
-        public class XSByte : Base<xsbyte> { }
-        public class XShort : Base<xshort> { }
-        public class XUInt : Base<xuint> { }
-        public class XULong : Base<xulong> { }
-        public class XUShort : Base<xushort> { }
-
-        public abstract class Base<N> : NumericTestBase<N> where N : struct, INumeric<N>
+        public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
         {
             [Test, Repeat(RandomVariations)]
             public void Parse1_RoundTripSmallValue_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToValue(Random.NextDouble(-10, 10)), 2);
+                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
                 var result = StringParser<N>.Parse(input.ToString());
@@ -60,7 +46,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse1_RoundTripFormat_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToValue(Random.NextDouble(-10, 10)), 2);
+                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
                 var format = "G17";
 
                 //act
@@ -74,7 +60,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse1_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToValue(Random.NextDouble(-10, 10)), 2);
+                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
                 var format = "G17";
 
                 //act
@@ -88,7 +74,7 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse2_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToValue(Random.NextDouble(-10, 10)), 2);
+                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
                 var format = "G17";
                 var provider = NumberFormatInfo.InvariantInfo;
                 var numberStyles = NumberStyles.Any;
@@ -99,12 +85,17 @@ namespace Jodo.Extensions.Numerics.Tests
                 //assert
                 result.Should().Be(input);
             }
+        }
+
+        public abstract class Integral<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        {
+            [SetUp]
+            public void SetUp() => Assert.That(!Numeric<N>.IsReal);
 
             [Test, Repeat(RandomVariations)]
             public void Parse2_SmallIntegralHexString_CorrectResult()
             {
                 //arrange
-                OnlyApplicableTo.Integral();
                 var input = Random.Next(0, 128);
                 var hexString = input.ToString("X");
 
@@ -112,7 +103,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var result = StringParser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
 
                 //assert
-                result.Should().Be(Convert<N>.ToValue(input));
+                result.Should().Be(Convert<N>.ToNumeric(input));
             }
         }
     }

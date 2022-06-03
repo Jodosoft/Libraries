@@ -31,9 +31,9 @@ namespace Jodo.Extensions.Numerics
 
         public N Length => Math<N>.Sqrt((X * X) + (Y * Y));
 
-        public Vector2(byte x, N y) : this(Convert<N>.ToValue(x), y) { }
-        public Vector2(N x, byte y) : this(x, Convert<N>.ToValue(y)) { }
-        public Vector2(byte x, byte y) : this(Convert<N>.ToValue(x), Convert<N>.ToValue(y)) { }
+        public Vector2(byte x, N y) : this(Convert<N>.ToNumeric(x), y) { }
+        public Vector2(N x, byte y) : this(x, Convert<N>.ToNumeric(y)) { }
+        public Vector2(byte x, byte y) : this(Convert<N>.ToNumeric(x), Convert<N>.ToNumeric(y)) { }
 
         public Vector2(N x, N y)
         {

@@ -26,7 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
     [SuppressMessage("Style", "IDE0004:Cast is redundant")]
-    public class CheckedArithmeticTests : GlobalTestBase
+    public class CheckedArithmeticTests : GlobalFixtureBase
     {
         [Test] public void ByteAdd_SmokeTest_CorrectResult() => CheckedArithmetic.Add((byte)12, (byte)12).Should().Be(24);
         [Test] public void ByteAdd_OverflowFromMaxValue_ReturnsMaxValue() => CheckedArithmetic.Add(byte.MaxValue, byte.MaxValue).Should().Be(byte.MaxValue);

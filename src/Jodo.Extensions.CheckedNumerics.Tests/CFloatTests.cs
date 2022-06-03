@@ -17,29 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Numerics.Tests;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public static class MathTests
+    public static class CFloatTests
     {
-        public class CByte : Base<cbyte> { }
-        public class CDecimal : Base<cdecimal> { }
-        public class CDouble : Base<cdouble> { }
-        public class CFix64 : Base<cfix64> { }
-        public class CFloat : Base<cfloat> { }
-        public class CInt : Base<cint> { }
-        public class CLong : Base<clong> { }
-        public class CSByte : Base<csbyte> { }
-        public class CShort : Base<cshort> { }
-        public class UCFix64 : Base<ucfix64> { }
-        public class UCInt : Base<ucint> { }
-        public class UCLong : Base<uclong> { }
-        public class UCShort : Base<ucshort> { }
-
-        public abstract class Base<N> : Numerics.Tests.MathTests.Base<N> where N : struct, INumeric<N>
-        {
-
-        }
+        public sealed class BitConverter : BitConverterTests<cfloat> { }
+        public sealed class Cast : CastTests<cfloat> { }
+        public sealed class CheckedNumeric : CheckedNumericTests<cfloat> { }
+        public sealed class ConvertTests : ConvertTests<cfloat> { }
+        public sealed class MathFloatingPoint : MathTests.FloatingPoint<cfloat> { }
+        public sealed class MathGeneral : MathTests.General<cfloat> { }
+        public sealed class MathReal : MathTests.Real<cfloat> { }
+        public sealed class MathSigned : MathTests.Signed<cfloat> { }
+        public sealed class NumericGeneral : NumericTests.General<cfloat> { }
+        public sealed class NumericNoInfinity : NumericTests.NoInfinity<cfloat> { }
+        public sealed class NumericNoNaN : NumericTests.NoNaN<cfloat> { }
+        public sealed class NumericReal : NumericTests.Real<cfloat> { }
+        public sealed class NumericSigned : NumericTests.Signed<cfloat> { }
+        public sealed class StringParserGeneral : StringParserTests.General<cfloat> { }
     }
 }

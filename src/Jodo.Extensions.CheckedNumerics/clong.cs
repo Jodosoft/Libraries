@@ -133,7 +133,7 @@ namespace Jodo.Extensions.CheckedNumerics
         ICast<clong> IProvider<ICast<clong>>.GetInstance() => Utilities.Instance;
         IConvert<clong> IProvider<IConvert<clong>>.GetInstance() => Utilities.Instance;
         IMath<clong> IProvider<IMath<clong>>.GetInstance() => Utilities.Instance;
-        INumericFunctions<clong> IProvider<INumericFunctions<clong>>.GetInstance() => Utilities.Instance;
+        INumericStatic<clong> IProvider<INumericStatic<clong>>.GetInstance() => Utilities.Instance;
         IRandom<clong> IProvider<IRandom<clong>>.GetInstance() => Utilities.Instance;
         IStringParser<clong> IProvider<IStringParser<clong>>.GetInstance() => Utilities.Instance;
 
@@ -142,32 +142,34 @@ namespace Jodo.Extensions.CheckedNumerics
             ICast<clong>,
             IConvert<clong>,
             IMath<clong>,
-            INumericFunctions<clong>,
+            INumericStatic<clong>,
             IRandom<clong>,
             IStringParser<clong>
         {
             public readonly static Utilities Instance = new Utilities();
 
-            bool INumericFunctions<clong>.HasFloatingPoint { get; } = false;
-            bool INumericFunctions<clong>.IsFinite(clong x) => true;
-            bool INumericFunctions<clong>.IsInfinity(clong x) => false;
-            bool INumericFunctions<clong>.IsNaN(clong x) => false;
-            bool INumericFunctions<clong>.IsNegative(clong x) => x._value < 0;
-            bool INumericFunctions<clong>.IsNegativeInfinity(clong x) => false;
-            bool INumericFunctions<clong>.IsNormal(clong x) => false;
-            bool INumericFunctions<clong>.IsPositiveInfinity(clong x) => false;
-            bool INumericFunctions<clong>.IsReal { get; } = false;
-            bool INumericFunctions<clong>.IsSigned { get; } = true;
-            bool INumericFunctions<clong>.IsSubnormal(clong x) => false;
-            clong INumericFunctions<clong>.Epsilon { get; } = 1L;
-            clong INumericFunctions<clong>.MaxUnit { get; } = 1L;
-            clong INumericFunctions<clong>.MaxValue => MaxValue;
-            clong INumericFunctions<clong>.MinUnit { get; } = -1L;
-            clong INumericFunctions<clong>.MinValue => MinValue;
-            clong INumericFunctions<clong>.One { get; } = 1L;
-            clong INumericFunctions<clong>.Ten { get; } = 10L;
-            clong INumericFunctions<clong>.Two { get; } = 2L;
-            clong INumericFunctions<clong>.Zero { get; } = 0L;
+            bool INumericStatic<clong>.HasFloatingPoint { get; } = false;
+            bool INumericStatic<clong>.HasInfinity { get; } = false;
+            bool INumericStatic<clong>.HasNaN { get; } = false;
+            bool INumericStatic<clong>.IsFinite(clong x) => true;
+            bool INumericStatic<clong>.IsInfinity(clong x) => false;
+            bool INumericStatic<clong>.IsNaN(clong x) => false;
+            bool INumericStatic<clong>.IsNegative(clong x) => x._value < 0;
+            bool INumericStatic<clong>.IsNegativeInfinity(clong x) => false;
+            bool INumericStatic<clong>.IsNormal(clong x) => false;
+            bool INumericStatic<clong>.IsPositiveInfinity(clong x) => false;
+            bool INumericStatic<clong>.IsReal { get; } = false;
+            bool INumericStatic<clong>.IsSigned { get; } = true;
+            bool INumericStatic<clong>.IsSubnormal(clong x) => false;
+            clong INumericStatic<clong>.Epsilon { get; } = 1L;
+            clong INumericStatic<clong>.MaxUnit { get; } = 1L;
+            clong INumericStatic<clong>.MaxValue => MaxValue;
+            clong INumericStatic<clong>.MinUnit { get; } = -1L;
+            clong INumericStatic<clong>.MinValue => MinValue;
+            clong INumericStatic<clong>.One { get; } = 1L;
+            clong INumericStatic<clong>.Ten { get; } = 10L;
+            clong INumericStatic<clong>.Two { get; } = 2L;
+            clong INumericStatic<clong>.Zero { get; } = 0L;
 
             clong IMath<clong>.Abs(clong x) => Math.Abs(x);
             clong IMath<clong>.Acos(clong x) => (clong)Math.Acos(x);
@@ -229,20 +231,20 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong IConvert<clong>.ToUInt64(clong value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<clong>.ToUInt16(clong value) => CheckedConvert.ToUInt16(value._value);
 
-            clong IConvert<clong>.ToValue(bool value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(byte value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(decimal value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(double value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(float value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(int value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(long value) => value;
-            clong IConvert<clong>.ToValue(sbyte value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(short value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(string value) => Convert.ToInt64(value);
-            clong IConvert<clong>.ToValue(string value, IFormatProvider provider) => Convert.ToInt64(value, provider);
-            clong IConvert<clong>.ToValue(uint value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(ulong value) => CheckedConvert.ToInt64(value);
-            clong IConvert<clong>.ToValue(ushort value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(bool value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(byte value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(decimal value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(double value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(float value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(int value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(long value) => value;
+            clong IConvert<clong>.ToNumeric(sbyte value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(short value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(string value) => Convert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(string value, IFormatProvider provider) => Convert.ToInt64(value, provider);
+            clong IConvert<clong>.ToNumeric(uint value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(ulong value) => CheckedConvert.ToInt64(value);
+            clong IConvert<clong>.ToNumeric(ushort value) => CheckedConvert.ToInt64(value);
 
             bool IStringParser<clong>.TryParse(string s, IFormatProvider provider, out clong result) => TryParse(s, provider, out result);
             bool IStringParser<clong>.TryParse(string s, NumberStyles style, IFormatProvider provider, out clong result) => TryParse(s, style, provider, out result);
@@ -265,17 +267,17 @@ namespace Jodo.Extensions.CheckedNumerics
             ulong ICast<clong>.ToUInt64(clong value) => (ulong)value;
             ushort ICast<clong>.ToUInt16(clong value) => (ushort)value;
 
-            clong ICast<clong>.ToValue(byte value) => (clong)value;
-            clong ICast<clong>.ToValue(decimal value) => (clong)value;
-            clong ICast<clong>.ToValue(double value) => (clong)value;
-            clong ICast<clong>.ToValue(float value) => (clong)value;
-            clong ICast<clong>.ToValue(int value) => (clong)value;
-            clong ICast<clong>.ToValue(long value) => (clong)value;
-            clong ICast<clong>.ToValue(sbyte value) => (clong)value;
-            clong ICast<clong>.ToValue(short value) => (clong)value;
-            clong ICast<clong>.ToValue(uint value) => (clong)value;
-            clong ICast<clong>.ToValue(ulong value) => (clong)value;
-            clong ICast<clong>.ToValue(ushort value) => (clong)value;
+            clong ICast<clong>.ToNumeric(byte value) => (clong)value;
+            clong ICast<clong>.ToNumeric(decimal value) => (clong)value;
+            clong ICast<clong>.ToNumeric(double value) => (clong)value;
+            clong ICast<clong>.ToNumeric(float value) => (clong)value;
+            clong ICast<clong>.ToNumeric(int value) => (clong)value;
+            clong ICast<clong>.ToNumeric(long value) => (clong)value;
+            clong ICast<clong>.ToNumeric(sbyte value) => (clong)value;
+            clong ICast<clong>.ToNumeric(short value) => (clong)value;
+            clong ICast<clong>.ToNumeric(uint value) => (clong)value;
+            clong ICast<clong>.ToNumeric(ulong value) => (clong)value;
+            clong ICast<clong>.ToNumeric(ushort value) => (clong)value;
         }
     }
 }

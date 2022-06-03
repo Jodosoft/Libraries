@@ -24,7 +24,7 @@ using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
-    public sealed class ScaledArithmeticTests : GlobalTestBase
+    public sealed class ScaledArithmeticTests : GlobalFixtureBase
     {
         [TestCase((long)4, MidpointRounding.ToEven, (long)0)]
         [TestCase((long)4, MidpointRounding.AwayFromZero, (long)0)]

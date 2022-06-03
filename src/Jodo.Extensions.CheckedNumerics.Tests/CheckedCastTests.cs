@@ -24,7 +24,7 @@ using System;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public class CheckedCastTests : GlobalTestBase
+    public class CheckedCastTests : GlobalFixtureBase
     {
         [Test] public void SingleToUInt32_SmokeTest_CorrectResult() => CheckedCast.ToUInt32((float)999999).Should().Be(999999);
         [Test] public void SingleToUInt32_PositiveMaximumPrecision_CorrectResult() => CheckedCast.ToUInt32(4294967167f).Should().Be(4294967040);
