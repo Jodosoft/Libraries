@@ -478,10 +478,12 @@ namespace Jodo.Extensions.Numerics.Tests
                 var formatter = new BinaryFormatter();
 
                 //act
+#pragma warning disable SYSLIB0011
                 using var stream = new MemoryStream();
                 formatter.Serialize(stream, input);
                 stream.Position = 0;
                 var result = (N)formatter.Deserialize(stream);
+#pragma warning restore SYSLIB0011
 
                 //assert
                 result.Should().Be(input);

@@ -14,7 +14,7 @@
       </ItemGroup>
       <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
         <Nullable>disable</Nullable>
       </PropertyGroup>
       <ItemGroup>
@@ -23,7 +23,7 @@
     </When>
     <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing'))">
       <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
         <Nullable>disable</Nullable>
       </PropertyGroup>
       <ItemGroup>

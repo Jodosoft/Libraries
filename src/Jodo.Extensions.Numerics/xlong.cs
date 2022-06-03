@@ -212,8 +212,8 @@ namespace Jodo.Extensions.Numerics
             xlong IBitConverter<xlong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));
             void IBitConverter<xlong>.Write(xlong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
-            xlong IRandom<xlong>.Next(Random random) => random.NextInt64();
-            xlong IRandom<xlong>.Next(Random random, xlong bound1, xlong bound2) => random.NextInt64(bound1._value, bound2._value);
+            xlong IRandom<xlong>.Next(Random random) => random.NextInt64WithoutBounds();
+            xlong IRandom<xlong>.Next(Random random, xlong bound1, xlong bound2) => random.NextInt64WithBounds(bound1._value, bound2._value);
 
             bool IConvert<xlong>.ToBoolean(xlong value) => Convert.ToBoolean(value._value);
             byte IConvert<xlong>.ToByte(xlong value) => Convert.ToByte(value._value);

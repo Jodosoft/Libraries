@@ -249,8 +249,8 @@ namespace Jodo.Extensions.Numerics
             fix64 IBitConverter<fix64>.Read(IReadOnlyStream<byte> stream) => new fix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
             void IBitConverter<fix64>.Write(fix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
-            fix64 IRandom<fix64>.Next(Random random) => new fix64(random.NextInt64());
-            fix64 IRandom<fix64>.Next(Random random, fix64 bound1, fix64 bound2) => new fix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
+            fix64 IRandom<fix64>.Next(Random random) => new fix64(random.NextInt64WithoutBounds());
+            fix64 IRandom<fix64>.Next(Random random, fix64 bound1, fix64 bound2) => new fix64(random.NextInt64WithBounds(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<fix64>.ToBoolean(fix64 value) => value._scaledValue != 0;
             byte IConvert<fix64>.ToByte(fix64 value) => Convert.ToByte(value._scaledValue / ScalingFactor);

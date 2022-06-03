@@ -560,7 +560,7 @@ namespace Jodo.Extensions.Primitives.Tests
             //arrange
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
-                .Select(_ => Random.NextInt64()).Distinct().ToArray();
+                .Select(_ => Random.NextInt64WithoutBounds()).Distinct().ToArray();
 
             //assert
             results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount);
@@ -575,7 +575,7 @@ namespace Jodo.Extensions.Primitives.Tests
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
-                .Select(_ => Random.NextInt64(min, max)).Distinct().ToArray();
+                .Select(_ => Random.NextInt64WithBounds(min, max)).Distinct().ToArray();
 
             //assert
             results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
@@ -591,7 +591,7 @@ namespace Jodo.Extensions.Primitives.Tests
 
             //act
             var results = Enumerable.Range(0, NumberToGenerate)
-                .Select(_ => Random.NextInt64(max, min)).Distinct().ToArray();
+                .Select(_ => Random.NextInt64WithBounds(max, min)).Distinct().ToArray();
 
             //assert
             results.Count().Should().BeGreaterThanOrEqualTo(ExpectedUniqueCount / 2);
@@ -607,7 +607,7 @@ namespace Jodo.Extensions.Primitives.Tests
 
             //act
             var results = Enumerable.Range(0, BoundedNumberToGenerate)
-                .Select(_ => Random.NextInt64(min, max)).Distinct().ToArray();
+                .Select(_ => Random.NextInt64WithBounds(min, max)).Distinct().ToArray();
 
             //assert
             results.Should().HaveCount(BoundedRange);
@@ -623,7 +623,7 @@ namespace Jodo.Extensions.Primitives.Tests
 
             //act
             var results = Enumerable.Range(0, BoundedNumberToGenerate)
-                .Select(_ => Random.NextInt64(min, max)).Distinct().ToArray();
+                .Select(_ => Random.NextInt64WithBounds(min, max)).Distinct().ToArray();
 
             //assert
             results.Should().HaveCount(BoundedRange);
@@ -634,11 +634,11 @@ namespace Jodo.Extensions.Primitives.Tests
         public void NextInt64_EqualBounds_ReturnsBoundsValue()
         {
             //arrange
-            var bounds = Random.NextInt64();
+            var bounds = Random.NextInt64WithoutBounds();
 
             //act
             var results = Enumerable.Range(0, BoundedNumberToGenerate)
-                .Select(_ => Random.NextInt64(bounds, bounds));
+                .Select(_ => Random.NextInt64WithBounds(bounds, bounds));
 
             //assert
             results.Should().OnlyContain(x => x == bounds);
