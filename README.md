@@ -113,13 +113,19 @@ Console.WriteLine(fixed2); // outputs: 0.006283
   <tr>
     <td>Overloaded operators</td>
     <td>
-      `==`, `!=`, `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/` and `%` are overloaded by all the provided numeric types, allowing for use in expressions.
-
-`&`, `\|`, `^`, `~`, `<<` and `>>` are overloaded by all the provided integral types.
-
-Implicit conversions from built-in numeric types are provided, allowing use in expressions with numeric literals.
-     
-<a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for `>`, `>=`, `<`, `<=`, `+`, `++`, `-`, `*`, `/`, `%`, `&`, `\|`, `^`, `~`, `<<` and `>>` operators, allowing for limited expressions in a generic context (note: equality and conversion operators are not supported on interfaces).
+      <p>All the provided numeric types have a full suite of overloaded operators, including:
+      <ul>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Equality operators</a> <code>==</code> and  <code>!=</code></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Comparison operators</a> <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code> and <code>&gt;=</code></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators">Arithmetic operators</a> <code>++</code>, <code>--</code>, <code>+</code> (plus), <code>-</code> (minus), <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code> and <code>-</code></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/bitwise-and-shift-operators">Bitwise and shift operators</a> <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators">Conversion operators</a> for all the built-in numeric types</li>
+      </ul>
+  </p>
+   <p>
+<a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>++</code>, <code>--</code>, <code>+</code> (plus), <code>-</code> (minus), <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code>, allowing for limited expressions in a generic context (note that equality and conversion operators are not supported on interfaces).
+  </p>
+  <p> <em>Note: The bitwise and shift operators are overloaded for non-integral types. These operators perform the correct bitwise operations, but are unlikely to produce useful results.</em></p>
       </td>
     </tr>
    <tr>
@@ -132,13 +138,19 @@ var var2 = (fix64)99.54322f;
 Console.WriteLine($"{var1:N}"); // outputs: 1,024.00
 Console.WriteLine($"{var1:X}"); // outputs: 400
 Console.WriteLine($"{var2:E}"); // outputs: 9.954322E+001
-Console.WriteLine($"{var2:000.000}"); // outputs: 099.543
-</code></pre>
+Console.WriteLine($"{var2:000.000}"); // outputs: 099.543</code></pre>
 </td>
 </tr>
 <tr>
 <td>Random generation</td>
-  <td>Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">Random</a>, e.g. <code>NextNumeric&lt;N&gt;()</code>, provide randomly generated values. Values can be generated between two bounds or without bounds. </td>
+  <td>Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">Random</a> provide randomly generated values. Values can be generated between two bounds or without bounds, as in the following code sample:</p>
+  <pre lang="csharp"><code>var var1 = Random.NextNumeric&lt;xdouble&gt;();
+var var2 = Random.NextNumeric&lt;xdouble&gt;(100, 120);
+
+Console.WriteLine(var1); // outputs: -7.405808417991177E+115 (example)
+Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
+  
+  </td>
 </tr>
 <tr>
 <td>Commonly-used abstractions</td> <td>All the provided numeric types implement <a href="">IComparable</a>, <a href="">IComparable&lt;T&gt;</a>. <a href="">IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">ISerializable</a>, override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
