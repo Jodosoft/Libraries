@@ -54,11 +54,11 @@ Console.WriteLine($"{j:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
   </tr>
   <tr>
     <td id="convertn">Convert&lt;N&gt;</td>
-    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, allowing for conversion to and from built-in numeric types.</td>
+    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, supporting conversion to and from built-in numeric types.</td>
   </tr>
   <tr>
     <td id="bitconvertern">BitConverter&lt;N&gt;</td>
-    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, allowing conversion to and from ReadOnlySpan&lt;byte&gt;.</td>
+    <td>Provides equivalent static methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, supporting conversion to and from byte arrays.</td>
   </tr>
   <tr>
     <td id="stringformattern">StringParser&lt;N&gt;</td>
@@ -66,7 +66,7 @@ Console.WriteLine($"{j:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
   </tr>
   <tr>
     <td id="fix64"><code>fix64</code>, <code>ufix64</code></td>
-    <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Stores a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (unsigned 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup>). Implemented using 8-byte integers.</td>
+    <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Supporting a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned). Represented internally by 64-bit integers.</td>
   </tr>
   <tr>
     <td id="wrappers">
@@ -77,7 +77,7 @@ Console.WriteLine($"{j:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
       <code>xfloat</code>, <code>xdouble</code>,<br />
       <code>xdecimal</code>
     </td>
-    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> with identical usage. Implicit conversions allow for easy transition to and from the built-in numeric types.</td>
+    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a>. Implicit conversions are provided to allow for easy migration.</td>
   </tr>
 </table>
 
