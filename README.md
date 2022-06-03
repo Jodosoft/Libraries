@@ -24,8 +24,7 @@ Provides <a href="#inumericn">INumeric&lt;N&gt;</a> and utilities for creating c
 
 <a href="#inumericn">Fixed-point numeric types</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
 
-Usage is identical to the built-in numeric types, with full operator support, type conversions, commonly used interfaces and familiar static classes.
-This is demonstrated by the following code example:
+Usage is easy and familiar--with all the expected operators, interfaces and static methods--as demonstrated by the following code sample:
 
 ```csharp
 var i = xint.Parse("2048");
@@ -47,7 +46,7 @@ Console.WriteLine($"{j:N1} -> {sqrt:N1}"); // outputs: "1,230,000.0 -> 1,109.1"
   </tr>
   <tr>
     <td id="inumericn">INumeric&lt;N&gt;</td>
-    <td>Provides a definition for custom numeric types and allows numeric types to be used interchangeably with generics.</td>
+    <td>Provides a definition for custom numeric types and allows them to be used interchangeably with generics.</td>
   </tr>
   <tr>
     <td id="mathn">Math&lt;N&gt;</td>
