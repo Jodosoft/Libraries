@@ -55,14 +55,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out xlong result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out xlong result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out xlong result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out xlong result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out xlong result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out xlong result) => Try.Run(() => Parse(s), out result);
         public static xlong Parse(string s) => long.Parse(s);
-        public static xlong Parse(string s, IFormatProvider provider) => long.Parse(s, provider);
+        public static xlong Parse(string s, IFormatProvider? provider) => long.Parse(s, provider);
         public static xlong Parse(string s, NumberStyles style) => long.Parse(s, style);
-        public static xlong Parse(string s, NumberStyles style, IFormatProvider provider) => long.Parse(s, style, provider);
+        public static xlong Parse(string s, NumberStyles style, IFormatProvider? provider) => long.Parse(s, style, provider);
 
         public static explicit operator xlong(decimal value) => new xlong((long)value);
         public static explicit operator xlong(double value) => new xlong((long)value);
@@ -225,7 +225,6 @@ namespace Jodo.Extensions.Numerics
             sbyte IConvert<xlong>.ToSByte(xlong value) => Convert.ToSByte(value._value);
             short IConvert<xlong>.ToInt16(xlong value) => Convert.ToInt16(value._value);
             string IConvert<xlong>.ToString(xlong value) => Convert.ToString(value._value);
-            string IConvert<xlong>.ToString(xlong value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<xlong>.ToUInt32(xlong value) => Convert.ToUInt32(value._value);
             ulong IConvert<xlong>.ToUInt64(xlong value) => Convert.ToUInt64(value._value);
             ushort IConvert<xlong>.ToUInt16(xlong value) => Convert.ToUInt16(value._value);
@@ -240,19 +239,12 @@ namespace Jodo.Extensions.Numerics
             xlong IConvert<xlong>.ToNumeric(sbyte value) => Convert.ToInt64(value);
             xlong IConvert<xlong>.ToNumeric(short value) => Convert.ToInt64(value);
             xlong IConvert<xlong>.ToNumeric(string value) => Convert.ToInt64(value);
-            xlong IConvert<xlong>.ToNumeric(string value, IFormatProvider provider) => Convert.ToInt64(value, provider);
             xlong IConvert<xlong>.ToNumeric(uint value) => Convert.ToInt64(value);
             xlong IConvert<xlong>.ToNumeric(ulong value) => Convert.ToInt64(value);
             xlong IConvert<xlong>.ToNumeric(ushort value) => Convert.ToInt64(value);
 
-            bool IStringParser<xlong>.TryParse(string s, IFormatProvider provider, out xlong result) => TryParse(s, provider, out result);
-            bool IStringParser<xlong>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xlong result) => TryParse(s, style, provider, out result);
-            bool IStringParser<xlong>.TryParse(string s, NumberStyles style, out xlong result) => TryParse(s, style, out result);
-            bool IStringParser<xlong>.TryParse(string s, out xlong result) => TryParse(s, out result);
             xlong IStringParser<xlong>.Parse(string s) => Parse(s);
-            xlong IStringParser<xlong>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            xlong IStringParser<xlong>.Parse(string s, NumberStyles style) => Parse(s, style);
-            xlong IStringParser<xlong>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            xlong IStringParser<xlong>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<xlong>.ToByte(xlong value) => (byte)value;
             decimal ICast<xlong>.ToDecimal(xlong value) => (decimal)value;

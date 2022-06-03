@@ -55,14 +55,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out xushort result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out xushort result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out xushort result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out xushort result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out xushort result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out xushort result) => Try.Run(() => Parse(s), out result);
         public static xushort Parse(string s) => ushort.Parse(s);
-        public static xushort Parse(string s, IFormatProvider provider) => ushort.Parse(s, provider);
+        public static xushort Parse(string s, IFormatProvider? provider) => ushort.Parse(s, provider);
         public static xushort Parse(string s, NumberStyles style) => ushort.Parse(s, style);
-        public static xushort Parse(string s, NumberStyles style, IFormatProvider provider) => ushort.Parse(s, style, provider);
+        public static xushort Parse(string s, NumberStyles style, IFormatProvider? provider) => ushort.Parse(s, style, provider);
 
         public static explicit operator xushort(decimal value) => new xushort((ushort)value);
         public static explicit operator xushort(double value) => new xushort((ushort)value);
@@ -225,7 +225,6 @@ namespace Jodo.Extensions.Numerics
             sbyte IConvert<xushort>.ToSByte(xushort value) => Convert.ToSByte(value._value);
             short IConvert<xushort>.ToInt16(xushort value) => Convert.ToInt16(value._value);
             string IConvert<xushort>.ToString(xushort value) => Convert.ToString(value._value);
-            string IConvert<xushort>.ToString(xushort value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<xushort>.ToUInt32(xushort value) => Convert.ToUInt32(value._value);
             ulong IConvert<xushort>.ToUInt64(xushort value) => Convert.ToUInt64(value._value);
             ushort IConvert<xushort>.ToUInt16(xushort value) => Convert.ToUInt16(value._value);
@@ -240,19 +239,12 @@ namespace Jodo.Extensions.Numerics
             xushort IConvert<xushort>.ToNumeric(sbyte value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToNumeric(short value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToNumeric(string value) => Convert.ToUInt16(value);
-            xushort IConvert<xushort>.ToNumeric(string value, IFormatProvider provider) => Convert.ToUInt16(value, provider);
             xushort IConvert<xushort>.ToNumeric(uint value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToNumeric(ulong value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToNumeric(ushort value) => Convert.ToUInt16(value);
 
-            bool IStringParser<xushort>.TryParse(string s, IFormatProvider provider, out xushort result) => TryParse(s, provider, out result);
-            bool IStringParser<xushort>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xushort result) => TryParse(s, style, provider, out result);
-            bool IStringParser<xushort>.TryParse(string s, NumberStyles style, out xushort result) => TryParse(s, style, out result);
-            bool IStringParser<xushort>.TryParse(string s, out xushort result) => TryParse(s, out result);
             xushort IStringParser<xushort>.Parse(string s) => Parse(s);
-            xushort IStringParser<xushort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            xushort IStringParser<xushort>.Parse(string s, NumberStyles style) => Parse(s, style);
-            xushort IStringParser<xushort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            xushort IStringParser<xushort>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<xushort>.ToByte(xushort value) => (byte)value;
             decimal ICast<xushort>.ToDecimal(xushort value) => (decimal)value;

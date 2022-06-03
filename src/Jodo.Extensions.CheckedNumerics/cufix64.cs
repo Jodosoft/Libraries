@@ -59,14 +59,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out cufix64 result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cufix64 result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out cufix64 result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cufix64 result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cufix64 result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cufix64 result) => Try.Run(() => Parse(s), out result);
         public static cufix64 Parse(string s) => new cufix64(ScaledArithmetic.Parse(s, ScalingFactor));
-        public static cufix64 Parse(string s, IFormatProvider provider) => (cufix64)double.Parse(s, provider);
+        public static cufix64 Parse(string s, IFormatProvider? provider) => (cufix64)double.Parse(s, provider);
         public static cufix64 Parse(string s, NumberStyles style) => (cufix64)double.Parse(s, style);
-        public static cufix64 Parse(string s, NumberStyles style, IFormatProvider provider) => (cufix64)double.Parse(s, style, provider);
+        public static cufix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => (cufix64)double.Parse(s, style, provider);
 
         private static cufix64 Round(cufix64 value, int digits, MidpointRounding mode)
         {
@@ -219,7 +219,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cufix64 IMath<cufix64>.Atanh(cufix64 x) => (cufix64)Math.Atanh((double)x);
             cufix64 IMath<cufix64>.Cbrt(cufix64 x) => (cufix64)Math.Cbrt((double)x);
             cufix64 IMath<cufix64>.Ceiling(cufix64 x) => new cufix64(ScaledArithmetic.Ceiling(x._scaledValue, ScalingFactor));
-            cufix64 IMath<cufix64>.Clamp(cufix64 x, cufix64 bound1, cufix64 bound2) => bound1 > bound2 ? (cufix64)Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : (cufix64)Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
+            cufix64 IMath<cufix64>.Clamp(cufix64 x, cufix64 bound1, cufix64 bound2) => new cufix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             cufix64 IMath<cufix64>.Cos(cufix64 x) => (cufix64)Math.Cos((double)x);
             cufix64 IMath<cufix64>.Cosh(cufix64 x) => (cufix64)Math.Cosh((double)x);
             cufix64 IMath<cufix64>.DegreesToRadians(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.RadiansPerDegree);
@@ -263,7 +263,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<cufix64>.ToSByte(cufix64 value) => CheckedConvert.ToSByte(value._scaledValue / ScalingFactor);
             short IConvert<cufix64>.ToInt16(cufix64 value) => CheckedConvert.ToInt16(value._scaledValue / ScalingFactor);
             string IConvert<cufix64>.ToString(cufix64 value) => value.ToString();
-            string IConvert<cufix64>.ToString(cufix64 value, IFormatProvider provider) => value.ToString(provider);
             uint IConvert<cufix64>.ToUInt32(cufix64 value) => CheckedConvert.ToUInt32(value._scaledValue / ScalingFactor);
             ulong IConvert<cufix64>.ToUInt64(cufix64 value) => value._scaledValue / ScalingFactor;
             ushort IConvert<cufix64>.ToUInt16(cufix64 value) => CheckedConvert.ToUInt16(value._scaledValue / ScalingFactor);
@@ -278,19 +277,12 @@ namespace Jodo.Extensions.CheckedNumerics
             cufix64 IConvert<cufix64>.ToNumeric(sbyte value) => (cufix64)CheckedConvert.ToUInt64(value);
             cufix64 IConvert<cufix64>.ToNumeric(short value) => (cufix64)CheckedConvert.ToUInt64(value);
             cufix64 IConvert<cufix64>.ToNumeric(string value) => (cufix64)Convert.ToUInt64(value);
-            cufix64 IConvert<cufix64>.ToNumeric(string value, IFormatProvider provider) => (cufix64)Convert.ToUInt64(value, provider);
             cufix64 IConvert<cufix64>.ToNumeric(uint value) => (cufix64)CheckedConvert.ToUInt64(value);
             cufix64 IConvert<cufix64>.ToNumeric(ulong value) => (cufix64)value;
             cufix64 IConvert<cufix64>.ToNumeric(ushort value) => (cufix64)CheckedConvert.ToUInt64(value);
 
-            bool IStringParser<cufix64>.TryParse(string s, IFormatProvider provider, out cufix64 result) => TryParse(s, provider, out result);
-            bool IStringParser<cufix64>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cufix64 result) => TryParse(s, style, provider, out result);
-            bool IStringParser<cufix64>.TryParse(string s, NumberStyles style, out cufix64 result) => TryParse(s, style, out result);
-            bool IStringParser<cufix64>.TryParse(string s, out cufix64 result) => TryParse(s, out result);
             cufix64 IStringParser<cufix64>.Parse(string s) => Parse(s);
-            cufix64 IStringParser<cufix64>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            cufix64 IStringParser<cufix64>.Parse(string s, NumberStyles style) => Parse(s, style);
-            cufix64 IStringParser<cufix64>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            cufix64 IStringParser<cufix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cufix64>.ToByte(cufix64 value) => (byte)value;
             decimal ICast<cufix64>.ToDecimal(cufix64 value) => (decimal)value;

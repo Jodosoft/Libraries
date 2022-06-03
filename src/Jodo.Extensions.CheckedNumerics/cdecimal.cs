@@ -56,14 +56,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out cdecimal result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cdecimal result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out cdecimal result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cdecimal result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cdecimal result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cdecimal result) => Try.Run(() => Parse(s), out result);
         public static cdecimal Parse(string s) => decimal.Parse(s);
-        public static cdecimal Parse(string s, IFormatProvider provider) => decimal.Parse(s, provider);
+        public static cdecimal Parse(string s, IFormatProvider? provider) => decimal.Parse(s, provider);
         public static cdecimal Parse(string s, NumberStyles style) => decimal.Parse(s, style);
-        public static cdecimal Parse(string s, NumberStyles style, IFormatProvider provider) => decimal.Parse(s, style, provider);
+        public static cdecimal Parse(string s, NumberStyles style, IFormatProvider? provider) => decimal.Parse(s, style, provider);
 
         public static explicit operator cdecimal(double value) => new cdecimal(CheckedConvert.ToDecimal(value));
         public static explicit operator cdecimal(float value) => new cdecimal(CheckedConvert.ToDecimal(value));
@@ -245,7 +245,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<cdecimal>.ToSByte(cdecimal value) => CheckedConvert.ToSByte(value._value);
             short IConvert<cdecimal>.ToInt16(cdecimal value) => CheckedConvert.ToInt16(value._value);
             string IConvert<cdecimal>.ToString(cdecimal value) => Convert.ToString(value._value);
-            string IConvert<cdecimal>.ToString(cdecimal value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<cdecimal>.ToUInt32(cdecimal value) => CheckedConvert.ToUInt32(value._value);
             ulong IConvert<cdecimal>.ToUInt64(cdecimal value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cdecimal>.ToUInt16(cdecimal value) => CheckedConvert.ToUInt16(value._value);
@@ -260,19 +259,12 @@ namespace Jodo.Extensions.CheckedNumerics
             cdecimal IConvert<cdecimal>.ToNumeric(sbyte value) => CheckedConvert.ToDecimal(value);
             cdecimal IConvert<cdecimal>.ToNumeric(short value) => CheckedConvert.ToDecimal(value);
             cdecimal IConvert<cdecimal>.ToNumeric(string value) => Convert.ToDecimal(value);
-            cdecimal IConvert<cdecimal>.ToNumeric(string value, IFormatProvider provider) => Convert.ToDecimal(value, provider);
             cdecimal IConvert<cdecimal>.ToNumeric(uint value) => CheckedConvert.ToDecimal(value);
             cdecimal IConvert<cdecimal>.ToNumeric(ulong value) => CheckedConvert.ToDecimal(value);
             cdecimal IConvert<cdecimal>.ToNumeric(ushort value) => CheckedConvert.ToDecimal(value);
 
-            bool IStringParser<cdecimal>.TryParse(string s, IFormatProvider provider, out cdecimal result) => TryParse(s, provider, out result);
-            bool IStringParser<cdecimal>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cdecimal result) => TryParse(s, style, provider, out result);
-            bool IStringParser<cdecimal>.TryParse(string s, NumberStyles style, out cdecimal result) => TryParse(s, style, out result);
-            bool IStringParser<cdecimal>.TryParse(string s, out cdecimal result) => TryParse(s, out result);
             cdecimal IStringParser<cdecimal>.Parse(string s) => Parse(s);
-            cdecimal IStringParser<cdecimal>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            cdecimal IStringParser<cdecimal>.Parse(string s, NumberStyles style) => Parse(s, style);
-            cdecimal IStringParser<cdecimal>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            cdecimal IStringParser<cdecimal>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cdecimal>.ToByte(cdecimal value) => (byte)value;
             decimal ICast<cdecimal>.ToDecimal(cdecimal value) => (decimal)value;

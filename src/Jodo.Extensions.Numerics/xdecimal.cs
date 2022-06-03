@@ -55,14 +55,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out xdecimal result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out xdecimal result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out xdecimal result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out xdecimal result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out xdecimal result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out xdecimal result) => Try.Run(() => Parse(s), out result);
         public static xdecimal Parse(string s) => decimal.Parse(s);
-        public static xdecimal Parse(string s, IFormatProvider provider) => decimal.Parse(s, provider);
+        public static xdecimal Parse(string s, IFormatProvider? provider) => decimal.Parse(s, provider);
         public static xdecimal Parse(string s, NumberStyles style) => decimal.Parse(s, style);
-        public static xdecimal Parse(string s, NumberStyles style, IFormatProvider provider) => decimal.Parse(s, style, provider);
+        public static xdecimal Parse(string s, NumberStyles style, IFormatProvider? provider) => decimal.Parse(s, style, provider);
 
         public static explicit operator xdecimal(double value) => new xdecimal((decimal)value);
         public static explicit operator xdecimal(float value) => new xdecimal((decimal)value);
@@ -244,7 +244,6 @@ namespace Jodo.Extensions.Numerics
             sbyte IConvert<xdecimal>.ToSByte(xdecimal value) => Convert.ToSByte(value._value);
             short IConvert<xdecimal>.ToInt16(xdecimal value) => Convert.ToInt16(value._value);
             string IConvert<xdecimal>.ToString(xdecimal value) => Convert.ToString(value._value);
-            string IConvert<xdecimal>.ToString(xdecimal value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<xdecimal>.ToUInt32(xdecimal value) => Convert.ToUInt32(value._value);
             ulong IConvert<xdecimal>.ToUInt64(xdecimal value) => Convert.ToUInt64(value._value);
             ushort IConvert<xdecimal>.ToUInt16(xdecimal value) => Convert.ToUInt16(value._value);
@@ -259,19 +258,12 @@ namespace Jodo.Extensions.Numerics
             xdecimal IConvert<xdecimal>.ToNumeric(sbyte value) => Convert.ToDecimal(value);
             xdecimal IConvert<xdecimal>.ToNumeric(short value) => Convert.ToDecimal(value);
             xdecimal IConvert<xdecimal>.ToNumeric(string value) => Convert.ToDecimal(value);
-            xdecimal IConvert<xdecimal>.ToNumeric(string value, IFormatProvider provider) => Convert.ToDecimal(value, provider);
             xdecimal IConvert<xdecimal>.ToNumeric(uint value) => Convert.ToDecimal(value);
             xdecimal IConvert<xdecimal>.ToNumeric(ulong value) => Convert.ToDecimal(value);
             xdecimal IConvert<xdecimal>.ToNumeric(ushort value) => Convert.ToDecimal(value);
 
-            bool IStringParser<xdecimal>.TryParse(string s, IFormatProvider provider, out xdecimal result) => TryParse(s, provider, out result);
-            bool IStringParser<xdecimal>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xdecimal result) => TryParse(s, style, provider, out result);
-            bool IStringParser<xdecimal>.TryParse(string s, NumberStyles style, out xdecimal result) => TryParse(s, style, out result);
-            bool IStringParser<xdecimal>.TryParse(string s, out xdecimal result) => TryParse(s, out result);
             xdecimal IStringParser<xdecimal>.Parse(string s) => Parse(s);
-            xdecimal IStringParser<xdecimal>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            xdecimal IStringParser<xdecimal>.Parse(string s, NumberStyles style) => Parse(s, style);
-            xdecimal IStringParser<xdecimal>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            xdecimal IStringParser<xdecimal>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<xdecimal>.ToByte(xdecimal value) => (byte)value;
             decimal ICast<xdecimal>.ToDecimal(xdecimal value) => (decimal)value;

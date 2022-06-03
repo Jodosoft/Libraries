@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using Jodo.Extensions.Primitives;
-using System;
 using System.Diagnostics;
 
 namespace Jodo.Extensions.Numerics
@@ -58,9 +57,6 @@ namespace Jodo.Extensions.Numerics
         public static string ToString(N value) => Default.ToString(value);
 
         [DebuggerStepThrough]
-        public static string ToString(N value, IFormatProvider provider) => Default.ToString(value, provider);
-
-        [DebuggerStepThrough]
         public static uint ToUInt32(N value) => Default.ToUInt32(value);
 
         [DebuggerStepThrough]
@@ -98,9 +94,6 @@ namespace Jodo.Extensions.Numerics
 
         [DebuggerStepThrough]
         public static N ToNumeric(string value) => Default.ToNumeric(value);
-
-        [DebuggerStepThrough]
-        public static N ToNumeric(string value, IFormatProvider provider) => Default.ToNumeric(value, provider);
 
         [DebuggerStepThrough]
         public static N ToNumeric(uint value) => Default.ToNumeric(value);

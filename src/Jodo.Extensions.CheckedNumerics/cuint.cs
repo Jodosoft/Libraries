@@ -56,14 +56,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out cuint result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cuint result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out cuint result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cuint result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cuint result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cuint result) => Try.Run(() => Parse(s), out result);
         public static cuint Parse(string s) => uint.Parse(s);
-        public static cuint Parse(string s, IFormatProvider provider) => uint.Parse(s, provider);
+        public static cuint Parse(string s, IFormatProvider? provider) => uint.Parse(s, provider);
         public static cuint Parse(string s, NumberStyles style) => uint.Parse(s, style);
-        public static cuint Parse(string s, NumberStyles style, IFormatProvider provider) => uint.Parse(s, style, provider);
+        public static cuint Parse(string s, NumberStyles style, IFormatProvider? provider) => uint.Parse(s, style, provider);
 
         public static explicit operator cuint(decimal value) => new cuint(CheckedTruncate.ToUInt32(value));
         public static explicit operator cuint(double value) => new cuint(CheckedTruncate.ToUInt32(value));
@@ -226,7 +226,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<cuint>.ToSByte(cuint value) => CheckedConvert.ToSByte(value._value);
             short IConvert<cuint>.ToInt16(cuint value) => CheckedConvert.ToInt16(value._value);
             string IConvert<cuint>.ToString(cuint value) => Convert.ToString(value._value);
-            string IConvert<cuint>.ToString(cuint value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<cuint>.ToUInt32(cuint value) => value._value;
             ulong IConvert<cuint>.ToUInt64(cuint value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cuint>.ToUInt16(cuint value) => CheckedConvert.ToUInt16(value._value);
@@ -241,19 +240,12 @@ namespace Jodo.Extensions.CheckedNumerics
             cuint IConvert<cuint>.ToNumeric(sbyte value) => CheckedConvert.ToUInt32(value);
             cuint IConvert<cuint>.ToNumeric(short value) => CheckedConvert.ToUInt32(value);
             cuint IConvert<cuint>.ToNumeric(string value) => Convert.ToUInt32(value);
-            cuint IConvert<cuint>.ToNumeric(string value, IFormatProvider provider) => Convert.ToUInt32(value, provider);
             cuint IConvert<cuint>.ToNumeric(uint value) => value;
             cuint IConvert<cuint>.ToNumeric(ulong value) => CheckedConvert.ToUInt32(value);
             cuint IConvert<cuint>.ToNumeric(ushort value) => CheckedConvert.ToUInt32(value);
 
-            bool IStringParser<cuint>.TryParse(string s, IFormatProvider provider, out cuint result) => TryParse(s, provider, out result);
-            bool IStringParser<cuint>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cuint result) => TryParse(s, style, provider, out result);
-            bool IStringParser<cuint>.TryParse(string s, NumberStyles style, out cuint result) => TryParse(s, style, out result);
-            bool IStringParser<cuint>.TryParse(string s, out cuint result) => TryParse(s, out result);
             cuint IStringParser<cuint>.Parse(string s) => Parse(s);
-            cuint IStringParser<cuint>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            cuint IStringParser<cuint>.Parse(string s, NumberStyles style) => Parse(s, style);
-            cuint IStringParser<cuint>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            cuint IStringParser<cuint>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cuint>.ToByte(cuint value) => (byte)value;
             decimal ICast<cuint>.ToDecimal(cuint value) => (decimal)value;

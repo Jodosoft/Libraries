@@ -55,14 +55,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out xuint result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out xuint result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out xuint result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out xuint result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out xuint result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out xuint result) => Try.Run(() => Parse(s), out result);
         public static xuint Parse(string s) => uint.Parse(s);
-        public static xuint Parse(string s, IFormatProvider provider) => uint.Parse(s, provider);
+        public static xuint Parse(string s, IFormatProvider? provider) => uint.Parse(s, provider);
         public static xuint Parse(string s, NumberStyles style) => uint.Parse(s, style);
-        public static xuint Parse(string s, NumberStyles style, IFormatProvider provider) => uint.Parse(s, style, provider);
+        public static xuint Parse(string s, NumberStyles style, IFormatProvider? provider) => uint.Parse(s, style, provider);
 
         public static explicit operator xuint(decimal value) => new xuint((uint)value);
         public static explicit operator xuint(double value) => new xuint((uint)value);
@@ -225,7 +225,6 @@ namespace Jodo.Extensions.Numerics
             sbyte IConvert<xuint>.ToSByte(xuint value) => Convert.ToSByte(value._value);
             short IConvert<xuint>.ToInt16(xuint value) => Convert.ToInt16(value._value);
             string IConvert<xuint>.ToString(xuint value) => Convert.ToString(value._value);
-            string IConvert<xuint>.ToString(xuint value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<xuint>.ToUInt32(xuint value) => Convert.ToUInt32(value._value);
             ulong IConvert<xuint>.ToUInt64(xuint value) => Convert.ToUInt64(value._value);
             ushort IConvert<xuint>.ToUInt16(xuint value) => Convert.ToUInt16(value._value);
@@ -240,19 +239,12 @@ namespace Jodo.Extensions.Numerics
             xuint IConvert<xuint>.ToNumeric(sbyte value) => Convert.ToUInt32(value);
             xuint IConvert<xuint>.ToNumeric(short value) => Convert.ToUInt32(value);
             xuint IConvert<xuint>.ToNumeric(string value) => Convert.ToUInt32(value);
-            xuint IConvert<xuint>.ToNumeric(string value, IFormatProvider provider) => Convert.ToUInt32(value, provider);
             xuint IConvert<xuint>.ToNumeric(uint value) => Convert.ToUInt32(value);
             xuint IConvert<xuint>.ToNumeric(ulong value) => Convert.ToUInt32(value);
             xuint IConvert<xuint>.ToNumeric(ushort value) => Convert.ToUInt32(value);
 
-            bool IStringParser<xuint>.TryParse(string s, IFormatProvider provider, out xuint result) => TryParse(s, provider, out result);
-            bool IStringParser<xuint>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xuint result) => TryParse(s, style, provider, out result);
-            bool IStringParser<xuint>.TryParse(string s, NumberStyles style, out xuint result) => TryParse(s, style, out result);
-            bool IStringParser<xuint>.TryParse(string s, out xuint result) => TryParse(s, out result);
             xuint IStringParser<xuint>.Parse(string s) => Parse(s);
-            xuint IStringParser<xuint>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            xuint IStringParser<xuint>.Parse(string s, NumberStyles style) => Parse(s, style);
-            xuint IStringParser<xuint>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            xuint IStringParser<xuint>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<xuint>.ToByte(xuint value) => (byte)value;
             decimal ICast<xuint>.ToDecimal(xuint value) => (decimal)value;

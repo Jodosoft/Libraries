@@ -55,14 +55,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out xulong result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out xulong result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out xulong result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out xulong result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out xulong result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out xulong result) => Try.Run(() => Parse(s), out result);
         public static xulong Parse(string s) => ulong.Parse(s);
-        public static xulong Parse(string s, IFormatProvider provider) => ulong.Parse(s, provider);
+        public static xulong Parse(string s, IFormatProvider? provider) => ulong.Parse(s, provider);
         public static xulong Parse(string s, NumberStyles style) => ulong.Parse(s, style);
-        public static xulong Parse(string s, NumberStyles style, IFormatProvider provider) => ulong.Parse(s, style, provider);
+        public static xulong Parse(string s, NumberStyles style, IFormatProvider? provider) => ulong.Parse(s, style, provider);
 
         public static explicit operator xulong(decimal value) => new xulong((ulong)value);
         public static explicit operator xulong(double value) => new xulong((ulong)value);
@@ -225,7 +225,6 @@ namespace Jodo.Extensions.Numerics
             sbyte IConvert<xulong>.ToSByte(xulong value) => Convert.ToSByte(value._value);
             short IConvert<xulong>.ToInt16(xulong value) => Convert.ToInt16(value._value);
             string IConvert<xulong>.ToString(xulong value) => Convert.ToString(value._value);
-            string IConvert<xulong>.ToString(xulong value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<xulong>.ToUInt32(xulong value) => Convert.ToUInt32(value._value);
             ulong IConvert<xulong>.ToUInt64(xulong value) => Convert.ToUInt64(value._value);
             ushort IConvert<xulong>.ToUInt16(xulong value) => Convert.ToUInt16(value._value);
@@ -240,19 +239,12 @@ namespace Jodo.Extensions.Numerics
             xulong IConvert<xulong>.ToNumeric(sbyte value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToNumeric(short value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToNumeric(string value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(string value, IFormatProvider provider) => Convert.ToUInt64(value, provider);
             xulong IConvert<xulong>.ToNumeric(uint value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToNumeric(ulong value) => Convert.ToUInt64(value);
             xulong IConvert<xulong>.ToNumeric(ushort value) => Convert.ToUInt64(value);
 
-            bool IStringParser<xulong>.TryParse(string s, IFormatProvider provider, out xulong result) => TryParse(s, provider, out result);
-            bool IStringParser<xulong>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xulong result) => TryParse(s, style, provider, out result);
-            bool IStringParser<xulong>.TryParse(string s, NumberStyles style, out xulong result) => TryParse(s, style, out result);
-            bool IStringParser<xulong>.TryParse(string s, out xulong result) => TryParse(s, out result);
             xulong IStringParser<xulong>.Parse(string s) => Parse(s);
-            xulong IStringParser<xulong>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            xulong IStringParser<xulong>.Parse(string s, NumberStyles style) => Parse(s, style);
-            xulong IStringParser<xulong>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            xulong IStringParser<xulong>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<xulong>.ToByte(xulong value) => (byte)value;
             decimal ICast<xulong>.ToDecimal(xulong value) => (decimal)value;

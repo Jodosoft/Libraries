@@ -18,10 +18,8 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
-using Jodo.Extensions.Primitives;
 using NUnit.Framework;
 using System;
-using System.Globalization;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -201,19 +199,6 @@ namespace Jodo.Extensions.Numerics.Tests
 
             //assert
             result.Should().Be(input.ToString());
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void ToString1_RandomWithFormatProvider_SameAsNumericToString()
-        {
-            //arrange
-            var input = Random.NextNumeric<N>();
-
-            //act
-            var result = Convert<N>.ToString(input, NumberFormatInfo.InvariantInfo);
-
-            //assert
-            result.Should().Be(input.ToString(NumberFormatInfo.InvariantInfo));
         }
     }
 }

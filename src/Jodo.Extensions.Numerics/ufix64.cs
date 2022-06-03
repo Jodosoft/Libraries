@@ -58,14 +58,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out ufix64 result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out ufix64 result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out ufix64 result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out ufix64 result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out ufix64 result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out ufix64 result) => Try.Run(() => Parse(s), out result);
         public static ufix64 Parse(string s) => new ufix64(ScaledArithmetic.Parse(s, ScalingFactor));
-        public static ufix64 Parse(string s, IFormatProvider provider) => (ufix64)double.Parse(s, provider);
+        public static ufix64 Parse(string s, IFormatProvider? provider) => (ufix64)double.Parse(s, provider);
         public static ufix64 Parse(string s, NumberStyles style) => (ufix64)double.Parse(s, style);
-        public static ufix64 Parse(string s, NumberStyles style, IFormatProvider provider) => (ufix64)double.Parse(s, style, provider);
+        public static ufix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => (ufix64)double.Parse(s, style, provider);
 
         private static ufix64 Round(ufix64 value, int digits, MidpointRounding mode)
         {
@@ -218,7 +218,7 @@ namespace Jodo.Extensions.Numerics
             ufix64 IMath<ufix64>.Atanh(ufix64 x) => (ufix64)Math.Atanh((double)x);
             ufix64 IMath<ufix64>.Cbrt(ufix64 x) => (ufix64)Math.Cbrt((double)x);
             ufix64 IMath<ufix64>.Ceiling(ufix64 x) => new ufix64(ScaledArithmetic.Ceiling(x._scaledValue, ScalingFactor));
-            ufix64 IMath<ufix64>.Clamp(ufix64 x, ufix64 bound1, ufix64 bound2) => bound1 > bound2 ? (ufix64)Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : (ufix64)Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue));
+            ufix64 IMath<ufix64>.Clamp(ufix64 x, ufix64 bound1, ufix64 bound2) => new ufix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             ufix64 IMath<ufix64>.Cos(ufix64 x) => (ufix64)Math.Cos((double)x);
             ufix64 IMath<ufix64>.Cosh(ufix64 x) => (ufix64)Math.Cosh((double)x);
             ufix64 IMath<ufix64>.DegreesToRadians(ufix64 x) => (ufix64)((double)x * Trig.RadiansPerDegree);
@@ -262,7 +262,6 @@ namespace Jodo.Extensions.Numerics
             sbyte IConvert<ufix64>.ToSByte(ufix64 value) => Convert.ToSByte(value._scaledValue / ScalingFactor);
             short IConvert<ufix64>.ToInt16(ufix64 value) => Convert.ToInt16(value._scaledValue / ScalingFactor);
             string IConvert<ufix64>.ToString(ufix64 value) => value.ToString();
-            string IConvert<ufix64>.ToString(ufix64 value, IFormatProvider provider) => value.ToString(provider);
             uint IConvert<ufix64>.ToUInt32(ufix64 value) => Convert.ToUInt32(value._scaledValue / ScalingFactor);
             ulong IConvert<ufix64>.ToUInt64(ufix64 value) => value._scaledValue / ScalingFactor;
             ushort IConvert<ufix64>.ToUInt16(ufix64 value) => Convert.ToUInt16(value._scaledValue / ScalingFactor);
@@ -277,19 +276,12 @@ namespace Jodo.Extensions.Numerics
             ufix64 IConvert<ufix64>.ToNumeric(sbyte value) => (ufix64)Convert.ToUInt64(value);
             ufix64 IConvert<ufix64>.ToNumeric(short value) => (ufix64)Convert.ToUInt64(value);
             ufix64 IConvert<ufix64>.ToNumeric(string value) => (ufix64)Convert.ToUInt64(value);
-            ufix64 IConvert<ufix64>.ToNumeric(string value, IFormatProvider provider) => (ufix64)Convert.ToUInt64(value, provider);
             ufix64 IConvert<ufix64>.ToNumeric(uint value) => (ufix64)Convert.ToUInt64(value);
             ufix64 IConvert<ufix64>.ToNumeric(ulong value) => (ufix64)value;
             ufix64 IConvert<ufix64>.ToNumeric(ushort value) => (ufix64)Convert.ToUInt64(value);
 
-            bool IStringParser<ufix64>.TryParse(string s, IFormatProvider provider, out ufix64 result) => TryParse(s, provider, out result);
-            bool IStringParser<ufix64>.TryParse(string s, NumberStyles style, IFormatProvider provider, out ufix64 result) => TryParse(s, style, provider, out result);
-            bool IStringParser<ufix64>.TryParse(string s, NumberStyles style, out ufix64 result) => TryParse(s, style, out result);
-            bool IStringParser<ufix64>.TryParse(string s, out ufix64 result) => TryParse(s, out result);
             ufix64 IStringParser<ufix64>.Parse(string s) => Parse(s);
-            ufix64 IStringParser<ufix64>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            ufix64 IStringParser<ufix64>.Parse(string s, NumberStyles style) => Parse(s, style);
-            ufix64 IStringParser<ufix64>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            ufix64 IStringParser<ufix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<ufix64>.ToByte(ufix64 value) => (byte)value;
             decimal ICast<ufix64>.ToDecimal(ufix64 value) => (decimal)value;

@@ -482,6 +482,37 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
+            public void Clamp_RandomValues_ReturnsValueWithinBounds()
+            {
+                //arrange
+                var input = Random.NextNumeric<N>();
+                var bound1 = Random.NextNumeric<N>();
+                var bound2 = Random.NextNumeric<N>();
+
+                //act
+                var result = Math<N>.Clamp(input, bound1, bound2);
+
+                //assert
+                if (bound1 > bound2) (bound1, bound2) = (bound2, bound1);
+                (result >= bound1 && result <= bound2).Should().BeTrue();
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Clamp_RandomValuesWithinBounds_ReturnsSameValue()
+            {
+                //arrange
+                var bound1 = Random.NextNumeric<N>();
+                var bound2 = Random.NextNumeric<N>();
+                var input = Random.NextNumeric(bound1, bound2);
+
+                //act
+                var result = Math<N>.Clamp(input, bound1, bound2);
+
+                //assert
+                result.Should().Be(input);
+            }
+
+            [Test, Repeat(RandomVariations)]
             public void Cos_RandomValue_EquivalentToSystemMath()
             {
                 //arrange

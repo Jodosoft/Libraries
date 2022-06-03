@@ -56,14 +56,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out clong result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out clong result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out clong result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out clong result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out clong result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out clong result) => Try.Run(() => Parse(s), out result);
         public static clong Parse(string s) => long.Parse(s);
-        public static clong Parse(string s, IFormatProvider provider) => long.Parse(s, provider);
+        public static clong Parse(string s, IFormatProvider? provider) => long.Parse(s, provider);
         public static clong Parse(string s, NumberStyles style) => long.Parse(s, style);
-        public static clong Parse(string s, NumberStyles style, IFormatProvider provider) => long.Parse(s, style, provider);
+        public static clong Parse(string s, NumberStyles style, IFormatProvider? provider) => long.Parse(s, style, provider);
 
         public static explicit operator clong(decimal value) => new clong(CheckedTruncate.ToInt64(value));
         public static explicit operator clong(double value) => new clong(CheckedTruncate.ToInt64(value));
@@ -226,7 +226,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<clong>.ToSByte(clong value) => CheckedConvert.ToSByte(value._value);
             short IConvert<clong>.ToInt16(clong value) => CheckedConvert.ToInt16(value._value);
             string IConvert<clong>.ToString(clong value) => Convert.ToString(value._value);
-            string IConvert<clong>.ToString(clong value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<clong>.ToUInt32(clong value) => CheckedConvert.ToUInt32(value._value);
             ulong IConvert<clong>.ToUInt64(clong value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<clong>.ToUInt16(clong value) => CheckedConvert.ToUInt16(value._value);
@@ -241,19 +240,12 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IConvert<clong>.ToNumeric(sbyte value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToNumeric(short value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToNumeric(string value) => Convert.ToInt64(value);
-            clong IConvert<clong>.ToNumeric(string value, IFormatProvider provider) => Convert.ToInt64(value, provider);
             clong IConvert<clong>.ToNumeric(uint value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToNumeric(ulong value) => CheckedConvert.ToInt64(value);
             clong IConvert<clong>.ToNumeric(ushort value) => CheckedConvert.ToInt64(value);
 
-            bool IStringParser<clong>.TryParse(string s, IFormatProvider provider, out clong result) => TryParse(s, provider, out result);
-            bool IStringParser<clong>.TryParse(string s, NumberStyles style, IFormatProvider provider, out clong result) => TryParse(s, style, provider, out result);
-            bool IStringParser<clong>.TryParse(string s, NumberStyles style, out clong result) => TryParse(s, style, out result);
-            bool IStringParser<clong>.TryParse(string s, out clong result) => TryParse(s, out result);
             clong IStringParser<clong>.Parse(string s) => Parse(s);
-            clong IStringParser<clong>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            clong IStringParser<clong>.Parse(string s, NumberStyles style) => Parse(s, style);
-            clong IStringParser<clong>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            clong IStringParser<clong>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<clong>.ToByte(clong value) => (byte)value;
             decimal ICast<clong>.ToDecimal(clong value) => (decimal)value;

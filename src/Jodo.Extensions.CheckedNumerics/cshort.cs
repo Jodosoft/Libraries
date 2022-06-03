@@ -56,14 +56,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out cshort result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cshort result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out cshort result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cshort result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cshort result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cshort result) => Try.Run(() => Parse(s), out result);
         public static cshort Parse(string s) => short.Parse(s);
-        public static cshort Parse(string s, IFormatProvider provider) => short.Parse(s, provider);
+        public static cshort Parse(string s, IFormatProvider? provider) => short.Parse(s, provider);
         public static cshort Parse(string s, NumberStyles style) => short.Parse(s, style);
-        public static cshort Parse(string s, NumberStyles style, IFormatProvider provider) => short.Parse(s, style, provider);
+        public static cshort Parse(string s, NumberStyles style, IFormatProvider? provider) => short.Parse(s, style, provider);
 
         public static explicit operator cshort(decimal value) => new cshort(CheckedTruncate.ToInt16(value));
         public static explicit operator cshort(double value) => new cshort(CheckedTruncate.ToInt16(value));
@@ -226,7 +226,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<cshort>.ToSByte(cshort value) => CheckedConvert.ToSByte(value._value);
             short IConvert<cshort>.ToInt16(cshort value) => value._value;
             string IConvert<cshort>.ToString(cshort value) => Convert.ToString(value._value);
-            string IConvert<cshort>.ToString(cshort value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<cshort>.ToUInt32(cshort value) => CheckedConvert.ToUInt32(value._value);
             ulong IConvert<cshort>.ToUInt64(cshort value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cshort>.ToUInt16(cshort value) => CheckedConvert.ToUInt16(value._value);
@@ -241,19 +240,12 @@ namespace Jodo.Extensions.CheckedNumerics
             cshort IConvert<cshort>.ToNumeric(sbyte value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToNumeric(short value) => value;
             cshort IConvert<cshort>.ToNumeric(string value) => Convert.ToInt16(value);
-            cshort IConvert<cshort>.ToNumeric(string value, IFormatProvider provider) => Convert.ToInt16(value, provider);
             cshort IConvert<cshort>.ToNumeric(uint value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToNumeric(ulong value) => CheckedConvert.ToInt16(value);
             cshort IConvert<cshort>.ToNumeric(ushort value) => CheckedConvert.ToInt16(value);
 
-            bool IStringParser<cshort>.TryParse(string s, IFormatProvider provider, out cshort result) => TryParse(s, provider, out result);
-            bool IStringParser<cshort>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cshort result) => TryParse(s, style, provider, out result);
-            bool IStringParser<cshort>.TryParse(string s, NumberStyles style, out cshort result) => TryParse(s, style, out result);
-            bool IStringParser<cshort>.TryParse(string s, out cshort result) => TryParse(s, out result);
             cshort IStringParser<cshort>.Parse(string s) => Parse(s);
-            cshort IStringParser<cshort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            cshort IStringParser<cshort>.Parse(string s, NumberStyles style) => Parse(s, style);
-            cshort IStringParser<cshort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            cshort IStringParser<cshort>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cshort>.ToByte(cshort value) => (byte)value;
             decimal ICast<cshort>.ToDecimal(cshort value) => (decimal)value;

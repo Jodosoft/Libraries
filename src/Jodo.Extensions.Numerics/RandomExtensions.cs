@@ -32,5 +32,13 @@ namespace System
         [DebuggerStepThrough]
         public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
             => ((IProvider<IRandom<N>>)default(N)).GetInstance().Next(random, bound1, bound2);
+
+        [DebuggerStepThrough]
+        public static Unit<N> NextUnit<N>(this Random random) where N : struct, INumeric<N>
+            => ((IProvider<IRandom<Unit<N>>>)default(Unit<N>)).GetInstance().Next(random);
+
+        [DebuggerStepThrough]
+        public static Unit<N> NextUnit<N>(this Random random, Unit<N> bound1, Unit<N> bound2) where N : struct, INumeric<N>
+            => ((IProvider<IRandom<Unit<N>>>)default(Unit<N>)).GetInstance().Next(random, bound1, bound2);
     }
 }

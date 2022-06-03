@@ -55,14 +55,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out xsbyte result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out xsbyte result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out xsbyte result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out xsbyte result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out xsbyte result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out xsbyte result) => Try.Run(() => Parse(s), out result);
         public static xsbyte Parse(string s) => sbyte.Parse(s);
-        public static xsbyte Parse(string s, IFormatProvider provider) => sbyte.Parse(s, provider);
+        public static xsbyte Parse(string s, IFormatProvider? provider) => sbyte.Parse(s, provider);
         public static xsbyte Parse(string s, NumberStyles style) => sbyte.Parse(s, style);
-        public static xsbyte Parse(string s, NumberStyles style, IFormatProvider provider) => sbyte.Parse(s, style, provider);
+        public static xsbyte Parse(string s, NumberStyles style, IFormatProvider? provider) => sbyte.Parse(s, style, provider);
 
         public static explicit operator xsbyte(byte value) => new xsbyte((sbyte)value);
         public static explicit operator xsbyte(decimal value) => new xsbyte((sbyte)value);
@@ -225,7 +225,6 @@ namespace Jodo.Extensions.Numerics
             sbyte IConvert<xsbyte>.ToSByte(xsbyte value) => Convert.ToSByte(value._value);
             short IConvert<xsbyte>.ToInt16(xsbyte value) => Convert.ToInt16(value._value);
             string IConvert<xsbyte>.ToString(xsbyte value) => Convert.ToString(value._value);
-            string IConvert<xsbyte>.ToString(xsbyte value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<xsbyte>.ToUInt32(xsbyte value) => Convert.ToUInt32(value._value);
             ulong IConvert<xsbyte>.ToUInt64(xsbyte value) => Convert.ToUInt64(value._value);
             ushort IConvert<xsbyte>.ToUInt16(xsbyte value) => Convert.ToUInt16(value._value);
@@ -240,19 +239,12 @@ namespace Jodo.Extensions.Numerics
             xsbyte IConvert<xsbyte>.ToNumeric(sbyte value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToNumeric(short value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToNumeric(string value) => Convert.ToSByte(value);
-            xsbyte IConvert<xsbyte>.ToNumeric(string value, IFormatProvider provider) => Convert.ToSByte(value, provider);
             xsbyte IConvert<xsbyte>.ToNumeric(uint value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToNumeric(ulong value) => Convert.ToSByte(value);
             xsbyte IConvert<xsbyte>.ToNumeric(ushort value) => Convert.ToSByte(value);
 
-            bool IStringParser<xsbyte>.TryParse(string s, IFormatProvider provider, out xsbyte result) => TryParse(s, provider, out result);
-            bool IStringParser<xsbyte>.TryParse(string s, NumberStyles style, IFormatProvider provider, out xsbyte result) => TryParse(s, style, provider, out result);
-            bool IStringParser<xsbyte>.TryParse(string s, NumberStyles style, out xsbyte result) => TryParse(s, style, out result);
-            bool IStringParser<xsbyte>.TryParse(string s, out xsbyte result) => TryParse(s, out result);
             xsbyte IStringParser<xsbyte>.Parse(string s) => Parse(s);
-            xsbyte IStringParser<xsbyte>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            xsbyte IStringParser<xsbyte>.Parse(string s, NumberStyles style) => Parse(s, style);
-            xsbyte IStringParser<xsbyte>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            xsbyte IStringParser<xsbyte>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<xsbyte>.ToByte(xsbyte value) => (byte)value;
             decimal ICast<xsbyte>.ToDecimal(xsbyte value) => (decimal)value;

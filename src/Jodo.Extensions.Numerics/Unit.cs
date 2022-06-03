@@ -19,16 +19,27 @@
 
 using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Numerics
 {
+    public static class Unit
+    {
+        public static Unit<N> Clamp<N>(N value) where N : struct, INumeric<N>
+            => Unit<N>.Clamp(value);
+    }
+
     [Serializable]
     public readonly struct Unit<N> :
-        IProvider<IBitConverter<Unit<N>>>,
-        IProvider<IRandom<Unit<N>>>,
-        IProvider<IStringParser<Unit<N>>>,
-        ISerializable
+            IComparable,
+            IComparable<Unit<N>>,
+            IEquatable<Unit<N>>,
+            IFormattable,
+            IProvider<IBitConverter<Unit<N>>>,
+            IProvider<IRandom<Unit<N>>>,
+            IProvider<IStringParser<Unit<N>>>,
+            ISerializable
         where N : struct, INumeric<N>
     {
         public readonly static Unit<N> Zero = new Unit<N>(Numeric<N>.Zero);
@@ -37,8 +48,7 @@ namespace Jodo.Extensions.Numerics
 
         public readonly N Value { get; }
 
-
-        public Unit(N value)
+        private Unit(N value)
         {
             Value = Math<N>.Clamp(value, Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
         }
@@ -51,31 +61,76 @@ namespace Jodo.Extensions.Numerics
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
             => info.AddValue(nameof(Value), Value, typeof(N));
 
+        public int CompareTo(object obj) => obj is xfloat other ? CompareTo(other) : 1;
+        public int CompareTo(Unit<N> other) => Value.CompareTo(other.Value);
         public bool Equals(Unit<N> other) => Value.Equals(other.Value);
         public override bool Equals(object? obj) => obj is Unit<N> unit && Equals(unit);
         public override int GetHashCode() => Value.GetHashCode();
         public override string ToString() => Value.ToString();
         public string ToString(string format, IFormatProvider formatProvider) => Value.ToString(format, formatProvider);
 
-        IBitConverter<Unit<N>> IProvider<IBitConverter<Unit<N>>>.GetInstance()
-        {
-            throw new NotImplementedException();
-        }
-
-        IRandom<Unit<N>> IProvider<IRandom<Unit<N>>>.GetInstance()
-        {
-            throw new NotImplementedException();
-        }
-
-        IStringParser<Unit<N>> IProvider<IStringParser<Unit<N>>>.GetInstance()
-        {
-            throw new NotImplementedException();
-        }
+        public static Unit<N> Clamp(N value) => new Unit<N>(value);
 
         public static implicit operator N(Unit<N> unit) => unit.Value;
         public static explicit operator Unit<N>(N value) => new Unit<N>(value);
-        public static explicit operator Unit<N>(byte value) => new Unit<N>(Convert<N>.ToNumeric(value));
+
+        public static bool operator !=(Unit<N> left, Unit<N> right) => !left.Equals(right);
+        public static bool operator <(Unit<N> left, Unit<N> right) => left.Value < right.Value;
+        public static bool operator <=(Unit<N> left, Unit<N> right) => left.Value <= right.Value;
         public static bool operator ==(Unit<N> left, Unit<N> right) => left.Equals(right);
-        public static bool operator !=(Unit<N> left, Unit<N> right) => !(left == right);
+        public static bool operator >(Unit<N> left, Unit<N> right) => left.Value > right.Value;
+        public static bool operator >=(Unit<N> left, Unit<N> right) => left.Value >= right.Value;
+        public static N operator %(Unit<N> left, Unit<N> right) => left.Value % right.Value;
+        public static N operator -(Unit<N> left, Unit<N> right) => left.Value - right.Value;
+        public static N operator -(Unit<N> value) => -value.Value;
+        public static N operator *(Unit<N> left, Unit<N> right) => left.Value * right.Value;
+        public static N operator /(Unit<N> left, Unit<N> right) => left.Value / right.Value;
+        public static N operator +(Unit<N> left, Unit<N> right) => left.Value + right.Value;
+        public static N operator +(Unit<N> value) => value.Value;
+
+        public static bool operator !=(Unit<N> left, N right) => !left.Value.Equals(right);
+        public static bool operator <(Unit<N> left, N right) => left.Value < right;
+        public static bool operator <=(Unit<N> left, N right) => left.Value <= right;
+        public static bool operator ==(Unit<N> left, N right) => left.Value.Equals(right);
+        public static bool operator >(Unit<N> left, N right) => left.Value > right;
+        public static bool operator >=(Unit<N> left, N right) => left.Value >= right;
+        public static N operator %(Unit<N> left, N right) => left.Value % right;
+        public static N operator -(Unit<N> left, N right) => left.Value - right;
+        public static N operator *(Unit<N> left, N right) => left.Value * right;
+        public static N operator /(Unit<N> left, N right) => left.Value / right;
+        public static N operator +(Unit<N> left, N right) => left.Value + right;
+
+        public static bool operator !=(N left, Unit<N> right) => !left.Equals(right.Value);
+        public static bool operator <(N left, Unit<N> right) => left < right.Value;
+        public static bool operator <=(N left, Unit<N> right) => left <= right.Value;
+        public static bool operator ==(N left, Unit<N> right) => left.Equals(right.Value);
+        public static bool operator >(N left, Unit<N> right) => left > right.Value;
+        public static bool operator >=(N left, Unit<N> right) => left >= right.Value;
+        public static N operator %(N left, Unit<N> right) => left % right.Value;
+        public static N operator -(N left, Unit<N> right) => left - right.Value;
+        public static N operator *(N left, Unit<N> right) => left * right.Value;
+        public static N operator /(N left, Unit<N> right) => left / right.Value;
+        public static N operator +(N left, Unit<N> right) => left + right.Value;
+
+        IBitConverter<Unit<N>> IProvider<IBitConverter<Unit<N>>>.GetInstance() => Utilities.Instance;
+        IRandom<Unit<N>> IProvider<IRandom<Unit<N>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Unit<N>> IProvider<IStringParser<Unit<N>>>.GetInstance() => Utilities.Instance;
+
+        private sealed class Utilities :
+            IBitConverter<Unit<N>>,
+            IRandom<Unit<N>>,
+            IStringParser<Unit<N>>
+        {
+            public readonly static Utilities Instance = new Utilities();
+
+            Unit<N> IRandom<Unit<N>>.Next(Random random) => new Unit<N>(random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit));
+            Unit<N> IRandom<Unit<N>>.Next(Random random, Unit<N> bound1, Unit<N> bound2) => new Unit<N>(random.NextNumeric(bound1.Value, bound2.Value));
+
+            Unit<N> IStringParser<Unit<N>>.Parse(string s) => new Unit<N>(StringParser<N>.Parse(s));
+            Unit<N> IStringParser<Unit<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => new Unit<N>(StringParser<N>.Parse(s, style, provider));
+
+            Unit<N> IBitConverter<Unit<N>>.Read(IReadOnlyStream<byte> stream) => new Unit<N>(BitConverter<N>.Read(stream));
+            void IBitConverter<Unit<N>>.Write(Unit<N> value, IWriteOnlyStream<byte> stream) => BitConverter<N>.Write(stream, value.Value);
+        }
     }
 }

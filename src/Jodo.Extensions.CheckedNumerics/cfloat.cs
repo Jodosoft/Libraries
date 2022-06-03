@@ -62,14 +62,14 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static bool IsNormal(cfloat d) => float.IsNormal(d._value);
         public static bool IsSubnormal(cfloat d) => float.IsSubnormal(d._value);
-        public static bool TryParse(string s, IFormatProvider provider, out cfloat result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cfloat result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out cfloat result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cfloat result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cfloat result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cfloat result) => Try.Run(() => Parse(s), out result);
         public static cfloat Parse(string s) => float.Parse(s);
-        public static cfloat Parse(string s, IFormatProvider provider) => float.Parse(s, provider);
+        public static cfloat Parse(string s, IFormatProvider? provider) => float.Parse(s, provider);
         public static cfloat Parse(string s, NumberStyles style) => float.Parse(s, style);
-        public static cfloat Parse(string s, NumberStyles style, IFormatProvider provider) => float.Parse(s, style, provider);
+        public static cfloat Parse(string s, NumberStyles style, IFormatProvider? provider) => float.Parse(s, style, provider);
 
         public static explicit operator cfloat(decimal value) => new cfloat(CheckedConvert.ToSingle(value));
         public static explicit operator cfloat(double value) => new cfloat(CheckedConvert.ToSingle(value));
@@ -232,7 +232,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<cfloat>.ToSByte(cfloat value) => CheckedConvert.ToSByte(value._value);
             short IConvert<cfloat>.ToInt16(cfloat value) => CheckedConvert.ToInt16(value._value);
             string IConvert<cfloat>.ToString(cfloat value) => Convert.ToString(value._value);
-            string IConvert<cfloat>.ToString(cfloat value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<cfloat>.ToUInt32(cfloat value) => CheckedConvert.ToUInt32(value._value);
             ulong IConvert<cfloat>.ToUInt64(cfloat value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cfloat>.ToUInt16(cfloat value) => CheckedConvert.ToUInt16(value._value);
@@ -247,19 +246,12 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IConvert<cfloat>.ToNumeric(sbyte value) => CheckedConvert.ToSingle(value);
             cfloat IConvert<cfloat>.ToNumeric(short value) => CheckedConvert.ToSingle(value);
             cfloat IConvert<cfloat>.ToNumeric(string value) => Convert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(string value, IFormatProvider provider) => Convert.ToSingle(value, provider);
             cfloat IConvert<cfloat>.ToNumeric(uint value) => CheckedConvert.ToSingle(value);
             cfloat IConvert<cfloat>.ToNumeric(ulong value) => CheckedConvert.ToSingle(value);
             cfloat IConvert<cfloat>.ToNumeric(ushort value) => CheckedConvert.ToSingle(value);
 
-            bool IStringParser<cfloat>.TryParse(string s, IFormatProvider provider, out cfloat result) => TryParse(s, provider, out result);
-            bool IStringParser<cfloat>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cfloat result) => TryParse(s, style, provider, out result);
-            bool IStringParser<cfloat>.TryParse(string s, NumberStyles style, out cfloat result) => TryParse(s, style, out result);
-            bool IStringParser<cfloat>.TryParse(string s, out cfloat result) => TryParse(s, out result);
             cfloat IStringParser<cfloat>.Parse(string s) => Parse(s);
-            cfloat IStringParser<cfloat>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            cfloat IStringParser<cfloat>.Parse(string s, NumberStyles style) => Parse(s, style);
-            cfloat IStringParser<cfloat>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            cfloat IStringParser<cfloat>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cfloat>.ToByte(cfloat value) => (byte)value;
             decimal ICast<cfloat>.ToDecimal(cfloat value) => (decimal)value;

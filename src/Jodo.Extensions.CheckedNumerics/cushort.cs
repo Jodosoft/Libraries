@@ -56,14 +56,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out cushort result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cushort result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out cushort result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cushort result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cushort result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cushort result) => Try.Run(() => Parse(s), out result);
         public static cushort Parse(string s) => ushort.Parse(s);
-        public static cushort Parse(string s, IFormatProvider provider) => ushort.Parse(s, provider);
+        public static cushort Parse(string s, IFormatProvider? provider) => ushort.Parse(s, provider);
         public static cushort Parse(string s, NumberStyles style) => ushort.Parse(s, style);
-        public static cushort Parse(string s, NumberStyles style, IFormatProvider provider) => ushort.Parse(s, style, provider);
+        public static cushort Parse(string s, NumberStyles style, IFormatProvider? provider) => ushort.Parse(s, style, provider);
 
         public static explicit operator cushort(decimal value) => new cushort(CheckedTruncate.ToUInt16(value));
         public static explicit operator cushort(double value) => new cushort(CheckedTruncate.ToUInt16(value));
@@ -226,7 +226,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<cushort>.ToSByte(cushort value) => CheckedConvert.ToSByte(value._value);
             short IConvert<cushort>.ToInt16(cushort value) => CheckedConvert.ToInt16(value._value);
             string IConvert<cushort>.ToString(cushort value) => Convert.ToString(value._value);
-            string IConvert<cushort>.ToString(cushort value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<cushort>.ToUInt32(cushort value) => value._value;
             ulong IConvert<cushort>.ToUInt64(cushort value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cushort>.ToUInt16(cushort value) => CheckedConvert.ToUInt16(value._value);
@@ -241,19 +240,12 @@ namespace Jodo.Extensions.CheckedNumerics
             cushort IConvert<cushort>.ToNumeric(sbyte value) => CheckedConvert.ToUInt16(value);
             cushort IConvert<cushort>.ToNumeric(short value) => CheckedConvert.ToUInt16(value);
             cushort IConvert<cushort>.ToNumeric(string value) => Convert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(string value, IFormatProvider provider) => Convert.ToUInt16(value, provider);
             cushort IConvert<cushort>.ToNumeric(uint value) => CheckedConvert.ToUInt16(value);
             cushort IConvert<cushort>.ToNumeric(ulong value) => CheckedConvert.ToUInt16(value);
             cushort IConvert<cushort>.ToNumeric(ushort value) => value;
 
-            bool IStringParser<cushort>.TryParse(string s, IFormatProvider provider, out cushort result) => TryParse(s, provider, out result);
-            bool IStringParser<cushort>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cushort result) => TryParse(s, style, provider, out result);
-            bool IStringParser<cushort>.TryParse(string s, NumberStyles style, out cushort result) => TryParse(s, style, out result);
-            bool IStringParser<cushort>.TryParse(string s, out cushort result) => TryParse(s, out result);
             cushort IStringParser<cushort>.Parse(string s) => Parse(s);
-            cushort IStringParser<cushort>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            cushort IStringParser<cushort>.Parse(string s, NumberStyles style) => Parse(s, style);
-            cushort IStringParser<cushort>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            cushort IStringParser<cushort>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cushort>.ToByte(cushort value) => (byte)value;
             decimal ICast<cushort>.ToDecimal(cushort value) => (decimal)value;

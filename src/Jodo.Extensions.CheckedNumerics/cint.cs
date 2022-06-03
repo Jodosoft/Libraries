@@ -56,14 +56,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out cint result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cint result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out cint result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cint result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cint result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cint result) => Try.Run(() => Parse(s), out result);
         public static cint Parse(string s) => int.Parse(s);
-        public static cint Parse(string s, IFormatProvider provider) => int.Parse(s, provider);
+        public static cint Parse(string s, IFormatProvider? provider) => int.Parse(s, provider);
         public static cint Parse(string s, NumberStyles style) => int.Parse(s, style);
-        public static cint Parse(string s, NumberStyles style, IFormatProvider provider) => int.Parse(s, style, provider);
+        public static cint Parse(string s, NumberStyles style, IFormatProvider? provider) => int.Parse(s, style, provider);
 
         public static explicit operator cint(decimal value) => new cint(CheckedTruncate.ToInt32(value));
         public static explicit operator cint(double value) => new cint(CheckedTruncate.ToInt32(value));
@@ -226,7 +226,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<cint>.ToSByte(cint value) => CheckedConvert.ToSByte(value._value);
             short IConvert<cint>.ToInt16(cint value) => CheckedConvert.ToInt16(value._value);
             string IConvert<cint>.ToString(cint value) => Convert.ToString(value._value);
-            string IConvert<cint>.ToString(cint value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<cint>.ToUInt32(cint value) => CheckedConvert.ToUInt32(value._value);
             ulong IConvert<cint>.ToUInt64(cint value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cint>.ToUInt16(cint value) => CheckedConvert.ToUInt16(value._value);
@@ -241,19 +240,12 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IConvert<cint>.ToNumeric(sbyte value) => CheckedConvert.ToInt32(value);
             cint IConvert<cint>.ToNumeric(short value) => CheckedConvert.ToInt32(value);
             cint IConvert<cint>.ToNumeric(string value) => Convert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(string value, IFormatProvider provider) => Convert.ToInt32(value, provider);
             cint IConvert<cint>.ToNumeric(uint value) => CheckedConvert.ToInt32(value);
             cint IConvert<cint>.ToNumeric(ulong value) => CheckedConvert.ToInt32(value);
             cint IConvert<cint>.ToNumeric(ushort value) => CheckedConvert.ToInt32(value);
 
-            bool IStringParser<cint>.TryParse(string s, IFormatProvider provider, out cint result) => TryParse(s, provider, out result);
-            bool IStringParser<cint>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cint result) => TryParse(s, style, provider, out result);
-            bool IStringParser<cint>.TryParse(string s, NumberStyles style, out cint result) => TryParse(s, style, out result);
-            bool IStringParser<cint>.TryParse(string s, out cint result) => TryParse(s, out result);
             cint IStringParser<cint>.Parse(string s) => Parse(s);
-            cint IStringParser<cint>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            cint IStringParser<cint>.Parse(string s, NumberStyles style) => Parse(s, style);
-            cint IStringParser<cint>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            cint IStringParser<cint>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cint>.ToByte(cint value) => (byte)value;
             decimal ICast<cint>.ToDecimal(cint value) => (decimal)value;

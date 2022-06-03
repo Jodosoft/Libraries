@@ -56,14 +56,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string format, IFormatProvider formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider provider, out cbyte result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out cbyte result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out cbyte result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cbyte result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cbyte result) => Try.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out cbyte result) => Try.Run(() => Parse(s), out result);
         public static cbyte Parse(string s) => byte.Parse(s);
-        public static cbyte Parse(string s, IFormatProvider provider) => byte.Parse(s, provider);
+        public static cbyte Parse(string s, IFormatProvider? provider) => byte.Parse(s, provider);
         public static cbyte Parse(string s, NumberStyles style) => byte.Parse(s, style);
-        public static cbyte Parse(string s, NumberStyles style, IFormatProvider provider) => byte.Parse(s, style, provider);
+        public static cbyte Parse(string s, NumberStyles style, IFormatProvider? provider) => byte.Parse(s, style, provider);
 
         public static explicit operator cbyte(decimal value) => new cbyte(CheckedTruncate.ToByte(value));
         public static explicit operator cbyte(double value) => new cbyte(CheckedTruncate.ToByte(value));
@@ -226,7 +226,6 @@ namespace Jodo.Extensions.CheckedNumerics
             sbyte IConvert<cbyte>.ToSByte(cbyte value) => CheckedConvert.ToSByte(value._value);
             short IConvert<cbyte>.ToInt16(cbyte value) => CheckedConvert.ToInt16(value._value);
             string IConvert<cbyte>.ToString(cbyte value) => Convert.ToString(value._value);
-            string IConvert<cbyte>.ToString(cbyte value, IFormatProvider provider) => Convert.ToString(value._value, provider);
             uint IConvert<cbyte>.ToUInt32(cbyte value) => CheckedConvert.ToUInt16(value._value);
             ulong IConvert<cbyte>.ToUInt64(cbyte value) => CheckedConvert.ToUInt64(value._value);
             ushort IConvert<cbyte>.ToUInt16(cbyte value) => CheckedConvert.ToByte(value._value);
@@ -241,19 +240,12 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IConvert<cbyte>.ToNumeric(sbyte value) => CheckedConvert.ToByte(value);
             cbyte IConvert<cbyte>.ToNumeric(short value) => CheckedConvert.ToByte(value);
             cbyte IConvert<cbyte>.ToNumeric(string value) => Convert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(string value, IFormatProvider provider) => Convert.ToByte(value, provider);
             cbyte IConvert<cbyte>.ToNumeric(uint value) => CheckedConvert.ToByte(value);
             cbyte IConvert<cbyte>.ToNumeric(ulong value) => CheckedConvert.ToByte(value);
             cbyte IConvert<cbyte>.ToNumeric(ushort value) => value;
 
-            bool IStringParser<cbyte>.TryParse(string s, IFormatProvider provider, out cbyte result) => TryParse(s, provider, out result);
-            bool IStringParser<cbyte>.TryParse(string s, NumberStyles style, IFormatProvider provider, out cbyte result) => TryParse(s, style, provider, out result);
-            bool IStringParser<cbyte>.TryParse(string s, NumberStyles style, out cbyte result) => TryParse(s, style, out result);
-            bool IStringParser<cbyte>.TryParse(string s, out cbyte result) => TryParse(s, out result);
             cbyte IStringParser<cbyte>.Parse(string s) => Parse(s);
-            cbyte IStringParser<cbyte>.Parse(string s, IFormatProvider provider) => Parse(s, provider);
-            cbyte IStringParser<cbyte>.Parse(string s, NumberStyles style) => Parse(s, style);
-            cbyte IStringParser<cbyte>.Parse(string s, NumberStyles style, IFormatProvider provider) => Parse(s, style, provider);
+            cbyte IStringParser<cbyte>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cbyte>.ToByte(cbyte value) => (byte)value;
             decimal ICast<cbyte>.ToDecimal(cbyte value) => (decimal)value;

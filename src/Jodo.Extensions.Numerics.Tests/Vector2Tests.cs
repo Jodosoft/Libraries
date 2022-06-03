@@ -17,36 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Extensions.Numerics
+namespace Jodo.Extensions.Numerics.Tests
 {
-    public interface IConvert<N> where N : struct, INumeric<N>
+    public abstract class Vector2Tests<N> : AssemblyFixtureBase where N : struct, INumeric<N>
     {
-        bool ToBoolean(N value);
-        byte ToByte(N value);
-        decimal ToDecimal(N value);
-        double ToDouble(N value);
-        float ToSingle(N value);
-        int ToInt32(N value);
-        long ToInt64(N value);
-        sbyte ToSByte(N value);
-        short ToInt16(N value);
-        string ToString(N value);
-        uint ToUInt32(N value);
-        ulong ToUInt64(N value);
-        ushort ToUInt16(N value);
 
-        N ToNumeric(bool value);
-        N ToNumeric(byte value);
-        N ToNumeric(decimal value);
-        N ToNumeric(double value);
-        N ToNumeric(float value);
-        N ToNumeric(int value);
-        N ToNumeric(long value);
-        N ToNumeric(sbyte value);
-        N ToNumeric(short value);
-        N ToNumeric(string value);
-        N ToNumeric(uint value);
-        N ToNumeric(ulong value);
-        N ToNumeric(ushort value);
     }
 }

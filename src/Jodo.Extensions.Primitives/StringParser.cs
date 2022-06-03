@@ -31,6 +31,69 @@ namespace Jodo.Extensions.Primitives
         public static T Parse(string s) => Default.Parse(s);
 
         [DebuggerStepThrough]
-        public static T Parse(string s, NumberStyles numberStyles, IFormatProvider formatProvider) => Default.Parse(s, numberStyles, formatProvider);
+        public static T Parse(string s, IFormatProvider? formatProvider) => Default.Parse(s, default, formatProvider);
+
+        [DebuggerStepThrough]
+        public static T Parse(string s, NumberStyles numberStyles) => Default.Parse(s, numberStyles, null);
+
+        [DebuggerStepThrough]
+        public static T Parse(string s, NumberStyles numberStyles, IFormatProvider? formatProvider) => Default.Parse(s, numberStyles, formatProvider);
+
+        public static bool TryParse(string s, out T result)
+        {
+            try
+            {
+                result = Parse(s);
+                return true;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        public static bool TryParse(string s, IFormatProvider? provider, out T result)
+        {
+            try
+            {
+                result = Parse(s, provider);
+                return true;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        public static bool TryParse(string s, NumberStyles style, out T result)
+        {
+            try
+            {
+                result = Parse(s, style);
+                return true;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out T result)
+        {
+            try
+            {
+                result = Parse(s, style, provider);
+                return true;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
     }
 }
