@@ -244,7 +244,7 @@ Sample output can be seen below:
 
 <h2>Jodo.Extensions.Geometry</h2>
 
-<mark>This package is a work in progress.</mark>
+> This package is a work in progress.
 
 Provides geometric value types.
 
@@ -257,4 +257,4 @@ Provides geometric value types.
 
 <h2>Jodo.Extensions.Collections</h2>
 
-> <mark>This package is a work in progress.</mark>
+> This package is a work in progress.
