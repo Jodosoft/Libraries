@@ -55,12 +55,10 @@ namespace Jodo.Extensions.Numerics
 
         public static N ToValue(float value)
         {
-            if (!float.IsFinite(value))
-            {
-                if (float.IsPositiveInfinity(value)) return Numeric<N>.MaxValue;
-                if (float.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
-                if (float.IsNaN(value)) return Numeric<N>.Zero;
-            }
+            if (float.IsPositiveInfinity(value)) return Numeric<N>.MaxValue;
+            if (float.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
+            if (float.IsNaN(value)) return Numeric<N>.Zero;
+
             try { checked { return Convert<N>.ToValue(value); } }
             catch (OverflowException)
             {
@@ -74,12 +72,10 @@ namespace Jodo.Extensions.Numerics
 
         public static N ToValue(double value)
         {
-            if (!double.IsFinite(value))
-            {
-                if (double.IsPositiveInfinity(value)) return Numeric<N>.MaxValue;
-                if (double.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
-                if (double.IsNaN(value)) return Numeric<N>.Zero;
-            }
+            if (double.IsPositiveInfinity(value)) return Numeric<N>.MaxValue;
+            if (double.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
+            if (double.IsNaN(value)) return Numeric<N>.Zero;
+
             try { checked { return Convert<N>.ToValue(value); } }
             catch (OverflowException)
             {

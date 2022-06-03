@@ -19,7 +19,7 @@
 
 namespace Jodo.Extensions.Primitives
 {
-    public interface IProvider<T>
+    public interface IProvider<out T>
     {
         T GetInstance();
     }

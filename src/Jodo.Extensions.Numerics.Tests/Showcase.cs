@@ -3,37 +3,57 @@ using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
+using System.IO;
+using System.Text;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
     public sealed class Showcase : GlobalTestBase
     {
+        public StringBuilder ConsoleOuput;
+
+        [SetUp]
+        public void SetUp()
+        {
+            ConsoleOuput = new StringBuilder();
+            Console.SetOut(new StringWriter(ConsoleOuput));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+        }
+
         [Test]
         public void FixedPointArithmetic_LargeValues_NoLossOfPrecision()
         {
-            var fixedPoint = 1_000_000_000_000 + Math<fix64>.PI;
-            var floatingPoint = 1_000_000_000_000 + MathF.PI;
+            var floatingPoint = 1000000 + MathF.PI;
+            var fixedPoint = 1000000 + Math<fix64>.PI;
 
-            //  fixedPoint -= 1_000_000_000_000;
-            //  floatingPoint -= 1_000_000_000_000;
+            Console.WriteLine(floatingPoint); // outputs: 1000003.1
+            Console.WriteLine(fixedPoint); // outputs: 1000003.141592
 
-            Console.WriteLine(fixedPoint); // outputs: 3.141592
-            Console.WriteLine($"{floatingPoint:0.000000}"); // outputs: 1000000000000.000000
+            ConsoleOuput.ToString().Split(Environment.NewLine)
+                .Should().ContainInOrder("1000003.1", "1000003.141592");
         }
 
         [Test]
         public void Github_CodeSample()
         {
-            var fixedPoint = 1_000_000_000_000 + Math<fix64>.PI;
-            var remainder = fixedPoint % 1_000_000_000_000;
+            var f1 = 2 * Math<fix64>.PI;
+            var f2 = f1 / 1000;
 
-            var vector = new Vector2<xint>(1234, -2);
-            var bitShift = vector.X >> 0b11;
+            var i1 = (xint)1234;
+            var i2 = i1 >> 0b11;
 
-            Console.WriteLine($"{fixedPoint:E3}"); // outputs: 1.000E+012
-            Console.WriteLine(remainder); // outputs: 3.141592
-            Console.WriteLine(vector); // outputs: (1234, -2)
-            Console.WriteLine($"{bitShift:X}"); // outputs: 9A
+            Console.WriteLine(f1); // outputs: 6.283184
+            Console.WriteLine(f2); // outputs: 0.006283
+            Console.WriteLine(i1); // outputs: 1234
+            Console.WriteLine($"{i2:X}"); // outputs: 9A
+
+            ConsoleOuput.ToString().Split(Environment.NewLine)
+                .Should().ContainInOrder("6.283184", "0.006283", "1234", "9A");
         }
 
         [Test]
@@ -46,6 +66,9 @@ namespace Jodo.Extensions.Numerics.Tests
             Console.WriteLine(castResult); // outputs: 255
             Console.WriteLine(convertResult); // outputs: 200
             Console.WriteLine(clampResult); // outputs: 0
+
+            ConsoleOuput.ToString().Split(Environment.NewLine)
+                .Should().ContainInOrder("255", "200", "0");
         }
     }
 }

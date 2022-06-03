@@ -37,7 +37,7 @@ namespace Jodo.Extensions.Testing
         public Exception Exception { get; private set; }
 
         [SetUp]
-        public void SetUp()
+        public void GlobalSetUp()
         {
             Random = new Random();
             Fixture = new Fixture();

@@ -19,10 +19,12 @@
 
 using Jodo.Extensions.Primitives;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Numerics
 {
+    [SuppressMessage("csharpsquid", "S3444")] // by design
     public interface INumeric<N> :
             IComparable,
             IComparable<N>,
