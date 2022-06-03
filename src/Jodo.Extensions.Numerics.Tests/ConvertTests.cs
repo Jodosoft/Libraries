@@ -201,5 +201,20 @@ namespace Jodo.Extensions.Numerics.Tests
             //assert
             result.Should().Be(input.ToString());
         }
+
+        [Test, Repeat(RandomVariations)]
+        public void ToNumeric_RandomString_CorrectResult()
+        {
+            //arrange
+            var number = Random.NextInt32(0, 10);
+            var input = number.ToString();
+            var expected = Cast<N>.ToNumeric(number);
+
+            //act
+            var result = Convert<N>.ToNumeric(input);
+
+            //assert
+            result.Should().Be(expected);
+        }
     }
 }
