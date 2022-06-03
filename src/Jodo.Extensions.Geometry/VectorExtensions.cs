@@ -23,13 +23,26 @@ namespace Jodo.Extensions.Geometry
 {
     public static class VectorExtensions
     {
-        public static Vector2<N> RotateAround<N>(this Vector2<N> value, Vector2<N> pivot, Angle<N> angle) where N : struct, INumeric<N>
+        public static Vector2<N> RotateAround<N>(this Vector2<N> vector, Vector2<N> pivot, Angle<N> angle) where N : struct, INumeric<N>
         {
             var newAngle = -angle;
-            var difference = value - pivot;
+            var difference = vector - pivot;
             return pivot + new Vector2<N>(
                 (difference.X * newAngle.Cosine) - (difference.Y * newAngle.Sine),
                 (difference.X * newAngle.Sine) + (difference.Y * newAngle.Cosine));
         }
+
+        public static N GetLengthSquared<N>(this Vector2<N> vector) where N : struct, INumeric<N>
+            => (vector.X * vector.X) + (vector.Y * vector.Y);
+
+        public static N GetLength<N>(this Vector2<N> vector) where N : struct, INumeric<N>
+            => Math<N>.Sqrt(vector.GetLengthSquared());
+
+        public static N DistanceFrom<N>(this Vector2<N> vector, Vector2<N> point) where N : struct, INumeric<N>
+            => Math<N>.Sqrt(Math<N>.Pow(vector.X - point.X, Numeric<N>.Two) + Math<N>.Pow(vector.Y - point.Y, Numeric<N>.Two));
+
+        public static Vector2<N> Translate<N>(this Vector2<N> vector, Vector2<N> delta) where N : struct, INumeric<N>
+           => new Vector2<N>(vector.X + delta.X, vector.Y + delta.Y);
+
     }
 }

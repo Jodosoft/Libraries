@@ -20,10 +20,12 @@
 using Jodo.Extensions.Benchmarking.Internals;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Jodo.Extensions.Benchmarking
 {
+    [ExcludeFromCodeCoverage]
     public static class Measurer
     {
         [MethodImpl(MethodImplOptions.NoOptimization)]

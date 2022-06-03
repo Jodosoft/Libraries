@@ -29,8 +29,6 @@ namespace Jodo.Extensions.Numerics
         public readonly N X;
         public readonly N Y;
 
-        public N Length => Math<N>.Sqrt((X * X) + (Y * Y));
-
         public Vector2(byte x, N y) : this(Convert<N>.ToNumeric(x), y) { }
         public Vector2(N x, byte y) : this(x, Convert<N>.ToNumeric(y)) { }
         public Vector2(byte x, byte y) : this(Convert<N>.ToNumeric(x), Convert<N>.ToNumeric(y)) { }
@@ -52,17 +50,10 @@ namespace Jodo.Extensions.Numerics
             info.AddValue(nameof(Y), Y, typeof(N));
         }
 
-        public N DistanceFrom(Vector2<N> point) => Math<N>.Sqrt(Math<N>.Pow(X - point.X, Numeric<N>.Two) + Math<N>.Pow(Y - point.Y, Numeric<N>.Two));
-        public N DistanceFrom((N X, N Y) point) => DistanceFrom((Vector2<N>)point);
-        public N DistanceFrom(N x, N y) => DistanceFrom((x, y));
-        public Vector2<N> Translate((N X, N Y) delta) => new Vector2<N>(X + delta.X, Y + delta.Y);
-        public Vector2<N> Translate(N x, N y) => Translate((x, y));
-
         public bool Equals(Vector2<N> other) => X.Equals(other.X) && Y.Equals(other.Y);
         public override bool Equals(object? obj) => obj is Vector2<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y);
         public override string ToString() => $"({X}, {Y})";
-        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public static bool TryParse(string value, out Vector2<N> result)
         {
@@ -82,7 +73,7 @@ namespace Jodo.Extensions.Numerics
         {
             value = value.Replace(StringRepresentation.Combine(typeof(Vector2<N>)), string.Empty);
             var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
-            if (args.Length != 2) throw new FormatException(""); // jjs
+            if (args.Length != 2) throw new FormatException();
             return new Vector2<N>(StringParser<N>.Parse(args[0].Trim()), StringParser<N>.Parse(args[1].Trim()));
         }
 

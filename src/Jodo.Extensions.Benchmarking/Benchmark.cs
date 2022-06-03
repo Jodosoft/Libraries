@@ -20,12 +20,14 @@
 using Jodo.Extensions.Benchmarking.Internals;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.Benchmarking
 {
+    [ExcludeFromCodeCoverage]
     public static class Benchmark
     {
-        public const int DurationInSeconds = 10;
+        public const int DurationInSeconds = 60;
 
         public static void Run(Func<object> subjectFunction, Func<object> baselineFunction)
         {

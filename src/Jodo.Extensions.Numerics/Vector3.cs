@@ -30,10 +30,6 @@ namespace Jodo.Extensions.Numerics
         public readonly N Y;
         public readonly N Z;
 
-        public N Length => Math<N>.Sqrt((X * X) + (Y * Y) + (Z * Z));
-
-
-
         public Vector3(N x, N y, N z)
         {
             X = x;
@@ -58,7 +54,6 @@ namespace Jodo.Extensions.Numerics
         public override bool Equals(object? obj) => obj is Vector3<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
         public override string ToString() => StringRepresentation.Combine(GetType(), X, Y, Z);
-        public string ToString(string format, IFormatProvider formatProvider) => throw new NotImplementedException();
 
         public static bool TryParse(string value, out Vector3<N> result)
         {

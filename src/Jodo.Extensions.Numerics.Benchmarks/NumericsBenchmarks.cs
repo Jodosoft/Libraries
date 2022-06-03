@@ -21,31 +21,20 @@ using Jodo.Extensions.Benchmarking;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Jodo.Extensions.CheckedNumerics.Benchmarks
+namespace Jodo.Extensions.Numerics.Benchmarks
 {
     [ExcludeFromCodeCoverage]
-    public static class CIntBenchmarks
+    public static class NumericsBenchmarks
     {
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static void CInt_Negation_Vs_Int()
-        {
-            var baseline = Random.NextInt32(100, 1000);
-            var sut = (cint)baseline;
-
-            Benchmark.Run(
-                () => -sut,
-                () => -baseline);
-        }
-
-        [Benchmark]
-        public static void CInt_Division_Vs_Int()
+        public static void XInt_Versus_Int32_Division()
         {
             var baselineLeft = Random.NextInt32(100, 1000);
             var baselineRight = Random.NextInt32(2, 10);
-            var sutLeft = (cint)baselineLeft;
-            var sutRight = (cint)baselineRight;
+            var sutLeft = (xint)baselineLeft;
+            var sutRight = (xint)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -53,10 +42,10 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         }
 
         [Benchmark]
-        public static void CInt_ConversionToFloat_Vs_Int()
+        public static void XInt_Versus_Int32_ConversionToFloat()
         {
             var baseline = Random.NextInt32(100, 1000);
-            var sut = (cint)baseline;
+            var sut = (xint)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -64,24 +53,70 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         }
 
         [Benchmark]
-        public static void CInt_StringParsing_Vs_Int()
+        public static void XInt_Versus_Int32_StringParsing()
         {
             var input = Random.NextInt32(-100, 100).ToString();
 
             Benchmark.Run(
-                () => cint.Parse(input),
+                () => xint.Parse(input),
                 () => int.Parse(input));
         }
 
         [Benchmark]
-        public static void CInt_MultiplicationOverflow_Vs_Int()
+        public static void XInt_Versus_Int32_Overflow()
         {
-            var functionInput = cint.MaxValue;
+            var functionInput = xint.MaxValue;
             var baselineInput = int.MaxValue;
 
             Benchmark.Run(
                 () => functionInput * functionInput,
                 () => baselineInput * baselineInput);
+        }
+
+        [Benchmark]
+        public static void XDouble_Versus_Double_Division()
+        {
+            var baselineLeft = Random.NextDouble(100, 1000);
+            var baselineRight = Random.NextDouble(2, 10);
+            var sutLeft = (xdouble)baselineLeft;
+            var sutRight = (xdouble)baselineRight;
+
+            Benchmark.Run(
+                () => sutLeft / sutRight,
+                () => baselineLeft / baselineRight);
+        }
+
+        [Benchmark]
+        public static void XDouble_Versus_Double_StringParsing()
+        {
+            var input = Random.NextDouble(-100, 100).ToString();
+
+            Benchmark.Run(
+                () => xdouble.Parse(input),
+                () => double.Parse(input));
+        }
+
+        [Benchmark]
+        public static void Fix64_Versus_Double_Division()
+        {
+            var baselineLeft = Random.NextDouble(100, 1000);
+            var baselineRight = Random.NextDouble(2, 10);
+            var sutLeft = (fix64)baselineLeft;
+            var sutRight = (fix64)baselineRight;
+
+            Benchmark.Run(
+                () => sutLeft / sutRight,
+                () => baselineLeft / baselineRight);
+        }
+
+        [Benchmark]
+        public static void Fix64_Versus_Double_StringParsing()
+        {
+            var input = Random.NextDouble(-100, 100).ToString();
+
+            Benchmark.Run(
+                () => fix64.Parse(input),
+                () => double.Parse(input));
         }
     }
 }

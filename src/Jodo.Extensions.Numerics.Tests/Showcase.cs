@@ -57,21 +57,49 @@ namespace Jodo.Extensions.Numerics.Tests
         }
 
         [Test]
-        public void Github_CodeSample()
+        public void CodeSample_Summary()
         {
-            var f1 = 2 * Math<fix64>.PI;
-            var f2 = f1 / 1000;
+            var xint1 = (xint)1234;
+            var xint2 = xint1 >> 0b11;
 
-            var i1 = (xint)1234;
-            var i2 = i1 >> 0b11;
+            Console.WriteLine(xint1); // outputs: 1234
+            Console.WriteLine($"{xint2:X}"); // outputs: 9A
 
-            Console.WriteLine(f1); // outputs: 6.283184
-            Console.WriteLine(f2); // outputs: 0.006283
-            Console.WriteLine(i1); // outputs: 1234
-            Console.WriteLine($"{i2:X}"); // outputs: 9A
+            var fixed1 = 2 * Math<fix64>.PI;
+            var fixed2 = fixed1 / 1000;
+
+            Console.WriteLine(fixed1); // outputs: 6.283184
+            Console.WriteLine(fixed2); // outputs: 0.006283
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("6.283184", "0.006283", "1234", "9A");
+                .Should().ContainInOrder("1234", "9A", "6.283184", "0.006283");
+        }
+
+        [Test]
+        public void CodeSample_StringFormatting()
+        {
+            var var1 = (xint)1024;
+            var var2 = (fix64)99.54322f;
+
+            Console.WriteLine($"{var1:N}"); // outputs: 1,024.00
+            Console.WriteLine($"{var1:X}"); // outputs: 400
+            Console.WriteLine($"{var2:E}"); // outputs: 9.954322E+001
+            Console.WriteLine($"{var2:000.000}"); // outputs: 099.543
+
+            ConsoleOuput.ToString().Split(Environment.NewLine)
+                .Should().ContainInOrder("1,024.00", "400", "9.954322E+001", "099.543");
+        }
+
+        [Test]
+        public void CodeSample_RandomGeneration()
+        {
+            var var1 = Random.NextNumeric<xdouble>();
+            var var2 = Random.NextNumeric<xdouble>(100, 120);
+
+            Console.WriteLine(var1); // outputs: -7.405808417991177E+115 (example)
+            Console.WriteLine(var2); // outputs: 102.85086051826445 (example)
+
+            ConsoleOuput.ToString().Should().Contain("1");
         }
 
         [Test]

@@ -805,6 +805,20 @@ namespace Jodo.Extensions.Numerics.Tests
                 //assert
                 result.Should().Be(Cast<N>.ToNumeric(input * -1));
             }
+
+            [Test, Repeat(RandomVariations)]
+            public void IsNegative_RandomValue_ReturnsCorrectResult()
+            {
+                //arrange
+                var input = Random.NextNumeric<N>();
+                var expected = input < Numeric<N>.Zero;
+
+                //act
+                var result = Numeric<N>.IsNegative(input);
+
+                //assert
+                result.Should().Be(expected);
+            }
         }
 
         public abstract class Unsigned<N> : AssemblyFixtureBase where N : struct, INumeric<N>
@@ -822,6 +836,19 @@ namespace Jodo.Extensions.Numerics.Tests
             public void MinValue_Unsigned_IsZero()
             {
                 Numeric<N>.MinValue.Should().Be(Numeric<N>.Zero);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void IsNegative_RandomValue_AlwaysFalse()
+            {
+                //arrange
+                var input = Random.NextNumeric<N>();
+
+                //act
+                var result = Numeric<N>.IsNegative(input);
+
+                //assert
+                result.Should().BeFalse();
             }
         }
 

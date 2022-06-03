@@ -19,11 +19,13 @@
 
 using Jodo.Extensions.Benchmarking.Internals;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
 namespace Jodo.Extensions.Benchmarking
 {
+    [ExcludeFromCodeCoverage]
     public static class Writer
     {
         private static readonly string FileName = $"{nameof(Benchmark)}Results.md";
@@ -41,7 +43,7 @@ namespace Jodo.Extensions.Benchmarking
                     "> * **OS:** *tbc*",
                     $"> * **Seconds per Benchmark:** {Benchmark.DurationInSeconds:N1}",
                     string.Empty,
-                    "| Name | Baseline Ops Per Second | Baseline Time | Subject Ops Per Second | Subject Time | Observation |",
+                    "| Name | Ops Per Second | Time | Baseline Ops Per Second | Baseline Time | Observation |",
                     "| --- | --- | --- | --- | --- | --- |" };
             foreach (var line in lines)
             {
@@ -66,10 +68,10 @@ namespace Jodo.Extensions.Benchmarking
             var em = GetEmphasis(subject, baseline);
             string row =
                 $"| {em}{name}{em} " +
-                $"| {em}{baseline.PerSecond:G4}{em} " +
-                $"| {em}{GetTimeWithUnits(baseline.AverageTime)}{em} " +
                 $"| {em}{subject.PerSecond:G4}{em} " +
                 $"| {em}{GetTimeWithUnits(subject.AverageTime)}{em} " +
+                $"| {em}{baseline.PerSecond:G4}{em} " +
+                $"| {em}{GetTimeWithUnits(baseline.AverageTime)}{em} " +
                 $"| {em}{GetObservation(subject, baseline)}{em} " +
                 $"|";
 
@@ -90,10 +92,10 @@ namespace Jodo.Extensions.Benchmarking
             var timesSlower = baseline.PerSecond / subject.PerSecond;
             var timesFaster = subject.PerSecond / baseline.PerSecond;
 
-            if (timesSlower >= 10) return $"{timesSlower:G4}x slower";
-            if (timesFaster >= 10) return $"{timesFaster:G4}x faster";
-            if (timesSlower >= 1.1) return $"{timesSlower:G4}x slower";
-            if (timesFaster >= 1.1) return $"{timesFaster:G4}x faster";
+            if (timesSlower >= 100) return $"{timesSlower:G4}x slower";
+            if (timesFaster >= 100) return $"{timesFaster:G4}x faster";
+            if (timesSlower >= 1.1) return $"{timesSlower:N1}x slower";
+            if (timesFaster >= 1.1) return $"{timesFaster:N1}x faster";
             return "*Marginal difference*";
         }
 

@@ -60,7 +60,7 @@ namespace Jodo.Extensions.Geometry
         }
 
         public Circle<N> Translate(Vector2<N> delta) => new Circle<N>(Center.Translate(delta), Radius);
-        public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate(deltaX, deltaY), Radius);
+        public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate((deltaX, deltaY)), Radius);
         public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, (Diameter, Diameter));
         public bool IntersectsWith(Circle<N> other) => Center.DistanceFrom(other.Center) < Radius + other.Radius;
 

@@ -18,9 +18,11 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.Benchmarking.Internals
 {
+    [ExcludeFromCodeCoverage]
     public readonly struct Measurement
     {
         public readonly ulong Count;

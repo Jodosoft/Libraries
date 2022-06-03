@@ -18,9 +18,11 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.Benchmarking
 {
+    [ExcludeFromCodeCoverage]
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public sealed class BenchmarkAttribute : Attribute
     {
