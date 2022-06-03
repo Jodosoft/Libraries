@@ -167,7 +167,25 @@ Benchmarks are provided to facilitate comparison with the built-in types. To run
 
 Sample output can be seen below:
   
-*tbc*
+
+<details>
+<summary><em>Jodo.Extensions.Numerics.Benchmarks - Results from 2022-06-03T21:30:27.6877090Z</em></summary>
+
+  > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
+  > * **Architecture:** x64-based processor
+  > * **RAM:** 16.0 GB
+  > * **OS:** Windows 10 (64-bit)
+  > * **Seconds per Benchmark:** 60.0
+
+| Name | Ops Per Second | Time | Baseline Ops Per Second | Baseline Time | Observation |
+| --- | --- | --- | --- | --- | --- |
+| XInt_Versus_Int32_Division | 1.798E+08 | *<1μs* | 1.94E+08 | *<1μs* | *Marginal difference* |
+| XInt_Versus_Int32_StringParsing | 7.305E+07 | *<1μs* | 6.734E+07 | *<1μs* | *Marginal difference* |
+| XDouble_Versus_Double_StringParsing | 1.663E+06 | *<1μs* | 1.624E+06 | *<1μs* | *Marginal difference* |
+| Fix64_Versus_Double_Division | 1.455E+07 | *<1μs* | 1.593E+08 | *<1μs* | 10.9x slower |
+
+</details>
+
 
 <h2>Jodo.Extensions.CheckedNumerics</h2>
   
