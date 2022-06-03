@@ -897,6 +897,34 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
+            public void Sign_RandomPositiveValue_ReturnsOne()
+            {
+                //arrange
+                N input;
+                do { input = Random.NextNumeric<N>(); }
+                while (input <= Numeric<N>.Zero);
+
+                //act
+                var result = Math<N>.Sign(input);
+
+                //assert
+                result.Should().Be(1);
+            }
+
+            [Test]
+            public void Sign_Zero_ReturnsZero()
+            {
+                //arrange
+                var input = Numeric<N>.Zero;
+
+                //act
+                var result = Math<N>.Sign(input);
+
+                //assert
+                result.Should().Be(0);
+            }
+
+            [Test, Repeat(RandomVariations)]
             public void Sin_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
@@ -1216,6 +1244,21 @@ namespace Jodo.Extensions.Numerics.Tests
 
                 //assert
                 result.Should().Be(expected);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Sign_RandomNegativeValue_ReturnsNegativeOne()
+            {
+                //arrange
+                N input;
+                do { input = Random.NextNumeric<N>(); }
+                while (input >= Numeric<N>.Zero);
+
+                //act
+                var result = Math<N>.Sign(input);
+
+                //assert
+                result.Should().Be(-1);
             }
         }
 

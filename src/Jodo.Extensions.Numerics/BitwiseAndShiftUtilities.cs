@@ -58,7 +58,11 @@ namespace Jodo.Extensions.Numerics
 
         public static decimal LeftShift(decimal left, int right)
         {
-            throw new NotImplementedException();
+            var leftBits = decimal.GetBits(left);
+            leftBits[0] = leftBits[0] << right;
+            leftBits[1] = leftBits[1] << right;
+            leftBits[2] = leftBits[2] << right;
+            return new decimal(leftBits);
         }
 
         public static float LogicalAnd(float left, float right)
@@ -77,7 +81,12 @@ namespace Jodo.Extensions.Numerics
 
         public static decimal LogicalAnd(decimal left, decimal right)
         {
-            throw new NotImplementedException();
+            var leftBits = decimal.GetBits(left);
+            var rightBits = decimal.GetBits(right);
+            leftBits[0] = leftBits[0] & rightBits[0];
+            leftBits[1] = leftBits[1] & rightBits[1];
+            leftBits[2] = leftBits[2] & rightBits[2];
+            return new decimal(leftBits);
         }
 
         public static float LogicalExclusiveOr(float left, float right)
@@ -96,9 +105,13 @@ namespace Jodo.Extensions.Numerics
 
         public static decimal LogicalExclusiveOr(decimal left, decimal right)
         {
-            throw new NotImplementedException();
+            var leftBits = decimal.GetBits(left);
+            var rightBits = decimal.GetBits(right);
+            leftBits[0] = leftBits[0] ^ rightBits[0];
+            leftBits[1] = leftBits[1] ^ rightBits[1];
+            leftBits[2] = leftBits[2] ^ rightBits[2];
+            return new decimal(leftBits);
         }
-
 
         public static float LogicalOr(float left, float right)
         {
@@ -116,7 +129,12 @@ namespace Jodo.Extensions.Numerics
 
         public static decimal LogicalOr(decimal left, decimal right)
         {
-            throw new NotImplementedException();
+            var leftBits = decimal.GetBits(left);
+            var rightBits = decimal.GetBits(right);
+            leftBits[0] = leftBits[0] | rightBits[0];
+            leftBits[1] = leftBits[1] | rightBits[1];
+            leftBits[2] = leftBits[2] | rightBits[2];
+            return new decimal(leftBits);
         }
 
         public static float RightShift(float left, int right)
@@ -133,7 +151,11 @@ namespace Jodo.Extensions.Numerics
 
         public static decimal RightShift(decimal left, int right)
         {
-            throw new NotImplementedException();
+            var leftBits = decimal.GetBits(left);
+            leftBits[0] = leftBits[0] >> right;
+            leftBits[1] = leftBits[1] >> right;
+            leftBits[2] = leftBits[2] >> right;
+            return new decimal(leftBits);
         }
     }
 }

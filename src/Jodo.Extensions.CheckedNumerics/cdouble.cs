@@ -72,7 +72,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cdouble Parse(string s, NumberStyles style, IFormatProvider? provider) => double.Parse(s, style, provider);
 
         public static explicit operator cdouble(decimal value) => new cdouble(CheckedConvert.ToDouble(value));
-        public static implicit operator cdouble(bool value) => new cdouble(value ? 1 : 0);
         public static implicit operator cdouble(byte value) => new cdouble(value);
         public static implicit operator cdouble(double value) => new cdouble(value);
         public static implicit operator cdouble(float value) => new cdouble(value);
@@ -84,7 +83,6 @@ namespace Jodo.Extensions.CheckedNumerics
         public static implicit operator cdouble(ulong value) => new cdouble(value);
         public static implicit operator cdouble(ushort value) => new cdouble(value);
 
-        public static explicit operator bool(cdouble value) => CheckedConvert.ToBoolean(value._value);
         public static explicit operator byte(cdouble value) => CheckedConvert.ToByte(value._value);
         public static explicit operator decimal(cdouble value) => CheckedConvert.ToDecimal(value._value);
         public static explicit operator float(cdouble value) => CheckedConvert.ToSingle(value._value);

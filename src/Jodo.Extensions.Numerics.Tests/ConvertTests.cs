@@ -37,6 +37,7 @@ namespace Jodo.Extensions.Numerics.Tests
             //assert
             result.Should().Be(input);
         }
+
         [Test, Repeat(RandomVariations)]
         public void ToByte_RoundTrip_SameValue()
         {

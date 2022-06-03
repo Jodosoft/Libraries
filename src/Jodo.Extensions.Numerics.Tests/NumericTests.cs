@@ -592,19 +592,6 @@ namespace Jodo.Extensions.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            public void BitwiseComplement_RandomReal_DoesntThrow()
-            {
-                //arrange
-                var left = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-
-                //act
-                var action = new Action(() => { left = ~left; });
-
-                //assert
-                action.Should().NotThrow();
-            }
-
-            [Test, Repeat(RandomVariations)]
             public void LogicalAnd_RandomIntegralValues_CorrectResult()
             {
                 //arrange
@@ -704,6 +691,88 @@ namespace Jodo.Extensions.Numerics.Tests
                 Convert<N>.ToDouble(Numeric<N>.Epsilon).Should().BeApproximately(0, 0.001);
             }
 
+            [Test, Repeat(RandomVariations)]
+            public void LogicalAnd_RandomValues_DoesntThrow()
+            {
+                //arrange
+                var left = Random.NextNumeric<N>();
+                var right = Random.NextNumeric<N>();
+
+                //act
+                var action = new Func<N>(() => left & right);
+
+                //assert
+                action.Should().NotThrow();
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LogicalOr_RandomValues_DoesntThrow()
+            {
+                //arrange
+                var left = Random.NextNumeric<N>();
+                var right = Random.NextNumeric<N>();
+
+                //act
+                var action = new Func<N>(() => left | right);
+
+                //assert
+                action.Should().NotThrow();
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LogicalExclusiveOr_RandomValues_DoesntThrow()
+            {
+                //arrange
+                var left = Random.NextNumeric<N>();
+                var right = Random.NextNumeric<N>();
+
+                //act
+                var action = new Func<N>(() => left ^ right);
+
+                //assert
+                action.Should().NotThrow();
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void BitwiseComplement_RandomValue_DoesntThrow()
+            {
+                //arrange
+                var left = Random.NextNumeric<N>();
+
+                //act
+                var action = new Func<N>(() => ~left);
+
+                //assert
+                action.Should().NotThrow();
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LeftShift_RandomValues_DoesntThrow()
+            {
+                //arrange
+                var left = Random.NextNumeric<N>();
+                var right = Random.NextInt32(0, 2);
+
+                //act
+                var action = new Func<N>(() => left << right);
+
+                //assert
+                action.Should().NotThrow();
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void RightShift_RandomValue_DoesntThrow()
+            {
+                //arrange
+                var left = Random.NextNumeric<N>();
+                var right = Random.NextInt32(0, 2);
+
+                //act
+                var action = new Func<N>(() => left >> right);
+
+                //assert
+                action.Should().NotThrow();
+            }
         }
 
         public abstract class Signed<N> : AssemblyFixtureBase where N : struct, INumeric<N>

@@ -244,7 +244,7 @@ namespace Jodo.Extensions.Numerics
             fix64 IMath<fix64>.Tanh(fix64 x) => (fix64)Math.Tanh((double)x);
             fix64 IMath<fix64>.Tau { get; } = (fix64)(Math.PI * 2d);
             fix64 IMath<fix64>.Truncate(fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            int IMath<fix64>.Sign(fix64 x) => x._scaledValue == 0 ? 0 : 1;
+            int IMath<fix64>.Sign(fix64 x) => Math.Sign(x._scaledValue);
 
             fix64 IBitConverter<fix64>.Read(IReadOnlyStream<byte> stream) => new fix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
             void IBitConverter<fix64>.Write(fix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));

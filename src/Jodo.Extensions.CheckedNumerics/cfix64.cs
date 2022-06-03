@@ -245,7 +245,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IMath<cfix64>.Tanh(cfix64 x) => (cfix64)Math.Tanh((double)x);
             cfix64 IMath<cfix64>.Tau { get; } = (cfix64)(Math.PI * 2d);
             cfix64 IMath<cfix64>.Truncate(cfix64 x) => new cfix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            int IMath<cfix64>.Sign(cfix64 x) => x._scaledValue == 0 ? 0 : 1;
+            int IMath<cfix64>.Sign(cfix64 x) => Math.Sign(x._scaledValue);
 
             cfix64 IBitConverter<cfix64>.Read(IReadOnlyStream<byte> stream) => new cfix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
             void IBitConverter<cfix64>.Write(cfix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
