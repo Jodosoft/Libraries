@@ -21,22 +21,22 @@
 
 Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
 
-<a href="#inumericn">Fixed-point types</a> and <a href="#wrappers">wrappers for the built-in types</a> are provided.
+<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided with <a href="#operators">full operator support</a> and <a href="#stringformatting">commonly used interfaces</a>. Static classes such as <a href="#mathn">Math&lt;N&gt;</a> and structs such as <a href="#vector3n">Vector3&lt;N&gt;</a> support generic usage of numeric types.
 
-Usage is easy, with fully supported operators, commonly-used interfaces and familiar static methods–as demonstrated by the following code sample:
+The following code sample demonstrates how to use these types:
 
 ```csharp
-var xint1 = (xint)1234;
-var xint2 = xint1 >> 0b11;
+var w = -100 + Math<xint>.Max(1234, 4321);
+var v = new Vector2<xint>(w, w >> 0b11);
 
-Console.WriteLine(xint1); // outputs: 1234
-Console.WriteLine($"{xint2:X}"); // outputs: 9A
+var f = 2 * Math<fix64>.PI;
+var b = BitConverter<fix64>.GetBytes(f);
 
-var fixed1 = 2 * Math<fix64>.PI;
-var fixed2 = fixed1 / 1000;
+Console.WriteLine(w); // outputs: 4221
+Console.WriteLine($"{v:X}"); // outputs: (107D, 20F)
 
-Console.WriteLine(fixed1); // outputs: 6.283184
-Console.WriteLine(fixed2); // outputs: 0.006283
+Console.WriteLine(f); // outputs: 6.283184
+Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
 ```
 
 ### Types
@@ -67,7 +67,7 @@ Console.WriteLine(fixed2); // outputs: 0.006283
     <td>Provides access to numeric conversion operators (casts) from within a generic context.</td>
   </tr>
   <tr>
-    <td id="castn"><sub><em>static class</em></sub><br />Clamp&lt;N&gt;</td>
+    <td id="clampn"><sub><em>static class</em></sub><br />Clamp&lt;N&gt;</td>
     <td>Allows conversion to and from the built-in numeric types whilst preventing overflow by clamping to the <code>MinValue</code> and <code>MaxValue</code> of the target type.</td>
   </tr>
   <tr>
@@ -75,15 +75,15 @@ Console.WriteLine(fixed2); // outputs: 0.006283
     <td>Provides string parsing methods with support for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.numberstyles">NumberStyles</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider">IFormatProvider</a>.</td>
   </tr>
   <tr>
-    <td id="castn"><sub><em>readonly struct</em></sub><br />Unit&lt;N&gt;</td>
+    <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;N&gt;</td>
     <td>A wrapper for numeric types the clamps values between -1 and 1 (or 0 and 1 when unsigned) with extensive interface and operator support.</td>
   </tr>
   <tr>
-    <td id="castn"><sub><em>readonly struct</em></sub><br />Vector2&lt;N&gt;</td>
+    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2&lt;N&gt;</td>
     <td>A collection of two numeric values, <code>X</code> and <code>Y</code> with extensive interface and operator support.</td>
   </tr>
   <tr>
-    <td id="castn"><sub><em>readonly struct</em></sub><br />Vector3&lt;N&gt;</td>
+    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3&lt;N&gt;</td>
     <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code> with extensive interface and operator support.</td>
   </tr>
   <tr>
@@ -111,25 +111,25 @@ Console.WriteLine(fixed2); // outputs: 0.006283
     <th>Description</th>
   </tr>
   <tr>
-    <td>Overloaded operators</td>
+    <td id="operators">Overloaded operators</td>
     <td>
       <p>All the provided numeric types have a full suite of overloaded operators, including:
       <ul>
-        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Equality operators</a> <code>==</code> and  <code>!=</code></li>
-        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Comparison operators</a> <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code> and <code>&gt;=</code></li>
-        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators">Arithmetic operators</a> <code>++</code>, <code>--</code>, <code>+</code> (plus), <code>-</code> (minus), <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code> and <code>-</code></li>
-        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/bitwise-and-shift-operators">Bitwise and shift operators</a> <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code></li>
-        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators">Conversion operators</a> for all the built-in numeric types</li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Equality operators</a> (<code>==</code>, <code>!=</code>)</li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Comparison operators</a> (<code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>)</li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators">Arithmetic operators</a> (<code>++</code>, <code>--</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>)</li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/bitwise-and-shift-operators">Bitwise and shift operators</a> (<code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code>, <code>^</code>)</li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators">Conversion operators</a> to/from the built-in numeric types</li>
       </ul>
   </p>
    <p>
-<a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>++</code>, <code>--</code>, <code>+</code> (plus), <code>-</code> (minus), <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code>, allowing for limited expressions in a generic context (note that equality and conversion operators are not supported on interfaces).
+Additionally, <a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>++</code>, <code>--</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code>, allowing for limited expressions in a generic context (note that equality and conversion operators are not supported on interfaces).
   </p>
   <p> <em>Note: The bitwise and shift operators are overloaded for non-integral types. These operators perform the correct bitwise operations, but are unlikely to produce useful results.</em></p>
       </td>
     </tr>
    <tr>
-<td> String formatting </td>
+<td id="stringformatting">String formatting</td>
 <td>
 <p>All the provided numeric types can be used with <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings">numeric format strings</a>, as in the following code sample:</p>
   <pre lang="csharp"><code>var var1 = (xint)1024;
