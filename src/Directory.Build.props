@@ -48,7 +48,6 @@
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
-        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
         <AssemblyVersion>1.1.0.0</AssemblyVersion>
         <Authors>Joseph J. Short</Authors>
         <Company>Joseph J. Short</Company>
