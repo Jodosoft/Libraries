@@ -19,12 +19,22 @@
 
 using Jodo.Extensions.Primitives;
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Numerics
 {
     [Serializable]
-    public readonly struct Vector2<N> : ISerializable where N : struct, INumeric<N>
+    [DebuggerDisplay("{ToString(),nq}")]
+    public readonly struct Vector2<N> :
+            IEquatable<Vector2<N>>,
+            IFormattable,
+            IProvider<IBitConverter<Vector2<N>>>,
+            IProvider<IRandom<Vector2<N>>>,
+            IProvider<IStringParser<Vector2<N>>>,
+            ISerializable
+        where N : struct, INumeric<N>
     {
         public readonly N X;
         public readonly N Y;
@@ -39,12 +49,10 @@ namespace Jodo.Extensions.Numerics
             Y = y;
         }
 
-#pragma warning disable CS8605 // Unboxing a possibly null value.
         private Vector2(SerializationInfo info, StreamingContext context) : this(
             (N)info.GetValue(nameof(X), typeof(N)),
             (N)info.GetValue(nameof(Y), typeof(N)))
         { }
-#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -56,27 +64,28 @@ namespace Jodo.Extensions.Numerics
         public override bool Equals(object? obj) => obj is Vector2<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y);
         public override string ToString() => $"({X}, {Y})";
+        public string ToString(string format, IFormatProvider provider) => $"({X.ToString(format, provider)}, {Y.ToString(format, provider)})";
 
-        public static bool TryParse(string value, out Vector2<N> result)
-        {
-            try
-            {
-                result = Parse(value);
-                return true;
-            }
-            catch (Exception)
-            {
-                result = default;
-                return false;
-            }
-        }
+        public static bool TryParse(string value, out Vector2<N> result) => Try.Run(() => Parse(value), out result);
 
         public static Vector2<N> Parse(string value)
         {
+            var (x, y) = ParseParts(ref value);
+            return new Vector2<N>(StringParser<N>.Parse(x), StringParser<N>.Parse(y));
+        }
+
+        public static Vector2<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
+        {
+            var (x, y) = ParseParts(ref value);
+            return new Vector2<N>(StringParser<N>.Parse(x, style, provider), StringParser<N>.Parse(y, style, provider));
+        }
+
+        private static (string X, string Y) ParseParts(ref string value)
+        {
             value = value.Replace(StringRepresentation.Combine(typeof(Vector2<N>)), string.Empty);
-            var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
-            if (args.Length != 2) throw new FormatException();
-            return new Vector2<N>(StringParser<N>.Parse(args[0].Trim()), StringParser<N>.Parse(args[1].Trim()));
+            var parts = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
+            if (parts.Length != 2) throw new FormatException();
+            return (parts[0], parts[1]);
         }
 
         public static Vector2<N> operator -(Vector2<N> value) => new Vector2<N>(-value.X, -value.Y);
@@ -92,5 +101,48 @@ namespace Jodo.Extensions.Numerics
         public static implicit operator Tuple<N, N>(Vector2<N> value) => new Tuple<N, N>(value.X, value.Y);
         public static bool operator ==(Vector2<N> left, Vector2<N> right) => left.Equals(right);
         public static bool operator !=(Vector2<N> left, Vector2<N> right) => !(left == right);
+
+        IBitConverter<Vector2<N>> IProvider<IBitConverter<Vector2<N>>>.GetInstance() => Utilities.Instance;
+        IRandom<Vector2<N>> IProvider<IRandom<Vector2<N>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Vector2<N>> IProvider<IStringParser<Vector2<N>>>.GetInstance() => Utilities.Instance;
+
+        private sealed class Utilities :
+           IBitConverter<Vector2<N>>,
+           IRandom<Vector2<N>>,
+           IStringParser<Vector2<N>>
+        {
+            public readonly static Utilities Instance = new Utilities();
+
+            Vector2<N> IRandom<Vector2<N>>.Next(Random random)
+            {
+                return new Vector2<N>(random.NextNumeric<N>(), random.NextNumeric<N>());
+            }
+
+            Vector2<N> IRandom<Vector2<N>>.Next(Random random, Vector2<N> bound1, Vector2<N> bound2)
+            {
+                return new Vector2<N>(random.NextNumeric(bound1.X, bound2.X), random.NextNumeric(bound1.Y, bound2.Y));
+            }
+
+            Vector2<N> IStringParser<Vector2<N>>.Parse(string s)
+            {
+                return Parse(s);
+            }
+
+            Vector2<N> IStringParser<Vector2<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            {
+                return Parse(s, style, provider);
+            }
+
+            Vector2<N> IBitConverter<Vector2<N>>.Read(IReadOnlyStream<byte> stream)
+            {
+                return new Vector2<N>(BitConverter<N>.Read(stream), BitConverter<N>.Read(stream));
+            }
+
+            void IBitConverter<Vector2<N>>.Write(Vector2<N> value, IWriteOnlyStream<byte> stream)
+            {
+                BitConverter<N>.Write(stream, value.X);
+                BitConverter<N>.Write(stream, value.Y);
+            }
+        }
     }
 }

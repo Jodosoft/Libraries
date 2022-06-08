@@ -19,18 +19,14 @@
 
 using Jodo.Extensions.Primitives;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Numerics
 {
-    public static class Unit
-    {
-        public static Unit<N> Clamp<N>(N value) where N : struct, INumeric<N>
-            => Unit<N>.Clamp(value);
-    }
-
     [Serializable]
+    [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Unit<N> :
             IComparable,
             IComparable<Unit<N>>,
@@ -53,12 +49,10 @@ namespace Jodo.Extensions.Numerics
             Value = Math<N>.Clamp(value, Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
         }
 
-#pragma warning disable CS8605 // Unboxing a possibly null value.
         private Unit(SerializationInfo info, StreamingContext context)
         {
             Value = Math<N>.Clamp((N)info.GetValue(nameof(Value), typeof(N) ?? throw new InvalidOperationException()), Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
         }
-#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
             => info.AddValue(nameof(Value), Value, typeof(N));

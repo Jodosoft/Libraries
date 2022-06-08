@@ -1,6 +1,7 @@
 <Project>
 
   <PropertyGroup>
+    <Deterministic>true</Deterministic>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
@@ -14,8 +15,7 @@
       </ItemGroup>
       <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
-        <Nullable>disable</Nullable>
+        <TargetFramework>net6.0</TargetFramework>
       </PropertyGroup>
       <ItemGroup>
         <Compile Include="..\Jodo.Extensions.Benchmarking\Program.cs" Link="Program.cs" />
@@ -23,8 +23,7 @@
     </When>
     <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing'))">
       <PropertyGroup>
-        <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
-        <Nullable>disable</Nullable>
+        <TargetFramework>net6.0</TargetFramework>
       </PropertyGroup>
       <ItemGroup>
         <PackageReference Include="NUnit" Version="3.13.3" />
@@ -35,23 +34,30 @@
       </ItemGroup>
     </When>
     <Otherwise>
+
       <ItemGroup>
         <Compile Include="..\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
         <None Include="..\..\LICENSE.md" Link="Properties\LICENSE.md" Pack="true" PackagePath="\" />
         <None Include="..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
       </ItemGroup>
+
       <PropertyGroup>
-        <TargetFrameworks>netstandard2.1;net5.0;net6.0</TargetFrameworks>
+        <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
       </PropertyGroup>
+
+      <ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+      </ItemGroup>
+
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <AssemblyVersion>1.1.0.0</AssemblyVersion>
         <Authors>Joseph J. Short</Authors>
         <Company>Joseph J. Short</Company>
         <Copyright>Copyright © Joseph J. Short 2022</Copyright>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <EnablePackageValidation>true</EnablePackageValidation>
-        <FileVersion>1.0.0</FileVersion>
+        <FileVersion>1.1.0</FileVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <IncludeSymbols>true</IncludeSymbols>
         <MinClientVersion>2.12</MinClientVersion>
@@ -67,10 +73,12 @@
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/JosephJShort/Jodo.Extensions.git</RepositoryUrl>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <VersionPrefix>1.0.0</VersionPrefix>
-        <VersionSuffix></VersionSuffix>
+        <VersionPrefix>1.1.0</VersionPrefix>
+        <VersionSuffix>preview1</VersionSuffix>
       </PropertyGroup>
+
     </Otherwise>
+
   </Choose>
 
 </Project>

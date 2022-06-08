@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
@@ -59,20 +60,20 @@ namespace Jodo.Extensions.Numerics.Tests
         [Test]
         public void CodeSample_Summary()
         {
-            var xint1 = (xint)1234;
-            var xint2 = xint1 >> 0b11;
+            var w = -100 + Math<xint>.Max(1234, 4321);
+            var v = new Vector2<xint>(w, w >> 0b11);
 
-            Console.WriteLine(xint1); // outputs: 1234
-            Console.WriteLine($"{xint2:X}"); // outputs: 9A
+            var f = 2 * Math<fix64>.PI;
+            var b = BitConverter<fix64>.GetBytes(f);
 
-            var fixed1 = 2 * Math<fix64>.PI;
-            var fixed2 = fixed1 / 1000;
+            Console.WriteLine(w); // outputs: 4221
+            Console.WriteLine($"{v:X}"); // outputs: (107D, 20F)
 
-            Console.WriteLine(fixed1); // outputs: 6.283184
-            Console.WriteLine(fixed2); // outputs: 0.006283
+            Console.WriteLine(f); // outputs: 6.283184
+            Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("1234", "9A", "6.283184", "0.006283");
+                .Should().ContainInOrder("4221", "(107D, 20F)", "6.283184", "System.ReadOnlySpan<Byte>[8]");
         }
 
         [Test]

@@ -19,12 +19,22 @@
 
 using Jodo.Extensions.Primitives;
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Numerics
 {
     [Serializable]
-    public readonly struct Vector3<N> : ISerializable where N : struct, INumeric<N>
+    [DebuggerDisplay("{ToString(),nq}")]
+    public readonly struct Vector3<N> :
+            IEquatable<Vector3<N>>,
+            IFormattable,
+            IProvider<IBitConverter<Vector3<N>>>,
+            IProvider<IRandom<Vector3<N>>>,
+            IProvider<IStringParser<Vector3<N>>>,
+            ISerializable
+        where N : struct, INumeric<N>
     {
         public readonly N X;
         public readonly N Y;
@@ -37,13 +47,11 @@ namespace Jodo.Extensions.Numerics
             Z = z;
         }
 
-#pragma warning disable CS8605 // Unboxing a possibly null value.
         private Vector3(SerializationInfo info, StreamingContext context) : this(
             (N)info.GetValue(nameof(X), typeof(N)),
             (N)info.GetValue(nameof(Y), typeof(N)),
             (N)info.GetValue(nameof(Z), typeof(N)))
         { }
-#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -55,31 +63,37 @@ namespace Jodo.Extensions.Numerics
         public bool Equals(Vector3<N> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         public override bool Equals(object? obj) => obj is Vector3<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
-        public override string ToString() => StringRepresentation.Combine(GetType(), X, Y, Z);
+        public override string ToString() => $"({X}, {Y}, {Z})";
+        public string ToString(string format, IFormatProvider provider)
+            => $"({X.ToString(format, provider)}, {Y.ToString(format, provider)}, {Z.ToString(format, provider)})";
 
-        public static bool TryParse(string value, out Vector3<N> result)
-        {
-            try
-            {
-                result = Parse(value);
-                return true;
-            }
-            catch (Exception)
-            {
-                result = default;
-                return false;
-            }
-        }
+
+        public static bool TryParse(string value, out Vector3<N> result) => Try.Run(() => Parse(value), out result);
 
         public static Vector3<N> Parse(string value)
         {
-            value = value.Replace(StringRepresentation.Combine(typeof(Vector3<N>)), string.Empty);
-            var args = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
-            if (args.Length != 3) throw new FormatException();
+            var (x, y, z) = ParseParts(ref value);
             return new Vector3<N>(
-                StringParser<N>.Parse(args[0].Trim()),
-                StringParser<N>.Parse(args[1].Trim()),
-                StringParser<N>.Parse(args[2].Trim()));
+                StringParser<N>.Parse(x),
+                StringParser<N>.Parse(y),
+                StringParser<N>.Parse(z));
+        }
+
+        public static Vector3<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
+        {
+            var (x, y, z) = ParseParts(ref value);
+            return new Vector3<N>(
+                StringParser<N>.Parse(x, style, provider),
+                StringParser<N>.Parse(y, style, provider),
+                StringParser<N>.Parse(z, style, provider));
+        }
+
+        private static (string X, string Y, string Z) ParseParts(ref string value)
+        {
+            value = value.Replace(StringRepresentation.Combine(typeof(Vector2<N>)), string.Empty);
+            var parts = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
+            if (parts.Length != 3) throw new FormatException();
+            return (parts[0], parts[1], parts[2]);
         }
 
         public static Vector3<N> operator -(Vector3<N> value) => new Vector3<N>(-value.X, -value.Y, -value.Z);
@@ -95,5 +109,58 @@ namespace Jodo.Extensions.Numerics
         public static implicit operator Tuple<N, N, N>(Vector3<N> value) => new Tuple<N, N, N>(value.X, value.Y, value.Z);
         public static bool operator ==(Vector3<N> left, Vector3<N> right) => left.Equals(right);
         public static bool operator !=(Vector3<N> left, Vector3<N> right) => !(left == right);
+
+        IBitConverter<Vector3<N>> IProvider<IBitConverter<Vector3<N>>>.GetInstance() => Utilities.Instance;
+        IRandom<Vector3<N>> IProvider<IRandom<Vector3<N>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Vector3<N>> IProvider<IStringParser<Vector3<N>>>.GetInstance() => Utilities.Instance;
+
+        private sealed class Utilities :
+           IBitConverter<Vector3<N>>,
+           IRandom<Vector3<N>>,
+           IStringParser<Vector3<N>>
+        {
+            public readonly static Utilities Instance = new Utilities();
+
+            Vector3<N> IRandom<Vector3<N>>.Next(Random random)
+            {
+                return new Vector3<N>(
+                    random.NextNumeric<N>(),
+                    random.NextNumeric<N>(),
+                    random.NextNumeric<N>());
+            }
+
+            Vector3<N> IRandom<Vector3<N>>.Next(Random random, Vector3<N> bound1, Vector3<N> bound2)
+            {
+                return new Vector3<N>(
+                    random.NextNumeric(bound1.X, bound2.X),
+                    random.NextNumeric(bound1.Y, bound2.Y),
+                    random.NextNumeric(bound1.Z, bound2.Z));
+            }
+
+            Vector3<N> IStringParser<Vector3<N>>.Parse(string s)
+            {
+                return Parse(s);
+            }
+
+            Vector3<N> IStringParser<Vector3<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            {
+                return Parse(s, style, provider);
+            }
+
+            Vector3<N> IBitConverter<Vector3<N>>.Read(IReadOnlyStream<byte> stream)
+            {
+                return new Vector3<N>(
+                    BitConverter<N>.Read(stream),
+                    BitConverter<N>.Read(stream),
+                    BitConverter<N>.Read(stream));
+            }
+
+            void IBitConverter<Vector3<N>>.Write(Vector3<N> value, IWriteOnlyStream<byte> stream)
+            {
+                BitConverter<N>.Write(stream, value.X);
+                BitConverter<N>.Write(stream, value.Y);
+                BitConverter<N>.Write(stream, value.Z);
+            }
+        }
     }
 }

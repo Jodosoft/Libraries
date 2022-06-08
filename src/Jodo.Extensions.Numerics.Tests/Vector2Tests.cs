@@ -17,10 +17,52 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using FluentAssertions;
+using NUnit.Framework;
+using System;
+
 namespace Jodo.Extensions.Numerics.Tests
 {
-    public abstract class Vector2Tests<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+    public static class Vector2Tests
     {
+        public sealed class FixedPoint : General<fix64> { }
+        public sealed class FloatingPoint : General<xfloat> { }
+        public sealed class UnsignedIntegral : General<xbyte> { }
 
+        public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        {
+            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Unit<N>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<N>> { }
+
+            [Test]
+            public void Ctor_RandomValues_CorrectResult()
+            {
+                //arrange
+                var x = Random.NextNumeric<N>();
+                var y = Random.NextNumeric<N>();
+
+                //act
+                var result = new Vector2<N>(x, y);
+
+                //assert
+                result.X.Should().Be(x);
+                result.Y.Should().Be(y);
+            }
+
+            [Test]
+            public void Random_WithinBounds_CorrectResult()
+            {
+                //arrange
+                var bound1 = Random.NextRandomizable<Vector2<N>>();
+                var bound2 = Random.NextRandomizable<Vector2<N>>();
+
+                //act
+                var result = Random.NextRandomizable(bound1, bound2);
+
+                //assert
+                result.X.Should().BeInRange(Math<N>.Min(bound1.X, bound2.X), Math<N>.Max(bound1.X, bound2.X));
+                result.Y.Should().BeInRange(Math<N>.Min(bound1.Y, bound2.Y), Math<N>.Max(bound1.Y, bound2.Y));
+            }
+        }
     }
 }

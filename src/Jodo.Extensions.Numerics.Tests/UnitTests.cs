@@ -41,7 +41,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = Random.NextNumeric(Numeric<N>.MaxUnit, Numeric<N>.MaxValue);
 
                 //act
-                var result = Unit.Clamp(input);
+                var result = Unit<N>.Clamp(input);
 
                 //assert
                 result.Value.Should().Be(Numeric<N>.MaxUnit);
@@ -54,7 +54,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 var input = Random.NextNumeric(Numeric<N>.MinValue, Numeric<N>.MinUnit);
 
                 //act
-                var result = Unit.Clamp(input);
+                var result = Unit<N>.Clamp(input);
 
                 //assert
                 result.Value.Should().Be(Numeric<N>.MinUnit);
