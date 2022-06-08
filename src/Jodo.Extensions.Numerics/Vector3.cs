@@ -64,8 +64,8 @@ namespace Jodo.Extensions.Numerics
         public override bool Equals(object? obj) => obj is Vector3<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
         public override string ToString() => $"({X}, {Y}, {Z})";
-        public string ToString(string format, IFormatProvider provider)
-            => $"({X.ToString(format, provider)}, {Y.ToString(format, provider)}, {Z.ToString(format, provider)})";
+        public string ToString(string format, IFormatProvider formatProvider)
+            => $"({X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)})";
 
 
         public static bool TryParse(string value, out Vector3<N> result) => Try.Run(() => Parse(value), out result);
