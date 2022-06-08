@@ -725,7 +725,9 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Log_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
+                double randomValue;
+                do { randomValue = ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue)); }
+                while (!double.IsFinite(Math.Log(randomValue)));
                 var input = Cast<N>.ToNumeric(randomValue);
                 var expected = Cast<N>.ToNumeric(Math.Log(randomValue));
 
