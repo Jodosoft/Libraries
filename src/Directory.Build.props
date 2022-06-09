@@ -73,7 +73,7 @@
         <RepositoryUrl>https://github.com/JosephJShort/Jodo.Extensions.git</RepositoryUrl>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <VersionPrefix>1.1.0</VersionPrefix>
-        <VersionSuffix>preview2</VersionSuffix>
+        <VersionSuffix>preview3</VersionSuffix>
       </PropertyGroup>
     </Otherwise>
 
