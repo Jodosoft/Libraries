@@ -1,29 +1,32 @@
 <Project>
 
   <PropertyGroup>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
     <Deterministic>true</Deterministic>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <Choose>
+    
     <When Condition="$(MSBuildProjectName.EndsWith('Benchmarks'))">
       <ItemGroup>
         <ProjectReference Include="..\Jodo.Extensions.Benchmarking\Jodo.Extensions.Benchmarking.csproj" />
       </ItemGroup>
       <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
       </PropertyGroup>
       <ItemGroup>
         <Compile Include="..\Jodo.Extensions.Benchmarking\Program.cs" Link="Program.cs" />
       </ItemGroup>
     </When>
+    
     <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing'))">
       <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
       </PropertyGroup>
       <ItemGroup>
         <PackageReference Include="NUnit" Version="3.13.3" />
@@ -33,21 +36,21 @@
         <PackageReference Include="FluentAssertions" Version="6.6.0" />
       </ItemGroup>
     </When>
-    <Otherwise>
 
+    <Otherwise>
+      <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+      </PropertyGroup>
       <ItemGroup>
         <Compile Include="..\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
         <None Include="..\..\LICENSE.md" Link="Properties\LICENSE.md" Pack="true" PackagePath="\" />
         <None Include="..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
       </ItemGroup>
-
       <ItemGroup Condition="'$(Configuration)' == 'Release'">
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
       </ItemGroup>
-
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <Nullable>enable</Nullable>
         <AssemblyVersion>1.1.0.0</AssemblyVersion>
         <Authors>Joseph J. Short</Authors>
         <Company>Joseph J. Short</Company>
@@ -73,7 +76,6 @@
         <VersionPrefix>1.1.0</VersionPrefix>
         <VersionSuffix>preview1</VersionSuffix>
       </PropertyGroup>
-
     </Otherwise>
 
   </Choose>
