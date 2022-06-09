@@ -221,7 +221,7 @@ namespace Jodo.Extensions.Numerics
             ufix64 IMath<ufix64>.Clamp(ufix64 x, ufix64 bound1, ufix64 bound2) => new ufix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             ufix64 IMath<ufix64>.Cos(ufix64 x) => (ufix64)Math.Cos((double)x);
             ufix64 IMath<ufix64>.Cosh(ufix64 x) => (ufix64)Math.Cosh((double)x);
-            ufix64 IMath<ufix64>.DegreesToRadians(ufix64 x) => (ufix64)((double)x * Trig.RadiansPerDegree);
+            ufix64 IMath<ufix64>.DegreesToRadians(ufix64 x) => (ufix64)((double)x * NumericUtilities.RadiansPerDegree);
             ufix64 IMath<ufix64>.E { get; } = (ufix64)Math.E;
             ufix64 IMath<ufix64>.Exp(ufix64 x) => (ufix64)Math.Exp((double)x);
             ufix64 IMath<ufix64>.Floor(ufix64 x) => new ufix64(ScaledArithmetic.Floor(x._scaledValue, ScalingFactor));
@@ -233,7 +233,7 @@ namespace Jodo.Extensions.Numerics
             ufix64 IMath<ufix64>.Min(ufix64 x, ufix64 y) => new ufix64(Math.Min(x._scaledValue, y._scaledValue));
             ufix64 IMath<ufix64>.PI { get; } = (ufix64)Math.PI;
             ufix64 IMath<ufix64>.Pow(ufix64 x, ufix64 y) => y == 1 ? x : (ufix64)Math.Pow((double)x, (double)y);
-            ufix64 IMath<ufix64>.RadiansToDegrees(ufix64 x) => (ufix64)((double)x * Trig.DegreesPerRadian);
+            ufix64 IMath<ufix64>.RadiansToDegrees(ufix64 x) => (ufix64)((double)x * NumericUtilities.DegreesPerRadian);
             ufix64 IMath<ufix64>.Round(ufix64 x) => Round(x, 0, MidpointRounding.ToEven);
             ufix64 IMath<ufix64>.Round(ufix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             ufix64 IMath<ufix64>.Round(ufix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);

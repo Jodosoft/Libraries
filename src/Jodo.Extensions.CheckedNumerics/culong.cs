@@ -185,7 +185,7 @@ namespace Jodo.Extensions.CheckedNumerics
             culong IMath<culong>.Clamp(culong x, culong bound1, culong bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             culong IMath<culong>.Cos(culong x) => (culong)Math.Cos(x._value);
             culong IMath<culong>.Cosh(culong x) => (culong)Math.Cosh(x._value);
-            culong IMath<culong>.DegreesToRadians(culong x) => (culong)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            culong IMath<culong>.DegreesToRadians(culong x) => (culong)CheckedArithmetic.Multiply(x, NumericUtilities.RadiansPerDegree);
             culong IMath<culong>.E { get; } = 2;
             culong IMath<culong>.Exp(culong x) => (culong)Math.Exp(x._value);
             culong IMath<culong>.Floor(culong x) => x;
@@ -197,7 +197,7 @@ namespace Jodo.Extensions.CheckedNumerics
             culong IMath<culong>.Min(culong x, culong y) => Math.Min(x._value, y._value);
             culong IMath<culong>.PI { get; } = 3;
             culong IMath<culong>.Pow(culong x, culong y) => CheckedArithmetic.Pow(x._value, y._value);
-            culong IMath<culong>.RadiansToDegrees(culong x) => (culong)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            culong IMath<culong>.RadiansToDegrees(culong x) => (culong)CheckedArithmetic.Multiply(x, NumericUtilities.DegreesPerRadian);
             culong IMath<culong>.Round(culong x) => x;
             culong IMath<culong>.Round(culong x, int digits) => x;
             culong IMath<culong>.Round(culong x, int digits, MidpointRounding mode) => x;

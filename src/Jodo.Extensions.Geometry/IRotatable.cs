@@ -17,9 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Jodo.Extensions.Geometry
 {
-    public interface IRotatable<T, TAngle, TPivot>
+    [SuppressMessage("csharpsquid", "S2436")]
+    public interface IRotatable<out T, in TAngle, in TPivot>
     {
         T Rotate(TAngle angle);
         T RotateAround(TPivot pivot, TAngle angle);

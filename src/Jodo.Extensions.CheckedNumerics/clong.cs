@@ -184,7 +184,7 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Clamp(clong x, clong bound1, clong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             clong IMath<clong>.Cos(clong x) => (clong)Math.Cos(x);
             clong IMath<clong>.Cosh(clong x) => (clong)Math.Cosh(x);
-            clong IMath<clong>.DegreesToRadians(clong degrees) => (clong)CheckedArithmetic.Multiply(degrees, Trig.RadiansPerDegree);
+            clong IMath<clong>.DegreesToRadians(clong degrees) => (clong)CheckedArithmetic.Multiply(degrees, NumericUtilities.RadiansPerDegree);
             clong IMath<clong>.E { get; } = 2L;
             clong IMath<clong>.Exp(clong x) => (clong)Math.Exp(x);
             clong IMath<clong>.Floor(clong x) => x;
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Min(clong x, clong y) => Math.Min(x, y);
             clong IMath<clong>.PI { get; } = 3L;
             clong IMath<clong>.Pow(clong x, clong y) => CheckedArithmetic.Pow(x, y);
-            clong IMath<clong>.RadiansToDegrees(clong radians) => (clong)CheckedArithmetic.Multiply(radians, Trig.DegreesPerRadian);
+            clong IMath<clong>.RadiansToDegrees(clong radians) => (clong)CheckedArithmetic.Multiply(radians, NumericUtilities.DegreesPerRadian);
             clong IMath<clong>.Round(clong x) => x;
             clong IMath<clong>.Round(clong x, int digits) => x;
             clong IMath<clong>.Round(clong x, int digits, MidpointRounding mode) => x;

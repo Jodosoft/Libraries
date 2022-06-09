@@ -24,12 +24,11 @@ namespace Jodo.Extensions.Geometry
 {
     public interface ITwoDimensional<T, N> where N : struct, INumeric<N>
     {
+        AARectangle<N> GetBounds();
         bool Contains(T other);
+        bool Contains(Vector2<N> point);
         bool IntersectsWith(T other);
         N GetArea();
-
-        AARectangle<N> GetBounds();
-        bool Contains(Vector2<N> point);
         ReadOnlySpan<Vector2<N>> GetVertices(int pointsPerRadian);
         T Translate(Vector2<N> delta);
         Vector2<N> GetCenter();

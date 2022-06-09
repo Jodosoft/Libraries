@@ -222,7 +222,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cufix64 IMath<cufix64>.Clamp(cufix64 x, cufix64 bound1, cufix64 bound2) => new cufix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             cufix64 IMath<cufix64>.Cos(cufix64 x) => (cufix64)Math.Cos((double)x);
             cufix64 IMath<cufix64>.Cosh(cufix64 x) => (cufix64)Math.Cosh((double)x);
-            cufix64 IMath<cufix64>.DegreesToRadians(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.RadiansPerDegree);
+            cufix64 IMath<cufix64>.DegreesToRadians(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, NumericUtilities.RadiansPerDegree);
             cufix64 IMath<cufix64>.E { get; } = (cufix64)Math.E;
             cufix64 IMath<cufix64>.Exp(cufix64 x) => (cufix64)Math.Exp((double)x);
             cufix64 IMath<cufix64>.Floor(cufix64 x) => new cufix64(ScaledArithmetic.Floor(x._scaledValue, ScalingFactor));
@@ -234,7 +234,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cufix64 IMath<cufix64>.Min(cufix64 x, cufix64 y) => new cufix64(Math.Min(x._scaledValue, y._scaledValue));
             cufix64 IMath<cufix64>.PI { get; } = (cufix64)Math.PI;
             cufix64 IMath<cufix64>.Pow(cufix64 x, cufix64 y) => y == 1 ? x : (cufix64)Math.Pow((double)x, (double)y);
-            cufix64 IMath<cufix64>.RadiansToDegrees(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, Trig.DegreesPerRadian);
+            cufix64 IMath<cufix64>.RadiansToDegrees(cufix64 x) => (cufix64)CheckedArithmetic.Multiply((double)x, NumericUtilities.DegreesPerRadian);
             cufix64 IMath<cufix64>.Round(cufix64 x) => Round(x, 0, MidpointRounding.ToEven);
             cufix64 IMath<cufix64>.Round(cufix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             cufix64 IMath<cufix64>.Round(cufix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);

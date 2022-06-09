@@ -105,20 +105,20 @@ namespace Jodo.Extensions.Numerics
         public static bool operator >(xfloat left, xfloat right) => left._value > right._value;
         public static bool operator >=(xfloat left, xfloat right) => left._value >= right._value;
         public static xfloat operator %(xfloat left, xfloat right) => left._value % right._value;
-        public static xfloat operator &(xfloat left, xfloat right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
+        public static xfloat operator &(xfloat left, xfloat right) => NumericUtilities.LogicalAnd(left._value, right._value);
         public static xfloat operator -(xfloat left, xfloat right) => left._value - right._value;
         public static xfloat operator --(xfloat value) => value._value - 1;
         public static xfloat operator -(xfloat value) => -value._value;
         public static xfloat operator *(xfloat left, xfloat right) => left._value * right._value;
         public static xfloat operator /(xfloat left, xfloat right) => left._value / right._value;
-        public static xfloat operator ^(xfloat left, xfloat right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static xfloat operator |(xfloat left, xfloat right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
-        public static xfloat operator ~(xfloat left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
+        public static xfloat operator ^(xfloat left, xfloat right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static xfloat operator |(xfloat left, xfloat right) => NumericUtilities.LogicalOr(left._value, right._value);
+        public static xfloat operator ~(xfloat left) => NumericUtilities.BitwiseComplement(left._value);
         public static xfloat operator +(xfloat left, xfloat right) => left._value + right._value;
         public static xfloat operator +(xfloat value) => value;
         public static xfloat operator ++(xfloat value) => value._value + 1;
-        public static xfloat operator <<(xfloat left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
-        public static xfloat operator >>(xfloat left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
+        public static xfloat operator <<(xfloat left, int right) => NumericUtilities.LeftShift(left._value, right);
+        public static xfloat operator >>(xfloat left, int right) => NumericUtilities.RightShift(left._value, right);
 
         bool INumeric<xfloat>.IsGreaterThan(xfloat value) => this > value;
         bool INumeric<xfloat>.IsGreaterThanOrEqualTo(xfloat value) => this >= value;
@@ -194,7 +194,7 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Clamp(xfloat x, xfloat bound1, xfloat bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             xfloat IMath<xfloat>.Cos(xfloat x) => MathF.Cos(x._value);
             xfloat IMath<xfloat>.Cosh(xfloat x) => MathF.Cosh(x._value);
-            xfloat IMath<xfloat>.DegreesToRadians(xfloat x) => x * Trig.RadiansPerDegreeF;
+            xfloat IMath<xfloat>.DegreesToRadians(xfloat x) => x * NumericUtilities.RadiansPerDegreeF;
             xfloat IMath<xfloat>.E { get; } = MathF.E;
             xfloat IMath<xfloat>.Exp(xfloat x) => MathF.Exp(x._value);
             xfloat IMath<xfloat>.Floor(xfloat x) => MathF.Floor(x._value);
@@ -206,7 +206,7 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Min(xfloat x, xfloat y) => MathF.Min(x._value, y._value);
             xfloat IMath<xfloat>.PI { get; } = MathF.PI;
             xfloat IMath<xfloat>.Pow(xfloat x, xfloat y) => MathF.Pow(x._value, y._value);
-            xfloat IMath<xfloat>.RadiansToDegrees(xfloat x) => x * Trig.DegreesPerRadianF;
+            xfloat IMath<xfloat>.RadiansToDegrees(xfloat x) => x * NumericUtilities.DegreesPerRadianF;
             xfloat IMath<xfloat>.Round(xfloat x) => MathF.Round(x);
             xfloat IMath<xfloat>.Round(xfloat x, int digits) => MathF.Round(x, digits);
             xfloat IMath<xfloat>.Round(xfloat x, int digits, MidpointRounding mode) => MathF.Round(x, digits, mode);

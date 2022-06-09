@@ -102,20 +102,20 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator >(cfloat left, cfloat right) => left._value > right._value;
         public static bool operator >=(cfloat left, cfloat right) => left._value >= right._value;
         public static cfloat operator %(cfloat left, cfloat right) => CheckedArithmetic.Remainder(left._value, right._value);
-        public static cfloat operator &(cfloat left, cfloat right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
+        public static cfloat operator &(cfloat left, cfloat right) => NumericUtilities.LogicalAnd(left._value, right._value);
         public static cfloat operator -(cfloat left, cfloat right) => CheckedArithmetic.Subtract(left._value, right._value);
         public static cfloat operator --(cfloat value) => value - 1;
         public static cfloat operator -(cfloat value) => -value._value;
         public static cfloat operator *(cfloat left, cfloat right) => CheckedArithmetic.Multiply(left._value, right._value);
         public static cfloat operator /(cfloat left, cfloat right) => CheckedArithmetic.Divide(left._value, right._value);
-        public static cfloat operator ^(cfloat left, cfloat right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static cfloat operator |(cfloat left, cfloat right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
-        public static cfloat operator ~(cfloat left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
+        public static cfloat operator ^(cfloat left, cfloat right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static cfloat operator |(cfloat left, cfloat right) => NumericUtilities.LogicalOr(left._value, right._value);
+        public static cfloat operator ~(cfloat left) => NumericUtilities.BitwiseComplement(left._value);
         public static cfloat operator +(cfloat left, cfloat right) => CheckedArithmetic.Add(left._value, right._value);
         public static cfloat operator +(cfloat value) => value;
         public static cfloat operator ++(cfloat value) => value + 1;
-        public static cfloat operator <<(cfloat left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
-        public static cfloat operator >>(cfloat left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
+        public static cfloat operator <<(cfloat left, int right) => NumericUtilities.LeftShift(left._value, right);
+        public static cfloat operator >>(cfloat left, int right) => NumericUtilities.RightShift(left._value, right);
 
         bool INumeric<cfloat>.IsGreaterThan(cfloat value) => this > value;
         bool INumeric<cfloat>.IsGreaterThanOrEqualTo(cfloat value) => this >= value;
@@ -190,7 +190,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Clamp(cfloat x, cfloat bound1, cfloat bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             cfloat IMath<cfloat>.Cos(cfloat x) => MathF.Cos(x._value);
             cfloat IMath<cfloat>.Cosh(cfloat x) => MathF.Cosh(x._value);
-            cfloat IMath<cfloat>.DegreesToRadians(cfloat x) => x._value * Trig.RadiansPerDegreeF;
+            cfloat IMath<cfloat>.DegreesToRadians(cfloat x) => x._value * NumericUtilities.RadiansPerDegreeF;
             cfloat IMath<cfloat>.E { get; } = MathF.E;
             cfloat IMath<cfloat>.Exp(cfloat x) => MathF.Exp(x._value);
             cfloat IMath<cfloat>.Floor(cfloat x) => MathF.Floor(x._value);
@@ -202,7 +202,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Min(cfloat x, cfloat y) => MathF.Min(x._value, y._value);
             cfloat IMath<cfloat>.PI { get; } = MathF.PI;
             cfloat IMath<cfloat>.Pow(cfloat x, cfloat y) => MathF.Pow(x._value, y._value);
-            cfloat IMath<cfloat>.RadiansToDegrees(cfloat x) => x._value * Trig.DegreesPerRadianF;
+            cfloat IMath<cfloat>.RadiansToDegrees(cfloat x) => x._value * NumericUtilities.DegreesPerRadianF;
             cfloat IMath<cfloat>.Round(cfloat x) => MathF.Round(x._value);
             cfloat IMath<cfloat>.Round(cfloat x, int digits) => MathF.Round(x._value, digits);
             cfloat IMath<cfloat>.Round(cfloat x, int digits, MidpointRounding mode) => MathF.Round(x._value, digits, mode);

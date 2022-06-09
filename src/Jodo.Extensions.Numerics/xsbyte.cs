@@ -184,7 +184,7 @@ namespace Jodo.Extensions.Numerics
             xsbyte IMath<xsbyte>.Clamp(xsbyte x, xsbyte bound1, xsbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xsbyte IMath<xsbyte>.Cos(xsbyte x) => (sbyte)Math.Cos(x._value);
             xsbyte IMath<xsbyte>.Cosh(xsbyte x) => (sbyte)Math.Cosh(x._value);
-            xsbyte IMath<xsbyte>.DegreesToRadians(xsbyte x) => (sbyte)(x * Trig.RadiansPerDegree);
+            xsbyte IMath<xsbyte>.DegreesToRadians(xsbyte x) => (sbyte)(x * NumericUtilities.RadiansPerDegree);
             xsbyte IMath<xsbyte>.E { get; } = 2;
             xsbyte IMath<xsbyte>.Exp(xsbyte x) => (sbyte)Math.Exp(x._value);
             xsbyte IMath<xsbyte>.Floor(xsbyte x) => x;
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.Numerics
             xsbyte IMath<xsbyte>.Min(xsbyte x, xsbyte y) => Math.Min(x._value, y._value);
             xsbyte IMath<xsbyte>.PI { get; } = 3;
             xsbyte IMath<xsbyte>.Pow(xsbyte x, xsbyte y) => (sbyte)Math.Pow(x._value, y._value);
-            xsbyte IMath<xsbyte>.RadiansToDegrees(xsbyte x) => (sbyte)(x * Trig.DegreesPerRadian);
+            xsbyte IMath<xsbyte>.RadiansToDegrees(xsbyte x) => (sbyte)(x * NumericUtilities.DegreesPerRadian);
             xsbyte IMath<xsbyte>.Round(xsbyte x) => x;
             xsbyte IMath<xsbyte>.Round(xsbyte x, int digits) => x;
             xsbyte IMath<xsbyte>.Round(xsbyte x, int digits, MidpointRounding mode) => x;

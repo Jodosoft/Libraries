@@ -95,20 +95,20 @@ namespace Jodo.Extensions.Numerics
         public static bool operator >(xdecimal left, xdecimal right) => left._value > right._value;
         public static bool operator >=(xdecimal left, xdecimal right) => left._value >= right._value;
         public static xdecimal operator %(xdecimal left, xdecimal right) => left._value % right._value;
-        public static xdecimal operator &(xdecimal left, xdecimal right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
+        public static xdecimal operator &(xdecimal left, xdecimal right) => NumericUtilities.LogicalAnd(left._value, right._value);
         public static xdecimal operator -(xdecimal left, xdecimal right) => left._value - right._value;
         public static xdecimal operator --(xdecimal value) => value._value - 1;
         public static xdecimal operator -(xdecimal value) => -value._value;
         public static xdecimal operator *(xdecimal left, xdecimal right) => left._value * right._value;
         public static xdecimal operator /(xdecimal left, xdecimal right) => left._value / right._value;
-        public static xdecimal operator ^(xdecimal left, xdecimal right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static xdecimal operator |(xdecimal left, xdecimal right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
-        public static xdecimal operator ~(xdecimal left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
+        public static xdecimal operator ^(xdecimal left, xdecimal right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static xdecimal operator |(xdecimal left, xdecimal right) => NumericUtilities.LogicalOr(left._value, right._value);
+        public static xdecimal operator ~(xdecimal left) => NumericUtilities.BitwiseComplement(left._value);
         public static xdecimal operator +(xdecimal left, xdecimal right) => left._value + right._value;
         public static xdecimal operator +(xdecimal value) => value;
         public static xdecimal operator ++(xdecimal value) => value._value + 1;
-        public static xdecimal operator <<(xdecimal left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
-        public static xdecimal operator >>(xdecimal left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
+        public static xdecimal operator <<(xdecimal left, int right) => NumericUtilities.LeftShift(left._value, right);
+        public static xdecimal operator >>(xdecimal left, int right) => NumericUtilities.RightShift(left._value, right);
 
         bool INumeric<xdecimal>.IsGreaterThan(xdecimal value) => this > value;
         bool INumeric<xdecimal>.IsGreaterThanOrEqualTo(xdecimal value) => this >= value;
@@ -184,7 +184,7 @@ namespace Jodo.Extensions.Numerics
             xdecimal IMath<xdecimal>.Clamp(xdecimal x, xdecimal bound1, xdecimal bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xdecimal IMath<xdecimal>.Cos(xdecimal x) => (xdecimal)Math.Cos((double)x);
             xdecimal IMath<xdecimal>.Cosh(xdecimal x) => (xdecimal)Math.Cosh((double)x);
-            xdecimal IMath<xdecimal>.DegreesToRadians(xdecimal degrees) => degrees * Trig.RadiansPerDegreeM;
+            xdecimal IMath<xdecimal>.DegreesToRadians(xdecimal degrees) => degrees * NumericUtilities.RadiansPerDegreeM;
             xdecimal IMath<xdecimal>.E { get; } = (xdecimal)Math.E;
             xdecimal IMath<xdecimal>.Exp(xdecimal x) => (xdecimal)Math.Exp((double)x);
             xdecimal IMath<xdecimal>.Floor(xdecimal x) => decimal.Floor(x);
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.Numerics
             xdecimal IMath<xdecimal>.Min(xdecimal x, xdecimal y) => Math.Min(x, y);
             xdecimal IMath<xdecimal>.PI { get; } = (xdecimal)Math.PI;
             xdecimal IMath<xdecimal>.Pow(xdecimal x, xdecimal y) => y == 1 ? x : (xdecimal)Math.Pow((double)x, (double)y);
-            xdecimal IMath<xdecimal>.RadiansToDegrees(xdecimal radians) => radians * Trig.DegreesPerRadianM;
+            xdecimal IMath<xdecimal>.RadiansToDegrees(xdecimal radians) => radians * NumericUtilities.DegreesPerRadianM;
             xdecimal IMath<xdecimal>.Round(xdecimal x) => decimal.Round(x);
             xdecimal IMath<xdecimal>.Round(xdecimal x, int digits) => decimal.Round(x, digits);
             xdecimal IMath<xdecimal>.Round(xdecimal x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);

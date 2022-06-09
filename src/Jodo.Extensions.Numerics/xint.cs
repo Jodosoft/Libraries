@@ -184,7 +184,7 @@ namespace Jodo.Extensions.Numerics
             xint IMath<xint>.Clamp(xint x, xint bound1, xint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xint IMath<xint>.Cos(xint x) => (int)Math.Cos(x._value);
             xint IMath<xint>.Cosh(xint x) => (int)Math.Cosh(x._value);
-            xint IMath<xint>.DegreesToRadians(xint x) => (int)(x * Trig.RadiansPerDegree);
+            xint IMath<xint>.DegreesToRadians(xint x) => (int)(x * NumericUtilities.RadiansPerDegree);
             xint IMath<xint>.E { get; } = 2;
             xint IMath<xint>.Exp(xint x) => (int)Math.Exp(x._value);
             xint IMath<xint>.Floor(xint x) => x;
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.Numerics
             xint IMath<xint>.Min(xint x, xint y) => Math.Min(x._value, y._value);
             xint IMath<xint>.PI { get; } = 3;
             xint IMath<xint>.Pow(xint x, xint y) => (int)Math.Pow(x._value, y._value);
-            xint IMath<xint>.RadiansToDegrees(xint x) => (int)(x * Trig.DegreesPerRadian);
+            xint IMath<xint>.RadiansToDegrees(xint x) => (int)(x * NumericUtilities.DegreesPerRadian);
             xint IMath<xint>.Round(xint x) => x;
             xint IMath<xint>.Round(xint x, int digits) => x;
             xint IMath<xint>.Round(xint x, int digits, MidpointRounding mode) => x;

@@ -184,7 +184,7 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Clamp(xlong x, xlong bound1, xlong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xlong IMath<xlong>.Cos(xlong x) => (xlong)Math.Cos(x);
             xlong IMath<xlong>.Cosh(xlong x) => (xlong)Math.Cosh(x);
-            xlong IMath<xlong>.DegreesToRadians(xlong x) => (xlong)(x * Trig.RadiansPerDegree);
+            xlong IMath<xlong>.DegreesToRadians(xlong x) => (xlong)(x * NumericUtilities.RadiansPerDegree);
             xlong IMath<xlong>.E { get; } = 2L;
             xlong IMath<xlong>.Exp(xlong x) => (xlong)Math.Exp(x);
             xlong IMath<xlong>.Floor(xlong x) => x;
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Min(xlong x, xlong y) => Math.Min(x, y);
             xlong IMath<xlong>.PI { get; } = 3L;
             xlong IMath<xlong>.Pow(xlong x, xlong y) => y == 1 ? x : (xlong)Math.Pow(x, y);
-            xlong IMath<xlong>.RadiansToDegrees(xlong x) => (xlong)(x * Trig.DegreesPerRadian);
+            xlong IMath<xlong>.RadiansToDegrees(xlong x) => (xlong)(x * NumericUtilities.DegreesPerRadian);
             xlong IMath<xlong>.Round(xlong x) => x;
             xlong IMath<xlong>.Round(xlong x, int digits) => x;
             xlong IMath<xlong>.Round(xlong x, int digits, MidpointRounding mode) => x;

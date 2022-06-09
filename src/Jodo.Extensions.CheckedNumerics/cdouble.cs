@@ -110,12 +110,12 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cdouble operator +(cdouble left, cdouble right) => CheckedArithmetic.Add(left._value, right._value);
         public static cdouble operator +(cdouble value) => value;
         public static cdouble operator ++(cdouble value) => value + 1;
-        public static cdouble operator &(cdouble left, cdouble right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
-        public static cdouble operator |(cdouble left, cdouble right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
-        public static cdouble operator ^(cdouble left, cdouble right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static cdouble operator ~(cdouble left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
-        public static cdouble operator >>(cdouble left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
-        public static cdouble operator <<(cdouble left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
+        public static cdouble operator &(cdouble left, cdouble right) => NumericUtilities.LogicalAnd(left._value, right._value);
+        public static cdouble operator |(cdouble left, cdouble right) => NumericUtilities.LogicalOr(left._value, right._value);
+        public static cdouble operator ^(cdouble left, cdouble right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static cdouble operator ~(cdouble left) => NumericUtilities.BitwiseComplement(left._value);
+        public static cdouble operator >>(cdouble left, int right) => NumericUtilities.RightShift(left._value, right);
+        public static cdouble operator <<(cdouble left, int right) => NumericUtilities.LeftShift(left._value, right);
 
         bool INumeric<cdouble>.IsGreaterThan(cdouble value) => this > value;
         bool INumeric<cdouble>.IsGreaterThanOrEqualTo(cdouble value) => this >= value;
@@ -190,7 +190,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Clamp(cdouble x, cdouble bound1, cdouble bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cdouble IMath<cdouble>.Cos(cdouble x) => Math.Cos(x._value);
             cdouble IMath<cdouble>.Cosh(cdouble x) => Math.Cosh(x._value);
-            cdouble IMath<cdouble>.DegreesToRadians(cdouble degrees) => degrees * Trig.RadiansPerDegree;
+            cdouble IMath<cdouble>.DegreesToRadians(cdouble degrees) => degrees * NumericUtilities.RadiansPerDegree;
             cdouble IMath<cdouble>.E { get; } = Math.E;
             cdouble IMath<cdouble>.Exp(cdouble x) => Math.Exp(x._value);
             cdouble IMath<cdouble>.Floor(cdouble x) => Math.Floor(x._value);
@@ -202,7 +202,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Min(cdouble x, cdouble y) => Math.Min(x._value, y._value);
             cdouble IMath<cdouble>.PI { get; } = Math.PI;
             cdouble IMath<cdouble>.Pow(cdouble x, cdouble y) => Math.Pow(x._value, y._value);
-            cdouble IMath<cdouble>.RadiansToDegrees(cdouble radians) => radians * Trig.DegreesPerRadian;
+            cdouble IMath<cdouble>.RadiansToDegrees(cdouble radians) => radians * NumericUtilities.DegreesPerRadian;
             cdouble IMath<cdouble>.Round(cdouble x) => Math.Round(x._value);
             cdouble IMath<cdouble>.Round(cdouble x, int digits) => Math.Round(x._value, digits);
             cdouble IMath<cdouble>.Round(cdouble x, int digits, MidpointRounding mode) => Math.Round(x._value, digits, mode);

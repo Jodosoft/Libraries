@@ -20,12 +20,14 @@
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
+    [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Triangle<N> :
             IEquatable<Triangle<N>>,
             IFormattable,
@@ -36,7 +38,7 @@ namespace Jodo.Extensions.Geometry
             ISerializable
         where N : struct, INumeric<N>
     {
-        private static readonly string Symbol = "△";
+        private const string Symbol = "△";
 
         public readonly Vector2<N> A;
         public readonly Vector2<N> B;

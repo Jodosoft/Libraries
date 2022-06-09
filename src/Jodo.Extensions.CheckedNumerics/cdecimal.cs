@@ -96,20 +96,20 @@ namespace Jodo.Extensions.CheckedNumerics
         public static bool operator >(cdecimal left, cdecimal right) => left._value > right._value;
         public static bool operator >=(cdecimal left, cdecimal right) => left._value >= right._value;
         public static cdecimal operator %(cdecimal left, cdecimal right) => CheckedArithmetic.Remainder(left._value, right._value);
-        public static cdecimal operator &(cdecimal left, cdecimal right) => BitwiseAndShiftUtilities.LogicalAnd(left._value, right._value);
+        public static cdecimal operator &(cdecimal left, cdecimal right) => NumericUtilities.LogicalAnd(left._value, right._value);
         public static cdecimal operator -(cdecimal left, cdecimal right) => CheckedArithmetic.Subtract(left._value, right._value);
         public static cdecimal operator --(cdecimal value) => value - 1;
         public static cdecimal operator -(cdecimal value) => -value._value;
         public static cdecimal operator *(cdecimal left, cdecimal right) => CheckedArithmetic.Multiply(left._value, right._value);
         public static cdecimal operator /(cdecimal left, cdecimal right) => CheckedArithmetic.Divide(left._value, right._value);
-        public static cdecimal operator ^(cdecimal left, cdecimal right) => BitwiseAndShiftUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static cdecimal operator |(cdecimal left, cdecimal right) => BitwiseAndShiftUtilities.LogicalOr(left._value, right._value);
-        public static cdecimal operator ~(cdecimal left) => BitwiseAndShiftUtilities.BitwiseComplement(left._value);
+        public static cdecimal operator ^(cdecimal left, cdecimal right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
+        public static cdecimal operator |(cdecimal left, cdecimal right) => NumericUtilities.LogicalOr(left._value, right._value);
+        public static cdecimal operator ~(cdecimal left) => NumericUtilities.BitwiseComplement(left._value);
         public static cdecimal operator +(cdecimal left, cdecimal right) => CheckedArithmetic.Add(left._value, right._value);
         public static cdecimal operator +(cdecimal value) => value;
         public static cdecimal operator ++(cdecimal value) => value + 1;
-        public static cdecimal operator <<(cdecimal left, int right) => BitwiseAndShiftUtilities.LeftShift(left._value, right);
-        public static cdecimal operator >>(cdecimal left, int right) => BitwiseAndShiftUtilities.RightShift(left._value, right);
+        public static cdecimal operator <<(cdecimal left, int right) => NumericUtilities.LeftShift(left._value, right);
+        public static cdecimal operator >>(cdecimal left, int right) => NumericUtilities.RightShift(left._value, right);
 
         bool INumeric<cdecimal>.IsGreaterThan(cdecimal value) => this > value;
         bool INumeric<cdecimal>.IsGreaterThanOrEqualTo(cdecimal value) => this >= value;
@@ -184,7 +184,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cdecimal IMath<cdecimal>.Clamp(cdecimal x, cdecimal bound1, cdecimal bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cdecimal IMath<cdecimal>.Cos(cdecimal x) => CheckedCast.ToDecimal(Math.Cos(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Cosh(cdecimal x) => CheckedCast.ToDecimal(Math.Cosh(CheckedCast.ToDouble(x._value)));
-            cdecimal IMath<cdecimal>.DegreesToRadians(cdecimal degrees) => degrees * Trig.RadiansPerDegreeM;
+            cdecimal IMath<cdecimal>.DegreesToRadians(cdecimal degrees) => degrees * NumericUtilities.RadiansPerDegreeM;
             cdecimal IMath<cdecimal>.E { get; } = (decimal)Math.E;
             cdecimal IMath<cdecimal>.Exp(cdecimal x) => CheckedCast.ToDecimal(Math.Exp(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Floor(cdecimal x) => decimal.Floor(x._value);
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cdecimal IMath<cdecimal>.Min(cdecimal x, cdecimal y) => Math.Min(x._value, y._value);
             cdecimal IMath<cdecimal>.PI { get; } = (decimal)Math.PI;
             cdecimal IMath<cdecimal>.Pow(cdecimal x, cdecimal y) => y == 1 ? x : (cdecimal)CheckedCast.ToDecimal(Math.Pow(CheckedCast.ToDouble(x._value), CheckedCast.ToDouble(y._value)));
-            cdecimal IMath<cdecimal>.RadiansToDegrees(cdecimal radians) => radians * Trig.DegreesPerRadianM;
+            cdecimal IMath<cdecimal>.RadiansToDegrees(cdecimal radians) => radians * NumericUtilities.DegreesPerRadianM;
             cdecimal IMath<cdecimal>.Round(cdecimal x) => decimal.Round(x);
             cdecimal IMath<cdecimal>.Round(cdecimal x, int digits) => decimal.Round(x, digits);
             cdecimal IMath<cdecimal>.Round(cdecimal x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);

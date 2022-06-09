@@ -185,7 +185,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cuint IMath<cuint>.Clamp(cuint x, cuint bound1, cuint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cuint IMath<cuint>.Cos(cuint x) => (cuint)Math.Cos(x._value);
             cuint IMath<cuint>.Cosh(cuint x) => (cuint)Math.Cosh(x._value);
-            cuint IMath<cuint>.DegreesToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree);
+            cuint IMath<cuint>.DegreesToRadians(cuint x) => (cuint)CheckedArithmetic.Multiply(x, NumericUtilities.RadiansPerDegree);
             cuint IMath<cuint>.E { get; } = 2;
             cuint IMath<cuint>.Exp(cuint x) => (cuint)Math.Exp(x._value);
             cuint IMath<cuint>.Floor(cuint x) => x;
@@ -197,7 +197,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cuint IMath<cuint>.Min(cuint x, cuint y) => Math.Min(x._value, y._value);
             cuint IMath<cuint>.PI { get; } = 3;
             cuint IMath<cuint>.Pow(cuint x, cuint y) => CheckedArithmetic.Pow(x._value, y._value);
-            cuint IMath<cuint>.RadiansToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian);
+            cuint IMath<cuint>.RadiansToDegrees(cuint x) => (cuint)CheckedArithmetic.Multiply(x, NumericUtilities.DegreesPerRadian);
             cuint IMath<cuint>.Round(cuint x) => x;
             cuint IMath<cuint>.Round(cuint x, int digits) => x;
             cuint IMath<cuint>.Round(cuint x, int digits, MidpointRounding mode) => x;

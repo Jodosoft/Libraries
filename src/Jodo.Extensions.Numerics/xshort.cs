@@ -184,7 +184,7 @@ namespace Jodo.Extensions.Numerics
             xshort IMath<xshort>.Clamp(xshort x, xshort bound1, xshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xshort IMath<xshort>.Cos(xshort x) => (short)Math.Cos(x._value);
             xshort IMath<xshort>.Cosh(xshort x) => (short)Math.Cosh(x._value);
-            xshort IMath<xshort>.DegreesToRadians(xshort x) => (short)(x * Trig.RadiansPerDegree);
+            xshort IMath<xshort>.DegreesToRadians(xshort x) => (short)(x * NumericUtilities.RadiansPerDegree);
             xshort IMath<xshort>.E { get; } = (short)2;
             xshort IMath<xshort>.Exp(xshort x) => (short)Math.Exp(x._value);
             xshort IMath<xshort>.Floor(xshort x) => x;
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.Numerics
             xshort IMath<xshort>.Min(xshort x, xshort y) => Math.Min(x._value, y._value);
             xshort IMath<xshort>.PI { get; } = (short)3;
             xshort IMath<xshort>.Pow(xshort x, xshort y) => (short)Math.Pow(x._value, y._value);
-            xshort IMath<xshort>.RadiansToDegrees(xshort x) => (short)(x * Trig.DegreesPerRadian);
+            xshort IMath<xshort>.RadiansToDegrees(xshort x) => (short)(x * NumericUtilities.DegreesPerRadian);
             xshort IMath<xshort>.Round(xshort x) => x;
             xshort IMath<xshort>.Round(xshort x, int digits) => x;
             xshort IMath<xshort>.Round(xshort x, int digits, MidpointRounding mode) => x;

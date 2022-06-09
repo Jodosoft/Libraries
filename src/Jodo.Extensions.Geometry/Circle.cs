@@ -20,12 +20,14 @@
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
+    [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Circle<N> :
             IEquatable<Circle<N>>,
             IFormattable,
@@ -36,7 +38,7 @@ namespace Jodo.Extensions.Geometry
             ISerializable
         where N : struct, INumeric<N>
     {
-        private static readonly string Symbol = "○";
+        private const string Symbol = "○";
 
         public readonly Vector2<N> Center;
         public readonly N Radius;
@@ -74,8 +76,9 @@ namespace Jodo.Extensions.Geometry
             throw new NotImplementedException();
         }
 
-        public N GetArea() => Math<N>.PI * Math<N>.Pow(Radius, Numeric<N>.Two);
         public bool Contains(Vector2<N> point) => point.DistanceFrom(Center) < Radius;
+
+        public N GetArea() => Math<N>.PI * Math<N>.Pow(Radius, Numeric<N>.Two);
 
         public ReadOnlySpan<Vector2<N>> GetVertices(int pointsPerRadian)
         {

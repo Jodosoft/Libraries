@@ -220,7 +220,7 @@ namespace Jodo.Extensions.Numerics
             fix64 IMath<fix64>.Clamp(fix64 x, fix64 bound1, fix64 bound2) => new fix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             fix64 IMath<fix64>.Cos(fix64 x) => (fix64)Math.Cos((double)x);
             fix64 IMath<fix64>.Cosh(fix64 x) => (fix64)Math.Cosh((double)x);
-            fix64 IMath<fix64>.DegreesToRadians(fix64 x) => (fix64)((double)x * Trig.RadiansPerDegree);
+            fix64 IMath<fix64>.DegreesToRadians(fix64 x) => (fix64)((double)x * NumericUtilities.RadiansPerDegree);
             fix64 IMath<fix64>.E { get; } = (fix64)Math.E;
             fix64 IMath<fix64>.Exp(fix64 x) => (fix64)Math.Exp((double)x);
             fix64 IMath<fix64>.Floor(fix64 x) => new fix64(ScaledArithmetic.Floor(x._scaledValue, ScalingFactor));
@@ -232,7 +232,7 @@ namespace Jodo.Extensions.Numerics
             fix64 IMath<fix64>.Min(fix64 x, fix64 y) => new fix64(Math.Min(x._scaledValue, y._scaledValue));
             fix64 IMath<fix64>.PI { get; } = (fix64)Math.PI;
             fix64 IMath<fix64>.Pow(fix64 x, fix64 y) => y == 1 ? x : (fix64)Math.Pow((double)x, (double)y);
-            fix64 IMath<fix64>.RadiansToDegrees(fix64 x) => (fix64)((double)x * Trig.DegreesPerRadian);
+            fix64 IMath<fix64>.RadiansToDegrees(fix64 x) => (fix64)((double)x * NumericUtilities.DegreesPerRadian);
             fix64 IMath<fix64>.Round(fix64 x) => Round(x, 0, MidpointRounding.ToEven);
             fix64 IMath<fix64>.Round(fix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             fix64 IMath<fix64>.Round(fix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);

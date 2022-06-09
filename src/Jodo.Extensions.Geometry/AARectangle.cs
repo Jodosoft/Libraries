@@ -20,12 +20,14 @@
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
+    [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct AARectangle<N> :
             IEquatable<AARectangle<N>>,
             IFormattable,
@@ -37,7 +39,7 @@ namespace Jodo.Extensions.Geometry
             ISerializable
         where N : struct, INumeric<N>
     {
-        private static readonly string Symbol = "□";
+        private const string Symbol = "□";
 
         public readonly Vector2<N> Center;
         public readonly Vector2<N> Dimensions;
@@ -95,14 +97,12 @@ namespace Jodo.Extensions.Geometry
         public AARectangle<N> Shrink(N delta) => Shrink(new Vector2<N>(delta, delta));
         public AARectangle<N> Translate(Vector2<N> delta) => new AARectangle<N>(Center + delta, Dimensions);
 
-        public bool Contains(Vector2<N> delta) => delta.X >= Left && delta.X <= Right && delta.Y >= Bottom && delta.Y <= Top;
-        public bool Contains((N, N) delta) => Contains((Vector2<N>)delta);
-        public bool Contains(N deltaX, N deltaY) => Contains(new Vector2<N>(deltaX, deltaY));
+        public bool Contains(Vector2<N> point) => point.X >= Left && point.X <= Right && point.Y >= Bottom && point.Y <= Top;
 
         public bool Contains(AARectangle<N> other) => throw new NotImplementedException();
         public bool IntersectsWith(AARectangle<N> other) => Left < other.Right && Right > other.Left && Bottom < other.Top && Top > other.Bottom;
 
-        public AARectangle<N> Rotate90() => new AARectangle<N>(Center, (Dimensions.Y, Dimensions.X));
+        public AARectangle<N> RotateRight() => new AARectangle<N>(Center, (Dimensions.Y, Dimensions.X));
 
         public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(Center, Dimensions, angle);
         public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Center.RotateAround(pivot, angle), Dimensions, angle);

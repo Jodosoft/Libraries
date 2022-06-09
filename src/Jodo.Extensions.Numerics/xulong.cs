@@ -184,7 +184,7 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Clamp(xulong x, xulong bound1, xulong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xulong IMath<xulong>.Cos(xulong x) => (xulong)Math.Cos(x);
             xulong IMath<xulong>.Cosh(xulong x) => (xulong)Math.Cosh(x);
-            xulong IMath<xulong>.DegreesToRadians(xulong x) => (xulong)(x * Trig.RadiansPerDegree);
+            xulong IMath<xulong>.DegreesToRadians(xulong x) => (xulong)(x * NumericUtilities.RadiansPerDegree);
             xulong IMath<xulong>.E { get; } = (xulong)2;
             xulong IMath<xulong>.Exp(xulong x) => (xulong)Math.Exp(x);
             xulong IMath<xulong>.Floor(xulong x) => x;
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Min(xulong x, xulong y) => Math.Min(x, y);
             xulong IMath<xulong>.PI { get; } = (xulong)3;
             xulong IMath<xulong>.Pow(xulong x, xulong y) => y == 1 ? x : (xulong)Math.Pow(x, y);
-            xulong IMath<xulong>.RadiansToDegrees(xulong x) => (xulong)(x * Trig.DegreesPerRadian);
+            xulong IMath<xulong>.RadiansToDegrees(xulong x) => (xulong)(x * NumericUtilities.DegreesPerRadian);
             xulong IMath<xulong>.Round(xulong x) => x;
             xulong IMath<xulong>.Round(xulong x, int digits) => x;
             xulong IMath<xulong>.Round(xulong x, int digits, MidpointRounding mode) => x;

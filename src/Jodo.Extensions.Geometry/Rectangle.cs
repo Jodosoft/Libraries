@@ -20,6 +20,7 @@
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -27,6 +28,7 @@ using System.Runtime.Serialization;
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
+    [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Rectangle<N> :
             IEquatable<Rectangle<N>>,
             IFormattable,
@@ -38,7 +40,7 @@ namespace Jodo.Extensions.Geometry
             ISerializable
         where N : struct, INumeric<N>
     {
-        private static readonly string Symbol = "□";
+        private const string Symbol = "□";
 
         public readonly Vector2<N> Center;
         public readonly Vector2<N> Dimensions;
@@ -63,7 +65,7 @@ namespace Jodo.Extensions.Geometry
             Angle = angle;
         }
 
-        public Rectangle(SerializationInfo info, StreamingContext context)
+        private Rectangle(SerializationInfo info, StreamingContext context)
         {
             Center = (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>));
             Dimensions = (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>));
@@ -82,17 +84,17 @@ namespace Jodo.Extensions.Geometry
             throw new NotImplementedException();
         }
 
+        public bool Contains(Vector2<N> point)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IntersectsWith(Rectangle<N> other)
         {
             throw new NotImplementedException();
         }
 
         public N GetArea() => Math<N>.Abs(Width * Height);
-
-        public bool Contains(Vector2<N> point)
-        {
-            throw new NotImplementedException();
-        }
 
         public Vector2<N> GetCenter()
         {

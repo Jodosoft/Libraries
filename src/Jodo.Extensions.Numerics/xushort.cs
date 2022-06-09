@@ -184,7 +184,7 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Clamp(xushort x, xushort bound1, xushort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xushort IMath<xushort>.Cos(xushort x) => (ushort)Math.Cos(x._value);
             xushort IMath<xushort>.Cosh(xushort x) => (ushort)Math.Cosh(x._value);
-            xushort IMath<xushort>.DegreesToRadians(xushort degrees) => (ushort)(degrees * Trig.RadiansPerDegree);
+            xushort IMath<xushort>.DegreesToRadians(xushort degrees) => (ushort)(degrees * NumericUtilities.RadiansPerDegree);
             xushort IMath<xushort>.E { get; } = (ushort)2;
             xushort IMath<xushort>.Exp(xushort x) => (ushort)Math.Exp(x._value);
             xushort IMath<xushort>.Floor(xushort x) => x;
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Min(xushort x, xushort y) => Math.Min(x._value, y._value);
             xushort IMath<xushort>.PI { get; } = (ushort)3;
             xushort IMath<xushort>.Pow(xushort x, xushort y) => (ushort)Math.Pow(x._value, y._value);
-            xushort IMath<xushort>.RadiansToDegrees(xushort radians) => (ushort)(radians * Trig.DegreesPerRadian);
+            xushort IMath<xushort>.RadiansToDegrees(xushort radians) => (ushort)(radians * NumericUtilities.DegreesPerRadian);
             xushort IMath<xushort>.Round(xushort x) => x;
             xushort IMath<xushort>.Round(xushort x, int digits) => x;
             xushort IMath<xushort>.Round(xushort x, int digits, MidpointRounding mode) => x;

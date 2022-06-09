@@ -36,7 +36,7 @@ namespace Jodo.Extensions.Numerics
             ISerializable
         where N : struct, INumeric<N>
     {
-        private static readonly string Symbol = "→";
+        private const string Symbol = "→";
 
         public static readonly Vector2<N> Zero = default;
 

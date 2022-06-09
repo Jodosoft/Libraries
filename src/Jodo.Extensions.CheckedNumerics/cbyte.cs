@@ -184,7 +184,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IMath<cbyte>.Clamp(cbyte x, cbyte bound1, cbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cbyte IMath<cbyte>.Cos(cbyte x) => CheckedCast.ToByte(Math.Cos(x._value));
             cbyte IMath<cbyte>.Cosh(cbyte x) => CheckedCast.ToByte(Math.Cosh(x._value));
-            cbyte IMath<cbyte>.DegreesToRadians(cbyte x) => CheckedCast.ToByte(CheckedArithmetic.Multiply(x, Trig.RadiansPerDegree));
+            cbyte IMath<cbyte>.DegreesToRadians(cbyte x) => CheckedCast.ToByte(CheckedArithmetic.Multiply(x, NumericUtilities.RadiansPerDegree));
             cbyte IMath<cbyte>.E { get; } = 2;
             cbyte IMath<cbyte>.Exp(cbyte x) => CheckedCast.ToByte(Math.Exp(x._value));
             cbyte IMath<cbyte>.Floor(cbyte x) => x;
@@ -196,7 +196,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte IMath<cbyte>.Min(cbyte x, cbyte y) => Math.Min(x._value, y._value);
             cbyte IMath<cbyte>.PI { get; } = 3;
             cbyte IMath<cbyte>.Pow(cbyte x, cbyte y) => CheckedArithmetic.Pow(x._value, y._value);
-            cbyte IMath<cbyte>.RadiansToDegrees(cbyte x) => CheckedCast.ToByte(CheckedArithmetic.Multiply(x, Trig.DegreesPerRadian));
+            cbyte IMath<cbyte>.RadiansToDegrees(cbyte x) => CheckedCast.ToByte(CheckedArithmetic.Multiply(x, NumericUtilities.DegreesPerRadian));
             cbyte IMath<cbyte>.Round(cbyte x) => x;
             cbyte IMath<cbyte>.Round(cbyte x, int digits) => x;
             cbyte IMath<cbyte>.Round(cbyte x, int digits, MidpointRounding mode) => x;

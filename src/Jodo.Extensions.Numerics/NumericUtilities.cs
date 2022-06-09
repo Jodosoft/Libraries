@@ -21,8 +21,17 @@ using System;
 
 namespace Jodo.Extensions.Numerics
 {
-    public static class BitwiseAndShiftUtilities
+    public static class NumericUtilities
     {
+        public const float DegreesPerRadianF = 180f / MathF.PI;
+        public const float RadiansPerDegreeF = MathF.PI / 180;
+
+        public const double DegreesPerRadian = 180d / Math.PI;
+        public const double RadiansPerDegree = Math.PI / 180d;
+
+        public const decimal DegreesPerRadianM = 180m / (decimal)Math.PI;
+        public const decimal RadiansPerDegreeM = (decimal)Math.PI / 180m;
+
         public static float BitwiseComplement(float left)
         {
             var leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left));
