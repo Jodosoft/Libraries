@@ -17,25 +17,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Testing;
+using Jodo.Extensions.Numerics;
 using System;
 
-namespace Jodo.Extensions.Numerics.Tests
+namespace Jodo.Extensions.Geometry
 {
-    public abstract class AssemblyFixtureBase : GlobalFixtureBase
+    public interface ITwoDimensional<T, N> where N : struct, INumeric<N>
     {
-        public static double ClosestTestableDouble<N>(N value) where N : struct, INumeric<N>
-        {
-            var result = Math.Round(Cast<N>.ToDouble(value), 6);
-            var log10 = (int)Math.Log10(Math.Abs(result / 10));
-            if (log10 < -1) result *= 1000;
-            else if (log10 > 3) result /= Math.Pow(10, log10 - 3);
+        bool Contains(T other);
+        bool IntersectsWith(T other);
+        N GetArea();
 
-            if (!Numeric<N>.IsFinite(Cast<N>.ToNumeric(result)))
-            {
-                throw new InvalidOperationException();
-            }
-            return Math.Round(result, 6);
-        }
+        AARectangle<N> GetBounds();
+        bool Contains(Vector2<N> point);
+        ReadOnlySpan<Vector2<N>> GetVertices(int pointsPerRadian);
+        T Translate(Vector2<N> delta);
+        Vector2<N> GetCenter();
     }
 }

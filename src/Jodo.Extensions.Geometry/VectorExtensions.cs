@@ -28,8 +28,8 @@ namespace Jodo.Extensions.Geometry
             var newAngle = -angle;
             var difference = vector - pivot;
             return pivot + new Vector2<N>(
-                (difference.X * newAngle.Cosine) - (difference.Y * newAngle.Sine),
-                (difference.X * newAngle.Sine) + (difference.Y * newAngle.Cosine));
+                (difference.X * newAngle.Cos()) - (difference.Y * newAngle.Sin()),
+                (difference.X * newAngle.Sin()) + (difference.Y * newAngle.Cos()));
         }
 
         public static N GetLengthSquared<N>(this Vector2<N> vector) where N : struct, INumeric<N>

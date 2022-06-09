@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Jodo.Extensions.Geometry\Jodo.Extensions.Geometry.csproj" />
-    <ProjectReference Include="..\Jodo.Extensions.Testing\Jodo.Extensions.Testing.csproj" />
+    <ProjectReference Include="..\Jodo.Extensions.Numerics.Tests\Jodo.Extensions.Numerics.Tests.csproj" />
   </ItemGroup>
 </Project>

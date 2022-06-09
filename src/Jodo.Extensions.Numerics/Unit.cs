@@ -57,7 +57,7 @@ namespace Jodo.Extensions.Numerics
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
             => info.AddValue(nameof(Value), Value, typeof(N));
 
-        public int CompareTo(object? obj) => obj is xfloat other ? CompareTo(other) : 1;
+        public int CompareTo(object? obj) => obj is Unit<N> other ? CompareTo(other) : 1;
         public int CompareTo(Unit<N> other) => Value.CompareTo(other.Value);
         public bool Equals(Unit<N> other) => Value.Equals(other.Value);
         public override bool Equals(object? obj) => obj is Unit<N> unit && Equals(unit);

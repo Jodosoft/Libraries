@@ -19,6 +19,7 @@
 
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 using System.IO;
@@ -28,7 +29,7 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class NumericTests
     {
-        public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [Test]
             public void Epsilon_LessThanOrEqualToOne()
@@ -490,7 +491,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class Infinity<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class Infinity<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(Numeric<N>.HasInfinity);
@@ -560,7 +561,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class NaN<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class NaN<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(Numeric<N>.HasNaN);
@@ -582,7 +583,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class Integral<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class Integral<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(!Numeric<N>.IsReal);
@@ -676,7 +677,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class Real<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class Real<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(Numeric<N>.IsReal);
@@ -777,7 +778,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class Signed<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class Signed<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(Numeric<N>.IsSigned);
@@ -823,7 +824,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class Unsigned<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class Unsigned<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(!Numeric<N>.IsSigned);
@@ -854,7 +855,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class NoFloatingPoint<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class NoFloatingPoint<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(!Numeric<N>.HasFloatingPoint);
@@ -886,7 +887,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class NoInfinity<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class NoInfinity<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(!Numeric<N>.HasInfinity);
@@ -952,7 +953,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class NoNaN<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class NoNaN<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(!Numeric<N>.HasNaN);

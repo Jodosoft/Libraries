@@ -19,12 +19,13 @@
 
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
-    public sealed class XDecimalTests : AssemblyFixtureBase
+    public sealed class XDecimalTests : GlobalFixtureBase
     {
         public sealed class BitConverter : BitConverterTests<xdecimal> { }
         public sealed class Cast : CastTests<xdecimal> { }

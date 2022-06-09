@@ -18,13 +18,14 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
-namespace Jodo.Extensions.Numerics.Tests
+namespace Jodo.Extensions.Geometry.Tests
 {
-    public static class Vector3Tests
+    public static class AngleTests
     {
         public sealed class FixedPoint : General<fix64> { }
         public sealed class FloatingPoint : General<xfloat> { }
@@ -32,41 +33,20 @@ namespace Jodo.Extensions.Numerics.Tests
 
         public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Unit<N>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<N>> { }
+            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Angle<N>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Angle<N>> { }
 
             [Test]
-            public void Ctor_RandomValues_CorrectResult()
+            public void Degrees_FromDegrees_SameAsOriginal()
             {
                 //arrange
-                var x = Random.NextNumeric<N>();
-                var y = Random.NextNumeric<N>();
-                var z = Random.NextNumeric<N>();
+                var input = Random.NextNumeric<N>();
 
                 //act
-                var result = new Vector3<N>(x, y, z);
+                var result = Angle<N>.FromDegrees(input).Degrees;
 
                 //assert
-                result.X.Should().Be(x);
-                result.Y.Should().Be(y);
-                result.Z.Should().Be(z);
-            }
-
-            [Test]
-            public void Random_WithinBounds_CorrectResult()
-            {
-                //arrange
-                var bound1 = Random.NextRandomizable<Vector3<N>>();
-                var bound2 = Random.NextRandomizable<Vector3<N>>();
-                var bound3 = Random.NextRandomizable<Vector3<N>>();
-
-                //act
-                var result = Random.NextRandomizable(bound1, bound2);
-
-                //assert
-                result.X.Should().BeInRange(Math<N>.Min(bound1.X, bound2.X), Math<N>.Max(bound1.X, bound2.X));
-                result.Y.Should().BeInRange(Math<N>.Min(bound1.Y, bound2.Y), Math<N>.Max(bound1.Y, bound2.Y));
-                result.Z.Should().BeInRange(Math<N>.Min(bound1.Z, bound2.Z), Math<N>.Max(bound1.Z, bound2.Z));
+                result.Should().Be(input);
             }
         }
     }

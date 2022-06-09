@@ -19,7 +19,6 @@
 
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
-using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 using System.IO;
@@ -27,7 +26,7 @@ using System.Text;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
-    public sealed class Showcase : GlobalFixtureBase
+    public sealed class Showcase : Testing.GlobalFixtureBase
     {
         public StringBuilder ConsoleOuput;
 
@@ -67,13 +66,13 @@ namespace Jodo.Extensions.Numerics.Tests
             var b = BitConverter<fix64>.GetBytes(f);
 
             Console.WriteLine(w); // outputs: 4221
-            Console.WriteLine($"{v:X}"); // outputs: (107D, 20F)
+            Console.WriteLine($"{v:X}"); // outputs: →(107D, 20F)
 
             Console.WriteLine(f); // outputs: 6.283184
             Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("4221", "(107D, 20F)", "6.283184", "System.ReadOnlySpan<Byte>[8]");
+                .Should().ContainInOrder("4221", "→(107D, 20F)", "6.283184", "System.ReadOnlySpan<Byte>[8]");
         }
 
         [Test]

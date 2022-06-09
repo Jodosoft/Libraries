@@ -20,20 +20,29 @@
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
-    public readonly struct Circle<N> : IGeometric<Circle<N>> where N : struct, INumeric<N>
+    public readonly struct Circle<N> :
+            IEquatable<Circle<N>>,
+            IFormattable,
+            IProvider<IBitConverter<Circle<N>>>,
+            IProvider<IRandom<Circle<N>>>,
+            IProvider<IStringParser<Circle<N>>>,
+            ITwoDimensional<Circle<N>, N>,
+            ISerializable
+        where N : struct, INumeric<N>
     {
+        private static readonly string Symbol = "○";
+
         public readonly Vector2<N> Center;
         public readonly N Radius;
 
-        public N Diameter => Numeric<N>.Two * Radius;
-        public N Area => Math<N>.PI * Math<N>.Pow(Radius, Numeric<N>.Two);
-        public N Circumeference => Numeric<N>.Two * Math<N>.PI * Radius;
+        public N GetDiameter() => Numeric<N>.Two * Radius;
+        public N GetCircumeference() => Numeric<N>.Two * Math<N>.PI * Radius;
 
 
         public Circle(Vector2<N> center, N radius)
@@ -48,12 +57,11 @@ namespace Jodo.Extensions.Geometry
             Radius = radius;
         }
 
-#pragma warning disable CS8605 // Unboxing a possibly null value.
-        private Circle(SerializationInfo info, StreamingContext context) : this(
-            (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>)),
-            (N)info.GetValue(nameof(Radius), typeof(N)))
-        { }
-#pragma warning restore CS8605 // Unboxing a possibly null value.
+        private Circle(SerializationInfo info, StreamingContext context)
+        {
+            Center = (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>));
+            Radius = (N)info.GetValue(nameof(Radius), typeof(N));
+        }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -61,19 +69,75 @@ namespace Jodo.Extensions.Geometry
             info.AddValue(nameof(Radius), Radius, typeof(N));
         }
 
+        public bool Contains(Circle<N> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public N GetArea() => Math<N>.PI * Math<N>.Pow(Radius, Numeric<N>.Two);
+        public bool Contains(Vector2<N> point) => point.DistanceFrom(Center) < Radius;
+
+        public ReadOnlySpan<Vector2<N>> GetVertices(int pointsPerRadian)
+        {
+            throw new NotImplementedException();
+        }
+
         public Circle<N> Translate(Vector2<N> delta) => new Circle<N>(Center.Translate(delta), Radius);
         public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate((deltaX, deltaY)), Radius);
-        public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, (Diameter, Diameter));
+        public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, (GetDiameter(), GetDiameter()));
         public bool IntersectsWith(Circle<N> other) => Center.DistanceFrom(other.Center) < Radius + other.Radius;
 
-
-        public bool Equals(Circle<N> other) => Center.Equals(other.Center) && EqualityComparer<N>.Default.Equals(Radius, other.Radius);
+        public bool Equals(Circle<N> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
         public override bool Equals(object? obj) => obj is Circle<N> circle && Equals(circle);
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
-        public override string ToString() => StringRepresentation.Combine(GetType(), Center, Radius);
-        public string ToString(string? format, IFormatProvider? formatProvider) => throw new NotImplementedException();
+        public override string ToString() => $"{Symbol}({Center}, r{GetDiameter()})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"{Symbol}({Center.ToString(format, formatProvider)}, r{GetDiameter().ToString(format, formatProvider)})";
+
 
         public static bool operator ==(Circle<N> left, Circle<N> right) => left.Equals(right);
         public static bool operator !=(Circle<N> left, Circle<N> right) => !(left == right);
+
+        Vector2<N> ITwoDimensional<Circle<N>, N>.GetCenter() => Center;
+        IBitConverter<Circle<N>> IProvider<IBitConverter<Circle<N>>>.GetInstance() => Utilities.Instance;
+        IRandom<Circle<N>> IProvider<IRandom<Circle<N>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Circle<N>> IProvider<IStringParser<Circle<N>>>.GetInstance() => Utilities.Instance;
+
+        private sealed class Utilities :
+           IBitConverter<Circle<N>>,
+           IRandom<Circle<N>>,
+           IStringParser<Circle<N>>
+        {
+            public readonly static Utilities Instance = new Utilities();
+
+            Circle<N> IRandom<Circle<N>>.Next(Random random)
+            {
+                throw new NotImplementedException();
+            }
+
+            Circle<N> IRandom<Circle<N>>.Next(Random random, Circle<N> bound1, Circle<N> bound2)
+            {
+                throw new NotImplementedException();
+            }
+
+            Circle<N> IStringParser<Circle<N>>.Parse(string s)
+            {
+                throw new NotImplementedException();
+            }
+
+            Circle<N> IStringParser<Circle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            {
+                throw new NotImplementedException();
+            }
+
+            Circle<N> IBitConverter<Circle<N>>.Read(IReadOnlyStream<byte> stream)
+            {
+                throw new NotImplementedException();
+            }
+
+            void IBitConverter<Circle<N>>.Write(Circle<N> value, IWriteOnlyStream<byte> stream)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

@@ -18,12 +18,13 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
-    public abstract class ConvertTests<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+    public abstract class ConvertTests<N> : GlobalFixtureBase where N : struct, INumeric<N>
     {
         [Test, Repeat(RandomVariations)]
         public void ToBoolean_RoundTrip_SameValue()

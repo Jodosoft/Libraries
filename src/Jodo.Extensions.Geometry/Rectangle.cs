@@ -20,54 +20,30 @@
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
-    public readonly struct Rectangle<N> : IGeometric<Rectangle<N>> where N : struct, INumeric<N>
+    public readonly struct Rectangle<N> :
+            IEquatable<Rectangle<N>>,
+            IFormattable,
+            IProvider<IBitConverter<Rectangle<N>>>,
+            IProvider<IRandom<Rectangle<N>>>,
+            IProvider<IStringParser<Rectangle<N>>>,
+            ITwoDimensional<Rectangle<N>, N>,
+            IRotatable<Rectangle<N>, Angle<N>, Vector2<N>>,
+            ISerializable
+        where N : struct, INumeric<N>
     {
+        private static readonly string Symbol = "□";
+
         public readonly Vector2<N> Center;
         public readonly Vector2<N> Dimensions;
         public readonly Angle<N> Angle;
 
-        public Rectangle(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle)
-        {
-            Center = center;
-            Dimensions = dimensions;
-            Angle = angle;
-        }
-
-        public Rectangle(N centerX, N centerY, N width, N height, N degrees)
-        {
-            Center = new Vector2<N>(centerX, centerY);
-            Dimensions = new Vector2<N>(width, height);
-            Angle = Angle<N>.FromDegrees(degrees);
-        }
-
-#pragma warning disable CS8605 // Unboxing a possibly null value.
-        private Rectangle(SerializationInfo info, StreamingContext context) : this(
-            (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>)),
-            (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>)),
-            (Angle<N>)info.GetValue(nameof(Angle), typeof(Angle<N>)))
-        { }
-#pragma warning restore CS8605 // Unboxing a possibly null value.
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(Center), Center, typeof(Vector2<N>));
-            info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<N>));
-            info.AddValue(nameof(Angle), Angle, typeof(Angle<N>));
-        }
-
-        public bool Equals(Rectangle<N> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
-        public override bool Equals(object? obj) => obj is Rectangle<N> rectangle && Equals(rectangle);
-        public override int GetHashCode() => HashCode.Combine(Center, Dimensions, Angle);
-        public override string ToString() => StringRepresentation.Combine(GetType(), Center, Dimensions, Angle);
-        public string ToString(string? format, IFormatProvider? formatProvider) => throw new NotImplementedException();
-
-        public N Area => Math<N>.Abs(Width * Height);
         public N Height => Dimensions.Y;
         public N Width => Dimensions.X;
 
@@ -80,6 +56,53 @@ namespace Jodo.Extensions.Geometry
         public Vector2<N> TopLeft => GetTopLeft(Center, Dimensions, Angle);
         public Vector2<N> TopRight => GetTopRight(Center, Dimensions, Angle);
 
+        public Rectangle(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle)
+        {
+            Center = center;
+            Dimensions = dimensions;
+            Angle = angle;
+        }
+
+        public Rectangle(SerializationInfo info, StreamingContext context)
+        {
+            Center = (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>));
+            Dimensions = (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>));
+            Angle = (Angle<N>)info.GetValue(nameof(Angle), typeof(Angle<N>));
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(Center), Center, typeof(Vector2<N>));
+            info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<N>));
+            info.AddValue(nameof(Angle), Angle, typeof(Angle<N>));
+        }
+
+        public bool Contains(Rectangle<N> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IntersectsWith(Rectangle<N> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public N GetArea() => Math<N>.Abs(Width * Height);
+
+        public bool Contains(Vector2<N> point)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Vector2<N> GetCenter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReadOnlySpan<Vector2<N>> GetVertices()
+        {
+            throw new NotImplementedException();
+        }
 
         public Rectangle<N> Grow((N, N) delta) => Grow((Vector2<N>)delta);
         public Rectangle<N> Grow(N delta) => Grow(new Vector2<N>(delta, delta));
@@ -100,6 +123,41 @@ namespace Jodo.Extensions.Geometry
         public Rectangle<N> UnitTranslate((N, N) delta) => Translate((Vector2<N>)delta);
         public Rectangle<N> UnitTranslate(N deltaX, N deltaY) => Translate(new Vector2<N>(deltaX, deltaY));
         public Rectangle<N> UnitTranslate(Vector2<N> delta) => new Rectangle<N>(BottomLeft + (delta.X * Width, delta.Y * Height), Dimensions, Angle);
+
+        public bool Equals(Rectangle<N> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
+        public override bool Equals(object? obj) => obj is Rectangle<N> rectangle && Equals(rectangle);
+        public override int GetHashCode() => HashCode.Combine(Center, Dimensions, Angle);
+        public override string ToString() => $"{Symbol}({Center}, {Dimensions}, {Angle})";
+        public string ToString(string? format, IFormatProvider? formatProvider)
+            => $"{Symbol}({Center.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)}, {Angle.ToString(format, formatProvider)})";
+
+        public static bool TryParse(string value, out Rectangle<N> result)
+            => Try.Run(() => Parse(value), out result);
+
+        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Rectangle<N> result)
+            => Try.Run(() => Parse(value, style, provider), out result);
+
+        public static Rectangle<N> Parse(string value)
+        {
+            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            if (parts.Length == 3)
+                return new Rectangle<N>(
+                    Vector2<N>.Parse(parts[0]),
+                    Vector2<N>.Parse(parts[1]),
+                    Angle<N>.Parse(parts[2]));
+            else throw new FormatException();
+        }
+
+        public static Rectangle<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
+        {
+            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            if (parts.Length == 3)
+                return new Rectangle<N>(
+                    Vector2<N>.Parse(parts[0], style, provider),
+                    Vector2<N>.Parse(parts[1], style, provider),
+                    Angle<N>.Parse(parts[1], style, provider));
+            else throw new FormatException();
+        }
 
         public static Rectangle<N> FromCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(center, dimensions, angle);
         public static Rectangle<N> FromBottomLeft(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetTopRight(bottomLeft, dimensions, default), dimensions, angle);
@@ -137,5 +195,49 @@ namespace Jodo.Extensions.Geometry
         public static bool operator ==(Rectangle<N> left, Rectangle<N> right) => left.Equals(right);
         public static bool operator !=(Rectangle<N> left, Rectangle<N> right) => !(left == right);
         public static implicit operator Rectangle<N>(AARectangle<N> value) => new Rectangle<N>(value.Center, value.Dimensions, Angle<N>.Zero);
+
+        ReadOnlySpan<Vector2<N>> ITwoDimensional<Rectangle<N>, N>.GetVertices(int pointsPerRadian) => GetVertices();
+
+        IBitConverter<Rectangle<N>> IProvider<IBitConverter<Rectangle<N>>>.GetInstance() => Utilities.Instance;
+        IRandom<Rectangle<N>> IProvider<IRandom<Rectangle<N>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Rectangle<N>> IProvider<IStringParser<Rectangle<N>>>.GetInstance() => Utilities.Instance;
+
+        private sealed class Utilities :
+           IBitConverter<Rectangle<N>>,
+           IRandom<Rectangle<N>>,
+           IStringParser<Rectangle<N>>
+        {
+            public readonly static Utilities Instance = new Utilities();
+
+            Rectangle<N> IRandom<Rectangle<N>>.Next(Random random)
+            {
+                throw new NotImplementedException();
+            }
+
+            Rectangle<N> IRandom<Rectangle<N>>.Next(Random random, Rectangle<N> bound1, Rectangle<N> bound2)
+            {
+                throw new NotImplementedException();
+            }
+
+            Rectangle<N> IStringParser<Rectangle<N>>.Parse(string s)
+            {
+                throw new NotImplementedException();
+            }
+
+            Rectangle<N> IStringParser<Rectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            {
+                throw new NotImplementedException();
+            }
+
+            Rectangle<N> IBitConverter<Rectangle<N>>.Read(IReadOnlyStream<byte> stream)
+            {
+                throw new NotImplementedException();
+            }
+
+            void IBitConverter<Rectangle<N>>.Write(Rectangle<N> value, IWriteOnlyStream<byte> stream)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

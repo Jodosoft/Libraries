@@ -17,12 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Testing;
 
-namespace Jodo.Extensions.Geometry
+namespace Jodo.Extensions.Geometry.Tests
 {
-    public interface IGeometric<G> : IEquatable<G>, ISerializable, IFormattable where G : struct, IGeometric<G>
+    public static class CircleTests
     {
+        public sealed class FixedPoint : General<fix64> { }
+        public sealed class FloatingPoint : General<xfloat> { }
+        public sealed class UnsignedIntegral : General<xbyte> { }
+
+        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        {
+            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Circle<N>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Circle<N>> { }
+            public sealed class TwoDimensional : TwoDimensionalTests<Circle<N>, N> { }
+        }
     }
 }

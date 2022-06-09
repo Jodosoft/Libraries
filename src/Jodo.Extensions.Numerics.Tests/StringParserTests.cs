@@ -19,6 +19,7 @@
 
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 using System.Globalization;
@@ -27,7 +28,7 @@ namespace Jodo.Extensions.Numerics.Tests
 {
     public static class StringParserTests
     {
-        public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [Test, Repeat(RandomVariations)]
             public void Parse1_RoundTripSmallValue_CorrectResult()
@@ -87,7 +88,7 @@ namespace Jodo.Extensions.Numerics.Tests
             }
         }
 
-        public abstract class Integral<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class Integral<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
             public void SetUp() => Assert.That(!Numeric<N>.IsReal);

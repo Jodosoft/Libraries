@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
@@ -29,7 +30,7 @@ namespace Jodo.Extensions.Numerics.Tests
         public sealed class FloatingPoint : General<xfloat> { }
         public sealed class UnsignedIntegral : General<xbyte> { }
 
-        public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             public sealed class BitConverter : Primitives.Tests.BitConverterTests<Unit<N>> { }
             public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<N>> { }

@@ -21,12 +21,13 @@ using FluentAssertions;
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Numerics.Tests;
 using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Testing;
 using NUnit.Framework;
 using System;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
-    public sealed class CDecimalTests : AssemblyFixtureBase
+    public sealed class CDecimalTests : GlobalFixtureBase
     {
         public sealed class BitConverter : BitConverterTests<cdecimal> { }
         public sealed class Cast : CastTests<cdecimal> { }

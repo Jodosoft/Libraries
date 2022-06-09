@@ -20,17 +20,28 @@
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
-    public readonly struct AARectangle<N> : IGeometric<AARectangle<N>> where N : struct, INumeric<N>
+    public readonly struct AARectangle<N> :
+            IEquatable<AARectangle<N>>,
+            IFormattable,
+            IProvider<IBitConverter<AARectangle<N>>>,
+            IProvider<IRandom<AARectangle<N>>>,
+            IProvider<IStringParser<AARectangle<N>>>,
+            ITwoDimensional<AARectangle<N>, N>,
+            IRotatable<Rectangle<N>, Angle<N>, Vector2<N>>,
+            ISerializable
+        where N : struct, INumeric<N>
     {
+        private static readonly string Symbol = "□";
+
         public readonly Vector2<N> Center;
         public readonly Vector2<N> Dimensions;
 
-        public N Area => Math<N>.Abs(Dimensions.X * Dimensions.Y);
         public N Bottom => Center.Y - (Dimensions.Y / Cast<N>.ToNumeric(2));
         public N Height => Dimensions.Y;
         public N Left => Center.X - (Dimensions.X / Cast<N>.ToNumeric(2));
@@ -60,18 +71,19 @@ namespace Jodo.Extensions.Geometry
             Dimensions = new Vector2<N>(width, height);
         }
 
-#pragma warning disable CS8605 // Unboxing a possibly null value.
         private AARectangle(SerializationInfo info, StreamingContext context) : this(
             (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>)),
             (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>)))
         { }
-#pragma warning restore CS8605 // Unboxing a possibly null value.
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Center), Center, typeof(Vector2<N>));
             info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<N>));
         }
+
+        public N GetArea() => Math<N>.Abs(Dimensions.X * Dimensions.Y);
+        public ReadOnlySpan<Vector2<N>> GetVertices() => new[] { BottomLeft, BottomRight, TopRight, TopLeft };
 
         public AARectangle<N> Grow(Vector2<N> delta) => new AARectangle<N>(Center, Dimensions + delta);
         public AARectangle<N> Grow((N, N) delta) => Grow((Vector2<N>)delta);
@@ -82,18 +94,15 @@ namespace Jodo.Extensions.Geometry
         public AARectangle<N> Shrink(N deltaX, N deltaY) => Shrink(new Vector2<N>(deltaX, deltaY));
         public AARectangle<N> Shrink(N delta) => Shrink(new Vector2<N>(delta, delta));
         public AARectangle<N> Translate(Vector2<N> delta) => new AARectangle<N>(Center + delta, Dimensions);
-        public AARectangle<N> Translate((N, N) delta) => Translate((Vector2<N>)delta);
-        public AARectangle<N> Translate(N deltaX, N deltaY) => Translate(new Vector2<N>(deltaX, deltaY));
 
         public bool Contains(Vector2<N> delta) => delta.X >= Left && delta.X <= Right && delta.Y >= Bottom && delta.Y <= Top;
         public bool Contains((N, N) delta) => Contains((Vector2<N>)delta);
         public bool Contains(N deltaX, N deltaY) => Contains(new Vector2<N>(deltaX, deltaY));
 
-        public bool Contains(AARectangle<N> other) => IntersectsWith(other); // jjs
+        public bool Contains(AARectangle<N> other) => throw new NotImplementedException();
         public bool IntersectsWith(AARectangle<N> other) => Left < other.Right && Right > other.Left && Bottom < other.Top && Top > other.Bottom;
 
         public AARectangle<N> Rotate90() => new AARectangle<N>(Center, (Dimensions.Y, Dimensions.X));
-        public AARectangle<N> Rotate90(Vector2<N> pivot) => new AARectangle<N>(Center.RotateAround(pivot, Angle<N>.C90Degrees), (Dimensions.Y, Dimensions.X));
 
         public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(Center, Dimensions, angle);
         public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Center.RotateAround(pivot, angle), Dimensions, angle);
@@ -103,8 +112,46 @@ namespace Jodo.Extensions.Geometry
         public bool Equals(AARectangle<N> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions);
         public override bool Equals(object? obj) => obj is AARectangle<N> fix && Equals(fix);
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions);
-        public override string ToString() => StringRepresentation.Combine(GetType(), Center, Dimensions);
-        public string ToString(string? format, IFormatProvider? formatProvider) => throw new NotImplementedException();
+        public override string ToString() => $"{Symbol}({Center}, {Dimensions})";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({Center.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)})";
+
+        public static bool TryParse(string value, out AARectangle<N> result)
+            => Try.Run(() => Parse(value), out result);
+
+        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out AARectangle<N> result)
+            => Try.Run(() => Parse(value, style, provider), out result);
+
+        public static AARectangle<N> Parse(string value)
+        {
+            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            if (parts.Length == 2)
+                return new AARectangle<N>(
+                    Vector2<N>.Parse(parts[0]),
+                    Vector2<N>.Parse(parts[1]));
+            if (parts.Length == 4)
+                return new AARectangle<N>(
+                    StringParser<N>.Parse(parts[0]),
+                    StringParser<N>.Parse(parts[1]),
+                    StringParser<N>.Parse(parts[2]),
+                    StringParser<N>.Parse(parts[2]));
+            else throw new FormatException();
+        }
+
+        public static AARectangle<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
+        {
+            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            if (parts.Length == 2)
+                return new AARectangle<N>(
+                    Vector2<N>.Parse(parts[0], style, provider),
+                    Vector2<N>.Parse(parts[1], style, provider));
+            if (parts.Length == 4)
+                return new AARectangle<N>(
+                    StringParser<N>.Parse(parts[0], style, provider),
+                    StringParser<N>.Parse(parts[1], style, provider),
+                    StringParser<N>.Parse(parts[2], style, provider),
+                    StringParser<N>.Parse(parts[2], style, provider));
+            else throw new FormatException();
+        }
 
         public static AARectangle<N> FromCenter(Vector2<N> center, Vector2<N> dimensions) => new AARectangle<N>(center, dimensions);
         public static AARectangle<N> FromBottomLeft(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetTopRight(bottomLeft, dimensions), dimensions);
@@ -131,5 +178,51 @@ namespace Jodo.Extensions.Geometry
         public static implicit operator (N, N, N, N)(AARectangle<N> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
         public static implicit operator AARectangle<N>((Vector2<N>, Vector2<N>) value) => new AARectangle<N>(value.Item1, value.Item2);
         public static implicit operator (Vector2<N>, Vector2<N>)(AARectangle<N> value) => (value.Center, value.Dimensions);
+
+        Vector2<N> ITwoDimensional<AARectangle<N>, N>.GetCenter() => Center;
+        AARectangle<N> ITwoDimensional<AARectangle<N>, N>.GetBounds() => this;
+        ReadOnlySpan<Vector2<N>> ITwoDimensional<AARectangle<N>, N>.GetVertices(int pointsPerRadian) => GetVertices();
+
+        IBitConverter<AARectangle<N>> IProvider<IBitConverter<AARectangle<N>>>.GetInstance() => Utilities.Instance;
+        IRandom<AARectangle<N>> IProvider<IRandom<AARectangle<N>>>.GetInstance() => Utilities.Instance;
+        IStringParser<AARectangle<N>> IProvider<IStringParser<AARectangle<N>>>.GetInstance() => Utilities.Instance;
+
+        private sealed class Utilities :
+           IBitConverter<AARectangle<N>>,
+           IRandom<AARectangle<N>>,
+           IStringParser<AARectangle<N>>
+        {
+            public readonly static Utilities Instance = new Utilities();
+
+            AARectangle<N> IRandom<AARectangle<N>>.Next(Random random)
+            {
+                throw new NotImplementedException();
+            }
+
+            AARectangle<N> IRandom<AARectangle<N>>.Next(Random random, AARectangle<N> bound1, AARectangle<N> bound2)
+            {
+                throw new NotImplementedException();
+            }
+
+            AARectangle<N> IStringParser<AARectangle<N>>.Parse(string s)
+            {
+                throw new NotImplementedException();
+            }
+
+            AARectangle<N> IStringParser<AARectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            {
+                throw new NotImplementedException();
+            }
+
+            AARectangle<N> IBitConverter<AARectangle<N>>.Read(IReadOnlyStream<byte> stream)
+            {
+                throw new NotImplementedException();
+            }
+
+            void IBitConverter<AARectangle<N>>.Write(AARectangle<N> value, IWriteOnlyStream<byte> stream)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

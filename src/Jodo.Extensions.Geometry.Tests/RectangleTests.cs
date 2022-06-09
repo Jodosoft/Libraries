@@ -17,21 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.CheckedNumerics;
+using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Testing;
 
 namespace Jodo.Extensions.Geometry.Tests
 {
-    public static class GeometricTests
+    public static class AARectangleTests
     {
-        public class AARectangle : Base<AARectangle<cfloat>> { }
-        public class Angle : Base<Angle<cfloat>> { }
-        public class Circle : Base<Circle<cfloat>> { }
-        public class Rectangle : Base<Rectangle<cfloat>> { }
+        public sealed class FixedPoint : General<fix64> { }
+        public sealed class FloatingPoint : General<xfloat> { }
+        public sealed class UnsignedIntegral : General<xbyte> { }
 
-        public abstract class Base<T> : GlobalFixtureBase where T : struct, IGeometric<T>
+        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
-
+            public sealed class BitConverter : Primitives.Tests.BitConverterTests<AARectangle<N>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<AARectangle<N>> { }
+            public sealed class TwoDimensional : TwoDimensionalTests<AARectangle<N>, N> { }
         }
     }
 }

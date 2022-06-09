@@ -36,6 +36,8 @@ namespace Jodo.Extensions.Numerics
             ISerializable
         where N : struct, INumeric<N>
     {
+        public static readonly Vector3<N> Zero = default;
+
         public readonly N X;
         public readonly N Y;
         public readonly N Z;
@@ -64,36 +66,33 @@ namespace Jodo.Extensions.Numerics
         public override bool Equals(object? obj) => obj is Vector3<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
         public override string ToString() => $"({X}, {Y}, {Z})";
-        public string ToString(string format, IFormatProvider formatProvider)
+        public string ToString(string? format, IFormatProvider? formatProvider)
             => $"({X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)})";
 
+        public static bool TryParse(string value, out Vector3<N> result)
+            => Try.Run(() => Parse(value), out result);
 
-        public static bool TryParse(string value, out Vector3<N> result) => Try.Run(() => Parse(value), out result);
+        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Vector3<N> result)
+            => Try.Run(() => Parse(value, style, provider), out result);
 
         public static Vector3<N> Parse(string value)
         {
-            var (x, y, z) = ParseParts(ref value);
+            var parts = StringUtilities.ParseVectorParts(value);
+            if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
-                StringParser<N>.Parse(x),
-                StringParser<N>.Parse(y),
-                StringParser<N>.Parse(z));
+                StringParser<N>.Parse(parts[0]),
+                StringParser<N>.Parse(parts[1]),
+                StringParser<N>.Parse(parts[2]));
         }
 
         public static Vector3<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
         {
-            var (x, y, z) = ParseParts(ref value);
-            return new Vector3<N>(
-                StringParser<N>.Parse(x, style, provider),
-                StringParser<N>.Parse(y, style, provider),
-                StringParser<N>.Parse(z, style, provider));
-        }
-
-        private static (string X, string Y, string Z) ParseParts(ref string value)
-        {
-            value = value.Replace(StringRepresentation.Combine(typeof(Vector2<N>)), string.Empty);
-            var parts = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
+            var parts = StringUtilities.ParseVectorParts(value);
             if (parts.Length != 3) throw new FormatException();
-            return (parts[0], parts[1], parts[2]);
+            return new Vector3<N>(
+                StringParser<N>.Parse(parts[0], style, provider),
+                StringParser<N>.Parse(parts[1], style, provider),
+                StringParser<N>.Parse(parts[2], style, provider));
         }
 
         public static Vector3<N> operator -(Vector3<N> value) => new Vector3<N>(-value.X, -value.Y, -value.Z);

@@ -36,12 +36,12 @@ namespace Jodo.Extensions.Numerics
             ISerializable
         where N : struct, INumeric<N>
     {
+        private static readonly string Symbol = "→";
+
+        public static readonly Vector2<N> Zero = default;
+
         public readonly N X;
         public readonly N Y;
-
-        public Vector2(byte x, N y) : this(Convert<N>.ToNumeric(x), y) { }
-        public Vector2(N x, byte y) : this(x, Convert<N>.ToNumeric(y)) { }
-        public Vector2(byte x, byte y) : this(Convert<N>.ToNumeric(x), Convert<N>.ToNumeric(y)) { }
 
         public Vector2(N x, N y)
         {
@@ -49,10 +49,11 @@ namespace Jodo.Extensions.Numerics
             Y = y;
         }
 
-        private Vector2(SerializationInfo info, StreamingContext context) : this(
-            (N)info.GetValue(nameof(X), typeof(N)),
-            (N)info.GetValue(nameof(Y), typeof(N)))
-        { }
+        private Vector2(SerializationInfo info, StreamingContext context)
+        {
+            X = (N)info.GetValue(nameof(X), typeof(N));
+            Y = (N)info.GetValue(nameof(Y), typeof(N));
+        }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -60,32 +61,34 @@ namespace Jodo.Extensions.Numerics
             info.AddValue(nameof(Y), Y, typeof(N));
         }
 
+        public Vector2<NResult> Convert<NResult>(Func<N, NResult> convert) where NResult : struct, INumeric<NResult> => new Vector2<NResult>(convert(X), convert(Y));
+
         public bool Equals(Vector2<N> other) => X.Equals(other.X) && Y.Equals(other.Y);
         public override bool Equals(object? obj) => obj is Vector2<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y);
-        public override string ToString() => $"({X}, {Y})";
-        public string ToString(string format, IFormatProvider formatProvider) => $"({X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)})";
+        public override string ToString() => $"{Symbol}({X}, {Y})";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)})";
 
         public static bool TryParse(string value, out Vector2<N> result) => Try.Run(() => Parse(value), out result);
+        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Vector2<N> result)
+            => Try.Run(() => Parse(value, style, provider), out result);
 
         public static Vector2<N> Parse(string value)
         {
-            var (x, y) = ParseParts(ref value);
-            return new Vector2<N>(StringParser<N>.Parse(x), StringParser<N>.Parse(y));
+            var parts = StringUtilities.ParseVectorParts(value.Trim().Replace(Symbol, string.Empty));
+            if (parts.Length != 2) throw new FormatException();
+            return new Vector2<N>(
+                StringParser<N>.Parse(parts[0]),
+                StringParser<N>.Parse(parts[1]));
         }
 
         public static Vector2<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
         {
-            var (x, y) = ParseParts(ref value);
-            return new Vector2<N>(StringParser<N>.Parse(x, style, provider), StringParser<N>.Parse(y, style, provider));
-        }
-
-        private static (string X, string Y) ParseParts(ref string value)
-        {
-            value = value.Replace(StringRepresentation.Combine(typeof(Vector2<N>)), string.Empty);
-            var parts = value.Replace("(", string.Empty).Replace(")", string.Empty).Split(",");
+            var parts = StringUtilities.ParseVectorParts(value.Trim().Replace(Symbol, string.Empty));
             if (parts.Length != 2) throw new FormatException();
-            return (parts[0], parts[1]);
+            return new Vector2<N>(
+                StringParser<N>.Parse(parts[0], style, provider),
+                StringParser<N>.Parse(parts[1], style, provider));
         }
 
         public static Vector2<N> operator -(Vector2<N> value) => new Vector2<N>(-value.X, -value.Y);
