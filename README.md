@@ -33,7 +33,7 @@ var f = 2 * Math<fix64>.PI;
 var b = BitConverter<fix64>.GetBytes(f);
 
 Console.WriteLine(w); // outputs: 4221
-Console.WriteLine($"{v:X}"); // outputs: (107D, 20F)
+Console.WriteLine($"{v:X}"); // outputs: →(107D, 20F)
 
 Console.WriteLine(f); // outputs: 6.283184
 Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]

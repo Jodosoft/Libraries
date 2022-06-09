@@ -66,7 +66,7 @@
         <PackageIcon>PackageIcon.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/JosephJShort/Jodo.Extensions</PackageProjectUrl>
-        <PackageReleaseNotes>https://github.com/JosephJShort/Jodo.Extensions/issues?q=milestone%3A1.0.0</PackageReleaseNotes>
+        <PackageReleaseNotes>https://github.com/JosephJShort/Jodo.Extensions/issues?q=is%3Aclosed</PackageReleaseNotes>
         <Product>Jodo.Extensions</Product>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <RepositoryType>git</RepositoryType>
