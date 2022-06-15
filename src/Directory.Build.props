@@ -9,7 +9,7 @@
     
     <When Condition="$(MSBuildProjectName.EndsWith('Benchmarks'))">
       <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
       </PropertyGroup>
       <ItemGroup>
@@ -22,7 +22,7 @@
     
     <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing'))">
       <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
       </PropertyGroup>
       <ItemGroup>
         <PackageReference Include="NUnit" Version="3.13.3" />
