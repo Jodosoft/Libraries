@@ -41,14 +41,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public cfloat(float value)
         {
-            if (float.IsFinite(value)) _value = value;
-            else if (float.IsPositiveInfinity(value)) _value = float.MaxValue;
-            else if (float.IsNegativeInfinity(value)) _value = float.MinValue;
-            else _value = 0f;
+            _value = Check(value);
         }
 
-        private cfloat(SerializationInfo info, StreamingContext context) : this(info.GetSingle(nameof(cfloat))) { }
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(cfloat), _value);
+        private cfloat(SerializationInfo info, StreamingContext context)
+        {
+            _value = Check(info.GetSingle(nameof(cfloat)));
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(cfloat), _value);
+        }
 
         public int CompareTo(cfloat other) => _value.CompareTo(other._value);
         public int CompareTo(object? obj) => obj is cfloat other ? CompareTo(other) : 1;
@@ -116,6 +120,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cfloat operator ++(cfloat value) => value + 1;
         public static cfloat operator <<(cfloat left, int right) => NumericUtilities.LeftShift(left._value, right);
         public static cfloat operator >>(cfloat left, int right) => NumericUtilities.RightShift(left._value, right);
+
+        private static float Check(float value)
+        {
+            if (float.IsFinite(value)) return value;
+            else if (float.IsPositiveInfinity(value)) return float.MaxValue;
+            else if (float.IsNegativeInfinity(value)) return float.MinValue;
+            else return 0f;
+        }
 
         bool INumeric<cfloat>.IsGreaterThan(cfloat value) => this > value;
         bool INumeric<cfloat>.IsGreaterThanOrEqualTo(cfloat value) => this >= value;

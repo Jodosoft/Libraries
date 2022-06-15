@@ -41,14 +41,18 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public cdouble(double value)
         {
-            if (double.IsFinite(value)) _value = value;
-            else if (double.IsPositiveInfinity(value)) _value = double.MaxValue;
-            else if (double.IsNegativeInfinity(value)) _value = double.MinValue;
-            else _value = 0d;
+            _value = Check(value);
         }
 
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(cdouble), _value);
-        private cdouble(SerializationInfo info, StreamingContext context) : this(info.GetDouble(nameof(cdouble))) { }
+        private cdouble(SerializationInfo info, StreamingContext context)
+        {
+            _value = Check(info.GetDouble(nameof(cdouble)));
+        }
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(cdouble), _value);
+        }
 
         public int CompareTo(cdouble other) => _value.CompareTo(other._value);
         public int CompareTo(object? obj) => obj is cdouble other ? CompareTo(other) : 1;
@@ -116,6 +120,14 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cdouble operator ~(cdouble left) => NumericUtilities.BitwiseComplement(left._value);
         public static cdouble operator >>(cdouble left, int right) => NumericUtilities.RightShift(left._value, right);
         public static cdouble operator <<(cdouble left, int right) => NumericUtilities.LeftShift(left._value, right);
+
+        private static double Check(double value)
+        {
+            if (double.IsFinite(value)) return value;
+            else if (double.IsPositiveInfinity(value)) return double.MaxValue;
+            else if (double.IsNegativeInfinity(value)) return double.MinValue;
+            else return 0d;
+        }
 
         bool INumeric<cdouble>.IsGreaterThan(cdouble value) => this > value;
         bool INumeric<cdouble>.IsGreaterThanOrEqualTo(cdouble value) => this >= value;
