@@ -12,9 +12,12 @@
   <br />
   <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo.Extensions/1?logo=azuredevops&style=flat-square"></a>
   <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo.Extensions/1/main?logo=azuredevops&style=flat-square"></a>
-<br />
+  <br />
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square" /></a>
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square"></a>
+<br />
+  <a href="https://www.codefactor.io/repository/github/josephjshort/jodo.extensions/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo.Extensions/main?logo=codefactor&style=flat-square"></a>
+  <a href="https://lgtm.com/projects/g/JosephJShort/Jodo.Extensions/alerts/?mode=list"><img alt="LGTM Alerts" src="https://img.shields.io/lgtm/alerts/github/JosephJShort/Jodo.Extensions?label=alerts&logo=lgtm&style=flat-square"></a>
 </p>
 
 <h2>Jodo.Extensions.Numerics</h2>
