@@ -49,14 +49,14 @@ namespace Jodo.Extensions.Geometry
         public N Height => Dimensions.Y;
         public N Width => Dimensions.X;
 
-        public Vector2<N> BottomCenter => GetBottomCenter(Center, Dimensions, Angle);
-        public Vector2<N> BottomLeft => GetBottomLeft(Center, Dimensions, Angle);
-        public Vector2<N> BottomRight => GetBottomRight(Center, Dimensions, Angle);
-        public Vector2<N> LeftCenter => GetLeftCenter(Center, Dimensions, Angle);
-        public Vector2<N> RightCenter => GetRightCenter(Center, Dimensions, Angle);
-        public Vector2<N> TopCenter => GetTopCenter(Center, Dimensions, Angle);
-        public Vector2<N> TopLeft => GetTopLeft(Center, Dimensions, Angle);
-        public Vector2<N> TopRight => GetTopRight(Center, Dimensions, Angle);
+        public Vector2<N> GetBottomCenter() => GetBottomCenter(Center, Dimensions, Angle);
+        public Vector2<N> GetBottomLeft() => GetBottomLeft(Center, Dimensions, Angle);
+        public Vector2<N> GetBottomRight() => GetBottomRight(Center, Dimensions, Angle);
+        public Vector2<N> GetLeftCenter() => GetLeftCenter(Center, Dimensions, Angle);
+        public Vector2<N> GetRightCenter() => GetRightCenter(Center, Dimensions, Angle);
+        public Vector2<N> GetTopCenter() => GetTopCenter(Center, Dimensions, Angle);
+        public Vector2<N> GetTopLeft() => GetTopLeft(Center, Dimensions, Angle);
+        public Vector2<N> GetTopRight() => GetTopRight(Center, Dimensions, Angle);
 
         public Rectangle(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle)
         {
@@ -96,35 +96,36 @@ namespace Jodo.Extensions.Geometry
 
         public N GetArea() => Math<N>.Abs(Width * Height);
 
-        public Vector2<N> GetCenter()
-        {
-            throw new NotImplementedException();
-        }
-
         public ReadOnlySpan<Vector2<N>> GetVertices()
         {
-            throw new NotImplementedException();
+            return new[]
+            {
+                GetBottomLeft(),
+                GetBottomRight(),
+                GetTopRight(),
+                GetTopLeft()
+            };
         }
 
         public Rectangle<N> Grow((N, N) delta) => Grow((Vector2<N>)delta);
         public Rectangle<N> Grow(N delta) => Grow(new Vector2<N>(delta, delta));
         public Rectangle<N> Grow(N deltaX, N deltaY) => Grow(new Vector2<N>(deltaX, deltaY));
-        public Rectangle<N> Grow(Vector2<N> delta) => new Rectangle<N>(BottomLeft - delta, Dimensions + delta + delta, Angle);
+        public Rectangle<N> Grow(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft() - delta, Dimensions + delta + delta, Angle);
 
         public Rectangle<N> Scale(N scale) => new Rectangle<N>(Center, Dimensions * scale, Angle);
 
-        public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(BottomLeft, Dimensions, Angle + angle);
+        public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(GetBottomLeft(), Dimensions, Angle + angle);
         public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Center.RotateAround(pivot, angle), Dimensions, Angle + angle);
         public Rectangle<N> Shrink((N, N) delta) => Shrink((Vector2<N>)delta);
         public Rectangle<N> Shrink(N delta) => Shrink(new Vector2<N>(delta, delta));
         public Rectangle<N> Shrink(N deltaX, N deltaY) => Shrink(new Vector2<N>(deltaX, deltaY));
-        public Rectangle<N> Shrink(Vector2<N> delta) => new Rectangle<N>(BottomLeft, Dimensions - delta, Angle);
+        public Rectangle<N> Shrink(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft(), Dimensions - delta, Angle);
         public Rectangle<N> Translate((N, N) delta) => Translate((Vector2<N>)delta);
         public Rectangle<N> Translate(N deltaX, N deltaY) => Translate(new Vector2<N>(deltaX, deltaY));
-        public Rectangle<N> Translate(Vector2<N> delta) => new Rectangle<N>(BottomLeft + delta, Dimensions, Angle);
+        public Rectangle<N> Translate(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft() + delta, Dimensions, Angle);
         public Rectangle<N> UnitTranslate((N, N) delta) => Translate((Vector2<N>)delta);
         public Rectangle<N> UnitTranslate(N deltaX, N deltaY) => Translate(new Vector2<N>(deltaX, deltaY));
-        public Rectangle<N> UnitTranslate(Vector2<N> delta) => new Rectangle<N>(BottomLeft + (delta.X * Width, delta.Y * Height), Dimensions, Angle);
+        public Rectangle<N> UnitTranslate(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft() + (delta.X * Width, delta.Y * Height), Dimensions, Angle);
 
         public bool Equals(Rectangle<N> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
         public override bool Equals(object? obj) => obj is Rectangle<N> rectangle && Equals(rectangle);
@@ -173,8 +174,8 @@ namespace Jodo.Extensions.Geometry
 
         public AARectangle<N> GetBounds()
         {
-            var xs = new[] { TopLeft.X, TopRight.X, BottomLeft.X, BottomRight.X };
-            var ys = new[] { TopLeft.Y, TopRight.Y, BottomLeft.Y, BottomRight.Y };
+            var xs = new[] { GetTopLeft().X, GetTopRight().X, GetBottomLeft().X, GetBottomRight().X };
+            var ys = new[] { GetTopLeft().Y, GetTopRight().Y, GetBottomLeft().Y, GetBottomRight().Y };
 
             var minX = xs.Min();
             var maxX = xs.Max();
@@ -198,11 +199,13 @@ namespace Jodo.Extensions.Geometry
         public static bool operator !=(Rectangle<N> left, Rectangle<N> right) => !(left == right);
         public static implicit operator Rectangle<N>(AARectangle<N> value) => new Rectangle<N>(value.Center, value.Dimensions, Angle<N>.Zero);
 
-        ReadOnlySpan<Vector2<N>> ITwoDimensional<Rectangle<N>, N>.GetVertices(int pointsPerRadian) => GetVertices();
+        ReadOnlySpan<Vector2<N>> ITwoDimensional<Rectangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
+        Vector2<N> ITwoDimensional<Rectangle<N>, N>.GetCenter() => Center;
 
         IBitConverter<Rectangle<N>> IProvider<IBitConverter<Rectangle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Rectangle<N>> IProvider<IRandom<Rectangle<N>>>.GetInstance() => Utilities.Instance;
         IStringParser<Rectangle<N>> IProvider<IStringParser<Rectangle<N>>>.GetInstance() => Utilities.Instance;
+
 
         private sealed class Utilities :
            IBitConverter<Rectangle<N>>,
@@ -213,32 +216,64 @@ namespace Jodo.Extensions.Geometry
 
             Rectangle<N> IRandom<Rectangle<N>>.Next(Random random)
             {
-                throw new NotImplementedException();
+                do
+                {
+                    try
+                    {
+                        checked
+                        {
+                            var result = AARectangle<N>.Between(
+                                random.NextVector2<N>(),
+                                random.NextVector2<N>()).Rotate(random.NextAngle<N>());
+                            if (result.GetBounds() != default)
+                            {
+                                return result;
+                            }
+                        }
+                    }
+                    catch (OverflowException) { }
+                } while (true);
             }
 
             Rectangle<N> IRandom<Rectangle<N>>.Next(Random random, Rectangle<N> bound1, Rectangle<N> bound2)
             {
-                throw new NotImplementedException();
+                var bound1Bounds = bound1.GetBounds();
+                var bound2Bounds = bound2.GetBounds();
+                var xMin = Math<N>.Min(bound1Bounds.BottomLeft.X, bound2Bounds.BottomLeft.X);
+                var xMax = Math<N>.Max(bound1Bounds.TopRight.X, bound2Bounds.TopRight.X);
+                var yMin = Math<N>.Min(bound1Bounds.BottomLeft.Y, bound2Bounds.BottomLeft.Y);
+                var yMax = Math<N>.Max(bound1Bounds.TopRight.Y, bound2Bounds.TopRight.Y);
+
+                var center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
+
+                var xMaxRadius = Math<N>.Min(xMax - center.X, center.X - xMin);
+                var yMaxRadius = Math<N>.Min(yMax - center.Y, center.Y - yMin);
+
+                var angle = random.NextAngle<N>();
+                var dimensions = new Vector2<N>(xMaxRadius * Numeric<N>.Two, yMaxRadius * Numeric<N>.Two);
+
+                return new Rectangle<N>(center, dimensions, angle);
             }
 
             Rectangle<N> IStringParser<Rectangle<N>>.Parse(string s)
-            {
-                throw new NotImplementedException();
-            }
+                => Parse(s);
 
             Rectangle<N> IStringParser<Rectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
-            {
-                throw new NotImplementedException();
-            }
+                => Parse(s, style, provider);
 
             Rectangle<N> IBitConverter<Rectangle<N>>.Read(IReadOnlyStream<byte> stream)
             {
-                throw new NotImplementedException();
+                return new Rectangle<N>(
+                    BitConverter<Vector2<N>>.Read(stream),
+                    BitConverter<Vector2<N>>.Read(stream),
+                    BitConverter<Angle<N>>.Read(stream));
             }
 
             void IBitConverter<Rectangle<N>>.Write(Rectangle<N> value, IWriteOnlyStream<byte> stream)
             {
-                throw new NotImplementedException();
+                BitConverter<Vector2<N>>.Write(stream, value.Center);
+                BitConverter<Vector2<N>>.Write(stream, value.Dimensions);
+                BitConverter<Angle<N>>.Write(stream, value.Angle);
             }
         }
     }

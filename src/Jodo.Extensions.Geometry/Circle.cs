@@ -71,20 +71,30 @@ namespace Jodo.Extensions.Geometry
             info.AddValue(nameof(Radius), Radius, typeof(N));
         }
 
-        public bool Contains(Circle<N> other)
+        public ReadOnlySpan<Vector2<N>> GetVertices(int circumferenceDivisor)
         {
-            throw new NotImplementedException();
-        }
+            var centerX = Convert<N>.ToDouble(Center.X);
+            var centerY = Convert<N>.ToDouble(Center.Y);
+            var radius = Convert<N>.ToDouble(Radius);
 
-        public bool Contains(Vector2<N> point) => point.DistanceFrom(Center) < Radius;
+            var results = new Vector2<N>[circumferenceDivisor + 1];
+            results[0] = Center;
+            for (int i = 0; i < circumferenceDivisor; i++)
+            {
+                var degrees = i * 360 / (double)circumferenceDivisor;
+
+                var radians = degrees * NumericUtilities.RadiansPerDegree;
+
+                results[i + 1] = new Vector2<N>(
+                    Convert<N>.ToNumeric(centerX + radius * Math.Cos(radians)),
+                    Convert<N>.ToNumeric(centerY + radius * Math.Sin(radians)));
+            }
+            return results;
+        }
 
         public N GetArea() => Math<N>.PI * Math<N>.Pow(Radius, Numeric<N>.Two);
-
-        public ReadOnlySpan<Vector2<N>> GetVertices(int pointsPerRadian)
-        {
-            throw new NotImplementedException();
-        }
-
+        public bool Contains(Circle<N> other) => Radius >= other.Radius && Center.DistanceFrom(other.Center) <= Radius - other.Radius;
+        public bool Contains(Vector2<N> point) => point.DistanceFrom(Center) < Radius;
         public Circle<N> Translate(Vector2<N> delta) => new Circle<N>(Center.Translate(delta), Radius);
         public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate((deltaX, deltaY)), Radius);
         public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, (GetDiameter(), GetDiameter()));
@@ -96,6 +106,32 @@ namespace Jodo.Extensions.Geometry
         public override string ToString() => $"{Symbol}({Center}, r{GetDiameter()})";
         public string ToString(string format, IFormatProvider formatProvider) => $"{Symbol}({Center.ToString(format, formatProvider)}, r{GetDiameter().ToString(format, formatProvider)})";
 
+
+        public static bool TryParse(string value, out Circle<N> result)
+            => Try.Run(() => Parse(value), out result);
+
+        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Circle<N> result)
+            => Try.Run(() => Parse(value, style, provider), out result);
+
+        public static Circle<N> Parse(string value)
+        {
+            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            if (parts.Length == 2)
+                return new Circle<N>(
+                    Vector2<N>.Parse(parts[0]),
+                    StringParser<N>.Parse(parts[1].StartsWith("r") ? parts[1][1..] : parts[1]));
+            else throw new FormatException();
+        }
+
+        public static Circle<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
+        {
+            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            if (parts.Length == 2)
+                return new Circle<N>(
+                    Vector2<N>.Parse(parts[0], style, provider),
+                    StringParser<N>.Parse(parts[1].StartsWith("r") ? parts[1][1..] : parts[1], style, provider));
+            else throw new FormatException();
+        }
 
         public static bool operator ==(Circle<N> left, Circle<N> right) => left.Equals(right);
         public static bool operator !=(Circle<N> left, Circle<N> right) => !(left == right);
@@ -114,32 +150,49 @@ namespace Jodo.Extensions.Geometry
 
             Circle<N> IRandom<Circle<N>>.Next(Random random)
             {
-                throw new NotImplementedException();
+                do
+                {
+                    var result = new Circle<N>(random.NextVector2<N>(), random.NextNumeric<N>());
+                    try
+                    {
+                        if (checked(result.GetBounds() != default))
+                        {
+                            return result;
+                        }
+                    }
+                    catch (OverflowException) { }
+                } while (true);
             }
 
             Circle<N> IRandom<Circle<N>>.Next(Random random, Circle<N> bound1, Circle<N> bound2)
             {
-                throw new NotImplementedException();
+                var xMin = Math<N>.Min(bound1.Center.X - bound1.Radius, bound2.Center.X - bound2.Radius);
+                var xMax = Math<N>.Max(bound1.Center.X + bound1.Radius, bound2.Center.X + bound2.Radius);
+                var yMin = Math<N>.Min(bound1.Center.Y - bound1.Radius, bound2.Center.Y - bound2.Radius);
+                var yMax = Math<N>.Max(bound1.Center.Y + bound1.Radius, bound2.Center.Y + bound2.Radius);
+
+                var center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
+
+                var xMaxRadius = Math<N>.Min(xMax - center.X, center.X - xMin);
+                var yMaxRadius = Math<N>.Min(yMax - center.Y, center.Y - yMin);
+                var radius = random.NextNumeric(Numeric<N>.Zero, Math<N>.Min(xMaxRadius, yMaxRadius));
+
+                return new Circle<N>(center, radius);
             }
 
-            Circle<N> IStringParser<Circle<N>>.Parse(string s)
-            {
-                throw new NotImplementedException();
-            }
+            Circle<N> IStringParser<Circle<N>>.Parse(string s) => Parse(s);
 
-            Circle<N> IStringParser<Circle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
-            {
-                throw new NotImplementedException();
-            }
+            Circle<N> IStringParser<Circle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             Circle<N> IBitConverter<Circle<N>>.Read(IReadOnlyStream<byte> stream)
             {
-                throw new NotImplementedException();
+                return new Circle<N>(BitConverter<Vector2<N>>.Read(stream), BitConverter<N>.Read(stream));
             }
 
             void IBitConverter<Circle<N>>.Write(Circle<N> value, IWriteOnlyStream<byte> stream)
             {
-                throw new NotImplementedException();
+                BitConverter<Vector2<N>>.Write(stream, value.Center);
+                BitConverter<N>.Write(stream, value.Radius);
             }
         }
     }

@@ -29,8 +29,24 @@ namespace Jodo.Extensions.Geometry
         bool Contains(Vector2<N> point);
         bool IntersectsWith(T other);
         N GetArea();
-        ReadOnlySpan<Vector2<N>> GetVertices(int pointsPerRadian);
-        T Translate(Vector2<N> delta);
+        ReadOnlySpan<Vector2<N>> GetVertices(int circumferenceDivisor);
         Vector2<N> GetCenter();
+        T Translate(Vector2<N> delta);
+
+        /*
+         * Upcoming: 
+         * 
+         * T FlipHorizontally();
+         * T FlipVertically();
+         * T RotateLeft();
+         * T RotateLeft(Vector2<N> pivot);
+         * T RotateRight();
+         * T RotateRight(Vector2<N> pivot);
+         * T SnapToGrid(N gridDimensions);
+         * T SnapToGrid(Vector2<N> gridDimensions);
+         * T UnitTranslate(Vector2<N> delta);
+         * T Grow(Vector2<N> scalar); //stretch, shrink, inflate
+         * T Grow(N scalar); //stretch, shrink, inflate
+        */
     }
 }

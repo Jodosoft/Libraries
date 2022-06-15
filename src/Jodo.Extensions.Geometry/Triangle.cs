@@ -136,7 +136,7 @@ namespace Jodo.Extensions.Geometry
         public static implicit operator Triangle<N>((Vector2<N>, Vector2<N>, Vector2<N>) value) => new Triangle<N>(value.Item1, value.Item2, value.Item3);
         public static implicit operator (Vector2<N>, Vector2<N>, Vector2<N>)(Triangle<N> value) => (value.A, value.B, value.C);
 
-        ReadOnlySpan<Vector2<N>> ITwoDimensional<Triangle<N>, N>.GetVertices(int pointsPerRadian) => GetVertices();
+        ReadOnlySpan<Vector2<N>> ITwoDimensional<Triangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
         IBitConverter<Triangle<N>> IProvider<IBitConverter<Triangle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Triangle<N>> IProvider<IRandom<Triangle<N>>>.GetInstance() => Utilities.Instance;
         IStringParser<Triangle<N>> IProvider<IStringParser<Triangle<N>>>.GetInstance() => Utilities.Instance;

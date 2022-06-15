@@ -57,12 +57,20 @@ namespace Jodo.Extensions.Geometry
             Degrees = degrees;
         }
 
-        private Angle(SerializationInfo info, StreamingContext context) : this(
-            (N)info.GetValue(nameof(Degrees), typeof(N)))
-        { }
+        private Angle(SerializationInfo info, StreamingContext context)
+        {
+            Degrees = (N)info.GetValue(nameof(Degrees), typeof(N));
+        }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-            => info.AddValue(nameof(Degrees), Degrees, typeof(N));
+        {
+            info.AddValue(nameof(Degrees), Degrees, typeof(N));
+        }
+
+        public Angle<N> Normalise()
+        {
+            return new Angle<N>(Degrees % Cast<N>.ToNumeric(360));
+        }
 
         public int CompareTo(object? obj) => obj is Angle<N> other ? CompareTo(other) : 1;
         public int CompareTo(Angle<N> other) => Degrees.CompareTo(other.Degrees);

@@ -24,6 +24,10 @@ using System.Runtime.Serialization;
 
 namespace Jodo.Extensions.Numerics
 {
+    /// <summary>
+    /// Defines a generalization for numeric value types.
+    /// </summary>
+    /// <typeparam name="N">The type that implements INumeric&lt;N&gt;</typeparam>
     [SuppressMessage("csharpsquid", "S3444")] // by design
     public interface INumeric<N> :
             IComparable,
