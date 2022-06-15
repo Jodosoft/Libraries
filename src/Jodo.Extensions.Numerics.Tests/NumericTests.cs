@@ -459,7 +459,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 //arrange
                 var input1 = Random.NextByte(0, 127);
                 byte input2;
-                do { input2 = Random.NextByte(0, 127); ; } while (input2 == input1);
+                do { input2 = Random.NextByte(0, 127); } while (input2 == input1);
                 var sut1 = Convert<N>.ToNumeric(input1);
                 var sut2 = Convert<N>.ToNumeric(input2);
 

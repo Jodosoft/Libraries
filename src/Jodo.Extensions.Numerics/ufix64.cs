@@ -110,8 +110,8 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator ufix64(short value) => new ufix64((ulong)value * ScalingFactor);
         public static explicit operator ufix64(ulong value) => new ufix64(value * ScalingFactor);
         public static implicit operator ufix64(byte value) => new ufix64(value * ScalingFactor);
-        public static implicit operator ufix64(uint value) => new ufix64((ulong)value * ScalingFactor);
-        public static implicit operator ufix64(ushort value) => new ufix64((ulong)value * ScalingFactor);
+        public static implicit operator ufix64(uint value) => new ufix64(value * ScalingFactor);
+        public static implicit operator ufix64(ushort value) => new ufix64(value * ScalingFactor);
 
         public static explicit operator byte(ufix64 value) => (byte)(value._scaledValue / ScalingFactor);
         public static explicit operator decimal(ufix64 value) => (decimal)value._scaledValue / ScalingFactor;

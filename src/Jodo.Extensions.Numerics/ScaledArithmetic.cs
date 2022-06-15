@@ -115,7 +115,7 @@ namespace Jodo.Extensions.Numerics
             var pointIndex = value.IndexOf(".");
             var integral = ParseIntegral(value, pointIndex, scalingFactor);
             var mantissa = ParseMantissa(value, pointIndex, scalingFactor);
-            return checked(integral < 0 ? integral - mantissa : integral + mantissa);
+            return checked(integral + mantissa);
         }
 
         private static long ParseIntegral(string value, int index, long scalingFactor)

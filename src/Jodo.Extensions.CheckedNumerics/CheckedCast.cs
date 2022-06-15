@@ -48,9 +48,9 @@ namespace Jodo.Extensions.CheckedNumerics
         public static byte ToByte(long x) { try { checked { return (byte)x; } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
         public static byte ToByte(sbyte x) { try { checked { return (byte)x; } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
         public static byte ToByte(short x) { try { checked { return (byte)x; } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
-        public static byte ToByte(uint x) { try { checked { return (byte)x; } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
-        public static byte ToByte(ulong x) { try { checked { return (byte)x; } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
-        public static byte ToByte(ushort x) { try { checked { return (byte)x; } } catch (OverflowException) { return x > 0 ? byte.MaxValue : x < 0 ? byte.MinValue : (byte)0; } }
+        public static byte ToByte(uint x) { try { checked { return (byte)x; } } catch (OverflowException) { return byte.MaxValue; } }
+        public static byte ToByte(ulong x) { try { checked { return (byte)x; } } catch (OverflowException) { return byte.MaxValue; } }
+        public static byte ToByte(ushort x) { try { checked { return (byte)x; } } catch (OverflowException) { return byte.MaxValue; } }
 
         public static char ToChar(bool x) => x ? (char)1 : (char)0;
         public static char ToChar(byte x) => (char)x;
@@ -123,11 +123,11 @@ namespace Jodo.Extensions.CheckedNumerics
         public static uint ToUInt32(decimal x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
         public static uint ToUInt32(double x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
         public static uint ToUInt32(float x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
-        public static uint ToUInt32(int x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : (uint)0; } }
-        public static uint ToUInt32(long x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : (uint)0; } }
-        public static uint ToUInt32(sbyte x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : (uint)0; } }
-        public static uint ToUInt32(short x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : (uint)0; } }
-        public static uint ToUInt32(ulong x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : (uint)0; } }
+        public static uint ToUInt32(int x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
+        public static uint ToUInt32(long x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
+        public static uint ToUInt32(sbyte x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
+        public static uint ToUInt32(short x) { try { checked { return (uint)x; } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
+        public static uint ToUInt32(ulong x) { try { checked { return (uint)x; } } catch (OverflowException) { return uint.MaxValue; } }
         public static uint ToUInt32(ushort x) => x;
 
         public static ulong ToUInt64(bool x) => x ? 1 : (ulong)0;
@@ -136,10 +136,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ulong ToUInt64(decimal x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
         public static ulong ToUInt64(double x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
         public static ulong ToUInt64(float x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
-        public static ulong ToUInt64(int x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : (ulong)0; } }
-        public static ulong ToUInt64(long x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : (ulong)0; } }
-        public static ulong ToUInt64(sbyte x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : (ulong)0; } }
-        public static ulong ToUInt64(short x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : (ulong)0; } }
+        public static ulong ToUInt64(int x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
+        public static ulong ToUInt64(long x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
+        public static ulong ToUInt64(sbyte x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
+        public static ulong ToUInt64(short x) { try { checked { return (ulong)x; } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
         public static ulong ToUInt64(uint x) => x;
         public static ulong ToUInt64(ushort x) => x;
 
@@ -153,8 +153,8 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ushort ToUInt16(long x) { try { checked { return (ushort)x; } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
         public static ushort ToUInt16(sbyte x) { try { checked { return (ushort)x; } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
         public static ushort ToUInt16(short x) { try { checked { return (ushort)x; } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
-        public static ushort ToUInt16(uint x) { try { checked { return (ushort)x; } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
-        public static ushort ToUInt16(ulong x) { try { checked { return (ushort)x; } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
+        public static ushort ToUInt16(uint x) { try { checked { return (ushort)x; } } catch (OverflowException) { return ushort.MaxValue; } }
+        public static ushort ToUInt16(ulong x) { try { checked { return (ushort)x; } } catch (OverflowException) { return ushort.MaxValue; } }
 
         public static decimal ToDecimal(bool x) => x ? 1 : 0;
         public static decimal ToDecimal(byte x) => x;

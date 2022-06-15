@@ -141,7 +141,6 @@ namespace System
             {
                 checked { difference = bound2 - bound1; }
 
-
                 var scalar = (decimal)(random.Next() / (1.0 * (int.MaxValue - 1)));
                 var result = bound1 + (difference * scalar);
                 return result;

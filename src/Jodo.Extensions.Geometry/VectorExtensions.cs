@@ -43,6 +43,5 @@ namespace Jodo.Extensions.Geometry
 
         public static Vector2<N> Translate<N>(this Vector2<N> vector, Vector2<N> delta) where N : struct, INumeric<N>
            => new Vector2<N>(vector.X + delta.X, vector.Y + delta.Y);
-
     }
 }

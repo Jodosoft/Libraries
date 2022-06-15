@@ -67,7 +67,6 @@ namespace Jodo.Extensions.Benchmarking
 
         public static void Write(string name, Measurement subject, Measurement baseline)
         {
-
             var em = GetEmphasis(subject, baseline);
             string row =
                 $"| {em}{name}{em} " +

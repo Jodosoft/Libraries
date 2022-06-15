@@ -60,7 +60,5 @@ namespace Jodo.Extensions.CheckedNumerics
         public static ushort ToUInt16(decimal x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
         public static ushort ToUInt16(double x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
         public static ushort ToUInt16(float x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
-
-
     }
 }

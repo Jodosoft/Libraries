@@ -94,6 +94,5 @@ namespace Jodo.Extensions.Primitives
                 return false;
             }
         }
-
     }
 }

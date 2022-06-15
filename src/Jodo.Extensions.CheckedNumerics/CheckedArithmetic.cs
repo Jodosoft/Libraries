@@ -312,7 +312,6 @@ namespace Jodo.Extensions.CheckedNumerics
             if (result < long.MinValue) return long.MinValue;
             if (result > long.MaxValue) return long.MaxValue;
             return (long)result;
-
         }
 
         public static ulong ScaledMultiply(ulong scaledLeft, ulong scaledRight, ulong scalingFactor)

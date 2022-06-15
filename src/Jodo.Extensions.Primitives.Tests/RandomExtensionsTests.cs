@@ -974,15 +974,6 @@ namespace Jodo.Extensions.Primitives.Tests
             results.Should().OnlyContain(x => x == bounds);
         }
 
-
-
-
-
-
-
-
-
-
         [Test]
         public void NextDecimal_NoBounds_RandomDistribution()
         {

@@ -1238,7 +1238,6 @@ namespace Jodo.Extensions.Numerics.Tests
                 //assert
                 result.Should().Be(expected);
             }
-
         }
 
         public abstract class Unsigned<N> : GlobalFixtureBase where N : struct, INumeric<N>

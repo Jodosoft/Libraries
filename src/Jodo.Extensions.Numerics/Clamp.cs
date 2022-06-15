@@ -7,7 +7,7 @@ namespace Jodo.Extensions.Numerics
         public static N ToNumeric(byte value)
         {
             try { checked { return Convert<N>.ToNumeric(value); } }
-            catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
+            catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         public static N ToNumeric(sbyte value)
@@ -25,7 +25,7 @@ namespace Jodo.Extensions.Numerics
         public static N ToNumeric(ushort value)
         {
             try { checked { return Convert<N>.ToNumeric(value); } }
-            catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
+            catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         public static N ToNumeric(int value)
@@ -37,7 +37,7 @@ namespace Jodo.Extensions.Numerics
         public static N ToNumeric(uint value)
         {
             try { checked { return Convert<N>.ToNumeric(value); } }
-            catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
+            catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         public static N ToNumeric(long value)
@@ -49,7 +49,7 @@ namespace Jodo.Extensions.Numerics
         public static N ToNumeric(ulong value)
         {
             try { checked { return Convert<N>.ToNumeric(value); } }
-            catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
+            catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         public static N ToNumeric(float value)

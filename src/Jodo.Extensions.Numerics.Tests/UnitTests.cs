@@ -75,7 +75,6 @@ namespace Jodo.Extensions.Numerics.Tests
                 //assert
                 result.Should().Be(expected);
             }
-
         }
     }
 }

@@ -29,7 +29,6 @@ namespace Jodo.Extensions.Benchmarking
 {
     public static class Program
     {
-
 #if DEBUG
         public static This_prevents_benchmarks_being_built_in_debug _;
 #endif
