@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -79,9 +80,9 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             string str = string
                 .Format(CultureInfo.InvariantCulture, "{0:0.0000000}", value)
-                .Replace(".", string.Empty)
-                [..^1];
-            if (long.TryParse(str, out var lng))
+                .Replace(".", string.Empty);
+            str = str.Substring(0, str.Length - 1);
+            if (long.TryParse(str, out long lng))
             {
                 return new cfix64(lng);
             }
@@ -94,37 +95,37 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private static double ToDouble(cfix64 value)
         {
-            var integral = value._scaledValue / ScalingFactor;
-            var mantissa = value._scaledValue % ScalingFactor;
+            long integral = value._scaledValue / ScalingFactor;
+            long mantissa = value._scaledValue % ScalingFactor;
 
-            var result = (double)mantissa / ScalingFactor;
+            double result = (double)mantissa / ScalingFactor;
             result += integral;
             return result;
         }
 
+        [CLSCompliant(false)] public static explicit operator cfix64(ulong value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
+        [CLSCompliant(false)] public static implicit operator cfix64(sbyte value) => new cfix64(value * ScalingFactor);
+        [CLSCompliant(false)] public static implicit operator cfix64(uint value) => new cfix64(value * ScalingFactor);
+        [CLSCompliant(false)] public static implicit operator cfix64(ushort value) => new cfix64(value * ScalingFactor);
         public static explicit operator cfix64(decimal value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
         public static explicit operator cfix64(double value) => FromDouble(value);
         public static explicit operator cfix64(long value) => new cfix64(value * ScalingFactor);
-        public static explicit operator cfix64(ulong value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
         public static implicit operator cfix64(byte value) => new cfix64(value * ScalingFactor);
         public static implicit operator cfix64(float value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
         public static implicit operator cfix64(int value) => new cfix64(value * ScalingFactor);
-        public static implicit operator cfix64(sbyte value) => new cfix64(value * ScalingFactor);
         public static implicit operator cfix64(short value) => new cfix64(value * ScalingFactor);
-        public static implicit operator cfix64(uint value) => new cfix64(value * ScalingFactor);
-        public static implicit operator cfix64(ushort value) => new cfix64(value * ScalingFactor);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(cfix64 value) => CheckedCast.ToSByte(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator uint(cfix64 value) => CheckedCast.ToUInt32(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator ulong(cfix64 value) => CheckedCast.ToUInt64(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator ushort(cfix64 value) => CheckedCast.ToUInt16(value._scaledValue / ScalingFactor);
         public static explicit operator byte(cfix64 value) => CheckedCast.ToByte(value._scaledValue / ScalingFactor);
         public static explicit operator decimal(cfix64 value) => (decimal)value._scaledValue / ScalingFactor;
         public static explicit operator double(cfix64 value) => ToDouble(value);
         public static explicit operator float(cfix64 value) => (float)value._scaledValue / ScalingFactor;
         public static explicit operator int(cfix64 value) => CheckedCast.ToInt32(value._scaledValue / ScalingFactor);
         public static explicit operator long(cfix64 value) => value._scaledValue / ScalingFactor;
-        public static explicit operator sbyte(cfix64 value) => CheckedCast.ToSByte(value._scaledValue / ScalingFactor);
         public static explicit operator short(cfix64 value) => CheckedCast.ToInt16(value._scaledValue / ScalingFactor);
-        public static explicit operator uint(cfix64 value) => CheckedCast.ToUInt32(value._scaledValue / ScalingFactor);
-        public static explicit operator ulong(cfix64 value) => CheckedCast.ToUInt64(value._scaledValue / ScalingFactor);
-        public static explicit operator ushort(cfix64 value) => CheckedCast.ToUInt16(value._scaledValue / ScalingFactor);
 
         public static bool operator !=(cfix64 left, cfix64 right) => left._scaledValue != right._scaledValue;
         public static bool operator <(cfix64 left, cfix64 right) => left._scaledValue < right._scaledValue;
@@ -183,7 +184,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<cfix64>,
             IStringParser<cfix64>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<cfix64>.HasFloatingPoint { get; } = false;
             bool INumericStatic<cfix64>.HasInfinity { get; } = false;
@@ -208,15 +209,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 INumericStatic<cfix64>.Two { get; } = new cfix64(2 * ScalingFactor);
             cfix64 INumericStatic<cfix64>.Zero { get; } = 0;
 
-            cfix64 IMath<cfix64>.Abs(cfix64 x) => x._scaledValue < 0 ? -x : x;
+            cfix64 IMath<cfix64>.Abs(cfix64 value) => value._scaledValue < 0 ? -value : value;
             cfix64 IMath<cfix64>.Acos(cfix64 x) => (cfix64)Math.Acos((double)x);
-            cfix64 IMath<cfix64>.Acosh(cfix64 x) => (cfix64)Math.Acosh((double)x);
+            cfix64 IMath<cfix64>.Acosh(cfix64 x) => (cfix64)MathCompat.Acosh((double)x);
             cfix64 IMath<cfix64>.Asin(cfix64 x) => (cfix64)Math.Asin((double)x);
-            cfix64 IMath<cfix64>.Asinh(cfix64 x) => (cfix64)Math.Asinh((double)x);
+            cfix64 IMath<cfix64>.Asinh(cfix64 x) => (cfix64)MathCompat.Asinh((double)x);
             cfix64 IMath<cfix64>.Atan(cfix64 x) => (cfix64)Math.Atan((double)x);
             cfix64 IMath<cfix64>.Atan2(cfix64 x, cfix64 y) => (cfix64)Math.Atan2((double)x, (double)y);
-            cfix64 IMath<cfix64>.Atanh(cfix64 x) => (cfix64)Math.Atanh((double)x);
-            cfix64 IMath<cfix64>.Cbrt(cfix64 x) => (cfix64)Math.Cbrt((double)x);
+            cfix64 IMath<cfix64>.Atanh(cfix64 x) => (cfix64)MathCompat.Atanh((double)x);
+            cfix64 IMath<cfix64>.Cbrt(cfix64 x) => (cfix64)MathCompat.Cbrt((double)x);
             cfix64 IMath<cfix64>.Ceiling(cfix64 x) => new cfix64(ScaledArithmetic.Ceiling(x._scaledValue, ScalingFactor));
             cfix64 IMath<cfix64>.Clamp(cfix64 x, cfix64 bound1, cfix64 bound2) => new cfix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             cfix64 IMath<cfix64>.Cos(cfix64 x) => (cfix64)Math.Cos((double)x);
@@ -247,7 +248,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cfix64 IMath<cfix64>.Truncate(cfix64 x) => new cfix64(x._scaledValue / ScalingFactor * ScalingFactor);
             int IMath<cfix64>.Sign(cfix64 x) => Math.Sign(x._scaledValue);
 
-            cfix64 IBitConverter<cfix64>.Read(IReadOnlyStream<byte> stream) => new cfix64(BitConverter.ToInt64(stream.Read(sizeof(long))));
+            cfix64 IBitConverter<cfix64>.Read(IReadOnlyStream<byte> stream) => new cfix64(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
             void IBitConverter<cfix64>.Write(cfix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             cfix64 IRandom<cfix64>.Next(Random random) => new cfix64(random.NextInt64WithoutBounds());

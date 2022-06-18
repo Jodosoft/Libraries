@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -65,29 +66,29 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cuint Parse(string s, NumberStyles style) => uint.Parse(s, style);
         public static cuint Parse(string s, NumberStyles style, IFormatProvider? provider) => uint.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator cuint(sbyte value) => new cuint(CheckedConvert.ToUInt32(value));
+        [CLSCompliant(false)] public static explicit operator cuint(ulong value) => new cuint(CheckedConvert.ToUInt32(value));
+        [CLSCompliant(false)] public static implicit operator cuint(uint value) => new cuint(value);
+        [CLSCompliant(false)] public static implicit operator cuint(ushort value) => new cuint(value);
         public static explicit operator cuint(decimal value) => new cuint(CheckedTruncate.ToUInt32(value));
         public static explicit operator cuint(double value) => new cuint(CheckedTruncate.ToUInt32(value));
         public static explicit operator cuint(float value) => new cuint(CheckedTruncate.ToUInt32(value));
         public static explicit operator cuint(int value) => new cuint(CheckedConvert.ToUInt32(value));
         public static explicit operator cuint(long value) => new cuint(CheckedConvert.ToUInt32(value));
-        public static explicit operator cuint(sbyte value) => new cuint(CheckedConvert.ToUInt32(value));
         public static explicit operator cuint(short value) => new cuint(CheckedConvert.ToUInt32(value));
-        public static explicit operator cuint(ulong value) => new cuint(CheckedConvert.ToUInt32(value));
         public static implicit operator cuint(byte value) => new cuint(value);
-        public static implicit operator cuint(uint value) => new cuint(value);
-        public static implicit operator cuint(ushort value) => new cuint(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(cuint value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator ushort(cuint value) => CheckedConvert.ToUInt16(value._value);
+        [CLSCompliant(false)] public static implicit operator uint(cuint value) => value._value;
+        [CLSCompliant(false)] public static implicit operator ulong(cuint value) => value._value;
         public static explicit operator byte(cuint value) => CheckedConvert.ToByte(value._value);
         public static explicit operator int(cuint value) => CheckedConvert.ToInt32(value._value);
-        public static explicit operator sbyte(cuint value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(cuint value) => CheckedConvert.ToInt16(value._value);
-        public static explicit operator ushort(cuint value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator decimal(cuint value) => value._value;
         public static implicit operator double(cuint value) => value._value;
         public static implicit operator float(cuint value) => value._value;
         public static implicit operator long(cuint value) => value._value;
-        public static implicit operator uint(cuint value) => value._value;
-        public static implicit operator ulong(cuint value) => value._value;
 
         public static bool operator !=(cuint left, cuint right) => left._value != right._value;
         public static bool operator <(cuint left, cuint right) => left._value < right._value;
@@ -146,7 +147,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<cuint>,
             IStringParser<cuint>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<cuint>.HasFloatingPoint { get; } = false;
             bool INumericStatic<cuint>.HasInfinity { get; } = false;
@@ -172,15 +173,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cuint INumericStatic<cuint>.Zero { get; } = 0;
 
             int IMath<cuint>.Sign(cuint x) => x._value == 0 ? 0 : 1;
-            cuint IMath<cuint>.Abs(cuint x) => x;
+            cuint IMath<cuint>.Abs(cuint value) => value;
             cuint IMath<cuint>.Acos(cuint x) => (cuint)Math.Acos(x._value);
-            cuint IMath<cuint>.Acosh(cuint x) => (cuint)Math.Acosh(x._value);
+            cuint IMath<cuint>.Acosh(cuint x) => (cuint)MathCompat.Acosh(x._value);
             cuint IMath<cuint>.Asin(cuint x) => (cuint)Math.Asin(x._value);
-            cuint IMath<cuint>.Asinh(cuint x) => (cuint)Math.Asinh(x._value);
+            cuint IMath<cuint>.Asinh(cuint x) => (cuint)MathCompat.Asinh(x._value);
             cuint IMath<cuint>.Atan(cuint x) => (cuint)Math.Atan(x._value);
             cuint IMath<cuint>.Atan2(cuint x, cuint y) => (cuint)Math.Atan2(x._value, y._value);
-            cuint IMath<cuint>.Atanh(cuint x) => (cuint)Math.Atanh(x._value);
-            cuint IMath<cuint>.Cbrt(cuint x) => (cuint)Math.Cbrt(x._value);
+            cuint IMath<cuint>.Atanh(cuint x) => (cuint)MathCompat.Atanh(x._value);
+            cuint IMath<cuint>.Cbrt(cuint x) => (cuint)MathCompat.Cbrt(x._value);
             cuint IMath<cuint>.Ceiling(cuint x) => x;
             cuint IMath<cuint>.Clamp(cuint x, cuint bound1, cuint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cuint IMath<cuint>.Cos(cuint x) => (cuint)Math.Cos(x._value);
@@ -210,7 +211,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cuint IMath<cuint>.Tau { get; } = 6;
             cuint IMath<cuint>.Truncate(cuint x) => x;
 
-            cuint IBitConverter<cuint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
+            cuint IBitConverter<cuint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)), 0);
             void IBitConverter<cuint>.Write(cuint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             cuint IRandom<cuint>.Next(Random random) => random.NextUInt32();

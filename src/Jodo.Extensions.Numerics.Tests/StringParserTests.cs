@@ -17,12 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using System.Globalization;
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
-using System.Globalization;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -34,10 +34,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse1_RoundTripSmallValue_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                var result = StringParser<N>.Parse(input.ToString());
+                N result = StringParser<N>.Parse(input.ToString());
 
                 //assert
                 result.Should().Be(input);
@@ -47,11 +47,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse1_RoundTripFormat_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-                var format = "G17";
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                string format = "G17";
 
                 //act
-                var result = StringParser<N>.Parse(input.ToString(format));
+                N result = StringParser<N>.Parse(input.ToString(format));
 
                 //assert
                 result.Should().Be(input);
@@ -61,11 +61,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse1_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-                var format = "G17";
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                string format = "G17";
 
                 //act
-                var result = StringParser<N>.Parse(input.ToString(format, NumberFormatInfo.InvariantInfo));
+                N result = StringParser<N>.Parse(input.ToString(format, NumberFormatInfo.InvariantInfo));
 
                 //assert
                 result.Should().Be(input);
@@ -75,13 +75,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse2_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-                var format = "G17";
-                var provider = NumberFormatInfo.InvariantInfo;
-                var numberStyles = NumberStyles.Any;
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                string format = "G17";
+                NumberFormatInfo provider = NumberFormatInfo.InvariantInfo;
+                NumberStyles numberStyles = NumberStyles.Any;
 
                 //act
-                var result = StringParser<N>.Parse(input.ToString(format, provider), numberStyles, provider);
+                N result = StringParser<N>.Parse(input.ToString(format, provider), numberStyles, provider);
 
                 //assert
                 result.Should().Be(input);
@@ -97,11 +97,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Parse2_SmallIntegralHexString_CorrectResult()
             {
                 //arrange
-                var input = Random.Next(0, 128);
-                var hexString = input.ToString("X");
+                int input = Random.Next(0, 128);
+                string hexString = input.ToString("X");
 
                 //act
-                var result = StringParser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
+                N result = StringParser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
 
                 //assert
                 result.Should().Be(Convert<N>.ToNumeric(input));

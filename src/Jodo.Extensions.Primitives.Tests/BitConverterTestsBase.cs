@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Primitives.Tests
 {
@@ -30,10 +30,10 @@ namespace Jodo.Extensions.Primitives.Tests
         public void GetBytes_RandomValue_ReturnsBytes()
         {
             //arrange
-            var input = Random.NextRandomizable<T>();
+            T input = Random.NextRandomizable<T>();
 
             //act
-            var result = BitConverter<T>.GetBytes(input);
+            ReadOnlySpan<byte> result = BitConverter<T>.GetBytes(input);
 
             //assert
             result.Length.Should().BeGreaterThan(0);
@@ -43,10 +43,10 @@ namespace Jodo.Extensions.Primitives.Tests
         public void GetBytes_RoundTrip_SameAsOriginal()
         {
             //arrange
-            var input = Random.NextRandomizable<T>();
+            T input = Random.NextRandomizable<T>();
 
             //act
-            var result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
+            T result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
 
             //assert
             result.Should().BeEquivalentTo(input);
@@ -58,7 +58,7 @@ namespace Jodo.Extensions.Primitives.Tests
             //arrange
 
             //act
-            var action = new Action(() => BitConverter<T>.FromBytes(Array.Empty<byte>().AsSpan()));
+            Action action = new Action(() => BitConverter<T>.FromBytes(Array.Empty<byte>().AsSpan()));
 
             //assert
             action.Should().Throw<ArgumentException>();

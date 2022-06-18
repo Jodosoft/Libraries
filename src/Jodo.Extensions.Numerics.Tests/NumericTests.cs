@@ -17,13 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -101,11 +101,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Add_RandomValues_CorrectResult()
             {
                 //arrange
-                var left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                var right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
 
                 //act
-                var result = left + right;
+                N result = left + right;
 
                 //assert
                 result.Should().BeApproximately(Cast<N>.ToDouble(left) + Cast<N>.ToDouble(right));
@@ -115,11 +115,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void AddSubtract_Random_CorrectResult()
             {
                 //arrange
-                var left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                var right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
 
                 //act
-                var result = left + right - right;
+                N result = left + right - right;
 
                 //assert
                 result.Should().BeApproximately(Cast<N>.ToDouble(left));
@@ -129,11 +129,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Multiply_RandomValues_CorrectResult()
             {
                 //arrange
-                var left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                var right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
 
                 //act
-                var result = left * right;
+                N result = left * right;
 
                 //assert
                 result.Should().BeApproximately(Cast<N>.ToDouble(left) * Cast<N>.ToDouble(right));
@@ -143,10 +143,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Positive_RandomValue_ReturnsSameValue()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                var result = +input;
+                N result = +input;
 
                 //assert
                 result.Should().Be(input);
@@ -156,10 +156,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Negative_Zero_ReturnsZero()
             {
                 //arrange
-                var input = Numeric<N>.Zero;
+                N input = Numeric<N>.Zero;
 
                 //act
-                var result = -input;
+                N result = -input;
 
                 //assert
                 result.Should().Be(Numeric<N>.Zero);
@@ -169,10 +169,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Multiply_RandomValueByZero_ReturnsZero()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                var result = input * Numeric<N>.Zero;
+                N result = input * Numeric<N>.Zero;
 
                 //assert
                 result.Should().Be(Numeric<N>.Zero);
@@ -182,10 +182,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Multiply_RandomValueByOne_ReturnSameValue()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                var result = input * Numeric<N>.One;
+                N result = input * Numeric<N>.One;
 
                 //assert
                 result.Should().Be(input);
@@ -195,10 +195,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Divide_RandomValueByOne_ReturnsSameValue()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                var result = input / Numeric<N>.One;
+                N result = input / Numeric<N>.One;
 
                 //assert
                 result.Should().Be(input);
@@ -208,10 +208,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Divide_RandomValueByItself_ReturnsOne()
             {
                 //arrange
-                var input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                var result = input / Numeric<N>.One;
+                N result = input / Numeric<N>.One;
 
                 //assert
                 result.Should().Be(input);
@@ -221,8 +221,8 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Divide_RandomValues_CorrectResult()
             {
                 //arrange
-                var randomValue1 = Random.NextDouble(1, 10);
-                var randomValue2 = Random.NextDouble(1, randomValue1);
+                double randomValue1 = Random.NextDouble(1, 10);
+                double randomValue2 = Random.NextDouble(1, randomValue1);
                 if (!Numeric<N>.IsReal)
                 {
                     randomValue1 = Math.Truncate(randomValue1);
@@ -233,12 +233,12 @@ namespace Jodo.Extensions.Numerics.Tests
                     if (Random.NextBoolean()) randomValue1 = -randomValue1;
                     if (Random.NextBoolean()) randomValue2 = -randomValue2;
                 }
-                var left = Cast<N>.ToNumeric(randomValue1);
-                var right = Cast<N>.ToNumeric(randomValue2);
-                var expected = Cast<N>.ToNumeric(randomValue1 / randomValue2);
+                N left = Cast<N>.ToNumeric(randomValue1);
+                N right = Cast<N>.ToNumeric(randomValue2);
+                N expected = Cast<N>.ToNumeric(randomValue1 / randomValue2);
 
                 //act
-                var result = left / right;
+                N result = left / right;
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -248,13 +248,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void GreaterThan_RandomValues_SameAsSystem()
             {
                 //arrange
-                var left = Random.NextByte(0, 127);
-                var right = Random.NextByte(0, 127);
-                var leftN = Cast<N>.ToNumeric(left);
-                var rightN = Cast<N>.ToNumeric(right);
+                byte left = Random.NextByte(0, 127);
+                byte right = Random.NextByte(0, 127);
+                N leftN = Cast<N>.ToNumeric(left);
+                N rightN = Cast<N>.ToNumeric(right);
 
                 //act
-                var result = leftN > rightN;
+                bool result = leftN > rightN;
 
                 //assert
                 result.Should().Be(left > right);
@@ -264,13 +264,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void GreaterThanOrEqualTo_RandomValues_SameAsSystem()
             {
                 //arrange
-                var left = Random.NextByte(0, 127);
-                var right = Random.NextByte(0, 127);
-                var leftN = Cast<N>.ToNumeric(left);
-                var rightN = Cast<N>.ToNumeric(right);
+                byte left = Random.NextByte(0, 127);
+                byte right = Random.NextByte(0, 127);
+                N leftN = Cast<N>.ToNumeric(left);
+                N rightN = Cast<N>.ToNumeric(right);
 
                 //act
-                var result = leftN >= rightN;
+                bool result = leftN >= rightN;
 
                 //assert
                 result.Should().Be(left >= right);
@@ -280,13 +280,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LessThan_RandomValues_SameAsSystem()
             {
                 //arrange
-                var left = Random.NextByte(0, 127);
-                var right = Random.NextByte(0, 127);
-                var leftN = Cast<N>.ToNumeric(left);
-                var rightN = Cast<N>.ToNumeric(right);
+                byte left = Random.NextByte(0, 127);
+                byte right = Random.NextByte(0, 127);
+                N leftN = Cast<N>.ToNumeric(left);
+                N rightN = Cast<N>.ToNumeric(right);
 
                 //act
-                var result = leftN < rightN;
+                bool result = leftN < rightN;
 
                 //assert
                 result.Should().Be(left < right);
@@ -296,13 +296,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LessThanOrEqualTo_RandomValues_SameAsSystem()
             {
                 //arrange
-                var left = Random.NextByte(0, 127);
-                var right = Random.NextByte(0, 127);
-                var leftN = Cast<N>.ToNumeric(left);
-                var rightN = Cast<N>.ToNumeric(right);
+                byte left = Random.NextByte(0, 127);
+                byte right = Random.NextByte(0, 127);
+                N leftN = Cast<N>.ToNumeric(left);
+                N rightN = Cast<N>.ToNumeric(right);
 
                 //act
-                var result = leftN <= rightN;
+                bool result = leftN <= rightN;
 
                 //assert
                 result.Should().Be(left <= right);
@@ -312,10 +312,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Remainder_RandomValueByOne_ReturnsZero()
             {
                 //arrange
-                var input = Math<N>.Truncate(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)));
+                N input = Math<N>.Truncate(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)));
 
                 //act
-                var result = input % Numeric<N>.One;
+                N result = input % Numeric<N>.One;
 
                 //assert
                 result.Should().Be(Numeric<N>.Zero);
@@ -325,10 +325,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Remainder_RandomValueByItself_ReturnsZero()
             {
                 //arrange
-                var input = Math<N>.Truncate(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)));
+                N input = Math<N>.Truncate(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)));
 
                 //act
-                var result = input % Numeric<N>.One;
+                N result = input % Numeric<N>.One;
 
                 //assert
                 result.Should().Be(Numeric<N>.Zero);
@@ -338,11 +338,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Remainder_RandomValues_CorrectResult()
             {
                 //arrange
-                var left = Math<N>.Truncate(Clamp<N>.ToNumeric(Random.Next(-10, 10)));
-                var right = Math<N>.Truncate(Clamp<N>.ToNumeric(Random.Next(1, 10)));
+                N left = Math<N>.Truncate(Clamp<N>.ToNumeric(Random.Next(-10, 10)));
+                N right = Math<N>.Truncate(Clamp<N>.ToNumeric(Random.Next(1, 10)));
 
                 //act
-                var result = left % right;
+                N result = left % right;
 
                 //assert
                 result.Should().BeApproximately(Cast<N>.ToDouble(left) % Cast<N>.ToDouble(right));
@@ -352,13 +352,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Equals1_RandomValues_SameAsSystem()
             {
                 //arrange
-                var input1 = Random.NextByte(0, 2);
-                var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToNumeric(input1);
-                var sut2 = Convert<N>.ToNumeric(input2);
+                byte input1 = Random.NextByte(0, 2);
+                byte input2 = Random.NextByte(0, 2);
+                N sut1 = Convert<N>.ToNumeric(input1);
+                N sut2 = Convert<N>.ToNumeric(input2);
 
                 //act
-                var result = sut1.Equals(sut2);
+                bool result = sut1.Equals(sut2);
 
                 //assert
                 result.Should().Be(input1.Equals(input2));
@@ -368,13 +368,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Equals2_RandomValues_SameAsSystem()
             {
                 //arrange
-                var input1 = Random.NextByte(0, 2);
-                var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToNumeric(input1);
-                var sut2 = Convert<N>.ToNumeric(input2);
+                byte input1 = Random.NextByte(0, 2);
+                byte input2 = Random.NextByte(0, 2);
+                N sut1 = Convert<N>.ToNumeric(input1);
+                N sut2 = Convert<N>.ToNumeric(input2);
 
                 //act
-                var result = sut1.Equals((object)sut2);
+                bool result = sut1.Equals((object)sut2);
 
                 //assert
                 result.Should().Be(input1.Equals(input2));
@@ -384,13 +384,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void CompareTo1_RandomValues_SameSignAsSystem()
             {
                 //arrange
-                var input1 = Random.NextByte(0, 2);
-                var input2 = Random.NextByte(0, 2);
-                var sut1 = Convert<N>.ToNumeric(input1);
-                var sut2 = Convert<N>.ToNumeric(input2);
+                byte input1 = Random.NextByte(0, 2);
+                byte input2 = Random.NextByte(0, 2);
+                N sut1 = Convert<N>.ToNumeric(input1);
+                N sut2 = Convert<N>.ToNumeric(input2);
 
                 //act
-                var result = Math.Sign(sut1.CompareTo(sut2));
+                int result = Math.Sign(sut1.CompareTo(sut2));
 
                 //assert
                 result.Should().Be(Math.Sign(input1.CompareTo(input2)));
@@ -400,11 +400,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void CompareTo1_NullNullable_Returns1()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
-                var other = (N?)null;
+                N input = Random.NextNumeric<N>();
+                N? other = (N?)null;
 
                 //act
-                var result = input.CompareTo(other);
+                int result = input.CompareTo(other);
 
                 //assert
                 result.Should().Be(1);
@@ -414,10 +414,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void CompareTo1_DifferentType_Returns1()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = input.CompareTo(this);
+                int result = input.CompareTo(this);
 
                 //assert
                 result.Should().Be(1);
@@ -427,11 +427,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void GetHashCode_SameValue_SameResult()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result1 = input.GetHashCode();
-                var result2 = input.GetHashCode();
+                int result1 = input.GetHashCode();
+                int result2 = input.GetHashCode();
 
                 //assert
                 result1.Should().Be(result2);
@@ -441,13 +441,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void GetHashCode_EqualValues_SameResult()
             {
                 //arrange
-                var input = Random.NextByte(0, 127);
-                var sut1 = Convert<N>.ToNumeric(input);
-                var sut2 = Convert<N>.ToNumeric(input);
+                byte input = Random.NextByte(0, 127);
+                N sut1 = Convert<N>.ToNumeric(input);
+                N sut2 = Convert<N>.ToNumeric(input);
 
                 //act
-                var result1 = sut1.GetHashCode();
-                var result2 = sut2.GetHashCode();
+                int result1 = sut1.GetHashCode();
+                int result2 = sut2.GetHashCode();
 
                 //assert
                 result1.Should().Be(result2);
@@ -457,15 +457,15 @@ namespace Jodo.Extensions.Numerics.Tests
             public void GetHashCode_DifferentSmallValues_DifferentResult()
             {
                 //arrange
-                var input1 = Random.NextByte(0, 127);
+                byte input1 = Random.NextByte(0, 127);
                 byte input2;
                 do { input2 = Random.NextByte(0, 127); } while (input2 == input1);
-                var sut1 = Convert<N>.ToNumeric(input1);
-                var sut2 = Convert<N>.ToNumeric(input2);
+                N sut1 = Convert<N>.ToNumeric(input1);
+                N sut2 = Convert<N>.ToNumeric(input2);
 
                 //act
-                var result1 = sut1.GetHashCode();
-                var result2 = sut2.GetHashCode();
+                int result1 = sut1.GetHashCode();
+                int result2 = sut2.GetHashCode();
 
                 //assert
                 result1.Should().NotBe(result2);
@@ -475,15 +475,15 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Serialize_RoundTrip_SameAsOriginal()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
-                var formatter = new BinaryFormatter();
+                N input = Random.NextNumeric<N>();
+                BinaryFormatter formatter = new BinaryFormatter();
 
                 //act
 #pragma warning disable SYSLIB0011
-                using var stream = new MemoryStream();
+                using MemoryStream stream = new MemoryStream();
                 formatter.Serialize(stream, input);
                 stream.Position = 0;
-                var result = (N)formatter.Deserialize(stream);
+                N result = (N)formatter.Deserialize(stream);
 #pragma warning restore SYSLIB0011
 
                 //assert
@@ -503,10 +503,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsFinite_Examples_ReturnsExpected(double value, bool expected)
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(value);
+                N input = Cast<N>.ToNumeric(value);
 
                 //act
-                var result = Numeric<N>.IsFinite(input);
+                bool result = Numeric<N>.IsFinite(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -519,10 +519,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsInfinity_Examples_ReturnsExpected(double value, bool expected)
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(value);
+                N input = Cast<N>.ToNumeric(value);
 
                 //act
-                var result = Numeric<N>.IsInfinity(input);
+                bool result = Numeric<N>.IsInfinity(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -535,10 +535,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsPositiveInfinity_Examples_ReturnsExpected(double value, bool expected)
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(value);
+                N input = Cast<N>.ToNumeric(value);
 
                 //act
-                var result = Numeric<N>.IsPositiveInfinity(input);
+                bool result = Numeric<N>.IsPositiveInfinity(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -551,10 +551,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNegativeInfinity_Examples_ReturnsExpected(double value, bool expected)
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(value);
+                N input = Cast<N>.ToNumeric(value);
 
                 //act
-                var result = Numeric<N>.IsNegativeInfinity(input);
+                bool result = Numeric<N>.IsNegativeInfinity(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -573,10 +573,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNaN_Examples_ReturnsExpected(double value, bool expected)
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(value);
+                N input = Cast<N>.ToNumeric(value);
 
                 //act
-                var result = Numeric<N>.IsNaN(input);
+                bool result = Numeric<N>.IsNaN(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -598,11 +598,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LogicalAnd_RandomIntegralValues_CorrectResult()
             {
                 //arrange
-                var left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                var right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
 
                 //act
-                var result = left & right;
+                N result = left & right;
 
                 //assert
                 result.Should().BeApproximately(Cast<N>.ToInt32(left) & Cast<N>.ToInt32(right));
@@ -612,11 +612,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LogicalOr_RandomIntegralValues_CorrectResult()
             {
                 //arrange
-                var left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                var right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
 
                 //act
-                var result = left | right;
+                N result = left | right;
 
                 //assert
                 result.Should().BeApproximately(Cast<N>.ToInt32(left) | Cast<N>.ToInt32(right));
@@ -626,11 +626,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LogicalExclusiveOr_RandomIntegralValues_CorrectResult()
             {
                 //arrange
-                var left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                var right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
 
                 //act
-                var result = left ^ right;
+                N result = left ^ right;
 
                 //assert
                 result.Should().BeApproximately(Cast<N>.ToInt32(left) ^ Cast<N>.ToInt32(right));
@@ -640,10 +640,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void BitwiseComplement_IntegralRoundTrip_SameValue()
             {
                 //arrange
-                var left = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N left = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                var result = ~~left;
+                N result = ~~left;
 
                 //assert
                 result.Should().Be(left);
@@ -653,10 +653,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void BitwiseComplement_RandomIntegral_DifferentValue()
             {
                 //arrange
-                var left = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N left = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                var result = ~left;
+                N result = ~left;
 
                 //assert
                 result.Should().NotBe(left);
@@ -666,11 +666,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LeftShift_RandomIntegralValues_CorrectResult()
             {
                 //arrange
-                var left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                var right = Random.NextInt32(0, 2);
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                int right = Random.NextInt32(0, 2);
 
                 //act
-                var result = left << right;
+                N result = left << right;
 
                 //assert
                 result.Should().BeApproximately(Cast<N>.ToInt32(left) << right);
@@ -698,11 +698,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LogicalAnd_RandomValues_DoesntThrow()
             {
                 //arrange
-                var left = Random.NextNumeric<N>();
-                var right = Random.NextNumeric<N>();
+                N left = Random.NextNumeric<N>();
+                N right = Random.NextNumeric<N>();
 
                 //act
-                var action = new Func<N>(() => left & right);
+                Func<N> action = new Func<N>(() => left & right);
 
                 //assert
                 action.Should().NotThrow();
@@ -712,11 +712,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LogicalOr_RandomValues_DoesntThrow()
             {
                 //arrange
-                var left = Random.NextNumeric<N>();
-                var right = Random.NextNumeric<N>();
+                N left = Random.NextNumeric<N>();
+                N right = Random.NextNumeric<N>();
 
                 //act
-                var action = new Func<N>(() => left | right);
+                Func<N> action = new Func<N>(() => left | right);
 
                 //assert
                 action.Should().NotThrow();
@@ -726,11 +726,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LogicalExclusiveOr_RandomValues_DoesntThrow()
             {
                 //arrange
-                var left = Random.NextNumeric<N>();
-                var right = Random.NextNumeric<N>();
+                N left = Random.NextNumeric<N>();
+                N right = Random.NextNumeric<N>();
 
                 //act
-                var action = new Func<N>(() => left ^ right);
+                Func<N> action = new Func<N>(() => left ^ right);
 
                 //assert
                 action.Should().NotThrow();
@@ -740,10 +740,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void BitwiseComplement_RandomValue_DoesntThrow()
             {
                 //arrange
-                var left = Random.NextNumeric<N>();
+                N left = Random.NextNumeric<N>();
 
                 //act
-                var action = new Func<N>(() => ~left);
+                Func<N> action = new Func<N>(() => ~left);
 
                 //assert
                 action.Should().NotThrow();
@@ -753,11 +753,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void LeftShift_RandomValues_DoesntThrow()
             {
                 //arrange
-                var left = Random.NextNumeric<N>();
-                var right = Random.NextInt32(0, 2);
+                N left = Random.NextNumeric<N>();
+                int right = Random.NextInt32(0, 2);
 
                 //act
-                var action = new Func<N>(() => left << right);
+                Func<N> action = new Func<N>(() => left << right);
 
                 //assert
                 action.Should().NotThrow();
@@ -767,11 +767,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void RightShift_RandomValue_DoesntThrow()
             {
                 //arrange
-                var left = Random.NextNumeric<N>();
-                var right = Random.NextInt32(0, 2);
+                N left = Random.NextNumeric<N>();
+                int right = Random.NextInt32(0, 2);
 
                 //act
-                var action = new Func<N>(() => left >> right);
+                Func<N> action = new Func<N>(() => left >> right);
 
                 //assert
                 action.Should().NotThrow();
@@ -799,11 +799,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Negative_RandomNegativeValue_ReturnsPositive()
             {
                 //arrange
-                var input = Random.NextSByte(-127, -1);
-                var inputN = Cast<N>.ToNumeric(input);
+                sbyte input = Random.NextSByte(-127, -1);
+                N inputN = Cast<N>.ToNumeric(input);
 
                 //act
-                var result = -inputN;
+                N result = -inputN;
 
                 //assert
                 result.Should().Be(Cast<N>.ToNumeric(input * -1));
@@ -813,11 +813,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNegative_RandomValue_ReturnsCorrectResult()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
-                var expected = input < Numeric<N>.Zero;
+                N input = Random.NextNumeric<N>();
+                bool expected = input < Numeric<N>.Zero;
 
                 //act
-                var result = Numeric<N>.IsNegative(input);
+                bool result = Numeric<N>.IsNegative(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -845,10 +845,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNegative_RandomValue_AlwaysFalse()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = Numeric<N>.IsNegative(input);
+                bool result = Numeric<N>.IsNegative(input);
 
                 //assert
                 result.Should().BeFalse();
@@ -864,10 +864,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNormal_RandomValue_AlwaysFalse()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = Numeric<N>.IsNormal(input);
+                bool result = Numeric<N>.IsNormal(input);
 
                 //assert
                 result.Should().BeFalse();
@@ -877,10 +877,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsSubnormal_RandomIntegral_AlwaysFalse()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = Numeric<N>.IsSubnormal(input);
+                bool result = Numeric<N>.IsSubnormal(input);
 
                 //assert
                 result.Should().BeFalse();
@@ -896,12 +896,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsFinite_RandomValue_AlwaysTrue()
             {
                 //arrange
-                var bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
                 Random.NextBytes(bytes);
-                var input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
 
                 //act
-                var result = Numeric<N>.IsFinite(input);
+                bool result = Numeric<N>.IsFinite(input);
 
                 //assert
                 result.Should().BeTrue();
@@ -911,12 +911,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsInfinity_RandomValue_AlwaysFalse()
             {
                 //arrange
-                var bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
                 Random.NextBytes(bytes);
-                var input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
 
                 //act
-                var result = Numeric<N>.IsInfinity(input);
+                bool result = Numeric<N>.IsInfinity(input);
 
                 //assert
                 result.Should().BeFalse();
@@ -926,12 +926,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsPositiveInfinity_RandomValue_AlwaysFalse()
             {
                 //arrange
-                var bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
                 Random.NextBytes(bytes);
-                var input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
 
                 //act
-                var result = Numeric<N>.IsPositiveInfinity(input);
+                bool result = Numeric<N>.IsPositiveInfinity(input);
 
                 //assert
                 result.Should().BeFalse();
@@ -941,12 +941,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNegativeInfinity_RandomValue_AlwaysFalse()
             {
                 //arrange
-                var bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
                 Random.NextBytes(bytes);
-                var input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
 
                 //act
-                var result = Numeric<N>.IsNegativeInfinity(input);
+                bool result = Numeric<N>.IsNegativeInfinity(input);
 
                 //assert
                 result.Should().BeFalse();
@@ -962,12 +962,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void IsNaN_RandomValue_AlwaysFalse()
             {
                 //arrange
-                var bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
                 Random.NextBytes(bytes);
-                var input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
 
                 //act
-                var result = Numeric<N>.IsNaN(input);
+                bool result = Numeric<N>.IsNaN(input);
 
                 //assert
                 result.Should().BeFalse();

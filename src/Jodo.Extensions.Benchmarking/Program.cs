@@ -48,7 +48,7 @@ namespace Jodo.Extensions.Benchmarking
 
             Console.WriteLine("Scanning loaded assemblies...");
 
-            var benchmarkMethods = AppDomain.CurrentDomain
+            System.Reflection.MethodInfo[] benchmarkMethods = AppDomain.CurrentDomain
                 .GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .SelectMany(t => t.GetMethods())
@@ -64,7 +64,7 @@ namespace Jodo.Extensions.Benchmarking
 
                 Writer.WriteHeader();
 
-                foreach (var method in benchmarkMethods)
+                foreach (System.Reflection.MethodInfo method in benchmarkMethods)
                 {
                     if (method.IsStatic &&
                         !method.GetParameters().Any() &&

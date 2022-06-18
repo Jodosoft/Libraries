@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -65,24 +66,24 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cint Parse(string s, NumberStyles style) => int.Parse(s, style);
         public static cint Parse(string s, NumberStyles style, IFormatProvider? provider) => int.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator cint(uint value) => new cint(CheckedConvert.ToInt32(value));
+        [CLSCompliant(false)] public static explicit operator cint(ulong value) => new cint(CheckedConvert.ToInt32(value));
+        [CLSCompliant(false)] public static implicit operator cint(sbyte value) => new cint(value);
+        [CLSCompliant(false)] public static implicit operator cint(ushort value) => new cint(value);
         public static explicit operator cint(decimal value) => new cint(CheckedTruncate.ToInt32(value));
         public static explicit operator cint(double value) => new cint(CheckedTruncate.ToInt32(value));
         public static explicit operator cint(float value) => new cint(CheckedTruncate.ToInt32(value));
         public static explicit operator cint(long value) => new cint(CheckedConvert.ToInt32(value));
-        public static explicit operator cint(uint value) => new cint(CheckedConvert.ToInt32(value));
-        public static explicit operator cint(ulong value) => new cint(CheckedConvert.ToInt32(value));
         public static implicit operator cint(byte value) => new cint(value);
         public static implicit operator cint(int value) => new cint(value);
-        public static implicit operator cint(sbyte value) => new cint(value);
         public static implicit operator cint(short value) => new cint(value);
-        public static implicit operator cint(ushort value) => new cint(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(cint value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator uint(cint value) => CheckedConvert.ToUInt32(value._value);
+        [CLSCompliant(false)] public static explicit operator ulong(cint value) => CheckedConvert.ToUInt64(value._value);
+        [CLSCompliant(false)] public static explicit operator ushort(cint value) => CheckedConvert.ToUInt16(value._value);
         public static explicit operator byte(cint value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator sbyte(cint value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(cint value) => CheckedConvert.ToInt16(value._value);
-        public static explicit operator uint(cint value) => CheckedConvert.ToUInt32(value._value);
-        public static explicit operator ulong(cint value) => CheckedConvert.ToUInt64(value._value);
-        public static explicit operator ushort(cint value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator decimal(cint value) => value._value;
         public static implicit operator double(cint value) => value._value;
         public static implicit operator float(cint value) => value._value;
@@ -146,7 +147,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<cint>,
             IStringParser<cint>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<cint>.HasFloatingPoint { get; } = false;
             bool INumericStatic<cint>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cint INumericStatic<cint>.Two { get; } = 2;
             cint INumericStatic<cint>.Zero { get; } = 0;
 
-            cint IMath<cint>.Abs(cint x) => Math.Abs(x._value);
+            cint IMath<cint>.Abs(cint value) => Math.Abs(value._value);
             cint IMath<cint>.Acos(cint x) => (cint)Math.Acos(x._value);
-            cint IMath<cint>.Acosh(cint x) => (cint)Math.Acosh(x._value);
+            cint IMath<cint>.Acosh(cint x) => (cint)MathCompat.Acosh(x._value);
             cint IMath<cint>.Asin(cint x) => (cint)Math.Asin(x._value);
-            cint IMath<cint>.Asinh(cint x) => (cint)Math.Asinh(x._value);
+            cint IMath<cint>.Asinh(cint x) => (cint)MathCompat.Asinh(x._value);
             cint IMath<cint>.Atan(cint x) => (cint)Math.Atan(x._value);
             cint IMath<cint>.Atan2(cint x, cint y) => (cint)Math.Atan2(x._value, y._value);
-            cint IMath<cint>.Atanh(cint x) => (cint)Math.Atanh(x._value);
-            cint IMath<cint>.Cbrt(cint x) => (cint)Math.Cbrt(x._value);
+            cint IMath<cint>.Atanh(cint x) => (cint)MathCompat.Atanh(x._value);
+            cint IMath<cint>.Cbrt(cint x) => (cint)MathCompat.Cbrt(x._value);
             cint IMath<cint>.Ceiling(cint x) => x;
             cint IMath<cint>.Clamp(cint x, cint bound1, cint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cint IMath<cint>.Cos(cint x) => (cint)Math.Cos(x._value);
@@ -210,7 +211,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cint IMath<cint>.Truncate(cint x) => x;
             int IMath<cint>.Sign(cint x) => Math.Sign(x._value);
 
-            cint IBitConverter<cint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)));
+            cint IBitConverter<cint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
             void IBitConverter<cint>.Write(cint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             cint IRandom<cint>.Next(Random random) => random.NextInt32();

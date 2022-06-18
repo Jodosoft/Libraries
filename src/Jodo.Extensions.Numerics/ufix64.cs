@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -78,9 +79,9 @@ namespace Jodo.Extensions.Numerics
         {
             string str = string
                 .Format(CultureInfo.InvariantCulture, "{0:0.0000000}", value)
-                .Replace(".", string.Empty)
-                [..^1];
-            if (ulong.TryParse(str, out var lng))
+                .Replace(".", string.Empty);
+            str = str.Substring(0, str.Length - 1);
+            if (ulong.TryParse(str, out ulong lng))
             {
                 return new ufix64(lng);
             }
@@ -93,37 +94,37 @@ namespace Jodo.Extensions.Numerics
 
         private static double ToDouble(ufix64 value)
         {
-            var integral = value._scaledValue / ScalingFactor;
-            var mantissa = value._scaledValue % ScalingFactor;
+            ulong integral = value._scaledValue / ScalingFactor;
+            ulong mantissa = value._scaledValue % ScalingFactor;
 
-            var result = (double)mantissa / ScalingFactor;
+            double result = (double)mantissa / ScalingFactor;
             result += integral;
             return result;
         }
 
+        [CLSCompliant(false)] public static explicit operator ufix64(sbyte value) => new ufix64((ulong)value * ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator ufix64(ulong value) => new ufix64(value * ScalingFactor);
+        [CLSCompliant(false)] public static implicit operator ufix64(uint value) => new ufix64(value * ScalingFactor);
+        [CLSCompliant(false)] public static implicit operator ufix64(ushort value) => new ufix64(value * ScalingFactor);
         public static explicit operator ufix64(decimal value) => value < 0 ? new ufix64(0) : new ufix64((ulong)(value * ScalingFactor));
         public static explicit operator ufix64(double value) => value < 0 ? new ufix64(0) : FromDouble(value);
         public static explicit operator ufix64(float value) => value < 0 ? new ufix64(0) : new ufix64((ulong)(value * ScalingFactor));
         public static explicit operator ufix64(int value) => new ufix64((ulong)value * ScalingFactor);
         public static explicit operator ufix64(long value) => new ufix64((ulong)value * ScalingFactor);
-        public static explicit operator ufix64(sbyte value) => new ufix64((ulong)value * ScalingFactor);
         public static explicit operator ufix64(short value) => new ufix64((ulong)value * ScalingFactor);
-        public static explicit operator ufix64(ulong value) => new ufix64(value * ScalingFactor);
         public static implicit operator ufix64(byte value) => new ufix64(value * ScalingFactor);
-        public static implicit operator ufix64(uint value) => new ufix64(value * ScalingFactor);
-        public static implicit operator ufix64(ushort value) => new ufix64(value * ScalingFactor);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(ufix64 value) => (sbyte)(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator uint(ufix64 value) => (uint)(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator ulong(ufix64 value) => value._scaledValue / ScalingFactor;
+        [CLSCompliant(false)] public static explicit operator ushort(ufix64 value) => (ushort)(value._scaledValue / ScalingFactor);
         public static explicit operator byte(ufix64 value) => (byte)(value._scaledValue / ScalingFactor);
         public static explicit operator decimal(ufix64 value) => (decimal)value._scaledValue / ScalingFactor;
         public static explicit operator double(ufix64 value) => ToDouble(value);
         public static explicit operator float(ufix64 value) => (float)value._scaledValue / ScalingFactor;
         public static explicit operator int(ufix64 value) => (int)(value._scaledValue / ScalingFactor);
         public static explicit operator long(ufix64 value) => (long)(value._scaledValue / ScalingFactor);
-        public static explicit operator sbyte(ufix64 value) => (sbyte)(value._scaledValue / ScalingFactor);
         public static explicit operator short(ufix64 value) => (short)(value._scaledValue / ScalingFactor);
-        public static explicit operator uint(ufix64 value) => (uint)(value._scaledValue / ScalingFactor);
-        public static explicit operator ulong(ufix64 value) => value._scaledValue / ScalingFactor;
-        public static explicit operator ushort(ufix64 value) => (ushort)(value._scaledValue / ScalingFactor);
 
         public static bool operator !=(ufix64 left, ufix64 right) => left._scaledValue != right._scaledValue;
         public static bool operator <(ufix64 left, ufix64 right) => left._scaledValue < right._scaledValue;
@@ -182,7 +183,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<ufix64>,
             IStringParser<ufix64>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<ufix64>.HasFloatingPoint { get; } = false;
             bool INumericStatic<ufix64>.HasInfinity { get; } = false;
@@ -208,15 +209,15 @@ namespace Jodo.Extensions.Numerics
             ufix64 INumericStatic<ufix64>.Zero { get; } = 0;
 
             int IMath<ufix64>.Sign(ufix64 x) => x._scaledValue == 0 ? 0 : 1;
-            ufix64 IMath<ufix64>.Abs(ufix64 x) => x;
+            ufix64 IMath<ufix64>.Abs(ufix64 value) => value;
             ufix64 IMath<ufix64>.Acos(ufix64 x) => (ufix64)Math.Acos((double)x);
-            ufix64 IMath<ufix64>.Acosh(ufix64 x) => (ufix64)Math.Acosh((double)x);
+            ufix64 IMath<ufix64>.Acosh(ufix64 x) => (ufix64)MathCompat.Acosh((double)x);
             ufix64 IMath<ufix64>.Asin(ufix64 x) => (ufix64)Math.Asin((double)x);
-            ufix64 IMath<ufix64>.Asinh(ufix64 x) => (ufix64)Math.Asinh((double)x);
+            ufix64 IMath<ufix64>.Asinh(ufix64 x) => (ufix64)MathCompat.Asinh((double)x);
             ufix64 IMath<ufix64>.Atan(ufix64 x) => (ufix64)Math.Atan((double)x);
             ufix64 IMath<ufix64>.Atan2(ufix64 x, ufix64 y) => (ufix64)Math.Atan2((double)x, (double)y);
-            ufix64 IMath<ufix64>.Atanh(ufix64 x) => (ufix64)Math.Atanh((double)x);
-            ufix64 IMath<ufix64>.Cbrt(ufix64 x) => (ufix64)Math.Cbrt((double)x);
+            ufix64 IMath<ufix64>.Atanh(ufix64 x) => (ufix64)MathCompat.Atanh((double)x);
+            ufix64 IMath<ufix64>.Cbrt(ufix64 x) => (ufix64)MathCompat.Cbrt((double)x);
             ufix64 IMath<ufix64>.Ceiling(ufix64 x) => new ufix64(ScaledArithmetic.Ceiling(x._scaledValue, ScalingFactor));
             ufix64 IMath<ufix64>.Clamp(ufix64 x, ufix64 bound1, ufix64 bound2) => new ufix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             ufix64 IMath<ufix64>.Cos(ufix64 x) => (ufix64)Math.Cos((double)x);
@@ -246,7 +247,7 @@ namespace Jodo.Extensions.Numerics
             ufix64 IMath<ufix64>.Tau { get; } = (ufix64)(Math.PI * 2d);
             ufix64 IMath<ufix64>.Truncate(ufix64 x) => new ufix64(x._scaledValue / ScalingFactor * ScalingFactor);
 
-            ufix64 IBitConverter<ufix64>.Read(IReadOnlyStream<byte> stream) => new ufix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong))));
+            ufix64 IBitConverter<ufix64>.Read(IReadOnlyStream<byte> stream) => new ufix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
             void IBitConverter<ufix64>.Write(ufix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             ufix64 IRandom<ufix64>.Next(Random random) => new ufix64(random.NextUInt64());

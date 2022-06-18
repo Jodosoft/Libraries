@@ -17,9 +17,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Benchmarking;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Jodo.Extensions.Benchmarking;
 
 namespace Jodo.Extensions.CheckedNumerics.Benchmarks
 {
@@ -31,8 +31,8 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         [Benchmark]
         public static void CInt_Negation_Vs_Int()
         {
-            var baseline = Random.NextInt32(100, 1000);
-            var sut = (cint)baseline;
+            int baseline = Random.NextInt32(100, 1000);
+            cint sut = (cint)baseline;
 
             Benchmark.Run(
                 () => -sut,
@@ -42,10 +42,10 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         [Benchmark]
         public static void CInt_Division_Vs_Int()
         {
-            var baselineLeft = Random.NextInt32(100, 1000);
-            var baselineRight = Random.NextInt32(2, 10);
-            var sutLeft = (cint)baselineLeft;
-            var sutRight = (cint)baselineRight;
+            int baselineLeft = Random.NextInt32(100, 1000);
+            int baselineRight = Random.NextInt32(2, 10);
+            cint sutLeft = (cint)baselineLeft;
+            cint sutRight = (cint)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -55,8 +55,8 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         [Benchmark]
         public static void CInt_ConversionToFloat_Vs_Int()
         {
-            var baseline = Random.NextInt32(100, 1000);
-            var sut = (cint)baseline;
+            int baseline = Random.NextInt32(100, 1000);
+            cint sut = (cint)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -66,7 +66,7 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         [Benchmark]
         public static void CInt_StringParsing_Vs_Int()
         {
-            var input = Random.NextInt32(-100, 100).ToString();
+            string input = Random.NextInt32(-100, 100).ToString();
 
             Benchmark.Run(
                 () => cint.Parse(input),
@@ -76,8 +76,8 @@ namespace Jodo.Extensions.CheckedNumerics.Benchmarks
         [Benchmark]
         public static void CInt_MultiplicationOverflow_Vs_Int()
         {
-            var functionInput = cint.MaxValue;
-            var baselineInput = int.MaxValue;
+            cint functionInput = cint.MaxValue;
+            int baselineInput = int.MaxValue;
 
             Benchmark.Run(
                 () => functionInput * functionInput,

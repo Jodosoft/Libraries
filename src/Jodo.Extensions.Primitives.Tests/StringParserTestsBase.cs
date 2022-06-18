@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Primitives.Tests
 {
@@ -30,10 +30,10 @@ namespace Jodo.Extensions.Primitives.Tests
         public void Parse1_RandomValueRoundTrip_SameAsInput()
         {
             //arrange
-            var input = Random.NextRandomizable<T>();
+            T input = Random.NextRandomizable<T>();
 
             //act
-            var result = StringParser<T>.Parse(input.ToString());
+            T result = StringParser<T>.Parse(input.ToString());
 
             //assert
             result.Should().Be(input);
@@ -45,7 +45,7 @@ namespace Jodo.Extensions.Primitives.Tests
             //arrange
 
             //act
-            var action = new Action(() => StringParser<T>.Parse(string.Empty));
+            Action action = new Action(() => StringParser<T>.Parse(string.Empty));
 
             //assert
             action.Should().Throw<FormatException>();

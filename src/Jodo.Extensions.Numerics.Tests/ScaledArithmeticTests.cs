@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -70,7 +70,7 @@ namespace Jodo.Extensions.Numerics.Tests
         {
             //arrange
             //act
-            var result = ScaledArithmetic.Round(input, mode);
+            long result = ScaledArithmetic.Round(input, mode);
 
             //assert
             result.Should().Be(expected);
@@ -80,12 +80,12 @@ namespace Jodo.Extensions.Numerics.Tests
         public void Round_RandomInt64_CorrectResult()
         {
             //arrange
-            var input = (long)Math.Round(Random.NextDouble(-4, 4) * 10);
-            var mode = Random.NextEnum<MidpointRounding>();
-            var expected = (long)Math.Round(input / 10.0, mode) * 10;
+            long input = (long)Math.Round(Random.NextDouble(-4, 4) * 10);
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
+            long expected = (long)Math.Round(input / 10.0, mode) * 10;
 
             //act
-            var result = ScaledArithmetic.Round(input, mode);
+            long result = ScaledArithmetic.Round(input, mode);
 
             //assert
             result.Should().Be(expected);
@@ -95,11 +95,11 @@ namespace Jodo.Extensions.Numerics.Tests
         public void Round_MultipleOf10Int64_SameResult()
         {
             //arrange
-            var input = Random.NextInt64WithoutBounds() / 10 * 10;
-            var mode = Random.NextEnum<MidpointRounding>();
+            long input = Random.NextInt64WithoutBounds() / 10 * 10;
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
-            var result = ScaledArithmetic.Round(input, mode);
+            long result = ScaledArithmetic.Round(input, mode);
 
             //assert
             result.Should().Be(input);
@@ -112,7 +112,7 @@ namespace Jodo.Extensions.Numerics.Tests
         {
             //arrange
             //act
-            var result = ScaledArithmetic.Round(input, digits, mode);
+            long result = ScaledArithmetic.Round(input, digits, mode);
 
             //assert
             result.Should().Be(expected);
@@ -122,13 +122,13 @@ namespace Jodo.Extensions.Numerics.Tests
         public void Round_RandomInt64MorePlacesThanDigits_ReturnsZero()
         {
             //arrange
-            var places = Random.NextByte(2, 18);
-            var scalingFactor = Math.Pow(10, places);
-            var input = (ulong)Math.Round(Random.NextDouble(0, 4) * scalingFactor);
-            var mode = Random.NextEnum<MidpointRounding>();
+            byte places = Random.NextByte(2, 18);
+            double scalingFactor = Math.Pow(10, places);
+            ulong input = (ulong)Math.Round(Random.NextDouble(0, 4) * scalingFactor);
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
-            var result = ScaledArithmetic.Round(input, places + 2, mode);
+            ulong result = ScaledArithmetic.Round(input, places + 2, mode);
 
             //assert
             result.Should().Be(0);
@@ -158,7 +158,7 @@ namespace Jodo.Extensions.Numerics.Tests
         {
             //arrange
             //act
-            var result = ScaledArithmetic.Round(input, mode);
+            ulong result = ScaledArithmetic.Round(input, mode);
 
             //assert
             result.Should().Be(expected);
@@ -168,12 +168,12 @@ namespace Jodo.Extensions.Numerics.Tests
         public void Round_RandomUInt64_CorrectResult()
         {
             //arrange
-            var input = (ulong)Math.Round(Random.NextDouble(0, 4) * 10);
-            var mode = Random.NextEnum<MidpointRounding>();
-            var expected = (ulong)Math.Round(input / 10.0, mode) * 10;
+            ulong input = (ulong)Math.Round(Random.NextDouble(0, 4) * 10);
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
+            ulong expected = (ulong)Math.Round(input / 10.0, mode) * 10;
 
             //act
-            var result = ScaledArithmetic.Round(input, mode);
+            ulong result = ScaledArithmetic.Round(input, mode);
 
             //assert
             result.Should().Be(expected);
@@ -183,11 +183,11 @@ namespace Jodo.Extensions.Numerics.Tests
         public void Round_MultipleOf10UInt64_SameResult()
         {
             //arrange
-            var input = Random.NextUInt64() / 10 * 10;
-            var mode = Random.NextEnum<MidpointRounding>();
+            ulong input = Random.NextUInt64() / 10 * 10;
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
-            var result = ScaledArithmetic.Round(input, mode);
+            ulong result = ScaledArithmetic.Round(input, mode);
 
             //assert
             result.Should().Be(input);
@@ -197,13 +197,13 @@ namespace Jodo.Extensions.Numerics.Tests
         public void Round_RandomUInt64MorePlacesThanDigits_ReturnsZero()
         {
             //arrange
-            var places = Random.NextByte(2, 18);
-            var scalingFactor = Math.Pow(10, places);
-            var input = (long)Math.Round(Random.NextDouble(0, 4) * scalingFactor);
-            var mode = Random.NextEnum<MidpointRounding>();
+            byte places = Random.NextByte(2, 18);
+            double scalingFactor = Math.Pow(10, places);
+            long input = (long)Math.Round(Random.NextDouble(0, 4) * scalingFactor);
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
-            var result = ScaledArithmetic.Round(input, places + 2, mode);
+            long result = ScaledArithmetic.Round(input, places + 2, mode);
 
             //assert
             result.Should().Be(0);

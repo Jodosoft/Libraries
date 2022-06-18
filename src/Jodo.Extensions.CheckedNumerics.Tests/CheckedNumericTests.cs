@@ -17,11 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
@@ -31,11 +31,11 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void Add_MaxValueAndMaxValue_ReturnsMaxValue()
         {
             //arrange
-            var left = Numeric<N>.MaxValue;
-            var right = Numeric<N>.MaxValue;
+            N left = Numeric<N>.MaxValue;
+            N right = Numeric<N>.MaxValue;
 
             //act
-            var result = left + right;
+            N result = left + right;
 
             //assert
             result.Should().Be(Numeric<N>.MaxValue);
@@ -45,11 +45,11 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void Add_MaxValueAndOne_ReturnsMaxValue()
         {
             //arrange
-            var left = Numeric<N>.MaxValue;
-            var right = Numeric<N>.One;
+            N left = Numeric<N>.MaxValue;
+            N right = Numeric<N>.One;
 
             //act
-            var result = left + right;
+            N result = left + right;
 
             //assert
             result.Should().Be(Numeric<N>.MaxValue);
@@ -59,11 +59,11 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void Subtract_MinValueAndMaxValue_ReturnsMinValue()
         {
             //arrange
-            var left = Numeric<N>.MinValue;
-            var right = Numeric<N>.MaxValue;
+            N left = Numeric<N>.MinValue;
+            N right = Numeric<N>.MaxValue;
 
             //act
-            var result = left - right;
+            N result = left - right;
 
             //assert
             result.Should().Be(Numeric<N>.MinValue);
@@ -73,11 +73,11 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void Subtract_MinValueAndOne_ReturnsMinValue()
         {
             //arrange
-            var left = Numeric<N>.MinValue;
-            var right = Numeric<N>.One;
+            N left = Numeric<N>.MinValue;
+            N right = Numeric<N>.One;
 
             //act
-            var result = left - right;
+            N result = left - right;
 
             //assert
             result.Should().Be(Numeric<N>.MinValue);
@@ -87,11 +87,11 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void Multiply_MaxValueAndMaxValue_ReturnsMaxValue()
         {
             //arrange
-            var left = Numeric<N>.MaxValue;
-            var right = Numeric<N>.MaxValue;
+            N left = Numeric<N>.MaxValue;
+            N right = Numeric<N>.MaxValue;
 
             //act
-            var result = left * right;
+            N result = left * right;
 
             //assert
             result.Should().Be(Numeric<N>.MaxValue);
@@ -101,11 +101,11 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void Multiply_MaxValueAndTwo_ReturnsMaxValue()
         {
             //arrange
-            var left = Numeric<N>.MaxValue;
-            var right = Cast<N>.ToNumeric(2);
+            N left = Numeric<N>.MaxValue;
+            N right = Cast<N>.ToNumeric(2);
 
             //act
-            var result = left * right;
+            N result = left * right;
 
             //assert
             result.Should().Be(Numeric<N>.MaxValue);
@@ -115,11 +115,11 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void Divide_ByZero_ReturnsMaxValue()
         {
             //arrange
-            var left = Random.NextNumeric<N>();
-            var right = Numeric<N>.Zero;
+            N left = Random.NextNumeric<N>();
+            N right = Numeric<N>.Zero;
 
             //act
-            var result = left / right;
+            N result = left / right;
 
             //assert
             result.Should().Be(Numeric<N>.MaxValue);
@@ -129,11 +129,11 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void Remainder_ByZero_ReturnsZero()
         {
             //arrange
-            var left = Random.NextNumeric<N>();
-            var right = Numeric<N>.Zero;
+            N left = Random.NextNumeric<N>();
+            N right = Numeric<N>.Zero;
 
             //act
-            var result = left % right;
+            N result = left % right;
 
             //assert
             result.Should().Be(Numeric<N>.Zero);

@@ -17,9 +17,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Jodo.Extensions.Primitives;
 
 namespace Jodo.Extensions.Numerics
 {

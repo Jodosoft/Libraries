@@ -17,17 +17,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
+    [CLSCompliant(false)]
     public readonly struct Triangle<N> :
             IEquatable<Triangle<N>>,
             IFormattable,
@@ -74,7 +76,7 @@ namespace Jodo.Extensions.Geometry
             throw new NotImplementedException();
         }
 
-        public ReadOnlySpan<Vector2<N>> GetVertices()
+        public Vector2<N>[] GetVertices()
         {
             throw new NotImplementedException();
         }
@@ -113,7 +115,7 @@ namespace Jodo.Extensions.Geometry
 
         public static Vector3<N> Parse(string value)
         {
-            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
             if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
                 StringParser<N>.Parse(parts[0]),
@@ -123,7 +125,7 @@ namespace Jodo.Extensions.Geometry
 
         public static Vector3<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
         {
-            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
             if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
                 StringParser<N>.Parse(parts[0], style, provider),
@@ -136,7 +138,7 @@ namespace Jodo.Extensions.Geometry
         public static implicit operator Triangle<N>((Vector2<N>, Vector2<N>, Vector2<N>) value) => new Triangle<N>(value.Item1, value.Item2, value.Item3);
         public static implicit operator (Vector2<N>, Vector2<N>, Vector2<N>)(Triangle<N> value) => (value.A, value.B, value.C);
 
-        ReadOnlySpan<Vector2<N>> ITwoDimensional<Triangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
+        Vector2<N>[] ITwoDimensional<Triangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
         IBitConverter<Triangle<N>> IProvider<IBitConverter<Triangle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Triangle<N>> IProvider<IRandom<Triangle<N>>>.GetInstance() => Utilities.Instance;
         IStringParser<Triangle<N>> IProvider<IStringParser<Triangle<N>>>.GetInstance() => Utilities.Instance;
@@ -147,7 +149,7 @@ namespace Jodo.Extensions.Geometry
            IRandom<Triangle<N>>,
            IStringParser<Triangle<N>>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             Triangle<N> IRandom<Triangle<N>>.Next(Random random)
             {

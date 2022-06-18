@@ -17,12 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using FluentAssertions;
-using Jodo.Extensions.Primitives;
-using NUnit.Framework;
 using System;
 using System.IO;
 using System.Text;
+using FluentAssertions;
+using Jodo.Extensions.Primitives;
+using NUnit.Framework;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -46,8 +46,8 @@ namespace Jodo.Extensions.Numerics.Tests
         [Test]
         public void FixedPointArithmetic_LargeValues_NoLossOfPrecision()
         {
-            var floatingPoint = 1000000 + MathF.PI;
-            var fixedPoint = 1000000 + Math<fix64>.PI;
+            float floatingPoint = 1000000 + MathF.PI;
+            fix64 fixedPoint = 1000000 + Math<fix64>.PI;
 
             Console.WriteLine(floatingPoint); // outputs: 1000003.1
             Console.WriteLine(fixedPoint); // outputs: 1000003.141592
@@ -59,11 +59,11 @@ namespace Jodo.Extensions.Numerics.Tests
         [Test]
         public void CodeSample_Summary()
         {
-            var w = -100 + Math<xint>.Max(1234, 4321);
-            var v = new Vector2<xint>(w, w >> 0b11);
+            xint w = -100 + Math<xint>.Max(1234, 4321);
+            Vector2<xint> v = new Vector2<xint>(w, w >> 0b11);
 
-            var f = 2 * Math<fix64>.PI;
-            var b = BitConverter<fix64>.GetBytes(f);
+            fix64 f = 2 * Math<fix64>.PI;
+            ReadOnlySpan<byte> b = BitConverter<fix64>.GetBytes(f);
 
             Console.WriteLine(w); // outputs: 4221
             Console.WriteLine($"{v:X}"); // outputs: →(107D, 20F)
@@ -78,8 +78,8 @@ namespace Jodo.Extensions.Numerics.Tests
         [Test]
         public void CodeSample_StringFormatting()
         {
-            var var1 = (xint)1024;
-            var var2 = (fix64)99.54322f;
+            xint var1 = (xint)1024;
+            fix64 var2 = (fix64)99.54322f;
 
             Console.WriteLine($"{var1:N}"); // outputs: 1,024.00
             Console.WriteLine($"{var1:X}"); // outputs: 400
@@ -93,8 +93,8 @@ namespace Jodo.Extensions.Numerics.Tests
         [Test]
         public void CodeSample_RandomGeneration()
         {
-            var var1 = Random.NextNumeric<xdouble>();
-            var var2 = Random.NextNumeric<xdouble>(100, 120);
+            xdouble var1 = Random.NextNumeric<xdouble>();
+            xdouble var2 = Random.NextNumeric<xdouble>(100, 120);
 
             Console.WriteLine(var1); // outputs: -7.405808417991177E+115 (example)
             Console.WriteLine(var2); // outputs: 102.85086051826445 (example)
@@ -105,9 +105,9 @@ namespace Jodo.Extensions.Numerics.Tests
         [Test]
         public void CastConvertAndClamp()
         {
-            var castResult = Cast<xbyte>.ToNumeric(1023);
-            var convertResult = Convert<xbyte>.ToNumeric(199.956M);
-            var clampResult = Clamp<xbyte>.ToNumeric(-100);
+            xbyte castResult = Cast<xbyte>.ToNumeric(1023);
+            xbyte convertResult = Convert<xbyte>.ToNumeric(199.956M);
+            xbyte clampResult = Clamp<xbyte>.ToNumeric(-100);
 
             Console.WriteLine(castResult); // outputs: 255
             Console.WriteLine(convertResult); // outputs: 200

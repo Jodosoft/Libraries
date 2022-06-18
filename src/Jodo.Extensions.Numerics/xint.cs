@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -64,24 +65,24 @@ namespace Jodo.Extensions.Numerics
         public static xint Parse(string s, NumberStyles style) => int.Parse(s, style);
         public static xint Parse(string s, NumberStyles style, IFormatProvider? provider) => int.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator xint(uint value) => new xint((int)value);
+        [CLSCompliant(false)] public static explicit operator xint(ulong value) => new xint((int)value);
+        [CLSCompliant(false)] public static implicit operator xint(sbyte value) => new xint(value);
+        [CLSCompliant(false)] public static implicit operator xint(ushort value) => new xint(value);
         public static explicit operator xint(decimal value) => new xint((int)value);
         public static explicit operator xint(double value) => new xint((int)value);
         public static explicit operator xint(float value) => new xint((int)value);
         public static explicit operator xint(long value) => new xint((int)value);
-        public static explicit operator xint(uint value) => new xint((int)value);
-        public static explicit operator xint(ulong value) => new xint((int)value);
         public static implicit operator xint(byte value) => new xint(value);
         public static implicit operator xint(int value) => new xint(value);
-        public static implicit operator xint(sbyte value) => new xint(value);
         public static implicit operator xint(short value) => new xint(value);
-        public static implicit operator xint(ushort value) => new xint(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xint value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static explicit operator uint(xint value) => (uint)value._value;
+        [CLSCompliant(false)] public static explicit operator ulong(xint value) => (ulong)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xint value) => (ushort)value._value;
         public static explicit operator byte(xint value) => (byte)value._value;
-        public static explicit operator sbyte(xint value) => (sbyte)value._value;
         public static explicit operator short(xint value) => (short)value._value;
-        public static explicit operator uint(xint value) => (uint)value._value;
-        public static explicit operator ulong(xint value) => (ulong)value._value;
-        public static explicit operator ushort(xint value) => (ushort)value._value;
         public static implicit operator decimal(xint value) => value._value;
         public static implicit operator double(xint value) => value._value;
         public static implicit operator float(xint value) => value._value;
@@ -145,7 +146,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xint>,
             IStringParser<xint>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xint>.HasFloatingPoint { get; } = false;
             bool INumericStatic<xint>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.Numerics
             xint INumericStatic<xint>.Zero { get; } = 0;
 
             int IMath<xint>.Sign(xint x) => Math.Sign(x._value);
-            xint IMath<xint>.Abs(xint x) => Math.Abs(x._value);
+            xint IMath<xint>.Abs(xint value) => Math.Abs(value._value);
             xint IMath<xint>.Acos(xint x) => (int)Math.Acos(x._value);
-            xint IMath<xint>.Acosh(xint x) => (int)Math.Acosh(x._value);
+            xint IMath<xint>.Acosh(xint x) => (int)MathCompat.Acosh(x._value);
             xint IMath<xint>.Asin(xint x) => (int)Math.Asin(x._value);
-            xint IMath<xint>.Asinh(xint x) => (int)Math.Asinh(x._value);
+            xint IMath<xint>.Asinh(xint x) => (int)MathCompat.Asinh(x._value);
             xint IMath<xint>.Atan(xint x) => (int)Math.Atan(x._value);
             xint IMath<xint>.Atan2(xint x, xint y) => (int)Math.Atan2(x._value, y._value);
-            xint IMath<xint>.Atanh(xint x) => (int)Math.Atanh(x._value);
-            xint IMath<xint>.Cbrt(xint x) => (int)Math.Cbrt(x._value);
+            xint IMath<xint>.Atanh(xint x) => (int)MathCompat.Atanh(x._value);
+            xint IMath<xint>.Cbrt(xint x) => (int)MathCompat.Cbrt(x._value);
             xint IMath<xint>.Ceiling(xint x) => x;
             xint IMath<xint>.Clamp(xint x, xint bound1, xint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xint IMath<xint>.Cos(xint x) => (int)Math.Cos(x._value);
@@ -209,7 +210,7 @@ namespace Jodo.Extensions.Numerics
             xint IMath<xint>.Tau { get; } = 6;
             xint IMath<xint>.Truncate(xint x) => x;
 
-            xint IBitConverter<xint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)));
+            xint IBitConverter<xint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
             void IBitConverter<xint>.Write(xint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             xint IRandom<xint>.Next(Random random) => random.NextInt32();

@@ -33,16 +33,16 @@ namespace Jodo.Extensions.Primitives
             return DisplayNamesByType.GetOrAdd(type, CreateDisplayName);
         }
 
-        private static string CreateDisplayName(this Type type)
+        private static string CreateDisplayName(Type type)
         {
             if (type.IsGenericType)
             {
-                var parameterNames = type
+                string? parameterNames = type
                     .GetGenericArguments()
                     .Select(x => CreateDisplayName(x))
                     .Aggregate((x, y) => $"{x}, {y}");
 
-                var name = type.Name[..type.Name.IndexOf("`")];
+                string? name = type.Name.Substring(0, type.Name.IndexOf('`'));
                 return $"{name}<{parameterNames}>";
             }
             return type.Name;

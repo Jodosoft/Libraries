@@ -25,8 +25,8 @@ namespace Jodo.Extensions.Numerics.Tests
     {
         public static double ClosestTestableDouble<N>(N value) where N : struct, INumeric<N>
         {
-            var result = Math.Round(Cast<N>.ToDouble(value), 6);
-            var log10 = (int)Math.Log10(Math.Abs(result / 10));
+            double result = Math.Round(Cast<N>.ToDouble(value), 6);
+            int log10 = (int)Math.Log10(Math.Abs(result / 10));
             if (log10 < -1) result *= 1000;
             else if (log10 > 3) result /= Math.Pow(10, log10 - 3);
 

@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
@@ -49,7 +49,7 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void AllNumericConversions_RandomSmallValue_ReturnsCorrectResult()
         {
             //arrange
-            var input = Random.NextByte(0, 127);
+            byte input = Random.NextByte(0, 127);
 
             //act
             //assert

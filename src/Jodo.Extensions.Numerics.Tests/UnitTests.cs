@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -39,10 +39,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Clamp_ValueGreaterThanMaxUnit_ReturnsMaxUnit()
             {
                 //arrange
-                var input = Random.NextNumeric(Numeric<N>.MaxUnit, Numeric<N>.MaxValue);
+                N input = Random.NextNumeric(Numeric<N>.MaxUnit, Numeric<N>.MaxValue);
 
                 //act
-                var result = Unit<N>.Clamp(input);
+                Unit<N> result = Unit<N>.Clamp(input);
 
                 //assert
                 result.Value.Should().Be(Numeric<N>.MaxUnit);
@@ -52,10 +52,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Clamp_ValueGreaterThanMaxUnit_ReturnsMinUnit()
             {
                 //arrange
-                var input = Random.NextNumeric(Numeric<N>.MinValue, Numeric<N>.MinUnit);
+                N input = Random.NextNumeric(Numeric<N>.MinValue, Numeric<N>.MinUnit);
 
                 //act
-                var result = Unit<N>.Clamp(input);
+                Unit<N> result = Unit<N>.Clamp(input);
 
                 //assert
                 result.Value.Should().Be(Numeric<N>.MinUnit);
@@ -65,12 +65,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Add_Numeric_CorrectResult()
             {
                 //arrange
-                var left = Random.NextUnit<N>();
-                var right = Random.NextUnit<N>();
-                var expected = left.Value + right.Value;
+                Unit<N> left = Random.NextUnit<N>();
+                Unit<N> right = Random.NextUnit<N>();
+                N expected = left.Value + right.Value;
 
                 //act
-                var result = left + right;
+                N result = left + right;
 
                 //assert
                 result.Should().Be(expected);

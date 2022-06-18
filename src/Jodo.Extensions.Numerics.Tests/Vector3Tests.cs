@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -39,12 +39,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Ctor_RandomValues_CorrectResult()
             {
                 //arrange
-                var x = Random.NextNumeric<N>();
-                var y = Random.NextNumeric<N>();
-                var z = Random.NextNumeric<N>();
+                N x = Random.NextNumeric<N>();
+                N y = Random.NextNumeric<N>();
+                N z = Random.NextNumeric<N>();
 
                 //act
-                var result = new Vector3<N>(x, y, z);
+                Vector3<N> result = new Vector3<N>(x, y, z);
 
                 //assert
                 result.X.Should().Be(x);
@@ -56,12 +56,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Random_WithinBounds_CorrectResult()
             {
                 //arrange
-                var bound1 = Random.NextRandomizable<Vector3<N>>();
-                var bound2 = Random.NextRandomizable<Vector3<N>>();
-                var bound3 = Random.NextRandomizable<Vector3<N>>();
+                Vector3<N> bound1 = Random.NextRandomizable<Vector3<N>>();
+                Vector3<N> bound2 = Random.NextRandomizable<Vector3<N>>();
+                Vector3<N> bound3 = Random.NextRandomizable<Vector3<N>>();
 
                 //act
-                var result = Random.NextRandomizable(bound1, bound2);
+                Vector3<N> result = Random.NextRandomizable(bound1, bound2);
 
                 //assert
                 result.X.Should().BeInRange(Math<N>.Min(bound1.X, bound2.X), Math<N>.Max(bound1.X, bound2.X));

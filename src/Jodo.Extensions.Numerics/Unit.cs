@@ -17,16 +17,17 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
 
 namespace Jodo.Extensions.Numerics
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
+    [CLSCompliant(false)]
     public readonly struct Unit<N> :
             IComparable,
             IComparable<Unit<N>>,
@@ -38,9 +39,9 @@ namespace Jodo.Extensions.Numerics
             ISerializable
         where N : struct, INumeric<N>
     {
-        public readonly static Unit<N> Zero = new Unit<N>(Numeric<N>.Zero);
-        public readonly static Unit<N> MaxValue = new Unit<N>(Numeric<N>.MaxUnit);
-        public readonly static Unit<N> MinValue = new Unit<N>(Numeric<N>.MinUnit);
+        public static readonly Unit<N> Zero = new Unit<N>(Numeric<N>.Zero);
+        public static readonly Unit<N> MaxValue = new Unit<N>(Numeric<N>.MaxUnit);
+        public static readonly Unit<N> MinValue = new Unit<N>(Numeric<N>.MinUnit);
 
         public readonly N Value { get; }
 
@@ -71,42 +72,42 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator Unit<N>(N value) => new Unit<N>(value);
 
         public static bool operator !=(Unit<N> left, Unit<N> right) => !left.Equals(right);
-        public static bool operator <(Unit<N> left, Unit<N> right) => left.Value < right.Value;
-        public static bool operator <=(Unit<N> left, Unit<N> right) => left.Value <= right.Value;
+        public static bool operator <(Unit<N> left, Unit<N> right) => left.Value.IsLessThan(right.Value);
+        public static bool operator <=(Unit<N> left, Unit<N> right) => left.Value.IsLessThan(right.Value);
         public static bool operator ==(Unit<N> left, Unit<N> right) => left.Equals(right);
-        public static bool operator >(Unit<N> left, Unit<N> right) => left.Value > right.Value;
-        public static bool operator >=(Unit<N> left, Unit<N> right) => left.Value >= right.Value;
-        public static N operator %(Unit<N> left, Unit<N> right) => left.Value % right.Value;
-        public static N operator -(Unit<N> left, Unit<N> right) => left.Value - right.Value;
-        public static N operator -(Unit<N> value) => -value.Value;
-        public static N operator *(Unit<N> left, Unit<N> right) => left.Value * right.Value;
-        public static N operator /(Unit<N> left, Unit<N> right) => left.Value / right.Value;
-        public static N operator +(Unit<N> left, Unit<N> right) => left.Value + right.Value;
+        public static bool operator >(Unit<N> left, Unit<N> right) => left.Value.IsGreaterThan(right.Value);
+        public static bool operator >=(Unit<N> left, Unit<N> right) => left.Value.IsGreaterThanOrEqualTo(right.Value);
+        public static N operator %(Unit<N> left, Unit<N> right) => left.Value.Remainder(right.Value);
+        public static N operator -(Unit<N> left, Unit<N> right) => left.Value.Subtract(right.Value);
+        public static N operator -(Unit<N> value) => value.Value.Negative();
+        public static N operator *(Unit<N> left, Unit<N> right) => left.Value.Multiply(right.Value);
+        public static N operator /(Unit<N> left, Unit<N> right) => left.Value.Divide(right.Value);
+        public static N operator +(Unit<N> left, Unit<N> right) => left.Value.Add(right.Value);
         public static N operator +(Unit<N> value) => value.Value;
 
         public static bool operator !=(Unit<N> left, N right) => !left.Value.Equals(right);
-        public static bool operator <(Unit<N> left, N right) => left.Value < right;
-        public static bool operator <=(Unit<N> left, N right) => left.Value <= right;
+        public static bool operator <(Unit<N> left, N right) => left.Value.IsLessThan(right);
+        public static bool operator <=(Unit<N> left, N right) => left.Value.IsLessThanOrEqualTo(right);
         public static bool operator ==(Unit<N> left, N right) => left.Value.Equals(right);
-        public static bool operator >(Unit<N> left, N right) => left.Value > right;
-        public static bool operator >=(Unit<N> left, N right) => left.Value >= right;
-        public static N operator %(Unit<N> left, N right) => left.Value % right;
-        public static N operator -(Unit<N> left, N right) => left.Value - right;
-        public static N operator *(Unit<N> left, N right) => left.Value * right;
-        public static N operator /(Unit<N> left, N right) => left.Value / right;
-        public static N operator +(Unit<N> left, N right) => left.Value + right;
+        public static bool operator >(Unit<N> left, N right) => left.Value.IsGreaterThan(right);
+        public static bool operator >=(Unit<N> left, N right) => left.Value.IsGreaterThanOrEqualTo(right);
+        public static N operator %(Unit<N> left, N right) => left.Value.Remainder(right);
+        public static N operator -(Unit<N> left, N right) => left.Value.Subtract(right);
+        public static N operator *(Unit<N> left, N right) => left.Value.Multiply(right);
+        public static N operator /(Unit<N> left, N right) => left.Value.Divide(right);
+        public static N operator +(Unit<N> left, N right) => left.Value.Add(right);
 
         public static bool operator !=(N left, Unit<N> right) => !left.Equals(right.Value);
-        public static bool operator <(N left, Unit<N> right) => left < right.Value;
-        public static bool operator <=(N left, Unit<N> right) => left <= right.Value;
+        public static bool operator <(N left, Unit<N> right) => left.IsLessThan(right.Value);
+        public static bool operator <=(N left, Unit<N> right) => left.IsLessThanOrEqualTo(right.Value);
         public static bool operator ==(N left, Unit<N> right) => left.Equals(right.Value);
-        public static bool operator >(N left, Unit<N> right) => left > right.Value;
-        public static bool operator >=(N left, Unit<N> right) => left >= right.Value;
-        public static N operator %(N left, Unit<N> right) => left % right.Value;
-        public static N operator -(N left, Unit<N> right) => left - right.Value;
-        public static N operator *(N left, Unit<N> right) => left * right.Value;
-        public static N operator /(N left, Unit<N> right) => left / right.Value;
-        public static N operator +(N left, Unit<N> right) => left + right.Value;
+        public static bool operator >(N left, Unit<N> right) => left.IsGreaterThan(right.Value);
+        public static bool operator >=(N left, Unit<N> right) => left.IsGreaterThanOrEqualTo(right.Value);
+        public static N operator %(N left, Unit<N> right) => left.Remainder(right.Value);
+        public static N operator -(N left, Unit<N> right) => left.Subtract(right.Value);
+        public static N operator *(N left, Unit<N> right) => left.Multiply(right.Value);
+        public static N operator /(N left, Unit<N> right) => left.Divide(right.Value);
+        public static N operator +(N left, Unit<N> right) => left.Add(right.Value);
 
         IBitConverter<Unit<N>> IProvider<IBitConverter<Unit<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Unit<N>> IProvider<IRandom<Unit<N>>>.GetInstance() => Utilities.Instance;
@@ -117,7 +118,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<Unit<N>>,
             IStringParser<Unit<N>>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             Unit<N> IRandom<Unit<N>>.Next(Random random) => new Unit<N>(random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit));
             Unit<N> IRandom<Unit<N>>.Next(Random random, Unit<N> bound1, Unit<N> bound2) => new Unit<N>(random.NextNumeric(bound1.Value, bound2.Value));

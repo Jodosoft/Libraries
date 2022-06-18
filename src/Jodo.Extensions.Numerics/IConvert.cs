@@ -17,8 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+
 namespace Jodo.Extensions.Numerics
 {
+    [CLSCompliant(false)]
     public interface IConvert<N> where N : struct, INumeric<N>
     {
         bool ToBoolean(N value);

@@ -17,24 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-
 namespace Jodo.Extensions.Primitives
 {
     public static class StringUtilities
     {
-        public static ReadOnlySpan<string> ParseVectorParts(string value)
+        public static string[] ParseVectorParts(string value)
         {
             value = value.Trim();
 
-            if (value.StartsWith("(") && value.EndsWith(")")) value = value[1..^1];
-            if (value.StartsWith("[") && value.EndsWith("]")) value = value[1..^1];
-            if (value.StartsWith("{") && value.EndsWith("}")) value = value[1..^1];
-            if (value.StartsWith("<") && value.EndsWith(">")) value = value[1..^1];
+            if (value.StartsWith("(") && value.EndsWith(")")) value = value.Substring(1, value.Length - 2);
+            if (value.StartsWith("[") && value.EndsWith("]")) value = value.Substring(1, value.Length - 2);
+            if (value.StartsWith("{") && value.EndsWith("}")) value = value.Substring(1, value.Length - 2);
+            if (value.StartsWith("<") && value.EndsWith(">")) value = value.Substring(1, value.Length - 2);
 
-            var parts = value.Split(",");
-            if (parts.Length == 1) parts = value.Split("|");
-            if (parts.Length == 1) parts = value.Split("\t");
+            string[] parts = value.Split(',');
+            if (parts.Length == 1) parts = value.Split('|');
+            if (parts.Length == 1) parts = value.Split('\t');
 
             return parts;
         }

@@ -17,12 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Geometry.Tests
 {
@@ -34,11 +34,11 @@ namespace Jodo.Extensions.Geometry.Tests
         public void Translate_ByZero_SameAsOriginal()
         {
             //arrange
-            var sut = Random.NextRandomizable<T>();
-            var input = Vector2<N>.Zero;
+            T sut = Random.NextRandomizable<T>();
+            Vector2<N> input = Vector2<N>.Zero;
 
             //act
-            var result = sut.Translate(input);
+            T result = sut.Translate(input);
 
             //assert
             result.Should().Be(sut);

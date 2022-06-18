@@ -35,12 +35,12 @@ namespace Jodo.Extensions.Primitives.Internals
                 _position = 0;
             }
 
-            public ReadOnlySpan<T> Read(int count)
+            public T[] Read(int count)
             {
                 if (_position + count > _list.Count) throw new ArgumentOutOfRangeException(
                     nameof(count), count, "There are not enough bytes left in the stream.");
 
-                var results = new T[count];
+                T[]? results = new T[count];
                 for (int i = 0; i < count; i++)
                 {
                     results[i] = _list[_position + i];
@@ -59,13 +59,7 @@ namespace Jodo.Extensions.Primitives.Internals
                 _collection = collection ?? throw new ArgumentNullException(nameof(collection));
             }
 
-            public void Write(ReadOnlySpan<T> values)
-            {
-                foreach (var value in values)
-                {
-                    _collection.Add(value);
-                }
-            }
+            public void Write(T value) => _collection.Add(value);
         }
     }
 }

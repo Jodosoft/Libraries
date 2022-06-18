@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Benchmarking.Internals;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Jodo.Extensions.Benchmarking.Internals;
 
 namespace Jodo.Extensions.Benchmarking
 {
@@ -31,25 +31,23 @@ namespace Jodo.Extensions.Benchmarking
 
         public static void Run(Func<object> subjectFunction, Func<object> baselineFunction)
         {
-            var voidObj = new object();
-            var voidFunction = new Func<object>(() => voidObj);
+            object voidObj = new object();
+            Func<object> voidFunction = new Func<object>(() => voidObj);
 
-            var trialTime = TimeSpan.FromSeconds(DurationInSeconds / 4.0);
-            var subjectMeasurement = Measurer.Measure(subjectFunction, trialTime);
-            var baselineMeasurement = Measurer.Measure(baselineFunction, trialTime);
-            var voidMeasurement = Measurer.Measure(voidFunction, trialTime);
+            TimeSpan trialTime = TimeSpan.FromSeconds(DurationInSeconds / 4.0);
+            Measurement subjectMeasurement = Measurer.Measure(subjectFunction, trialTime);
+            Measurement baselineMeasurement = Measurer.Measure(baselineFunction, trialTime);
+            Measurement voidMeasurement = Measurer.Measure(voidFunction, trialTime);
 
             subjectMeasurement = Adjust(subjectMeasurement, voidMeasurement);
             baselineMeasurement = Adjust(baselineMeasurement, voidMeasurement);
 
-#pragma warning disable CS8602
             Writer.Write(new StackTrace().GetFrame(1).GetMethod().Name, subjectMeasurement, baselineMeasurement);
-#pragma warning restore CS8602
         }
 
         private static Measurement Adjust(Measurement measurement, Measurement voidMeasurement)
         {
-            var subjectAdjustment = measurement.Count * voidMeasurement.TotalTime.TotalSeconds / (long)voidMeasurement.Count;
+            double subjectAdjustment = measurement.Count * voidMeasurement.TotalTime.TotalSeconds / (long)voidMeasurement.Count;
             if (double.IsFinite(subjectAdjustment) && subjectAdjustment > 0)
             {
                 return new Measurement(measurement.Count, TimeSpan.FromSeconds(measurement.TotalTime.TotalSeconds - subjectAdjustment));

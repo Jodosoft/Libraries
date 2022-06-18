@@ -17,11 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Benchmarking.Internals;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Jodo.Extensions.Benchmarking.Internals;
 
 namespace Jodo.Extensions.Benchmarking
 {
@@ -31,9 +31,9 @@ namespace Jodo.Extensions.Benchmarking
         [MethodImpl(MethodImplOptions.NoOptimization)]
         public static Measurement Measure(Func<object> function, TimeSpan duration)
         {
-            var checkObj = new object();
-            var stopwatch = new Stopwatch();
-            var maxTicks = duration.TotalSeconds * Stopwatch.Frequency;
+            object checkObj = new object();
+            Stopwatch stopwatch = new Stopwatch();
+            double maxTicks = duration.TotalSeconds * Stopwatch.Frequency;
             ulong iterations = 0;
             object obj;
             stopwatch.Start();

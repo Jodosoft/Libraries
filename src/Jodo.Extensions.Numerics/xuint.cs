@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -64,29 +65,29 @@ namespace Jodo.Extensions.Numerics
         public static xuint Parse(string s, NumberStyles style) => uint.Parse(s, style);
         public static xuint Parse(string s, NumberStyles style, IFormatProvider? provider) => uint.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator xuint(sbyte value) => new xuint((uint)value);
+        [CLSCompliant(false)] public static explicit operator xuint(ulong value) => new xuint((uint)value);
+        [CLSCompliant(false)] public static implicit operator xuint(uint value) => new xuint(value);
+        [CLSCompliant(false)] public static implicit operator xuint(ushort value) => new xuint(value);
         public static explicit operator xuint(decimal value) => new xuint((uint)value);
         public static explicit operator xuint(double value) => new xuint((uint)value);
         public static explicit operator xuint(float value) => new xuint((uint)value);
         public static explicit operator xuint(int value) => new xuint((uint)value);
         public static explicit operator xuint(long value) => new xuint((uint)value);
-        public static explicit operator xuint(sbyte value) => new xuint((uint)value);
         public static explicit operator xuint(short value) => new xuint((uint)value);
-        public static explicit operator xuint(ulong value) => new xuint((uint)value);
         public static implicit operator xuint(byte value) => new xuint(value);
-        public static implicit operator xuint(uint value) => new xuint(value);
-        public static implicit operator xuint(ushort value) => new xuint(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xuint value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xuint value) => (ushort)value._value;
+        [CLSCompliant(false)] public static implicit operator uint(xuint value) => value._value;
+        [CLSCompliant(false)] public static implicit operator ulong(xuint value) => value._value;
         public static explicit operator byte(xuint value) => (byte)value._value;
         public static explicit operator int(xuint value) => (int)value._value;
-        public static explicit operator sbyte(xuint value) => (sbyte)value._value;
         public static explicit operator short(xuint value) => (short)value._value;
-        public static explicit operator ushort(xuint value) => (ushort)value._value;
         public static implicit operator decimal(xuint value) => value._value;
         public static implicit operator double(xuint value) => value._value;
         public static implicit operator float(xuint value) => value._value;
         public static implicit operator long(xuint value) => value._value;
-        public static implicit operator uint(xuint value) => value._value;
-        public static implicit operator ulong(xuint value) => value._value;
 
         public static bool operator !=(xuint left, xuint right) => left._value != right._value;
         public static bool operator <(xuint left, xuint right) => left._value < right._value;
@@ -145,7 +146,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xuint>,
             IStringParser<xuint>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xuint>.HasFloatingPoint { get; } = false;
             bool INumericStatic<xuint>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.Numerics
             xuint INumericStatic<xuint>.Zero { get; } = (uint)0;
 
             int IMath<xuint>.Sign(xuint x) => x._value == 0 ? 0 : 1;
-            xuint IMath<xuint>.Abs(xuint x) => x._value;
+            xuint IMath<xuint>.Abs(xuint value) => value._value;
             xuint IMath<xuint>.Acos(xuint x) => (uint)Math.Acos(x._value);
-            xuint IMath<xuint>.Acosh(xuint x) => (uint)Math.Acosh(x._value);
+            xuint IMath<xuint>.Acosh(xuint x) => (uint)MathCompat.Acosh(x._value);
             xuint IMath<xuint>.Asin(xuint x) => (uint)Math.Asin(x._value);
-            xuint IMath<xuint>.Asinh(xuint x) => (uint)Math.Asinh(x._value);
+            xuint IMath<xuint>.Asinh(xuint x) => (uint)MathCompat.Asinh(x._value);
             xuint IMath<xuint>.Atan(xuint x) => (uint)Math.Atan(x._value);
             xuint IMath<xuint>.Atan2(xuint x, xuint y) => (uint)Math.Atan2(x._value, y._value);
-            xuint IMath<xuint>.Atanh(xuint x) => (uint)Math.Atanh(x._value);
-            xuint IMath<xuint>.Cbrt(xuint x) => (uint)Math.Cbrt(x._value);
+            xuint IMath<xuint>.Atanh(xuint x) => (uint)MathCompat.Atanh(x._value);
+            xuint IMath<xuint>.Cbrt(xuint x) => (uint)MathCompat.Cbrt(x._value);
             xuint IMath<xuint>.Ceiling(xuint x) => x;
             xuint IMath<xuint>.Clamp(xuint x, xuint bound1, xuint bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xuint IMath<xuint>.Cos(xuint x) => (uint)Math.Cos(x._value);
@@ -209,7 +210,7 @@ namespace Jodo.Extensions.Numerics
             xuint IMath<xuint>.Tau { get; } = (uint)6;
             xuint IMath<xuint>.Truncate(xuint x) => x;
 
-            xuint IBitConverter<xuint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)));
+            xuint IBitConverter<xuint>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)), 0);
             void IBitConverter<xuint>.Write(xuint value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             xuint IRandom<xuint>.Next(Random random) => random.NextUInt32();

@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Primitives;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -30,10 +30,10 @@ namespace Jodo.Extensions.Numerics.Tests
         public void GetBytes_RandomSmallValue_SameAsOriginal()
         {
             //arrange
-            var input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+            N input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
 
             //act
-            var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            N result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -43,10 +43,10 @@ namespace Jodo.Extensions.Numerics.Tests
         public void GetBytes_MaxValueRoundTrip_SameAsOriginal()
         {
             //arrange
-            var input = Numeric<N>.MaxValue;
+            N input = Numeric<N>.MaxValue;
 
             //act
-            var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            N result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -56,10 +56,10 @@ namespace Jodo.Extensions.Numerics.Tests
         public void GetBytes_MinValueRoundTrip_SameAsOriginal()
         {
             //arrange
-            var input = Numeric<N>.MinValue;
+            N input = Numeric<N>.MinValue;
 
             //act
-            var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            N result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -69,10 +69,10 @@ namespace Jodo.Extensions.Numerics.Tests
         public void GetBytes_EpsilonRoundTrip_SameAsOriginal()
         {
             //arrange
-            var input = Numeric<N>.Epsilon;
+            N input = Numeric<N>.Epsilon;
 
             //act
-            var result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            N result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
 
             //assert
             result.Should().Be(input);

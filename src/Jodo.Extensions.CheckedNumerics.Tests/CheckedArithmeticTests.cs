@@ -17,11 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {

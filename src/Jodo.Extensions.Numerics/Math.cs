@@ -17,123 +17,216 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
+using Jodo.Extensions.Primitives;
 
 namespace Jodo.Extensions.Numerics
 {
-    public static class Math<T> where T : struct, IProvider<IMath<T>>
+    /// <summary>
+    ///     Provides constants and static methods for trigonometric, logarithmic,
+    ///     and other common mathematical functions.
+    /// </summary>
+    /// <typeparam name="N">
+    ///     A numeric type that provides a default instance of <see cref="IMath{N}"/>.
+    /// </typeparam>
+    public static partial class Math<N> where N : struct, IProvider<IMath<N>>
     {
-        private static readonly IMath<T> Default = default(T).GetInstance();
+        private static readonly IMath<N> Default = default(N).GetInstance();
 
-        public static T E => Default.E;
-        public static T PI => Default.PI;
-        public static T Tau => Default.Tau;
+        /// <summary>
+        ///     Represents the natural logarithmic base, specified by the constant, e.
+        ///     If <typeparamref name="N"/> is integral, this value is rounded to 2.
+        /// </summary>
+        public static N E => Default.E;
+
+        /// <summary>
+        ///     Represents the ratio of the circumference of a circle to its diameter,
+        ///     specified by the constant, π. If <typeparamref name="N"/> is integral,
+        ///     this value is rounded to 3.
+        /// </summary>
+        public static N PI => Default.PI;
+
+        /// <summary>
+        ///     Two times the value of <see cref="PI"/>.
+        /// </summary>
+        public static N Tau => Default.Tau;
+
+        /// <summary>
+        /// Returns an integer that indicates the sign of a number.
+        /// </summary>
+        /// <param name="value">A number.</param>
+        /// <returns>
+        ///     A number that indicates the sign of <paramref name="value"/>, as shown in the following table.
+        ///     <list type="table">
+        ///         <listheader>
+        ///             <term>Return value</term>
+        ///             <term>Meaning</term>
+        ///         </listheader>
+        ///         <item>
+        ///             <description>-1</description>
+        ///             <description><paramref name="value"/> is less than zero</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>0</description>
+        ///             <description><paramref name="value"/> is equal to zero.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>1</description>
+        ///             <description><paramref name="value"/> is greater than zero.</description>
+        ///         </item>
+        ///     </list>
+        /// </returns>
+        /// <exception cref="ArithmeticException"><paramref name="value"/> is equal to <c>NaN</c>.</exception>
+        [DebuggerStepThrough]
+        public static int Sign(N value) => Default.Sign(value);
+
+        /// <summary>
+        /// Returns the absolute value of a number.
+        /// </summary>
+        /// <param name="value">
+        ///     A number that is greater than or equal to <see cref="Numeric{T}.MinValue"/>,
+        ///     but less than or equal to <see cref="Numeric{T}.MaxValue"/>.
+        /// </param>
+        /// <returns>A number, x, such that 0 ≤ x ≤ <see cref="Numeric{T}.MaxValue"/>.</returns>
+        /// <exception cref="OverflowException">
+        ///     value is too small to be represented as a positive,
+        ///     e.g. the <c>MinValue</c> of an integral number.
+        /// </exception>
+        [DebuggerStepThrough]
+        public static N Abs(N value) => Default.Abs(value);
+
+        /// <summary>
+        /// Returns the angle whose cosine is the specified number.
+        /// </summary>
+        /// <param name="n">
+        ///     A number representing a cosine, where <paramref name="n"/> must be greater
+        ///     than or equal to <see cref="Numeric{T}.MinUnit"/>, but less than or equal to
+        ///     <see cref="Numeric{T}.MaxUnit"/>.
+        /// </param>
+        /// <returns>
+        ///     An angle, θ, measured in radians, such that 0 ≤ θ ≤ <see cref="Math{T}.PI"/>
+        ///     -or- <c>NaN</c> if <see cref="Numeric{T}.HasNaN"/> equals
+        ///     <c>true</c> and <paramref name="n"/> &lt; -1 or <paramref name="n"/> &gt; 1 or
+        ///     d equals <c>NaN</c>.</returns>
+        [DebuggerStepThrough]
+        public static N Acos(N n) => Default.Acos(n);
+
+        //
+        // Summary:
+        //     Returns the angle whose hyperbolic cosine is the specified number.
+        //
+        // Parameters:
+        //   d:
+        //     A number representing a hyperbolic cosine, where d must be greater than or equal
+        //     to 1, but less than or equal to System.Double.PositiveInfinity.
+        //
+        // Returns:
+        //     An angle, θ, measured in radians, such that 0 ≤ θ ≤ ∞. -or- System.Double.NaN
+        //     if d < 1 or d equals System.Double.NaN.
+
+        /// <summary>
+        ///     Returns the angle whose hyperbolic cosine is the specified number.
+        /// </summary>
+        /// <param name="n">
+        ///     A number representing a hyperbolic cosine, where <paramref name="n"/> must be
+        ///     greater than or equal to 1.
+        /// </param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static N Acosh(N n) => Default.Acosh(n);
 
         [DebuggerStepThrough]
-        public static int Sign(T x) => Default.Sign(x);
+        public static N Asin(N x) => Default.Asin(x);
 
         [DebuggerStepThrough]
-        public static T Abs(T x) => Default.Abs(x);
+        public static N Asinh(N x) => Default.Asinh(x);
 
         [DebuggerStepThrough]
-        public static T Acos(T x) => Default.Acos(x);
+        public static N Atan(N x) => Default.Atan(x);
 
         [DebuggerStepThrough]
-        public static T Acosh(T x) => Default.Acosh(x);
+        public static N Atan2(N x, N y) => Default.Atan2(x, y);
 
         [DebuggerStepThrough]
-        public static T Asin(T x) => Default.Asin(x);
+        public static N Atanh(N x) => Default.Atanh(x);
 
         [DebuggerStepThrough]
-        public static T Asinh(T x) => Default.Asinh(x);
+        public static N Cbrt(N x) => Default.Cbrt(x);
 
         [DebuggerStepThrough]
-        public static T Atan(T x) => Default.Atan(x);
+        public static N Ceiling(N x) => Default.Ceiling(x);
 
         [DebuggerStepThrough]
-        public static T Atan2(T x, T y) => Default.Atan2(x, y);
+        public static N Clamp(N x, N bound1, N bound2) => Default.Clamp(x, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static T Atanh(T x) => Default.Atanh(x);
+        public static N Cos(N x) => Default.Cos(x);
 
         [DebuggerStepThrough]
-        public static T Cbrt(T x) => Default.Cbrt(x);
+        public static N Cosh(N x) => Default.Cosh(x);
 
         [DebuggerStepThrough]
-        public static T Ceiling(T x) => Default.Ceiling(x);
+        public static N DegreesToRadians(N x) => Default.DegreesToRadians(x);
 
         [DebuggerStepThrough]
-        public static T Clamp(T x, T bound1, T bound2) => Default.Clamp(x, bound1, bound2);
+        public static N Exp(N x) => Default.Exp(x);
 
         [DebuggerStepThrough]
-        public static T Cos(T x) => Default.Cos(x);
+        public static N Floor(N x) => Default.Floor(x);
 
         [DebuggerStepThrough]
-        public static T Cosh(T x) => Default.Cosh(x);
+        public static N IEEERemainder(N x, N y) => Default.IEEERemainder(x, y);
 
         [DebuggerStepThrough]
-        public static T DegreesToRadians(T x) => Default.DegreesToRadians(x);
+        public static N Log(N x) => Default.Log(x);
 
         [DebuggerStepThrough]
-        public static T Exp(T x) => Default.Exp(x);
+        public static N Log(N x, N y) => Default.Log(x, y);
 
         [DebuggerStepThrough]
-        public static T Floor(T x) => Default.Floor(x);
+        public static N Log10(N x) => Default.Log10(x);
 
         [DebuggerStepThrough]
-        public static T IEEERemainder(T x, T y) => Default.IEEERemainder(x, y);
+        public static N Max(N x, N y) => Default.Max(x, y);
 
         [DebuggerStepThrough]
-        public static T Log(T x) => Default.Log(x);
+        public static N Min(N x, N y) => Default.Min(x, y);
 
         [DebuggerStepThrough]
-        public static T Log(T x, T y) => Default.Log(x, y);
+        public static N Pow(N x, N y) => Default.Pow(x, y);
 
         [DebuggerStepThrough]
-        public static T Log10(T x) => Default.Log10(x);
+        public static N RadiansToDegrees(N x) => Default.RadiansToDegrees(x);
 
         [DebuggerStepThrough]
-        public static T Max(T x, T y) => Default.Max(x, y);
+        public static N Round(N x) => Default.Round(x);
 
         [DebuggerStepThrough]
-        public static T Min(T x, T y) => Default.Min(x, y);
+        public static N Round(N x, int digits) => Default.Round(x, digits);
 
         [DebuggerStepThrough]
-        public static T Pow(T x, T y) => Default.Pow(x, y);
+        public static N Round(N x, int digits, MidpointRounding mode) => Default.Round(x, digits, mode);
 
         [DebuggerStepThrough]
-        public static T RadiansToDegrees(T x) => Default.RadiansToDegrees(x);
+        public static N Round(N x, MidpointRounding mode) => Default.Round(x, mode);
 
         [DebuggerStepThrough]
-        public static T Round(T x) => Default.Round(x);
+        public static N Sin(N x) => Default.Sin(x);
 
         [DebuggerStepThrough]
-        public static T Round(T x, int digits) => Default.Round(x, digits);
+        public static N Sinh(N x) => Default.Sinh(x);
 
         [DebuggerStepThrough]
-        public static T Round(T x, int digits, MidpointRounding mode) => Default.Round(x, digits, mode);
+        public static N Sqrt(N x) => Default.Sqrt(x);
 
         [DebuggerStepThrough]
-        public static T Round(T x, MidpointRounding mode) => Default.Round(x, mode);
+        public static N Tan(N x) => Default.Tan(x);
 
         [DebuggerStepThrough]
-        public static T Sin(T x) => Default.Sin(x);
+        public static N Tanh(N x) => Default.Tanh(x);
 
         [DebuggerStepThrough]
-        public static T Sinh(T x) => Default.Sinh(x);
-
-        [DebuggerStepThrough]
-        public static T Sqrt(T x) => Default.Sqrt(x);
-
-        [DebuggerStepThrough]
-        public static T Tan(T x) => Default.Tan(x);
-
-        [DebuggerStepThrough]
-        public static T Tanh(T x) => Default.Tanh(x);
-
-        [DebuggerStepThrough]
-        public static T Truncate(T x) => Default.Truncate(x);
+        public static N Truncate(N x) => Default.Truncate(x);
     }
 }

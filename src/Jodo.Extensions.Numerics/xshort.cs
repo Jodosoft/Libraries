@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -64,23 +65,23 @@ namespace Jodo.Extensions.Numerics
         public static xshort Parse(string s, NumberStyles style) => short.Parse(s, style);
         public static xshort Parse(string s, NumberStyles style, IFormatProvider? provider) => short.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator xshort(uint value) => new xshort((short)value);
+        [CLSCompliant(false)] public static explicit operator xshort(ulong value) => new xshort((short)value);
+        [CLSCompliant(false)] public static explicit operator xshort(ushort value) => new xshort((short)value);
+        [CLSCompliant(false)] public static implicit operator xshort(sbyte value) => new xshort(value);
         public static explicit operator xshort(decimal value) => new xshort((short)value);
         public static explicit operator xshort(double value) => new xshort((short)value);
         public static explicit operator xshort(float value) => new xshort((short)value);
         public static explicit operator xshort(int value) => new xshort((short)value);
         public static explicit operator xshort(long value) => new xshort((short)value);
-        public static explicit operator xshort(uint value) => new xshort((short)value);
-        public static explicit operator xshort(ulong value) => new xshort((short)value);
-        public static explicit operator xshort(ushort value) => new xshort((short)value);
         public static implicit operator xshort(byte value) => new xshort(value);
-        public static implicit operator xshort(sbyte value) => new xshort(value);
         public static implicit operator xshort(short value) => new xshort(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xshort value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static explicit operator uint(xshort value) => (uint)value._value;
+        [CLSCompliant(false)] public static explicit operator ulong(xshort value) => (ulong)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xshort value) => (ushort)value._value;
         public static explicit operator byte(xshort value) => (byte)value._value;
-        public static explicit operator sbyte(xshort value) => (sbyte)value._value;
-        public static explicit operator uint(xshort value) => (uint)value._value;
-        public static explicit operator ulong(xshort value) => (ulong)value._value;
-        public static explicit operator ushort(xshort value) => (ushort)value._value;
         public static implicit operator decimal(xshort value) => value._value;
         public static implicit operator double(xshort value) => value._value;
         public static implicit operator float(xshort value) => value._value;
@@ -145,7 +146,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xshort>,
             IStringParser<xshort>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xshort>.HasFloatingPoint { get; } = false;
             bool INumericStatic<xshort>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.Numerics
             xshort INumericStatic<xshort>.Zero { get; } = (short)0;
 
             int IMath<xshort>.Sign(xshort x) => Math.Sign(x._value);
-            xshort IMath<xshort>.Abs(xshort x) => Math.Abs(x._value);
+            xshort IMath<xshort>.Abs(xshort value) => Math.Abs(value._value);
             xshort IMath<xshort>.Acos(xshort x) => (short)Math.Acos(x._value);
-            xshort IMath<xshort>.Acosh(xshort x) => (short)Math.Acosh(x._value);
+            xshort IMath<xshort>.Acosh(xshort x) => (short)MathCompat.Acosh(x._value);
             xshort IMath<xshort>.Asin(xshort x) => (short)Math.Asin(x._value);
-            xshort IMath<xshort>.Asinh(xshort x) => (short)Math.Asinh(x._value);
+            xshort IMath<xshort>.Asinh(xshort x) => (short)MathCompat.Asinh(x._value);
             xshort IMath<xshort>.Atan(xshort x) => (short)Math.Atan(x._value);
             xshort IMath<xshort>.Atan2(xshort x, xshort y) => (short)Math.Atan2(x._value, y._value);
-            xshort IMath<xshort>.Atanh(xshort x) => (short)Math.Atanh(x._value);
-            xshort IMath<xshort>.Cbrt(xshort x) => (short)Math.Cbrt(x._value);
+            xshort IMath<xshort>.Atanh(xshort x) => (short)MathCompat.Atanh(x._value);
+            xshort IMath<xshort>.Cbrt(xshort x) => (short)MathCompat.Cbrt(x._value);
             xshort IMath<xshort>.Ceiling(xshort x) => x;
             xshort IMath<xshort>.Clamp(xshort x, xshort bound1, xshort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xshort IMath<xshort>.Cos(xshort x) => (short)Math.Cos(x._value);
@@ -209,7 +210,7 @@ namespace Jodo.Extensions.Numerics
             xshort IMath<xshort>.Tau { get; } = (short)6;
             xshort IMath<xshort>.Truncate(xshort x) => x;
 
-            xshort IBitConverter<xshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)));
+            xshort IBitConverter<xshort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)), 0);
             void IBitConverter<xshort>.Write(xshort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             xshort IRandom<xshort>.Next(Random random) => random.NextInt16();

@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -64,29 +65,29 @@ namespace Jodo.Extensions.Numerics
         public static xushort Parse(string s, NumberStyles style) => ushort.Parse(s, style);
         public static xushort Parse(string s, NumberStyles style, IFormatProvider? provider) => ushort.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator xushort(sbyte value) => new xushort((ushort)value);
+        [CLSCompliant(false)] public static explicit operator xushort(uint value) => new xushort((ushort)value);
+        [CLSCompliant(false)] public static explicit operator xushort(ulong value) => new xushort((ushort)value);
+        [CLSCompliant(false)] public static implicit operator xushort(ushort value) => new xushort(value);
         public static explicit operator xushort(decimal value) => new xushort((ushort)value);
         public static explicit operator xushort(double value) => new xushort((ushort)value);
         public static explicit operator xushort(float value) => new xushort((ushort)value);
         public static explicit operator xushort(int value) => new xushort((ushort)value);
         public static explicit operator xushort(long value) => new xushort((ushort)value);
-        public static explicit operator xushort(sbyte value) => new xushort((ushort)value);
         public static explicit operator xushort(short value) => new xushort((ushort)value);
-        public static explicit operator xushort(uint value) => new xushort((ushort)value);
-        public static explicit operator xushort(ulong value) => new xushort((ushort)value);
         public static implicit operator xushort(byte value) => new xushort(value);
-        public static implicit operator xushort(ushort value) => new xushort(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xushort value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static implicit operator uint(xushort value) => value._value;
+        [CLSCompliant(false)] public static implicit operator ulong(xushort value) => value._value;
+        [CLSCompliant(false)] public static implicit operator ushort(xushort value) => value._value;
         public static explicit operator byte(xushort value) => (byte)value._value;
-        public static explicit operator sbyte(xushort value) => (sbyte)value._value;
         public static explicit operator short(xushort value) => (short)value._value;
         public static implicit operator decimal(xushort value) => value._value;
         public static implicit operator double(xushort value) => value._value;
         public static implicit operator float(xushort value) => value._value;
         public static implicit operator int(xushort value) => value._value;
         public static implicit operator long(xushort value) => value._value;
-        public static implicit operator uint(xushort value) => value._value;
-        public static implicit operator ulong(xushort value) => value._value;
-        public static implicit operator ushort(xushort value) => value._value;
 
         public static bool operator !=(xushort left, xushort right) => left._value != right._value;
         public static bool operator <(xushort left, xushort right) => left._value < right._value;
@@ -145,7 +146,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xushort>,
             IStringParser<xushort>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xushort>.HasFloatingPoint { get; } = false;
             bool INumericStatic<xushort>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.Numerics
             bool INumericStatic<xushort>.IsSubnormal(xushort x) => false;
 
             int IMath<xushort>.Sign(xushort x) => x._value == 0 ? 0 : 1;
-            xushort IMath<xushort>.Abs(xushort x) => x._value;
+            xushort IMath<xushort>.Abs(xushort value) => value._value;
             xushort IMath<xushort>.Acos(xushort x) => (ushort)Math.Acos(x._value);
-            xushort IMath<xushort>.Acosh(xushort x) => (ushort)Math.Acosh(x._value);
+            xushort IMath<xushort>.Acosh(xushort x) => (ushort)MathCompat.Acosh(x._value);
             xushort IMath<xushort>.Asin(xushort x) => (ushort)Math.Asin(x._value);
-            xushort IMath<xushort>.Asinh(xushort x) => (ushort)Math.Asinh(x._value);
+            xushort IMath<xushort>.Asinh(xushort x) => (ushort)MathCompat.Asinh(x._value);
             xushort IMath<xushort>.Atan(xushort x) => (ushort)Math.Atan(x._value);
             xushort IMath<xushort>.Atan2(xushort x, xushort y) => (ushort)Math.Atan2(x._value, y._value);
-            xushort IMath<xushort>.Atanh(xushort x) => (ushort)Math.Atanh(x._value);
-            xushort IMath<xushort>.Cbrt(xushort x) => (ushort)Math.Cbrt(x._value);
+            xushort IMath<xushort>.Atanh(xushort x) => (ushort)MathCompat.Atanh(x._value);
+            xushort IMath<xushort>.Cbrt(xushort x) => (ushort)MathCompat.Cbrt(x._value);
             xushort IMath<xushort>.Ceiling(xushort x) => x;
             xushort IMath<xushort>.Clamp(xushort x, xushort bound1, xushort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xushort IMath<xushort>.Cos(xushort x) => (ushort)Math.Cos(x._value);
@@ -209,7 +210,7 @@ namespace Jodo.Extensions.Numerics
             xushort IMath<xushort>.Tau { get; } = (ushort)6;
             xushort IMath<xushort>.Truncate(xushort x) => x;
 
-            xushort IBitConverter<xushort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)));
+            xushort IBitConverter<xushort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)), 0);
             void IBitConverter<xushort>.Write(xushort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             xushort IRandom<xushort>.Next(Random random) => random.NextUInt16();

@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -65,29 +66,29 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cbyte Parse(string s, NumberStyles style) => byte.Parse(s, style);
         public static cbyte Parse(string s, NumberStyles style, IFormatProvider? provider) => byte.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator cbyte(sbyte value) => new cbyte(CheckedConvert.ToByte(value));
+        [CLSCompliant(false)] public static explicit operator cbyte(uint value) => new cbyte(CheckedConvert.ToByte(value));
+        [CLSCompliant(false)] public static explicit operator cbyte(ulong value) => new cbyte(CheckedConvert.ToByte(value));
+        [CLSCompliant(false)] public static implicit operator cbyte(ushort value) => new cbyte(CheckedConvert.ToByte(value));
         public static explicit operator cbyte(decimal value) => new cbyte(CheckedTruncate.ToByte(value));
         public static explicit operator cbyte(double value) => new cbyte(CheckedTruncate.ToByte(value));
         public static explicit operator cbyte(float value) => new cbyte(CheckedTruncate.ToByte(value));
         public static explicit operator cbyte(int value) => new cbyte(CheckedConvert.ToByte(value));
         public static explicit operator cbyte(long value) => new cbyte(CheckedConvert.ToByte(value));
-        public static explicit operator cbyte(sbyte value) => new cbyte(CheckedConvert.ToByte(value));
         public static explicit operator cbyte(short value) => new cbyte(CheckedConvert.ToByte(value));
-        public static explicit operator cbyte(uint value) => new cbyte(CheckedConvert.ToByte(value));
-        public static explicit operator cbyte(ulong value) => new cbyte(CheckedConvert.ToByte(value));
-        public static implicit operator cbyte(ushort value) => new cbyte(CheckedConvert.ToByte(value));
         public static implicit operator cbyte(byte value) => new cbyte(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(cbyte value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static implicit operator uint(cbyte value) => value._value;
+        [CLSCompliant(false)] public static implicit operator ulong(cbyte value) => value._value;
+        [CLSCompliant(false)] public static implicit operator ushort(cbyte value) => value._value;
         public static explicit operator byte(cbyte value) => CheckedConvert.ToByte(value._value);
         public static explicit operator int(cbyte value) => CheckedConvert.ToInt32(value._value);
-        public static explicit operator sbyte(cbyte value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(cbyte value) => CheckedConvert.ToInt16(value._value);
-        public static implicit operator ushort(cbyte value) => value._value;
         public static implicit operator decimal(cbyte value) => value._value;
         public static implicit operator double(cbyte value) => value._value;
         public static implicit operator float(cbyte value) => value._value;
         public static implicit operator long(cbyte value) => value._value;
-        public static implicit operator uint(cbyte value) => value._value;
-        public static implicit operator ulong(cbyte value) => value._value;
 
         public static bool operator !=(cbyte left, cbyte right) => left._value != right._value;
         public static bool operator <(cbyte left, cbyte right) => left._value < right._value;
@@ -146,7 +147,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<cbyte>,
             IStringParser<cbyte>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<cbyte>.HasFloatingPoint { get; } = false;
             bool INumericStatic<cbyte>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cbyte INumericStatic<cbyte>.Two { get; } = 2;
             cbyte INumericStatic<cbyte>.Zero { get; } = 0;
 
-            cbyte IMath<cbyte>.Abs(cbyte x) => x;
+            cbyte IMath<cbyte>.Abs(cbyte value) => value;
             cbyte IMath<cbyte>.Acos(cbyte x) => CheckedCast.ToByte(Math.Acos(x._value));
-            cbyte IMath<cbyte>.Acosh(cbyte x) => CheckedCast.ToByte(Math.Acosh(x._value));
+            cbyte IMath<cbyte>.Acosh(cbyte x) => CheckedCast.ToByte(MathCompat.Acosh(x._value));
             cbyte IMath<cbyte>.Asin(cbyte x) => CheckedCast.ToByte(Math.Asin(x._value));
-            cbyte IMath<cbyte>.Asinh(cbyte x) => CheckedCast.ToByte(Math.Asinh(x._value));
+            cbyte IMath<cbyte>.Asinh(cbyte x) => CheckedCast.ToByte(MathCompat.Asinh(x._value));
             cbyte IMath<cbyte>.Atan(cbyte x) => CheckedCast.ToByte(Math.Atan(x._value));
             cbyte IMath<cbyte>.Atan2(cbyte x, cbyte y) => CheckedCast.ToByte(Math.Atan2(x._value, y._value));
-            cbyte IMath<cbyte>.Atanh(cbyte x) => CheckedCast.ToByte(Math.Atanh(x._value));
-            cbyte IMath<cbyte>.Cbrt(cbyte x) => CheckedCast.ToByte(Math.Cbrt(x._value));
+            cbyte IMath<cbyte>.Atanh(cbyte x) => CheckedCast.ToByte(MathCompat.Atanh(x._value));
+            cbyte IMath<cbyte>.Cbrt(cbyte x) => CheckedCast.ToByte(MathCompat.Cbrt(x._value));
             cbyte IMath<cbyte>.Ceiling(cbyte x) => x;
             cbyte IMath<cbyte>.Clamp(cbyte x, cbyte bound1, cbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cbyte IMath<cbyte>.Cos(cbyte x) => CheckedCast.ToByte(Math.Cos(x._value));

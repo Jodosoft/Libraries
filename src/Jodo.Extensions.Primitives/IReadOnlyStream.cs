@@ -17,12 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-
 namespace Jodo.Extensions.Primitives
 {
-    public interface IReadOnlyStream<T>
+    public interface IReadOnlyStream<out T>
     {
-        ReadOnlySpan<T> Read(int count);
+        T[] Read(int count);
     }
 }

@@ -17,11 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Benchmarking.Internals;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
+using Jodo.Extensions.Benchmarking.Internals;
 
 namespace Jodo.Extensions.Benchmarking
 {
@@ -32,10 +32,8 @@ namespace Jodo.Extensions.Benchmarking
 
         public static void WriteHeader()
         {
-#pragma warning disable CS8602
-            string? assemblyName = Assembly.GetEntryAssembly().GetName().Name;
-#pragma warning restore CS8602
-            var lines = new[] {
+            string assemblyName = Assembly.GetEntryAssembly().GetName().Name;
+            string[] lines = new[] {
                     string.Empty,
                     "<details>",
                     $"<summary><em>{assemblyName} - Results from {DateTime.UtcNow:O}</em></summary>",
@@ -48,7 +46,7 @@ namespace Jodo.Extensions.Benchmarking
                     string.Empty,
                     "| Name | Ops Per Second | Time | Baseline Ops Per Second | Baseline Time | Observation |",
                     "| --- | --- | --- | --- | --- | --- |" };
-            foreach (var line in lines)
+            foreach (string line in lines)
             {
                 Console.WriteLine(line);
             }
@@ -57,8 +55,8 @@ namespace Jodo.Extensions.Benchmarking
 
         public static void WriteFooter()
         {
-            var lines = new[] { string.Empty, "</details>" };
-            foreach (var line in lines)
+            string[] lines = new[] { string.Empty, "</details>" };
+            foreach (string line in lines)
             {
                 Console.WriteLine(line);
             }
@@ -67,7 +65,7 @@ namespace Jodo.Extensions.Benchmarking
 
         public static void Write(string name, Measurement subject, Measurement baseline)
         {
-            var em = GetEmphasis(subject, baseline);
+            string em = GetEmphasis(subject, baseline);
             string row =
                 $"| {em}{name}{em} " +
                 $"| {em}{subject.PerSecond:G4}{em} " +
@@ -83,16 +81,16 @@ namespace Jodo.Extensions.Benchmarking
 
         private static string GetEmphasis(Measurement subject, Measurement baseline)
         {
-            var timesSlower = baseline.PerSecond / subject.PerSecond;
+            double timesSlower = baseline.PerSecond / subject.PerSecond;
 
-            var em = subject.AverageTime.Ticks > 9 && timesSlower > 1.01 ? "**" : string.Empty;
+            string em = subject.AverageTime.Ticks > 9 && timesSlower > 1.01 ? "**" : string.Empty;
             return em;
         }
 
         private static string GetObservation(Measurement subject, Measurement baseline)
         {
-            var timesSlower = baseline.PerSecond / subject.PerSecond;
-            var timesFaster = subject.PerSecond / baseline.PerSecond;
+            double timesSlower = baseline.PerSecond / subject.PerSecond;
+            double timesFaster = subject.PerSecond / baseline.PerSecond;
 
             if (timesSlower >= 100) return $"{timesSlower:G4}x slower";
             if (timesFaster >= 100) return $"{timesFaster:G4}x faster";
@@ -103,7 +101,7 @@ namespace Jodo.Extensions.Benchmarking
 
         private static string GetTimeWithUnits(TimeSpan timeSpan)
         {
-            var log10 = Math.Log10(timeSpan.Ticks);
+            double log10 = Math.Log10(timeSpan.Ticks);
 
             if (!double.IsFinite(log10) || log10 < 1) return "*<1μs*";
             if (log10 < 4) return $"{timeSpan.Ticks / 10.0:N1}μs";

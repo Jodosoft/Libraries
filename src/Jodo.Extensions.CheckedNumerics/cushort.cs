@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -65,29 +66,29 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cushort Parse(string s, NumberStyles style) => ushort.Parse(s, style);
         public static cushort Parse(string s, NumberStyles style, IFormatProvider? provider) => ushort.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator cushort(sbyte value) => new cushort(CheckedConvert.ToUInt16(value));
+        [CLSCompliant(false)] public static explicit operator cushort(uint value) => new cushort(CheckedConvert.ToUInt16(value));
+        [CLSCompliant(false)] public static explicit operator cushort(ulong value) => new cushort(CheckedConvert.ToUInt16(value));
+        [CLSCompliant(false)] public static implicit operator cushort(ushort value) => new cushort(value);
         public static explicit operator cushort(decimal value) => new cushort(CheckedTruncate.ToUInt16(value));
         public static explicit operator cushort(double value) => new cushort(CheckedTruncate.ToUInt16(value));
         public static explicit operator cushort(float value) => new cushort(CheckedTruncate.ToUInt16(value));
         public static explicit operator cushort(int value) => new cushort(CheckedConvert.ToUInt16(value));
         public static explicit operator cushort(long value) => new cushort(CheckedConvert.ToUInt16(value));
-        public static explicit operator cushort(sbyte value) => new cushort(CheckedConvert.ToUInt16(value));
         public static explicit operator cushort(short value) => new cushort(CheckedConvert.ToUInt16(value));
-        public static explicit operator cushort(uint value) => new cushort(CheckedConvert.ToUInt16(value));
-        public static explicit operator cushort(ulong value) => new cushort(CheckedConvert.ToUInt16(value));
         public static implicit operator cushort(byte value) => new cushort(value);
-        public static implicit operator cushort(ushort value) => new cushort(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(cushort value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static implicit operator uint(cushort value) => value._value;
+        [CLSCompliant(false)] public static implicit operator ulong(cushort value) => value._value;
+        [CLSCompliant(false)] public static implicit operator ushort(cushort value) => value._value;
         public static explicit operator byte(cushort value) => CheckedConvert.ToByte(value._value);
         public static explicit operator int(cushort value) => CheckedConvert.ToInt32(value._value);
-        public static explicit operator sbyte(cushort value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(cushort value) => CheckedConvert.ToInt16(value._value);
-        public static implicit operator ushort(cushort value) => value._value;
         public static implicit operator decimal(cushort value) => value._value;
         public static implicit operator double(cushort value) => value._value;
         public static implicit operator float(cushort value) => value._value;
         public static implicit operator long(cushort value) => value._value;
-        public static implicit operator uint(cushort value) => value._value;
-        public static implicit operator ulong(cushort value) => value._value;
 
         public static bool operator !=(cushort left, cushort right) => left._value != right._value;
         public static bool operator <(cushort left, cushort right) => left._value < right._value;
@@ -146,7 +147,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<cushort>,
             IStringParser<cushort>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<cushort>.HasFloatingPoint { get; } = false;
             bool INumericStatic<cushort>.HasInfinity { get; } = false;
@@ -172,15 +173,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cushort INumericStatic<cushort>.Zero { get; } = 0;
 
             int IMath<cushort>.Sign(cushort x) => x._value == 0 ? 0 : 1;
-            cushort IMath<cushort>.Abs(cushort x) => x;
+            cushort IMath<cushort>.Abs(cushort value) => value;
             cushort IMath<cushort>.Acos(cushort x) => (cushort)Math.Acos(x._value);
-            cushort IMath<cushort>.Acosh(cushort x) => (cushort)Math.Acosh(x._value);
+            cushort IMath<cushort>.Acosh(cushort x) => (cushort)MathCompat.Acosh(x._value);
             cushort IMath<cushort>.Asin(cushort x) => (cushort)Math.Asin(x._value);
-            cushort IMath<cushort>.Asinh(cushort x) => (cushort)Math.Asinh(x._value);
+            cushort IMath<cushort>.Asinh(cushort x) => (cushort)MathCompat.Asinh(x._value);
             cushort IMath<cushort>.Atan(cushort x) => (cushort)Math.Atan(x._value);
             cushort IMath<cushort>.Atan2(cushort x, cushort y) => (cushort)Math.Atan2(x._value, y._value);
-            cushort IMath<cushort>.Atanh(cushort x) => (cushort)Math.Atanh(x._value);
-            cushort IMath<cushort>.Cbrt(cushort x) => (cushort)Math.Cbrt(x._value);
+            cushort IMath<cushort>.Atanh(cushort x) => (cushort)MathCompat.Atanh(x._value);
+            cushort IMath<cushort>.Cbrt(cushort x) => (cushort)MathCompat.Cbrt(x._value);
             cushort IMath<cushort>.Ceiling(cushort x) => x;
             cushort IMath<cushort>.Clamp(cushort x, cushort bound1, cushort bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cushort IMath<cushort>.Cos(cushort x) => (cushort)Math.Cos(x._value);
@@ -210,7 +211,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cushort IMath<cushort>.Tau { get; } = 6;
             cushort IMath<cushort>.Truncate(cushort x) => x;
 
-            cushort IBitConverter<cushort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)));
+            cushort IBitConverter<cushort>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)), 0);
             void IBitConverter<cushort>.Write(cushort value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             cushort IRandom<cushort>.Next(Random random) => random.NextUInt16();

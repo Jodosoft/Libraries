@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -65,6 +66,10 @@ namespace Jodo.Extensions.CheckedNumerics
         public static csbyte Parse(string s, NumberStyles style) => sbyte.Parse(s, style);
         public static csbyte Parse(string s, NumberStyles style, IFormatProvider? provider) => sbyte.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator csbyte(uint value) => new csbyte(CheckedConvert.ToSByte(value));
+        [CLSCompliant(false)] public static explicit operator csbyte(ulong value) => new csbyte(CheckedConvert.ToSByte(value));
+        [CLSCompliant(false)] public static explicit operator csbyte(ushort value) => new csbyte(CheckedConvert.ToSByte(value));
+        [CLSCompliant(false)] public static implicit operator csbyte(sbyte value) => new csbyte(value);
         public static explicit operator csbyte(byte value) => new csbyte(CheckedConvert.ToSByte(value));
         public static explicit operator csbyte(decimal value) => new csbyte(CheckedTruncate.ToSByte(value));
         public static explicit operator csbyte(double value) => new csbyte(CheckedTruncate.ToSByte(value));
@@ -72,21 +77,17 @@ namespace Jodo.Extensions.CheckedNumerics
         public static explicit operator csbyte(int value) => new csbyte(CheckedConvert.ToSByte(value));
         public static explicit operator csbyte(long value) => new csbyte(CheckedConvert.ToSByte(value));
         public static explicit operator csbyte(short value) => new csbyte(CheckedConvert.ToSByte(value));
-        public static explicit operator csbyte(uint value) => new csbyte(CheckedConvert.ToSByte(value));
-        public static explicit operator csbyte(ulong value) => new csbyte(CheckedConvert.ToSByte(value));
-        public static explicit operator csbyte(ushort value) => new csbyte(CheckedConvert.ToSByte(value));
-        public static implicit operator csbyte(sbyte value) => new csbyte(value);
 
+        [CLSCompliant(false)] public static explicit operator uint(csbyte value) => CheckedConvert.ToUInt32(value._value);
+        [CLSCompliant(false)] public static explicit operator ulong(csbyte value) => CheckedConvert.ToUInt64(value._value);
+        [CLSCompliant(false)] public static explicit operator ushort(csbyte value) => CheckedConvert.ToUInt16(value._value);
+        [CLSCompliant(false)] public static implicit operator sbyte(csbyte value) => value._value;
         public static explicit operator byte(csbyte value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator uint(csbyte value) => CheckedConvert.ToUInt32(value._value);
-        public static explicit operator ulong(csbyte value) => CheckedConvert.ToUInt64(value._value);
-        public static explicit operator ushort(csbyte value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator decimal(csbyte value) => value._value;
         public static implicit operator double(csbyte value) => value._value;
         public static implicit operator float(csbyte value) => value._value;
         public static implicit operator int(csbyte value) => value._value;
         public static implicit operator long(csbyte value) => value._value;
-        public static implicit operator sbyte(csbyte value) => value._value;
         public static implicit operator short(csbyte value) => value._value;
 
         public static bool operator !=(csbyte left, csbyte right) => left._value != right._value;
@@ -146,7 +147,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<csbyte>,
             IStringParser<csbyte>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<csbyte>.HasFloatingPoint { get; } = false;
             bool INumericStatic<csbyte>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.CheckedNumerics
             csbyte INumericStatic<csbyte>.Two { get; } = 2;
             csbyte INumericStatic<csbyte>.Zero { get; } = 0;
 
-            csbyte IMath<csbyte>.Abs(csbyte x) => Math.Abs(x._value);
+            csbyte IMath<csbyte>.Abs(csbyte value) => Math.Abs(value._value);
             csbyte IMath<csbyte>.Acos(csbyte x) => (csbyte)Math.Acos(x._value);
-            csbyte IMath<csbyte>.Acosh(csbyte x) => (csbyte)Math.Acosh(x._value);
+            csbyte IMath<csbyte>.Acosh(csbyte x) => (csbyte)MathCompat.Acosh(x._value);
             csbyte IMath<csbyte>.Asin(csbyte x) => (csbyte)Math.Asin(x._value);
-            csbyte IMath<csbyte>.Asinh(csbyte x) => (csbyte)Math.Asinh(x._value);
+            csbyte IMath<csbyte>.Asinh(csbyte x) => (csbyte)MathCompat.Asinh(x._value);
             csbyte IMath<csbyte>.Atan(csbyte x) => (csbyte)Math.Atan(x._value);
             csbyte IMath<csbyte>.Atan2(csbyte x, csbyte y) => (csbyte)Math.Atan2(x._value, y._value);
-            csbyte IMath<csbyte>.Atanh(csbyte x) => (csbyte)Math.Atanh(x._value);
-            csbyte IMath<csbyte>.Cbrt(csbyte x) => (csbyte)Math.Cbrt(x._value);
+            csbyte IMath<csbyte>.Atanh(csbyte x) => (csbyte)MathCompat.Atanh(x._value);
+            csbyte IMath<csbyte>.Cbrt(csbyte x) => (csbyte)MathCompat.Cbrt(x._value);
             csbyte IMath<csbyte>.Ceiling(csbyte x) => x;
             csbyte IMath<csbyte>.Clamp(csbyte x, csbyte bound1, csbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             csbyte IMath<csbyte>.Cos(csbyte x) => (csbyte)Math.Cos(x._value);

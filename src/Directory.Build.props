@@ -1,12 +1,14 @@
 <Project>
 
+  <!-- All projects -->
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
   <Choose>
-    
+
+    <!-- Benchmark projects -->
     <When Condition="$(MSBuildProjectName.EndsWith('Benchmarks'))">
       <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
@@ -19,7 +21,8 @@
         <Compile Include="..\Jodo.Extensions.Benchmarking\Program.cs" Link="Program.cs" />
       </ItemGroup>
     </When>
-    
+
+    <!-- Test projects -->
     <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing'))">
       <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
@@ -32,20 +35,23 @@
         <PackageReference Include="FluentAssertions" Version="6.6.0" />
       </ItemGroup>
     </When>
+    
+    <!-- Misc projects -->
+    <When Condition="$(MSBuildProjectName.EndsWith('Benchmarking'))">
+      <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+      </PropertyGroup>
+    </When>
 
+    <!-- Package projects -->
     <Otherwise>
       <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
         <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <NoWarn>CS1591;</NoWarn>
+        <LangVersion>latest</LangVersion>
       </PropertyGroup>
-      <ItemGroup>
-        <Compile Include="..\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
-        <None Include="..\..\LICENSE.md" Link="Properties\LICENSE.md" Pack="true" PackagePath="\" />
-        <None Include="..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
-      </ItemGroup>
-      <ItemGroup Condition="'$(Configuration)' == 'Release'">
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
-      </ItemGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <AssemblyVersion>1.1.0.0</AssemblyVersion>
         <Authors>Joseph J. Short</Authors>
@@ -75,6 +81,14 @@
         <VersionPrefix>1.1.0</VersionPrefix>
         <VersionSuffix>preview3</VersionSuffix>
       </PropertyGroup>
+      <ItemGroup>
+        <Compile Include="..\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
+        <None Include="..\..\LICENSE.md" Link="Properties\LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="..\PackageIcon.png"  Link="Properties\PackageIcon.png" Pack="true" PackagePath="\" />
+      </ItemGroup>
+      <ItemGroup Condition="'$(Configuration)' == 'Release'">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+      </ItemGroup>
     </Otherwise>
 
   </Choose>

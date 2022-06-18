@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -29,6 +29,7 @@ namespace Jodo.Extensions.Numerics
     /// </summary>
     /// <typeparam name="N">The type that implements INumeric&lt;N&gt;</typeparam>
     [SuppressMessage("csharpsquid", "S3444")] // by design
+    [CLSCompliant(false)]
     public interface INumeric<N> :
             IComparable,
             IComparable<N>,
@@ -62,9 +63,16 @@ namespace Jodo.Extensions.Numerics
         N RightShift(int count);
         N Subtract(N value);
 
+        // todo:
+        // N Half();
+        // N Double();
+        // N Squared();
+        // N Cubed();
+
         string ToString(string format);
         string ToString(IFormatProvider formatProvider);
 
+#if NETSTANDARD2_1_OR_GREATER
         public static bool operator <(INumeric<N> left, INumeric<N> right) => left.IsLessThan((N)right);
         public static bool operator <=(INumeric<N> left, INumeric<N> right) => left.IsLessThanOrEqualTo((N)right);
         public static bool operator >(INumeric<N> left, INumeric<N> right) => left.IsGreaterThan((N)right);
@@ -82,5 +90,6 @@ namespace Jodo.Extensions.Numerics
         public static N operator +(INumeric<N> left, INumeric<N> right) => left.Add((N)right);
         public static N operator <<(INumeric<N> left, int right) => left.LeftShift(right);
         public static N operator >>(INumeric<N> left, int right) => left.RightShift(right);
+#endif
     }
 }

@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -64,28 +65,28 @@ namespace Jodo.Extensions.Numerics
         public static xdecimal Parse(string s, NumberStyles style) => decimal.Parse(s, style);
         public static xdecimal Parse(string s, NumberStyles style, IFormatProvider? provider) => decimal.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static implicit operator xdecimal(sbyte value) => new xdecimal(value);
+        [CLSCompliant(false)] public static implicit operator xdecimal(uint value) => new xdecimal(value);
+        [CLSCompliant(false)] public static implicit operator xdecimal(ulong value) => new xdecimal(value);
+        [CLSCompliant(false)] public static implicit operator xdecimal(ushort value) => new xdecimal(value);
         public static explicit operator xdecimal(double value) => new xdecimal((decimal)value);
         public static explicit operator xdecimal(float value) => new xdecimal((decimal)value);
         public static implicit operator xdecimal(byte value) => new xdecimal(value);
         public static implicit operator xdecimal(decimal value) => new xdecimal(value);
         public static implicit operator xdecimal(int value) => new xdecimal(value);
         public static implicit operator xdecimal(long value) => new xdecimal(value);
-        public static implicit operator xdecimal(sbyte value) => new xdecimal(value);
         public static implicit operator xdecimal(short value) => new xdecimal(value);
-        public static implicit operator xdecimal(uint value) => new xdecimal(value);
-        public static implicit operator xdecimal(ulong value) => new xdecimal(value);
-        public static implicit operator xdecimal(ushort value) => new xdecimal(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xdecimal value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static explicit operator uint(xdecimal value) => (uint)value._value;
+        [CLSCompliant(false)] public static explicit operator ulong(xdecimal value) => (ulong)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xdecimal value) => (ushort)value._value;
         public static explicit operator byte(xdecimal value) => (byte)value._value;
         public static explicit operator double(xdecimal value) => (double)value._value;
         public static explicit operator float(xdecimal value) => (float)value._value;
         public static explicit operator int(xdecimal value) => (int)value._value;
         public static explicit operator long(xdecimal value) => (long)value._value;
-        public static explicit operator sbyte(xdecimal value) => (sbyte)value._value;
         public static explicit operator short(xdecimal value) => (short)value._value;
-        public static explicit operator uint(xdecimal value) => (uint)value._value;
-        public static explicit operator ulong(xdecimal value) => (ulong)value._value;
-        public static explicit operator ushort(xdecimal value) => (ushort)value._value;
         public static implicit operator decimal(xdecimal value) => value._value;
 
         public static bool operator !=(xdecimal left, xdecimal right) => left._value != right._value;
@@ -145,7 +146,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xdecimal>,
             IStringParser<xdecimal>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xdecimal>.HasFloatingPoint { get; } = true;
             bool INumericStatic<xdecimal>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.Numerics
             xdecimal INumericStatic<xdecimal>.Zero { get; } = 0m;
 
             int IMath<xdecimal>.Sign(xdecimal x) => Math.Sign(x);
-            xdecimal IMath<xdecimal>.Abs(xdecimal x) => Math.Abs(x);
+            xdecimal IMath<xdecimal>.Abs(xdecimal value) => Math.Abs(value);
             xdecimal IMath<xdecimal>.Acos(xdecimal x) => (xdecimal)Math.Acos((double)x);
-            xdecimal IMath<xdecimal>.Acosh(xdecimal x) => (xdecimal)Math.Acosh((double)x);
+            xdecimal IMath<xdecimal>.Acosh(xdecimal x) => (xdecimal)MathCompat.Acosh((double)x);
             xdecimal IMath<xdecimal>.Asin(xdecimal x) => (xdecimal)Math.Asin((double)x);
-            xdecimal IMath<xdecimal>.Asinh(xdecimal x) => (xdecimal)Math.Asinh((double)x);
+            xdecimal IMath<xdecimal>.Asinh(xdecimal x) => (xdecimal)MathCompat.Asinh((double)x);
             xdecimal IMath<xdecimal>.Atan(xdecimal x) => (xdecimal)Math.Atan((double)x);
             xdecimal IMath<xdecimal>.Atan2(xdecimal x, xdecimal y) => (xdecimal)Math.Atan2((double)x, (double)y);
-            xdecimal IMath<xdecimal>.Atanh(xdecimal x) => (xdecimal)Math.Atanh((double)x);
-            xdecimal IMath<xdecimal>.Cbrt(xdecimal x) => (xdecimal)Math.Cbrt((double)x);
+            xdecimal IMath<xdecimal>.Atanh(xdecimal x) => (xdecimal)MathCompat.Atanh((double)x);
+            xdecimal IMath<xdecimal>.Cbrt(xdecimal x) => (xdecimal)MathCompat.Cbrt((double)x);
             xdecimal IMath<xdecimal>.Ceiling(xdecimal x) => decimal.Ceiling(x);
             xdecimal IMath<xdecimal>.Clamp(xdecimal x, xdecimal bound1, xdecimal bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xdecimal IMath<xdecimal>.Cos(xdecimal x) => (xdecimal)Math.Cos((double)x);
@@ -211,20 +212,20 @@ namespace Jodo.Extensions.Numerics
 
             xdecimal IBitConverter<xdecimal>.Read(IReadOnlyStream<byte> stream)
             {
-                var part0 = BitConverter.ToInt32(stream.Read(sizeof(int)));
-                var part1 = BitConverter.ToInt32(stream.Read(sizeof(int)));
-                var part2 = BitConverter.ToInt32(stream.Read(sizeof(int)));
-                var part3 = BitConverter.ToInt32(stream.Read(sizeof(int)));
+                int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
+                int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
+                int part2 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
+                int part3 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
 
-                var sign = (part3 & 0x80000000) != 0;
-                var scale = (byte)((part3 >> 16) & 0x7F);
+                bool sign = (part3 & 0x80000000) != 0;
+                byte scale = (byte)((part3 >> 16) & 0x7F);
 
                 return new decimal(part0, part1, part2, sign, scale);
             }
 
             void IBitConverter<xdecimal>.Write(xdecimal value, IWriteOnlyStream<byte> stream)
             {
-                var parts = decimal.GetBits(value);
+                int[]? parts = decimal.GetBits(value);
                 stream.Write(BitConverter.GetBytes(parts[0]));
                 stream.Write(BitConverter.GetBytes(parts[1]));
                 stream.Write(BitConverter.GetBytes(parts[2]));

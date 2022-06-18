@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -65,28 +66,28 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cdecimal Parse(string s, NumberStyles style) => decimal.Parse(s, style);
         public static cdecimal Parse(string s, NumberStyles style, IFormatProvider? provider) => decimal.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static implicit operator cdecimal(sbyte value) => new cdecimal(value);
+        [CLSCompliant(false)] public static implicit operator cdecimal(uint value) => new cdecimal(value);
+        [CLSCompliant(false)] public static implicit operator cdecimal(ulong value) => new cdecimal(value);
+        [CLSCompliant(false)] public static implicit operator cdecimal(ushort value) => new cdecimal(value);
         public static explicit operator cdecimal(double value) => new cdecimal(CheckedConvert.ToDecimal(value));
         public static explicit operator cdecimal(float value) => new cdecimal(CheckedConvert.ToDecimal(value));
         public static implicit operator cdecimal(byte value) => new cdecimal(value);
         public static implicit operator cdecimal(decimal value) => new cdecimal(value);
         public static implicit operator cdecimal(int value) => new cdecimal(value);
         public static implicit operator cdecimal(long value) => new cdecimal(value);
-        public static implicit operator cdecimal(sbyte value) => new cdecimal(value);
         public static implicit operator cdecimal(short value) => new cdecimal(value);
-        public static implicit operator cdecimal(uint value) => new cdecimal(value);
-        public static implicit operator cdecimal(ulong value) => new cdecimal(value);
-        public static implicit operator cdecimal(ushort value) => new cdecimal(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(cdecimal value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator uint(cdecimal value) => CheckedConvert.ToUInt32(value._value);
+        [CLSCompliant(false)] public static explicit operator ulong(cdecimal value) => CheckedConvert.ToUInt64(value._value);
+        [CLSCompliant(false)] public static explicit operator ushort(cdecimal value) => CheckedConvert.ToUInt16(value._value);
         public static explicit operator byte(cdecimal value) => CheckedConvert.ToByte(value._value);
         public static explicit operator double(cdecimal value) => CheckedConvert.ToDouble(value._value);
         public static explicit operator float(cdecimal value) => CheckedConvert.ToSingle(value._value);
         public static explicit operator int(cdecimal value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator long(cdecimal value) => CheckedConvert.ToInt64(value._value);
-        public static explicit operator sbyte(cdecimal value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(cdecimal value) => CheckedConvert.ToInt16(value._value);
-        public static explicit operator uint(cdecimal value) => CheckedConvert.ToUInt32(value._value);
-        public static explicit operator ulong(cdecimal value) => CheckedConvert.ToUInt64(value._value);
-        public static explicit operator ushort(cdecimal value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator decimal(cdecimal value) => value._value;
 
         public static bool operator !=(cdecimal left, cdecimal right) => left._value != right._value;
@@ -146,7 +147,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<cdecimal>,
             IStringParser<cdecimal>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<cdecimal>.HasFloatingPoint { get; } = true;
             bool INumericStatic<cdecimal>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cdecimal INumericStatic<cdecimal>.Two { get; } = 2m;
             cdecimal INumericStatic<cdecimal>.Zero { get; } = 0m;
 
-            cdecimal IMath<cdecimal>.Abs(cdecimal x) => Math.Abs(x._value);
+            cdecimal IMath<cdecimal>.Abs(cdecimal value) => Math.Abs(value._value);
             cdecimal IMath<cdecimal>.Acos(cdecimal x) => CheckedCast.ToDecimal(Math.Acos(CheckedCast.ToDouble(x._value)));
-            cdecimal IMath<cdecimal>.Acosh(cdecimal x) => CheckedCast.ToDecimal(Math.Acosh(CheckedCast.ToDouble(x._value)));
+            cdecimal IMath<cdecimal>.Acosh(cdecimal x) => CheckedCast.ToDecimal(MathCompat.Acosh(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Asin(cdecimal x) => CheckedCast.ToDecimal(Math.Asin(CheckedCast.ToDouble(x._value)));
-            cdecimal IMath<cdecimal>.Asinh(cdecimal x) => CheckedCast.ToDecimal(Math.Asinh(CheckedCast.ToDouble(x._value)));
+            cdecimal IMath<cdecimal>.Asinh(cdecimal x) => CheckedCast.ToDecimal(MathCompat.Asinh(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Atan(cdecimal x) => CheckedCast.ToDecimal(Math.Atan(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Atan2(cdecimal x, cdecimal y) => CheckedCast.ToDecimal(Math.Atan2(CheckedCast.ToDouble(x._value), CheckedCast.ToDouble(y._value)));
-            cdecimal IMath<cdecimal>.Atanh(cdecimal x) => CheckedCast.ToDecimal(Math.Atanh(CheckedCast.ToDouble(x._value)));
-            cdecimal IMath<cdecimal>.Cbrt(cdecimal x) => CheckedCast.ToDecimal(Math.Cbrt(CheckedCast.ToDouble(x._value)));
+            cdecimal IMath<cdecimal>.Atanh(cdecimal x) => CheckedCast.ToDecimal(MathCompat.Atanh(CheckedCast.ToDouble(x._value)));
+            cdecimal IMath<cdecimal>.Cbrt(cdecimal x) => CheckedCast.ToDecimal(MathCompat.Cbrt(CheckedCast.ToDouble(x._value)));
             cdecimal IMath<cdecimal>.Ceiling(cdecimal x) => decimal.Ceiling(x._value);
             cdecimal IMath<cdecimal>.Clamp(cdecimal x, cdecimal bound1, cdecimal bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cdecimal IMath<cdecimal>.Cos(cdecimal x) => CheckedCast.ToDecimal(Math.Cos(CheckedCast.ToDouble(x._value)));
@@ -212,20 +213,20 @@ namespace Jodo.Extensions.CheckedNumerics
 
             cdecimal IBitConverter<cdecimal>.Read(IReadOnlyStream<byte> stream)
             {
-                var part0 = BitConverter.ToInt32(stream.Read(sizeof(int)));
-                var part1 = BitConverter.ToInt32(stream.Read(sizeof(int)));
-                var part2 = BitConverter.ToInt32(stream.Read(sizeof(int)));
-                var part3 = BitConverter.ToInt32(stream.Read(sizeof(int)));
+                int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
+                int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
+                int part2 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
+                int part3 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
 
-                var sign = (part3 & 0x80000000) != 0;
-                var scale = (byte)((part3 >> 16) & 0x7F);
+                bool sign = (part3 & 0x80000000) != 0;
+                byte scale = (byte)((part3 >> 16) & 0x7F);
 
                 return new decimal(part0, part1, part2, sign, scale);
             }
 
             void IBitConverter<cdecimal>.Write(cdecimal value, IWriteOnlyStream<byte> stream)
             {
-                var parts = decimal.GetBits(value);
+                int[]? parts = decimal.GetBits(value);
                 stream.Write(BitConverter.GetBytes(parts[0]));
                 stream.Write(BitConverter.GetBytes(parts[1]));
                 stream.Write(BitConverter.GetBytes(parts[2]));

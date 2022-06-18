@@ -26,9 +26,10 @@ namespace Jodo.Extensions.Primitives
     {
         private static readonly IBitConverter<T> Default = default(T).GetInstance();
 
+#if NETSTANDARD2_1_OR_GREATER
         public static ReadOnlySpan<byte> GetBytes(T value)
         {
-            var list = new List<byte>();
+            List<byte>? list = new List<byte>();
             Default.Write(value, list.AsWriteOnlyStream());
             return list.ToArray();
         }
@@ -37,6 +38,7 @@ namespace Jodo.Extensions.Primitives
         {
             return Default.Read(bytes.ToArray().AsReadOnlyStream());
         }
+#endif
 
         public static T FromBytes(IReadOnlyList<byte> bytes)
         {

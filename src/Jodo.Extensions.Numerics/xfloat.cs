@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -56,14 +57,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool IsFinite(xfloat f) => float.IsFinite(f);
+        public static bool IsFinite(xfloat f) => SingleCompat.IsFinite(f);
         public static bool IsInfinity(xfloat f) => float.IsInfinity(f);
         public static bool IsNaN(xfloat f) => float.IsNaN(f);
-        public static bool IsNegative(xfloat f) => float.IsNegative(f);
+        public static bool IsNegative(xfloat f) => SingleCompat.IsNegative(f);
         public static bool IsNegativeInfinity(xfloat f) => float.IsNegativeInfinity(f);
-        public static bool IsNormal(xfloat f) => float.IsNormal(f);
+        public static bool IsNormal(xfloat f) => SingleCompat.IsNormal(f);
         public static bool IsPositiveInfinity(xfloat f) => float.IsPositiveInfinity(f);
-        public static bool IsSubnormal(xfloat f) => float.IsSubnormal(f);
+        public static bool IsSubnormal(xfloat f) => SingleCompat.IsSubnormal(f);
 
         public static bool TryParse(string s, IFormatProvider? provider, out xfloat result) => Try.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out xfloat result) => Try.Run(() => Parse(s, style, provider), out result);
@@ -74,27 +75,27 @@ namespace Jodo.Extensions.Numerics
         public static xfloat Parse(string s, NumberStyles style) => float.Parse(s, style);
         public static xfloat Parse(string s, NumberStyles style, IFormatProvider? provider) => float.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static implicit operator xfloat(sbyte value) => new xfloat(value);
+        [CLSCompliant(false)] public static implicit operator xfloat(uint value) => new xfloat(value);
+        [CLSCompliant(false)] public static implicit operator xfloat(ulong value) => new xfloat(value);
+        [CLSCompliant(false)] public static implicit operator xfloat(ushort value) => new xfloat(value);
         public static explicit operator xfloat(decimal value) => new xfloat((float)value);
         public static explicit operator xfloat(double value) => new xfloat((float)value);
         public static implicit operator xfloat(byte value) => new xfloat(value);
         public static implicit operator xfloat(float value) => new xfloat(value);
         public static implicit operator xfloat(int value) => new xfloat(value);
         public static implicit operator xfloat(long value) => new xfloat(value);
-        public static implicit operator xfloat(sbyte value) => new xfloat(value);
         public static implicit operator xfloat(short value) => new xfloat(value);
-        public static implicit operator xfloat(uint value) => new xfloat(value);
-        public static implicit operator xfloat(ulong value) => new xfloat(value);
-        public static implicit operator xfloat(ushort value) => new xfloat(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xfloat value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static explicit operator uint(xfloat value) => (uint)value._value;
+        [CLSCompliant(false)] public static explicit operator ulong(xfloat value) => (ulong)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xfloat value) => (ushort)value._value;
         public static explicit operator byte(xfloat value) => (byte)value._value;
         public static explicit operator decimal(xfloat value) => (decimal)value._value;
         public static explicit operator int(xfloat value) => (int)value._value;
         public static explicit operator long(xfloat value) => (long)value._value;
-        public static explicit operator sbyte(xfloat value) => (sbyte)value._value;
         public static explicit operator short(xfloat value) => (short)value._value;
-        public static explicit operator uint(xfloat value) => (uint)value._value;
-        public static explicit operator ulong(xfloat value) => (ulong)value._value;
-        public static explicit operator ushort(xfloat value) => (ushort)value._value;
         public static implicit operator double(xfloat value) => value._value;
         public static implicit operator float(xfloat value) => value._value;
 
@@ -155,7 +156,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xfloat>,
             IStringParser<xfloat>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xfloat>.HasFloatingPoint { get; } = true;
             bool INumericStatic<xfloat>.HasInfinity { get; } = true;
@@ -181,7 +182,7 @@ namespace Jodo.Extensions.Numerics
             xfloat INumericStatic<xfloat>.Zero { get; } = 0f;
 
             int IMath<xfloat>.Sign(xfloat x) => Math.Sign(x._value);
-            xfloat IMath<xfloat>.Abs(xfloat x) => MathF.Abs(x._value);
+            xfloat IMath<xfloat>.Abs(xfloat value) => MathF.Abs(value._value);
             xfloat IMath<xfloat>.Acos(xfloat x) => MathF.Acos(x._value);
             xfloat IMath<xfloat>.Acosh(xfloat x) => MathF.Acosh(x._value);
             xfloat IMath<xfloat>.Asin(xfloat x) => MathF.Asin(x._value);
@@ -219,7 +220,7 @@ namespace Jodo.Extensions.Numerics
             xfloat IMath<xfloat>.Tau { get; } = MathF.PI * 2;
             xfloat IMath<xfloat>.Truncate(xfloat x) => MathF.Truncate(x._value);
 
-            xfloat IBitConverter<xfloat>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)));
+            xfloat IBitConverter<xfloat>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
             void IBitConverter<xfloat>.Write(xfloat value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             xfloat IRandom<xfloat>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);

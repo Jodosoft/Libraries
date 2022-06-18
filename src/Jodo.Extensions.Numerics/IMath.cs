@@ -28,8 +28,7 @@ namespace Jodo.Extensions.Numerics
         N Tau { get; }
 
         int Sign(N x);
-
-        N Abs(N x);
+        N Abs(N value);
         N Acos(N x);
         N Acosh(N x);
         N Asin(N x);

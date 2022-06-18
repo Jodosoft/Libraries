@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -64,29 +65,29 @@ namespace Jodo.Extensions.Numerics
         public static xulong Parse(string s, NumberStyles style) => ulong.Parse(s, style);
         public static xulong Parse(string s, NumberStyles style, IFormatProvider? provider) => ulong.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator xulong(sbyte value) => new xulong((ulong)value);
+        [CLSCompliant(false)] public static implicit operator xulong(uint value) => new xulong(value);
+        [CLSCompliant(false)] public static implicit operator xulong(ulong value) => new xulong(value);
+        [CLSCompliant(false)] public static implicit operator xulong(ushort value) => new xulong(value);
         public static explicit operator xulong(decimal value) => new xulong((ulong)value);
         public static explicit operator xulong(double value) => new xulong((ulong)value);
         public static explicit operator xulong(float value) => new xulong((ulong)value);
         public static explicit operator xulong(int value) => new xulong((ulong)value);
         public static explicit operator xulong(long value) => new xulong((ulong)value);
-        public static explicit operator xulong(sbyte value) => new xulong((ulong)value);
         public static explicit operator xulong(short value) => new xulong((ulong)value);
         public static implicit operator xulong(byte value) => new xulong(value);
-        public static implicit operator xulong(uint value) => new xulong(value);
-        public static implicit operator xulong(ulong value) => new xulong(value);
-        public static implicit operator xulong(ushort value) => new xulong(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xulong value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static explicit operator uint(xulong value) => (uint)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xulong value) => (ushort)value._value;
+        [CLSCompliant(false)] public static implicit operator ulong(xulong value) => value._value;
         public static explicit operator byte(xulong value) => (byte)value._value;
         public static explicit operator int(xulong value) => (int)value._value;
         public static explicit operator long(xulong value) => (long)value._value;
-        public static explicit operator sbyte(xulong value) => (sbyte)value._value;
         public static explicit operator short(xulong value) => (short)value._value;
-        public static explicit operator uint(xulong value) => (uint)value._value;
-        public static explicit operator ushort(xulong value) => (ushort)value._value;
         public static implicit operator decimal(xulong value) => value._value;
         public static implicit operator double(xulong value) => value._value;
         public static implicit operator float(xulong value) => value._value;
-        public static implicit operator ulong(xulong value) => value._value;
 
         public static bool operator !=(xulong left, xulong right) => left._value != right._value;
         public static bool operator <(xulong left, xulong right) => left._value < right._value;
@@ -145,7 +146,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xulong>,
             IStringParser<xulong>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xulong>.HasFloatingPoint { get; } = false;
             bool INumericStatic<xulong>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.Numerics
             xulong INumericStatic<xulong>.Zero { get; } = (xulong)0;
 
             int IMath<xulong>.Sign(xulong x) => x._value == 0 ? 0 : 1;
-            xulong IMath<xulong>.Abs(xulong x) => x;
+            xulong IMath<xulong>.Abs(xulong value) => value;
             xulong IMath<xulong>.Acos(xulong x) => (xulong)Math.Acos(x);
-            xulong IMath<xulong>.Acosh(xulong x) => (xulong)Math.Acosh(x);
+            xulong IMath<xulong>.Acosh(xulong x) => (xulong)MathCompat.Acosh(x);
             xulong IMath<xulong>.Asin(xulong x) => (xulong)Math.Asin(x);
-            xulong IMath<xulong>.Asinh(xulong x) => (xulong)Math.Asinh(x);
+            xulong IMath<xulong>.Asinh(xulong x) => (xulong)MathCompat.Asinh(x);
             xulong IMath<xulong>.Atan(xulong x) => (xulong)Math.Atan(x);
             xulong IMath<xulong>.Atan2(xulong y, xulong x) => (xulong)Math.Atan2(y, x);
-            xulong IMath<xulong>.Atanh(xulong x) => (xulong)Math.Atanh(x);
-            xulong IMath<xulong>.Cbrt(xulong x) => (xulong)Math.Cbrt(x);
+            xulong IMath<xulong>.Atanh(xulong x) => (xulong)MathCompat.Atanh(x);
+            xulong IMath<xulong>.Cbrt(xulong x) => (xulong)MathCompat.Cbrt(x);
             xulong IMath<xulong>.Ceiling(xulong x) => x;
             xulong IMath<xulong>.Clamp(xulong x, xulong bound1, xulong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xulong IMath<xulong>.Cos(xulong x) => (xulong)Math.Cos(x);
@@ -209,7 +210,7 @@ namespace Jodo.Extensions.Numerics
             xulong IMath<xulong>.Tau { get; } = (xulong)6;
             xulong IMath<xulong>.Truncate(xulong x) => x;
 
-            xulong IBitConverter<xulong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)));
+            xulong IBitConverter<xulong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
             void IBitConverter<xulong>.Write(xulong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             xulong IRandom<xulong>.Next(Random random) => random.NextUInt64();

@@ -20,21 +20,22 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using Jodo.Extensions.Primitives;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
     [SuppressMessage("csharpsquid", "S3358")]
     public static class CheckedArithmetic
     {
+        [CLSCompliant(false)] public static sbyte Add(sbyte x, sbyte y) { try { checked { return (sbyte)(x + y); } } catch (OverflowException) { return y > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        [CLSCompliant(false)] public static uint Add(uint x, uint y) { try { checked { return x + y; } } catch (OverflowException) { return uint.MaxValue; } }
+        [CLSCompliant(false)] public static ulong Add(ulong x, ulong y) { try { checked { return x + y; } } catch (OverflowException) { return ulong.MaxValue; } }
+        [CLSCompliant(false)] public static ushort Add(ushort x, ushort y) { try { checked { return (ushort)(x + y); } } catch (OverflowException) { return ushort.MaxValue; } }
         public static byte Add(byte x, byte y) { try { checked { return (byte)(x + y); } } catch (OverflowException) { return byte.MaxValue; } }
-        public static int Add(int x, int y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? int.MaxValue : int.MinValue; } }
         public static decimal Add(decimal x, decimal y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? decimal.MaxValue : decimal.MinValue; } }
+        public static int Add(int x, int y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? int.MaxValue : int.MinValue; } }
         public static long Add(long x, long y) { try { checked { return x + y; } } catch (OverflowException) { return y > 0 ? long.MaxValue : long.MinValue; } }
-        public static sbyte Add(sbyte x, sbyte y) { try { checked { return (sbyte)(x + y); } } catch (OverflowException) { return y > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
         public static short Add(short x, short y) { try { checked { return (short)(x + y); } } catch (OverflowException) { return y > 0 ? short.MaxValue : short.MinValue; } }
-        public static uint Add(uint x, uint y) { try { checked { return x + y; } } catch (OverflowException) { return uint.MaxValue; } }
-        public static ulong Add(ulong x, ulong y) { try { checked { return x + y; } } catch (OverflowException) { return ulong.MaxValue; } }
-        public static ushort Add(ushort x, ushort y) { try { checked { return (ushort)(x + y); } } catch (OverflowException) { return ushort.MaxValue; } }
 
         public static float Add(float x, float y)
         {
@@ -54,15 +55,15 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        [CLSCompliant(false)] public static sbyte Divide(sbyte x, sbyte y) { try { return (sbyte)(x / y); } catch (DivideByZeroException) { return sbyte.MaxValue; } }
+        [CLSCompliant(false)] public static uint Divide(uint x, uint y) { try { return x / y; } catch (DivideByZeroException) { return uint.MaxValue; } }
+        [CLSCompliant(false)] public static ulong Divide(ulong x, ulong y) { try { return x / y; } catch (DivideByZeroException) { return ulong.MaxValue; } }
+        [CLSCompliant(false)] public static ushort Divide(ushort x, ushort y) { try { return (ushort)(x / y); } catch (DivideByZeroException) { return ushort.MaxValue; } }
         public static byte Divide(byte x, byte y) { try { return (byte)(x / y); } catch (DivideByZeroException) { return byte.MaxValue; } }
-        public static int Divide(int x, int y) { try { return x / y; } catch (DivideByZeroException) { return int.MaxValue; } }
         public static decimal Divide(decimal x, decimal y) { try { return x / y; } catch (DivideByZeroException) { return decimal.MaxValue; } }
+        public static int Divide(int x, int y) { try { return x / y; } catch (DivideByZeroException) { return int.MaxValue; } }
         public static long Divide(long x, long y) { try { return x / y; } catch (DivideByZeroException) { return long.MaxValue; } }
-        public static sbyte Divide(sbyte x, sbyte y) { try { return (sbyte)(x / y); } catch (DivideByZeroException) { return sbyte.MaxValue; } }
         public static short Divide(short x, short y) { try { return (short)(x / y); } catch (DivideByZeroException) { return short.MaxValue; } }
-        public static uint Divide(uint x, uint y) { try { return x / y; } catch (DivideByZeroException) { return uint.MaxValue; } }
-        public static ulong Divide(ulong x, ulong y) { try { return x / y; } catch (DivideByZeroException) { return ulong.MaxValue; } }
-        public static ushort Divide(ushort x, ushort y) { try { return (ushort)(x / y); } catch (DivideByZeroException) { return ushort.MaxValue; } }
 
         public static float Divide(float x, float y)
         {
@@ -82,15 +83,15 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        [CLSCompliant(false)] public static sbyte Multiply(sbyte x, sbyte y) { try { checked { return (sbyte)(x * y); } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? sbyte.MaxValue : sbyte.MinValue; } }
+        [CLSCompliant(false)] public static uint Multiply(uint x, uint y) { try { checked { return x * y; } } catch (OverflowException) { return uint.MaxValue; } }
+        [CLSCompliant(false)] public static ulong Multiply(ulong x, ulong y) { try { checked { return x * y; } } catch (OverflowException) { return ulong.MaxValue; } }
+        [CLSCompliant(false)] public static ushort Multiply(ushort x, ushort y) { try { checked { return (ushort)(x * y); } } catch (OverflowException) { return ushort.MaxValue; } }
         public static byte Multiply(byte x, byte y) { try { checked { return (byte)(x * y); } } catch (OverflowException) { return byte.MaxValue; } }
-        public static int Multiply(int x, int y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? int.MaxValue : int.MinValue; } }
         public static decimal Multiply(decimal x, decimal y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? decimal.MaxValue : decimal.MinValue; } }
+        public static int Multiply(int x, int y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? int.MaxValue : int.MinValue; } }
         public static long Multiply(long x, long y) { try { checked { return x * y; } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? long.MaxValue : long.MinValue; } }
-        public static sbyte Multiply(sbyte x, sbyte y) { try { checked { return (sbyte)(x * y); } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? sbyte.MaxValue : sbyte.MinValue; } }
         public static short Multiply(short x, short y) { try { checked { return (short)(x * y); } } catch (OverflowException) { return (x > 0 && y > 0) || (x < 0 && y < 0) ? short.MaxValue : short.MinValue; } }
-        public static uint Multiply(uint x, uint y) { try { checked { return x * y; } } catch (OverflowException) { return uint.MaxValue; } }
-        public static ulong Multiply(ulong x, ulong y) { try { checked { return x * y; } } catch (OverflowException) { return ulong.MaxValue; } }
-        public static ushort Multiply(ushort x, ushort y) { try { checked { return (ushort)(x * y); } } catch (OverflowException) { return ushort.MaxValue; } }
 
         public static float Multiply(float x, float y)
         {
@@ -110,15 +111,15 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        [CLSCompliant(false)] public static sbyte Remainder(sbyte x, sbyte y) { try { return (sbyte)(x % y); } catch (DivideByZeroException) { return 0; } }
+        [CLSCompliant(false)] public static uint Remainder(uint x, uint y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
+        [CLSCompliant(false)] public static ulong Remainder(ulong x, ulong y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
+        [CLSCompliant(false)] public static ushort Remainder(ushort x, ushort y) { try { return (ushort)(x % y); } catch (DivideByZeroException) { return 0; } }
         public static byte Remainder(byte x, byte y) { try { return (byte)(x % y); } catch (DivideByZeroException) { return 0; } }
-        public static int Remainder(int x, int y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
         public static decimal Remainder(decimal x, decimal y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
+        public static int Remainder(int x, int y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
         public static long Remainder(long x, long y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
-        public static sbyte Remainder(sbyte x, sbyte y) { try { return (sbyte)(x % y); } catch (DivideByZeroException) { return 0; } }
         public static short Remainder(short x, short y) { try { return (short)(x % y); } catch (DivideByZeroException) { return 0; } }
-        public static uint Remainder(uint x, uint y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
-        public static ulong Remainder(ulong x, ulong y) { try { return x % y; } catch (DivideByZeroException) { return 0; } }
-        public static ushort Remainder(ushort x, ushort y) { try { return (ushort)(x % y); } catch (DivideByZeroException) { return 0; } }
 
         public static float Remainder(float x, float y)
         {
@@ -138,15 +139,15 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        [CLSCompliant(false)] public static sbyte Subtract(sbyte x, sbyte y) { try { checked { return (sbyte)(x - y); } } catch (OverflowException) { return y < 0 ? sbyte.MaxValue : sbyte.MinValue; } }
+        [CLSCompliant(false)] public static uint Subtract(uint x, uint y) { try { checked { return x - y; } } catch (OverflowException) { return uint.MinValue; } }
+        [CLSCompliant(false)] public static ulong Subtract(ulong x, ulong y) { try { checked { return x - y; } } catch (OverflowException) { return ulong.MinValue; } }
+        [CLSCompliant(false)] public static ushort Subtract(ushort x, ushort y) { try { checked { return (ushort)(x - y); } } catch (OverflowException) { return ushort.MinValue; } }
         public static byte Subtract(byte x, byte y) { try { checked { return (byte)(x - y); } } catch (OverflowException) { return byte.MinValue; } }
-        public static int Subtract(int x, int y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? int.MaxValue : int.MinValue; } }
         public static decimal Subtract(decimal x, decimal y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? decimal.MaxValue : decimal.MinValue; } }
+        public static int Subtract(int x, int y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? int.MaxValue : int.MinValue; } }
         public static long Subtract(long x, long y) { try { checked { return x - y; } } catch (OverflowException) { return y < 0 ? long.MaxValue : long.MinValue; } }
-        public static sbyte Subtract(sbyte x, sbyte y) { try { checked { return (sbyte)(x - y); } } catch (OverflowException) { return y < 0 ? sbyte.MaxValue : sbyte.MinValue; } }
         public static short Subtract(short x, short y) { try { checked { return (short)(x - y); } } catch (OverflowException) { return y < 0 ? short.MaxValue : short.MinValue; } }
-        public static uint Subtract(uint x, uint y) { try { checked { return x - y; } } catch (OverflowException) { return uint.MinValue; } }
-        public static ulong Subtract(ulong x, ulong y) { try { checked { return x - y; } } catch (OverflowException) { return ulong.MinValue; } }
-        public static ushort Subtract(ushort x, ushort y) { try { checked { return (ushort)(x - y); } } catch (OverflowException) { return ushort.MinValue; } }
 
         public static float Subtract(float x, float y)
         {
@@ -170,7 +171,7 @@ namespace Jodo.Extensions.CheckedNumerics
         {
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            byte result = x;
             for (byte i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -179,11 +180,12 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        [CLSCompliant(false)]
         public static ushort Pow(ushort x, ushort y)
         {
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            ushort result = x;
             for (ushort i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -192,11 +194,12 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        [CLSCompliant(false)]
         public static uint Pow(uint x, uint y)
         {
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            uint result = x;
             for (uint i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -205,11 +208,12 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        [CLSCompliant(false)]
         public static ulong Pow(ulong x, ulong y)
         {
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            ulong result = x;
             for (ulong i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -218,12 +222,13 @@ namespace Jodo.Extensions.CheckedNumerics
             return result;
         }
 
+        [CLSCompliant(false)]
         public static sbyte Pow(sbyte x, sbyte y)
         {
             if (y < 0) return 0;
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            sbyte result = x;
             for (sbyte i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -237,7 +242,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y < 0) return 0;
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            short result = x;
             for (short i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -251,7 +256,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y < 0) return 0;
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            int result = x;
             for (int i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -265,7 +270,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y < 0) return 0;
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            decimal result = x;
             for (int i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -279,7 +284,7 @@ namespace Jodo.Extensions.CheckedNumerics
             if (y < 0) return 0;
             if (y == 0) return 1;
             if (y == 1) return x;
-            var result = x;
+            long result = x;
             for (long i = 1; i < y; i++)
             {
                 try { checked { result *= x; } }
@@ -290,7 +295,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static float Pow(float x, float y)
         {
-            var result = MathF.Pow(x, y);
+            float result = MathF.Pow(x, y);
             if (float.IsNaN(result)) return 0f;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
             if (float.IsNegativeInfinity(result)) return float.MinValue;
@@ -299,7 +304,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static double Pow(double x, double y)
         {
-            var result = Math.Pow(x, y);
+            double result = Math.Pow(x, y);
             if (double.IsNaN(result)) return 0d;
             if (double.IsPositiveInfinity(result)) return double.MaxValue;
             if (double.IsNegativeInfinity(result)) return double.MinValue;
@@ -308,15 +313,16 @@ namespace Jodo.Extensions.CheckedNumerics
 
         public static long ScaledMultiply(long scaledLeft, long scaledRight, long scalingFactor)
         {
-            var result = new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor;
+            BigInteger result = new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor;
             if (result < long.MinValue) return long.MinValue;
             if (result > long.MaxValue) return long.MaxValue;
             return (long)result;
         }
 
+        [CLSCompliant(false)]
         public static ulong ScaledMultiply(ulong scaledLeft, ulong scaledRight, ulong scalingFactor)
         {
-            var result = new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor;
+            BigInteger result = new BigInteger(scaledLeft) * new BigInteger(scaledRight) / scalingFactor;
             if (result < ulong.MinValue) return ulong.MinValue;
             if (result > ulong.MaxValue) return ulong.MaxValue;
             return (ulong)result;
@@ -325,16 +331,17 @@ namespace Jodo.Extensions.CheckedNumerics
         public static long ScaledDivide(long scaledLeft, long scaledRight, long scalingFactor)
         {
             if (scaledRight == 0) return long.MaxValue;
-            var result = new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight);
+            BigInteger result = new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight);
             if (result < long.MinValue) return long.MinValue;
             if (result > long.MaxValue) return long.MaxValue;
             return (long)result;
         }
 
+        [CLSCompliant(false)]
         public static ulong ScaledDivide(ulong scaledLeft, ulong scaledRight, ulong scalingFactor)
         {
             if (scaledRight == 0) return ulong.MaxValue;
-            var result = new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight);
+            BigInteger result = new BigInteger(scaledLeft) * scalingFactor / new BigInteger(scaledRight);
             if (result < ulong.MinValue) return ulong.MinValue;
             if (result > ulong.MaxValue) return ulong.MaxValue;
             return (ulong)result;

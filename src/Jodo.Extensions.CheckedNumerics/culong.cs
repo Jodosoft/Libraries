@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -65,29 +66,29 @@ namespace Jodo.Extensions.CheckedNumerics
         public static culong Parse(string s, NumberStyles style) => ulong.Parse(s, style);
         public static culong Parse(string s, NumberStyles style, IFormatProvider? provider) => ulong.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator culong(sbyte value) => new culong(CheckedConvert.ToUInt64(value));
+        [CLSCompliant(false)] public static implicit operator culong(uint value) => new culong(value);
+        [CLSCompliant(false)] public static implicit operator culong(ulong value) => new culong(value);
+        [CLSCompliant(false)] public static implicit operator culong(ushort value) => new culong(value);
         public static explicit operator culong(decimal value) => new culong(CheckedTruncate.ToUInt64(value));
         public static explicit operator culong(double value) => new culong(CheckedTruncate.ToUInt64(value));
         public static explicit operator culong(float value) => new culong(CheckedTruncate.ToUInt64(value));
         public static explicit operator culong(int value) => new culong(CheckedConvert.ToUInt64(value));
         public static explicit operator culong(long value) => new culong(CheckedConvert.ToUInt64(value));
-        public static explicit operator culong(sbyte value) => new culong(CheckedConvert.ToUInt64(value));
         public static explicit operator culong(short value) => new culong(CheckedConvert.ToUInt64(value));
         public static implicit operator culong(byte value) => new culong(value);
-        public static implicit operator culong(uint value) => new culong(value);
-        public static implicit operator culong(ulong value) => new culong(value);
-        public static implicit operator culong(ushort value) => new culong(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(culong value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator uint(culong value) => CheckedConvert.ToUInt32(value._value);
+        [CLSCompliant(false)] public static explicit operator ushort(culong value) => CheckedConvert.ToUInt16(value._value);
+        [CLSCompliant(false)] public static implicit operator ulong(culong value) => value._value;
         public static explicit operator byte(culong value) => CheckedConvert.ToByte(value._value);
         public static explicit operator int(culong value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator long(culong value) => CheckedConvert.ToInt64(value._value);
-        public static explicit operator sbyte(culong value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(culong value) => CheckedConvert.ToInt16(value._value);
-        public static explicit operator uint(culong value) => CheckedConvert.ToUInt32(value._value);
-        public static explicit operator ushort(culong value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator decimal(culong value) => value._value;
         public static implicit operator double(culong value) => value._value;
         public static implicit operator float(culong value) => value._value;
-        public static implicit operator ulong(culong value) => value._value;
 
         public static bool operator !=(culong left, culong right) => left._value != right._value;
         public static bool operator <(culong left, culong right) => left._value < right._value;
@@ -146,7 +147,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<culong>,
             IStringParser<culong>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<culong>.HasFloatingPoint { get; } = false;
             bool INumericStatic<culong>.HasInfinity { get; } = false;
@@ -172,15 +173,15 @@ namespace Jodo.Extensions.CheckedNumerics
             culong INumericStatic<culong>.Zero { get; } = 0;
 
             int IMath<culong>.Sign(culong x) => x._value == 0 ? 0 : 1;
-            culong IMath<culong>.Abs(culong x) => x;
+            culong IMath<culong>.Abs(culong value) => value;
             culong IMath<culong>.Acos(culong x) => (culong)Math.Acos(x._value);
-            culong IMath<culong>.Acosh(culong x) => (culong)Math.Acosh(x._value);
+            culong IMath<culong>.Acosh(culong x) => (culong)MathCompat.Acosh(x._value);
             culong IMath<culong>.Asin(culong x) => (culong)Math.Asin(x._value);
-            culong IMath<culong>.Asinh(culong x) => (culong)Math.Asinh(x._value);
+            culong IMath<culong>.Asinh(culong x) => (culong)MathCompat.Asinh(x._value);
             culong IMath<culong>.Atan(culong x) => (culong)Math.Atan(x._value);
             culong IMath<culong>.Atan2(culong x, culong y) => (culong)Math.Atan2(x._value, y._value);
-            culong IMath<culong>.Atanh(culong x) => (culong)Math.Atanh(x._value);
-            culong IMath<culong>.Cbrt(culong x) => (culong)Math.Cbrt(x._value);
+            culong IMath<culong>.Atanh(culong x) => (culong)MathCompat.Atanh(x._value);
+            culong IMath<culong>.Cbrt(culong x) => (culong)MathCompat.Cbrt(x._value);
             culong IMath<culong>.Ceiling(culong x) => x;
             culong IMath<culong>.Clamp(culong x, culong bound1, culong bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             culong IMath<culong>.Cos(culong x) => (culong)Math.Cos(x._value);
@@ -210,7 +211,7 @@ namespace Jodo.Extensions.CheckedNumerics
             culong IMath<culong>.Tau { get; } = 6;
             culong IMath<culong>.Truncate(culong x) => x;
 
-            culong IBitConverter<culong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)));
+            culong IBitConverter<culong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
             void IBitConverter<culong>.Write(culong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             culong IRandom<culong>.Next(Random random) => random.NextUInt64();

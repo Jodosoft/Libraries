@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -64,8 +65,8 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool IsNormal(cfloat d) => float.IsNormal(d._value);
-        public static bool IsSubnormal(cfloat d) => float.IsSubnormal(d._value);
+        public static bool IsNormal(cfloat d) => SingleCompat.IsNormal(d._value);
+        public static bool IsSubnormal(cfloat d) => SingleCompat.IsSubnormal(d._value);
         public static bool TryParse(string s, IFormatProvider? provider, out cfloat result) => Try.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cfloat result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cfloat result) => Try.Run(() => Parse(s, style), out result);
@@ -75,27 +76,27 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cfloat Parse(string s, NumberStyles style) => float.Parse(s, style);
         public static cfloat Parse(string s, NumberStyles style, IFormatProvider? provider) => float.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static implicit operator cfloat(sbyte value) => new cfloat(value);
+        [CLSCompliant(false)] public static implicit operator cfloat(uint value) => new cfloat(value);
+        [CLSCompliant(false)] public static implicit operator cfloat(ulong value) => new cfloat(value);
+        [CLSCompliant(false)] public static implicit operator cfloat(ushort value) => new cfloat(value);
         public static explicit operator cfloat(decimal value) => new cfloat(CheckedConvert.ToSingle(value));
         public static explicit operator cfloat(double value) => new cfloat(CheckedConvert.ToSingle(value));
         public static implicit operator cfloat(byte value) => new cfloat(value);
         public static implicit operator cfloat(float value) => new cfloat(value);
         public static implicit operator cfloat(int value) => new cfloat(value);
         public static implicit operator cfloat(long value) => new cfloat(value);
-        public static implicit operator cfloat(sbyte value) => new cfloat(value);
         public static implicit operator cfloat(short value) => new cfloat(value);
-        public static implicit operator cfloat(uint value) => new cfloat(value);
-        public static implicit operator cfloat(ulong value) => new cfloat(value);
-        public static implicit operator cfloat(ushort value) => new cfloat(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(cfloat value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator uint(cfloat value) => CheckedConvert.ToUInt32(value._value);
+        [CLSCompliant(false)] public static explicit operator ulong(cfloat value) => CheckedConvert.ToUInt64(value._value);
+        [CLSCompliant(false)] public static explicit operator ushort(cfloat value) => CheckedConvert.ToUInt16(value._value);
         public static explicit operator byte(cfloat value) => CheckedConvert.ToByte(value._value);
         public static explicit operator decimal(cfloat value) => CheckedConvert.ToDecimal(value._value);
         public static explicit operator int(cfloat value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator long(cfloat value) => CheckedConvert.ToInt64(value._value);
-        public static explicit operator sbyte(cfloat value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(cfloat value) => CheckedConvert.ToInt16(value._value);
-        public static explicit operator uint(cfloat value) => CheckedConvert.ToUInt32(value._value);
-        public static explicit operator ulong(cfloat value) => CheckedConvert.ToUInt64(value._value);
-        public static explicit operator ushort(cfloat value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator double(cfloat value) => value._value;
         public static implicit operator float(cfloat value) => value._value;
 
@@ -123,7 +124,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private static float Check(float value)
         {
-            if (float.IsFinite(value)) return value;
+            if (SingleCompat.IsFinite(value)) return value;
             else if (float.IsPositiveInfinity(value)) return float.MaxValue;
             else if (float.IsNegativeInfinity(value)) return float.MinValue;
             else return 0f;
@@ -164,7 +165,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<cfloat>,
             IStringParser<cfloat>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<cfloat>.HasFloatingPoint { get; } = true;
             bool INumericStatic<cfloat>.HasInfinity { get; } = false;
@@ -189,7 +190,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat INumericStatic<cfloat>.Two { get; } = 2;
             cfloat INumericStatic<cfloat>.Zero { get; } = 0;
 
-            cfloat IMath<cfloat>.Abs(cfloat x) => MathF.Abs(x._value);
+            cfloat IMath<cfloat>.Abs(cfloat value) => MathF.Abs(value._value);
             cfloat IMath<cfloat>.Acos(cfloat x) => MathF.Acos(x._value);
             cfloat IMath<cfloat>.Acosh(cfloat x) => MathF.Acosh(x._value);
             cfloat IMath<cfloat>.Asin(cfloat x) => MathF.Asin(x._value);
@@ -228,7 +229,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cfloat IMath<cfloat>.Truncate(cfloat x) => MathF.Truncate(x._value);
             int IMath<cfloat>.Sign(cfloat x) => Math.Sign(x._value);
 
-            cfloat IBitConverter<cfloat>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)));
+            cfloat IBitConverter<cfloat>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
             void IBitConverter<cfloat>.Write(cfloat value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             cfloat IRandom<cfloat>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);

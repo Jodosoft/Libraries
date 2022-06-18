@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -56,14 +57,14 @@ namespace Jodo.Extensions.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool IsFinite(xdouble d) => double.IsFinite(d);
+        public static bool IsFinite(xdouble d) => DoubleCompat.IsFinite(d);
         public static bool IsInfinity(xdouble d) => double.IsInfinity(d);
         public static bool IsNaN(xdouble d) => double.IsNaN(d);
-        public static bool IsNegative(xdouble d) => double.IsNegative(d);
+        public static bool IsNegative(xdouble d) => DoubleCompat.IsNegative(d);
         public static bool IsNegativeInfinity(xdouble d) => double.IsNegativeInfinity(d);
-        public static bool IsNormal(xdouble d) => double.IsNormal(d);
+        public static bool IsNormal(xdouble d) => DoubleCompat.IsNormal(d);
         public static bool IsPositiveInfinity(xdouble d) => double.IsPositiveInfinity(d);
-        public static bool IsSubnormal(xdouble d) => double.IsSubnormal(d);
+        public static bool IsSubnormal(xdouble d) => DoubleCompat.IsSubnormal(d);
 
         public static bool TryParse(string s, IFormatProvider? provider, out xdouble result) => Try.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out xdouble result) => Try.Run(() => Parse(s, style, provider), out result);
@@ -74,28 +75,28 @@ namespace Jodo.Extensions.Numerics
         public static xdouble Parse(string s, NumberStyles style) => double.Parse(s, style);
         public static xdouble Parse(string s, NumberStyles style, IFormatProvider? provider) => double.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static implicit operator xdouble(sbyte value) => new xdouble(value);
+        [CLSCompliant(false)] public static implicit operator xdouble(uint value) => new xdouble(value);
+        [CLSCompliant(false)] public static implicit operator xdouble(ulong value) => new xdouble(value);
+        [CLSCompliant(false)] public static implicit operator xdouble(ushort value) => new xdouble(value);
         public static explicit operator xdouble(decimal value) => new xdouble((double)value);
         public static implicit operator xdouble(byte value) => new xdouble(value);
         public static implicit operator xdouble(double value) => new xdouble(value);
         public static implicit operator xdouble(float value) => new xdouble(value);
         public static implicit operator xdouble(int value) => new xdouble(value);
         public static implicit operator xdouble(long value) => new xdouble(value);
-        public static implicit operator xdouble(sbyte value) => new xdouble(value);
         public static implicit operator xdouble(short value) => new xdouble(value);
-        public static implicit operator xdouble(uint value) => new xdouble(value);
-        public static implicit operator xdouble(ulong value) => new xdouble(value);
-        public static implicit operator xdouble(ushort value) => new xdouble(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xdouble value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static explicit operator uint(xdouble value) => (uint)value._value;
+        [CLSCompliant(false)] public static explicit operator ulong(xdouble value) => (ulong)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xdouble value) => (ushort)value._value;
         public static explicit operator byte(xdouble value) => (byte)value._value;
         public static explicit operator decimal(xdouble value) => (decimal)value._value;
         public static explicit operator float(xdouble value) => (float)value._value;
         public static explicit operator int(xdouble value) => (int)value._value;
         public static explicit operator long(xdouble value) => (long)value._value;
-        public static explicit operator sbyte(xdouble value) => (sbyte)value._value;
         public static explicit operator short(xdouble value) => (short)value._value;
-        public static explicit operator uint(xdouble value) => (uint)value._value;
-        public static explicit operator ulong(xdouble value) => (ulong)value._value;
-        public static explicit operator ushort(xdouble value) => (ushort)value._value;
         public static implicit operator double(xdouble value) => value._value;
 
         public static bool operator !=(xdouble left, xdouble right) => left._value != right._value;
@@ -155,7 +156,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xdouble>,
             IStringParser<xdouble>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xdouble>.HasFloatingPoint { get; } = true;
             bool INumericStatic<xdouble>.HasInfinity { get; } = true;
@@ -181,15 +182,15 @@ namespace Jodo.Extensions.Numerics
             xdouble INumericStatic<xdouble>.Zero { get; } = 0d;
 
             int IMath<xdouble>.Sign(xdouble x) => Math.Sign(x._value);
-            xdouble IMath<xdouble>.Abs(xdouble x) => Math.Abs(x._value);
+            xdouble IMath<xdouble>.Abs(xdouble value) => Math.Abs(value._value);
             xdouble IMath<xdouble>.Acos(xdouble x) => Math.Acos(x._value);
-            xdouble IMath<xdouble>.Acosh(xdouble x) => Math.Acosh(x._value);
+            xdouble IMath<xdouble>.Acosh(xdouble x) => MathCompat.Acosh(x._value);
             xdouble IMath<xdouble>.Asin(xdouble x) => Math.Asin(x._value);
-            xdouble IMath<xdouble>.Asinh(xdouble x) => Math.Asinh(x._value);
+            xdouble IMath<xdouble>.Asinh(xdouble x) => MathCompat.Asinh(x._value);
             xdouble IMath<xdouble>.Atan(xdouble x) => Math.Atan(x._value);
             xdouble IMath<xdouble>.Atan2(xdouble x, xdouble y) => Math.Atan2(x._value, y._value);
-            xdouble IMath<xdouble>.Atanh(xdouble x) => Math.Atanh(x._value);
-            xdouble IMath<xdouble>.Cbrt(xdouble x) => Math.Cbrt(x._value);
+            xdouble IMath<xdouble>.Atanh(xdouble x) => MathCompat.Atanh(x._value);
+            xdouble IMath<xdouble>.Cbrt(xdouble x) => MathCompat.Cbrt(x._value);
             xdouble IMath<xdouble>.Ceiling(xdouble x) => Math.Ceiling(x._value);
             xdouble IMath<xdouble>.Clamp(xdouble x, xdouble bound1, xdouble bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xdouble IMath<xdouble>.Cos(xdouble x) => Math.Cos(x._value);
@@ -219,7 +220,7 @@ namespace Jodo.Extensions.Numerics
             xdouble IMath<xdouble>.Tau { get; } = Math.PI * 2d;
             xdouble IMath<xdouble>.Truncate(xdouble x) => Math.Truncate(x._value);
 
-            xdouble IBitConverter<xdouble>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)));
+            xdouble IBitConverter<xdouble>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
             void IBitConverter<xdouble>.Write(xdouble value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             xdouble IRandom<xdouble>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);

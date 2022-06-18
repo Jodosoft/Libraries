@@ -17,11 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
 using System;
+using Jodo.Extensions.Numerics;
 
 namespace Jodo.Extensions.Geometry
 {
+    [CLSCompliant(false)]
     public interface ITwoDimensional<T, N> where N : struct, INumeric<N>
     {
         AARectangle<N> GetBounds();
@@ -29,7 +30,7 @@ namespace Jodo.Extensions.Geometry
         bool Contains(Vector2<N> point);
         bool IntersectsWith(T other);
         N GetArea();
-        ReadOnlySpan<Vector2<N>> GetVertices(int circumferenceDivisor);
+        Vector2<N>[] GetVertices(int circumferenceDivisor);
         Vector2<N> GetCenter();
         T Translate(Vector2<N> delta);
 

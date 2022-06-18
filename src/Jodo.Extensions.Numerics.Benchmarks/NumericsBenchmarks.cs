@@ -17,9 +17,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Benchmarking;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Jodo.Extensions.Benchmarking;
 
 namespace Jodo.Extensions.Numerics.Benchmarks
 {
@@ -31,10 +31,10 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         [Benchmark]
         public static void XInt_Versus_Int32_Division()
         {
-            var baselineLeft = Random.NextInt32(100, 1000);
-            var baselineRight = Random.NextInt32(2, 10);
-            var sutLeft = (xint)baselineLeft;
-            var sutRight = (xint)baselineRight;
+            int baselineLeft = Random.NextInt32(100, 1000);
+            int baselineRight = Random.NextInt32(2, 10);
+            xint sutLeft = (xint)baselineLeft;
+            xint sutRight = (xint)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -44,8 +44,8 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         [Benchmark]
         public static void XInt_Versus_Int32_ConversionToFloat()
         {
-            var baseline = Random.NextInt32(100, 1000);
-            var sut = (xint)baseline;
+            int baseline = Random.NextInt32(100, 1000);
+            xint sut = (xint)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -55,7 +55,7 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         [Benchmark]
         public static void XInt_Versus_Int32_StringParsing()
         {
-            var input = Random.NextInt32(-100, 100).ToString();
+            string input = Random.NextInt32(-100, 100).ToString();
 
             Benchmark.Run(
                 () => xint.Parse(input),
@@ -65,8 +65,8 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         [Benchmark]
         public static void XInt_Versus_Int32_Overflow()
         {
-            var functionInput = xint.MaxValue;
-            var baselineInput = int.MaxValue;
+            xint functionInput = xint.MaxValue;
+            int baselineInput = int.MaxValue;
 
             Benchmark.Run(
                 () => functionInput * functionInput,
@@ -76,10 +76,10 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         [Benchmark]
         public static void XDouble_Versus_Double_Division()
         {
-            var baselineLeft = Random.NextDouble(100, 1000);
-            var baselineRight = Random.NextDouble(2, 10);
-            var sutLeft = (xdouble)baselineLeft;
-            var sutRight = (xdouble)baselineRight;
+            double baselineLeft = Random.NextDouble(100, 1000);
+            double baselineRight = Random.NextDouble(2, 10);
+            xdouble sutLeft = (xdouble)baselineLeft;
+            xdouble sutRight = (xdouble)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -89,7 +89,7 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         [Benchmark]
         public static void XDouble_Versus_Double_StringParsing()
         {
-            var input = Random.NextDouble(-100, 100).ToString();
+            string input = Random.NextDouble(-100, 100).ToString();
 
             Benchmark.Run(
                 () => xdouble.Parse(input),
@@ -99,10 +99,10 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         [Benchmark]
         public static void Fix64_Versus_Double_Division()
         {
-            var baselineLeft = Random.NextDouble(100, 1000);
-            var baselineRight = Random.NextDouble(2, 10);
-            var sutLeft = (fix64)baselineLeft;
-            var sutRight = (fix64)baselineRight;
+            double baselineLeft = Random.NextDouble(100, 1000);
+            double baselineRight = Random.NextDouble(2, 10);
+            fix64 sutLeft = (fix64)baselineLeft;
+            fix64 sutRight = (fix64)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -112,7 +112,7 @@ namespace Jodo.Extensions.Numerics.Benchmarks
         [Benchmark]
         public static void Fix64_Versus_Double_StringParsing()
         {
-            var input = Random.NextDouble(-100, 100).ToString();
+            string input = Random.NextDouble(-100, 100).ToString();
 
             Benchmark.Run(
                 () => fix64.Parse(input),

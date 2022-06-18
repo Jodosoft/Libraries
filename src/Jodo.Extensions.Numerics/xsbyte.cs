@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -64,6 +65,10 @@ namespace Jodo.Extensions.Numerics
         public static xsbyte Parse(string s, NumberStyles style) => sbyte.Parse(s, style);
         public static xsbyte Parse(string s, NumberStyles style, IFormatProvider? provider) => sbyte.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator xsbyte(uint value) => new xsbyte((sbyte)value);
+        [CLSCompliant(false)] public static explicit operator xsbyte(ulong value) => new xsbyte((sbyte)value);
+        [CLSCompliant(false)] public static explicit operator xsbyte(ushort value) => new xsbyte((sbyte)value);
+        [CLSCompliant(false)] public static implicit operator xsbyte(sbyte value) => new xsbyte(value);
         public static explicit operator xsbyte(byte value) => new xsbyte((sbyte)value);
         public static explicit operator xsbyte(decimal value) => new xsbyte((sbyte)value);
         public static explicit operator xsbyte(double value) => new xsbyte((sbyte)value);
@@ -71,21 +76,17 @@ namespace Jodo.Extensions.Numerics
         public static explicit operator xsbyte(int value) => new xsbyte((sbyte)value);
         public static explicit operator xsbyte(long value) => new xsbyte((sbyte)value);
         public static explicit operator xsbyte(short value) => new xsbyte((sbyte)value);
-        public static explicit operator xsbyte(uint value) => new xsbyte((sbyte)value);
-        public static explicit operator xsbyte(ulong value) => new xsbyte((sbyte)value);
-        public static explicit operator xsbyte(ushort value) => new xsbyte((sbyte)value);
-        public static implicit operator xsbyte(sbyte value) => new xsbyte(value);
 
+        [CLSCompliant(false)] public static explicit operator uint(xsbyte value) => (uint)value._value;
+        [CLSCompliant(false)] public static explicit operator ulong(xsbyte value) => (ulong)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xsbyte value) => (ushort)value._value;
+        [CLSCompliant(false)] public static implicit operator sbyte(xsbyte value) => value._value;
         public static explicit operator byte(xsbyte value) => (byte)value._value;
-        public static explicit operator uint(xsbyte value) => (uint)value._value;
-        public static explicit operator ulong(xsbyte value) => (ulong)value._value;
-        public static explicit operator ushort(xsbyte value) => (ushort)value._value;
         public static implicit operator decimal(xsbyte value) => value._value;
         public static implicit operator double(xsbyte value) => value._value;
         public static implicit operator float(xsbyte value) => value._value;
         public static implicit operator int(xsbyte value) => value._value;
         public static implicit operator long(xsbyte value) => value._value;
-        public static implicit operator sbyte(xsbyte value) => value._value;
         public static implicit operator short(xsbyte value) => value._value;
 
         public static bool operator !=(xsbyte left, xsbyte right) => left._value != right._value;
@@ -145,7 +146,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xsbyte>,
             IStringParser<xsbyte>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xsbyte>.HasFloatingPoint { get; } = false;
             bool INumericStatic<xsbyte>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.Numerics
             xsbyte INumericStatic<xsbyte>.Zero { get; } = 0;
 
             int IMath<xsbyte>.Sign(xsbyte x) => Math.Sign(x._value);
-            xsbyte IMath<xsbyte>.Abs(xsbyte x) => Math.Abs(x._value);
+            xsbyte IMath<xsbyte>.Abs(xsbyte value) => Math.Abs(value._value);
             xsbyte IMath<xsbyte>.Acos(xsbyte x) => (sbyte)Math.Acos(x._value);
-            xsbyte IMath<xsbyte>.Acosh(xsbyte x) => (sbyte)Math.Acosh(x._value);
+            xsbyte IMath<xsbyte>.Acosh(xsbyte x) => (sbyte)MathCompat.Acosh(x._value);
             xsbyte IMath<xsbyte>.Asin(xsbyte x) => (sbyte)Math.Asin(x._value);
-            xsbyte IMath<xsbyte>.Asinh(xsbyte x) => (sbyte)Math.Asinh(x._value);
+            xsbyte IMath<xsbyte>.Asinh(xsbyte x) => (sbyte)MathCompat.Asinh(x._value);
             xsbyte IMath<xsbyte>.Atan(xsbyte x) => (sbyte)Math.Atan(x._value);
             xsbyte IMath<xsbyte>.Atan2(xsbyte x, xsbyte y) => (sbyte)Math.Atan2(x._value, y._value);
-            xsbyte IMath<xsbyte>.Atanh(xsbyte x) => (sbyte)Math.Atanh(x._value);
-            xsbyte IMath<xsbyte>.Cbrt(xsbyte x) => (sbyte)Math.Cbrt(x._value);
+            xsbyte IMath<xsbyte>.Atanh(xsbyte x) => (sbyte)MathCompat.Atanh(x._value);
+            xsbyte IMath<xsbyte>.Cbrt(xsbyte x) => (sbyte)MathCompat.Cbrt(x._value);
             xsbyte IMath<xsbyte>.Ceiling(xsbyte x) => x;
             xsbyte IMath<xsbyte>.Clamp(xsbyte x, xsbyte bound1, xsbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             xsbyte IMath<xsbyte>.Cos(xsbyte x) => (sbyte)Math.Cos(x._value);

@@ -17,17 +17,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
+    [CLSCompliant(false)]
     public readonly struct Circle<N> :
             IEquatable<Circle<N>>,
             IFormattable,
@@ -43,8 +45,8 @@ namespace Jodo.Extensions.Geometry
         public readonly Vector2<N> Center;
         public readonly N Radius;
 
-        public N GetDiameter() => Numeric<N>.Two * Radius;
-        public N GetCircumeference() => Numeric<N>.Two * Math<N>.PI * Radius;
+        public N GetDiameter() => Numeric<N>.Two.Multiply(Radius);
+        public N GetCircumeference() => Numeric<N>.Two.Multiply(Math<N>.PI).Multiply(Radius);
 
 
         public Circle(Vector2<N> center, N radius)
@@ -71,34 +73,35 @@ namespace Jodo.Extensions.Geometry
             info.AddValue(nameof(Radius), Radius, typeof(N));
         }
 
-        public ReadOnlySpan<Vector2<N>> GetVertices(int circumferenceDivisor)
+        public Vector2<N>[] GetVertices(int circumferenceDivisor)
         {
-            var centerX = Convert<N>.ToDouble(Center.X);
-            var centerY = Convert<N>.ToDouble(Center.Y);
-            var radius = Convert<N>.ToDouble(Radius);
+            double centerX = Convert<N>.ToDouble(Center.X);
+            double centerY = Convert<N>.ToDouble(Center.Y);
+            double radius = Convert<N>.ToDouble(Radius);
 
-            var results = new Vector2<N>[circumferenceDivisor + 1];
+            Vector2<N>[]? results = new Vector2<N>[circumferenceDivisor + 1];
             results[0] = Center;
             for (int i = 0; i < circumferenceDivisor; i++)
             {
-                var degrees = i * 360 / (double)circumferenceDivisor;
+                double degrees = i * 360 / (double)circumferenceDivisor;
 
-                var radians = degrees * NumericUtilities.RadiansPerDegree;
+                double radians = degrees * NumericUtilities.RadiansPerDegree;
 
                 results[i + 1] = new Vector2<N>(
-                    Convert<N>.ToNumeric(centerX + radius * Math.Cos(radians)),
-                    Convert<N>.ToNumeric(centerY + radius * Math.Sin(radians)));
+                    Convert<N>.ToNumeric(centerX + (radius * Math.Cos(radians))),
+                    Convert<N>.ToNumeric(centerY + (radius * Math.Sin(radians))));
             }
             return results;
         }
 
-        public N GetArea() => Math<N>.PI * Math<N>.Pow(Radius, Numeric<N>.Two);
-        public bool Contains(Circle<N> other) => Radius >= other.Radius && Center.DistanceFrom(other.Center) <= Radius - other.Radius;
-        public bool Contains(Vector2<N> point) => point.DistanceFrom(Center) < Radius;
+        public N GetArea() => Math<N>.PI.Multiply(Math<N>.Pow(Radius, Numeric<N>.Two));
+        public bool Contains(Circle<N> other)
+            => Radius.IsGreaterThanOrEqualTo(other.Radius) && Center.DistanceFrom(other.Center).IsLessThanOrEqualTo(Radius.Subtract(other.Radius));
+        public bool Contains(Vector2<N> point) => point.DistanceFrom(Center).IsLessThan(Radius);
         public Circle<N> Translate(Vector2<N> delta) => new Circle<N>(Center.Translate(delta), Radius);
         public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate((deltaX, deltaY)), Radius);
         public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, (GetDiameter(), GetDiameter()));
-        public bool IntersectsWith(Circle<N> other) => Center.DistanceFrom(other.Center) < Radius + other.Radius;
+        public bool IntersectsWith(Circle<N> other) => Center.DistanceFrom(other.Center).IsLessThan(Radius.Add(other.Radius));
 
         public bool Equals(Circle<N> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
         public override bool Equals(object? obj) => obj is Circle<N> circle && Equals(circle);
@@ -115,21 +118,21 @@ namespace Jodo.Extensions.Geometry
 
         public static Circle<N> Parse(string value)
         {
-            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
             if (parts.Length == 2)
                 return new Circle<N>(
                     Vector2<N>.Parse(parts[0]),
-                    StringParser<N>.Parse(parts[1].StartsWith("r") ? parts[1][1..] : parts[1]));
+                    StringParser<N>.Parse(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1]));
             else throw new FormatException();
         }
 
         public static Circle<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
         {
-            var parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
+            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
             if (parts.Length == 2)
                 return new Circle<N>(
                     Vector2<N>.Parse(parts[0], style, provider),
-                    StringParser<N>.Parse(parts[1].StartsWith("r") ? parts[1][1..] : parts[1], style, provider));
+                    StringParser<N>.Parse(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1], style, provider));
             else throw new FormatException();
         }
 
@@ -146,13 +149,13 @@ namespace Jodo.Extensions.Geometry
            IRandom<Circle<N>>,
            IStringParser<Circle<N>>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             Circle<N> IRandom<Circle<N>>.Next(Random random)
             {
                 do
                 {
-                    var result = new Circle<N>(random.NextVector2<N>(), random.NextNumeric<N>());
+                    Circle<N> result = new Circle<N>(random.NextVector2<N>(), random.NextNumeric<N>());
                     try
                     {
                         if (checked(result.GetBounds() != default))
@@ -166,16 +169,16 @@ namespace Jodo.Extensions.Geometry
 
             Circle<N> IRandom<Circle<N>>.Next(Random random, Circle<N> bound1, Circle<N> bound2)
             {
-                var xMin = Math<N>.Min(bound1.Center.X - bound1.Radius, bound2.Center.X - bound2.Radius);
-                var xMax = Math<N>.Max(bound1.Center.X + bound1.Radius, bound2.Center.X + bound2.Radius);
-                var yMin = Math<N>.Min(bound1.Center.Y - bound1.Radius, bound2.Center.Y - bound2.Radius);
-                var yMax = Math<N>.Max(bound1.Center.Y + bound1.Radius, bound2.Center.Y + bound2.Radius);
+                N xMin = Math<N>.Min(bound1.Center.X.Subtract(bound1.Radius), bound2.Center.X.Subtract(bound2.Radius));
+                N xMax = Math<N>.Max(bound1.Center.X.Add(bound1.Radius), bound2.Center.X.Add(bound2.Radius));
+                N yMin = Math<N>.Min(bound1.Center.Y.Subtract(bound1.Radius), bound2.Center.Y.Subtract(bound2.Radius));
+                N yMax = Math<N>.Max(bound1.Center.Y.Add(bound1.Radius), bound2.Center.Y.Add(bound2.Radius));
 
-                var center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
+                Vector2<N> center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
 
-                var xMaxRadius = Math<N>.Min(xMax - center.X, center.X - xMin);
-                var yMaxRadius = Math<N>.Min(yMax - center.Y, center.Y - yMin);
-                var radius = random.NextNumeric(Numeric<N>.Zero, Math<N>.Min(xMaxRadius, yMaxRadius));
+                N xMaxRadius = Math<N>.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
+                N yMaxRadius = Math<N>.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
+                N radius = random.NextNumeric(Numeric<N>.Zero, Math<N>.Min(xMaxRadius, yMaxRadius));
 
                 return new Circle<N>(center, radius);
             }

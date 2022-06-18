@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using Jodo.Extensions.Primitives;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -32,21 +33,22 @@ namespace Jodo.Extensions.Numerics
         public const decimal DegreesPerRadianM = 180m / (decimal)Math.PI;
         public const decimal RadiansPerDegreeM = (decimal)Math.PI / 180m;
 
+
         public static float BitwiseComplement(float left)
         {
-            var leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left));
-            return BitConverter.ToSingle(BitConverter.GetBytes(~leftBits));
+            int leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left), 0);
+            return BitConverter.ToSingle(BitConverter.GetBytes(~leftBits), 0);
         }
 
         public static double BitwiseComplement(double left)
         {
-            var leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left));
-            return BitConverter.ToDouble(BitConverter.GetBytes(~leftBits));
+            long leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left), 0);
+            return BitConverter.ToDouble(BitConverter.GetBytes(~leftBits), 0);
         }
 
         public static decimal BitwiseComplement(decimal left)
         {
-            var bits = decimal.GetBits(left);
+            int[]? bits = decimal.GetBits(left);
             bits[0] = ~bits[0];
             bits[1] = ~bits[1];
             bits[2] = ~bits[2];
@@ -55,19 +57,19 @@ namespace Jodo.Extensions.Numerics
 
         public static float LeftShift(float left, int right)
         {
-            var leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left));
-            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits << right));
+            int leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left), 0);
+            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits << right), 0);
         }
 
         public static double LeftShift(double left, int right)
         {
-            var leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left));
-            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits << right));
+            long leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left), 0);
+            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits << right), 0);
         }
 
         public static decimal LeftShift(decimal left, int right)
         {
-            var leftBits = decimal.GetBits(left);
+            int[]? leftBits = decimal.GetBits(left);
             leftBits[0] = leftBits[0] << right;
             leftBits[1] = leftBits[1] << right;
             leftBits[2] = leftBits[2] << right;
@@ -76,22 +78,22 @@ namespace Jodo.Extensions.Numerics
 
         public static float LogicalAnd(float left, float right)
         {
-            var leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left));
-            var rightBits = BitConverter.ToInt32(BitConverter.GetBytes(right));
-            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits & rightBits));
+            int leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left), 0);
+            int rightBits = BitConverter.ToInt32(BitConverter.GetBytes(right), 0);
+            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits & rightBits), 0);
         }
 
         public static double LogicalAnd(double left, double right)
         {
-            var leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left));
-            var rightBits = BitConverter.ToInt64(BitConverter.GetBytes(right));
-            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits & rightBits));
+            long leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left), 0);
+            long rightBits = BitConverter.ToInt64(BitConverter.GetBytes(right), 0);
+            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits & rightBits), 0);
         }
 
         public static decimal LogicalAnd(decimal left, decimal right)
         {
-            var leftBits = decimal.GetBits(left);
-            var rightBits = decimal.GetBits(right);
+            int[]? leftBits = decimal.GetBits(left);
+            int[]? rightBits = decimal.GetBits(right);
             leftBits[0] = leftBits[0] & rightBits[0];
             leftBits[1] = leftBits[1] & rightBits[1];
             leftBits[2] = leftBits[2] & rightBits[2];
@@ -100,22 +102,22 @@ namespace Jodo.Extensions.Numerics
 
         public static float LogicalExclusiveOr(float left, float right)
         {
-            var leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left));
-            var rightBits = BitConverter.ToInt32(BitConverter.GetBytes(right));
-            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits ^ rightBits));
+            int leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left), 0);
+            int rightBits = BitConverter.ToInt32(BitConverter.GetBytes(right), 0);
+            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits ^ rightBits), 0);
         }
 
         public static double LogicalExclusiveOr(double left, double right)
         {
-            var leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left));
-            var rightBits = BitConverter.ToInt64(BitConverter.GetBytes(right));
-            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits ^ rightBits));
+            long leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left), 0);
+            long rightBits = BitConverter.ToInt64(BitConverter.GetBytes(right), 0);
+            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits ^ rightBits), 0);
         }
 
         public static decimal LogicalExclusiveOr(decimal left, decimal right)
         {
-            var leftBits = decimal.GetBits(left);
-            var rightBits = decimal.GetBits(right);
+            int[]? leftBits = decimal.GetBits(left);
+            int[]? rightBits = decimal.GetBits(right);
             leftBits[0] = leftBits[0] ^ rightBits[0];
             leftBits[1] = leftBits[1] ^ rightBits[1];
             leftBits[2] = leftBits[2] ^ rightBits[2];
@@ -124,22 +126,22 @@ namespace Jodo.Extensions.Numerics
 
         public static float LogicalOr(float left, float right)
         {
-            var leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left));
-            var rightBits = BitConverter.ToInt32(BitConverter.GetBytes(right));
-            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits | rightBits));
+            int leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left), 0);
+            int rightBits = BitConverter.ToInt32(BitConverter.GetBytes(right), 0);
+            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits | rightBits), 0);
         }
 
         public static double LogicalOr(double left, double right)
         {
-            var leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left));
-            var rightBits = BitConverter.ToInt64(BitConverter.GetBytes(right));
-            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits | rightBits));
+            long leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left), 0);
+            long rightBits = BitConverter.ToInt64(BitConverter.GetBytes(right), 0);
+            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits | rightBits), 0);
         }
 
         public static decimal LogicalOr(decimal left, decimal right)
         {
-            var leftBits = decimal.GetBits(left);
-            var rightBits = decimal.GetBits(right);
+            int[]? leftBits = decimal.GetBits(left);
+            int[]? rightBits = decimal.GetBits(right);
             leftBits[0] = leftBits[0] | rightBits[0];
             leftBits[1] = leftBits[1] | rightBits[1];
             leftBits[2] = leftBits[2] | rightBits[2];
@@ -148,19 +150,19 @@ namespace Jodo.Extensions.Numerics
 
         public static float RightShift(float left, int right)
         {
-            var leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left));
-            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits >> right));
+            int leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left), 0);
+            return BitConverter.ToSingle(BitConverter.GetBytes(leftBits >> right), 0);
         }
 
         public static double RightShift(double left, int right)
         {
-            var leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left));
-            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits >> right));
+            long leftBits = BitConverter.ToInt64(BitConverter.GetBytes(left), 0);
+            return BitConverter.ToDouble(BitConverter.GetBytes(leftBits >> right), 0);
         }
 
         public static decimal RightShift(decimal left, int right)
         {
-            var leftBits = decimal.GetBits(left);
+            int[]? leftBits = decimal.GetBits(left);
             leftBits[0] = leftBits[0] >> right;
             leftBits[1] = leftBits[1] >> right;
             leftBits[2] = leftBits[2] >> right;

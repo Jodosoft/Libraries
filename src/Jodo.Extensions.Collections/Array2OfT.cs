@@ -35,7 +35,8 @@ namespace Jodo.Extensions.Collections
 
         public T this[int x, int y]
         {
-            get => _array[y * _lengthX + x]; set => _array[y * _lengthX + x] = value;
+            get => _array[(y * _lengthX) + x];
+            set => _array[(y * _lengthX) + x] = value;
         }
 
         public Array2(int lengthX, int lengthY)
@@ -45,12 +46,14 @@ namespace Jodo.Extensions.Collections
             _lengthY = lengthY;
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         public ReadOnlySpan<T> AsSpan() => _array.AsSpan();
         public ReadOnlyMemory<T> AsMemory() => _array.AsMemory();
+#endif
 
         public T[] ToArray()
         {
-            var copy = new T[_array.Length];
+            T[]? copy = new T[_array.Length];
             Array.Copy(_array, copy, _array.Length);
             return copy;
         }

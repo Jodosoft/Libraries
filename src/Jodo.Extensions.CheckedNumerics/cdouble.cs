@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -64,8 +65,8 @@ namespace Jodo.Extensions.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool IsNormal(cdouble d) => double.IsNormal(d._value);
-        public static bool IsSubnormal(cdouble d) => double.IsSubnormal(d._value);
+        public static bool IsNormal(cdouble d) => DoubleCompat.IsNormal(d._value);
+        public static bool IsSubnormal(cdouble d) => DoubleCompat.IsSubnormal(d._value);
         public static bool TryParse(string s, IFormatProvider? provider, out cdouble result) => Try.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out cdouble result) => Try.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out cdouble result) => Try.Run(() => Parse(s, style), out result);
@@ -75,28 +76,28 @@ namespace Jodo.Extensions.CheckedNumerics
         public static cdouble Parse(string s, NumberStyles style) => double.Parse(s, style);
         public static cdouble Parse(string s, NumberStyles style, IFormatProvider? provider) => double.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static implicit operator cdouble(sbyte value) => new cdouble(value);
+        [CLSCompliant(false)] public static implicit operator cdouble(uint value) => new cdouble(value);
+        [CLSCompliant(false)] public static implicit operator cdouble(ulong value) => new cdouble(value);
+        [CLSCompliant(false)] public static implicit operator cdouble(ushort value) => new cdouble(value);
         public static explicit operator cdouble(decimal value) => new cdouble(CheckedConvert.ToDouble(value));
         public static implicit operator cdouble(byte value) => new cdouble(value);
         public static implicit operator cdouble(double value) => new cdouble(value);
         public static implicit operator cdouble(float value) => new cdouble(value);
         public static implicit operator cdouble(int value) => new cdouble(value);
         public static implicit operator cdouble(long value) => new cdouble(value);
-        public static implicit operator cdouble(sbyte value) => new cdouble(value);
         public static implicit operator cdouble(short value) => new cdouble(value);
-        public static implicit operator cdouble(uint value) => new cdouble(value);
-        public static implicit operator cdouble(ulong value) => new cdouble(value);
-        public static implicit operator cdouble(ushort value) => new cdouble(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(cdouble value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator uint(cdouble value) => CheckedConvert.ToUInt32(value._value);
+        [CLSCompliant(false)] public static explicit operator ulong(cdouble value) => CheckedConvert.ToUInt64(value._value);
+        [CLSCompliant(false)] public static explicit operator ushort(cdouble value) => CheckedConvert.ToUInt16(value._value);
         public static explicit operator byte(cdouble value) => CheckedConvert.ToByte(value._value);
         public static explicit operator decimal(cdouble value) => CheckedConvert.ToDecimal(value._value);
         public static explicit operator float(cdouble value) => CheckedConvert.ToSingle(value._value);
         public static explicit operator int(cdouble value) => CheckedConvert.ToInt32(value._value);
         public static explicit operator long(cdouble value) => CheckedConvert.ToInt64(value._value);
-        public static explicit operator sbyte(cdouble value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(cdouble value) => CheckedConvert.ToInt16(value._value);
-        public static explicit operator uint(cdouble value) => CheckedConvert.ToUInt32(value._value);
-        public static explicit operator ulong(cdouble value) => CheckedConvert.ToUInt64(value._value);
-        public static explicit operator ushort(cdouble value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator double(cdouble value) => value._value;
 
         public static bool operator !=(cdouble left, cdouble right) => left._value != right._value;
@@ -123,7 +124,7 @@ namespace Jodo.Extensions.CheckedNumerics
 
         private static double Check(double value)
         {
-            if (double.IsFinite(value)) return value;
+            if (DoubleCompat.IsFinite(value)) return value;
             else if (double.IsPositiveInfinity(value)) return double.MaxValue;
             else if (double.IsNegativeInfinity(value)) return double.MinValue;
             else return 0d;
@@ -164,7 +165,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<cdouble>,
             IStringParser<cdouble>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<cdouble>.HasFloatingPoint { get; } = true;
             bool INumericStatic<cdouble>.HasInfinity { get; } = false;
@@ -189,15 +190,15 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble INumericStatic<cdouble>.Two { get; } = 2d;
             cdouble INumericStatic<cdouble>.Zero { get; } = 0d;
 
-            cdouble IMath<cdouble>.Abs(cdouble x) => Math.Abs(x._value);
+            cdouble IMath<cdouble>.Abs(cdouble value) => Math.Abs(value._value);
             cdouble IMath<cdouble>.Acos(cdouble x) => Math.Acos(x._value);
-            cdouble IMath<cdouble>.Acosh(cdouble x) => Math.Acosh(x._value);
+            cdouble IMath<cdouble>.Acosh(cdouble x) => MathCompat.Acosh(x._value);
             cdouble IMath<cdouble>.Asin(cdouble x) => Math.Asin(x._value);
-            cdouble IMath<cdouble>.Asinh(cdouble x) => Math.Asinh(x._value);
+            cdouble IMath<cdouble>.Asinh(cdouble x) => MathCompat.Asinh(x._value);
             cdouble IMath<cdouble>.Atan(cdouble x) => Math.Atan(x._value);
             cdouble IMath<cdouble>.Atan2(cdouble x, cdouble y) => Math.Atan2(x._value, y._value);
-            cdouble IMath<cdouble>.Atanh(cdouble x) => Math.Atanh(x._value);
-            cdouble IMath<cdouble>.Cbrt(cdouble x) => Math.Cbrt(x._value);
+            cdouble IMath<cdouble>.Atanh(cdouble x) => MathCompat.Atanh(x._value);
+            cdouble IMath<cdouble>.Cbrt(cdouble x) => MathCompat.Cbrt(x._value);
             cdouble IMath<cdouble>.Ceiling(cdouble x) => Math.Ceiling(x._value);
             cdouble IMath<cdouble>.Clamp(cdouble x, cdouble bound1, cdouble bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             cdouble IMath<cdouble>.Cos(cdouble x) => Math.Cos(x._value);
@@ -228,7 +229,7 @@ namespace Jodo.Extensions.CheckedNumerics
             cdouble IMath<cdouble>.Truncate(cdouble x) => Math.Truncate(x._value);
             int IMath<cdouble>.Sign(cdouble x) => Math.Sign(x._value);
 
-            cdouble IBitConverter<cdouble>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)));
+            cdouble IBitConverter<cdouble>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
             void IBitConverter<cdouble>.Write(cdouble value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             cdouble IRandom<cdouble>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);

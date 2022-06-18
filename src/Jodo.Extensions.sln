@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jodo.Extensions.CheckedNumerics", "Jodo.Extensions.CheckedNumerics\Jodo.Extensions.CheckedNumerics.csproj", "{A7D0F867-6822-4A6B-A1C6-69C32B469DC4}"
 EndProject
@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jodo.Extensions.Collections
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{063815AD-94EE-442D-9ADA-8228E8F9DFC6}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		AssemblyInfo.cs = AssemblyInfo.cs
 		Directory.Build.props = Directory.Build.props
@@ -41,10 +42,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarking", "Benchmarking", "{FEF49D2A-EE54-47CA-A0D7-35C82E6A16F6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{BE408783-FE5D-4639-9096-991A8DF85AF6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jodo.Extensions.Testing.Tests", "Jodo.Extensions.Testing.Tests\Jodo.Extensions.Testing.Tests.csproj", "{FF45C2A9-031D-47B7-81F8-B4A7EB6EC836}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jodo.Extensions.Benchmarking.Tests", "Jodo.Extensions.Benchmarking.Tests\Jodo.Extensions.Benchmarking.Tests.csproj", "{51477267-72A1-42DD-96B8-DB13C46C0959}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Primitives", "Primitives", "{A34600D5-617D-4892-9AB9-1FFC8D8094C2}"
 EndProject
@@ -112,14 +109,6 @@ Global
 		{B15100CB-5DA3-409C-A057-949C04390D5A}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{B15100CB-5DA3-409C-A057-949C04390D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B15100CB-5DA3-409C-A057-949C04390D5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF45C2A9-031D-47B7-81F8-B4A7EB6EC836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF45C2A9-031D-47B7-81F8-B4A7EB6EC836}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF45C2A9-031D-47B7-81F8-B4A7EB6EC836}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF45C2A9-031D-47B7-81F8-B4A7EB6EC836}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51477267-72A1-42DD-96B8-DB13C46C0959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51477267-72A1-42DD-96B8-DB13C46C0959}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51477267-72A1-42DD-96B8-DB13C46C0959}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51477267-72A1-42DD-96B8-DB13C46C0959}.Release|Any CPU.Build.0 = Release|Any CPU
 		{88EA398C-9464-4283-B616-897632172C8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88EA398C-9464-4283-B616-897632172C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88EA398C-9464-4283-B616-897632172C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -160,8 +149,6 @@ Global
 		{77836D4E-EBF9-4B3B-B3A3-A8B82C1D75EA} = {9F3632FA-220F-44E4-B0E6-CE3609839F9C}
 		{CC1D802A-4430-4F7D-8C6D-DF0FD7F99CCB} = {DCB75F85-EB42-4342-B02E-9186D60A9807}
 		{B15100CB-5DA3-409C-A057-949C04390D5A} = {DCB75F85-EB42-4342-B02E-9186D60A9807}
-		{FF45C2A9-031D-47B7-81F8-B4A7EB6EC836} = {BE408783-FE5D-4639-9096-991A8DF85AF6}
-		{51477267-72A1-42DD-96B8-DB13C46C0959} = {FEF49D2A-EE54-47CA-A0D7-35C82E6A16F6}
 		{88EA398C-9464-4283-B616-897632172C8F} = {A34600D5-617D-4892-9AB9-1FFC8D8094C2}
 		{004B6B7F-3D3E-4382-8AB0-99711416D6DF} = {FEBB3563-984B-48BE-8E73-AF7845DC11DF}
 		{65AC19DB-CC21-455D-A907-0C71AD755B2C} = {FEBB3563-984B-48BE-8E73-AF7845DC11DF}

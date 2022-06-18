@@ -28,7 +28,7 @@ namespace Jodo.Extensions.Primitives
         {
             if (properties?.Length > 0)
             {
-                var names = properties.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}");
+                string? names = properties.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}");
                 return $"{type.GetDisplayName()}({names})";
             }
             return type.GetDisplayName();

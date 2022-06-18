@@ -17,31 +17,33 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
 using System.Collections.Generic;
+using Jodo.Extensions.Numerics;
 
 namespace System.Linq
 {
     public static class LinqExtensions
     {
+        [CLSCompliant(false)]
         public static N Average<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
             N sum = Numeric<N>.Zero;
             N count = Numeric<N>.Zero;
-            foreach (var item in source)
+            foreach (N item in source)
             {
-                sum += item;
-                count += Numeric<N>.One;
+                sum = sum.Add(item);
+                count = count.Add(Numeric<N>.One);
             }
-            return sum / count;
+            return sum.Divide(count);
         }
 
+        [CLSCompliant(false)]
         public static N Sum<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
             N sum = Numeric<N>.Zero;
-            foreach (var item in source)
+            foreach (N item in source)
             {
-                sum += item;
+                sum = sum.Add(item);
             }
             return sum;
         }

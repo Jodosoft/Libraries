@@ -17,11 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
-using System;
 
 namespace FluentAssertions
 {
@@ -31,10 +30,10 @@ namespace FluentAssertions
         {
             if (!double.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
-            var actual = Convert<N>.ToDouble((N)parent.Subject);
+            double actual = Convert<N>.ToDouble((N)parent.Subject);
             if (!Numeric<N>.IsReal)
             {
-                var expectedValue = Math.Truncate(expected);
+                double expectedValue = Math.Truncate(expected);
                 Execute.Assertion
                     .ForCondition(actual == expectedValue)
                     .BecauseOf(because, becauseArgs)
@@ -42,8 +41,8 @@ namespace FluentAssertions
             }
             else
             {
-                var expectedValue = Math.Round(expected, 2);
-                var actualValue = Math.Round(actual, 2);
+                double expectedValue = Math.Round(expected, 2);
+                double actualValue = Math.Round(actual, 2);
                 Execute.Assertion
                     .ForCondition(actualValue == expectedValue)
                     .BecauseOf(because, becauseArgs)
@@ -57,8 +56,8 @@ namespace FluentAssertions
         {
             if (!Numeric<N>.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
-            var actual = (N)parent.Subject;
-            var difference = Math<N>.Max(actual, expected) - Math<N>.Min(actual, expected);
+            N actual = (N)parent.Subject;
+            N difference = Math<N>.Max(actual, expected) - Math<N>.Min(actual, expected);
 
             N tolerance = expected > Numeric<N>.MinUnit && expected < Numeric<N>.MaxUnit ?
                 (Numeric<N>.One / Numeric<N>.Ten) :

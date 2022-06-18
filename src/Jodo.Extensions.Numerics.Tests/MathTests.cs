@@ -17,10 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Numerics.Tests
 {
@@ -51,10 +51,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Abs_Zero_SameValue()
             {
                 //arrange
-                var input = Numeric<N>.Zero;
+                N input = Numeric<N>.Zero;
 
                 //act
-                var result = Math<N>.Abs(input);
+                N result = Math<N>.Abs(input);
 
                 //assert
                 result.Should().Be(input);
@@ -64,10 +64,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Abs_Positive_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue);
+                N input = Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue);
 
                 //act
-                var result = Math<N>.Abs(input);
+                N result = Math<N>.Abs(input);
 
                 //assert
                 result.Should().Be(input);
@@ -77,13 +77,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acos_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
+                double randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Acos(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Acos(randomValue));
 
                 //act
-                var result = Math<N>.Acos(input);
+                N result = Math<N>.Acos(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -93,12 +93,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acos_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Numeric<N>.IsSigned ? -1 : 0;
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Acos(lowerBound));
+                int lowerBound = Numeric<N>.IsSigned ? -1 : 0;
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Acos(lowerBound));
 
                 //act
-                var result = Math<N>.Acos(input);
+                N result = Math<N>.Acos(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -108,12 +108,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acos_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = 1;
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Acos(upperBound));
+                int upperBound = 1;
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Acos(upperBound));
 
                 //act
-                var result = Math<N>.Acos(input);
+                N result = Math<N>.Acos(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -130,11 +130,11 @@ namespace Jodo.Extensions.Numerics.Tests
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
                 while (!double.IsFinite(Math.Acosh(randomValue)));
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Acosh(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Acosh(randomValue));
 
                 //act
-                var result = Math<N>.Acosh(input);
+                N result = Math<N>.Acosh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -144,12 +144,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acosh_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = 1;
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Acosh(lowerBound));
+                int lowerBound = 1;
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Acosh(lowerBound));
 
                 //act
-                var result = Math<N>.Acosh(input);
+                N result = Math<N>.Acosh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -159,12 +159,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Acosh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Acosh(upperBound));
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Acosh(upperBound));
 
                 //act
-                var result = Math<N>.Acosh(input);
+                N result = Math<N>.Acosh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -174,13 +174,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asin_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
+                double randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Asin(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Asin(randomValue));
 
                 //act
-                var result = Math<N>.Asin(input);
+                N result = Math<N>.Asin(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -190,12 +190,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asin_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Numeric<N>.IsSigned ? -1 : 0;
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Asin(lowerBound));
+                int lowerBound = Numeric<N>.IsSigned ? -1 : 0;
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Asin(lowerBound));
 
                 //act
-                var result = Math<N>.Asin(input);
+                N result = Math<N>.Asin(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -205,12 +205,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asin_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = 1;
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Asin(upperBound));
+                int upperBound = 1;
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Asin(upperBound));
 
                 //act
-                var result = Math<N>.Asin(input);
+                N result = Math<N>.Asin(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -220,12 +220,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asinh_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(), 2);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Asinh(randomValue));
+                double randomValue = Math.Round(Random.NextDouble(), 2);
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Asinh(randomValue));
 
                 //act
-                var result = Math<N>.Asinh(input);
+                N result = Math<N>.Asinh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -235,12 +235,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asinh_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Asinh(lowerBound));
+                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Asinh(lowerBound));
 
                 //act
-                var result = Math<N>.Asinh(input);
+                N result = Math<N>.Asinh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -250,12 +250,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Asinh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Asinh(upperBound));
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Asinh(upperBound));
 
                 //act
-                var result = Math<N>.Asinh(input);
+                N result = Math<N>.Asinh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -265,12 +265,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Atan_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Atan(randomValue));
+                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Atan(randomValue));
 
                 //act
-                var result = Math<N>.Atan(input);
+                N result = Math<N>.Atan(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -280,12 +280,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Atan_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Atan(lowerBound));
+                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Atan(lowerBound));
 
                 //act
-                var result = Math<N>.Atan(input);
+                N result = Math<N>.Atan(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -295,12 +295,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Atan_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Atan(upperBound));
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Atan(upperBound));
 
                 //act
-                var result = Math<N>.Atan(input);
+                N result = Math<N>.Atan(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -310,14 +310,14 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Atan2_RandomValues_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue1 = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
-                var randomValue2 = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
-                var input1 = Cast<N>.ToNumeric(randomValue1);
-                var input2 = Cast<N>.ToNumeric(randomValue2);
-                var expected = Cast<N>.ToNumeric(Math.Atan2(randomValue1, randomValue2));
+                double randomValue1 = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                double randomValue2 = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                N input1 = Cast<N>.ToNumeric(randomValue1);
+                N input2 = Cast<N>.ToNumeric(randomValue2);
+                N expected = Cast<N>.ToNumeric(Math.Atan2(randomValue1, randomValue2));
 
                 //act
-                var result = Math<N>.Atan2(input1, input2);
+                N result = Math<N>.Atan2(input1, input2);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -327,14 +327,14 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Atan2_RandomBoundaries_EquivalentToSystemMath()
             {
                 //arrange
-                var randomBoundary1 = Utilities.ClosestTestableDouble(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
-                var randomBoundary2 = Utilities.ClosestTestableDouble(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
-                var input1 = Cast<N>.ToNumeric(randomBoundary1);
-                var input2 = Cast<N>.ToNumeric(randomBoundary2);
-                var expected = Cast<N>.ToNumeric(Math.Atan2(randomBoundary1, randomBoundary2));
+                double randomBoundary1 = Utilities.ClosestTestableDouble(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
+                double randomBoundary2 = Utilities.ClosestTestableDouble(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
+                N input1 = Cast<N>.ToNumeric(randomBoundary1);
+                N input2 = Cast<N>.ToNumeric(randomBoundary2);
+                N expected = Cast<N>.ToNumeric(Math.Atan2(randomBoundary1, randomBoundary2));
 
                 //act
-                var result = Math<N>.Atan2(input1, input2);
+                N result = Math<N>.Atan2(input1, input2);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -351,11 +351,11 @@ namespace Jodo.Extensions.Numerics.Tests
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
                 while (!double.IsFinite(Math.Atanh(randomValue)));
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Atanh(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Atanh(randomValue));
 
                 //act
-                var result = Math<N>.Atanh(input);
+                N result = Math<N>.Atanh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -365,12 +365,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cbrt_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Cbrt(randomValue));
+                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Cbrt(randomValue));
 
                 //act
-                var result = Math<N>.Cbrt(input);
+                N result = Math<N>.Cbrt(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -380,11 +380,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cbrt_Zero_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(0);
-                var expected = Cast<N>.ToNumeric(Math.Cbrt(0d));
+                N input = Cast<N>.ToNumeric(0);
+                N expected = Cast<N>.ToNumeric(Math.Cbrt(0d));
 
                 //act
-                var result = Math<N>.Cbrt(input);
+                N result = Math<N>.Cbrt(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -394,12 +394,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cbrt_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Cbrt(lowerBound));
+                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Cbrt(lowerBound));
 
                 //act
-                var result = Math<N>.Cbrt(input);
+                N result = Math<N>.Cbrt(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -409,12 +409,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cbrt_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Cbrt(upperBound));
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Cbrt(upperBound));
 
                 //act
-                var result = Math<N>.Cbrt(input);
+                N result = Math<N>.Cbrt(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -424,13 +424,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Ceiling_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
+                double randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Ceiling(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Ceiling(randomValue));
 
                 //act
-                var result = Math<N>.Ceiling(input);
+                N result = Math<N>.Ceiling(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -440,13 +440,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Ceiling_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue + Numeric<N>.One);
+                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue + Numeric<N>.One);
                 if (!Numeric<N>.IsReal) lowerBound = Math.Round(lowerBound);
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Ceiling(lowerBound));
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Ceiling(lowerBound));
 
                 //act
-                var result = Math<N>.Ceiling(input);
+                N result = Math<N>.Ceiling(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -456,13 +456,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Ceiling_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue - Numeric<N>.One);
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue - Numeric<N>.One);
                 if (!Numeric<N>.IsReal) upperBound = Math.Floor(upperBound);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Ceiling(upperBound));
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Ceiling(upperBound));
 
                 //act
-                var result = Math<N>.Ceiling(input);
+                N result = Math<N>.Ceiling(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -472,11 +472,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Ceiling_Zero_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(0);
-                var expected = Cast<N>.ToNumeric(Math.Ceiling(0d));
+                N input = Cast<N>.ToNumeric(0);
+                N expected = Cast<N>.ToNumeric(Math.Ceiling(0d));
 
                 //act
-                var result = Math<N>.Ceiling(input);
+                N result = Math<N>.Ceiling(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -486,12 +486,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Clamp_RandomValues_ReturnsValueWithinBounds()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
-                var bound1 = Random.NextNumeric<N>();
-                var bound2 = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
+                N bound1 = Random.NextNumeric<N>();
+                N bound2 = Random.NextNumeric<N>();
 
                 //act
-                var result = Math<N>.Clamp(input, bound1, bound2);
+                N result = Math<N>.Clamp(input, bound1, bound2);
 
                 //assert
                 if (bound1 > bound2) (bound1, bound2) = (bound2, bound1);
@@ -502,12 +502,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Clamp_RandomValuesWithinBounds_ReturnsSameValue()
             {
                 //arrange
-                var bound1 = Random.NextNumeric<N>();
-                var bound2 = Random.NextNumeric<N>();
-                var input = Random.NextNumeric(bound1, bound2);
+                N bound1 = Random.NextNumeric<N>();
+                N bound2 = Random.NextNumeric<N>();
+                N input = Random.NextNumeric(bound1, bound2);
 
                 //act
-                var result = Math<N>.Clamp(input, bound1, bound2);
+                N result = Math<N>.Clamp(input, bound1, bound2);
 
                 //assert
                 result.Should().Be(input);
@@ -517,12 +517,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cos_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Cos(randomValue));
+                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Cos(randomValue));
 
                 //act
-                var result = Math<N>.Cos(input);
+                N result = Math<N>.Cos(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -532,12 +532,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cos_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Cos(lowerBound));
+                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Cos(lowerBound));
 
                 //act
-                var result = Math<N>.Cos(input);
+                N result = Math<N>.Cos(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -547,12 +547,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Cos_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Cos(upperBound));
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Cos(upperBound));
 
                 //act
-                var result = Math<N>.Cos(input);
+                N result = Math<N>.Cos(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -569,11 +569,11 @@ namespace Jodo.Extensions.Numerics.Tests
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
                 while (!double.IsFinite(Math.Cosh(randomValue)));
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Cosh(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Cosh(randomValue));
 
                 //act
-                var result = Math<N>.Cosh(input);
+                N result = Math<N>.Cosh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -583,12 +583,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void DegreesToRadians_SmallValue_CorrectResult()
             {
                 //arrange
-                var smallValue = 90;
-                var input = Cast<N>.ToNumeric(smallValue);
-                var expected = Cast<N>.ToNumeric(1.5708);
+                int smallValue = 90;
+                N input = Cast<N>.ToNumeric(smallValue);
+                N expected = Cast<N>.ToNumeric(1.5708);
 
                 //act
-                var result = Math<N>.DegreesToRadians(input);
+                N result = Math<N>.DegreesToRadians(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -598,13 +598,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Exp_Random_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 4), 2);
+                double randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 4), 2);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Exp(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Exp(randomValue));
 
                 //act
-                var result = Math<N>.Exp(input);
+                N result = Math<N>.Exp(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -614,11 +614,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Exp_Zero_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(0);
-                var expected = Cast<N>.ToNumeric(Math.Exp(0d));
+                N input = Cast<N>.ToNumeric(0);
+                N expected = Cast<N>.ToNumeric(Math.Exp(0d));
 
                 //act
-                var result = Math<N>.Exp(input);
+                N result = Math<N>.Exp(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -628,11 +628,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Exp_One_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(1);
-                var expected = Cast<N>.ToNumeric(Math.Exp(1d));
+                N input = Cast<N>.ToNumeric(1);
+                N expected = Cast<N>.ToNumeric(Math.Exp(1d));
 
                 //act
-                var result = Math<N>.Exp(input);
+                N result = Math<N>.Exp(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -642,13 +642,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Floor_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
+                double randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Floor(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Floor(randomValue));
 
                 //act
-                var result = Math<N>.Floor(input);
+                N result = Math<N>.Floor(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -658,13 +658,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Floor_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue + Numeric<N>.One);
+                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue + Numeric<N>.One);
                 if (!Numeric<N>.IsReal) lowerBound = Math.Round(lowerBound);
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Floor(lowerBound));
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Floor(lowerBound));
 
                 //act
-                var result = Math<N>.Floor(input);
+                N result = Math<N>.Floor(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -674,13 +674,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Floor_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue - Numeric<N>.One);
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue - Numeric<N>.One);
                 if (!Numeric<N>.IsReal) upperBound = Math.Round(upperBound);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Floor(upperBound));
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Floor(upperBound));
 
                 //act
-                var result = Math<N>.Floor(input);
+                N result = Math<N>.Floor(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -690,11 +690,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Floor_Zero_EquivalentToSystemMath()
             {
                 //arrange
-                var input = Cast<N>.ToNumeric(0);
-                var expected = Cast<N>.ToNumeric(Math.Floor(0d));
+                N input = Cast<N>.ToNumeric(0);
+                N expected = Cast<N>.ToNumeric(Math.Floor(0d));
 
                 //act
-                var result = Math<N>.Floor(input);
+                N result = Math<N>.Floor(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -711,12 +711,12 @@ namespace Jodo.Extensions.Numerics.Tests
                     randomValue1 = Math.Round(Random.NextDouble(0, 10));
                     randomValue2 = Math.Round(Random.NextDouble(1, 10));
                 } while (!Numeric<N>.IsSigned && Math.IEEERemainder(randomValue1, randomValue2) < 0);
-                var input1 = Cast<N>.ToNumeric(randomValue1);
-                var input2 = Cast<N>.ToNumeric(randomValue2);
-                var expected = Cast<N>.ToNumeric(Math.IEEERemainder(randomValue1, randomValue2));
+                N input1 = Cast<N>.ToNumeric(randomValue1);
+                N input2 = Cast<N>.ToNumeric(randomValue2);
+                N expected = Cast<N>.ToNumeric(Math.IEEERemainder(randomValue1, randomValue2));
 
                 //act
-                var result = Math<N>.IEEERemainder(input1, input2);
+                N result = Math<N>.IEEERemainder(input1, input2);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -729,11 +729,11 @@ namespace Jodo.Extensions.Numerics.Tests
                 double randomValue;
                 do { randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue)); }
                 while (!double.IsFinite(Math.Log(randomValue)));
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Log(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Log(randomValue));
 
                 //act
-                var result = Math<N>.Log(input);
+                N result = Math<N>.Log(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -743,12 +743,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Log_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Cast<N>.ToDouble(Numeric<N>.Epsilon);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Log(randomValue));
+                double randomValue = Cast<N>.ToDouble(Numeric<N>.Epsilon);
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Log(randomValue));
 
                 //act
-                var result = Math<N>.Log(input);
+                N result = Math<N>.Log(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -758,12 +758,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Log_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Log(randomValue));
+                double randomValue = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Log(randomValue));
 
                 //act
-                var result = Math<N>.Log(input);
+                N result = Math<N>.Log(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -780,12 +780,12 @@ namespace Jodo.Extensions.Numerics.Tests
                     randomValue1 = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
                     randomValue2 = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
                 } while (randomValue1 <= 0 || randomValue2 <= 1);
-                var input1 = Cast<N>.ToNumeric(randomValue1);
-                var input2 = Cast<N>.ToNumeric(randomValue2);
-                var expected = Cast<N>.ToNumeric(Math.Log(randomValue1, randomValue2));
+                N input1 = Cast<N>.ToNumeric(randomValue1);
+                N input2 = Cast<N>.ToNumeric(randomValue2);
+                N expected = Cast<N>.ToNumeric(Math.Log(randomValue1, randomValue2));
 
                 //act
-                var result = Math<N>.Log(input1, input2);
+                N result = Math<N>.Log(input1, input2);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -795,12 +795,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Log10_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Log10(randomValue));
+                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Log10(randomValue));
 
                 //act
-                var result = Math<N>.Log10(input);
+                N result = Math<N>.Log10(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -810,12 +810,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Log10_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Cast<N>.ToDouble(Numeric<N>.Epsilon);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Log10(randomValue));
+                double randomValue = Cast<N>.ToDouble(Numeric<N>.Epsilon);
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Log10(randomValue));
 
                 //act
-                var result = Math<N>.Log10(input);
+                N result = Math<N>.Log10(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -825,12 +825,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Log10_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Log10(randomValue));
+                double randomValue = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Log10(randomValue));
 
                 //act
-                var result = Math<N>.Log10(input);
+                N result = Math<N>.Log10(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -840,12 +840,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Max_RandomValues_LargestValue()
             {
                 //arrange
-                var input1 = Random.NextNumeric<N>();
-                var input2 = Random.NextNumeric<N>();
-                var expected = input1 > input2 ? input1 : input2;
+                N input1 = Random.NextNumeric<N>();
+                N input2 = Random.NextNumeric<N>();
+                N expected = input1 > input2 ? input1 : input2;
 
                 //act
-                var result = Math<N>.Max(input1, input2);
+                N result = Math<N>.Max(input1, input2);
 
                 //assert
                 result.Should().Be(expected);
@@ -855,12 +855,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Min_RandomValues_SmallestValue()
             {
                 //arrange
-                var input1 = Random.NextNumeric<N>();
-                var input2 = Random.NextNumeric<N>();
-                var expected = input1 < input2 ? input1 : input2;
+                N input1 = Random.NextNumeric<N>();
+                N input2 = Random.NextNumeric<N>();
+                N expected = input1 < input2 ? input1 : input2;
 
                 //act
-                var result = Math<N>.Min(input1, input2);
+                N result = Math<N>.Min(input1, input2);
 
                 //assert
                 result.Should().Be(expected);
@@ -870,19 +870,19 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Pow_RandomValues_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue1 = Random.NextDouble(1, 11);
-                var randomValue2 = Random.NextDouble(1, 11);
+                double randomValue1 = Random.NextDouble(1, 11);
+                double randomValue2 = Random.NextDouble(1, 11);
                 if (!Numeric<N>.IsReal)
                 {
                     randomValue1 = Math.Truncate(randomValue1);
                     randomValue2 = Math.Truncate(randomValue2);
                 }
-                var input1 = Cast<N>.ToNumeric(randomValue1);
-                var input2 = Cast<N>.ToNumeric(randomValue2);
-                var expected = Cast<N>.ToNumeric(Math.Pow(randomValue1, randomValue2));
+                N input1 = Cast<N>.ToNumeric(randomValue1);
+                N input2 = Cast<N>.ToNumeric(randomValue2);
+                N expected = Cast<N>.ToNumeric(Math.Pow(randomValue1, randomValue2));
 
                 //act
-                var result = Math<N>.Pow(input1, input2);
+                N result = Math<N>.Pow(input1, input2);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -892,10 +892,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Pow_RandomValueByZero_One()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = Math<N>.Pow(input, Numeric<N>.Zero);
+                N result = Math<N>.Pow(input, Numeric<N>.Zero);
 
                 //assert
                 result.Should().Be(Numeric<N>.One);
@@ -905,10 +905,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Pow_RandomValueByOne_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = Math<N>.Pow(input, Numeric<N>.One);
+                N result = Math<N>.Pow(input, Numeric<N>.One);
 
                 //assert
                 result.Should().Be(input);
@@ -918,12 +918,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void RadiansToDegrees_SmallValue_CorrectResult()
             {
                 //arrange
-                var smallValue = 2;
-                var input = Cast<N>.ToNumeric(smallValue);
-                var expected = Cast<N>.ToNumeric(114.592);
+                int smallValue = 2;
+                N input = Cast<N>.ToNumeric(smallValue);
+                N expected = Cast<N>.ToNumeric(114.592);
 
                 //act
-                var result = Math<N>.RadiansToDegrees(input);
+                N result = Math<N>.RadiansToDegrees(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -938,7 +938,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 while (input <= Numeric<N>.Zero);
 
                 //act
-                var result = Math<N>.Sign(input);
+                int result = Math<N>.Sign(input);
 
                 //assert
                 result.Should().Be(1);
@@ -948,10 +948,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sign_Zero_ReturnsZero()
             {
                 //arrange
-                var input = Numeric<N>.Zero;
+                N input = Numeric<N>.Zero;
 
                 //act
-                var result = Math<N>.Sign(input);
+                int result = Math<N>.Sign(input);
 
                 //assert
                 result.Should().Be(0);
@@ -968,11 +968,11 @@ namespace Jodo.Extensions.Numerics.Tests
                     if (!Numeric<N>.IsReal) randomValue = Math.Truncate(randomValue);
                 }
                 while (!Numeric<N>.IsSigned && Math.Sin(randomValue) < 0);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Sin(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Sin(randomValue));
 
                 //act
-                var result = Math<N>.Sin(input);
+                N result = Math<N>.Sin(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -982,12 +982,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sin_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Sin(lowerBound));
+                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Sin(lowerBound));
 
                 //act
-                var result = Math<N>.Sin(input);
+                N result = Math<N>.Sin(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -997,12 +997,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sin_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Sin(upperBound));
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Sin(upperBound));
 
                 //act
-                var result = Math<N>.Sin(input);
+                N result = Math<N>.Sin(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1019,11 +1019,11 @@ namespace Jodo.Extensions.Numerics.Tests
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
                 while (!double.IsFinite(Math.Sinh(randomValue)));
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Sinh(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Sinh(randomValue));
 
                 //act
-                var result = Math<N>.Sinh(input);
+                N result = Math<N>.Sinh(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1033,12 +1033,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sqrt_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Sqrt(randomValue));
+                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Sqrt(randomValue));
 
                 //act
-                var result = Math<N>.Sqrt(input);
+                N result = Math<N>.Sqrt(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1048,12 +1048,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sqrt_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = 0;
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Sqrt(lowerBound));
+                int lowerBound = 0;
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Sqrt(lowerBound));
 
                 //act
-                var result = Math<N>.Sqrt(input);
+                N result = Math<N>.Sqrt(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1063,12 +1063,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Sqrt_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Sqrt(upperBound));
+                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Sqrt(upperBound));
 
                 //act
-                var result = Math<N>.Sqrt(input);
+                N result = Math<N>.Sqrt(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1078,13 +1078,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Tan_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 2);
+                double randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 2);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Tan(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Tan(randomValue));
 
                 //act
-                var result = Math<N>.Tan(input);
+                N result = Math<N>.Tan(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1094,12 +1094,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Tan_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                var lowerBound = Numeric<N>.IsSigned ? -10 : 0;
-                var input = Cast<N>.ToNumeric(lowerBound);
-                var expected = Cast<N>.ToNumeric(Math.Tan(lowerBound));
+                int lowerBound = Numeric<N>.IsSigned ? -10 : 0;
+                N input = Cast<N>.ToNumeric(lowerBound);
+                N expected = Cast<N>.ToNumeric(Math.Tan(lowerBound));
 
                 //act
-                var result = Math<N>.Tan(input);
+                N result = Math<N>.Tan(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1109,12 +1109,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Tan_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                var upperBound = 10;
-                var input = Cast<N>.ToNumeric(upperBound);
-                var expected = Cast<N>.ToNumeric(Math.Tan(upperBound));
+                int upperBound = 10;
+                N input = Cast<N>.ToNumeric(upperBound);
+                N expected = Cast<N>.ToNumeric(Math.Tan(upperBound));
 
                 //act
-                var result = Math<N>.Tan(input);
+                N result = Math<N>.Tan(input);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1130,11 +1130,11 @@ namespace Jodo.Extensions.Numerics.Tests
                     input = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                 }
                 while (!double.IsFinite(Math.Tanh(input)));
-                var sut = Cast<N>.ToNumeric(input);
-                var expected = Cast<N>.ToNumeric(Math.Tanh(input));
+                N sut = Cast<N>.ToNumeric(input);
+                N expected = Cast<N>.ToNumeric(Math.Tanh(input));
 
                 //act
-                var result = Math<N>.Tanh(sut);
+                N result = Math<N>.Tanh(sut);
 
                 //assert
                 result.Should().BeApproximately(expected);
@@ -1144,13 +1144,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Truncate_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
+                double randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
                 if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Truncate(randomValue));
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Truncate(randomValue));
 
                 //act
-                var result = Math<N>.Truncate(input);
+                N result = Math<N>.Truncate(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -1166,10 +1166,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round1_RandomIntegral_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = Math<N>.Round(input);
+                N result = Math<N>.Round(input);
 
                 //assert
                 result.Should().Be(input);
@@ -1179,11 +1179,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round2_RandomIntegral_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
-                var digits = Random.NextInt32(0, 10);
+                N input = Random.NextNumeric<N>();
+                int digits = Random.NextInt32(0, 10);
 
                 //act
-                var result = Math<N>.Round(input, digits);
+                N result = Math<N>.Round(input, digits);
 
                 //assert
                 result.Should().Be(input);
@@ -1193,11 +1193,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round3_RandomIntegral_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
-                var mode = Random.NextEnum<MidpointRounding>();
+                N input = Random.NextNumeric<N>();
+                MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
                 //act
-                var result = Math<N>.Round(input, mode);
+                N result = Math<N>.Round(input, mode);
 
                 //assert
                 result.Should().Be(input);
@@ -1207,12 +1207,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round4_RandomIntegral_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
-                var digits = Random.NextInt32(0, 10);
-                var mode = Random.NextEnum<MidpointRounding>();
+                N input = Random.NextNumeric<N>();
+                int digits = Random.NextInt32(0, 10);
+                MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
                 //act
-                var result = Math<N>.Round(input, digits, mode);
+                N result = Math<N>.Round(input, digits, mode);
 
                 //assert
                 result.Should().Be(input);
@@ -1228,12 +1228,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round1_RandomReal_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Round(randomValue));
+                double randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10), 1);
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Round(randomValue));
 
                 //act
-                var result = Math<N>.Round(input);
+                N result = Math<N>.Round(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -1249,10 +1249,10 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Abs_Unsigned_SameValue()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = Math<N>.Abs(input);
+                N result = Math<N>.Abs(input);
 
                 //assert
                 result.Should().Be(input);
@@ -1268,11 +1268,11 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Abs_Negative_PositiveEquivalent()
             {
                 //arrange
-                var input = Random.NextNumeric(Numeric<N>.MinValue + Numeric<N>.MaxUnit, Numeric<N>.MinUnit);
-                var expected = Numeric<N>.MinUnit * input;
+                N input = Random.NextNumeric(Numeric<N>.MinValue + Numeric<N>.MaxUnit, Numeric<N>.MinUnit);
+                N expected = Numeric<N>.MinUnit * input;
 
                 //act
-                var result = Math<N>.Abs(input);
+                N result = Math<N>.Abs(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -1287,7 +1287,7 @@ namespace Jodo.Extensions.Numerics.Tests
                 while (input >= Numeric<N>.Zero);
 
                 //act
-                var result = Math<N>.Sign(input);
+                int result = Math<N>.Sign(input);
 
                 //assert
                 result.Should().Be(-1);
@@ -1303,12 +1303,12 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round1_RandomFloatingPoint_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Round(randomValue));
+                double randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Round(randomValue));
 
                 //act
-                var result = Math<N>.Round(input);
+                N result = Math<N>.Round(input);
 
                 //assert
                 result.Should().Be(expected);
@@ -1318,13 +1318,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round2_RandomFloatingPoint_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
-                var digits = Random.NextInt32(0, 2);
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Round(randomValue, digits));
+                double randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                int digits = Random.NextInt32(0, 2);
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Round(randomValue, digits));
 
                 //act
-                var result = Math<N>.Round(input, digits);
+                N result = Math<N>.Round(input, digits);
 
                 //assert
                 result.Should().Be(expected);
@@ -1334,13 +1334,13 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round3_RandomFloatingPoint_SameValue()
             {
                 //arrange
-                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
-                var mode = Random.NextEnum<MidpointRounding>();
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Round(randomValue, mode));
+                double randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                MidpointRounding mode = Random.NextEnum<MidpointRounding>();
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Round(randomValue, mode));
 
                 //act
-                var result = Math<N>.Round(input, mode);
+                N result = Math<N>.Round(input, mode);
 
                 //assert
                 result.Should().Be(expected);
@@ -1350,14 +1350,14 @@ namespace Jodo.Extensions.Numerics.Tests
             public void Round4_RandomFloatingPoint_EquivalentToSystemMath()
             {
                 //arrange
-                var randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
-                var digits = Random.NextInt32(0, 2);
-                var mode = Random.NextEnum<MidpointRounding>();
-                var input = Cast<N>.ToNumeric(randomValue);
-                var expected = Cast<N>.ToNumeric(Math.Round(randomValue, digits, mode));
+                double randomValue = Random.NextDouble(Numeric<N>.IsSigned ? -10 : 0, 10);
+                int digits = Random.NextInt32(0, 2);
+                MidpointRounding mode = Random.NextEnum<MidpointRounding>();
+                N input = Cast<N>.ToNumeric(randomValue);
+                N expected = Cast<N>.ToNumeric(Math.Round(randomValue, digits, mode));
 
                 //act
-                var result = Math<N>.Round(input, digits, mode);
+                N result = Math<N>.Round(input, digits, mode);
 
                 //assert
                 result.Should().Be(expected);

@@ -17,13 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Numerics.Tests;
 using Jodo.Extensions.Primitives;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.CheckedNumerics.Tests
 {
@@ -46,12 +46,12 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void IsFinite_RandomValue_AlwaysTrue()
         {
             //arrange
-            var bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
+            byte[] bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
             Random.NextBytes(bytes.AsSpan()[..12]);
-            var input = BitConverter<cdecimal>.FromBytes(bytes.AsSpan());
+            cdecimal input = BitConverter<cdecimal>.FromBytes(bytes.AsSpan());
 
             //act
-            var result = Numeric<cdecimal>.IsFinite(input);
+            bool result = Numeric<cdecimal>.IsFinite(input);
 
             //assert
             result.Should().BeTrue();
@@ -61,12 +61,12 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void IsInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            var bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
+            byte[] bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
             Random.NextBytes(bytes.AsSpan()[..12]);
-            var input = BitConverter<cdecimal>.FromBytes(bytes.AsSpan());
+            cdecimal input = BitConverter<cdecimal>.FromBytes(bytes.AsSpan());
 
             //act
-            var result = Numeric<cdecimal>.IsInfinity(input);
+            bool result = Numeric<cdecimal>.IsInfinity(input);
 
             //assert
             result.Should().BeFalse();
@@ -76,12 +76,12 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void IsPositiveInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            var bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
+            byte[] bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
             Random.NextBytes(bytes.AsSpan()[..12]);
-            var input = BitConverter<cdecimal>.FromBytes(bytes.AsSpan());
+            cdecimal input = BitConverter<cdecimal>.FromBytes(bytes.AsSpan());
 
             //act
-            var result = Numeric<cdecimal>.IsPositiveInfinity(input);
+            bool result = Numeric<cdecimal>.IsPositiveInfinity(input);
 
             //assert
             result.Should().BeFalse();
@@ -91,12 +91,12 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void IsNegativeInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            var bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
+            byte[] bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
             Random.NextBytes(bytes.AsSpan()[..12]);
-            var input = BitConverter<cdecimal>.FromBytes(bytes.AsSpan());
+            cdecimal input = BitConverter<cdecimal>.FromBytes(bytes.AsSpan());
 
             //act
-            var result = Numeric<cdecimal>.IsNegativeInfinity(input);
+            bool result = Numeric<cdecimal>.IsNegativeInfinity(input);
 
             //assert
             result.Should().BeFalse();
@@ -106,12 +106,12 @@ namespace Jodo.Extensions.CheckedNumerics.Tests
         public void IsNaN_RandomValue_AlwaysFalse()
         {
             //arrange
-            var bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
+            byte[] bytes = BitConverter<cdecimal>.GetBytes(default).ToArray();
             Random.NextBytes(bytes.AsSpan()[..12]);
-            var input = Random.NextNumeric<cdecimal>();
+            cdecimal input = Random.NextNumeric<cdecimal>();
 
             //act
-            var result = Numeric<cdecimal>.IsNaN(input);
+            bool result = Numeric<cdecimal>.IsNaN(input);
 
             //assert
             result.Should().BeFalse();

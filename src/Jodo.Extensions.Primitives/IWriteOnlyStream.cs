@@ -17,12 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-
 namespace Jodo.Extensions.Primitives
 {
-    public interface IWriteOnlyStream<T>
+    public interface IWriteOnlyStream<in T>
     {
-        void Write(ReadOnlySpan<T> values);
+        void Write(T value);
     }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Joseph J. Short
+﻿// Copyright (c) 2022 Joseph J. Short
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
 // deal in the Software without restriction, including without limitation the
@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
@@ -30,3 +31,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Jodo.Extensions.Testing.Tests")]
 
 [assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+
+[assembly: CLSCompliant(true)]

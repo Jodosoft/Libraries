@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics;
 using Jodo.Extensions.Geometry;
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Primitives;
-using System.Diagnostics;
 
 namespace System
 {
+    [CLSCompliant(false)]
     public static class RandomExtensions
     {
         [DebuggerStepThrough]

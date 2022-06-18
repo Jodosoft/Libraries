@@ -11,6 +11,7 @@
 Commonly Used Types:
 Jodo.Extensions.Primitives.BitConverter&lt;N&gt;</Description>
     <Title>Jodo.Extensions.Primitives</Title>
-  </PropertyGroup>  
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
   
 </Project>

@@ -17,11 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
+using System;
 using System.Diagnostics;
+using Jodo.Extensions.Primitives;
 
 namespace Jodo.Extensions.Numerics
 {
+    [CLSCompliant(false)]
     public static class Convert<N> where N : struct, INumeric<N>
     {
         private static readonly IConvert<N> Default = ((IProvider<IConvert<N>>)default(N)).GetInstance();
@@ -48,6 +50,7 @@ namespace Jodo.Extensions.Numerics
         public static long ToInt64(N value) => Default.ToInt64(value);
 
         [DebuggerStepThrough]
+        [CLSCompliant(false)]
         public static sbyte ToSByte(N value) => Default.ToSByte(value);
 
         [DebuggerStepThrough]
@@ -57,12 +60,15 @@ namespace Jodo.Extensions.Numerics
         public static string ToString(N value) => Default.ToString(value);
 
         [DebuggerStepThrough]
+        [CLSCompliant(false)]
         public static uint ToUInt32(N value) => Default.ToUInt32(value);
 
         [DebuggerStepThrough]
+        [CLSCompliant(false)]
         public static ulong ToUInt64(N value) => Default.ToUInt64(value);
 
         [DebuggerStepThrough]
+        [CLSCompliant(false)]
         public static ushort ToUInt16(N value) => Default.ToUInt16(value);
 
         [DebuggerStepThrough]
@@ -87,6 +93,7 @@ namespace Jodo.Extensions.Numerics
         public static N ToNumeric(long value) => Default.ToNumeric(value);
 
         [DebuggerStepThrough]
+        [CLSCompliant(false)]
         public static N ToNumeric(sbyte value) => Default.ToNumeric(value);
 
         [DebuggerStepThrough]
@@ -96,12 +103,15 @@ namespace Jodo.Extensions.Numerics
         public static N ToNumeric(string value) => Default.ToNumeric(value);
 
         [DebuggerStepThrough]
+        [CLSCompliant(false)]
         public static N ToNumeric(uint value) => Default.ToNumeric(value);
 
         [DebuggerStepThrough]
+        [CLSCompliant(false)]
         public static N ToNumeric(ulong value) => Default.ToNumeric(value);
 
         [DebuggerStepThrough]
+        [CLSCompliant(false)]
         public static N ToNumeric(ushort value) => Default.ToNumeric(value);
     }
 }

@@ -24,6 +24,7 @@ namespace Jodo.Extensions.Numerics.Tests
         public sealed class BitConverter : BitConverterTests<xulong> { }
         public sealed class Cast : CastTests<xulong> { }
         public sealed class ConvertTests : ConvertTests<xulong> { }
+        public sealed class MathErrorGeneral : MathErrorTests.General<xulong> { }
         public sealed class MathGeneral : MathTests.General<xulong> { }
         public sealed class MathIntegral : MathTests.Integral<xulong> { }
         public sealed class MathUnsigned : NumericTests.Unsigned<xulong> { }

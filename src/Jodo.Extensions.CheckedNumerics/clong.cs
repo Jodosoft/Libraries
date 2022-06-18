@@ -17,13 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.CheckedNumerics
 {
@@ -65,25 +66,25 @@ namespace Jodo.Extensions.CheckedNumerics
         public static clong Parse(string s, NumberStyles style) => long.Parse(s, style);
         public static clong Parse(string s, NumberStyles style, IFormatProvider? provider) => long.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator clong(ulong value) => new clong(CheckedConvert.ToInt64(value));
+        [CLSCompliant(false)] public static implicit operator clong(sbyte value) => new clong(value);
+        [CLSCompliant(false)] public static implicit operator clong(uint value) => new clong(value);
+        [CLSCompliant(false)] public static implicit operator clong(ushort value) => new clong(value);
         public static explicit operator clong(decimal value) => new clong(CheckedTruncate.ToInt64(value));
         public static explicit operator clong(double value) => new clong(CheckedTruncate.ToInt64(value));
         public static explicit operator clong(float value) => new clong(CheckedTruncate.ToInt64(value));
-        public static explicit operator clong(ulong value) => new clong(CheckedConvert.ToInt64(value));
         public static implicit operator clong(byte value) => new clong(value);
         public static implicit operator clong(int value) => new clong(value);
         public static implicit operator clong(long value) => new clong(value);
-        public static implicit operator clong(sbyte value) => new clong(value);
         public static implicit operator clong(short value) => new clong(value);
-        public static implicit operator clong(uint value) => new clong(value);
-        public static implicit operator clong(ushort value) => new clong(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(clong value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator uint(clong value) => CheckedConvert.ToUInt32(value._value);
+        [CLSCompliant(false)] public static explicit operator ulong(clong value) => CheckedConvert.ToUInt64(value._value);
+        [CLSCompliant(false)] public static explicit operator ushort(clong value) => CheckedConvert.ToUInt16(value._value);
         public static explicit operator byte(clong value) => CheckedConvert.ToByte(value._value);
         public static explicit operator int(clong value) => CheckedConvert.ToInt32(value._value);
-        public static explicit operator sbyte(clong value) => CheckedConvert.ToSByte(value._value);
         public static explicit operator short(clong value) => CheckedConvert.ToInt16(value._value);
-        public static explicit operator uint(clong value) => CheckedConvert.ToUInt32(value._value);
-        public static explicit operator ulong(clong value) => CheckedConvert.ToUInt64(value._value);
-        public static explicit operator ushort(clong value) => CheckedConvert.ToUInt16(value._value);
         public static implicit operator decimal(clong value) => value._value;
         public static implicit operator double(clong value) => value._value;
         public static implicit operator float(clong value) => value._value;
@@ -146,7 +147,7 @@ namespace Jodo.Extensions.CheckedNumerics
             IRandom<clong>,
             IStringParser<clong>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<clong>.HasFloatingPoint { get; } = false;
             bool INumericStatic<clong>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.CheckedNumerics
             clong INumericStatic<clong>.Two { get; } = 2L;
             clong INumericStatic<clong>.Zero { get; } = 0L;
 
-            clong IMath<clong>.Abs(clong x) => Math.Abs(x);
+            clong IMath<clong>.Abs(clong value) => Math.Abs(value);
             clong IMath<clong>.Acos(clong x) => (clong)Math.Acos(x);
-            clong IMath<clong>.Acosh(clong x) => (clong)Math.Acosh(x);
+            clong IMath<clong>.Acosh(clong x) => (clong)MathCompat.Acosh(x);
             clong IMath<clong>.Asin(clong x) => (clong)Math.Asin(x);
-            clong IMath<clong>.Asinh(clong x) => (clong)Math.Asinh(x);
+            clong IMath<clong>.Asinh(clong x) => (clong)MathCompat.Asinh(x);
             clong IMath<clong>.Atan(clong x) => (clong)Math.Atan(x);
             clong IMath<clong>.Atan2(clong y, clong x) => (clong)Math.Atan2(y, x);
-            clong IMath<clong>.Atanh(clong x) => (clong)Math.Atanh(x);
-            clong IMath<clong>.Cbrt(clong x) => (clong)Math.Cbrt(x);
+            clong IMath<clong>.Atanh(clong x) => (clong)MathCompat.Atanh(x);
+            clong IMath<clong>.Cbrt(clong x) => (clong)MathCompat.Cbrt(x);
             clong IMath<clong>.Ceiling(clong x) => x;
             clong IMath<clong>.Clamp(clong x, clong bound1, clong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             clong IMath<clong>.Cos(clong x) => (clong)Math.Cos(x);
@@ -210,7 +211,7 @@ namespace Jodo.Extensions.CheckedNumerics
             clong IMath<clong>.Truncate(clong x) => x;
             int IMath<clong>.Sign(clong x) => Math.Sign(x._value);
 
-            clong IBitConverter<clong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));
+            clong IBitConverter<clong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)), 0);
             void IBitConverter<clong>.Write(clong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             clong IRandom<clong>.Next(Random random) => random.NextInt64WithoutBounds();

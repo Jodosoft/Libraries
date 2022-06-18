@@ -17,11 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
 using Jodo.Extensions.Numerics;
 using Jodo.Extensions.Testing;
 using NUnit.Framework;
-using System;
 
 namespace Jodo.Extensions.Geometry.Tests
 {
@@ -40,10 +40,10 @@ namespace Jodo.Extensions.Geometry.Tests
             public void Degrees_FromDegrees_SameAsOriginal()
             {
                 //arrange
-                var input = Random.NextNumeric<N>();
+                N input = Random.NextNumeric<N>();
 
                 //act
-                var result = Angle<N>.FromDegrees(input).Degrees;
+                N result = Angle<N>.FromDegrees(input).Degrees;
 
                 //assert
                 result.Should().Be(input);

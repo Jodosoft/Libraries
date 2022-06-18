@@ -41,24 +41,24 @@ namespace Jodo.Extensions.CheckedNumerics
         public static long ToInt64(double x) { try { checked { return Convert.ToInt64(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? long.MaxValue : x < 0 ? long.MinValue : 0; } }
         public static long ToInt64(float x) { try { checked { return Convert.ToInt64(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? long.MaxValue : x < 0 ? long.MinValue : 0; } }
 
-        public static sbyte ToSByte(decimal x) { try { checked { return Convert.ToSByte(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
-        public static sbyte ToSByte(double x) { try { checked { return Convert.ToSByte(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
-        public static sbyte ToSByte(float x) { try { checked { return Convert.ToSByte(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
+        [CLSCompliant(false)] public static sbyte ToSByte(decimal x) { try { checked { return Convert.ToSByte(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
+        [CLSCompliant(false)] public static sbyte ToSByte(double x) { try { checked { return Convert.ToSByte(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
+        [CLSCompliant(false)] public static sbyte ToSByte(float x) { try { checked { return Convert.ToSByte(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? sbyte.MaxValue : x < 0 ? sbyte.MinValue : (sbyte)0; } }
 
         public static short ToInt16(decimal x) { try { checked { return Convert.ToInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? short.MaxValue : x < 0 ? short.MinValue : (short)0; } }
         public static short ToInt16(double x) { try { checked { return Convert.ToInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? short.MaxValue : x < 0 ? short.MinValue : (short)0; } }
         public static short ToInt16(float x) { try { checked { return Convert.ToInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? short.MaxValue : x < 0 ? short.MinValue : (short)0; } }
 
-        public static uint ToUInt32(decimal x) { try { checked { return Convert.ToUInt32(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
-        public static uint ToUInt32(double x) { try { checked { return Convert.ToUInt32(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
-        public static uint ToUInt32(float x) { try { checked { return Convert.ToUInt32(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
+        [CLSCompliant(false)] public static uint ToUInt32(decimal x) { try { checked { return Convert.ToUInt32(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
+        [CLSCompliant(false)] public static uint ToUInt32(double x) { try { checked { return Convert.ToUInt32(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
+        [CLSCompliant(false)] public static uint ToUInt32(float x) { try { checked { return Convert.ToUInt32(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? uint.MaxValue : x < 0 ? uint.MinValue : 0; } }
 
-        public static ulong ToUInt64(decimal x) { try { checked { return Convert.ToUInt64(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
-        public static ulong ToUInt64(double x) { try { checked { return Convert.ToUInt64(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
-        public static ulong ToUInt64(float x) { try { checked { return Convert.ToUInt64(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
+        [CLSCompliant(false)] public static ulong ToUInt64(decimal x) { try { checked { return Convert.ToUInt64(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
+        [CLSCompliant(false)] public static ulong ToUInt64(double x) { try { checked { return Convert.ToUInt64(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
+        [CLSCompliant(false)] public static ulong ToUInt64(float x) { try { checked { return Convert.ToUInt64(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ulong.MaxValue : x < 0 ? ulong.MinValue : 0; } }
 
-        public static ushort ToUInt16(decimal x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
-        public static ushort ToUInt16(double x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
-        public static ushort ToUInt16(float x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
+        [CLSCompliant(false)] public static ushort ToUInt16(decimal x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
+        [CLSCompliant(false)] public static ushort ToUInt16(double x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
+        [CLSCompliant(false)] public static ushort ToUInt16(float x) { try { checked { return Convert.ToUInt16(Math.Truncate(x)); } } catch (OverflowException) { return x > 0 ? ushort.MaxValue : x < 0 ? ushort.MinValue : (ushort)0; } }
     }
 }

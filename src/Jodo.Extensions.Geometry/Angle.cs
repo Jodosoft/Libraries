@@ -17,17 +17,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Numerics;
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Numerics;
+using Jodo.Extensions.Primitives;
 
 namespace Jodo.Extensions.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
+    [CLSCompliant(false)]
     public readonly struct Angle<N> :
             IComparable,
             IComparable<Angle<N>>,
@@ -39,6 +40,8 @@ namespace Jodo.Extensions.Geometry
             ISerializable
         where N : struct, INumeric<N>
     {
+        private const string Symbol = "∠";
+
         public static readonly Angle<N> Zero = default;
 
         public readonly N Degrees;
@@ -69,7 +72,7 @@ namespace Jodo.Extensions.Geometry
 
         public Angle<N> Normalise()
         {
-            return new Angle<N>(Degrees % Cast<N>.ToNumeric(360));
+            return new Angle<N>(Degrees.Remainder(Cast<N>.ToNumeric(360)));
         }
 
         public int CompareTo(object? obj) => obj is Angle<N> other ? CompareTo(other) : 1;
@@ -77,8 +80,8 @@ namespace Jodo.Extensions.Geometry
         public bool Equals(Angle<N> other) => Degrees.Equals(other.Degrees);
         public override bool Equals(object? obj) => obj is Angle<N> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
-        public override string ToString() => $"{Degrees}°";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Degrees.ToString(format, formatProvider)}°";
+        public override string ToString() => $"{Symbol}{Degrees}°";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}{Degrees.ToString(format, formatProvider)}°";
 
         public static Angle<N> FromDegrees(N degrees) => new Angle<N>(degrees);
         public static Angle<N> FromDegrees(byte degrees) => new Angle<N>(Convert<N>.ToNumeric(degrees));
@@ -91,7 +94,7 @@ namespace Jodo.Extensions.Geometry
 
         public static Angle<N> Parse(string value)
         {
-            var trimmed = value.Trim();
+            string? trimmed = value.Trim().Replace(Symbol, string.Empty);
 
             if (TryParse(trimmed, "°", out N number)) return Angle<N>.FromDegrees(number);
             if (TryParse(trimmed, "Degrees", out number)) return Angle<N>.FromDegrees(number);
@@ -108,7 +111,7 @@ namespace Jodo.Extensions.Geometry
 
         public static Angle<N> Parse(string value, NumberStyles numberStyles, IFormatProvider? formatProvider)
         {
-            var trimmed = value.Trim();
+            string? trimmed = value.Trim();
 
             if (TryParse(trimmed, "°", numberStyles, formatProvider, out N number)) return Angle<N>.FromDegrees(number);
             if (TryParse(trimmed, "Degrees", numberStyles, formatProvider, out number)) return Angle<N>.FromDegrees(number);
@@ -127,7 +130,7 @@ namespace Jodo.Extensions.Geometry
         {
             if (value.EndsWith(unit, StringComparison.InvariantCultureIgnoreCase))
             {
-                number = StringParser<N>.Parse(value[0..unit.Length]);
+                number = StringParser<N>.Parse(value.Substring(0, value.Length - unit.Length));
                 return true;
             }
             number = default;
@@ -138,7 +141,7 @@ namespace Jodo.Extensions.Geometry
         {
             if (value.EndsWith(unit, StringComparison.InvariantCultureIgnoreCase))
             {
-                number = StringParser<N>.Parse(value[0..unit.Length], numberStyles, formatProvider);
+                number = StringParser<N>.Parse(value.Substring(0, value.Length - unit.Length), numberStyles, formatProvider);
                 return true;
             }
             number = default;
@@ -149,42 +152,42 @@ namespace Jodo.Extensions.Geometry
         public static explicit operator Angle<N>(N value) => new Angle<N>(value);
 
         public static bool operator !=(Angle<N> left, Angle<N> right) => !left.Equals(right);
-        public static bool operator <(Angle<N> left, Angle<N> right) => left.Degrees < right.Degrees;
-        public static bool operator <=(Angle<N> left, Angle<N> right) => left.Degrees <= right.Degrees;
+        public static bool operator <(Angle<N> left, Angle<N> right) => left.Degrees.IsLessThan(right.Degrees);
+        public static bool operator <=(Angle<N> left, Angle<N> right) => left.Degrees.IsLessThanOrEqualTo(right.Degrees);
         public static bool operator ==(Angle<N> left, Angle<N> right) => left.Equals(right);
-        public static bool operator >(Angle<N> left, Angle<N> right) => left.Degrees > right.Degrees;
-        public static bool operator >=(Angle<N> left, Angle<N> right) => left.Degrees >= right.Degrees;
-        public static Angle<N> operator %(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees % right.Degrees);
-        public static Angle<N> operator -(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees - right.Degrees);
-        public static Angle<N> operator -(Angle<N> value) => new Angle<N>(-value.Degrees);
-        public static Angle<N> operator *(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees * right.Degrees);
-        public static Angle<N> operator /(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees / right.Degrees);
-        public static Angle<N> operator +(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees + right.Degrees);
+        public static bool operator >(Angle<N> left, Angle<N> right) => left.Degrees.IsGreaterThan(right.Degrees);
+        public static bool operator >=(Angle<N> left, Angle<N> right) => left.Degrees.IsGreaterThanOrEqualTo(right.Degrees);
+        public static Angle<N> operator %(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees.Remainder(right.Degrees));
+        public static Angle<N> operator -(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees.Subtract(right.Degrees));
+        public static Angle<N> operator -(Angle<N> value) => new Angle<N>(value.Degrees.Negative());
+        public static Angle<N> operator *(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees.Multiply(right.Degrees));
+        public static Angle<N> operator /(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees.Divide(right.Degrees));
+        public static Angle<N> operator +(Angle<N> left, Angle<N> right) => new Angle<N>(left.Degrees.Add(right.Degrees));
         public static Angle<N> operator +(Angle<N> value) => new Angle<N>(value.Degrees);
 
         public static bool operator !=(Angle<N> left, N right) => !left.Degrees.Equals(right);
-        public static bool operator <(Angle<N> left, N right) => left.Degrees < right;
-        public static bool operator <=(Angle<N> left, N right) => left.Degrees <= right;
+        public static bool operator <(Angle<N> left, N right) => left.Degrees.IsLessThan(right);
+        public static bool operator <=(Angle<N> left, N right) => left.Degrees.IsLessThanOrEqualTo(right);
         public static bool operator ==(Angle<N> left, N right) => left.Degrees.Equals(right);
-        public static bool operator >(Angle<N> left, N right) => left.Degrees > right;
-        public static bool operator >=(Angle<N> left, N right) => left.Degrees >= right;
-        public static Angle<N> operator %(Angle<N> left, N right) => new Angle<N>(left.Degrees % right);
-        public static Angle<N> operator -(Angle<N> left, N right) => new Angle<N>(left.Degrees - right);
-        public static Angle<N> operator *(Angle<N> left, N right) => new Angle<N>(left.Degrees * right);
-        public static Angle<N> operator /(Angle<N> left, N right) => new Angle<N>(left.Degrees / right);
-        public static Angle<N> operator +(Angle<N> left, N right) => new Angle<N>(left.Degrees + right);
+        public static bool operator >(Angle<N> left, N right) => left.Degrees.IsGreaterThan(right);
+        public static bool operator >=(Angle<N> left, N right) => left.Degrees.IsGreaterThanOrEqualTo(right);
+        public static Angle<N> operator %(Angle<N> left, N right) => new Angle<N>(left.Degrees.Remainder(right));
+        public static Angle<N> operator -(Angle<N> left, N right) => new Angle<N>(left.Degrees.Subtract(right));
+        public static Angle<N> operator *(Angle<N> left, N right) => new Angle<N>(left.Degrees.Multiply(right));
+        public static Angle<N> operator /(Angle<N> left, N right) => new Angle<N>(left.Degrees.Divide(right));
+        public static Angle<N> operator +(Angle<N> left, N right) => new Angle<N>(left.Degrees.Add(right));
 
         public static bool operator !=(N left, Angle<N> right) => !left.Equals(right.Degrees);
-        public static bool operator <(N left, Angle<N> right) => left < right.Degrees;
-        public static bool operator <=(N left, Angle<N> right) => left <= right.Degrees;
+        public static bool operator <(N left, Angle<N> right) => left.IsLessThan(right.Degrees);
+        public static bool operator <=(N left, Angle<N> right) => left.IsLessThanOrEqualTo(right.Degrees);
         public static bool operator ==(N left, Angle<N> right) => left.Equals(right.Degrees);
-        public static bool operator >(N left, Angle<N> right) => left > right.Degrees;
-        public static bool operator >=(N left, Angle<N> right) => left >= right.Degrees;
-        public static Angle<N> operator %(N left, Angle<N> right) => new Angle<N>(left % right.Degrees);
-        public static Angle<N> operator -(N left, Angle<N> right) => new Angle<N>(left - right.Degrees);
-        public static Angle<N> operator *(N left, Angle<N> right) => new Angle<N>(left * right.Degrees);
-        public static Angle<N> operator /(N left, Angle<N> right) => new Angle<N>(left / right.Degrees);
-        public static Angle<N> operator +(N left, Angle<N> right) => new Angle<N>(left + right.Degrees);
+        public static bool operator >(N left, Angle<N> right) => left.IsGreaterThan(right.Degrees);
+        public static bool operator >=(N left, Angle<N> right) => left.IsGreaterThanOrEqualTo(right.Degrees);
+        public static Angle<N> operator %(N left, Angle<N> right) => new Angle<N>(left.Remainder(right.Degrees));
+        public static Angle<N> operator -(N left, Angle<N> right) => new Angle<N>(left.Subtract(right.Degrees));
+        public static Angle<N> operator *(N left, Angle<N> right) => new Angle<N>(left.Multiply(right.Degrees));
+        public static Angle<N> operator /(N left, Angle<N> right) => new Angle<N>(left.Divide(right.Degrees));
+        public static Angle<N> operator +(N left, Angle<N> right) => new Angle<N>(left.Add(right.Degrees));
 
         IBitConverter<Angle<N>> IProvider<IBitConverter<Angle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Angle<N>> IProvider<IRandom<Angle<N>>>.GetInstance() => Utilities.Instance;
@@ -195,7 +198,7 @@ namespace Jodo.Extensions.Geometry
             IRandom<Angle<N>>,
             IStringParser<Angle<N>>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             Angle<N> IRandom<Angle<N>>.Next(Random random) => new Angle<N>(random.NextNumeric<N>());
             Angle<N> IRandom<Angle<N>>.Next(Random random, Angle<N> bound1, Angle<N> bound2) => new Angle<N>(random.NextNumeric(bound1.Degrees, bound2.Degrees));

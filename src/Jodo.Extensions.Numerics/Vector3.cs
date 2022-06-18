@@ -17,16 +17,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
+    [CLSCompliant(false)]
     public readonly struct Vector3<N> :
             IEquatable<Vector3<N>>,
             IFormattable,
@@ -77,7 +79,7 @@ namespace Jodo.Extensions.Numerics
 
         public static Vector3<N> Parse(string value)
         {
-            var parts = StringUtilities.ParseVectorParts(value);
+            string[] parts = StringUtilities.ParseVectorParts(value);
             if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
                 StringParser<N>.Parse(parts[0]),
@@ -87,7 +89,7 @@ namespace Jodo.Extensions.Numerics
 
         public static Vector3<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
         {
-            var parts = StringUtilities.ParseVectorParts(value);
+            string[] parts = StringUtilities.ParseVectorParts(value);
             if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
                 StringParser<N>.Parse(parts[0], style, provider),
@@ -95,13 +97,13 @@ namespace Jodo.Extensions.Numerics
                 StringParser<N>.Parse(parts[2], style, provider));
         }
 
-        public static Vector3<N> operator -(Vector3<N> value) => new Vector3<N>(-value.X, -value.Y, -value.Z);
-        public static Vector3<N> operator -(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);
-        public static Vector3<N> operator *(Vector3<N> value, N scalar) => new Vector3<N>(value.X * scalar, value.Y * scalar, value.Z * scalar);
+        public static Vector3<N> operator -(Vector3<N> value) => new Vector3<N>(value.X.Negative(), value.Y.Negative(), value.Z.Negative());
+        public static Vector3<N> operator -(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X.Subtract(value2.X), value1.Y.Subtract(value2.Y), value1.Z.Subtract(value2.Z));
+        public static Vector3<N> operator *(Vector3<N> value, N scalar) => new Vector3<N>(value.X.Multiply(scalar), value.Y.Multiply(scalar), value.Z.Multiply(scalar));
         public static Vector3<N> operator *(N scalar, Vector3<N> value) => value * scalar;
-        public static Vector3<N> operator /(Vector3<N> value, N scalar) => new Vector3<N>(value.X / scalar, value.Y / scalar, value.Z / scalar);
+        public static Vector3<N> operator /(Vector3<N> value, N scalar) => new Vector3<N>(value.X.Divide(scalar), value.Y.Divide(scalar), value.Z.Divide(scalar));
         public static Vector3<N> operator +(Vector3<N> value) => value;
-        public static Vector3<N> operator +(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z);
+        public static Vector3<N> operator +(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X.Add(value2.X), value1.Y.Add(value2.Y), value1.Z.Add(value2.Z));
         public static implicit operator Vector3<N>((N, N, N) value) => new Vector3<N>(value.Item1, value.Item2, value.Item3);
         public static implicit operator (N, N, N)(Vector3<N> value) => (value.X, value.Y, value.Z);
         public static implicit operator Vector3<N>(Tuple<N, N, N> value) => new Vector3<N>(value.Item1, value.Item2, value.Item3);
@@ -118,7 +120,7 @@ namespace Jodo.Extensions.Numerics
            IRandom<Vector3<N>>,
            IStringParser<Vector3<N>>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             Vector3<N> IRandom<Vector3<N>>.Next(Random random)
             {

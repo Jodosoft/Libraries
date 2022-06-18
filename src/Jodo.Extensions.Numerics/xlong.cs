@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Extensions.Primitives;
+using Jodo.Extensions.Primitives.Compatibility;
 
 namespace Jodo.Extensions.Numerics
 {
@@ -64,25 +65,25 @@ namespace Jodo.Extensions.Numerics
         public static xlong Parse(string s, NumberStyles style) => long.Parse(s, style);
         public static xlong Parse(string s, NumberStyles style, IFormatProvider? provider) => long.Parse(s, style, provider);
 
+        [CLSCompliant(false)] public static explicit operator xlong(ulong value) => new xlong((long)value);
+        [CLSCompliant(false)] public static implicit operator xlong(sbyte value) => new xlong(value);
+        [CLSCompliant(false)] public static implicit operator xlong(uint value) => new xlong(value);
+        [CLSCompliant(false)] public static implicit operator xlong(ushort value) => new xlong(value);
         public static explicit operator xlong(decimal value) => new xlong((long)value);
         public static explicit operator xlong(double value) => new xlong((long)value);
         public static explicit operator xlong(float value) => new xlong((long)value);
-        public static explicit operator xlong(ulong value) => new xlong((long)value);
         public static implicit operator xlong(byte value) => new xlong(value);
         public static implicit operator xlong(int value) => new xlong(value);
         public static implicit operator xlong(long value) => new xlong(value);
-        public static implicit operator xlong(sbyte value) => new xlong(value);
         public static implicit operator xlong(short value) => new xlong(value);
-        public static implicit operator xlong(uint value) => new xlong(value);
-        public static implicit operator xlong(ushort value) => new xlong(value);
 
+        [CLSCompliant(false)] public static explicit operator sbyte(xlong value) => (sbyte)value._value;
+        [CLSCompliant(false)] public static explicit operator uint(xlong value) => (uint)value._value;
+        [CLSCompliant(false)] public static explicit operator ulong(xlong value) => (ulong)value._value;
+        [CLSCompliant(false)] public static explicit operator ushort(xlong value) => (ushort)value._value;
         public static explicit operator byte(xlong value) => (byte)value._value;
         public static explicit operator int(xlong value) => (int)value._value;
-        public static explicit operator sbyte(xlong value) => (sbyte)value._value;
         public static explicit operator short(xlong value) => (short)value._value;
-        public static explicit operator uint(xlong value) => (uint)value._value;
-        public static explicit operator ulong(xlong value) => (ulong)value._value;
-        public static explicit operator ushort(xlong value) => (ushort)value._value;
         public static implicit operator decimal(xlong value) => value._value;
         public static implicit operator double(xlong value) => value._value;
         public static implicit operator float(xlong value) => value._value;
@@ -145,7 +146,7 @@ namespace Jodo.Extensions.Numerics
             IRandom<xlong>,
             IStringParser<xlong>
         {
-            public readonly static Utilities Instance = new Utilities();
+            public static readonly Utilities Instance = new Utilities();
 
             bool INumericStatic<xlong>.HasFloatingPoint { get; } = false;
             bool INumericStatic<xlong>.HasInfinity { get; } = false;
@@ -171,15 +172,15 @@ namespace Jodo.Extensions.Numerics
             xlong INumericStatic<xlong>.Zero { get; } = 0;
 
             int IMath<xlong>.Sign(xlong x) => Math.Sign(x._value);
-            xlong IMath<xlong>.Abs(xlong x) => Math.Abs(x);
+            xlong IMath<xlong>.Abs(xlong value) => Math.Abs(value);
             xlong IMath<xlong>.Acos(xlong x) => (xlong)Math.Acos(x);
-            xlong IMath<xlong>.Acosh(xlong x) => (xlong)Math.Acosh(x);
+            xlong IMath<xlong>.Acosh(xlong x) => (xlong)MathCompat.Acosh(x);
             xlong IMath<xlong>.Asin(xlong x) => (xlong)Math.Asin(x);
-            xlong IMath<xlong>.Asinh(xlong x) => (xlong)Math.Asinh(x);
+            xlong IMath<xlong>.Asinh(xlong x) => (xlong)MathCompat.Asinh(x);
             xlong IMath<xlong>.Atan(xlong x) => (xlong)Math.Atan(x);
             xlong IMath<xlong>.Atan2(xlong y, xlong x) => (xlong)Math.Atan2(y, x);
-            xlong IMath<xlong>.Atanh(xlong x) => (xlong)Math.Atanh(x);
-            xlong IMath<xlong>.Cbrt(xlong x) => (xlong)Math.Cbrt(x);
+            xlong IMath<xlong>.Atanh(xlong x) => (xlong)MathCompat.Atanh(x);
+            xlong IMath<xlong>.Cbrt(xlong x) => (xlong)MathCompat.Cbrt(x);
             xlong IMath<xlong>.Ceiling(xlong x) => x;
             xlong IMath<xlong>.Clamp(xlong x, xlong bound1, xlong bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             xlong IMath<xlong>.Cos(xlong x) => (xlong)Math.Cos(x);
@@ -209,7 +210,7 @@ namespace Jodo.Extensions.Numerics
             xlong IMath<xlong>.Tau { get; } = 6L;
             xlong IMath<xlong>.Truncate(xlong x) => x;
 
-            xlong IBitConverter<xlong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)));
+            xlong IBitConverter<xlong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)), 0);
             void IBitConverter<xlong>.Write(xlong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             xlong IRandom<xlong>.Next(Random random) => random.NextInt64WithoutBounds();

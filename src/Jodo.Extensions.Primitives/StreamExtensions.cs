@@ -17,8 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Extensions.Primitives.Internals;
 using System.Collections.Generic;
+using Jodo.Extensions.Primitives.Internals;
 
 namespace Jodo.Extensions.Primitives
 {
@@ -32,6 +32,14 @@ namespace Jodo.Extensions.Primitives
         public static void Write<T>(this IWriteOnlyStream<byte> stream, T value) where T : struct, IProvider<IBitConverter<T>>
         {
             BitConverter<T>.Write(stream, value);
+        }
+
+        public static void Write<T>(this IWriteOnlyStream<T> stream, T[] values)
+        {
+            foreach (T value in values)
+            {
+                stream.Write(value);
+            }
         }
 
         public static IWriteOnlyStream<T> AsWriteOnlyStream<T>(this ICollection<T> collection)
