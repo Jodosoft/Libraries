@@ -18,18 +18,18 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal.Commands;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Testing
+{
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    public sealed partial class NotApplicableAttribute : PropertyAttribute, IWrapTestMethod
+    {
+        public string Reason { get; set; }
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+        public TestCommand Wrap(TestCommand command)
+            => new NotApplicableTestCommand(command, Reason);
+    }
+}

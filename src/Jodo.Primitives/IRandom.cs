@@ -18,18 +18,12 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
-
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+namespace Jodo.Primitives
+{
+    public interface IRandom<T>
+    {
+        T Next(Random random);
+        T Next(Random random, T bound1, T bound2);
+    }
+}

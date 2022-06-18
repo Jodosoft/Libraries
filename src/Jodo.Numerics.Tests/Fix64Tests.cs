@@ -17,19 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
-
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+namespace Jodo.Numerics.Tests
+{
+    public static class Fix64Tests
+    {
+        public sealed class BitConverter : BitConverterTests<fix64> { }
+        public sealed class Cast : CastTests<fix64> { }
+        public sealed class ConvertTests : ConvertTests<fix64> { }
+        public sealed class MathGeneral : MathTests.General<fix64> { }
+        public sealed class MathReal : MathTests.Real<fix64> { }
+        public sealed class MathSigned : MathTests.Signed<fix64> { }
+        public sealed class NumericGeneral : NumericTests.General<fix64> { }
+        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<fix64> { }
+        public sealed class NumericNoInfinity : NumericTests.NoInfinity<fix64> { }
+        public sealed class NumericNoNaN : NumericTests.NoNaN<fix64> { }
+        public sealed class NumericReal : NumericTests.Real<fix64> { }
+        public sealed class NumericSigned : NumericTests.Signed<fix64> { }
+        public sealed class StringParserGeneral : StringParserTests.General<fix64> { }
+    }
+}

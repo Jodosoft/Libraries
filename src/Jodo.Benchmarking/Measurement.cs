@@ -19,17 +19,22 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Benchmarking.Internals
+{
+    [ExcludeFromCodeCoverage]
+    public readonly struct Measurement
+    {
+        public readonly ulong Count;
+        public readonly TimeSpan TotalTime;
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+        public readonly TimeSpan AverageTime => new TimeSpan(TotalTime.Ticks / (long)Count);
+        public readonly double PerSecond => Count / TotalTime.TotalSeconds;
 
-[assembly: CLSCompliant(true)]
+        public Measurement(ulong count, TimeSpan totalTime)
+        {
+            Count = count;
+            TotalTime = totalTime;
+        }
+    }
+}

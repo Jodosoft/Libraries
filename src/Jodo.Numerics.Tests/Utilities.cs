@@ -18,18 +18,23 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Numerics.Tests
+{
+    public static class Utilities
+    {
+        public static double ClosestTestableDouble<N>(N value) where N : struct, INumeric<N>
+        {
+            double result = Math.Round(Cast<N>.ToDouble(value), 6);
+            int log10 = (int)Math.Log10(Math.Abs(result / 10));
+            if (log10 < -1) result *= 1000;
+            else if (log10 > 3) result /= Math.Pow(10, log10 - 3);
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+            if (!Numeric<N>.IsFinite(Cast<N>.ToNumeric(result)))
+            {
+                throw new InvalidOperationException();
+            }
+            return Math.Round(result, 6);
+        }
+    }
+}

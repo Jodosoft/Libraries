@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Jodo.Geometry</AssemblyName>
+    <AssemblyTitle>Jodo.Geometry</AssemblyTitle>
+    <Description>Reusable geometric types</Description>
+    <PackageId>Jodo.Geometry</PackageId>
+    <PackageTags>collections</PackageTags>
+    <RootNamespace>Jodo.Geometry</RootNamespace>
+    <Summary>Reusable geometric types</Summary>
+    <Title>Jodo.Geometry</Title>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.CheckedNumerics\Jodo.CheckedNumerics.csproj" />
+  </ItemGroup>
+</Project>

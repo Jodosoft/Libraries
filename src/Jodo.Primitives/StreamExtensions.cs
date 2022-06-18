@@ -17,19 +17,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using Jodo.Primitives.Internals;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Primitives
+{
+    public static class StreamExtensions
+    {
+        public static T Read<T>(this IReadOnlyStream<byte> stream) where T : struct, IProvider<IBitConverter<T>>
+        {
+            return BitConverter<T>.Read(stream);
+        }
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+        public static void Write<T>(this IWriteOnlyStream<byte> stream, T value) where T : struct, IProvider<IBitConverter<T>>
+        {
+            BitConverter<T>.Write(stream, value);
+        }
 
-[assembly: CLSCompliant(true)]
+        public static void Write<T>(this IWriteOnlyStream<T> stream, T[] values)
+        {
+            foreach (T value in values)
+            {
+                stream.Write(value);
+            }
+        }
+
+        public static IWriteOnlyStream<T> AsWriteOnlyStream<T>(this ICollection<T> collection)
+           => new StreamWrappers.CollectionWriteOnly<T>(collection);
+
+        public static IReadOnlyStream<T> AsReadOnlyStream<T>(this IReadOnlyList<T> collection)
+            => new StreamWrappers.ListReadOnly<T>(collection);
+    }
+}

@@ -18,18 +18,21 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using Jodo.Numerics;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Geometry
+{
+    [CLSCompliant(false)]
+    public static class TwoDimensionalExtensions
+    {
+        public static T Translate<T, N>(this T value, (N, N) delta)
+                where T : struct, ITwoDimensional<T, N>
+                where N : struct, INumeric<N>
+            => value.Translate((Vector2<N>)delta);
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+        public static T Translate<T, N>(this T value, N deltaX, N deltaY)
+                where T : struct, ITwoDimensional<T, N>
+                where N : struct, INumeric<N>
+            => value.Translate(new Vector2<N>(deltaX, deltaY));
+    }
+}

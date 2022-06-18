@@ -17,19 +17,33 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+namespace Jodo.Numerics
+{
+    public interface INumericStatic<N>
+    {
+        bool IsSigned { get; }
+        bool IsReal { get; }
+        bool HasNaN { get; }
+        bool HasInfinity { get; }
+        bool HasFloatingPoint { get; }
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+        N Epsilon { get; }
+        N MaxUnit { get; }
+        N MaxValue { get; }
+        N MinUnit { get; }
+        N MinValue { get; }
+        N One { get; }
+        N Ten { get; }
+        N Two { get; }
+        N Zero { get; }
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+        bool IsFinite(N x);
+        bool IsInfinity(N x);
+        bool IsNaN(N x);
+        bool IsNegative(N x);
+        bool IsNegativeInfinity(N x);
+        bool IsNormal(N x);
+        bool IsPositiveInfinity(N x);
+        bool IsSubnormal(N x);
+    }
+}

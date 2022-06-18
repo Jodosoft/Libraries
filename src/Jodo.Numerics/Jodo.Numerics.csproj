@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <AssemblyName>Jodo.Numerics</AssemblyName>
+    <AssemblyTitle>Jodo.Numerics</AssemblyTitle>
+    <PackageId>Jodo.Numerics</PackageId>
+    <PackageTags>numeric, numerics, number, numbers, math, maths, arithmetic, fixed, point</PackageTags>
+    <RootNamespace>Jodo.Numerics</RootNamespace>
+    <Description>Provides the INumeric&lt;N&gt; interface and utilities for creating custom numeric types.
+
+Commonly Used Types:
+Jodo.Numerics.INumeric&lt;N&gt;
+Jodo.Numerics.Math&lt;N&gt;
+Jodo.Numerics.fix64
+Jodo.Numerics.ufix64
+    </Description>
+    <Title>Jodo.Numerics</Title>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Primitives\Jodo.Primitives.csproj" />
+  </ItemGroup>
+  
+</Project>

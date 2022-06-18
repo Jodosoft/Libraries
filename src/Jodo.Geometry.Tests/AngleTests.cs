@@ -18,18 +18,36 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using FluentAssertions;
+using Jodo.Numerics;
+using Jodo.Testing;
+using NUnit.Framework;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Geometry.Tests
+{
+    public static class AngleTests
+    {
+        public sealed class FixedPoint : General<fix64> { }
+        public sealed class FloatingPoint : General<xfloat> { }
+        public sealed class UnsignedIntegral : General<xbyte> { }
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        {
+            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Angle<N>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Angle<N>> { }
 
-[assembly: CLSCompliant(true)]
+            [Test]
+            public void Degrees_FromDegrees_SameAsOriginal()
+            {
+                //arrange
+                N input = Random.NextNumeric<N>();
+
+                //act
+                N result = Angle<N>.FromDegrees(input).Degrees;
+
+                //assert
+                result.Should().Be(input);
+            }
+        }
+    }
+}

@@ -17,19 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using NUnit.Framework;
+using NUnit.Framework.Internal;
+using NUnit.Framework.Internal.Commands;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Testing
+{
+    public class NotApplicableTestCommand : DelegatingTestCommand
+    {
+        private readonly string _reason;
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+        public NotApplicableTestCommand(TestCommand innerCommand, string reason) : base(innerCommand)
+        {
+            _reason = reason;
+        }
 
-[assembly: CLSCompliant(true)]
+        public override TestResult Execute(TestExecutionContext context)
+            => throw new SuccessException(_reason);
+    }
+}

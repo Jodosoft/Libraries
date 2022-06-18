@@ -18,18 +18,37 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using FluentAssertions;
+using Jodo.Testing;
+using NUnit.Framework;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Primitives.Tests
+{
+    public abstract class StringParserTests<T> : GlobalFixtureBase where T : struct, IProvider<IStringParser<T>>, IProvider<IRandom<T>>
+    {
+        [Test]
+        public void Parse1_RandomValueRoundTrip_SameAsInput()
+        {
+            //arrange
+            T input = Random.NextRandomizable<T>();
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+            //act
+            T result = StringParser<T>.Parse(input.ToString());
 
-[assembly: CLSCompliant(true)]
+            //assert
+            result.Should().Be(input);
+        }
+
+        [Test]
+        public void Parse1_EmptyString_Throws()
+        {
+            //arrange
+
+            //act
+            Action action = new Action(() => StringParser<T>.Parse(string.Empty));
+
+            //assert
+            action.Should().Throw<FormatException>();
+        }
+    }
+}

@@ -1,26 +1,26 @@
 <p align="center"><img src="Banner.png" alt="Logo" height="96"/></p>
-<h1 align="center">Jodo.Extensions</h1>
+<h1 align="center">Jodo</h1>
 
 <p align="center">C# extension libraries written in the style of the .NET SDK.</p>
 
 <p align="center">
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo.Extensions?style=flat-square&color=%23004880"></a>
-  <a href="https://www.nuget.org/packages?q=Jodo.Extensions"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Extensions.Primitives?label=version&logo=nuget&style=flat-square&color=%23004880"></a>
+  <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=%23004880"></a>
+  <a href="https://www.nuget.org/packages?q=Jodo"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&logo=nuget&style=flat-square&color=%23004880"></a>
   <br />
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo.Extensions?logo=github&style=flat-square"></a>
-  <a href="https://github.com/JosephJShort/Jodo.Extensions/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo.Extensions?logo=github&style=flat-square"></a>
+  <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square"></a>
+  <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square"></a>
   <br />
-  <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo.Extensions/1?logo=azuredevops&style=flat-square"></a>
-  <a href="https://dev.azure.com/JosephJShort/Jodo.Extensions/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo.Extensions/1/main?logo=azuredevops&style=flat-square"></a>
+  <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square"></a>
+  <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square"></a>
   <br />
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo.Extensions/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square" /></a>
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo.Extensions"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo.Extensions/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square"></a>
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square" /></a>
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square"></a>
 <br />
-  <a href="https://www.codefactor.io/repository/github/josephjshort/jodo.extensions/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo.Extensions/main?logo=codefactor&style=flat-square"></a>
-  <a href="https://lgtm.com/projects/g/JosephJShort/Jodo.Extensions/alerts/?mode=list"><img alt="LGTM Alerts" src="https://img.shields.io/lgtm/alerts/github/JosephJShort/Jodo.Extensions?label=alerts&logo=lgtm&style=flat-square"></a>
+  <a href="https://www.codefactor.io/repository/github/josephjshort/jodo.extensions/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?logo=codefactor&style=flat-square"></a>
+  <a href="https://lgtm.com/projects/g/JosephJShort/Jodo/alerts/?mode=list"><img alt="LGTM Alerts" src="https://img.shields.io/lgtm/alerts/github/JosephJShort/Jodo?label=alerts&logo=lgtm&style=flat-square"></a>
 </p>
 
-<h2>Jodo.Extensions.Numerics</h2>
+<h2>Jodo.Numerics</h2>
 
 Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
 
@@ -166,13 +166,13 @@ The numeric types provided by this package are structs that wrap built-in types 
 
 If developing a performance-sensitive application, use a profiler to assess the impact.
 
-Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Extensions.Numerics.Benchmarks.exe* in RELEASE mode.
+Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Numerics.Benchmarks.exe* in RELEASE mode.
 
 Sample output can be seen below:
   
 
 <details>
-<summary><em>Jodo.Extensions.Numerics.Benchmarks - Results from 2022-06-03T21:30:27.6877090Z</em></summary>
+<summary><em>Jodo.Numerics.Benchmarks - Results from 2022-06-03T21:30:27.6877090Z</em></summary>
 
   > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
   > * **Architecture:** x64-based processor
@@ -190,7 +190,7 @@ Sample output can be seen below:
 </details>
 
 
-<h2>Jodo.Extensions.CheckedNumerics</h2>
+<h2>Jodo.CheckedNumerics</h2>
   
 Provides numeric types (implementing <a href="#inumericn">INumeric&lt;N&gt;</a>) and utilities with built-in protection from overflow.
 
@@ -223,11 +223,11 @@ Additionally, the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/langu
 
 If developing a performance-sensitive application, use a profiler to assess the impact. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive applications, such as 3D graphics or big-data.
 
-Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Extensions.CheckedNumerics.Benchmarks.exe* in RELEASE mode.
+Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.CheckedNumerics.Benchmarks.exe* in RELEASE mode.
 
 Sample output can be seen below:
 <details>
-  <summary><em>Jodo.Extensions.CheckedNumerics.Benchmarks - Results from 2022-05-11T18:11:17.8665440Z</em></summary>
+  <summary><em>Jodo.CheckedNumerics.Benchmarks - Results from 2022-05-11T18:11:17.8665440Z</em></summary>
 
   > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
   > * **Architecture:** x64-based processor
@@ -245,7 +245,7 @@ Sample output can be seen below:
 
 </details>
 
-<h2>Jodo.Extensions.Geometry</h2>
+<h2>Jodo.Geometry</h2>
 
 > This package is a work in progress.
 
@@ -258,6 +258,6 @@ Provides geometric value types.
 | Circle\<T\> |  |
 | Angle\<T\> |  |
 
-<h2>Jodo.Extensions.Collections</h2>
+<h2>Jodo.Collections</h2>
 
 > This package is a work in progress.

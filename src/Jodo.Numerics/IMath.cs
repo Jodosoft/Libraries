@@ -18,18 +18,49 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Numerics
+{
+    public interface IMath<N>
+    {
+        N E { get; }
+        N PI { get; }
+        N Tau { get; }
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+        int Sign(N x);
+        N Abs(N value);
+        N Acos(N x);
+        N Acosh(N x);
+        N Asin(N x);
+        N Asinh(N x);
+        N Atan(N x);
+        N Atan2(N x, N y);
+        N Atanh(N x);
+        N Cbrt(N x);
+        N Ceiling(N x);
+        N Clamp(N x, N bound1, N bound2);
+        N Cos(N x);
+        N Cosh(N x);
+        N DegreesToRadians(N degrees);
+        N Exp(N x);
+        N Floor(N x);
+        N IEEERemainder(N x, N y);
+        N Log(N x);
+        N Log(N x, N y);
+        N Log10(N x);
+        N Max(N x, N y);
+        N Min(N x, N y);
+        N Pow(N x, N y);
+        N RadiansToDegrees(N radians);
+        N Round(N x);
+        N Round(N x, int digits);
+        N Round(N x, int digits, MidpointRounding mode);
+        N Round(N x, MidpointRounding mode);
+        N Sin(N x);
+        N Sinh(N x);
+        N Sqrt(N x);
+        N Tan(N x);
+        N Tanh(N x);
+        N Truncate(N x);
+    }
+}

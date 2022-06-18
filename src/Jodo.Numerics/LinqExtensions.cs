@@ -17,19 +17,35 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using Jodo.Numerics;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace System.Linq
+{
+    public static class LinqExtensions
+    {
+        [CLSCompliant(false)]
+        public static N Average<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
+        {
+            N sum = Numeric<N>.Zero;
+            N count = Numeric<N>.Zero;
+            foreach (N item in source)
+            {
+                sum = sum.Add(item);
+                count = count.Add(Numeric<N>.One);
+            }
+            return sum.Divide(count);
+        }
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+        [CLSCompliant(false)]
+        public static N Sum<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
+        {
+            N sum = Numeric<N>.Zero;
+            foreach (N item in source)
+            {
+                sum = sum.Add(item);
+            }
+            return sum;
+        }
+    }
+}

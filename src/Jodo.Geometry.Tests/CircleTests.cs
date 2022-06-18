@@ -17,19 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using Jodo.Numerics;
+using Jodo.Testing;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Geometry.Tests
+{
+    public static class CircleTests
+    {
+        public sealed class FixedPoint : General<fix64> { }
+        public sealed class FloatingPoint : General<xfloat> { }
+        public sealed class UnsignedIntegral : General<xbyte> { }
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        {
+            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Circle<N>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Circle<N>> { }
+            public sealed class TwoDimensional : TwoDimensionalTests<Circle<N>, N> { }
+        }
+    }
+}

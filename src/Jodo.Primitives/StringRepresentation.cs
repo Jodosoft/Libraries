@@ -18,18 +18,20 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Linq;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
-
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+namespace Jodo.Primitives
+{
+    public static class StringRepresentation
+    {
+        public static string Combine(Type type, params object[] properties)
+        {
+            if (properties?.Length > 0)
+            {
+                string? names = properties.Select(x => x.ToString()).Aggregate((x, y) => $"{x}, {y}");
+                return $"{type.GetDisplayName()}({names})";
+            }
+            return type.GetDisplayName();
+        }
+    }
+}

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <AssemblyName>Jodo.Primitives</AssemblyName>
+    <AssemblyTitle>Jodo.Primitives</AssemblyTitle>
+    <PackageId>Jodo.Primitives</PackageId>
+    <PackageTags>primitives, utility, utilities</PackageTags>
+    <RootNamespace>Jodo.Primitives</RootNamespace>
+    <Description>Reusable types and utilities used by other Jodo packages.
+
+Commonly Used Types:
+Jodo.Primitives.BitConverter&lt;N&gt;</Description>
+    <Title>Jodo.Primitives</Title>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  
+</Project>

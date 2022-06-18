@@ -17,19 +17,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Collections
+{
+    public static class DictionaryExtensions
+    {
+        public static DictionaryLookup<TKey, TValue> ToLookup<TKey, TValue>(this Dictionary<TKey, TValue> dictionary) where TKey : notnull
+            => new DictionaryLookup<TKey, TValue>(dictionary);
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+        public static SortedDictionaryLookup<TKey, TValue> ToLookup<TKey, TValue>(this SortedDictionary<TKey, TValue> dictionary) where TKey : notnull
+            => new SortedDictionaryLookup<TKey, TValue>(dictionary);
+    }
+}

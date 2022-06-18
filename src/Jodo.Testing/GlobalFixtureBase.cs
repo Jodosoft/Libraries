@@ -18,18 +18,30 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using AutoFixture;
+using NUnit.Framework;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Testing
+{
+    [Timeout(10000)]
+    public abstract class GlobalFixtureBase
+    {
+#if DEBUG
+        public const int RandomVariations = 16;
+#else
+        public const int RandomVariations = 128;
+#endif
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+        public Random Random { get; private set; }
+        public Fixture Fixture { get; private set; }
+        public Exception Exception { get; private set; }
 
-[assembly: CLSCompliant(true)]
+        [SetUp]
+        public void GlobalSetUp()
+        {
+            Random = new Random();
+            Fixture = new Fixture();
+            Exception = Fixture.Create<Exception>();
+        }
+    }
+}

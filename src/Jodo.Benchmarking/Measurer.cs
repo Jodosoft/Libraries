@@ -18,18 +18,33 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Jodo.Benchmarking.Internals;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
-
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+namespace Jodo.Benchmarking
+{
+    [ExcludeFromCodeCoverage]
+    public static class Measurer
+    {
+        [MethodImpl(MethodImplOptions.NoOptimization)]
+        public static Measurement Measure(Func<object> function, TimeSpan duration)
+        {
+            object checkObj = new object();
+            Stopwatch stopwatch = new Stopwatch();
+            double maxTicks = duration.TotalSeconds * Stopwatch.Frequency;
+            ulong iterations = 0;
+            object obj;
+            stopwatch.Start();
+            do
+            {
+                obj = function();
+                iterations++;
+            } while (stopwatch.ElapsedTicks < maxTicks);
+            stopwatch.Stop();
+            if (ReferenceEquals(obj, checkObj)) throw new InvalidOperationException();
+            return new Measurement(iterations, stopwatch.Elapsed);
+        }
+    }
+}

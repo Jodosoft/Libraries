@@ -18,18 +18,41 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Primitives
+{
+    public static class BitConverter<T> where T : struct, IProvider<IBitConverter<T>>
+    {
+        private static readonly IBitConverter<T> Default = default(T).GetInstance();
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+#if NETSTANDARD2_1_OR_GREATER
+        public static ReadOnlySpan<byte> GetBytes(T value)
+        {
+            List<byte>? list = new List<byte>();
+            Default.Write(value, list.AsWriteOnlyStream());
+            return list.ToArray();
+        }
 
-[assembly: CLSCompliant(true)]
+        public static T FromBytes(ReadOnlySpan<byte> bytes)
+        {
+            return Default.Read(bytes.ToArray().AsReadOnlyStream());
+        }
+#endif
+
+        public static T FromBytes(IReadOnlyList<byte> bytes)
+        {
+            return Default.Read(bytes.AsReadOnlyStream());
+        }
+
+        public static T Read(IReadOnlyStream<byte> stream)
+        {
+            return Default.Read(stream);
+        }
+
+        public static void Write(IWriteOnlyStream<byte> stream, T value)
+        {
+            Default.Write(value, stream);
+        }
+    }
+}

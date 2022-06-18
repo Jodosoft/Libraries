@@ -18,18 +18,25 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Numerics
+{
+    [CLSCompliant(false)]
+    public static class NumericExtensions
+    {
+        public static N Double<N>(this N n) where N : struct, INumeric<N>
+        {
+            return n.Multiply(Numeric<N>.Two); // todo - shift for integrals
+        }
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+        public static N Half<N>(this N n) where N : struct, INumeric<N>
+        {
+            return n.Divide(Numeric<N>.Two); // todo - shift for integrals
+        }
 
-[assembly: CLSCompliant(true)]
+        public static N Squared<N>(this N n) where N : struct, INumeric<N>
+        {
+            return n.Multiply(n);
+        }
+    }
+}

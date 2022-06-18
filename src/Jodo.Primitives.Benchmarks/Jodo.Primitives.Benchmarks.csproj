@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Primitives\Jodo.Primitives.csproj" />
+  </ItemGroup>
+</Project>

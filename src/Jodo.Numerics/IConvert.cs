@@ -18,18 +18,38 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Numerics
+{
+    [CLSCompliant(false)]
+    public interface IConvert<N> where N : struct, INumeric<N>
+    {
+        bool ToBoolean(N value);
+        byte ToByte(N value);
+        decimal ToDecimal(N value);
+        double ToDouble(N value);
+        float ToSingle(N value);
+        int ToInt32(N value);
+        long ToInt64(N value);
+        sbyte ToSByte(N value);
+        short ToInt16(N value);
+        string ToString(N value);
+        uint ToUInt32(N value);
+        ulong ToUInt64(N value);
+        ushort ToUInt16(N value);
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
-
-[assembly: CLSCompliant(true)]
+        N ToNumeric(bool value);
+        N ToNumeric(byte value);
+        N ToNumeric(decimal value);
+        N ToNumeric(double value);
+        N ToNumeric(float value);
+        N ToNumeric(int value);
+        N ToNumeric(long value);
+        N ToNumeric(sbyte value);
+        N ToNumeric(short value);
+        N ToNumeric(string value);
+        N ToNumeric(uint value);
+        N ToNumeric(ulong value);
+        N ToNumeric(ushort value);
+    }
+}

@@ -18,18 +18,34 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Collections.Concurrent;
+using System.Linq;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Primitives
+{
+    public static class TypeExtensions
+    {
+        private static readonly ConcurrentDictionary<Type, string> DisplayNamesByType
+            = new ConcurrentDictionary<Type, string>();
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+        public static string GetDisplayName(this Type type)
+        {
+            return DisplayNamesByType.GetOrAdd(type, CreateDisplayName);
+        }
 
-[assembly: CLSCompliant(true)]
+        private static string CreateDisplayName(Type type)
+        {
+            if (type.IsGenericType)
+            {
+                string? parameterNames = type
+                    .GetGenericArguments()
+                    .Select(x => CreateDisplayName(x))
+                    .Aggregate((x, y) => $"{x}, {y}");
+
+                string? name = type.Name.Substring(0, type.Name.IndexOf('`'));
+                return $"{name}<{parameterNames}>";
+            }
+            return type.Name;
+        }
+    }
+}

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <AssemblyName>Jodo.CheckedNumerics</AssemblyName>
+    <AssemblyTitle>Jodo.CheckedNumerics</AssemblyTitle>
+    <PackageId>Jodo.CheckedNumerics</PackageId>
+    <PackageTags>checked, numeric, numerics, number, numbers, math, maths, arithmetic, overflow, NaN</PackageTags>
+    <RootNamespace>Jodo.CheckedNumerics</RootNamespace>
+    <Description>Provides numeric value types and utilities with built-in protection from overflow. Useful for preventing unexpected negative/positive, infinite or NaN values from entering a system.
+
+Commonly Used Types:
+Jodo.CheckedNumerics.CheckedArithmetic
+Jodo.CheckedNumerics.CheckedConvert
+Jodo.CheckedNumerics.cint
+Jodo.CheckedNumerics.cfloat
+Jodo.CheckedNumerics.cdouble</Description>
+    <Title>Jodo.CheckedNumerics</Title>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Numerics\Jodo.Numerics.csproj" />
+  </ItemGroup>
+</Project>

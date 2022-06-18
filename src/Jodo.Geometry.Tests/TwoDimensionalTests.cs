@@ -18,18 +18,30 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using FluentAssertions;
+using Jodo.Numerics;
+using Jodo.Primitives;
+using Jodo.Testing;
+using NUnit.Framework;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+namespace Jodo.Geometry.Tests
+{
+    public abstract class TwoDimensionalTests<T, N> : GlobalFixtureBase
+        where T : struct, ITwoDimensional<T, N>, IProvider<IRandom<T>>
+        where N : struct, INumeric<N>
+    {
+        [Test, Repeat(RandomVariations)]
+        public void Translate_ByZero_SameAsOriginal()
+        {
+            //arrange
+            T sut = Random.NextRandomizable<T>();
+            Vector2<N> input = Vector2<N>.Zero;
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+            //act
+            T result = sut.Translate(input);
 
-[assembly: CLSCompliant(true)]
+            //assert
+            result.Should().Be(sut);
+        }
+    }
+}

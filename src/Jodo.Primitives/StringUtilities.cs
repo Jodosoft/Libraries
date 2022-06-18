@@ -17,19 +17,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+namespace Jodo.Primitives
+{
+    public static class StringUtilities
+    {
+        public static string[] ParseVectorParts(string value)
+        {
+            value = value.Trim();
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+            if (value.StartsWith("(") && value.EndsWith(")")) value = value.Substring(1, value.Length - 2);
+            if (value.StartsWith("[") && value.EndsWith("]")) value = value.Substring(1, value.Length - 2);
+            if (value.StartsWith("{") && value.EndsWith("}")) value = value.Substring(1, value.Length - 2);
+            if (value.StartsWith("<") && value.EndsWith(">")) value = value.Substring(1, value.Length - 2);
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+            string[] parts = value.Split(',');
+            if (parts.Length == 1) parts = value.Split('|');
+            if (parts.Length == 1) parts = value.Split('\t');
 
-[assembly: CLSCompliant(true)]
+            return parts;
+        }
+    }
+}
