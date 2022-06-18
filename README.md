@@ -4,8 +4,8 @@
 <p align="center">C# extension libraries written in the style of the .NET SDK.</p>
 
 <p align="center">
-  <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=%23004880&no-cache"></a>
-  <a href="https://www.nuget.org/packages?q=Jodo"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&logo=nuget&style=flat-square&color=%23004880&no-cache"></a>
+  <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=informational&no-cache"></a>
+  <a href="https://www.nuget.org/packages?q=Jodo"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&logo=nuget&style=flat-square&color=informational&no-cache"></a>
   <br />
   <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
   <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
@@ -13,10 +13,11 @@
   <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
   <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
   <br />
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
+  <a href="https://github.com/JosephJShort/Jodo/tree/main/src"><img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/JosephJShort/Jodo?label=lines%20of%20code&style=flat-square&color=success&no-cache"></a>
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
-<br />
-  <a href="https://www.codefactor.io/repository/github/josephjshort/jodo.extensions/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?logo=codefactor&style=flat-square&no-cache"></a>
+  <br />
+  <a href="https://www.codefactor.io/repository/github/josephjshort/jodo.extensions/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a>
+  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
   <a href="https://lgtm.com/projects/g/JosephJShort/Jodo/alerts/?mode=list"><img alt="LGTM Alerts" src="https://img.shields.io/lgtm/alerts/github/JosephJShort/Jodo?label=alerts&logo=lgtm&style=flat-square&no-cache"></a>
 </p>
 
