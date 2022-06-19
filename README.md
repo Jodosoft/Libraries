@@ -1,7 +1,7 @@
 <p align="center"><img src="Banner.png" alt="Logo" height="96"/></p>
-<h1 align="center">Jodo</h1>
+<h1 align="center">The Jodo Packages</h1>
 
-<p align="center">C# extension libraries written in the style of the .NET SDK.</p>
+<p align="center">C# extension libraries to complement the .NET SDK.</p>
 
 <p align="center">
   <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=informational&no-cache"></a>
@@ -20,6 +20,17 @@
   <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
   <a href="https://lgtm.com/projects/g/JosephJShort/Jodo/alerts/?mode=list"><img alt="LGTM Alerts" src="https://img.shields.io/lgtm/alerts/github/JosephJShort/Jodo?label=alerts&logo=lgtm&style=flat-square&no-cache"></a>
 </p>
+
+<h2>Contents</h2>
+
+1. [Introduction](#introduction)
+1. [Jodo.Numerics](#jodonumerics)
+1. [Jodo.CheckedNumerics](#jodocheckednumerics)
+1. [Jodo.Geometry](#jodogeometry)
+1. [Jodo.Collections](#jodocollections)
+1. [Jodo.Primitives](#jodoprimitives)
+
+<h2>Introduction</h2>
 
 <h2>Jodo.Numerics</h2>
 
@@ -52,19 +63,35 @@ Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
   </tr>
   <tr>
     <td id="inumericn"><sub><em>interface</em></sub><br />INumeric&lt;N&gt;</td>
-    <td>Provides a definition for custom numeric types and allows them to be used interchangeably with generics.</td>
+    <td>Provides an abstraction for numeric value types, guaranteeing a common set of features and allowing them to be used in generic contexts.</td>
   </tr>
   <tr>
     <td id="mathn"><sub><em>static class</em></sub><br />Math&lt;N&gt;</td>
-    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">Math</a>, e.g. <code>Log(N)</code>, <code>Acosh(N)</code> and <code>Round(N, int)</code>.</td>
+    <td>
+      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">System.Math</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, e.g. <code>Log(N)</code>, <code>Acosh(N)</code> and <code>Round(N, int)</code>.</p>
+      <p>This is demonstrated by the following code sample:</p>
+    <pre lang="csharp"><code>var res1 = MathF.Log10(1000 * MathF.PI);
+var res2 = Math&lt;fix64&gt;.Log10(1000 * Math&lt;fix64&gt;.PI);
+
+Console.WriteLine(res1); // output: 3.49715
+Console.WriteLine(res2); // output: 3.497149</code></pre>
+    </td>
   </tr>
   <tr>
     <td id="bitconvertern"><sub><em>static class</em></sub><br />BitConverter&lt;N&gt;</td>
-    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">BitConverter</a>, supporting conversion to and from byte arrays.</td>
+    <td>
+      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">System.BitConverter</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, supporting conversion to and from byte arrays.
+      <p>This is demonstrated by the following code sample:</p>
+<pre lang="csharp"><code>byte[] res1 = BitConverter.GetBytes((ulong)1234567890);
+byte[] res2 = BitConverter&lt;ufix64&gt;.GetBytes((ufix64)256.512);
+
+Console.WriteLine(BitConverter.ToString(res1)); // output: D2-02-96-49-00-00-00-00
+Console.WriteLine(BitConverter.ToString(res2)); // output: 00-10-4A-0F-00-00-00-00</code></pre>
+    </td>
   </tr>
   <tr>
     <td id="convertn"><sub><em>static class</em></sub><br />Convert&lt;N&gt;</td>
-    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>, supporting conversion to and from built-in numeric types.</td>
+    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a>, e.g. <code>ToBoolean(N)</code> and <code>ToDecimal(N)</code>, supporting conversion to and from .NET Base Types.</td>
   </tr>
   <tr>
     <td id="castn"><sub><em>static class</em></sub><br />Cast&lt;N&gt;</td>
@@ -75,12 +102,12 @@ Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
     <td>Allows conversion to and from the built-in numeric types whilst preventing overflow by clamping to the <code>MinValue</code> and <code>MaxValue</code> of the target type.</td>
   </tr>
   <tr>
-    <td id="stringformattern"><sub><em>static class</em></sub><br />StringParser&lt;N&gt;</td>
-    <td>Provides string parsing methods with support for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.numberstyles">NumberStyles</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider">IFormatProvider</a>.</td>
+    <td id="parsern"><sub><em>static class</em></sub><br />Parser&lt;N&gt;</td>
+    <td>Provides string parsing methods with support for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.numberstyles">System.NumberStyles</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider">System.IFormatProvider</a>.</td>
   </tr>
   <tr>
     <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;N&gt;</td>
-    <td>A wrapper for numeric types the clamps values between -1 and 1 (or 0 and 1 when unsigned) with extensive interface and operator support.</td>
+    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 unsigned), offering the same level of interface and operator support as.</td>
   </tr>
   <tr>
     <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2&lt;N&gt;</td>
@@ -92,7 +119,14 @@ Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
   </tr>
   <tr>
     <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>fix64</code>,<br /><code>ufix64</code></td>
-    <td><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Supporting a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned). Represented internally by 64-bit integers.</td>
+    <td><p><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 decimal digits of precision, represented internally by 64-bit integers.</p>
+      <p>Supports a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned).</p>
+      <p>Useful when a constant level of precision is required, <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">regardless of magnitude</a>. The following code sample demonstrates this:</p>
+      <pre lang="csharp"><code>var floatingPoint = 1000000 + MathF.PI;
+var fixedPoint = 1000000 + Math&lt;fix64&gt;.PI;
+Console.WriteLine(floatingPoint); // output: 1000003.1
+Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
+    </td>
   </tr>
   <tr>
     <td id="wrappers"><sub><em>readonly struct</em></sub><br />
