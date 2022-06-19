@@ -54,7 +54,6 @@ namespace Jodo.Geometry
         public N Sin() => Math<N>.Sin(GetRadians());
         public N Tan() => Math<N>.Tan(GetRadians());
 
-
         public Angle(N degrees)
         {
             Degrees = degrees;

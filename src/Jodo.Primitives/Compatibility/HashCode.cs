@@ -19,8 +19,12 @@
 
 #if NETSTANDARD2_0
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Jodo.Primitives.Compatibility
 {
+    [SuppressMessage("csharpsquid", "S2436")]
+    [SuppressMessage("csharpsquid", "S107")]
     public struct HashCode
     {
         public static int Combine<T1>(T1 value1)

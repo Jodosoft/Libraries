@@ -213,7 +213,6 @@ namespace System
             return bytes;
         }
 
-
         public static TEnum NextEnum<TEnum>(this Random random) where TEnum : Enum
         {
             Array? values = Enum.GetValues(typeof(TEnum));

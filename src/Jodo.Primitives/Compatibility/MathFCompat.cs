@@ -78,6 +78,5 @@ namespace Jodo.Primitives.Compatibility
             return BitConverterCompat.Int32BitsToSingle(bits);
 #endif
         }
-
     }
 }

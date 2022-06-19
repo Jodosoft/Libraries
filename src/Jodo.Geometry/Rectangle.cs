@@ -213,7 +213,6 @@ namespace Jodo.Geometry
         IRandom<Rectangle<N>> IProvider<IRandom<Rectangle<N>>>.GetInstance() => Utilities.Instance;
         IParser<Rectangle<N>> IProvider<IParser<Rectangle<N>>>.GetInstance() => Utilities.Instance;
 
-
         private sealed class Utilities :
            IBitConverter<Rectangle<N>>,
            IRandom<Rectangle<N>>,
@@ -238,7 +237,10 @@ namespace Jodo.Geometry
                             }
                         }
                     }
-                    catch (OverflowException) { }
+                    catch (OverflowException)
+                    {
+                        // Try again
+                    }
                 } while (true);
             }
 

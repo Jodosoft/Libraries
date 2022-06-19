@@ -33,7 +33,6 @@ namespace Jodo.Numerics
         public const decimal DegreesPerRadianM = 180m / (decimal)Math.PI;
         public const decimal RadiansPerDegreeM = (decimal)Math.PI / 180m;
 
-
         public static float BitwiseComplement(float left)
         {
             int leftBits = BitConverter.ToInt32(BitConverter.GetBytes(left), 0);

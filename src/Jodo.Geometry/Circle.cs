@@ -48,7 +48,6 @@ namespace Jodo.Geometry
         public N GetDiameter() => Numeric<N>.Two.Multiply(Radius);
         public N GetCircumeference() => Numeric<N>.Two.Multiply(Math<N>.PI).Multiply(Radius);
 
-
         public Circle(Vector2<N> center, N radius)
         {
             Center = center;
@@ -83,7 +82,7 @@ namespace Jodo.Geometry
             results[0] = Center;
             for (int i = 0; i < circumferenceDivisor; i++)
             {
-                double degrees = i * 360 / (double)circumferenceDivisor;
+                double degrees = i * 360d / circumferenceDivisor;
 
                 double radians = degrees * NumericUtilities.RadiansPerDegree;
 
@@ -109,9 +108,8 @@ namespace Jodo.Geometry
         public override string ToString() => $"{Symbol}({Center}, r{GetDiameter()})";
         public string ToString(string format, IFormatProvider formatProvider) => $"{Symbol}({Center.ToString(format, formatProvider)}, r{GetDiameter().ToString(format, formatProvider)})";
 
-
         public static bool TryParse(string value, out Circle<N> result)
-            => Try.Run(() => Parse(value), out result);
+                    => Try.Run(() => Parse(value), out result);
 
         public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Circle<N> result)
             => Try.Run(() => Parse(value, style, provider), out result);
@@ -163,7 +161,10 @@ namespace Jodo.Geometry
                             return result;
                         }
                     }
-                    catch (OverflowException) { }
+                    catch (OverflowException)
+                    {
+                        // Try again
+                    }
                 } while (true);
             }
 

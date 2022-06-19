@@ -247,7 +247,10 @@ namespace Jodo.Geometry
                             random.NextVector2<N>(),
                             random.NextVector2<N>()));
                     }
-                    catch (OverflowException) { }
+                    catch (OverflowException)
+                    {
+                        // Try again
+                    }
                 } while (true);
             }
 
