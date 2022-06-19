@@ -61,10 +61,12 @@ Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
     <th>Type</th>
     <th>Description</th>
   </tr>
+  <tr />
   <tr>
     <td id="inumericn"><sub><em>interface</em></sub><br />INumeric&lt;N&gt;</td>
     <td>Provides an abstraction for numeric value types, guaranteeing a common set of features and allowing them to be used in generic contexts.</td>
   </tr>
+  <tr />
   <tr>
     <td id="mathn"><sub><em>static class</em></sub><br />Math&lt;N&gt;</td>
     <td>
@@ -77,6 +79,7 @@ Console.WriteLine(res1); // output: 3.49715
 Console.WriteLine(res2); // output: 3.497149</code></pre>
     </td>
   </tr>
+  <tr />
   <tr>
     <td id="bitconvertern"><sub><em>static class</em></sub><br />BitConverter&lt;N&gt;</td>
     <td>
@@ -89,34 +92,42 @@ Console.WriteLine(BitConverter.ToString(res1)); // output: D2-02-96-49-00-00-00-
 Console.WriteLine(BitConverter.ToString(res2)); // output: 00-10-4A-0F-00-00-00-00</code></pre>
     </td>
   </tr>
+  <tr />
   <tr>
     <td id="convertn"><sub><em>static class</em></sub><br />Convert&lt;N&gt;</td>
     <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a>, e.g. <code>ToBoolean(N)</code> and <code>ToDecimal(N)</code>, supporting conversion to and from .NET Base Types.</td>
   </tr>
+  <tr />
   <tr>
     <td id="castn"><sub><em>static class</em></sub><br />Cast&lt;N&gt;</td>
     <td>Provides access to numeric conversion operators (casts) from within a generic context.</td>
   </tr>
+  <tr />
   <tr>
     <td id="clampn"><sub><em>static class</em></sub><br />Clamp&lt;N&gt;</td>
     <td>Allows conversion to and from the built-in numeric types whilst preventing overflow by clamping to the <code>MinValue</code> and <code>MaxValue</code> of the target type.</td>
   </tr>
+  <tr />
   <tr>
     <td id="parsern"><sub><em>static class</em></sub><br />Parser&lt;N&gt;</td>
     <td>Provides string parsing methods with support for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.numberstyles">System.NumberStyles</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider">System.IFormatProvider</a>.</td>
   </tr>
+  <tr />
   <tr>
     <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;N&gt;</td>
     <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 unsigned), offering the same level of interface and operator support as.</td>
   </tr>
+  <tr />
   <tr>
     <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2&lt;N&gt;</td>
     <td>A collection of two numeric values, <code>X</code> and <code>Y</code> with extensive interface and operator support.</td>
   </tr>
+  <tr />
   <tr>
     <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3&lt;N&gt;</td>
     <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code> with extensive interface and operator support.</td>
   </tr>
+  <tr />
   <tr>
     <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>fix64</code>,<br /><code>ufix64</code></td>
     <td><p><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 decimal digits of precision, represented internally by 64-bit integers.</p>
@@ -128,6 +139,7 @@ Console.WriteLine(floatingPoint); // output: 1000003.1
 Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
     </td>
   </tr>
+  <tr />
   <tr>
     <td id="wrappers"><sub><em>readonly struct</em></sub><br />
       <code>xbyte</code>, <code>xsbyte</code>,<br />
@@ -148,6 +160,7 @@ Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
     <th>Feature</th>
     <th>Description</th>
   </tr>
+  <tr />
   <tr>
     <td id="operators">Overloaded operators</td>
     <td>
@@ -166,6 +179,7 @@ Additionally, <a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for <
   <p> <em>Note: The bitwise and shift operators are overloaded for non-integral types. These operators perform the correct bitwise operations, but are unlikely to produce useful results.</em></p>
       </td>
     </tr>
+  <tr />
    <tr>
 <td id="stringformatting">String formatting</td>
 <td>
@@ -179,6 +193,7 @@ Console.WriteLine($"{var2:E}"); // outputs: 9.954322E+001
 Console.WriteLine($"{var2:000.000}"); // outputs: 099.543</code></pre>
 </td>
 </tr>
+  <tr />
 <tr>
 <td>Random generation</td>
   <td>Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">Random</a> provide randomly generated values. Values can be generated between two bounds or without bounds, as in the following code sample:</p>
@@ -190,6 +205,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
   
   </td>
 </tr>
+  <tr />
 <tr>
 <td>Commonly-used abstractions</td> <td>All the provided numeric types implement <a href="">IComparable</a>, <a href="">IComparable&lt;T&gt;</a>. <a href="">IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">ISerializable</a>, override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
 </tr>
