@@ -41,7 +41,7 @@ namespace Jodo.Numerics
             IProvider<IMath<N>>,
             IProvider<INumericStatic<N>>,
             IProvider<IRandom<N>>,
-            IProvider<IStringParser<N>>,
+            IProvider<IParser<N>>,
             ISerializable
         where N : struct, INumeric<N>
     {

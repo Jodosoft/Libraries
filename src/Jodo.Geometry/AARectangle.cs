@@ -35,7 +35,7 @@ namespace Jodo.Geometry
             IFormattable,
             IProvider<IBitConverter<AARectangle<N>>>,
             IProvider<IRandom<AARectangle<N>>>,
-            IProvider<IStringParser<AARectangle<N>>>,
+            IProvider<IParser<AARectangle<N>>>,
             ITwoDimensional<AARectangle<N>, N>,
             IRotatable<Rectangle<N>, Angle<N>, Vector2<N>>,
             ISerializable
@@ -145,10 +145,10 @@ namespace Jodo.Geometry
                     Vector2<N>.Parse(parts[1]));
             if (parts.Length == 4)
                 return new AARectangle<N>(
-                    StringParser<N>.Parse(parts[0]),
-                    StringParser<N>.Parse(parts[1]),
-                    StringParser<N>.Parse(parts[2]),
-                    StringParser<N>.Parse(parts[2]));
+                    Parser<N>.Parse(parts[0]),
+                    Parser<N>.Parse(parts[1]),
+                    Parser<N>.Parse(parts[2]),
+                    Parser<N>.Parse(parts[2]));
             else throw new FormatException();
         }
 
@@ -161,10 +161,10 @@ namespace Jodo.Geometry
                     Vector2<N>.Parse(parts[1], style, provider));
             if (parts.Length == 4)
                 return new AARectangle<N>(
-                    StringParser<N>.Parse(parts[0], style, provider),
-                    StringParser<N>.Parse(parts[1], style, provider),
-                    StringParser<N>.Parse(parts[2], style, provider),
-                    StringParser<N>.Parse(parts[2], style, provider));
+                    Parser<N>.Parse(parts[0], style, provider),
+                    Parser<N>.Parse(parts[1], style, provider),
+                    Parser<N>.Parse(parts[2], style, provider),
+                    Parser<N>.Parse(parts[2], style, provider));
             else throw new FormatException();
         }
 
@@ -228,12 +228,12 @@ namespace Jodo.Geometry
 
         IBitConverter<AARectangle<N>> IProvider<IBitConverter<AARectangle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<AARectangle<N>> IProvider<IRandom<AARectangle<N>>>.GetInstance() => Utilities.Instance;
-        IStringParser<AARectangle<N>> IProvider<IStringParser<AARectangle<N>>>.GetInstance() => Utilities.Instance;
+        IParser<AARectangle<N>> IProvider<IParser<AARectangle<N>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConverter<AARectangle<N>>,
            IRandom<AARectangle<N>>,
-           IStringParser<AARectangle<N>>
+           IParser<AARectangle<N>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -262,9 +262,9 @@ namespace Jodo.Geometry
                 return AARectangle<N>.Between(point1, point2);
             }
 
-            AARectangle<N> IStringParser<AARectangle<N>>.Parse(string s) => Parse(s);
+            AARectangle<N> IParser<AARectangle<N>>.Parse(string s) => Parse(s);
 
-            AARectangle<N> IStringParser<AARectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            AARectangle<N> IParser<AARectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             AARectangle<N> IBitConverter<AARectangle<N>>.Read(IReadOnlyStream<byte> stream)
             {

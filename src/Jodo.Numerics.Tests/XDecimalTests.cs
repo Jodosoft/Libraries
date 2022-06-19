@@ -17,7 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
@@ -34,16 +38,16 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericGeneral : NumericTests.General<xdecimal> { }
         public sealed class NumericReal : NumericTests.Real<xdecimal> { }
         public sealed class NumericSigned : NumericTests.Signed<xdecimal> { }
-        public sealed class StringParserGeneral : StringParserTests.General<xdecimal> { }
+        public sealed class ParserGeneral : ParserTests.General<xdecimal> { }
 
-#if NETSTANDARD2_1_OR_GREATER
+#if NET5_0_OR_GREATER
         [Test, Repeat(RandomVariations)]
         public void IsFinite_RandomValue_AlwaysTrue()
         {
             //arrange
-            byte[] bytes = BitConverter<xdecimal>.GetBytes(default).ToArray();
-            Random.NextBytes(bytes.AsSpan()[..12]);
-            xdecimal input = BitConverter<xdecimal>.FromBytes(bytes.AsSpan());
+            byte[] bytes = BitConverter<xdecimal>.GetBytes(default);
+            Random.NextBytes(bytes[..12]);
+            xdecimal input = BitConverter<xdecimal>.FromBytes(bytes);
 
             //act
             bool result = Numeric<xdecimal>.IsFinite(input);
@@ -56,9 +60,9 @@ namespace Jodo.Numerics.Tests
         public void IsInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConverter<xdecimal>.GetBytes(default).ToArray();
-            Random.NextBytes(bytes.AsSpan()[..12]);
-            xdecimal input = BitConverter<xdecimal>.FromBytes(bytes.AsSpan());
+            byte[] bytes = BitConverter<xdecimal>.GetBytes(default);
+            Random.NextBytes(bytes[..12]);
+            xdecimal input = BitConverter<xdecimal>.FromBytes(bytes);
 
             //act
             bool result = Numeric<xdecimal>.IsInfinity(input);
@@ -71,9 +75,9 @@ namespace Jodo.Numerics.Tests
         public void IsPositiveInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConverter<xdecimal>.GetBytes(default).ToArray();
-            Random.NextBytes(bytes.AsSpan()[..12]);
-            xdecimal input = BitConverter<xdecimal>.FromBytes(bytes.AsSpan());
+            byte[] bytes = BitConverter<xdecimal>.GetBytes(default);
+            Random.NextBytes(bytes[..12]);
+            xdecimal input = BitConverter<xdecimal>.FromBytes(bytes);
 
             //act
             bool result = Numeric<xdecimal>.IsPositiveInfinity(input);
@@ -86,9 +90,9 @@ namespace Jodo.Numerics.Tests
         public void IsNegativeInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConverter<xdecimal>.GetBytes(default).ToArray();
-            Random.NextBytes(bytes.AsSpan()[..12]);
-            xdecimal input = BitConverter<xdecimal>.FromBytes(bytes.AsSpan());
+            byte[] bytes = BitConverter<xdecimal>.GetBytes(default);
+            Random.NextBytes(bytes[..12]);
+            xdecimal input = BitConverter<xdecimal>.FromBytes(bytes);
 
             //act
             bool result = Numeric<xdecimal>.IsNegativeInfinity(input);
@@ -101,8 +105,8 @@ namespace Jodo.Numerics.Tests
         public void IsNaN_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConverter<xdecimal>.GetBytes(default).ToArray();
-            Random.NextBytes(bytes.AsSpan()[..12]);
+            byte[] bytes = BitConverter<xdecimal>.GetBytes(default);
+            Random.NextBytes(bytes[..12]);
             xdecimal input = Random.NextNumeric<xdecimal>();
 
             //act

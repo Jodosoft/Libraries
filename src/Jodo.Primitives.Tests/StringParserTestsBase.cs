@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
-    public abstract class StringParserTests<T> : GlobalFixtureBase where T : struct, IProvider<IStringParser<T>>, IProvider<IRandom<T>>
+    public abstract class StringParserTests<T> : GlobalFixtureBase where T : struct, IProvider<IParser<T>>, IProvider<IRandom<T>>
     {
         [Test]
         public void Parse1_RandomValueRoundTrip_SameAsInput()
@@ -33,7 +33,7 @@ namespace Jodo.Primitives.Tests
             T input = Random.NextRandomizable<T>();
 
             //act
-            T result = StringParser<T>.Parse(input.ToString());
+            T result = Parser<T>.Parse(input.ToString());
 
             //assert
             result.Should().Be(input);
@@ -45,7 +45,7 @@ namespace Jodo.Primitives.Tests
             //arrange
 
             //act
-            Action action = new Action(() => StringParser<T>.Parse(string.Empty));
+            Action action = new Action(() => Parser<T>.Parse(string.Empty));
 
             //assert
             action.Should().Throw<FormatException>();

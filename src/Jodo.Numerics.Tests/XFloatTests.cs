@@ -35,6 +35,6 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNaN : NumericTests.NaN<xfloat> { }
         public sealed class NumericReal : NumericTests.Real<xfloat> { }
         public sealed class NumericSigned : NumericTests.Signed<xfloat> { }
-        public sealed class StringParserGeneral : StringParserTests.General<xfloat> { }
+        public sealed class ParserGeneral : ParserTests.General<xfloat> { }
     }
 }

@@ -21,6 +21,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -96,7 +97,7 @@ namespace Jodo.Numerics.Tests
                 Convert<N>.ToDouble(Numeric<N>.Zero).Should().Be(0);
             }
 
-#if NETSTANDARD2_1_OR_GREATER
+#if NET5_0_OR_GREATER
             [Test, Repeat(RandomVariations)]
             public void Add_RandomValues_CorrectResult()
             {
@@ -598,7 +599,7 @@ namespace Jodo.Numerics.Tests
                 Numeric<N>.Epsilon.Should().Be(Numeric<N>.One);
             }
 
-#if NETSTANDARD2_1_OR_GREATER
+#if NET5_0_OR_GREATER
             [Test, Repeat(RandomVariations)]
             public void LogicalAnd_RandomIntegralValues_CorrectResult()
             {
@@ -688,7 +689,7 @@ namespace Jodo.Numerics.Tests
             [SetUp]
             public void SetUp() => Assert.That(Numeric<N>.IsReal);
 
-#if NETSTANDARD2_1_OR_GREATER
+#if NET5_0_OR_GREATER
             [Test]
             public void Epsilon_LessThanOne()
             {
@@ -900,14 +901,13 @@ namespace Jodo.Numerics.Tests
             [SetUp]
             public void SetUp() => Assert.That(!Numeric<N>.HasInfinity);
 
-#if NETSTANDARD2_1_OR_GREATER
             [Test, Repeat(RandomVariations)]
             public void IsFinite_RandomValue_AlwaysTrue()
             {
                 //arrange
-                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default);
                 Random.NextBytes(bytes);
-                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes);
 
                 //act
                 bool result = Numeric<N>.IsFinite(input);
@@ -920,9 +920,9 @@ namespace Jodo.Numerics.Tests
             public void IsInfinity_RandomValue_AlwaysFalse()
             {
                 //arrange
-                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default);
                 Random.NextBytes(bytes);
-                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes);
 
                 //act
                 bool result = Numeric<N>.IsInfinity(input);
@@ -935,9 +935,9 @@ namespace Jodo.Numerics.Tests
             public void IsPositiveInfinity_RandomValue_AlwaysFalse()
             {
                 //arrange
-                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default);
                 Random.NextBytes(bytes);
-                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes);
 
                 //act
                 bool result = Numeric<N>.IsPositiveInfinity(input);
@@ -950,9 +950,9 @@ namespace Jodo.Numerics.Tests
             public void IsNegativeInfinity_RandomValue_AlwaysFalse()
             {
                 //arrange
-                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default);
                 Random.NextBytes(bytes);
-                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes);
 
                 //act
                 bool result = Numeric<N>.IsNegativeInfinity(input);
@@ -960,7 +960,6 @@ namespace Jodo.Numerics.Tests
                 //assert
                 result.Should().BeFalse();
             }
-#endif
         }
 
         public abstract class NoNaN<N> : GlobalFixtureBase where N : struct, INumeric<N>
@@ -968,14 +967,13 @@ namespace Jodo.Numerics.Tests
             [SetUp]
             public void SetUp() => Assert.That(!Numeric<N>.HasNaN);
 
-#if NETSTANDARD2_1_OR_GREATER
             [Test, Repeat(RandomVariations)]
             public void IsNaN_RandomValue_AlwaysFalse()
             {
                 //arrange
-                byte[] bytes = BitConverter<N>.GetBytes(default).ToArray();
+                byte[] bytes = BitConverter<N>.GetBytes(default);
                 Random.NextBytes(bytes);
-                N input = BitConverter<N>.FromBytes(bytes.AsSpan());
+                N input = BitConverter<N>.FromBytes(bytes);
 
                 //act
                 bool result = Numeric<N>.IsNaN(input);
@@ -983,7 +981,6 @@ namespace Jodo.Numerics.Tests
                 //assert
                 result.Should().BeFalse();
             }
-#endif
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Jodo.Numerics
             IFormattable,
             IProvider<IBitConverter<Vector2<N>>>,
             IProvider<IRandom<Vector2<N>>>,
-            IProvider<IStringParser<Vector2<N>>>,
+            IProvider<IParser<Vector2<N>>>,
             ISerializable
         where N : struct, INumeric<N>
     {
@@ -80,8 +80,8 @@ namespace Jodo.Numerics
             string[] parts = StringUtilities.ParseVectorParts(value.Trim().Replace(Symbol, string.Empty));
             if (parts.Length != 2) throw new FormatException();
             return new Vector2<N>(
-                StringParser<N>.Parse(parts[0]),
-                StringParser<N>.Parse(parts[1]));
+                Parser<N>.Parse(parts[0]),
+                Parser<N>.Parse(parts[1]));
         }
 
         public static Vector2<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
@@ -89,8 +89,8 @@ namespace Jodo.Numerics
             string[] parts = StringUtilities.ParseVectorParts(value.Trim().Replace(Symbol, string.Empty));
             if (parts.Length != 2) throw new FormatException();
             return new Vector2<N>(
-                StringParser<N>.Parse(parts[0], style, provider),
-                StringParser<N>.Parse(parts[1], style, provider));
+                Parser<N>.Parse(parts[0], style, provider),
+                Parser<N>.Parse(parts[1], style, provider));
         }
 
         public static Vector2<N> operator -(Vector2<N> value) => new Vector2<N>(value.X.Negative(), value.Y.Negative());
@@ -109,12 +109,12 @@ namespace Jodo.Numerics
 
         IBitConverter<Vector2<N>> IProvider<IBitConverter<Vector2<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Vector2<N>> IProvider<IRandom<Vector2<N>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Vector2<N>> IProvider<IStringParser<Vector2<N>>>.GetInstance() => Utilities.Instance;
+        IParser<Vector2<N>> IProvider<IParser<Vector2<N>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConverter<Vector2<N>>,
            IRandom<Vector2<N>>,
-           IStringParser<Vector2<N>>
+           IParser<Vector2<N>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -128,12 +128,12 @@ namespace Jodo.Numerics
                 return new Vector2<N>(random.NextNumeric(bound1.X, bound2.X), random.NextNumeric(bound1.Y, bound2.Y));
             }
 
-            Vector2<N> IStringParser<Vector2<N>>.Parse(string s)
+            Vector2<N> IParser<Vector2<N>>.Parse(string s)
             {
                 return Parse(s);
             }
 
-            Vector2<N> IStringParser<Vector2<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            Vector2<N> IParser<Vector2<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
             {
                 return Parse(s, style, provider);
             }

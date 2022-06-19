@@ -33,6 +33,6 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNoNaN : NumericTests.NoNaN<fix64> { }
         public sealed class NumericReal : NumericTests.Real<fix64> { }
         public sealed class NumericSigned : NumericTests.Signed<fix64> { }
-        public sealed class StringParserGeneral : StringParserTests.General<fix64> { }
+        public sealed class ParserGeneral : ParserTests.General<fix64> { }
     }
 }

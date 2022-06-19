@@ -35,7 +35,7 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<xlong> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<xlong> { }
         public sealed class NumericSigned : NumericTests.Signed<xlong> { }
-        public sealed class StringParserGeneral : StringParserTests.General<xlong> { }
-        public sealed class StringParserIntegral : StringParserTests.Integral<xlong> { }
+        public sealed class ParserGeneral : ParserTests.General<xlong> { }
+        public sealed class StringParserIntegral : ParserTests.Integral<xlong> { }
     }
 }

@@ -26,7 +26,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class StringParserTests
+    public static class ParserTests
     {
         public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
@@ -37,7 +37,7 @@ namespace Jodo.Numerics.Tests
                 N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
 
                 //act
-                N result = StringParser<N>.Parse(input.ToString());
+                N result = Parser<N>.Parse(input.ToString());
 
                 //assert
                 result.Should().Be(input);
@@ -51,7 +51,7 @@ namespace Jodo.Numerics.Tests
                 string format = "G17";
 
                 //act
-                N result = StringParser<N>.Parse(input.ToString(format));
+                N result = Parser<N>.Parse(input.ToString(format));
 
                 //assert
                 result.Should().Be(input);
@@ -65,7 +65,7 @@ namespace Jodo.Numerics.Tests
                 string format = "G17";
 
                 //act
-                N result = StringParser<N>.Parse(input.ToString(format, NumberFormatInfo.InvariantInfo));
+                N result = Parser<N>.Parse(input.ToString(format, NumberFormatInfo.InvariantInfo));
 
                 //assert
                 result.Should().Be(input);
@@ -81,7 +81,7 @@ namespace Jodo.Numerics.Tests
                 NumberStyles numberStyles = NumberStyles.Any;
 
                 //act
-                N result = StringParser<N>.Parse(input.ToString(format, provider), numberStyles, provider);
+                N result = Parser<N>.Parse(input.ToString(format, provider), numberStyles, provider);
 
                 //assert
                 result.Should().Be(input);
@@ -101,7 +101,7 @@ namespace Jodo.Numerics.Tests
                 string hexString = input.ToString("X");
 
                 //act
-                N result = StringParser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
+                N result = Parser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
 
                 //assert
                 result.Should().Be(Convert<N>.ToNumeric(input));

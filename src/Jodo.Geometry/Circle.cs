@@ -35,7 +35,7 @@ namespace Jodo.Geometry
             IFormattable,
             IProvider<IBitConverter<Circle<N>>>,
             IProvider<IRandom<Circle<N>>>,
-            IProvider<IStringParser<Circle<N>>>,
+            IProvider<IParser<Circle<N>>>,
             ITwoDimensional<Circle<N>, N>,
             ISerializable
         where N : struct, INumeric<N>
@@ -122,7 +122,7 @@ namespace Jodo.Geometry
             if (parts.Length == 2)
                 return new Circle<N>(
                     Vector2<N>.Parse(parts[0]),
-                    StringParser<N>.Parse(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1]));
+                    Parser<N>.Parse(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1]));
             else throw new FormatException();
         }
 
@@ -132,7 +132,7 @@ namespace Jodo.Geometry
             if (parts.Length == 2)
                 return new Circle<N>(
                     Vector2<N>.Parse(parts[0], style, provider),
-                    StringParser<N>.Parse(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1], style, provider));
+                    Parser<N>.Parse(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1], style, provider));
             else throw new FormatException();
         }
 
@@ -142,12 +142,12 @@ namespace Jodo.Geometry
         Vector2<N> ITwoDimensional<Circle<N>, N>.GetCenter() => Center;
         IBitConverter<Circle<N>> IProvider<IBitConverter<Circle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Circle<N>> IProvider<IRandom<Circle<N>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Circle<N>> IProvider<IStringParser<Circle<N>>>.GetInstance() => Utilities.Instance;
+        IParser<Circle<N>> IProvider<IParser<Circle<N>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConverter<Circle<N>>,
            IRandom<Circle<N>>,
-           IStringParser<Circle<N>>
+           IParser<Circle<N>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -183,9 +183,9 @@ namespace Jodo.Geometry
                 return new Circle<N>(center, radius);
             }
 
-            Circle<N> IStringParser<Circle<N>>.Parse(string s) => Parse(s);
+            Circle<N> IParser<Circle<N>>.Parse(string s) => Parse(s);
 
-            Circle<N> IStringParser<Circle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            Circle<N> IParser<Circle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             Circle<N> IBitConverter<Circle<N>>.Read(IReadOnlyStream<byte> stream)
             {

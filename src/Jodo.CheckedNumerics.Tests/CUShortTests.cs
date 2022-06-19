@@ -36,7 +36,7 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<cushort> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<cushort> { }
         public sealed class NumericUnsigned : NumericTests.Unsigned<cushort> { }
-        public sealed class StringParserGeneral : StringParserTests.General<cushort> { }
-        public sealed class StringParserIntegral : StringParserTests.Integral<cushort> { }
+        public sealed class ParserGeneral : ParserTests.General<cushort> { }
+        public sealed class StringParserIntegral : ParserTests.Integral<cushort> { }
     }
 }

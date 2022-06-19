@@ -36,6 +36,6 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericNoNaN : NumericTests.NoNaN<cdouble> { }
         public sealed class NumericReal : NumericTests.Real<cdouble> { }
         public sealed class NumericSigned : NumericTests.Signed<cdouble> { }
-        public sealed class StringParserGeneral : StringParserTests.General<cdouble> { }
+        public sealed class ParserGeneral : ParserTests.General<cdouble> { }
     }
 }

@@ -135,7 +135,7 @@ namespace Jodo.Numerics
         IMath<xushort> IProvider<IMath<xushort>>.GetInstance() => Utilities.Instance;
         INumericStatic<xushort> IProvider<INumericStatic<xushort>>.GetInstance() => Utilities.Instance;
         IRandom<xushort> IProvider<IRandom<xushort>>.GetInstance() => Utilities.Instance;
-        IStringParser<xushort> IProvider<IStringParser<xushort>>.GetInstance() => Utilities.Instance;
+        IParser<xushort> IProvider<IParser<xushort>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<xushort>,
@@ -144,7 +144,7 @@ namespace Jodo.Numerics
             IMath<xushort>,
             INumericStatic<xushort>,
             IRandom<xushort>,
-            IStringParser<xushort>
+            IParser<xushort>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -244,8 +244,8 @@ namespace Jodo.Numerics
             xushort IConvert<xushort>.ToNumeric(ulong value) => Convert.ToUInt16(value);
             xushort IConvert<xushort>.ToNumeric(ushort value) => Convert.ToUInt16(value);
 
-            xushort IStringParser<xushort>.Parse(string s) => Parse(s);
-            xushort IStringParser<xushort>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            xushort IParser<xushort>.Parse(string s) => Parse(s);
+            xushort IParser<xushort>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<xushort>.ToByte(xushort value) => (byte)value;
             decimal ICast<xushort>.ToDecimal(xushort value) => (decimal)value;

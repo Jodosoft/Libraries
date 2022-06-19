@@ -35,7 +35,7 @@ namespace Jodo.Numerics
             IFormattable,
             IProvider<IBitConverter<Unit<N>>>,
             IProvider<IRandom<Unit<N>>>,
-            IProvider<IStringParser<Unit<N>>>,
+            IProvider<IParser<Unit<N>>>,
             ISerializable
         where N : struct, INumeric<N>
     {
@@ -111,20 +111,20 @@ namespace Jodo.Numerics
 
         IBitConverter<Unit<N>> IProvider<IBitConverter<Unit<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Unit<N>> IProvider<IRandom<Unit<N>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Unit<N>> IProvider<IStringParser<Unit<N>>>.GetInstance() => Utilities.Instance;
+        IParser<Unit<N>> IProvider<IParser<Unit<N>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<Unit<N>>,
             IRandom<Unit<N>>,
-            IStringParser<Unit<N>>
+            IParser<Unit<N>>
         {
             public static readonly Utilities Instance = new Utilities();
 
             Unit<N> IRandom<Unit<N>>.Next(Random random) => new Unit<N>(random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit));
             Unit<N> IRandom<Unit<N>>.Next(Random random, Unit<N> bound1, Unit<N> bound2) => new Unit<N>(random.NextNumeric(bound1.Value, bound2.Value));
 
-            Unit<N> IStringParser<Unit<N>>.Parse(string s) => new Unit<N>(StringParser<N>.Parse(s));
-            Unit<N> IStringParser<Unit<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => new Unit<N>(StringParser<N>.Parse(s, style, provider));
+            Unit<N> IParser<Unit<N>>.Parse(string s) => new Unit<N>(Parser<N>.Parse(s));
+            Unit<N> IParser<Unit<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => new Unit<N>(Parser<N>.Parse(s, style, provider));
 
             Unit<N> IBitConverter<Unit<N>>.Read(IReadOnlyStream<byte> stream) => new Unit<N>(BitConverter<N>.Read(stream));
             void IBitConverter<Unit<N>>.Write(Unit<N> value, IWriteOnlyStream<byte> stream) => BitConverter<N>.Write(stream, value.Value);

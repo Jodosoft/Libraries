@@ -17,13 +17,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
 using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
     public abstract class BitConverterTests<T> : GlobalFixtureBase where T : struct, IProvider<IBitConverter<T>>, IProvider<IRandom<T>>
     {
-#if NETSTANDARD2_1_OR_GREATER
+#if NET5_0_OR_GREATER
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomValue_ReturnsBytes()
         {
@@ -56,7 +59,7 @@ namespace Jodo.Primitives.Tests
             //arrange
 
             //act
-            Action action = new Action(() => BitConverter<T>.FromBytes(Array.Empty<byte>().AsSpan()));
+            Action action = new Action(() => BitConverter<T>.FromBytes(Array.Empty<byte>()));
 
             //assert
             action.Should().Throw<ArgumentException>();

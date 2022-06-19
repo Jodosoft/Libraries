@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
 using System.Collections.Generic;
 
 namespace Jodo.Primitives
@@ -26,19 +25,17 @@ namespace Jodo.Primitives
     {
         private static readonly IBitConverter<T> Default = default(T).GetInstance();
 
-#if NETSTANDARD2_1_OR_GREATER
-        public static ReadOnlySpan<byte> GetBytes(T value)
+        public static byte[] GetBytes(T value)
         {
             List<byte>? list = new List<byte>();
             Default.Write(value, list.AsWriteOnlyStream());
             return list.ToArray();
         }
 
-        public static T FromBytes(ReadOnlySpan<byte> bytes)
+        public static T FromBytes(byte[] bytes)
         {
-            return Default.Read(bytes.ToArray().AsReadOnlyStream());
+            return Default.Read(bytes.AsReadOnlyStream());
         }
-#endif
 
         public static T FromBytes(IReadOnlyList<byte> bytes)
         {

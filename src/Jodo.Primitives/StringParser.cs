@@ -23,9 +23,9 @@ using System.Globalization;
 
 namespace Jodo.Primitives
 {
-    public static class StringParser<T> where T : struct, IProvider<IStringParser<T>>
+    public static class Parser<T> where T : struct, IProvider<IParser<T>>
     {
-        private static readonly IStringParser<T> Default = default(T).GetInstance();
+        private static readonly IParser<T> Default = default(T).GetInstance();
 
         [DebuggerStepThrough]
         public static T Parse(string s) => Default.Parse(s);

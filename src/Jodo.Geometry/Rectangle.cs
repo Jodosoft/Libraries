@@ -36,7 +36,7 @@ namespace Jodo.Geometry
             IFormattable,
             IProvider<IBitConverter<Rectangle<N>>>,
             IProvider<IRandom<Rectangle<N>>>,
-            IProvider<IStringParser<Rectangle<N>>>,
+            IProvider<IParser<Rectangle<N>>>,
             ITwoDimensional<Rectangle<N>, N>,
             IRotatable<Rectangle<N>, Angle<N>, Vector2<N>>,
             ISerializable
@@ -211,13 +211,13 @@ namespace Jodo.Geometry
 
         IBitConverter<Rectangle<N>> IProvider<IBitConverter<Rectangle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Rectangle<N>> IProvider<IRandom<Rectangle<N>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Rectangle<N>> IProvider<IStringParser<Rectangle<N>>>.GetInstance() => Utilities.Instance;
+        IParser<Rectangle<N>> IProvider<IParser<Rectangle<N>>>.GetInstance() => Utilities.Instance;
 
 
         private sealed class Utilities :
            IBitConverter<Rectangle<N>>,
            IRandom<Rectangle<N>>,
-           IStringParser<Rectangle<N>>
+           IParser<Rectangle<N>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -262,10 +262,10 @@ namespace Jodo.Geometry
                 return new Rectangle<N>(center, dimensions, angle);
             }
 
-            Rectangle<N> IStringParser<Rectangle<N>>.Parse(string s)
+            Rectangle<N> IParser<Rectangle<N>>.Parse(string s)
                 => Parse(s);
 
-            Rectangle<N> IStringParser<Rectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            Rectangle<N> IParser<Rectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
                 => Parse(s, style, provider);
 
             Rectangle<N> IBitConverter<Rectangle<N>>.Read(IReadOnlyStream<byte> stream)

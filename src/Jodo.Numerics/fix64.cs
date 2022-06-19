@@ -172,7 +172,7 @@ namespace Jodo.Numerics
         IMath<fix64> IProvider<IMath<fix64>>.GetInstance() => Utilities.Instance;
         INumericStatic<fix64> IProvider<INumericStatic<fix64>>.GetInstance() => Utilities.Instance;
         IRandom<fix64> IProvider<IRandom<fix64>>.GetInstance() => Utilities.Instance;
-        IStringParser<fix64> IProvider<IStringParser<fix64>>.GetInstance() => Utilities.Instance;
+        IParser<fix64> IProvider<IParser<fix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<fix64>,
@@ -181,7 +181,7 @@ namespace Jodo.Numerics
             IMath<fix64>,
             INumericStatic<fix64>,
             IRandom<fix64>,
-            IStringParser<fix64>
+            IParser<fix64>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -281,8 +281,8 @@ namespace Jodo.Numerics
             fix64 IConvert<fix64>.ToNumeric(ulong value) => (fix64)Convert.ToInt64(value);
             fix64 IConvert<fix64>.ToNumeric(ushort value) => (fix64)Convert.ToInt64(value);
 
-            fix64 IStringParser<fix64>.Parse(string s) => Parse(s);
-            fix64 IStringParser<fix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            fix64 IParser<fix64>.Parse(string s) => Parse(s);
+            fix64 IParser<fix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<fix64>.ToByte(fix64 value) => (byte)value;
             decimal ICast<fix64>.ToDecimal(fix64 value) => (decimal)value;

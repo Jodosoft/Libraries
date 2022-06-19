@@ -35,7 +35,7 @@ namespace Jodo.Geometry
             IFormattable,
             IProvider<IBitConverter<Triangle<N>>>,
             IProvider<IRandom<Triangle<N>>>,
-            IProvider<IStringParser<Triangle<N>>>,
+            IProvider<IParser<Triangle<N>>>,
             ITwoDimensional<Triangle<N>, N>,
             ISerializable
         where N : struct, INumeric<N>
@@ -118,9 +118,9 @@ namespace Jodo.Geometry
             string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
             if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
-                StringParser<N>.Parse(parts[0]),
-                StringParser<N>.Parse(parts[1]),
-                StringParser<N>.Parse(parts[2]));
+                Parser<N>.Parse(parts[0]),
+                Parser<N>.Parse(parts[1]),
+                Parser<N>.Parse(parts[2]));
         }
 
         public static Vector3<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
@@ -128,9 +128,9 @@ namespace Jodo.Geometry
             string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
             if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
-                StringParser<N>.Parse(parts[0], style, provider),
-                StringParser<N>.Parse(parts[1], style, provider),
-                StringParser<N>.Parse(parts[2], style, provider));
+                Parser<N>.Parse(parts[0], style, provider),
+                Parser<N>.Parse(parts[1], style, provider),
+                Parser<N>.Parse(parts[2], style, provider));
         }
 
         public static bool operator ==(Triangle<N> left, Triangle<N> right) => left.Equals(right);
@@ -141,13 +141,13 @@ namespace Jodo.Geometry
         Vector2<N>[] ITwoDimensional<Triangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
         IBitConverter<Triangle<N>> IProvider<IBitConverter<Triangle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Triangle<N>> IProvider<IRandom<Triangle<N>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Triangle<N>> IProvider<IStringParser<Triangle<N>>>.GetInstance() => Utilities.Instance;
+        IParser<Triangle<N>> IProvider<IParser<Triangle<N>>>.GetInstance() => Utilities.Instance;
 
 
         private sealed class Utilities :
            IBitConverter<Triangle<N>>,
            IRandom<Triangle<N>>,
-           IStringParser<Triangle<N>>
+           IParser<Triangle<N>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -161,12 +161,12 @@ namespace Jodo.Geometry
                 throw new NotImplementedException();
             }
 
-            Triangle<N> IStringParser<Triangle<N>>.Parse(string s)
+            Triangle<N> IParser<Triangle<N>>.Parse(string s)
             {
                 throw new NotImplementedException();
             }
 
-            Triangle<N> IStringParser<Triangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            Triangle<N> IParser<Triangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
             {
                 throw new NotImplementedException();
             }

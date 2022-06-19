@@ -136,7 +136,7 @@ namespace Jodo.CheckedNumerics
         IMath<culong> IProvider<IMath<culong>>.GetInstance() => Utilities.Instance;
         INumericStatic<culong> IProvider<INumericStatic<culong>>.GetInstance() => Utilities.Instance;
         IRandom<culong> IProvider<IRandom<culong>>.GetInstance() => Utilities.Instance;
-        IStringParser<culong> IProvider<IStringParser<culong>>.GetInstance() => Utilities.Instance;
+        IParser<culong> IProvider<IParser<culong>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<culong>,
@@ -145,7 +145,7 @@ namespace Jodo.CheckedNumerics
             IMath<culong>,
             INumericStatic<culong>,
             IRandom<culong>,
-            IStringParser<culong>
+            IParser<culong>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -245,8 +245,8 @@ namespace Jodo.CheckedNumerics
             culong IConvert<culong>.ToNumeric(ulong value) => value;
             culong IConvert<culong>.ToNumeric(ushort value) => CheckedConvert.ToUInt64(value);
 
-            culong IStringParser<culong>.Parse(string s) => Parse(s);
-            culong IStringParser<culong>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            culong IParser<culong>.Parse(string s) => Parse(s);
+            culong IParser<culong>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<culong>.ToByte(culong value) => (byte)value;
             decimal ICast<culong>.ToDecimal(culong value) => (decimal)value;

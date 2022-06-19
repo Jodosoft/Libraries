@@ -36,7 +36,7 @@ namespace Jodo.Geometry
             IFormattable,
             IProvider<IBitConverter<Angle<N>>>,
             IProvider<IRandom<Angle<N>>>,
-            IProvider<IStringParser<Angle<N>>>,
+            IProvider<IParser<Angle<N>>>,
             ISerializable
         where N : struct, INumeric<N>
     {
@@ -106,7 +106,7 @@ namespace Jodo.Geometry
             if (TryParse(trimmed, "C", out number)) return Angle<N>.FromRadians(number);
             if (TryParse(trimmed, "R", out number)) return Angle<N>.FromRadians(number);
 
-            return Angle<N>.FromDegrees(StringParser<N>.Parse(trimmed));
+            return Angle<N>.FromDegrees(Parser<N>.Parse(trimmed));
         }
 
         public static Angle<N> Parse(string value, NumberStyles numberStyles, IFormatProvider? formatProvider)
@@ -123,14 +123,14 @@ namespace Jodo.Geometry
             if (TryParse(trimmed, "C", numberStyles, formatProvider, out number)) return Angle<N>.FromRadians(number);
             if (TryParse(trimmed, "R", numberStyles, formatProvider, out number)) return Angle<N>.FromRadians(number);
 
-            return Angle<N>.FromDegrees(StringParser<N>.Parse(trimmed));
+            return Angle<N>.FromDegrees(Parser<N>.Parse(trimmed));
         }
 
         private static bool TryParse(string value, string unit, out N number)
         {
             if (value.EndsWith(unit, StringComparison.InvariantCultureIgnoreCase))
             {
-                number = StringParser<N>.Parse(value.Substring(0, value.Length - unit.Length));
+                number = Parser<N>.Parse(value.Substring(0, value.Length - unit.Length));
                 return true;
             }
             number = default;
@@ -141,7 +141,7 @@ namespace Jodo.Geometry
         {
             if (value.EndsWith(unit, StringComparison.InvariantCultureIgnoreCase))
             {
-                number = StringParser<N>.Parse(value.Substring(0, value.Length - unit.Length), numberStyles, formatProvider);
+                number = Parser<N>.Parse(value.Substring(0, value.Length - unit.Length), numberStyles, formatProvider);
                 return true;
             }
             number = default;
@@ -191,20 +191,20 @@ namespace Jodo.Geometry
 
         IBitConverter<Angle<N>> IProvider<IBitConverter<Angle<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Angle<N>> IProvider<IRandom<Angle<N>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Angle<N>> IProvider<IStringParser<Angle<N>>>.GetInstance() => Utilities.Instance;
+        IParser<Angle<N>> IProvider<IParser<Angle<N>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<Angle<N>>,
             IRandom<Angle<N>>,
-            IStringParser<Angle<N>>
+            IParser<Angle<N>>
         {
             public static readonly Utilities Instance = new Utilities();
 
             Angle<N> IRandom<Angle<N>>.Next(Random random) => new Angle<N>(random.NextNumeric<N>());
             Angle<N> IRandom<Angle<N>>.Next(Random random, Angle<N> bound1, Angle<N> bound2) => new Angle<N>(random.NextNumeric(bound1.Degrees, bound2.Degrees));
 
-            Angle<N> IStringParser<Angle<N>>.Parse(string s) => Parse(s);
-            Angle<N> IStringParser<Angle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => new Angle<N>(StringParser<N>.Parse(s, style, provider));
+            Angle<N> IParser<Angle<N>>.Parse(string s) => Parse(s);
+            Angle<N> IParser<Angle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => new Angle<N>(Parser<N>.Parse(s, style, provider));
 
             Angle<N> IBitConverter<Angle<N>>.Read(IReadOnlyStream<byte> stream) => new Angle<N>(BitConverter<N>.Read(stream));
             void IBitConverter<Angle<N>>.Write(Angle<N> value, IWriteOnlyStream<byte> stream) => BitConverter<N>.Write(stream, value.Degrees);

@@ -17,11 +17,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
+using Jodo.Primitives;
+using NUnit.Framework;
+
 namespace Jodo.Numerics.Tests
 {
     public abstract class BitConverterTests<N> : Primitives.Tests.BitConverterTests<N> where N : struct, INumeric<N>
     {
-#if NETSTANDARD2_1_OR_GREATER
+#if NET5_0_OR_GREATER
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomSmallValue_SameAsOriginal()
         {

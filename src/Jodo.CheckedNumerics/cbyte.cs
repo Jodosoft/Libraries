@@ -136,7 +136,7 @@ namespace Jodo.CheckedNumerics
         IMath<cbyte> IProvider<IMath<cbyte>>.GetInstance() => Utilities.Instance;
         INumericStatic<cbyte> IProvider<INumericStatic<cbyte>>.GetInstance() => Utilities.Instance;
         IRandom<cbyte> IProvider<IRandom<cbyte>>.GetInstance() => Utilities.Instance;
-        IStringParser<cbyte> IProvider<IStringParser<cbyte>>.GetInstance() => Utilities.Instance;
+        IParser<cbyte> IProvider<IParser<cbyte>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<cbyte>,
@@ -145,7 +145,7 @@ namespace Jodo.CheckedNumerics
             IMath<cbyte>,
             INumericStatic<cbyte>,
             IRandom<cbyte>,
-            IStringParser<cbyte>
+            IParser<cbyte>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -245,8 +245,8 @@ namespace Jodo.CheckedNumerics
             cbyte IConvert<cbyte>.ToNumeric(ulong value) => CheckedConvert.ToByte(value);
             cbyte IConvert<cbyte>.ToNumeric(ushort value) => value;
 
-            cbyte IStringParser<cbyte>.Parse(string s) => Parse(s);
-            cbyte IStringParser<cbyte>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            cbyte IParser<cbyte>.Parse(string s) => Parse(s);
+            cbyte IParser<cbyte>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
             byte ICast<cbyte>.ToByte(cbyte value) => (byte)value;
             decimal ICast<cbyte>.ToDecimal(cbyte value) => (decimal)value;

@@ -34,7 +34,7 @@ namespace Jodo.Numerics
             IFormattable,
             IProvider<IBitConverter<Vector3<N>>>,
             IProvider<IRandom<Vector3<N>>>,
-            IProvider<IStringParser<Vector3<N>>>,
+            IProvider<IParser<Vector3<N>>>,
             ISerializable
         where N : struct, INumeric<N>
     {
@@ -82,9 +82,9 @@ namespace Jodo.Numerics
             string[] parts = StringUtilities.ParseVectorParts(value);
             if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
-                StringParser<N>.Parse(parts[0]),
-                StringParser<N>.Parse(parts[1]),
-                StringParser<N>.Parse(parts[2]));
+                Parser<N>.Parse(parts[0]),
+                Parser<N>.Parse(parts[1]),
+                Parser<N>.Parse(parts[2]));
         }
 
         public static Vector3<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
@@ -92,9 +92,9 @@ namespace Jodo.Numerics
             string[] parts = StringUtilities.ParseVectorParts(value);
             if (parts.Length != 3) throw new FormatException();
             return new Vector3<N>(
-                StringParser<N>.Parse(parts[0], style, provider),
-                StringParser<N>.Parse(parts[1], style, provider),
-                StringParser<N>.Parse(parts[2], style, provider));
+                Parser<N>.Parse(parts[0], style, provider),
+                Parser<N>.Parse(parts[1], style, provider),
+                Parser<N>.Parse(parts[2], style, provider));
         }
 
         public static Vector3<N> operator -(Vector3<N> value) => new Vector3<N>(value.X.Negative(), value.Y.Negative(), value.Z.Negative());
@@ -113,12 +113,12 @@ namespace Jodo.Numerics
 
         IBitConverter<Vector3<N>> IProvider<IBitConverter<Vector3<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Vector3<N>> IProvider<IRandom<Vector3<N>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Vector3<N>> IProvider<IStringParser<Vector3<N>>>.GetInstance() => Utilities.Instance;
+        IParser<Vector3<N>> IProvider<IParser<Vector3<N>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConverter<Vector3<N>>,
            IRandom<Vector3<N>>,
-           IStringParser<Vector3<N>>
+           IParser<Vector3<N>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -138,12 +138,12 @@ namespace Jodo.Numerics
                     random.NextNumeric(bound1.Z, bound2.Z));
             }
 
-            Vector3<N> IStringParser<Vector3<N>>.Parse(string s)
+            Vector3<N> IParser<Vector3<N>>.Parse(string s)
             {
                 return Parse(s);
             }
 
-            Vector3<N> IStringParser<Vector3<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            Vector3<N> IParser<Vector3<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
             {
                 return Parse(s, style, provider);
             }
