@@ -32,6 +32,25 @@
 
 <h2>Introduction</h2>
 
+Welcome to The Jodo Packages:
+a collection of carefully crafted utilities
+picked from personal projects, covering numerics, geometry and data structures.
+
+The types in these packages adopt the style and design principals of the .NET SDK,
+making them easy to use and maintain. Testing, benchmarking, and static analysis
+tools are used to ensure a high level of quality.
+
+The packages target .NET Framework 4.6 and .NET Standard 2.0,
+allowing maximum compatibility with different runtimes. The packages are available
+on NuGet.org, or can be built from this repository with standard build tools.
+
+github.com/JosephJShort/Jodo/ is the home of this repository, and should be used
+for reporting bugs, requesting features or creating pull requests.
+
+API documentation is available at https://jodo.dev, though it is mostly auto-generated for the time being. 
+
+Please see the sections below for more detail on each package. 
+
 <h2>Jodo.Numerics</h2>
 
 Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
