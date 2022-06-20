@@ -54,7 +54,7 @@ namespace Jodo.Primitives.Compatibility
         public static float Atanh(float f) => (float)MathCompat.Atanh(f);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Cbrt(float f) => (float)Math.Pow(f, 1d / 3d);
+        public static float Cbrt(float f) => (float)MathCompat.Cbrt(f);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Ceiling(float a) => (float)Math.Ceiling(a);

@@ -30,10 +30,12 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1_OR_GREATER
             return Math.Acosh(d);
 #else
-            // todo: near zero optimizations
-            //Log1p(t + Sqrt(2*t+t*t))
-            double t = d - 1;
-            return Math.Log(1 + (t + Math.Sqrt((2 * t) + (t * t))));
+            if (d < 1 || double.IsNaN(d)) return double.NaN;
+            if (d == 1) return 0;
+            if (d >= 3E9) return Math.Log(d) + Math.Log(2);
+            if (d > 2) return Math.Log((2 * d) - (1 / (d + Math.Sqrt((d * d) - 1))));
+            d--;
+            return Math.Log(1 + (d + Math.Sqrt((2 * d) + (d * d))));
 #endif
         }
 
@@ -43,12 +45,14 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1_OR_GREATER
             return Math.Asinh(d);
 #else
-            // todo: near zero optimizations
-            double result;
-            bool negative = d < 0;
-            result = negative ? -d : d;
-            result = Math.Log(1 + (result * result / (1 + Math.Sqrt(result + (result * result)))));
-            return negative ? -result : result;
+            if (!DoubleCompat.IsFinite(d) || (d > -3E-09 && d < 3E-09)) return d;
+
+            double r = d < 0 ? -d : d;
+
+            if (r > 2) r = Math.Log((2 * r) + (1 / (Math.Sqrt((r * r) + 1) + r)));
+            else r = Math.Log(1 + (r + (r * r / (1 + Math.Sqrt(1 + (r * r))))));
+
+            return d < 0 ? -r : r;
 #endif
         }
 
@@ -58,8 +62,15 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1_OR_GREATER
             return Math.Atanh(d);
 #else
-            // todo: near zero optimizations
-            return -(.5d * Math.Log(1 + ((d + d) / (1 - d))));
+            if (!DoubleCompat.IsFinite(d) || (d > -3E-09 && d < 3E-09)) return d;
+            if (d < -1) return double.NegativeInfinity;
+            if (d > 1) return double.PositiveInfinity;
+
+            double r = d < 0 ? -d : d;
+            if (r < 0.5) r = 0.5 * Math.Log(1 + (r + r + ((r + r) * r / (1 - r))));
+            else r = 0.5 * Math.Log(1 + ((r + r) / (1 - r)));
+
+            return d < 0 ? -r : r;
 #endif
         }
 
@@ -69,7 +80,9 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1_OR_GREATER
             return Math.Cbrt(d);
 #else
-            return Math.Pow(d, 1d / 3d);
+            const double Exponent = 1d / 3d;
+            if (d < 0) return -Math.Pow(-d, Exponent);
+            return Math.Pow(d, Exponent);
 #endif
         }
 
