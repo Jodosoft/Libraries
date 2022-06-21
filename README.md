@@ -36,13 +36,13 @@ Welcome to The Jodo Packages:
 a collection of carefully crafted utilities
 picked from personal projects, covering numerics, geometry and data structures.
 
-The types within these packages adopt the style and design principals of the .NET SDK,
-making them easy to use and maintain. Testing, benchmarking, and static analysis
+The types within these packages adopt the design principals and style of the .NET SDK,
+making them easy to use and extend. Testing, benchmarking, and static analysis
 tools are used to further ensure a high level of quality.
 
 The packages target .NET Framework 4.6 and .NET Standard 2.0,
-allowing maximum compatibility with different runtimes. The packages are available
-on NuGet.org, or can be built without dependencies from this repository with Visual Studio Community Edition.
+allowing maximum compatibility with different runtimes. They are available
+on NuGet.org, or can be built without dependencies from this repository using Visual Studio Community Edition.
 
 https://github.com/JosephJShort/Jodo is the home of this repository, and should be used
 for reporting bugs, requesting features or creating pull requests.
