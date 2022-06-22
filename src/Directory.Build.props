@@ -57,7 +57,7 @@
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <Optimize>true</Optimize>
       </PropertyGroup>
-      <PropertyGroup Condition="'$(Configuration)' == 'Release' and $(BuildingInsideVisualStudio)">
+      <PropertyGroup Condition="'$(Configuration)' == 'Release' and $(BuildingInsideVisualStudio) == 'true'">
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <Authors>Joseph J. Short</Authors>
         <Company>Joseph J. Short</Company>
