@@ -19,9 +19,7 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Packages:
-a collection of utilities
-picked from personal projects, covering numerics, geometry and data structures.
+Welcome to The Jodo Packages: a collection of utilities picked from personal projects, covering numerics, geometry and data structures.
 
 These packages adopt the design principals and style of the .NET SDK,
 making them easy to use and extend. Unit tests, benchmarks, CI and static analysis
@@ -34,9 +32,7 @@ tools are used to further ensure a high level of quality.
   <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a>
   <a href="https://lgtm.com/projects/g/JosephJShort/Jodo/alerts/?mode=list"><img alt="LGTM Alerts" src="https://img.shields.io/lgtm/alerts/github/JosephJShort/Jodo?label=alerts&logo=lgtm&style=flat-square&no-cache"></a>
 
-The packages target .NET Framework 4.6 and .NET Standard 2.0,
-allowing maximum compatibility with different runtimes. They are available
-on [NuGet.org](https://www.nuget.org/packages?q=Jodo.), or can be built without dependencies from this repository using [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/community/).
+The packages are available on [NuGet.org](https://www.nuget.org/packages?q=Jodo.), or can be built without dependencies from this repository using [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/community/). They target `netstandard2.0` (.NET Standard 2.0) and `net461` (.NET Framework 4.6) in order to [maximize cross-platform support](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting). Additional targets like `netstandard2.1` (.NET Standard 2.1) are used to benefit from newer language features such as [default interface methods](https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods).
 
 https://github.com/JosephJShort/Jodo is the home of this repository, and should be used
 for reporting bugs, requesting features or creating pull requests.
