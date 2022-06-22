@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=informational&no-cache"></a>
-  <a href="https://www.nuget.org/packages?q=Jodo"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&logo=nuget&style=flat-square&color=informational&no-cache"></a>
+  <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&logo=nuget&style=flat-square&color=informational&no-cache"></a>
   <br />
   <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
   <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
@@ -24,32 +24,33 @@
 <h2>Contents</h2>
 
 1. [Introduction](#introduction)
-1. [Jodo.Numerics](#jodonumerics)
-1. [Jodo.CheckedNumerics](#jodocheckednumerics)
-1. [Jodo.Geometry](#jodogeometry)
-1. [Jodo.Collections](#jodocollections)
-1. [Jodo.Primitives](#jodoprimitives)
+2. [Links](#links)
+3. [Jodo.Numerics](#jodonumerics)
+4. [Jodo.CheckedNumerics](#jodocheckednumerics)
+5. [Jodo.Geometry](#jodogeometry)
+6. [Jodo.Collections](#jodocollections)
+7. [Jodo.Primitives](#jodoprimitives)
 
 <h2>Introduction</h2>
 
 Welcome to The Jodo Packages:
-a collection of carefully crafted utilities
+a collection of utilities
 picked from personal projects, covering numerics, geometry and data structures.
 
 The types within these packages adopt the design principals and style of the .NET SDK,
-making them easy to use and extend. Testing, benchmarking, and static analysis
+making them easy to use and extend. Unit tests, benchmarks, and static analysis
 tools are used to further ensure a high level of quality.
 
 The packages target .NET Framework 4.6 and .NET Standard 2.0,
 allowing maximum compatibility with different runtimes. They are available
-on NuGet.org, or can be built without dependencies from this repository using Visual Studio Community Edition.
+on [NuGet.org](https://www.nuget.org/packages?q=Jodo.), or can be built without dependencies from this repository using [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/community/).
 
 https://github.com/JosephJShort/Jodo is the home of this repository, and should be used
 for reporting bugs, requesting features or creating pull requests.
 
 API documentation is available at https://jodo.dev, though it is mostly auto-generated for the time being. 
 
-Please see the sections below for more detail on each package. 
+Please see the sections below for more detail on each package.
 
 <h2>Jodo.Numerics</h2>
 
