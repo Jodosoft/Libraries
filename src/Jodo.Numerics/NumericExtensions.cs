@@ -26,12 +26,12 @@ namespace Jodo.Numerics
     {
         public static N Double<N>(this N n) where N : struct, INumeric<N>
         {
-            return n.Multiply(Numeric<N>.Two); // todo - shift for integrals
+            return n.Multiply(Numeric<N>.Two);
         }
 
         public static N Half<N>(this N n) where N : struct, INumeric<N>
         {
-            return n.Divide(Numeric<N>.Two); // todo - shift for integrals
+            return n.Divide(Numeric<N>.Two);
         }
 
         public static N Squared<N>(this N n) where N : struct, INumeric<N>

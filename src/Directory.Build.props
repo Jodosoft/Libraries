@@ -26,6 +26,7 @@
     <When Condition="$(MSBuildProjectName.EndsWith('Tests')) or $(MSBuildProjectName.EndsWith('Testing'))">
       <PropertyGroup>
         <TargetFrameworks>net48;netcoreapp2.1;net5.0</TargetFrameworks>
+        <Optimize>false</Optimize>
       </PropertyGroup>
       <ItemGroup>
         <PackageReference Include="NUnit" Version="3.13.3" />

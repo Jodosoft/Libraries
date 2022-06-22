@@ -19,6 +19,7 @@
 
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -162,6 +163,9 @@ namespace System
             }
         }
 
+#if !NETSTANDARD2_0_OR_GREATER
+        [MethodImpl(MethodImplOptions.NoOptimization)] // optimizer issue
+#endif
         public static double NextDouble(this Random random, double bound1, double bound2)
         {
             if (!DoubleCompat.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, "Must be finite.");
