@@ -23,6 +23,7 @@ using NUnit.Framework;
 
 namespace Jodo.Testing
 {
+    [Parallelizable]
     [Timeout(10000)]
     public abstract class GlobalFixtureBase
     {
