@@ -4,6 +4,8 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <Choose>
@@ -49,12 +51,10 @@
       <PropertyGroup>
         <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
         <Nullable>enable</Nullable>
-        <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <NoWarn>CS1591;</NoWarn>
         <LangVersion>latest</LangVersion>
       </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <BuildInParallel>false</BuildInParallel>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <Authors>Joseph J. Short</Authors>
         <Company>Joseph J. Short</Company>
@@ -62,10 +62,10 @@
         <Copyright>Copyright © Joseph J. Short 2022</Copyright>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>portable</DebugType>
-        <Deterministic>true</Deterministic>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <EnablePackageValidation>false</EnablePackageValidation>
         <FileVersion>1.0.0</FileVersion>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <IncludeSymbols>true</IncludeSymbols>
         <NeutralLanguage>en-GB</NeutralLanguage>
