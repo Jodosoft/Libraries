@@ -27,7 +27,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe int SingleToInt32Bits(float value)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return BitConverter.SingleToInt32Bits(value);
 #else
             return *(int*)&value;
@@ -37,7 +37,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe float Int32BitsToSingle(int value)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return BitConverter.Int32BitsToSingle(value);
 #else
             return *(float*)&value;
@@ -47,7 +47,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe long DoubleToInt64Bits(double value)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return BitConverter.DoubleToInt64Bits(value);
 #else
             return *(long*)&value;
@@ -57,7 +57,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe double Int64BitsToDouble(long value)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return BitConverter.Int64BitsToDouble(value);
 #else
             return *(double*)&value;

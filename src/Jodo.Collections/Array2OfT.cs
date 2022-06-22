@@ -46,7 +46,7 @@ namespace Jodo.Collections
             _lengthY = lengthY;
         }
 
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
         public ReadOnlySpan<T> AsSpan() => _array.AsSpan();
         public ReadOnlyMemory<T> AsMemory() => _array.AsMemory();
 #endif

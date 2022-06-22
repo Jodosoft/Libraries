@@ -89,7 +89,6 @@ namespace Jodo.Geometry
         public Triangle<N> Translate(Vector2<N> delta) => new Triangle<N>(A + delta, B + delta, C + delta);
 
         public bool Contains(Vector2<N> point) => throw new NotImplementedException();
-        public bool Contains((N, N) point) => Contains((Vector2<N>)point);
         public bool Contains(N pointX, N pointY) => Contains(new Vector2<N>(pointX, pointY));
 
         public bool Contains(Triangle<N> other) => throw new NotImplementedException();
@@ -135,8 +134,11 @@ namespace Jodo.Geometry
 
         public static bool operator ==(Triangle<N> left, Triangle<N> right) => left.Equals(right);
         public static bool operator !=(Triangle<N> left, Triangle<N> right) => !(left == right);
+
+#if NETSTANDARD2_0_OR_GREATER
         public static implicit operator Triangle<N>((Vector2<N>, Vector2<N>, Vector2<N>) value) => new Triangle<N>(value.Item1, value.Item2, value.Item3);
         public static implicit operator (Vector2<N>, Vector2<N>, Vector2<N>)(Triangle<N> value) => (value.A, value.B, value.C);
+#endif
 
         Vector2<N>[] ITwoDimensional<Triangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
         IBitConverter<Triangle<N>> IProvider<IBitConverter<Triangle<N>>>.GetInstance() => Utilities.Instance;

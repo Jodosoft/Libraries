@@ -109,7 +109,6 @@ namespace Jodo.Geometry
             };
         }
 
-        public Rectangle<N> Grow((N, N) delta) => Grow((Vector2<N>)delta);
         public Rectangle<N> Grow(N delta) => Grow(new Vector2<N>(delta, delta));
         public Rectangle<N> Grow(N deltaX, N deltaY) => Grow(new Vector2<N>(deltaX, deltaY));
         public Rectangle<N> Grow(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft() - delta, Dimensions + delta + delta, Angle);
@@ -118,17 +117,14 @@ namespace Jodo.Geometry
 
         public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(GetBottomLeft(), Dimensions, Angle + angle);
         public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Center.RotateAround(pivot, angle), Dimensions, Angle + angle);
-        public Rectangle<N> Shrink((N, N) delta) => Shrink((Vector2<N>)delta);
         public Rectangle<N> Shrink(N delta) => Shrink(new Vector2<N>(delta, delta));
         public Rectangle<N> Shrink(N deltaX, N deltaY) => Shrink(new Vector2<N>(deltaX, deltaY));
         public Rectangle<N> Shrink(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft(), Dimensions - delta, Angle);
-        public Rectangle<N> Translate((N, N) delta) => Translate((Vector2<N>)delta);
         public Rectangle<N> Translate(N deltaX, N deltaY) => Translate(new Vector2<N>(deltaX, deltaY));
         public Rectangle<N> Translate(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft() + delta, Dimensions, Angle);
-        public Rectangle<N> UnitTranslate((N, N) delta) => Translate((Vector2<N>)delta);
         public Rectangle<N> UnitTranslate(N deltaX, N deltaY) => Translate(new Vector2<N>(deltaX, deltaY));
         public Rectangle<N> UnitTranslate(Vector2<N> delta) => new Rectangle<N>(
-            GetBottomLeft() + (delta.X.Multiply(Width), delta.Y.Multiply(Height)), Dimensions, Angle);
+            GetBottomLeft() + new Vector2<N>(delta.X.Multiply(Width), delta.Y.Multiply(Height)), Dimensions, Angle);
 
         public bool Equals(Rectangle<N> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
         public override bool Equals(object? obj)
@@ -190,7 +186,7 @@ namespace Jodo.Geometry
             N maxY = ys.Max();
 
             Vector2<N> dimensions = new Vector2<N>(maxX.Subtract(minX), maxY.Subtract(minY));
-            return AARectangle<N>.FromBottomLeft((minX, minY), dimensions);
+            return AARectangle<N>.FromBottomLeft(new Vector2<N>(minX, minY), dimensions);
         }
 
         private static Vector2<N> GetBottomCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X, center.Y.Add(dimensions.Y.Divide(Numeric<N>.Two))).RotateAround(center, angle);

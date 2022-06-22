@@ -100,8 +100,12 @@ namespace Jodo.Numerics
         public static Vector2<N> operator /(Vector2<N> value, N scalar) => new Vector2<N>(value.X.Divide(scalar), value.Y.Divide(scalar));
         public static Vector2<N> operator +(Vector2<N> value) => value;
         public static Vector2<N> operator +(Vector2<N> value1, Vector2<N> value2) => new Vector2<N>(value1.X.Add(value2.X), value1.Y.Add(value2.Y));
+
+#if NETSTANDARD2_0_OR_GREATER
         public static implicit operator Vector2<N>((N, N) value) => new Vector2<N>(value.Item1, value.Item2);
         public static implicit operator (N, N)(Vector2<N> value) => (value.X, value.Y);
+#endif
+
         public static implicit operator Vector2<N>(Tuple<N, N> value) => new Vector2<N>(value.Item1, value.Item2);
         public static implicit operator Tuple<N, N>(Vector2<N> value) => new Tuple<N, N>(value.X, value.Y);
         public static bool operator ==(Vector2<N> left, Vector2<N> right) => left.Equals(right);

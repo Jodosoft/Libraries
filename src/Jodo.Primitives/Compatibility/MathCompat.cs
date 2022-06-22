@@ -27,7 +27,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Acosh(double d)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return Math.Acosh(d);
 #else
             if (d < 1 || double.IsNaN(d)) return double.NaN;
@@ -42,7 +42,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Asinh(double d)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return Math.Asinh(d);
 #else
             if (!DoubleCompat.IsFinite(d) || (d > -3E-09 && d < 3E-09)) return d;
@@ -59,7 +59,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Atanh(double d)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return Math.Atanh(d);
 #else
             if (!DoubleCompat.IsFinite(d) || (d > -3E-09 && d < 3E-09)) return d;
@@ -77,7 +77,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Cbrt(double d)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return Math.Cbrt(d);
 #else
             const double Exponent = 1d / 3d;

@@ -887,7 +887,7 @@ namespace Jodo.Primitives.Tests
 
             //assert
             if (bound1 > bound2) (bound2, bound1) = (bound1, bound2);
-            results.Should().OnlyContain(x => double.IsFinite(x) && x >= bound1 && x <= bound2);
+            results.Should().OnlyContain(x => DoubleCompat.IsFinite(x) && x >= bound1 && x <= bound2);
         }
 
         [Test]

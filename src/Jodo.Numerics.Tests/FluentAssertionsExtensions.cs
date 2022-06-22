@@ -21,6 +21,7 @@ using System;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using Jodo.Numerics;
+using Jodo.Primitives.Compatibility;
 
 namespace FluentAssertions
 {
@@ -28,7 +29,7 @@ namespace FluentAssertions
     {
         public static AndConstraint<ComparableTypeAssertions<N>> BeApproximately<N>(this ComparableTypeAssertions<N> parent, double expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
-            if (!double.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
+            if (!DoubleCompat.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
             double actual = Convert<N>.ToDouble((N)parent.Subject);
             if (!Numeric<N>.IsReal)

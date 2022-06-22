@@ -98,8 +98,8 @@ namespace Jodo.Geometry
             => Radius.IsGreaterThanOrEqualTo(other.Radius) && Center.DistanceFrom(other.Center).IsLessThanOrEqualTo(Radius.Subtract(other.Radius));
         public bool Contains(Vector2<N> point) => point.DistanceFrom(Center).IsLessThan(Radius);
         public Circle<N> Translate(Vector2<N> delta) => new Circle<N>(Center.Translate(delta), Radius);
-        public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate((deltaX, deltaY)), Radius);
-        public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, (GetDiameter(), GetDiameter()));
+        public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate(new Vector2<N>(deltaX, deltaY)), Radius);
+        public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, new Vector2<N>(GetDiameter(), GetDiameter()));
         public bool IntersectsWith(Circle<N> other) => Center.DistanceFrom(other.Center).IsLessThan(Radius.Add(other.Radius));
 
         public bool Equals(Circle<N> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);

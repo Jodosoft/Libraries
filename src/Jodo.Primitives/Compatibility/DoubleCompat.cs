@@ -26,7 +26,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsFinite(double d)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return double.IsFinite(d);
 #else
             long bits = BitConverterCompat.DoubleToInt64Bits(d);
@@ -37,7 +37,7 @@ namespace Jodo.Primitives.Compatibility
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe bool IsNegative(double d)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return double.IsNegative(d);
 #else
             return BitConverterCompat.DoubleToInt64Bits(d) < 0;
@@ -46,7 +46,7 @@ namespace Jodo.Primitives.Compatibility
 
         public static unsafe bool IsNormal(double d)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return double.IsNormal(d);
 #else
             long bits = BitConverterCompat.DoubleToInt64Bits(d);
@@ -57,7 +57,7 @@ namespace Jodo.Primitives.Compatibility
 
         public static unsafe bool IsSubnormal(double d)
         {
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
             return double.IsSubnormal(d);
 #else
             long bits = BitConverterCompat.DoubleToInt64Bits(d);

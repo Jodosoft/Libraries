@@ -19,6 +19,7 @@
 
 using System;
 using FluentAssertions;
+using Jodo.Primitives.Compatibility;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -129,9 +130,9 @@ namespace Jodo.Numerics.Tests
                     randomValue = Math.Round(Random.NextDouble(1, 10), 2);
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
-                while (!double.IsFinite(Math.Acosh(randomValue)));
+                while (!DoubleCompat.IsFinite(MathCompat.Acosh(randomValue)));
                 N input = Cast<N>.ToNumeric(randomValue);
-                N expected = Cast<N>.ToNumeric(Math.Acosh(randomValue));
+                N expected = Cast<N>.ToNumeric(MathCompat.Acosh(randomValue));
 
                 //act
                 N result = Math<N>.Acosh(input);
@@ -146,7 +147,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 int lowerBound = 1;
                 N input = Cast<N>.ToNumeric(lowerBound);
-                N expected = Cast<N>.ToNumeric(Math.Acosh(lowerBound));
+                N expected = Cast<N>.ToNumeric(MathCompat.Acosh(lowerBound));
 
                 //act
                 N result = Math<N>.Acosh(input);
@@ -161,7 +162,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
-                N expected = Cast<N>.ToNumeric(Math.Acosh(upperBound));
+                N expected = Cast<N>.ToNumeric(MathCompat.Acosh(upperBound));
 
                 //act
                 N result = Math<N>.Acosh(input);
@@ -222,7 +223,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 double randomValue = Math.Round(Random.NextDouble(), 2);
                 N input = Cast<N>.ToNumeric(randomValue);
-                N expected = Cast<N>.ToNumeric(Math.Asinh(randomValue));
+                N expected = Cast<N>.ToNumeric(MathCompat.Asinh(randomValue));
 
                 //act
                 N result = Math<N>.Asinh(input);
@@ -237,7 +238,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
                 N input = Cast<N>.ToNumeric(lowerBound);
-                N expected = Cast<N>.ToNumeric(Math.Asinh(lowerBound));
+                N expected = Cast<N>.ToNumeric(MathCompat.Asinh(lowerBound));
 
                 //act
                 N result = Math<N>.Asinh(input);
@@ -252,7 +253,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
-                N expected = Cast<N>.ToNumeric(Math.Asinh(upperBound));
+                N expected = Cast<N>.ToNumeric(MathCompat.Asinh(upperBound));
 
                 //act
                 N result = Math<N>.Asinh(input);
@@ -350,9 +351,9 @@ namespace Jodo.Numerics.Tests
                     randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
-                while (!double.IsFinite(Math.Atanh(randomValue)));
+                while (!DoubleCompat.IsFinite(MathCompat.Atanh(randomValue)));
                 N input = Cast<N>.ToNumeric(randomValue);
-                N expected = Cast<N>.ToNumeric(Math.Atanh(randomValue));
+                N expected = Cast<N>.ToNumeric(MathCompat.Atanh(randomValue));
 
                 //act
                 N result = Math<N>.Atanh(input);
@@ -367,7 +368,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
                 N input = Cast<N>.ToNumeric(randomValue);
-                N expected = Cast<N>.ToNumeric(Math.Cbrt(randomValue));
+                N expected = Cast<N>.ToNumeric(MathCompat.Cbrt(randomValue));
 
                 //act
                 N result = Math<N>.Cbrt(input);
@@ -381,7 +382,7 @@ namespace Jodo.Numerics.Tests
             {
                 //arrange
                 N input = Cast<N>.ToNumeric(0);
-                N expected = Cast<N>.ToNumeric(Math.Cbrt(0d));
+                N expected = Cast<N>.ToNumeric(MathCompat.Cbrt(0d));
 
                 //act
                 N result = Math<N>.Cbrt(input);
@@ -396,7 +397,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
                 N input = Cast<N>.ToNumeric(lowerBound);
-                N expected = Cast<N>.ToNumeric(Math.Cbrt(lowerBound));
+                N expected = Cast<N>.ToNumeric(MathCompat.Cbrt(lowerBound));
 
                 //act
                 N result = Math<N>.Cbrt(input);
@@ -411,7 +412,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
-                N expected = Cast<N>.ToNumeric(Math.Cbrt(upperBound));
+                N expected = Cast<N>.ToNumeric(MathCompat.Cbrt(upperBound));
 
                 //act
                 N result = Math<N>.Cbrt(input);
@@ -568,7 +569,7 @@ namespace Jodo.Numerics.Tests
                     randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
-                while (!double.IsFinite(Math.Cosh(randomValue)));
+                while (!DoubleCompat.IsFinite(Math.Cosh(randomValue)));
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Cosh(randomValue));
 
@@ -728,7 +729,7 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 double randomValue;
                 do { randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue)); }
-                while (!double.IsFinite(Math.Log(randomValue)));
+                while (!DoubleCompat.IsFinite(Math.Log(randomValue)));
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Log(randomValue));
 
@@ -1018,7 +1019,7 @@ namespace Jodo.Numerics.Tests
                     randomValue = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                     if (!Numeric<N>.IsReal) randomValue = Math.Round(randomValue);
                 }
-                while (!double.IsFinite(Math.Sinh(randomValue)));
+                while (!DoubleCompat.IsFinite(Math.Sinh(randomValue)));
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Sinh(randomValue));
 
@@ -1129,7 +1130,7 @@ namespace Jodo.Numerics.Tests
                 {
                     input = Math.Round(Random.NextDouble(Numeric<N>.IsSigned ? -1 : 0, 1), 2);
                 }
-                while (!double.IsFinite(Math.Tanh(input)));
+                while (!DoubleCompat.IsFinite(Math.Tanh(input)));
                 N sut = Cast<N>.ToNumeric(input);
                 N expected = Cast<N>.ToNumeric(Math.Tanh(input));
 

@@ -97,6 +97,8 @@ namespace Jodo.Numerics
                 Parser<N>.Parse(parts[2], style, provider));
         }
 
+        public static bool operator ==(Vector3<N> left, Vector3<N> right) => left.Equals(right);
+        public static bool operator !=(Vector3<N> left, Vector3<N> right) => !(left == right);
         public static Vector3<N> operator -(Vector3<N> value) => new Vector3<N>(value.X.Negative(), value.Y.Negative(), value.Z.Negative());
         public static Vector3<N> operator -(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X.Subtract(value2.X), value1.Y.Subtract(value2.Y), value1.Z.Subtract(value2.Z));
         public static Vector3<N> operator *(Vector3<N> value, N scalar) => new Vector3<N>(value.X.Multiply(scalar), value.Y.Multiply(scalar), value.Z.Multiply(scalar));
@@ -104,12 +106,13 @@ namespace Jodo.Numerics
         public static Vector3<N> operator /(Vector3<N> value, N scalar) => new Vector3<N>(value.X.Divide(scalar), value.Y.Divide(scalar), value.Z.Divide(scalar));
         public static Vector3<N> operator +(Vector3<N> value) => value;
         public static Vector3<N> operator +(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X.Add(value2.X), value1.Y.Add(value2.Y), value1.Z.Add(value2.Z));
-        public static implicit operator Vector3<N>((N, N, N) value) => new Vector3<N>(value.Item1, value.Item2, value.Item3);
-        public static implicit operator (N, N, N)(Vector3<N> value) => (value.X, value.Y, value.Z);
         public static implicit operator Vector3<N>(Tuple<N, N, N> value) => new Vector3<N>(value.Item1, value.Item2, value.Item3);
         public static implicit operator Tuple<N, N, N>(Vector3<N> value) => new Tuple<N, N, N>(value.X, value.Y, value.Z);
-        public static bool operator ==(Vector3<N> left, Vector3<N> right) => left.Equals(right);
-        public static bool operator !=(Vector3<N> left, Vector3<N> right) => !(left == right);
+
+#if NETSTANDARD2_0_OR_GREATER
+        public static implicit operator Vector3<N>((N, N, N) value) => new Vector3<N>(value.Item1, value.Item2, value.Item3);
+        public static implicit operator (N, N, N)(Vector3<N> value) => (value.X, value.Y, value.Z);
+#endif
 
         IBitConverter<Vector3<N>> IProvider<IBitConverter<Vector3<N>>>.GetInstance() => Utilities.Instance;
         IRandom<Vector3<N>> IProvider<IRandom<Vector3<N>>>.GetInstance() => Utilities.Instance;

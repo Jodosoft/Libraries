@@ -98,10 +98,7 @@ namespace System
         private static BigInteger NextBigInteger(this Random random, BigInteger bound1, BigInteger bound2)
         {
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2)
-            {
-                (bound2, bound1) = (bound1, bound2);
-            }
+            ValueTupleCompat.Swap(bound1 > bound2, ref bound1, ref bound2);
             BigInteger range = bound2 - bound1;
 
             byte[] bytes = range.ToByteArray();
@@ -123,10 +120,7 @@ namespace System
         {
             if (!SingleCompat.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, "Must be finite.");
             if (!SingleCompat.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, "Must be finite.");
-            if (bound1 > bound2)
-            {
-                (bound2, bound1) = (bound1, bound2);
-            }
+            ValueTupleCompat.Swap(bound1 > bound2, ref bound1, ref bound2);
             if (bound1 == bound2) return bound1;
 
             int minBits = BitConverterCompat.SingleToInt32Bits(bound1);
@@ -141,7 +135,7 @@ namespace System
         public static decimal NextDecimal(this Random random, decimal bound1, decimal bound2)
         {
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2) (bound2, bound1) = (bound1, bound2);
+            ValueTupleCompat.Swap(bound1 > bound2, ref bound1, ref bound2);
 
             decimal difference;
             try
@@ -173,7 +167,7 @@ namespace System
             if (!DoubleCompat.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, "Must be finite.");
             if (!DoubleCompat.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, "Must be finite.");
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2) (bound2, bound1) = (bound1, bound2);
+            ValueTupleCompat.Swap(bound1 > bound2, ref bound1, ref bound2);
 
             double difference = bound2 - bound1;
             if (double.IsPositiveInfinity(difference))
@@ -196,7 +190,7 @@ namespace System
         public static T NextElement<T>(this Random random, IReadOnlyList<T> list)
             => list[random.Next(0, list.Count)];
 
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1
         public static T NextElement<T>(this Random random, Span<T> span)
             => span[random.Next(0, span.Length)];
 

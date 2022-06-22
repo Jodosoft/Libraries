@@ -90,11 +90,9 @@ namespace Jodo.Geometry
         public Vector2<N>[] GetVertices() => new[] { BottomLeft, BottomRight, TopRight, TopLeft };
 
         public AARectangle<N> Grow(Vector2<N> delta) => new AARectangle<N>(Center, Dimensions + delta);
-        public AARectangle<N> Grow((N, N) delta) => Grow((Vector2<N>)delta);
         public AARectangle<N> Grow(N deltaX, N deltaY) => Grow(new Vector2<N>(deltaX, deltaY));
         public AARectangle<N> Grow(N delta) => Grow(new Vector2<N>(delta, delta));
         public AARectangle<N> Shrink(Vector2<N> delta) => new AARectangle<N>(Center, Dimensions - delta);
-        public AARectangle<N> Shrink((N, N) delta) => Shrink((Vector2<N>)delta);
         public AARectangle<N> Shrink(N deltaX, N deltaY) => Shrink(new Vector2<N>(deltaX, deltaY));
         public AARectangle<N> Shrink(N delta) => Shrink(new Vector2<N>(delta, delta));
         public AARectangle<N> Translate(Vector2<N> delta) => new AARectangle<N>(Center + delta, Dimensions);
@@ -117,12 +115,11 @@ namespace Jodo.Geometry
             Bottom.IsLessThan(other.Top) &&
             Top.IsGreaterThan(other.Bottom);
 
-        public AARectangle<N> RotateRight() => new AARectangle<N>(Center, (Dimensions.Y, Dimensions.X));
+        public AARectangle<N> RotateRight() => new AARectangle<N>(Center, new Vector2<N>(Dimensions.Y, Dimensions.X));
 
         public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(Center, Dimensions, angle);
         public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Center.RotateAround(pivot, angle), Dimensions, angle);
 
-        public (N, N, N, N) Convert() => this;
         public AARectangle<TOther> Convert<TOther>(Func<N, TOther> convert) where TOther : struct, INumeric<TOther> => new AARectangle<TOther>(convert(Center.X), convert(Center.Y), convert(Dimensions.X), convert(Dimensions.Y));
         public bool Equals(AARectangle<N> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions);
         public override bool Equals(object? obj) => obj is AARectangle<N> fix && Equals(fix);
@@ -217,10 +214,13 @@ namespace Jodo.Geometry
 
         public static bool operator ==(AARectangle<N> left, AARectangle<N> right) => left.Equals(right);
         public static bool operator !=(AARectangle<N> left, AARectangle<N> right) => !(left == right);
-        public static implicit operator AARectangle<N>((N, N, N, N) value) => new AARectangle<N>((value.Item1, value.Item2), (value.Item3, value.Item4));
-        public static implicit operator (N, N, N, N)(AARectangle<N> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
+
+#if NETSTANDARD2_0_OR_GREATER
         public static implicit operator AARectangle<N>((Vector2<N>, Vector2<N>) value) => new AARectangle<N>(value.Item1, value.Item2);
         public static implicit operator (Vector2<N>, Vector2<N>)(AARectangle<N> value) => (value.Center, value.Dimensions);
+        public static implicit operator AARectangle<N>((N, N, N, N) value) => new AARectangle<N>((value.Item1, value.Item2), (value.Item3, value.Item4));
+        public static implicit operator (N, N, N, N)(AARectangle<N> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
+#endif
 
         Vector2<N> ITwoDimensional<AARectangle<N>, N>.GetCenter() => Center;
         AARectangle<N> ITwoDimensional<AARectangle<N>, N>.GetBounds() => this;
