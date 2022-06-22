@@ -55,6 +55,9 @@
         <LangVersion>latest</LangVersion>
       </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <Optimize>true</Optimize>
+      </PropertyGroup>
+      <PropertyGroup Condition="'$(Configuration)' == 'Release' and $(BuildingInsideVisualStudio)">
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <Authors>Joseph J. Short</Authors>
         <Company>Joseph J. Short</Company>
@@ -69,7 +72,6 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <IncludeSymbols>true</IncludeSymbols>
         <NeutralLanguage>en-GB</NeutralLanguage>
-        <Optimize>true</Optimize>
         <PackageIcon>PackageIcon.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/JosephJShort/Jodo</PackageProjectUrl>
