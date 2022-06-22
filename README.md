@@ -332,3 +332,7 @@ Provides geometric value types.
 <h2>Jodo.Collections</h2>
 
 > This package is a work in progress.
+  
+<h2>Jodo.Primitives</h2>
+
+Provides miscellaneous interfaces and extension methods used throughout the Jodo packages. 
