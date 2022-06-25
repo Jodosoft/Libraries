@@ -19,30 +19,64 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Packages: a collection of utilities picked from personal projects, covering numerics, geometry and data structures.
+Welcome to The Jodo Packages: a collection of utilities picked from personal projects, covering numerics, geometry and data structures. The following table describes the key aspects of this project:
 
-These packages adopt the design principals and style of the .NET SDK,
-making them easy to use and extend. Unit tests, benchmarks, CI and static analysis
-tools are used to further ensure a high level of quality.
-
-  <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
-  <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
-  <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
-  <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a>
-  <a href="https://lgtm.com/projects/g/JosephJShort/Jodo/alerts/?mode=list"><img alt="LGTM Alerts" src="https://img.shields.io/lgtm/alerts/github/JosephJShort/Jodo?label=alerts&logo=lgtm&style=flat-square&no-cache"></a>
-
-The packages are available on [NuGet.org](https://www.nuget.org/packages?q=Jodo.), or can be built without dependencies from this repository using [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/community/). They target `netstandard2.0` (.NET Standard 2.0) and `net461` (.NET Framework 4.6) in order to [maximize cross-platform support](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting). Additional targets like `netstandard2.1` (.NET Standard 2.1) are used to benefit from newer language features such as [default interface methods](https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods).
-
-https://github.com/JosephJShort/Jodo is the home of this repository, and should be used
-for reporting bugs, requesting features or creating pull requests.
-
-  <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
-  <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
-  
-API documentation is available at https://jodo.dev, though it is mostly auto-generated for the time being. 
-
-Please see the sections below for more detail on each package.
+<table>
+  <tr>
+    <th>Item</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Design</td>
+    <td>
+      <p>These packages adopt the design principals and style of the .NET SDK, making them easy to use and extend.</p>      
+      <p>
+        They target <code>netstandard2.0</code> (.NET Standard 2.0) and <code>net461</code> (.NET Framework 4.6) in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
+        Additional targets like <code>netstandard2.1</code> (.NET Standard 2.1) are used to bring in the benefit from newer language features such as <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>Quality</td>
+    <td>
+      <p>Unit tests, benchmarks, CI and static analysis tools are used to further ensure a high level quality and maintainability. Click on the shields below to see the latest reports from these tools.</p>
+      <p>
+        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
+        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
+        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
+        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
+        <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a>
+        <a href="https://lgtm.com/projects/g/JosephJShort/Jodo/alerts/?mode=list"><img alt="LGTM Alerts" src="https://img.shields.io/lgtm/alerts/github/JosephJShort/Jodo?label=alerts&logo=lgtm&style=flat-square&no-cache"></a>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>Community</td>
+    <td>
+      <p>This work is licensed under the permissive <a href="LICENSE.md">MIT License</a>.</p>
+      <p>Community contributions are welcome at https://github.com/JosephJShort/Jodo (the home of this repository).</p>
+      <p>
+        <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&no-cache"></a>
+        <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+        <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>Builds</td>
+    <td>
+      <p>Builds of these projects are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for instructions see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
+      <p>Alternatively, the projects can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> with the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
+      <p><a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a></p>
+    </td>
+  </tr>
+  <tr>
+    <td>Documentation</td>
+    <td>
+      <p>API documentation is available at https://jodo.dev, though it is mostly auto-generated for the time being. Please see the sections below for more detail on each package.</p>
+    </td>
+  </tr>
+</table>
 
 <h2>Jodo.Numerics</h2>
 
