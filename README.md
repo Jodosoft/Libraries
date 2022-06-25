@@ -19,7 +19,7 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Packages: a collection of C# utilities picked from personal projects, covering numerics, geometry and data structures. The following table describes the key aspects of this project:
+Welcome to The Jodo Packages: a collection of C# utilities picked from personal projects, covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
 
 <table>
   <tr>
@@ -58,7 +58,7 @@ Welcome to The Jodo Packages: a collection of C# utilities picked from personal 
       <p>This work is licensed under the permissive <a href="LICENSE.md">MIT License</a>.</p>
       <p>Community contributions are always welcome at https://github.com/JosephJShort/Jodo (the home of this repository).</p>
       <p>
-        <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&no-cache"></a>
+        <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github&no-cache"></a>
         <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
         <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
       </p>
