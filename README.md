@@ -19,7 +19,7 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Packages: a collection of utilities picked from personal projects, covering numerics, geometry and data structures. The following table describes the key aspects of this project:
+Welcome to The Jodo Packages: a collection of C# utilities picked from personal projects, covering numerics, geometry and data structures. The following table describes the key aspects of this project:
 
 <table>
   <tr>
@@ -29,17 +29,19 @@ Welcome to The Jodo Packages: a collection of utilities picked from personal pro
   <tr>
     <td>Design</td>
     <td>
-      <p>These packages adopt the design principals and style of the .NET SDK, making them easy to use and extend.</p>      
       <p>
-        They target <code>netstandard2.0</code> (.NET Standard 2.0) and <code>net461</code> (.NET Framework 4.6) in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
-        Additional targets like <code>netstandard2.1</code> (.NET Standard 2.1) are used to bring in the benefit from newer language features such as <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
+        This project adheres to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET design guidelines</a> for ease of use, consistency and maintainability.
+      </p>      
+      <p>
+        <code>netstandard2.0</code> (.NET Standard 2.0) and <code>net461</code> (.NET Framework 4.6) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
+        Additional targets like <code>netstandard2.1</code> (.NET Standard 2.1) are used to add the benefit of newer language features such as <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
     </td>
   </tr>
   <tr>
     <td>Quality</td>
     <td>
-      <p>Unit tests, benchmarks, CI and static analysis tools are used to further ensure a high level quality and maintainability. Click on the shields below to see the latest reports from these tools.</p>
+      <p>Unit tests, benchmarks, CI and static analysis tools are used to ensure a high level quality and maintainability. Click on the shields below to see the latest reports from these tools.</p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
@@ -54,7 +56,7 @@ Welcome to The Jodo Packages: a collection of utilities picked from personal pro
     <td>Community</td>
     <td>
       <p>This work is licensed under the permissive <a href="LICENSE.md">MIT License</a>.</p>
-      <p>Community contributions are welcome at https://github.com/JosephJShort/Jodo (the home of this repository).</p>
+      <p>Community contributions are always welcome at https://github.com/JosephJShort/Jodo (the home of this repository).</p>
       <p>
         <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&no-cache"></a>
         <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
@@ -63,10 +65,10 @@ Welcome to The Jodo Packages: a collection of utilities picked from personal pro
     </td>
   </tr>
   <tr>
-    <td>Builds</td>
+    <td>Releases</td>
     <td>
-      <p>Builds of these projects are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for instructions see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
-      <p>Alternatively, the projects can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> with the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
+      <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for instructions see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
+      <p>Alternatively, the project can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> with the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
       <p><a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a></p>
     </td>
   </tr>
