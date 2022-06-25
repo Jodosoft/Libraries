@@ -34,14 +34,14 @@ Welcome to The Jodo Packages: a collection of C# utilities picked from personal 
       </p>      
       <p>
         <code>netstandard2.0</code> (.NET Standard 2.0) and <code>net461</code> (.NET Framework 4.6) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
-        Additional targets like <code>netstandard2.1</code> (.NET Standard 2.1) are used to add the benefit of newer language features such as <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
+        Additional targets like <code>netstandard2.1</code> (.NET Standard 2.1) are used to share the benefits of newer language features such as <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
     </td>
   </tr>
   <tr>
     <td>Quality</td>
     <td>
-      <p>Unit tests, benchmarks, CI and static analysis tools are used to ensure a high level quality and maintainability. Click on the shields below to see the latest reports from these tools.</p>
+      <p>Unit tests, benchmarks, CI and static analysis tools are used to ensure a high level quality and maintainability. Click on the shields below to see the latest results.</p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
