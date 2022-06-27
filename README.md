@@ -19,7 +19,7 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Packages: a collection of C# utilities picked from personal projects, covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
+Welcome to The Jodo Packages: a collection of C# utilities covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
 
 <table>
   <tr>
@@ -41,7 +41,7 @@ Welcome to The Jodo Packages: a collection of C# utilities picked from personal 
   <tr>
     <td>Quality</td>
     <td>
-      <p>Unit tests, benchmarks, CI and static analysis tools are used to ensure a high level quality and maintainability. Click on the shields below to see the latest results.</p>
+      <p>Unit tests, benchmarks, CI and static analysis tools are used to ensure a high level of quality and maintainability. Click on the shields below to see the latest results.</p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
@@ -55,7 +55,7 @@ Welcome to The Jodo Packages: a collection of C# utilities picked from personal 
   <tr>
     <td>Community</td>
     <td>
-      <p>This work is licensed under the permissive <a href="LICENSE.md">MIT License</a>.</p>
+      <p>This work is licensed under the <a href="LICENSE.md">MIT License</a>.</p>
       <p>Community contributions are always welcome at https://github.com/JosephJShort/Jodo (the home of this repository). Contributors are requested to adhere to the <a href="CODE-OF-CONDUCT.md">code of conduct</a>.</p>
       <p>
         <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github&no-cache"></a>
@@ -69,7 +69,7 @@ Welcome to The Jodo Packages: a collection of C# utilities picked from personal 
     <td>
       <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for instructions see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
       <p>Binaries are available on GitHub.com at https://github.com/JosephJShort/Jodo/releases</p>
-      <p>The project can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> with the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
+      <p>The project can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> and the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
       <p>
         <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
         <a href="[https://www.nuget.org/packages?q=Jodo.](https://github.com/JosephJShort/Jodo/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/JosephJShort/Jodo?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
