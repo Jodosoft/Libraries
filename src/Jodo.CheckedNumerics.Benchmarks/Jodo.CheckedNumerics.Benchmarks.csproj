@@ -1,4 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Jodo.CheckedNumerics\Jodo.CheckedNumerics.csproj" />
   </ItemGroup>

@@ -160,7 +160,7 @@ namespace Jodo.Numerics.Tests
             public void Acosh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(MathCompat.Acosh(upperBound));
 
@@ -236,7 +236,7 @@ namespace Jodo.Numerics.Tests
             public void Asinh_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                double lowerBound = TestUtilities.ReduceSignificance(Numeric<N>.MinValue);
                 N input = Cast<N>.ToNumeric(lowerBound);
                 N expected = Cast<N>.ToNumeric(MathCompat.Asinh(lowerBound));
 
@@ -251,7 +251,7 @@ namespace Jodo.Numerics.Tests
             public void Asinh_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(MathCompat.Asinh(upperBound));
 
@@ -266,7 +266,7 @@ namespace Jodo.Numerics.Tests
             public void Atan_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<N>());
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Atan(randomValue));
 
@@ -281,7 +281,7 @@ namespace Jodo.Numerics.Tests
             public void Atan_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                double lowerBound = TestUtilities.ReduceSignificance(Numeric<N>.MinValue);
                 N input = Cast<N>.ToNumeric(lowerBound);
                 N expected = Cast<N>.ToNumeric(Math.Atan(lowerBound));
 
@@ -296,7 +296,7 @@ namespace Jodo.Numerics.Tests
             public void Atan_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(Math.Atan(upperBound));
 
@@ -311,8 +311,8 @@ namespace Jodo.Numerics.Tests
             public void Atan2_RandomValues_EquivalentToSystemMath()
             {
                 //arrange
-                double randomValue1 = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
-                double randomValue2 = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                double randomValue1 = TestUtilities.ReduceSignificance(Random.NextNumeric<N>());
+                double randomValue2 = TestUtilities.ReduceSignificance(Random.NextNumeric<N>());
                 N input1 = Cast<N>.ToNumeric(randomValue1);
                 N input2 = Cast<N>.ToNumeric(randomValue2);
                 N expected = Cast<N>.ToNumeric(Math.Atan2(randomValue1, randomValue2));
@@ -328,8 +328,8 @@ namespace Jodo.Numerics.Tests
             public void Atan2_RandomBoundaries_EquivalentToSystemMath()
             {
                 //arrange
-                double randomBoundary1 = Utilities.ClosestTestableDouble(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
-                double randomBoundary2 = Utilities.ClosestTestableDouble(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
+                double randomBoundary1 = TestUtilities.ReduceSignificance(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
+                double randomBoundary2 = TestUtilities.ReduceSignificance(Random.NextBoolean() ? Numeric<N>.MinValue : Numeric<N>.MaxValue);
                 N input1 = Cast<N>.ToNumeric(randomBoundary1);
                 N input2 = Cast<N>.ToNumeric(randomBoundary2);
                 N expected = Cast<N>.ToNumeric(Math.Atan2(randomBoundary1, randomBoundary2));
@@ -366,7 +366,7 @@ namespace Jodo.Numerics.Tests
             public void Cbrt_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<N>());
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(MathCompat.Cbrt(randomValue));
 
@@ -395,7 +395,7 @@ namespace Jodo.Numerics.Tests
             public void Cbrt_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                double lowerBound = TestUtilities.ReduceSignificance(Numeric<N>.MinValue);
                 N input = Cast<N>.ToNumeric(lowerBound);
                 N expected = Cast<N>.ToNumeric(MathCompat.Cbrt(lowerBound));
 
@@ -410,7 +410,7 @@ namespace Jodo.Numerics.Tests
             public void Cbrt_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(MathCompat.Cbrt(upperBound));
 
@@ -441,7 +441,7 @@ namespace Jodo.Numerics.Tests
             public void Ceiling_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue.Add(Numeric<N>.One));
+                double lowerBound = TestUtilities.ReduceSignificance(Numeric<N>.MinValue.Add(Numeric<N>.One));
                 if (!Numeric<N>.IsReal) lowerBound = Math.Round(lowerBound);
                 N input = Cast<N>.ToNumeric(lowerBound);
                 N expected = Cast<N>.ToNumeric(Math.Ceiling(lowerBound));
@@ -457,7 +457,7 @@ namespace Jodo.Numerics.Tests
             public void Ceiling_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue.Subtract(Numeric<N>.One));
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue.Subtract(Numeric<N>.One));
                 if (!Numeric<N>.IsReal) upperBound = Math.Floor(upperBound);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(Math.Ceiling(upperBound));
@@ -518,7 +518,7 @@ namespace Jodo.Numerics.Tests
             public void Cos_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric<N>());
+                double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<N>());
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Cos(randomValue));
 
@@ -533,7 +533,7 @@ namespace Jodo.Numerics.Tests
             public void Cos_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                double lowerBound = TestUtilities.ReduceSignificance(Numeric<N>.MinValue);
                 N input = Cast<N>.ToNumeric(lowerBound);
                 N expected = Cast<N>.ToNumeric(Math.Cos(lowerBound));
 
@@ -548,7 +548,7 @@ namespace Jodo.Numerics.Tests
             public void Cos_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(Math.Cos(upperBound));
 
@@ -659,7 +659,7 @@ namespace Jodo.Numerics.Tests
             public void Floor_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue.Add(Numeric<N>.One));
+                double lowerBound = TestUtilities.ReduceSignificance(Numeric<N>.MinValue.Add(Numeric<N>.One));
                 if (!Numeric<N>.IsReal) lowerBound = Math.Round(lowerBound);
                 N input = Cast<N>.ToNumeric(lowerBound);
                 N expected = Cast<N>.ToNumeric(Math.Floor(lowerBound));
@@ -675,7 +675,7 @@ namespace Jodo.Numerics.Tests
             public void Floor_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue.Subtract(Numeric<N>.One));
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue.Subtract(Numeric<N>.One));
                 if (!Numeric<N>.IsReal) upperBound = Math.Round(upperBound);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(Math.Floor(upperBound));
@@ -728,7 +728,7 @@ namespace Jodo.Numerics.Tests
             {
                 //arrange
                 double randomValue;
-                do { randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue)); }
+                do { randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue)); }
                 while (!DoubleCompat.IsFinite(Math.Log(randomValue)));
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Log(randomValue));
@@ -759,7 +759,7 @@ namespace Jodo.Numerics.Tests
             public void Log_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double randomValue = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double randomValue = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Log(randomValue));
 
@@ -778,8 +778,8 @@ namespace Jodo.Numerics.Tests
                 double randomValue2;
                 do
                 {
-                    randomValue1 = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
-                    randomValue2 = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
+                    randomValue1 = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
+                    randomValue2 = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
                 } while (randomValue1 <= 0 || randomValue2 <= 1);
                 N input1 = Cast<N>.ToNumeric(randomValue1);
                 N input2 = Cast<N>.ToNumeric(randomValue2);
@@ -796,7 +796,7 @@ namespace Jodo.Numerics.Tests
             public void Log10_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
+                double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric<N>.One, Numeric<N>.MaxValue));
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Log10(randomValue));
 
@@ -826,7 +826,7 @@ namespace Jodo.Numerics.Tests
             public void Log10_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double randomValue = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double randomValue = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Log10(randomValue));
 
@@ -983,7 +983,7 @@ namespace Jodo.Numerics.Tests
             public void Sin_LowerBound_EquivalentToSystemMath()
             {
                 //arrange
-                double lowerBound = Utilities.ClosestTestableDouble(Numeric<N>.MinValue);
+                double lowerBound = TestUtilities.ReduceSignificance(Numeric<N>.MinValue);
                 N input = Cast<N>.ToNumeric(lowerBound);
                 N expected = Cast<N>.ToNumeric(Math.Sin(lowerBound));
 
@@ -998,7 +998,7 @@ namespace Jodo.Numerics.Tests
             public void Sin_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(Math.Sin(upperBound));
 
@@ -1034,7 +1034,7 @@ namespace Jodo.Numerics.Tests
             public void Sqrt_RandomValue_EquivalentToSystemMath()
             {
                 //arrange
-                double randomValue = Utilities.ClosestTestableDouble(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
+                double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric<N>.Zero, Numeric<N>.MaxValue));
                 N input = Cast<N>.ToNumeric(randomValue);
                 N expected = Cast<N>.ToNumeric(Math.Sqrt(randomValue));
 
@@ -1064,7 +1064,7 @@ namespace Jodo.Numerics.Tests
             public void Sqrt_UpperBound_EquivalentToSystemMath()
             {
                 //arrange
-                double upperBound = Utilities.ClosestTestableDouble(Numeric<N>.MaxValue);
+                double upperBound = TestUtilities.ReduceSignificance(Numeric<N>.MaxValue);
                 N input = Cast<N>.ToNumeric(upperBound);
                 N expected = Cast<N>.ToNumeric(Math.Sqrt(upperBound));
 

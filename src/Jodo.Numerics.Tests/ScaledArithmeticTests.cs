@@ -97,7 +97,7 @@ namespace Jodo.Numerics.Tests
         public void Round_MultipleOf10Int64_SameResult()
         {
             //arrange
-            long input = Random.NextInt64WithoutBounds() / 10 * 10;
+            long input = Random.NextInt64() / 10 * 10;
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act

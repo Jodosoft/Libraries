@@ -28,223 +28,10 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class NumericTests
+    public static class NumericOperatorTests
     {
         public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
-            [Test]
-            public void Epsilon_LessThanOrEqualToOne()
-            {
-                Numeric<N>.Epsilon.Should().BeLessThanOrEqualTo(Numeric<N>.One);
-            }
-
-            [Test]
-            public void Epsilon_GreaterThanZero()
-            {
-                (Numeric<N>.Epsilon.IsGreaterThan(Numeric<N>.Zero)).Should().BeTrue();
-            }
-
-            [Test]
-            public void MaxUnit_LessThanMaxValue()
-            {
-                Numeric<N>.MaxUnit.Should().BeLessThan(Numeric<N>.MaxValue);
-            }
-
-            [Test]
-            public void MaxUnit_IsOne()
-            {
-                Convert<N>.ToDouble(Numeric<N>.MaxUnit).Should().Be(1);
-            }
-
-            [Test]
-            public void MinUnit_LessThanMaxUnit()
-            {
-                Numeric<N>.MinUnit.Should().BeLessThan(Numeric<N>.MaxUnit);
-            }
-
-            [Test]
-            public void MaxValue_IsPositive()
-            {
-                Convert<N>.ToDouble(Numeric<N>.MaxValue).Should().BeGreaterThanOrEqualTo(sbyte.MaxValue);
-            }
-
-            [Test]
-            public void One_IsOne()
-            {
-                Convert<N>.ToDouble(Numeric<N>.One).Should().Be(1);
-            }
-
-            [Test]
-            public void Ten_IsTen()
-            {
-                Convert<N>.ToDouble(Numeric<N>.Ten).Should().Be(10);
-            }
-
-            [Test]
-            public void Two_IsTwo()
-            {
-                Convert<N>.ToDouble(Numeric<N>.Two).Should().Be(2);
-            }
-
-            [Test]
-            public void Zero_LessThanEpsilon()
-            {
-                Numeric<N>.Zero.Should().BeLessThan(Numeric<N>.Epsilon);
-            }
-
-            [Test]
-            public void Zero_IsZero()
-            {
-                Convert<N>.ToDouble(Numeric<N>.Zero).Should().Be(0);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Add_RandomValues_CorrectResult()
-            {
-                //arrange
-                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-
-                //act
-                N result = left.Add(right);
-
-                //assert
-                result.Should().BeApproximately(Cast<N>.ToDouble(left) + Cast<N>.ToDouble(right));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void AddSubtract_Random_CorrectResult()
-            {
-                //arrange
-                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-
-                //act
-                N result = left.Add(right).Subtract(right);
-
-                //assert
-                result.Should().BeApproximately(Cast<N>.ToDouble(left));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Multiply_RandomValues_CorrectResult()
-            {
-                //arrange
-                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
-
-                //act
-                N result = left.Multiply(right);
-
-                //assert
-                result.Should().BeApproximately(Cast<N>.ToDouble(left) * Cast<N>.ToDouble(right));
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Positive_RandomValue_ReturnsSameValue()
-            {
-                //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-
-                //act
-                N result = input.Positive();
-
-                //assert
-                result.Should().Be(input);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Negative_Zero_ReturnsZero()
-            {
-                //arrange
-                N input = Numeric<N>.Zero;
-
-                //act
-                N result = input.Negative();
-
-                //assert
-                result.Should().Be(Numeric<N>.Zero);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Multiply_RandomValueByZero_ReturnsZero()
-            {
-                //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-
-                //act
-                N result = input.Multiply(Numeric<N>.Zero);
-
-                //assert
-                result.Should().Be(Numeric<N>.Zero);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Multiply_RandomValueByOne_ReturnSameValue()
-            {
-                //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-
-                //act
-                N result = input.Multiply(Numeric<N>.One);
-
-                //assert
-                result.Should().Be(input);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Divide_RandomValueByOne_ReturnsSameValue()
-            {
-                //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-
-                //act
-                N result = input.Divide(Numeric<N>.One);
-
-                //assert
-                result.Should().Be(input);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Divide_RandomValueByItself_ReturnsOne()
-            {
-                //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
-
-                //act
-                N result = input.Divide(Numeric<N>.One);
-
-                //assert
-                result.Should().Be(input);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Divide_RandomValues_CorrectResult()
-            {
-                //arrange
-                double randomValue1 = Random.NextDouble(1, 10);
-                double randomValue2 = Random.NextDouble(1, randomValue1);
-                if (!Numeric<N>.IsReal)
-                {
-                    randomValue1 = Math.Truncate(randomValue1);
-                    randomValue2 = Math.Truncate(randomValue2);
-                }
-                if (Numeric<N>.IsSigned)
-                {
-                    if (Random.NextBoolean()) randomValue1 = -randomValue1;
-                    if (Random.NextBoolean()) randomValue2 = -randomValue2;
-                }
-                N left = Cast<N>.ToNumeric(randomValue1);
-                N right = Cast<N>.ToNumeric(randomValue2);
-                N expected = Cast<N>.ToNumeric(randomValue1 / randomValue2);
-
-                //act
-                N result = left.Divide(right);
-
-                //assert
-                result.Should().BeApproximately(expected);
-            }
-
             [Test, Repeat(RandomVariations)]
             public void GreaterThan_RandomValues_SameAsSystem()
             {
@@ -307,6 +94,73 @@ namespace Jodo.Numerics.Tests
 
                 //assert
                 result.Should().Be(left <= right);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Add_RandomValues_CorrectResult()
+            {
+                //arrange
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+
+                //act
+                N result = left.Add(right);
+
+                //assert
+                result.Should().BeApproximately(Cast<N>.ToDouble(left) + Cast<N>.ToDouble(right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Multiply_RandomValues_CorrectResult()
+            {
+                //arrange
+                N left = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+                N right = Clamp<N>.ToNumeric(Random.Next(-10, 10));
+
+                //act
+                N result = left.Multiply(right);
+
+                //assert
+                result.Should().BeApproximately(Cast<N>.ToDouble(left) * Cast<N>.ToDouble(right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Positive_RandomValue_ReturnsSameValue()
+            {
+                //arrange
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+
+                //act
+                N result = input.Positive();
+
+                //assert
+                result.Should().Be(input);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void Negative_Zero_ReturnsZero()
+            {
+                //arrange
+                N input = Numeric<N>.Zero;
+
+                //act
+                N result = input.Negative();
+
+                //assert
+                result.Should().Be(Numeric<N>.Zero);
+            }
+         
+            [Test, Repeat(RandomVariations)]
+            public void Divide_RandomValueByOne_ReturnsSameValue()
+            {
+                //arrange
+                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+
+                //act
+                N result = input.Divide(Numeric<N>.One);
+
+                //assert
+                result.Should().Be(input);
             }
 
             [Test, Repeat(RandomVariations)]

@@ -82,10 +82,10 @@ namespace System
         public static uint NextUInt32(this Random random, uint bound1, uint bound2)
             => (uint)random.NextBigInteger(bound1, bound2);
 
-        public static long NextInt64WithoutBounds(this Random random)
+        public static long NextInt64(this Random random)
             => BitConverter.ToInt64(random.NextBytes(64), 0);
 
-        public static long NextInt64WithBounds(this Random random, long bound1, long bound2)
+        public static long NextInt64(this Random random, long bound1, long bound2)
             => (long)random.NextBigInteger(bound1, bound2);
 
         [CLSCompliant(false)]

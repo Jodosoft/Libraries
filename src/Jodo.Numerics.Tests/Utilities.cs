@@ -21,9 +21,9 @@ using System;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class Utilities
+    public static class TestUtilities
     {
-        public static double ClosestTestableDouble<N>(N value) where N : struct, INumeric<N>
+        public static double ReduceSignificance<N>(N value) where N : struct, INumeric<N>
         {
             double result = Math.Round(Cast<N>.ToDouble(value), 6);
             int log10 = (int)Math.Log10(Math.Abs(result / 10));
@@ -34,6 +34,7 @@ namespace Jodo.Numerics.Tests
             {
                 throw new InvalidOperationException();
             }
+
             return Math.Round(result, 6);
         }
     }

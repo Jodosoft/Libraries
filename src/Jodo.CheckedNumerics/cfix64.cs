@@ -251,8 +251,8 @@ namespace Jodo.CheckedNumerics
             cfix64 IBitConverter<cfix64>.Read(IReadOnlyStream<byte> stream) => new cfix64(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
             void IBitConverter<cfix64>.Write(cfix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
-            cfix64 IRandom<cfix64>.Next(Random random) => new cfix64(random.NextInt64WithoutBounds());
-            cfix64 IRandom<cfix64>.Next(Random random, cfix64 bound1, cfix64 bound2) => new cfix64(random.NextInt64WithBounds(bound1._scaledValue, bound2._scaledValue));
+            cfix64 IRandom<cfix64>.Next(Random random) => new cfix64(random.NextInt64());
+            cfix64 IRandom<cfix64>.Next(Random random, cfix64 bound1, cfix64 bound2) => new cfix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<cfix64>.ToBoolean(cfix64 value) => value._scaledValue != 0;
             byte IConvert<cfix64>.ToByte(cfix64 value) => CheckedConvert.ToByte(value._scaledValue / ScalingFactor);

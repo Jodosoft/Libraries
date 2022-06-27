@@ -17,48 +17,28 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
+using Jodo.Numerics;
+using Jodo.Testing;
+using NUnit.Framework;
 
-namespace Jodo.Collections
+namespace Jodo.Geometry.Tests
 {
-    public sealed class Array2<T> : IReadOnlyArray2<T>
+    internal class AssemblyFixtureBase : GlobalFixtureBase
     {
-        public static readonly Array2<T> Empty = new Array2<T>(0, 0);
 
-        private readonly T[] _array;
-        private readonly int _lengthX;
-        private readonly int _lengthY;
-
-        public int Length => _array.Length;
-        public int LengthX => _lengthX;
-        public int LengthY => _lengthY;
-
-        public T this[int x, int y]
+        [SetUp]
+        public void AssemblySetUp()
         {
-            get => _array[(y * _lengthX) + x];
-            set => _array[(y * _lengthX) + x] = value;
         }
 
-        public Array2(int lengthX, int lengthY)
+
+        public void Register<N>() where N : struct, INumeric<N>
         {
-            _array = new T[lengthX * lengthY];
-            _lengthX = lengthX;
-            _lengthY = lengthY;
+
+            // Fixture.Register<T>(() => new AARectangle<N>(
+            //     Math<N>.Round(Math<N>.Convert()
+            //     ));
         }
 
-#if NETSTANDARD2_1
-        public ReadOnlySpan<T> AsSpan() => _array.AsSpan();
-        public ReadOnlyMemory<T> AsMemory() => _array.AsMemory();
-#endif
-
-        public T[] ToArray()
-        {
-            T[]? copy = new T[_array.Length];
-            Array.Copy(_array, copy, _array.Length);
-            return copy;
-        }
-
-        public override bool Equals(object? obj) => _array.Equals(obj);
-        public override int GetHashCode() => _array.GetHashCode();
     }
 }

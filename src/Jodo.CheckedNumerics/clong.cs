@@ -214,8 +214,8 @@ namespace Jodo.CheckedNumerics
             clong IBitConverter<clong>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)), 0);
             void IBitConverter<clong>.Write(clong value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
-            clong IRandom<clong>.Next(Random random) => random.NextInt64WithoutBounds();
-            clong IRandom<clong>.Next(Random random, clong bound1, clong bound2) => random.NextInt64WithBounds(bound1._value, bound2._value);
+            clong IRandom<clong>.Next(Random random) => random.NextInt64();
+            clong IRandom<clong>.Next(Random random, clong bound1, clong bound2) => random.NextInt64(bound1._value, bound2._value);
 
             bool IConvert<clong>.ToBoolean(clong value) => CheckedConvert.ToBoolean(value._value);
             byte IConvert<clong>.ToByte(clong value) => CheckedConvert.ToByte(value._value);

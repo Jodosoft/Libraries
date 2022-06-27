@@ -17,10 +17,53 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+
 namespace Jodo.Collections
 {
     public static class Array2
     {
         public static Array2<T> Empty<T>() => Array2<T>.Empty;
+    }
+
+    public sealed class Array2<T> : IReadOnlyArray2<T>
+    {
+        public static readonly Array2<T> Empty = new Array2<T>(0, 0);
+
+        private readonly T[] _array;
+        private readonly int _lengthX;
+        private readonly int _lengthY;
+
+        public int Length => _array.Length;
+        public int LengthX => _lengthX;
+        public int LengthY => _lengthY;
+
+        public T this[int x, int y]
+        {
+            get => _array[(y * _lengthX) + x];
+            set => _array[(y * _lengthX) + x] = value;
+        }
+
+        public Array2(int lengthX, int lengthY)
+        {
+            _array = new T[lengthX * lengthY];
+            _lengthX = lengthX;
+            _lengthY = lengthY;
+        }
+
+#if NETSTANDARD2_1
+        public ReadOnlySpan<T> AsSpan() => _array.AsSpan();
+        public ReadOnlyMemory<T> AsMemory() => _array.AsMemory();
+#endif
+
+        public T[] ToArray()
+        {
+            T[]? copy = new T[_array.Length];
+            Array.Copy(_array, copy, _array.Length);
+            return copy;
+        }
+
+        public override bool Equals(object? obj) => _array.Equals(obj);
+        public override int GetHashCode() => _array.GetHashCode();
     }
 }

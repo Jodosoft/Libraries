@@ -146,13 +146,13 @@ namespace Jodo.CheckedNumerics.Tests
         [Test] public void Int64Multiply_OverflowFromMaxValue_ReturnsMaxValue() => CheckedArithmetic.Multiply(long.MaxValue, long.MaxValue).Should().Be(long.MaxValue);
         [Test] public void Int64Multiply_OverflowFromMinValue_ReturnsMinValue() => CheckedArithmetic.Multiply(long.MaxValue, long.MinValue).Should().Be(long.MinValue);
         [Test] public void Int64Divide_SmokeTest_CorrectResult() => CheckedArithmetic.Divide((long)12, (long)4).Should().Be(3);
-        [Test] public void Int64Divide_ByZero_ReturnsMaxValue() => CheckedArithmetic.Divide(Random.NextInt64WithoutBounds(), (long)0).Should().Be(long.MaxValue);
+        [Test] public void Int64Divide_ByZero_ReturnsMaxValue() => CheckedArithmetic.Divide(Random.NextInt64(), (long)0).Should().Be(long.MaxValue);
         [Test] public void Int64Remainder_SmokeTest_CorrectResult() => CheckedArithmetic.Remainder((long)12, (long)5).Should().Be(2);
-        [Test] public void Int64Remainder_ByZero_ReturnsZero() => CheckedArithmetic.Remainder(Random.NextInt64WithoutBounds(), (long)0).Should().Be(0);
+        [Test] public void Int64Remainder_ByZero_ReturnsZero() => CheckedArithmetic.Remainder(Random.NextInt64(), (long)0).Should().Be(0);
         [Test] public void Int64Pow_OverflowFromMinValue_ReturnsMinValue() => CheckedArithmetic.Pow(long.MinValue, (long)3).Should().Be(long.MinValue);
         [Test] public void Int64Pow_OverflowFromMaxValue_ReturnsMaxValue() => CheckedArithmetic.Pow(long.MaxValue, long.MaxValue).Should().Be(long.MaxValue);
         [Test] public void Int64Pow_OverflowFromMaxValueBoundary_ReturnsMaxValue() => CheckedArithmetic.Pow(long.MaxValue, (long)2).Should().Be(long.MaxValue);
-        [Test] public void Int64Pow_Zero_ReturnsOne() => CheckedArithmetic.Pow(Random.NextInt64WithoutBounds(), (long)0).Should().Be((long)1);
+        [Test] public void Int64Pow_Zero_ReturnsOne() => CheckedArithmetic.Pow(Random.NextInt64(), (long)0).Should().Be((long)1);
 
         [Test] public void SByteAdd_SmokeTest_CorrectResult() => CheckedArithmetic.Add((sbyte)12, (sbyte)12).Should().Be(24);
         [Test] public void SByteAdd_OverflowFromMaxValue_ReturnsMaxValue() => CheckedArithmetic.Add(sbyte.MaxValue, sbyte.MaxValue).Should().Be(sbyte.MaxValue);
