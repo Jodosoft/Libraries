@@ -34,7 +34,7 @@ Welcome to The Jodo Packages: a collection of C# utilities covering numerics, ge
       </p>      
       <p>
         <code>netstandard2.0</code> (.NET Standard 2.0) and <code>net461</code> (.NET Framework 4.6) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
-        Additional targets like <code>netstandard2.1</code> (.NET Standard 2.1) are added to support newer language features such as <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
+        Additional targets like <code>netstandard2.1</code> (.NET Standard 2.1) are used for supporting newer language features such as <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
     </td>
   </tr>
