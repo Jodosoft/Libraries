@@ -63,12 +63,6 @@ namespace Jodo.Numerics
         N RightShift(int count);
         N Subtract(N value);
 
-        // Upcoming:
-        // • N Half();
-        // • N Double();
-        // • N Squared();
-        // • N Cubed();
-
         string ToString(string format);
         string ToString(IFormatProvider formatProvider);
 
