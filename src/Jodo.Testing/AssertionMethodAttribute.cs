@@ -18,40 +18,9 @@
 // IN THE SOFTWARE.
 
 using System;
-using FluentAssertions;
 
 namespace Jodo.Testing
 {
-    public static class Same
-    {
-        [AssertionMethod]
-        public static void Outcome<TResult>(Func<TResult> subject, Func<TResult> expected)
-        {
-            object expectedResult = null;
-            Exception expectedException = null;
-            try
-            {
-                expectedResult = expected();
-            }
-            catch (Exception exception)
-            {
-                expectedException = exception;
-            }
-
-            if (expectedException == null)
-            {
-                subject.Should().NotThrow().Which.Should().Be(expectedResult);
-            }
-            else
-            {
-                subject.Should().Throw<Exception>().Which.Should().BeOfType(expectedException.GetType());
-            }
-
-        }
-
-        public static void Outcome<TResult>(Func<TResult> subject, TResult expected)
-        {
-            subject.Should().NotThrow().Which.Should().Be(expected);
-        }
-    }
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    public class AssertionMethodAttribute : Attribute { }
 }
