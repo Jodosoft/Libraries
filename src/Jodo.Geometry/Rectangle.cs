@@ -30,7 +30,6 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    [CLSCompliant(false)]
     public readonly struct Rectangle<N> :
             IEquatable<Rectangle<N>>,
             IFormattable,
@@ -95,6 +94,7 @@ namespace Jodo.Geometry
         {
             throw new NotImplementedException();
         }
+
 
         public N GetArea() => Math<N>.Abs(Width.Multiply(Height));
 
@@ -200,7 +200,7 @@ namespace Jodo.Geometry
 
         public static bool operator ==(Rectangle<N> left, Rectangle<N> right) => left.Equals(right);
         public static bool operator !=(Rectangle<N> left, Rectangle<N> right) => !(left == right);
-        public static implicit operator Rectangle<N>(AARectangle<N> value) => new Rectangle<N>(value.Center, value.Dimensions, Angle<N>.Zero);
+        public static implicit operator Rectangle<N>(AARectangle<N> value) => new Rectangle<N>(value.Origin, value.Dimensions, Angle<N>.Zero);
 
         Vector2<N>[] ITwoDimensional<Rectangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
         Vector2<N> ITwoDimensional<Rectangle<N>, N>.GetCenter() => Center;
@@ -244,10 +244,10 @@ namespace Jodo.Geometry
             {
                 AARectangle<N> bound1Bounds = bound1.GetBounds();
                 AARectangle<N> bound2Bounds = bound2.GetBounds();
-                N xMin = Math<N>.Min(bound1Bounds.BottomLeft.X, bound2Bounds.BottomLeft.X);
-                N xMax = Math<N>.Max(bound1Bounds.TopRight.X, bound2Bounds.TopRight.X);
-                N yMin = Math<N>.Min(bound1Bounds.BottomLeft.Y, bound2Bounds.BottomLeft.Y);
-                N yMax = Math<N>.Max(bound1Bounds.TopRight.Y, bound2Bounds.TopRight.Y);
+                N xMin = Math<N>.Min(bound1Bounds.GetBottomLeft().X, bound2Bounds.GetBottomLeft().X);
+                N xMax = Math<N>.Max(bound1Bounds.GetTopRight().X, bound2Bounds.GetTopRight().X);
+                N yMin = Math<N>.Min(bound1Bounds.GetBottomLeft().Y, bound2Bounds.GetBottomLeft().Y);
+                N yMax = Math<N>.Max(bound1Bounds.GetTopRight().Y, bound2Bounds.GetTopRight().Y);
 
                 Vector2<N> center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
 

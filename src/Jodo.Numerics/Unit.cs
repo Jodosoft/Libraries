@@ -27,7 +27,6 @@ namespace Jodo.Numerics
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    [CLSCompliant(false)]
     public readonly struct Unit<N> :
             IComparable,
             IComparable<Unit<N>>,

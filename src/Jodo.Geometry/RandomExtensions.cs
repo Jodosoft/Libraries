@@ -24,7 +24,6 @@ using Jodo.Primitives;
 
 namespace System
 {
-    [CLSCompliant(false)]
     public static class RandomExtensions
     {
         [DebuggerStepThrough]

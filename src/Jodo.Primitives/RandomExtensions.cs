@@ -200,8 +200,6 @@ namespace System
 
         public static T NextElement<T>(this Random random, ReadOnlySpan<T> span)
             => span[random.Next(0, span.Length)];
-
-       
 #endif
 
         public static byte[] NextBytes(this Random random, int count)

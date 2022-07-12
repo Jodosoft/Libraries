@@ -34,7 +34,7 @@ namespace Jodo.Numerics.Tests
             public void Parse1_RoundTripSmallValue_CorrectResult()
             {
                 //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Convert<N>.ToNumeric(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
 
                 //act
                 N result = Parser<N>.Parse(input.ToString());
@@ -47,7 +47,7 @@ namespace Jodo.Numerics.Tests
             public void Parse1_RoundTripFormat_CorrectResult()
             {
                 //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Convert<N>.ToNumeric(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
 
                 //act
@@ -61,7 +61,7 @@ namespace Jodo.Numerics.Tests
             public void Parse1_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Convert<N>.ToNumeric(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
 
                 //act
@@ -75,7 +75,7 @@ namespace Jodo.Numerics.Tests
             public void Parse2_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                N input = Math<N>.Round(Clamp<N>.ToNumeric(Random.NextDouble(-10, 10)), 2);
+                N input = Math<N>.Round(Convert<N>.ToNumeric(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
                 NumberFormatInfo provider = NumberFormatInfo.InvariantInfo;
                 NumberStyles numberStyles = NumberStyles.Any;
@@ -91,7 +91,7 @@ namespace Jodo.Numerics.Tests
         public abstract class Integral<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
-            public void SetUp() => Assert.That(!Numeric<N>.IsReal);
+            public void SetUp() => Assert.That(Numeric<N>.IsIntegral);
 
             [Test, Repeat(RandomVariations)]
             public void Parse2_SmallIntegralHexString_CorrectResult()

@@ -29,7 +29,6 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    [CLSCompliant(false)]
     public readonly struct Triangle<N> :
             IEquatable<Triangle<N>>,
             IFormattable,

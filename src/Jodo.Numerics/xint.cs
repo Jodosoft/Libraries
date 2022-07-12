@@ -31,7 +31,7 @@ namespace Jodo.Numerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct xint : INumeric<xint>
+    public readonly struct xint : INumericExtended<xint>
     {
         public static readonly xint MaxValue = new xint(int.MaxValue);
         public static readonly xint MinValue = new xint(int.MinValue);
@@ -130,8 +130,8 @@ namespace Jodo.Numerics
         xint INumeric<xint>.Subtract(xint value) => this - value;
 
         IBitConverter<xint> IProvider<IBitConverter<xint>>.GetInstance() => Utilities.Instance;
-        ICast<xint> IProvider<ICast<xint>>.GetInstance() => Utilities.Instance;
         IConvert<xint> IProvider<IConvert<xint>>.GetInstance() => Utilities.Instance;
+        IConvertUnsigned<xint> IProvider<IConvertUnsigned<xint>>.GetInstance() => Utilities.Instance;
         IMath<xint> IProvider<IMath<xint>>.GetInstance() => Utilities.Instance;
         INumericStatic<xint> IProvider<INumericStatic<xint>>.GetInstance() => Utilities.Instance;
         IRandom<xint> IProvider<IRandom<xint>>.GetInstance() => Utilities.Instance;
@@ -139,8 +139,8 @@ namespace Jodo.Numerics
 
         private sealed class Utilities :
             IBitConverter<xint>,
-            ICast<xint>,
             IConvert<xint>,
+            IConvertUnsigned<xint>,
             IMath<xint>,
             INumericStatic<xint>,
             IRandom<xint>,
@@ -217,59 +217,35 @@ namespace Jodo.Numerics
             xint IRandom<xint>.Next(Random random, xint bound1, xint bound2) => random.NextInt32(bound1._value, bound2._value);
 
             bool IConvert<xint>.ToBoolean(xint value) => Convert.ToBoolean(value._value);
-            byte IConvert<xint>.ToByte(xint value) => Convert.ToByte(value._value);
-            decimal IConvert<xint>.ToDecimal(xint value) => Convert.ToDecimal(value._value);
-            double IConvert<xint>.ToDouble(xint value) => Convert.ToDouble(value._value);
-            float IConvert<xint>.ToSingle(xint value) => Convert.ToSingle(value._value);
-            int IConvert<xint>.ToInt32(xint value) => Convert.ToInt32(value._value);
-            long IConvert<xint>.ToInt64(xint value) => Convert.ToInt64(value._value);
-            sbyte IConvert<xint>.ToSByte(xint value) => Convert.ToSByte(value._value);
-            short IConvert<xint>.ToInt16(xint value) => Convert.ToInt16(value._value);
+            byte IConvert<xint>.ToByte(xint value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
+            decimal IConvert<xint>.ToDecimal(xint value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode);
+            double IConvert<xint>.ToDouble(xint value, Conversion mode) => NumericConvert.ToDouble(value._value, mode);
+            float IConvert<xint>.ToSingle(xint value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
+            int IConvert<xint>.ToInt32(xint value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
+            long IConvert<xint>.ToInt64(xint value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
+            sbyte IConvertUnsigned<xint>.ToSByte(xint value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
+            short IConvert<xint>.ToInt16(xint value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
             string IConvert<xint>.ToString(xint value) => Convert.ToString(value._value);
-            uint IConvert<xint>.ToUInt32(xint value) => Convert.ToUInt32(value._value);
-            ulong IConvert<xint>.ToUInt64(xint value) => Convert.ToUInt64(value._value);
-            ushort IConvert<xint>.ToUInt16(xint value) => Convert.ToUInt16(value._value);
+            uint IConvertUnsigned<xint>.ToUInt32(xint value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
+            ulong IConvertUnsigned<xint>.ToUInt64(xint value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
+            ushort IConvertUnsigned<xint>.ToUInt16(xint value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
 
-            xint IConvert<xint>.ToNumeric(bool value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(byte value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(decimal value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(double value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(float value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(int value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(long value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(sbyte value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(short value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(string value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(uint value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(ulong value) => Convert.ToInt32(value);
-            xint IConvert<xint>.ToNumeric(ushort value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToValue(bool value) => Convert.ToInt32(value);
+            xint IConvert<xint>.ToValue(byte value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvert<xint>.ToValue(decimal value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvert<xint>.ToValue(double value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvert<xint>.ToValue(float value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvert<xint>.ToValue(int value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvert<xint>.ToValue(long value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvertUnsigned<xint>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvert<xint>.ToValue(short value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvert<xint>.ToValue(string value) => Convert.ToInt32(value);
+            xint IConvertUnsigned<xint>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvertUnsigned<xint>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            xint IConvertUnsigned<xint>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt32(value, mode);
 
             xint IParser<xint>.Parse(string s) => Parse(s);
             xint IParser<xint>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            byte ICast<xint>.ToByte(xint value) => (byte)value;
-            decimal ICast<xint>.ToDecimal(xint value) => (decimal)value;
-            double ICast<xint>.ToDouble(xint value) => (double)value;
-            float ICast<xint>.ToSingle(xint value) => (float)value;
-            int ICast<xint>.ToInt32(xint value) => (int)value;
-            long ICast<xint>.ToInt64(xint value) => (long)value;
-            sbyte ICast<xint>.ToSByte(xint value) => (sbyte)value;
-            short ICast<xint>.ToInt16(xint value) => (short)value;
-            uint ICast<xint>.ToUInt32(xint value) => (uint)value;
-            ulong ICast<xint>.ToUInt64(xint value) => (ulong)value;
-            ushort ICast<xint>.ToUInt16(xint value) => (ushort)value;
-
-            xint ICast<xint>.ToNumeric(byte value) => (xint)value;
-            xint ICast<xint>.ToNumeric(decimal value) => (xint)value;
-            xint ICast<xint>.ToNumeric(double value) => (xint)value;
-            xint ICast<xint>.ToNumeric(float value) => (xint)value;
-            xint ICast<xint>.ToNumeric(int value) => (xint)value;
-            xint ICast<xint>.ToNumeric(long value) => (xint)value;
-            xint ICast<xint>.ToNumeric(sbyte value) => (xint)value;
-            xint ICast<xint>.ToNumeric(short value) => (xint)value;
-            xint ICast<xint>.ToNumeric(uint value) => (xint)value;
-            xint ICast<xint>.ToNumeric(ulong value) => (xint)value;
-            xint ICast<xint>.ToNumeric(ushort value) => (xint)value;
         }
     }
 }

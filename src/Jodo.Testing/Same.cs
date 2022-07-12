@@ -17,28 +17,40 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Numerics
-{
-    public interface IConvert<N>
-    {
-        bool ToBoolean(N value);
-        byte ToByte(N value, Conversion mode);
-        decimal ToDecimal(N value, Conversion mode);
-        double ToDouble(N value, Conversion mode);
-        float ToSingle(N value, Conversion mode);
-        int ToInt32(N value, Conversion mode);
-        long ToInt64(N value, Conversion mode);
-        short ToInt16(N value, Conversion mode);
-        string ToString(N value);
+using System;
+using FluentAssertions;
 
-        N ToValue(bool value);
-        N ToValue(byte value, Conversion mode);
-        N ToValue(decimal value, Conversion mode);
-        N ToValue(double value, Conversion mode);
-        N ToValue(float value, Conversion mode);
-        N ToValue(int value, Conversion mode);
-        N ToValue(long value, Conversion mode);
-        N ToValue(short value, Conversion mode);
-        N ToValue(string value);
+namespace Jodo.Testing
+{
+    public static class Same
+    {
+        public static void Outcome<TResult>(Func<TResult> subject, Func<TResult> expected)
+        {
+            object expectedResult = null;
+            Exception expectedException = null;
+            try
+            {
+                expectedResult = expected();
+            }
+            catch (Exception exception)
+            {
+                expectedException = exception;
+            }
+
+            if (expectedException == null)
+            {
+                subject.Should().NotThrow().Which.Should().Be(expectedResult);
+            }
+            else
+            {
+                subject.Should().Throw<Exception>().Which.Should().BeOfType(expectedException.GetType());
+            }
+
+        }
+
+        public static void Outcome<TResult>(Func<TResult> subject, TResult expected)
+        {
+            subject.Should().NotThrow().Which.Should().Be(expected);
+        }
     }
 }

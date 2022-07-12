@@ -17,11 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-
 namespace Jodo.Numerics
 {
-    [CLSCompliant(false)]
     public static class NumericExtensions
     {
         public static N Double<N>(this N n) where N : struct, INumeric<N>

@@ -17,28 +17,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Numerics
-{
-    public interface IConvert<N>
-    {
-        bool ToBoolean(N value);
-        byte ToByte(N value, Conversion mode);
-        decimal ToDecimal(N value, Conversion mode);
-        double ToDouble(N value, Conversion mode);
-        float ToSingle(N value, Conversion mode);
-        int ToInt32(N value, Conversion mode);
-        long ToInt64(N value, Conversion mode);
-        short ToInt16(N value, Conversion mode);
-        string ToString(N value);
+using System;
+using Jodo.Numerics;
 
-        N ToValue(bool value);
-        N ToValue(byte value, Conversion mode);
-        N ToValue(decimal value, Conversion mode);
-        N ToValue(double value, Conversion mode);
-        N ToValue(float value, Conversion mode);
-        N ToValue(int value, Conversion mode);
-        N ToValue(long value, Conversion mode);
-        N ToValue(short value, Conversion mode);
-        N ToValue(string value);
+namespace Jodo.CheckedNumerics
+{
+    public static class ConversionExtensions
+    {
+        public static Conversion Clamped(this Conversion conversion) => conversion switch
+        {
+            Conversion.Default => Conversion.Clamp,
+            Conversion.Clamp => Conversion.Clamp,
+            Conversion.Cast => Conversion.CastClamp,
+            Conversion.CastClamp => Conversion.CastClamp,
+            _ => throw new ArgumentOutOfRangeException(nameof(conversion)),
+        };
     }
 }

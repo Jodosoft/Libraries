@@ -29,7 +29,6 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    [CLSCompliant(false)]
     public readonly struct AARectangle<N> :
             IEquatable<AARectangle<N>>,
             IFormattable,
@@ -43,89 +42,88 @@ namespace Jodo.Geometry
     {
         private const string Symbol = "□";
 
-        public readonly Vector2<N> Center;
+        public readonly Vector2<N> Origin;
         public readonly Vector2<N> Dimensions;
-
-        public N Bottom => Center.Y.Subtract(Dimensions.Y.Divide(Cast<N>.ToNumeric(2)));
         public N Height => Dimensions.Y;
-        public N Left => Center.X.Subtract(Dimensions.X.Divide(Cast<N>.ToNumeric(2)));
-        public N Right => Center.X.Add(Dimensions.X.Divide(Cast<N>.ToNumeric(2)));
-        public N Top => Center.Y.Add(Dimensions.Y.Divide(Cast<N>.ToNumeric(2)));
         public N Width => Dimensions.X;
 
-        public Vector2<N> BottomCenter => GetBottomCenter(Center, Dimensions);
-        public Vector2<N> BottomLeft => GetBottomLeft(Center, Dimensions);
-        public Vector2<N> BottomRight => GetBottomRight(Center, Dimensions);
-        public Vector2<N> LeftCenter => GetLeftCenter(Center, Dimensions);
-        public Vector2<N> RightCenter => GetRightCenter(Center, Dimensions);
-        public Vector2<N> TopCenter => GetTopCenter(Center, Dimensions);
-        public Vector2<N> TopLeft => GetTopLeft(Center, Dimensions);
-        public Vector2<N> TopRight => GetTopRight(Center, Dimensions);
+        public N GetBottom() => Origin.Y;
+        public N GetLeft() => Origin.X;
+        public N GetRight() => Origin.X.Add(Dimensions.X);
+        public N GetTop() => Origin.Y.Add(Dimensions.Y);
+        public Vector2<N> GetCenter() => GetCenter(Origin, Dimensions);
+        public Vector2<N> GetBottomCenter() => GetBottomCenter(Origin, Dimensions);
+        public Vector2<N> GetBottomLeft() => Origin;
+        public Vector2<N> GetBottomRight() => GetBottomRight(Origin, Dimensions);
+        public Vector2<N> GetLeftCenter() => GetLeftCenter(Origin, Dimensions);
+        public Vector2<N> GetRightCenter() => GetRightCenter(Origin, Dimensions);
+        public Vector2<N> GetTopCenter() => GetTopCenter(Origin, Dimensions);
+        public Vector2<N> GetTopLeft() => GetTopLeft(Origin, Dimensions);
+        public Vector2<N> GetTopRight() => GetTopRight(Origin, Dimensions);
 
-
-        private AARectangle(Vector2<N> center, Vector2<N> dimensions)
+        public AARectangle(Vector2<N> origin, Vector2<N> dimensions)
         {
-            Center = center;
+            Origin = origin;
             Dimensions = dimensions;
         }
 
-        private AARectangle(N centerX, N centerY, N width, N height)
+        public AARectangle(N originX, N originY, N width, N height)
         {
-            Center = new Vector2<N>(centerX, centerY);
+            Origin = new Vector2<N>(originX, originY);
             Dimensions = new Vector2<N>(width, height);
         }
 
         private AARectangle(SerializationInfo info, StreamingContext context) : this(
-            (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>)),
+            (Vector2<N>)info.GetValue(nameof(Origin), typeof(Vector2<N>)),
             (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>)))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Center), Center, typeof(Vector2<N>));
+            info.AddValue(nameof(Origin), Origin, typeof(Vector2<N>));
             info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<N>));
         }
 
         public N GetArea() => Math<N>.Abs(Dimensions.X.Multiply(Dimensions.Y));
-        public Vector2<N>[] GetVertices() => new[] { BottomLeft, BottomRight, TopRight, TopLeft };
+        public Vector2<N>[] GetVertices() => new[] { GetBottomLeft(), GetBottomRight(), GetTopRight(), GetTopLeft() };
 
-        public AARectangle<N> Grow(Vector2<N> delta) => new AARectangle<N>(Center, Dimensions + delta);
+        public AARectangle<N> Grow(Vector2<N> delta) => new AARectangle<N>(Origin, Dimensions + delta);
         public AARectangle<N> Grow(N deltaX, N deltaY) => Grow(new Vector2<N>(deltaX, deltaY));
         public AARectangle<N> Grow(N delta) => Grow(new Vector2<N>(delta, delta));
-        public AARectangle<N> Shrink(Vector2<N> delta) => new AARectangle<N>(Center, Dimensions - delta);
+        public AARectangle<N> Shrink(Vector2<N> delta) => new AARectangle<N>(Origin, Dimensions - delta);
         public AARectangle<N> Shrink(N deltaX, N deltaY) => Shrink(new Vector2<N>(deltaX, deltaY));
         public AARectangle<N> Shrink(N delta) => Shrink(new Vector2<N>(delta, delta));
-        public AARectangle<N> Translate(Vector2<N> delta) => new AARectangle<N>(Center + delta, Dimensions);
+        public AARectangle<N> Translate(Vector2<N> delta) => new AARectangle<N>(Origin + delta, Dimensions);
 
         public bool Contains(Vector2<N> point) =>
-            point.X.IsGreaterThanOrEqualTo(Left) &&
-            point.X.IsLessThanOrEqualTo(Right) &&
-            point.Y.IsGreaterThanOrEqualTo(Bottom) &&
-            point.Y.IsLessThanOrEqualTo(Top);
+            point.X.IsGreaterThanOrEqualTo(GetLeft()) &&
+            point.X.IsLessThanOrEqualTo(GetRight()) &&
+            point.Y.IsGreaterThanOrEqualTo(GetBottom()) &&
+            point.Y.IsLessThanOrEqualTo(GetTop());
 
         public bool Contains(AARectangle<N> other) =>
-            Left.IsLessThanOrEqualTo(other.Left) &&
-            Right.IsGreaterThanOrEqualTo(other.Right) &&
-            Bottom.IsLessThanOrEqualTo(other.Bottom) &&
-            Top.IsGreaterThanOrEqualTo(other.Top);
+            GetLeft().IsLessThanOrEqualTo(other.GetLeft()) &&
+            GetRight().IsGreaterThanOrEqualTo(other.GetRight()) &&
+            GetBottom().IsLessThanOrEqualTo(other.GetBottom()) &&
+            GetTop().IsGreaterThanOrEqualTo(other.GetTop());
 
         public bool IntersectsWith(AARectangle<N> other) =>
-            Left.IsLessThan(other.Right) &&
-            Right.IsGreaterThan(other.Left) &&
-            Bottom.IsLessThan(other.Top) &&
-            Top.IsGreaterThan(other.Bottom);
+            GetLeft().IsLessThan(other.GetRight()) &&
+            GetRight().IsGreaterThan(other.GetLeft()) &&
+            GetBottom().IsLessThan(other.GetTop()) &&
+            GetTop().IsGreaterThan(other.GetBottom());
 
-        public AARectangle<N> RotateRight() => new AARectangle<N>(Center, new Vector2<N>(Dimensions.Y, Dimensions.X));
+        public AARectangle<N> RotateRight() => new AARectangle<N>(Origin, new Vector2<N>(Dimensions.Y, Dimensions.X));
 
-        public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(Center, Dimensions, angle);
-        public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Center.RotateAround(pivot, angle), Dimensions, angle);
+        public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(Origin, Dimensions, angle);
+        public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Origin.RotateAround(pivot, angle), Dimensions, angle);
 
-        public AARectangle<TOther> Convert<TOther>(Func<N, TOther> convert) where TOther : struct, INumeric<TOther> => new AARectangle<TOther>(convert(Center.X), convert(Center.Y), convert(Dimensions.X), convert(Dimensions.Y));
-        public bool Equals(AARectangle<N> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions);
+        public AARectangle<TOther> Convert<TOther>(Func<N, TOther> convert) where TOther : struct, INumeric<TOther> => new AARectangle<TOther>(convert(Origin.X), convert(Origin.Y), convert(Dimensions.X), convert(Dimensions.Y));
+        public bool Equals(AARectangle<N> other) => Origin.Equals(other.Origin) && Dimensions.Equals(other.Dimensions);
         public override bool Equals(object? obj) => obj is AARectangle<N> fix && Equals(fix);
-        public override int GetHashCode() => HashCode.Combine(Center, Dimensions);
-        public override string ToString() => $"{Symbol}({Center}, {Dimensions})";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({Center.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)})";
+        public override int GetHashCode() => HashCode.Combine(Origin, Dimensions);
+        public override string ToString() => $"{Symbol}({Origin}, {Dimensions})";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({Origin.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)})";
 
         public static bool TryParse(string value, out AARectangle<N> result)
             => Try.Run(() => Parse(value), out result);
@@ -166,63 +164,55 @@ namespace Jodo.Geometry
         }
 
         public static AARectangle<N> FromCenter(Vector2<N> center, Vector2<N> dimensions) => new AARectangle<N>(center, dimensions);
-        public static AARectangle<N> FromBottomLeft(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetTopRight(bottomLeft, dimensions), dimensions);
+        public static AARectangle<N> FromBottomLeft(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(bottomLeft, dimensions);
         public static AARectangle<N> FromBottomCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetTopCenter(bottomLeft, dimensions), dimensions);
         public static AARectangle<N> FromBottomRight(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetTopLeft(bottomLeft, dimensions), dimensions);
         public static AARectangle<N> FromLeftCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetRightCenter(bottomLeft, dimensions), dimensions);
         public static AARectangle<N> FromRightCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetLeftCenter(bottomLeft, dimensions), dimensions);
         public static AARectangle<N> FromTopLeft(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetBottomRight(bottomLeft, dimensions), dimensions);
         public static AARectangle<N> FromTopCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetBottomCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<N> FromTopRight(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetBottomLeft(bottomLeft, dimensions), dimensions);
+        public static AARectangle<N> FromTopRight(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(bottomLeft, dimensions);
 
         public static AARectangle<N> Between(Vector2<N> point1, Vector2<N> point2)
         {
-            N xMin = Math<N>.Min(point1.X, point2.X);
-            N xMax = Math<N>.Max(point1.X, point2.X);
-            N yMin = Math<N>.Min(point1.Y, point2.Y);
-            N yMax = Math<N>.Max(point1.Y, point2.Y);
-            N width = xMax.Subtract(xMin);
-            N height = yMax.Subtract(yMin);
-            N centerX = xMin.Add(width.Divide(Numeric<N>.Two));
-            N centerY = yMin.Add(height.Divide(Numeric<N>.Two));
-            return new AARectangle<N>(centerX, centerY, width, height);
+            return new AARectangle<N>(point1, point2 - point1);
         }
 
-        private static Vector2<N> GetBottomCenter(Vector2<N> center, Vector2<N> dimensions)
-            => new Vector2<N>(center.X, center.Y.Add(dimensions.Y.Divide(Numeric<N>.Two)));
+        private static Vector2<N> GetCenter(Vector2<N> origin, Vector2<N> dimensions)
+            => origin + dimensions.Half();
 
-        private static Vector2<N> GetBottomLeft(Vector2<N> center, Vector2<N> dimensions)
-            => center - (dimensions / Numeric<N>.Two);
+        private static Vector2<N> GetBottomCenter(Vector2<N> origin, Vector2<N> dimensions)
+            => new Vector2<N>(origin.X.Add(dimensions.X.Half()), origin.Y);
 
-        private static Vector2<N> GetBottomRight(Vector2<N> center, Vector2<N> dimensions)
-            => new Vector2<N>(center.X.Add(dimensions.X.Divide(Numeric<N>.Two)), center.Y.Subtract(dimensions.Y.Divide(Numeric<N>.Two)));
+        private static Vector2<N> GetBottomRight(Vector2<N> origin, Vector2<N> dimensions)
+            => new Vector2<N>(origin.X.Add(dimensions.X), origin.Y);
 
-        private static Vector2<N> GetLeftCenter(Vector2<N> center, Vector2<N> dimensions)
-            => new Vector2<N>(center.X.Subtract(dimensions.X.Divide(Numeric<N>.Two)), center.Y);
+        private static Vector2<N> GetLeftCenter(Vector2<N> origin, Vector2<N> dimensions)
+            => new Vector2<N>(origin.X, origin.Y.Add(dimensions.Y.Half()));
 
-        private static Vector2<N> GetRightCenter(Vector2<N> center, Vector2<N> dimensions)
-            => new Vector2<N>(center.X.Add(dimensions.X.Divide(Numeric<N>.Two)), center.Y);
+        private static Vector2<N> GetRightCenter(Vector2<N> origin, Vector2<N> dimensions)
+             => new Vector2<N>(origin.X.Add(dimensions.X), origin.Y.Add(dimensions.Y.Half()));
 
-        private static Vector2<N> GetTopCenter(Vector2<N> center, Vector2<N> dimensions)
-            => new Vector2<N>(center.X, center.Y.Add(dimensions.Y.Divide(Numeric<N>.Two)));
+        private static Vector2<N> GetTopCenter(Vector2<N> origin, Vector2<N> dimensions)
+             => new Vector2<N>(origin.X.Add(dimensions.X.Half()), origin.Y.Add(dimensions.Y));
 
-        private static Vector2<N> GetTopLeft(Vector2<N> center, Vector2<N> dimensions)
-            => new Vector2<N>(center.X.Subtract(dimensions.X.Divide(Numeric<N>.Two)), center.Y.Add(dimensions.Y.Divide(Numeric<N>.Two)));
+        private static Vector2<N> GetTopLeft(Vector2<N> origin, Vector2<N> dimensions)
+             => new Vector2<N>(origin.X, origin.Y.Add(dimensions.Y));
 
-        private static Vector2<N> GetTopRight(Vector2<N> center, Vector2<N> dimensions)
-            => center + (dimensions / Numeric<N>.Two);
+        private static Vector2<N> GetTopRight(Vector2<N> origin, Vector2<N> dimensions)
+             => origin + dimensions;
 
         public static bool operator ==(AARectangle<N> left, AARectangle<N> right) => left.Equals(right);
         public static bool operator !=(AARectangle<N> left, AARectangle<N> right) => !(left == right);
 
 #if NETSTANDARD2_0_OR_GREATER
         public static implicit operator AARectangle<N>((Vector2<N>, Vector2<N>) value) => new AARectangle<N>(value.Item1, value.Item2);
-        public static implicit operator (Vector2<N>, Vector2<N>)(AARectangle<N> value) => (value.Center, value.Dimensions);
+        public static implicit operator (Vector2<N>, Vector2<N>)(AARectangle<N> value) => (value.Origin, value.Dimensions);
         public static implicit operator AARectangle<N>((N, N, N, N) value) => new AARectangle<N>((value.Item1, value.Item2), (value.Item3, value.Item4));
-        public static implicit operator (N, N, N, N)(AARectangle<N> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
+        public static implicit operator (N, N, N, N)(AARectangle<N> value) => (value.Origin.X, value.Origin.Y, value.Dimensions.X, value.Dimensions.Y);
 #endif
 
-        Vector2<N> ITwoDimensional<AARectangle<N>, N>.GetCenter() => Center;
+        Vector2<N> ITwoDimensional<AARectangle<N>, N>.GetCenter() => GetCenter();
         AARectangle<N> ITwoDimensional<AARectangle<N>, N>.GetBounds() => this;
         Vector2<N>[] ITwoDimensional<AARectangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
 
@@ -256,10 +246,10 @@ namespace Jodo.Geometry
 
             AARectangle<N> IRandom<AARectangle<N>>.Next(Random random, AARectangle<N> bound1, AARectangle<N> bound2)
             {
-                N xMin = Math<N>.Min(bound1.BottomLeft.X, bound2.BottomLeft.X);
-                N xMax = Math<N>.Max(bound1.TopRight.X, bound2.TopRight.X);
-                N yMin = Math<N>.Min(bound1.BottomLeft.Y, bound2.BottomLeft.Y);
-                N yMax = Math<N>.Max(bound1.TopRight.Y, bound2.TopRight.Y);
+                N xMin = Math<N>.Min(bound1.GetBottomLeft().X, bound2.GetBottomLeft().X);
+                N xMax = Math<N>.Max(bound1.GetTopRight().X, bound2.GetTopRight().X);
+                N yMin = Math<N>.Min(bound1.GetBottomLeft().Y, bound2.GetBottomLeft().Y);
+                N yMax = Math<N>.Max(bound1.GetTopRight().Y, bound2.GetTopRight().Y);
                 Vector2<N> point1 = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
                 Vector2<N> point2 = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
                 return AARectangle<N>.Between(point1, point2);
@@ -278,7 +268,7 @@ namespace Jodo.Geometry
 
             void IBitConverter<AARectangle<N>>.Write(AARectangle<N> value, IWriteOnlyStream<byte> stream)
             {
-                BitConverter<Vector2<N>>.Write(stream, value.Center);
+                BitConverter<Vector2<N>>.Write(stream, value.Origin);
                 BitConverter<Vector2<N>>.Write(stream, value.Dimensions);
             }
         }

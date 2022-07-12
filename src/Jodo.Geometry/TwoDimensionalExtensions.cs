@@ -17,12 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
 using Jodo.Numerics;
 
 namespace Jodo.Geometry
 {
-    [CLSCompliant(false)]
     public static class TwoDimensionalExtensions
     {
         public static T Translate<T, N>(this T value, N deltaX, N deltaY)

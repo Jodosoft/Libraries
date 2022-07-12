@@ -17,35 +17,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
+using System.Runtime.CompilerServices;
 
 namespace Jodo.Numerics
 {
-    [CLSCompliant(false)]
-    public interface ICast<N> where N : struct, INumeric<N>
+    public static class VectorExtensions
     {
-        byte ToByte(N value);
-        decimal ToDecimal(N value);
-        double ToDouble(N value);
-        float ToSingle(N value);
-        int ToInt32(N value);
-        long ToInt64(N value);
-        sbyte ToSByte(N value);
-        short ToInt16(N value);
-        uint ToUInt32(N value);
-        ulong ToUInt64(N value);
-        ushort ToUInt16(N value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Double<N>(this Vector2<N> vector) where N : struct, INumeric<N>
+        {
+            return new Vector2<N>(vector.X.Double(), vector.Y.Double());
+        }
 
-        N ToNumeric(byte value);
-        N ToNumeric(decimal value);
-        N ToNumeric(double value);
-        N ToNumeric(float value);
-        N ToNumeric(int value);
-        N ToNumeric(long value);
-        N ToNumeric(sbyte value);
-        N ToNumeric(short value);
-        N ToNumeric(uint value);
-        N ToNumeric(ulong value);
-        N ToNumeric(ushort value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N Length<N>(this Vector2<N> value) where N : struct, INumeric<N>
+        {
+            return Math<N>.Sqrt(value.LengthSquared());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N LengthSquared<N>(this Vector2<N> value) where N : struct, INumeric<N>
+        {
+            return Vector2<N>.Dot(value, value);
+        }
+
     }
 }

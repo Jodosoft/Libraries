@@ -32,7 +32,7 @@ namespace Jodo.CheckedNumerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct cbyte : INumeric<cbyte>
+    public readonly struct cbyte : INumericExtended<cbyte>
     {
         public static readonly cbyte MaxValue = new cbyte(byte.MaxValue);
         public static readonly cbyte MinValue = new cbyte(byte.MinValue);
@@ -66,25 +66,25 @@ namespace Jodo.CheckedNumerics
         public static cbyte Parse(string s, NumberStyles style) => byte.Parse(s, style);
         public static cbyte Parse(string s, NumberStyles style, IFormatProvider? provider) => byte.Parse(s, style, provider);
 
-        [CLSCompliant(false)] public static explicit operator cbyte(sbyte value) => new cbyte(CheckedConvert.ToByte(value));
-        [CLSCompliant(false)] public static explicit operator cbyte(uint value) => new cbyte(CheckedConvert.ToByte(value));
-        [CLSCompliant(false)] public static explicit operator cbyte(ulong value) => new cbyte(CheckedConvert.ToByte(value));
-        [CLSCompliant(false)] public static implicit operator cbyte(ushort value) => new cbyte(CheckedConvert.ToByte(value));
-        public static explicit operator cbyte(decimal value) => new cbyte(CheckedTruncate.ToByte(value));
-        public static explicit operator cbyte(double value) => new cbyte(CheckedTruncate.ToByte(value));
-        public static explicit operator cbyte(float value) => new cbyte(CheckedTruncate.ToByte(value));
-        public static explicit operator cbyte(int value) => new cbyte(CheckedConvert.ToByte(value));
-        public static explicit operator cbyte(long value) => new cbyte(CheckedConvert.ToByte(value));
-        public static explicit operator cbyte(short value) => new cbyte(CheckedConvert.ToByte(value));
+        [CLSCompliant(false)] public static explicit operator cbyte(sbyte value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator cbyte(uint value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator cbyte(ulong value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static implicit operator cbyte(ushort value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        public static explicit operator cbyte(decimal value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        public static explicit operator cbyte(double value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        public static explicit operator cbyte(float value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        public static explicit operator cbyte(int value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        public static explicit operator cbyte(long value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
+        public static explicit operator cbyte(short value) => new cbyte(NumericConvert.ToByte(value, Conversion.CastClamp));
         public static implicit operator cbyte(byte value) => new cbyte(value);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(cbyte value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator sbyte(cbyte value) => NumericConvert.ToSByte(value._value, Conversion.CastClamp);
         [CLSCompliant(false)] public static implicit operator uint(cbyte value) => value._value;
         [CLSCompliant(false)] public static implicit operator ulong(cbyte value) => value._value;
         [CLSCompliant(false)] public static implicit operator ushort(cbyte value) => value._value;
-        public static explicit operator byte(cbyte value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator int(cbyte value) => CheckedConvert.ToInt32(value._value);
-        public static explicit operator short(cbyte value) => CheckedConvert.ToInt16(value._value);
+        public static explicit operator byte(cbyte value) => NumericConvert.ToByte(value._value, Conversion.CastClamp);
+        public static explicit operator int(cbyte value) => NumericConvert.ToInt32(value._value, Conversion.CastClamp);
+        public static explicit operator short(cbyte value) => NumericConvert.ToInt16(value._value, Conversion.CastClamp);
         public static implicit operator decimal(cbyte value) => value._value;
         public static implicit operator double(cbyte value) => value._value;
         public static implicit operator float(cbyte value) => value._value;
@@ -131,8 +131,8 @@ namespace Jodo.CheckedNumerics
         cbyte INumeric<cbyte>.Subtract(cbyte value) => this - value;
 
         IBitConverter<cbyte> IProvider<IBitConverter<cbyte>>.GetInstance() => Utilities.Instance;
-        ICast<cbyte> IProvider<ICast<cbyte>>.GetInstance() => Utilities.Instance;
         IConvert<cbyte> IProvider<IConvert<cbyte>>.GetInstance() => Utilities.Instance;
+        IConvertUnsigned<cbyte> IProvider<IConvertUnsigned<cbyte>>.GetInstance() => Utilities.Instance;
         IMath<cbyte> IProvider<IMath<cbyte>>.GetInstance() => Utilities.Instance;
         INumericStatic<cbyte> IProvider<INumericStatic<cbyte>>.GetInstance() => Utilities.Instance;
         IRandom<cbyte> IProvider<IRandom<cbyte>>.GetInstance() => Utilities.Instance;
@@ -140,8 +140,8 @@ namespace Jodo.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cbyte>,
-            ICast<cbyte>,
             IConvert<cbyte>,
+            IConvertUnsigned<cbyte>,
             IMath<cbyte>,
             INumericStatic<cbyte>,
             IRandom<cbyte>,
@@ -173,40 +173,40 @@ namespace Jodo.CheckedNumerics
             cbyte INumericStatic<cbyte>.Zero { get; } = 0;
 
             cbyte IMath<cbyte>.Abs(cbyte value) => value;
-            cbyte IMath<cbyte>.Acos(cbyte x) => CheckedCast.ToByte(Math.Acos(x._value));
-            cbyte IMath<cbyte>.Acosh(cbyte x) => CheckedCast.ToByte(MathCompat.Acosh(x._value));
-            cbyte IMath<cbyte>.Asin(cbyte x) => CheckedCast.ToByte(Math.Asin(x._value));
-            cbyte IMath<cbyte>.Asinh(cbyte x) => CheckedCast.ToByte(MathCompat.Asinh(x._value));
-            cbyte IMath<cbyte>.Atan(cbyte x) => CheckedCast.ToByte(Math.Atan(x._value));
-            cbyte IMath<cbyte>.Atan2(cbyte x, cbyte y) => CheckedCast.ToByte(Math.Atan2(x._value, y._value));
-            cbyte IMath<cbyte>.Atanh(cbyte x) => CheckedCast.ToByte(MathCompat.Atanh(x._value));
-            cbyte IMath<cbyte>.Cbrt(cbyte x) => CheckedCast.ToByte(MathCompat.Cbrt(x._value));
+            cbyte IMath<cbyte>.Acos(cbyte x) => NumericConvert.ToByte(Math.Acos(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Acosh(cbyte x) => NumericConvert.ToByte(MathCompat.Acosh(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Asin(cbyte x) => NumericConvert.ToByte(Math.Asin(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Asinh(cbyte x) => NumericConvert.ToByte(MathCompat.Asinh(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Atan(cbyte x) => NumericConvert.ToByte(Math.Atan(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Atan2(cbyte x, cbyte y) => NumericConvert.ToByte(Math.Atan2(x._value, y._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Atanh(cbyte x) => NumericConvert.ToByte(MathCompat.Atanh(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Cbrt(cbyte x) => NumericConvert.ToByte(MathCompat.Cbrt(x._value), Conversion.CastClamp);
             cbyte IMath<cbyte>.Ceiling(cbyte x) => x;
             cbyte IMath<cbyte>.Clamp(cbyte x, cbyte bound1, cbyte bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
-            cbyte IMath<cbyte>.Cos(cbyte x) => CheckedCast.ToByte(Math.Cos(x._value));
-            cbyte IMath<cbyte>.Cosh(cbyte x) => CheckedCast.ToByte(Math.Cosh(x._value));
-            cbyte IMath<cbyte>.DegreesToRadians(cbyte x) => CheckedCast.ToByte(CheckedArithmetic.Multiply(x, NumericUtilities.RadiansPerDegree));
+            cbyte IMath<cbyte>.Cos(cbyte x) => NumericConvert.ToByte(Math.Cos(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Cosh(cbyte x) => NumericConvert.ToByte(Math.Cosh(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.DegreesToRadians(cbyte x) => NumericConvert.ToByte(CheckedArithmetic.Multiply(x, NumericUtilities.RadiansPerDegree), Conversion.CastClamp);
             cbyte IMath<cbyte>.E { get; } = 2;
-            cbyte IMath<cbyte>.Exp(cbyte x) => CheckedCast.ToByte(Math.Exp(x._value));
+            cbyte IMath<cbyte>.Exp(cbyte x) => NumericConvert.ToByte(Math.Exp(x._value), Conversion.CastClamp);
             cbyte IMath<cbyte>.Floor(cbyte x) => x;
-            cbyte IMath<cbyte>.IEEERemainder(cbyte x, cbyte y) => CheckedCast.ToByte(Math.IEEERemainder(x._value, y._value));
-            cbyte IMath<cbyte>.Log(cbyte x) => CheckedCast.ToByte(Math.Log(x._value));
-            cbyte IMath<cbyte>.Log(cbyte x, cbyte y) => CheckedCast.ToByte(Math.Log(x._value, y._value));
-            cbyte IMath<cbyte>.Log10(cbyte x) => CheckedCast.ToByte(Math.Log10(x._value));
+            cbyte IMath<cbyte>.IEEERemainder(cbyte x, cbyte y) => NumericConvert.ToByte(Math.IEEERemainder(x._value, y._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Log(cbyte x) => NumericConvert.ToByte(Math.Log(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Log(cbyte x, cbyte y) => NumericConvert.ToByte(Math.Log(x._value, y._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Log10(cbyte x) => NumericConvert.ToByte(Math.Log10(x._value), Conversion.CastClamp);
             cbyte IMath<cbyte>.Max(cbyte x, cbyte y) => Math.Max(x._value, y._value);
             cbyte IMath<cbyte>.Min(cbyte x, cbyte y) => Math.Min(x._value, y._value);
             cbyte IMath<cbyte>.PI { get; } = 3;
             cbyte IMath<cbyte>.Pow(cbyte x, cbyte y) => CheckedArithmetic.Pow(x._value, y._value);
-            cbyte IMath<cbyte>.RadiansToDegrees(cbyte x) => CheckedCast.ToByte(CheckedArithmetic.Multiply(x, NumericUtilities.DegreesPerRadian));
+            cbyte IMath<cbyte>.RadiansToDegrees(cbyte x) => NumericConvert.ToByte(CheckedArithmetic.Multiply(x, NumericUtilities.DegreesPerRadian), Conversion.CastClamp);
             cbyte IMath<cbyte>.Round(cbyte x) => x;
             cbyte IMath<cbyte>.Round(cbyte x, int digits) => x;
             cbyte IMath<cbyte>.Round(cbyte x, int digits, MidpointRounding mode) => x;
             cbyte IMath<cbyte>.Round(cbyte x, MidpointRounding mode) => x;
-            cbyte IMath<cbyte>.Sin(cbyte x) => CheckedCast.ToByte(Math.Sin(x._value));
-            cbyte IMath<cbyte>.Sinh(cbyte x) => CheckedCast.ToByte(Math.Sinh(x._value));
-            cbyte IMath<cbyte>.Sqrt(cbyte x) => CheckedCast.ToByte(Math.Sqrt(x._value));
-            cbyte IMath<cbyte>.Tan(cbyte x) => CheckedCast.ToByte(Math.Tan(x._value));
-            cbyte IMath<cbyte>.Tanh(cbyte x) => CheckedCast.ToByte(Math.Tanh(x._value));
+            cbyte IMath<cbyte>.Sin(cbyte x) => NumericConvert.ToByte(Math.Sin(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Sinh(cbyte x) => NumericConvert.ToByte(Math.Sinh(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Sqrt(cbyte x) => NumericConvert.ToByte(Math.Sqrt(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Tan(cbyte x) => NumericConvert.ToByte(Math.Tan(x._value), Conversion.CastClamp);
+            cbyte IMath<cbyte>.Tanh(cbyte x) => NumericConvert.ToByte(Math.Tanh(x._value), Conversion.CastClamp);
             cbyte IMath<cbyte>.Tau { get; } = 6;
             cbyte IMath<cbyte>.Truncate(cbyte x) => x;
             int IMath<cbyte>.Sign(cbyte x) => x._value == 0 ? 0 : 1;
@@ -217,60 +217,36 @@ namespace Jodo.CheckedNumerics
             cbyte IRandom<cbyte>.Next(Random random) => random.NextByte();
             cbyte IRandom<cbyte>.Next(Random random, cbyte bound1, cbyte bound2) => random.NextByte(bound1._value, bound2._value);
 
-            bool IConvert<cbyte>.ToBoolean(cbyte value) => CheckedConvert.ToBoolean(value._value);
-            byte IConvert<cbyte>.ToByte(cbyte value) => value._value;
-            decimal IConvert<cbyte>.ToDecimal(cbyte value) => CheckedConvert.ToDecimal(value._value);
-            double IConvert<cbyte>.ToDouble(cbyte value) => CheckedConvert.ToDouble(value._value);
-            float IConvert<cbyte>.ToSingle(cbyte value) => CheckedConvert.ToSingle(value._value);
-            int IConvert<cbyte>.ToInt32(cbyte value) => CheckedConvert.ToInt32(value._value);
-            long IConvert<cbyte>.ToInt64(cbyte value) => CheckedConvert.ToInt64(value._value);
-            sbyte IConvert<cbyte>.ToSByte(cbyte value) => CheckedConvert.ToSByte(value._value);
-            short IConvert<cbyte>.ToInt16(cbyte value) => CheckedConvert.ToInt16(value._value);
+            bool IConvert<cbyte>.ToBoolean(cbyte value) => value._value != 0;
+            byte IConvert<cbyte>.ToByte(cbyte value, Conversion mode) => value._value;
+            decimal IConvert<cbyte>.ToDecimal(cbyte value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode.Clamped());
+            double IConvert<cbyte>.ToDouble(cbyte value, Conversion mode) => NumericConvert.ToDouble(value._value, mode.Clamped());
+            float IConvert<cbyte>.ToSingle(cbyte value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
+            int IConvert<cbyte>.ToInt32(cbyte value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
+            long IConvert<cbyte>.ToInt64(cbyte value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
+            sbyte IConvertUnsigned<cbyte>.ToSByte(cbyte value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            short IConvert<cbyte>.ToInt16(cbyte value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
             string IConvert<cbyte>.ToString(cbyte value) => Convert.ToString(value._value);
-            uint IConvert<cbyte>.ToUInt32(cbyte value) => CheckedConvert.ToUInt16(value._value);
-            ulong IConvert<cbyte>.ToUInt64(cbyte value) => CheckedConvert.ToUInt64(value._value);
-            ushort IConvert<cbyte>.ToUInt16(cbyte value) => CheckedConvert.ToByte(value._value);
+            uint IConvertUnsigned<cbyte>.ToUInt32(cbyte value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            ulong IConvertUnsigned<cbyte>.ToUInt64(cbyte value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertUnsigned<cbyte>.ToUInt16(cbyte value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
 
-            cbyte IConvert<cbyte>.ToNumeric(bool value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(byte value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(decimal value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(double value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(float value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(int value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(long value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(sbyte value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(short value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(string value) => Convert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(uint value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(ulong value) => CheckedConvert.ToByte(value);
-            cbyte IConvert<cbyte>.ToNumeric(ushort value) => value;
+            cbyte IConvert<cbyte>.ToValue(bool value) => value ? (byte)1 : (byte)0;
+            cbyte IConvert<cbyte>.ToValue(byte value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvert<cbyte>.ToValue(decimal value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvert<cbyte>.ToValue(double value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvert<cbyte>.ToValue(float value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvert<cbyte>.ToValue(int value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvert<cbyte>.ToValue(long value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvertUnsigned<cbyte>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvert<cbyte>.ToValue(short value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvert<cbyte>.ToValue(string value) => Convert.ToByte(value);
+            cbyte IConvertUnsigned<cbyte>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvertUnsigned<cbyte>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            cbyte IConvertUnsigned<cbyte>.ToNumeric(ushort value, Conversion mode) => value;
 
             cbyte IParser<cbyte>.Parse(string s) => Parse(s);
             cbyte IParser<cbyte>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            byte ICast<cbyte>.ToByte(cbyte value) => (byte)value;
-            decimal ICast<cbyte>.ToDecimal(cbyte value) => (decimal)value;
-            double ICast<cbyte>.ToDouble(cbyte value) => (double)value;
-            float ICast<cbyte>.ToSingle(cbyte value) => (float)value;
-            int ICast<cbyte>.ToInt32(cbyte value) => (int)value;
-            long ICast<cbyte>.ToInt64(cbyte value) => (long)value;
-            sbyte ICast<cbyte>.ToSByte(cbyte value) => (sbyte)value;
-            short ICast<cbyte>.ToInt16(cbyte value) => (short)value;
-            uint ICast<cbyte>.ToUInt32(cbyte value) => (uint)value;
-            ulong ICast<cbyte>.ToUInt64(cbyte value) => (ulong)value;
-            ushort ICast<cbyte>.ToUInt16(cbyte value) => (ushort)value;
-
-            cbyte ICast<cbyte>.ToNumeric(byte value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(decimal value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(double value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(float value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(int value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(long value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(sbyte value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(short value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(uint value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(ulong value) => (cbyte)value;
-            cbyte ICast<cbyte>.ToNumeric(ushort value) => (cbyte)value;
         }
     }
 }

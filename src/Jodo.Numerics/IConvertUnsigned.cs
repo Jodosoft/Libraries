@@ -17,28 +17,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+
 namespace Jodo.Numerics
 {
-    public interface IConvert<N>
+    [CLSCompliant(false)]
+    public interface IConvertUnsigned<N>
     {
-        bool ToBoolean(N value);
-        byte ToByte(N value, Conversion mode);
-        decimal ToDecimal(N value, Conversion mode);
-        double ToDouble(N value, Conversion mode);
-        float ToSingle(N value, Conversion mode);
-        int ToInt32(N value, Conversion mode);
-        long ToInt64(N value, Conversion mode);
-        short ToInt16(N value, Conversion mode);
-        string ToString(N value);
+        sbyte ToSByte(N value, Conversion mode);
+        uint ToUInt32(N value, Conversion mode);
+        ulong ToUInt64(N value, Conversion mode);
+        ushort ToUInt16(N value, Conversion mode);
 
-        N ToValue(bool value);
-        N ToValue(byte value, Conversion mode);
-        N ToValue(decimal value, Conversion mode);
-        N ToValue(double value, Conversion mode);
-        N ToValue(float value, Conversion mode);
-        N ToValue(int value, Conversion mode);
-        N ToValue(long value, Conversion mode);
-        N ToValue(short value, Conversion mode);
-        N ToValue(string value);
+        N ToValue(sbyte value, Conversion mode);
+        N ToNumeric(ushort value, Conversion mode);
+        N ToNumeric(ulong value, Conversion mode);
+        N ToNumeric(uint value, Conversion mode);
     }
 }

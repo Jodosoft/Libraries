@@ -31,7 +31,7 @@ namespace Jodo.Numerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct xulong : INumeric<xulong>
+    public readonly struct xulong : INumericExtended<xulong>
     {
         public static readonly xulong MaxValue = new xulong(ulong.MaxValue);
         public static readonly xulong MinValue = new xulong(ulong.MinValue);
@@ -130,8 +130,8 @@ namespace Jodo.Numerics
         xulong INumeric<xulong>.Subtract(xulong value) => this - value;
 
         IBitConverter<xulong> IProvider<IBitConverter<xulong>>.GetInstance() => Utilities.Instance;
-        ICast<xulong> IProvider<ICast<xulong>>.GetInstance() => Utilities.Instance;
         IConvert<xulong> IProvider<IConvert<xulong>>.GetInstance() => Utilities.Instance;
+        IConvertUnsigned<xulong> IProvider<IConvertUnsigned<xulong>>.GetInstance() => Utilities.Instance;
         IMath<xulong> IProvider<IMath<xulong>>.GetInstance() => Utilities.Instance;
         INumericStatic<xulong> IProvider<INumericStatic<xulong>>.GetInstance() => Utilities.Instance;
         IRandom<xulong> IProvider<IRandom<xulong>>.GetInstance() => Utilities.Instance;
@@ -139,8 +139,8 @@ namespace Jodo.Numerics
 
         private sealed class Utilities :
             IBitConverter<xulong>,
-            ICast<xulong>,
             IConvert<xulong>,
+            IConvertUnsigned<xulong>,
             IMath<xulong>,
             INumericStatic<xulong>,
             IRandom<xulong>,
@@ -217,59 +217,35 @@ namespace Jodo.Numerics
             xulong IRandom<xulong>.Next(Random random, xulong bound1, xulong bound2) => random.NextUInt64(bound1._value, bound2._value);
 
             bool IConvert<xulong>.ToBoolean(xulong value) => Convert.ToBoolean(value._value);
-            byte IConvert<xulong>.ToByte(xulong value) => Convert.ToByte(value._value);
-            decimal IConvert<xulong>.ToDecimal(xulong value) => Convert.ToDecimal(value._value);
-            double IConvert<xulong>.ToDouble(xulong value) => Convert.ToDouble(value._value);
-            float IConvert<xulong>.ToSingle(xulong value) => Convert.ToSingle(value._value);
-            int IConvert<xulong>.ToInt32(xulong value) => Convert.ToInt32(value._value);
-            long IConvert<xulong>.ToInt64(xulong value) => Convert.ToInt64(value._value);
-            sbyte IConvert<xulong>.ToSByte(xulong value) => Convert.ToSByte(value._value);
-            short IConvert<xulong>.ToInt16(xulong value) => Convert.ToInt16(value._value);
+            byte IConvert<xulong>.ToByte(xulong value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
+            decimal IConvert<xulong>.ToDecimal(xulong value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode);
+            double IConvert<xulong>.ToDouble(xulong value, Conversion mode) => NumericConvert.ToDouble(value._value, mode);
+            float IConvert<xulong>.ToSingle(xulong value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
+            int IConvert<xulong>.ToInt32(xulong value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
+            long IConvert<xulong>.ToInt64(xulong value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
+            sbyte IConvertUnsigned<xulong>.ToSByte(xulong value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
+            short IConvert<xulong>.ToInt16(xulong value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
             string IConvert<xulong>.ToString(xulong value) => Convert.ToString(value._value);
-            uint IConvert<xulong>.ToUInt32(xulong value) => Convert.ToUInt32(value._value);
-            ulong IConvert<xulong>.ToUInt64(xulong value) => Convert.ToUInt64(value._value);
-            ushort IConvert<xulong>.ToUInt16(xulong value) => Convert.ToUInt16(value._value);
+            uint IConvertUnsigned<xulong>.ToUInt32(xulong value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
+            ulong IConvertUnsigned<xulong>.ToUInt64(xulong value, Conversion mode) => value._value;
+            ushort IConvertUnsigned<xulong>.ToUInt16(xulong value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
 
-            xulong IConvert<xulong>.ToNumeric(bool value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(byte value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(decimal value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(double value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(float value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(int value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(long value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(sbyte value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(short value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(string value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(uint value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(ulong value) => Convert.ToUInt64(value);
-            xulong IConvert<xulong>.ToNumeric(ushort value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToValue(bool value) => Convert.ToUInt64(value);
+            xulong IConvert<xulong>.ToValue(byte value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvert<xulong>.ToValue(decimal value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvert<xulong>.ToValue(double value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvert<xulong>.ToValue(float value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvert<xulong>.ToValue(int value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvert<xulong>.ToValue(long value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvertUnsigned<xulong>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvert<xulong>.ToValue(short value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvert<xulong>.ToValue(string value) => Convert.ToUInt64(value);
+            xulong IConvertUnsigned<xulong>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            xulong IConvertUnsigned<xulong>.ToNumeric(ulong value, Conversion mode) => value;
+            xulong IConvertUnsigned<xulong>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
 
             xulong IParser<xulong>.Parse(string s) => Parse(s);
             xulong IParser<xulong>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            byte ICast<xulong>.ToByte(xulong value) => (byte)value;
-            decimal ICast<xulong>.ToDecimal(xulong value) => (decimal)value;
-            double ICast<xulong>.ToDouble(xulong value) => (double)value;
-            float ICast<xulong>.ToSingle(xulong value) => (float)value;
-            int ICast<xulong>.ToInt32(xulong value) => (int)value;
-            long ICast<xulong>.ToInt64(xulong value) => (long)value;
-            sbyte ICast<xulong>.ToSByte(xulong value) => (sbyte)value;
-            short ICast<xulong>.ToInt16(xulong value) => (short)value;
-            uint ICast<xulong>.ToUInt32(xulong value) => (uint)value;
-            ulong ICast<xulong>.ToUInt64(xulong value) => (ulong)value;
-            ushort ICast<xulong>.ToUInt16(xulong value) => (ushort)value;
-
-            xulong ICast<xulong>.ToNumeric(byte value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(decimal value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(double value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(float value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(int value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(long value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(sbyte value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(short value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(uint value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(ulong value) => (xulong)value;
-            xulong ICast<xulong>.ToNumeric(ushort value) => (xulong)value;
         }
     }
 }

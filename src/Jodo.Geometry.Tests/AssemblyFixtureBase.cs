@@ -17,27 +17,34 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using Jodo.Numerics;
 using Jodo.Testing;
 using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    internal class AssemblyFixtureBase : GlobalFixtureBase
+    public class AssemblyFixtureBase : GlobalFixtureBase
     {
-
         [SetUp]
         public void AssemblySetUp()
         {
         }
 
-
-        public void Register<N>() where N : struct, INumeric<N>
+        public AARectangle<N> GenerateAARectangle<N>() where N : struct, INumeric<N>
         {
+            N minOrigin = Numeric<N>.IsSigned ? Convert<N>.ToNumeric(-10) : Numeric<N>.Zero;
+            N maxOrigin = Convert<N>.ToNumeric(10);
+            N minDimension = Numeric<N>.IsSigned ? Convert<N>.ToNumeric(-10) : Numeric<N>.Zero;
+            N maxDimension = Convert<N>.ToNumeric(10);
+            return new AARectangle<N>(
+                new Vector2<N>(
+                    Random.NextNumeric(minOrigin, maxOrigin),
+                    Random.NextNumeric(minOrigin, maxOrigin)),
+                new Vector2<N>(
+                    Random.NextNumeric(minDimension, maxDimension),
+                    Random.NextNumeric(minDimension, maxDimension)));
 
-            // Fixture.Register<T>(() => new AARectangle<N>(
-            //     Math<N>.Round(Math<N>.Convert()
-            //     ));
         }
 
     }

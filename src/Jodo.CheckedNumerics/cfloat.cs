@@ -32,7 +32,7 @@ namespace Jodo.CheckedNumerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct cfloat : INumeric<cfloat>
+    public readonly struct cfloat : INumericExtended<cfloat>
     {
         public static readonly cfloat Epsilon = new cfloat(float.Epsilon);
         public static readonly cfloat MaxValue = new cfloat(float.MaxValue);
@@ -80,23 +80,23 @@ namespace Jodo.CheckedNumerics
         [CLSCompliant(false)] public static implicit operator cfloat(uint value) => new cfloat(value);
         [CLSCompliant(false)] public static implicit operator cfloat(ulong value) => new cfloat(value);
         [CLSCompliant(false)] public static implicit operator cfloat(ushort value) => new cfloat(value);
-        public static explicit operator cfloat(decimal value) => new cfloat(CheckedConvert.ToSingle(value));
-        public static explicit operator cfloat(double value) => new cfloat(CheckedConvert.ToSingle(value));
+        public static explicit operator cfloat(decimal value) => new cfloat(NumericConvert.ToSingle(value, Conversion.CastClamp));
+        public static explicit operator cfloat(double value) => new cfloat(NumericConvert.ToSingle(value, Conversion.CastClamp));
         public static implicit operator cfloat(byte value) => new cfloat(value);
         public static implicit operator cfloat(float value) => new cfloat(value);
         public static implicit operator cfloat(int value) => new cfloat(value);
         public static implicit operator cfloat(long value) => new cfloat(value);
         public static implicit operator cfloat(short value) => new cfloat(value);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(cfloat value) => CheckedConvert.ToSByte(value._value);
-        [CLSCompliant(false)] public static explicit operator uint(cfloat value) => CheckedConvert.ToUInt32(value._value);
-        [CLSCompliant(false)] public static explicit operator ulong(cfloat value) => CheckedConvert.ToUInt64(value._value);
-        [CLSCompliant(false)] public static explicit operator ushort(cfloat value) => CheckedConvert.ToUInt16(value._value);
-        public static explicit operator byte(cfloat value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator decimal(cfloat value) => CheckedConvert.ToDecimal(value._value);
-        public static explicit operator int(cfloat value) => CheckedConvert.ToInt32(value._value);
-        public static explicit operator long(cfloat value) => CheckedConvert.ToInt64(value._value);
-        public static explicit operator short(cfloat value) => CheckedConvert.ToInt16(value._value);
+        [CLSCompliant(false)] public static explicit operator sbyte(cfloat value) => NumericConvert.ToSByte(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator uint(cfloat value) => NumericConvert.ToUInt32(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ulong(cfloat value) => NumericConvert.ToUInt64(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ushort(cfloat value) => NumericConvert.ToUInt16(value._value, Conversion.CastClamp);
+        public static explicit operator byte(cfloat value) => NumericConvert.ToByte(value._value, Conversion.CastClamp);
+        public static explicit operator decimal(cfloat value) => NumericConvert.ToDecimal(value._value, Conversion.CastClamp);
+        public static explicit operator int(cfloat value) => NumericConvert.ToInt32(value._value, Conversion.CastClamp);
+        public static explicit operator long(cfloat value) => NumericConvert.ToInt64(value._value, Conversion.CastClamp);
+        public static explicit operator short(cfloat value) => NumericConvert.ToInt16(value._value, Conversion.CastClamp);
         public static implicit operator double(cfloat value) => value._value;
         public static implicit operator float(cfloat value) => value._value;
 
@@ -149,8 +149,8 @@ namespace Jodo.CheckedNumerics
         cfloat INumeric<cfloat>.Subtract(cfloat value) => this - value;
 
         IBitConverter<cfloat> IProvider<IBitConverter<cfloat>>.GetInstance() => Utilities.Instance;
-        ICast<cfloat> IProvider<ICast<cfloat>>.GetInstance() => Utilities.Instance;
         IConvert<cfloat> IProvider<IConvert<cfloat>>.GetInstance() => Utilities.Instance;
+        IConvertUnsigned<cfloat> IProvider<IConvertUnsigned<cfloat>>.GetInstance() => Utilities.Instance;
         IMath<cfloat> IProvider<IMath<cfloat>>.GetInstance() => Utilities.Instance;
         INumericStatic<cfloat> IProvider<INumericStatic<cfloat>>.GetInstance() => Utilities.Instance;
         IRandom<cfloat> IProvider<IRandom<cfloat>>.GetInstance() => Utilities.Instance;
@@ -158,8 +158,8 @@ namespace Jodo.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cfloat>,
-            ICast<cfloat>,
             IConvert<cfloat>,
+            IConvertUnsigned<cfloat>,
             IMath<cfloat>,
             INumericStatic<cfloat>,
             IRandom<cfloat>,
@@ -235,60 +235,36 @@ namespace Jodo.CheckedNumerics
             cfloat IRandom<cfloat>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
             cfloat IRandom<cfloat>.Next(Random random, cfloat bound1, cfloat bound2) => random.NextSingle(bound1._value, bound2._value);
 
-            bool IConvert<cfloat>.ToBoolean(cfloat value) => CheckedConvert.ToBoolean(value._value);
-            byte IConvert<cfloat>.ToByte(cfloat value) => CheckedConvert.ToByte(value._value);
-            decimal IConvert<cfloat>.ToDecimal(cfloat value) => CheckedConvert.ToDecimal(value._value);
-            double IConvert<cfloat>.ToDouble(cfloat value) => CheckedConvert.ToDouble(value._value);
-            float IConvert<cfloat>.ToSingle(cfloat value) => value._value;
-            int IConvert<cfloat>.ToInt32(cfloat value) => CheckedConvert.ToInt32(value._value);
-            long IConvert<cfloat>.ToInt64(cfloat value) => CheckedConvert.ToInt64(value._value);
-            sbyte IConvert<cfloat>.ToSByte(cfloat value) => CheckedConvert.ToSByte(value._value);
-            short IConvert<cfloat>.ToInt16(cfloat value) => CheckedConvert.ToInt16(value._value);
+            bool IConvert<cfloat>.ToBoolean(cfloat value) => value._value != 0;
+            byte IConvert<cfloat>.ToByte(cfloat value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
+            decimal IConvert<cfloat>.ToDecimal(cfloat value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode.Clamped());
+            double IConvert<cfloat>.ToDouble(cfloat value, Conversion mode) => NumericConvert.ToDouble(value._value, mode.Clamped());
+            float IConvert<cfloat>.ToSingle(cfloat value, Conversion mode) => value._value;
+            int IConvert<cfloat>.ToInt32(cfloat value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
+            long IConvert<cfloat>.ToInt64(cfloat value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
+            sbyte IConvertUnsigned<cfloat>.ToSByte(cfloat value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            short IConvert<cfloat>.ToInt16(cfloat value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
             string IConvert<cfloat>.ToString(cfloat value) => Convert.ToString(value._value);
-            uint IConvert<cfloat>.ToUInt32(cfloat value) => CheckedConvert.ToUInt32(value._value);
-            ulong IConvert<cfloat>.ToUInt64(cfloat value) => CheckedConvert.ToUInt64(value._value);
-            ushort IConvert<cfloat>.ToUInt16(cfloat value) => CheckedConvert.ToUInt16(value._value);
+            uint IConvertUnsigned<cfloat>.ToUInt32(cfloat value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
+            ulong IConvertUnsigned<cfloat>.ToUInt64(cfloat value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertUnsigned<cfloat>.ToUInt16(cfloat value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
 
-            cfloat IConvert<cfloat>.ToNumeric(bool value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(byte value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(decimal value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(double value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(float value) => value;
-            cfloat IConvert<cfloat>.ToNumeric(int value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(long value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(sbyte value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(short value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(string value) => Convert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(uint value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(ulong value) => CheckedConvert.ToSingle(value);
-            cfloat IConvert<cfloat>.ToNumeric(ushort value) => CheckedConvert.ToSingle(value);
+            cfloat IConvert<cfloat>.ToValue(bool value) => value ? 1f : 0f;
+            cfloat IConvert<cfloat>.ToValue(byte value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvert<cfloat>.ToValue(decimal value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvert<cfloat>.ToValue(double value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvert<cfloat>.ToValue(float value, Conversion mode) => value;
+            cfloat IConvert<cfloat>.ToValue(int value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvert<cfloat>.ToValue(long value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvertUnsigned<cfloat>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvert<cfloat>.ToValue(short value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvert<cfloat>.ToValue(string value) => Convert.ToSingle(value);
+            cfloat IConvertUnsigned<cfloat>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvertUnsigned<cfloat>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            cfloat IConvertUnsigned<cfloat>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
 
             cfloat IParser<cfloat>.Parse(string s) => Parse(s);
             cfloat IParser<cfloat>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            byte ICast<cfloat>.ToByte(cfloat value) => (byte)value;
-            decimal ICast<cfloat>.ToDecimal(cfloat value) => (decimal)value;
-            double ICast<cfloat>.ToDouble(cfloat value) => (double)value;
-            float ICast<cfloat>.ToSingle(cfloat value) => (float)value;
-            int ICast<cfloat>.ToInt32(cfloat value) => (int)value;
-            long ICast<cfloat>.ToInt64(cfloat value) => (long)value;
-            sbyte ICast<cfloat>.ToSByte(cfloat value) => (sbyte)value;
-            short ICast<cfloat>.ToInt16(cfloat value) => (short)value;
-            uint ICast<cfloat>.ToUInt32(cfloat value) => (uint)value;
-            ulong ICast<cfloat>.ToUInt64(cfloat value) => (ulong)value;
-            ushort ICast<cfloat>.ToUInt16(cfloat value) => (ushort)value;
-
-            cfloat ICast<cfloat>.ToNumeric(byte value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(decimal value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(double value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(float value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(int value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(long value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(sbyte value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(short value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(uint value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(ulong value) => (cfloat)value;
-            cfloat ICast<cfloat>.ToNumeric(ushort value) => (cfloat)value;
         }
     }
 }

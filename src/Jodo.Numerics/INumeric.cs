@@ -29,14 +29,12 @@ namespace Jodo.Numerics
     /// </summary>
     /// <typeparam name="N">The type that implements INumeric&lt;N&gt;</typeparam>
     [SuppressMessage("csharpsquid", "S3444")] // by design
-    [CLSCompliant(false)]
     public interface INumeric<N> :
             IComparable,
             IComparable<N>,
             IEquatable<N>,
             IFormattable,
             IProvider<IBitConverter<N>>,
-            IProvider<ICast<N>>,
             IProvider<IConvert<N>>,
             IProvider<IMath<N>>,
             IProvider<INumericStatic<N>>,

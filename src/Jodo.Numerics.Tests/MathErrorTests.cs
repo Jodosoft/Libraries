@@ -33,7 +33,7 @@ namespace Jodo.Numerics.Tests
         public abstract class SignedIntegral<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
             [SetUp]
-            public void SetUp() => Assert.That(!Numeric<N>.IsReal && Numeric<N>.IsSigned);
+            public void SetUp() => Assert.That(Numeric<N>.IsIntegral && Numeric<N>.IsSigned);
 
             [Test]
             public void Abs_MinValue_ThrowsOverflowException()
@@ -58,7 +58,7 @@ namespace Jodo.Numerics.Tests
             public void Sign_NaN_ThrowsArithmeticException()
             {
                 //arrange
-                N input = Cast<N>.ToNumeric(float.NaN);
+                N input = Convert<N>.ToNumeric(float.NaN, Conversion.Cast);
 
                 //act
                 Action action = new Action(() => Math<N>.Sign(input));

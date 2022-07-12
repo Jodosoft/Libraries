@@ -107,9 +107,9 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void CastConvertAndClamp()
         {
-            xbyte castResult = Cast<xbyte>.ToNumeric(1023);
-            xbyte convertResult = Convert<xbyte>.ToNumeric(199.956M);
-            xbyte clampResult = Clamp<xbyte>.ToNumeric(-100);
+            xbyte castResult = Convert<xbyte>.ToNumeric(1023, Conversion.Cast);
+            xbyte convertResult = Convert<xbyte>.ToNumeric(199.956M, Conversion.Default);
+            xbyte clampResult = Convert<xbyte>.ToNumeric(-100, Conversion.Clamp);
 
             Console.WriteLine(castResult); // output: 255
             Console.WriteLine(convertResult); // output: 200

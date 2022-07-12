@@ -28,7 +28,6 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    [CLSCompliant(false)]
     public readonly struct Angle<N> :
             IComparable,
             IComparable<Angle<N>>,
@@ -71,7 +70,7 @@ namespace Jodo.Geometry
 
         public Angle<N> Normalise()
         {
-            return new Angle<N>(Degrees.Remainder(Cast<N>.ToNumeric(360)));
+            return new Angle<N>(Degrees.Remainder(Convert<N>.ToNumeric(360, Conversion.Cast)));
         }
 
         public int CompareTo(object? obj) => obj is Angle<N> other ? CompareTo(other) : 1;

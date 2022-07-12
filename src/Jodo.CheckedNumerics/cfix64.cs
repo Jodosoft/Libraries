@@ -32,7 +32,7 @@ namespace Jodo.CheckedNumerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct cfix64 : INumeric<cfix64>
+    public readonly struct cfix64 : INumericExtended<cfix64>
     {
         public static readonly cfix64 Epsilon = new cfix64(1);
         public static readonly cfix64 MaxValue = new cfix64(long.MaxValue);
@@ -103,29 +103,29 @@ namespace Jodo.CheckedNumerics
             return result;
         }
 
-        [CLSCompliant(false)] public static explicit operator cfix64(ulong value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
+        [CLSCompliant(false)] public static explicit operator cfix64(ulong value) => new cfix64(NumericConvert.ToInt64(value * ScalingFactor, Conversion.CastClamp));
         [CLSCompliant(false)] public static implicit operator cfix64(sbyte value) => new cfix64(value * ScalingFactor);
         [CLSCompliant(false)] public static implicit operator cfix64(uint value) => new cfix64(value * ScalingFactor);
         [CLSCompliant(false)] public static implicit operator cfix64(ushort value) => new cfix64(value * ScalingFactor);
-        public static explicit operator cfix64(decimal value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
+        public static explicit operator cfix64(decimal value) => new cfix64(NumericConvert.ToInt64(value * ScalingFactor, Conversion.CastClamp));
         public static explicit operator cfix64(double value) => FromDouble(value);
         public static explicit operator cfix64(long value) => new cfix64(value * ScalingFactor);
         public static implicit operator cfix64(byte value) => new cfix64(value * ScalingFactor);
-        public static implicit operator cfix64(float value) => new cfix64(CheckedCast.ToInt64(value * ScalingFactor));
+        public static implicit operator cfix64(float value) => new cfix64(NumericConvert.ToInt64(value * ScalingFactor, Conversion.CastClamp));
         public static implicit operator cfix64(int value) => new cfix64(value * ScalingFactor);
         public static implicit operator cfix64(short value) => new cfix64(value * ScalingFactor);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(cfix64 value) => CheckedCast.ToSByte(value._scaledValue / ScalingFactor);
-        [CLSCompliant(false)] public static explicit operator uint(cfix64 value) => CheckedCast.ToUInt32(value._scaledValue / ScalingFactor);
-        [CLSCompliant(false)] public static explicit operator ulong(cfix64 value) => CheckedCast.ToUInt64(value._scaledValue / ScalingFactor);
-        [CLSCompliant(false)] public static explicit operator ushort(cfix64 value) => CheckedCast.ToUInt16(value._scaledValue / ScalingFactor);
-        public static explicit operator byte(cfix64 value) => CheckedCast.ToByte(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator sbyte(cfix64 value) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator uint(cfix64 value) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ulong(cfix64 value) => NumericConvert.ToUInt64(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ushort(cfix64 value) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        public static explicit operator byte(cfix64 value) => NumericConvert.ToByte(value._scaledValue / ScalingFactor, Conversion.CastClamp);
         public static explicit operator decimal(cfix64 value) => (decimal)value._scaledValue / ScalingFactor;
         public static explicit operator double(cfix64 value) => ToDouble(value);
         public static explicit operator float(cfix64 value) => (float)value._scaledValue / ScalingFactor;
-        public static explicit operator int(cfix64 value) => CheckedCast.ToInt32(value._scaledValue / ScalingFactor);
+        public static explicit operator int(cfix64 value) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, Conversion.CastClamp);
         public static explicit operator long(cfix64 value) => value._scaledValue / ScalingFactor;
-        public static explicit operator short(cfix64 value) => CheckedCast.ToInt16(value._scaledValue / ScalingFactor);
+        public static explicit operator short(cfix64 value) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, Conversion.CastClamp);
 
         public static bool operator !=(cfix64 left, cfix64 right) => left._scaledValue != right._scaledValue;
         public static bool operator <(cfix64 left, cfix64 right) => left._scaledValue < right._scaledValue;
@@ -168,8 +168,8 @@ namespace Jodo.CheckedNumerics
         cfix64 INumeric<cfix64>.Subtract(cfix64 value) => this - value;
 
         IBitConverter<cfix64> IProvider<IBitConverter<cfix64>>.GetInstance() => Utilities.Instance;
-        ICast<cfix64> IProvider<ICast<cfix64>>.GetInstance() => Utilities.Instance;
         IConvert<cfix64> IProvider<IConvert<cfix64>>.GetInstance() => Utilities.Instance;
+        IConvertUnsigned<cfix64> IProvider<IConvertUnsigned<cfix64>>.GetInstance() => Utilities.Instance;
         IMath<cfix64> IProvider<IMath<cfix64>>.GetInstance() => Utilities.Instance;
         INumericStatic<cfix64> IProvider<INumericStatic<cfix64>>.GetInstance() => Utilities.Instance;
         IRandom<cfix64> IProvider<IRandom<cfix64>>.GetInstance() => Utilities.Instance;
@@ -177,8 +177,8 @@ namespace Jodo.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cfix64>,
-            ICast<cfix64>,
             IConvert<cfix64>,
+            IConvertUnsigned<cfix64>,
             IMath<cfix64>,
             INumericStatic<cfix64>,
             IRandom<cfix64>,
@@ -255,59 +255,35 @@ namespace Jodo.CheckedNumerics
             cfix64 IRandom<cfix64>.Next(Random random, cfix64 bound1, cfix64 bound2) => new cfix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<cfix64>.ToBoolean(cfix64 value) => value._scaledValue != 0;
-            byte IConvert<cfix64>.ToByte(cfix64 value) => CheckedConvert.ToByte(value._scaledValue / ScalingFactor);
-            decimal IConvert<cfix64>.ToDecimal(cfix64 value) => (decimal)value._scaledValue / ScalingFactor;
-            double IConvert<cfix64>.ToDouble(cfix64 value) => (double)value._scaledValue / ScalingFactor;
-            float IConvert<cfix64>.ToSingle(cfix64 value) => (float)value._scaledValue / ScalingFactor;
-            int IConvert<cfix64>.ToInt32(cfix64 value) => CheckedConvert.ToInt32(value._scaledValue / ScalingFactor);
-            long IConvert<cfix64>.ToInt64(cfix64 value) => value._scaledValue / ScalingFactor;
-            sbyte IConvert<cfix64>.ToSByte(cfix64 value) => CheckedConvert.ToSByte(value._scaledValue / ScalingFactor);
-            short IConvert<cfix64>.ToInt16(cfix64 value) => CheckedConvert.ToInt16(value._scaledValue / ScalingFactor);
+            byte IConvert<cfix64>.ToByte(cfix64 value, Conversion mode) => NumericConvert.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());
+            decimal IConvert<cfix64>.ToDecimal(cfix64 value, Conversion mode) => (decimal)value._scaledValue / ScalingFactor;
+            double IConvert<cfix64>.ToDouble(cfix64 value, Conversion mode) => (double)value._scaledValue / ScalingFactor;
+            float IConvert<cfix64>.ToSingle(cfix64 value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
+            int IConvert<cfix64>.ToInt32(cfix64 value, Conversion mode) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, mode.Clamped());
+            long IConvert<cfix64>.ToInt64(cfix64 value, Conversion mode) => value._scaledValue / ScalingFactor;
+            sbyte IConvertUnsigned<cfix64>.ToSByte(cfix64 value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode.Clamped());
+            short IConvert<cfix64>.ToInt16(cfix64 value, Conversion mode) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, mode.Clamped());
             string IConvert<cfix64>.ToString(cfix64 value) => value.ToString();
-            uint IConvert<cfix64>.ToUInt32(cfix64 value) => CheckedConvert.ToUInt32(value._scaledValue / ScalingFactor);
-            ulong IConvert<cfix64>.ToUInt64(cfix64 value) => CheckedConvert.ToUInt64(value._scaledValue / ScalingFactor);
-            ushort IConvert<cfix64>.ToUInt16(cfix64 value) => CheckedConvert.ToUInt16(value._scaledValue / ScalingFactor);
+            uint IConvertUnsigned<cfix64>.ToUInt32(cfix64 value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode.Clamped());
+            ulong IConvertUnsigned<cfix64>.ToUInt64(cfix64 value, Conversion mode) => NumericConvert.ToUInt64(value._scaledValue / ScalingFactor, mode.Clamped());
+            ushort IConvertUnsigned<cfix64>.ToUInt16(cfix64 value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode.Clamped());
 
-            cfix64 IConvert<cfix64>.ToNumeric(bool value) => value ? ScalingFactor : 0;
-            cfix64 IConvert<cfix64>.ToNumeric(byte value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToNumeric(decimal value) => (cfix64)value;
-            cfix64 IConvert<cfix64>.ToNumeric(double value) => (cfix64)value;
-            cfix64 IConvert<cfix64>.ToNumeric(float value) => value;
-            cfix64 IConvert<cfix64>.ToNumeric(int value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToNumeric(long value) => (cfix64)value;
-            cfix64 IConvert<cfix64>.ToNumeric(sbyte value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToNumeric(short value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToNumeric(string value) => (cfix64)Convert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToNumeric(uint value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToNumeric(ulong value) => (cfix64)CheckedConvert.ToInt64(value);
-            cfix64 IConvert<cfix64>.ToNumeric(ushort value) => (cfix64)CheckedConvert.ToInt64(value);
+            cfix64 IConvert<cfix64>.ToValue(bool value) => value ? ScalingFactor : 0;
+            cfix64 IConvert<cfix64>.ToValue(byte value, Conversion mode) => (cfix64)NumericConvert.ToInt64(value, mode.Clamped());
+            cfix64 IConvert<cfix64>.ToValue(decimal value, Conversion mode) => (cfix64)value;
+            cfix64 IConvert<cfix64>.ToValue(double value, Conversion mode) => (cfix64)value;
+            cfix64 IConvert<cfix64>.ToValue(float value, Conversion mode) => value;
+            cfix64 IConvert<cfix64>.ToValue(int value, Conversion mode) => (cfix64)NumericConvert.ToInt64(value, mode.Clamped());
+            cfix64 IConvert<cfix64>.ToValue(long value, Conversion mode) => (cfix64)value;
+            cfix64 IConvertUnsigned<cfix64>.ToValue(sbyte value, Conversion mode) => (cfix64)NumericConvert.ToInt64(value, mode.Clamped());
+            cfix64 IConvert<cfix64>.ToValue(short value, Conversion mode) => (cfix64)NumericConvert.ToInt64(value, mode.Clamped());
+            cfix64 IConvert<cfix64>.ToValue(string value) => (cfix64)Convert.ToInt64(value);
+            cfix64 IConvertUnsigned<cfix64>.ToNumeric(uint value, Conversion mode) => (cfix64)NumericConvert.ToInt64(value, mode.Clamped());
+            cfix64 IConvertUnsigned<cfix64>.ToNumeric(ulong value, Conversion mode) => (cfix64)NumericConvert.ToInt64(value, mode.Clamped());
+            cfix64 IConvertUnsigned<cfix64>.ToNumeric(ushort value, Conversion mode) => (cfix64)NumericConvert.ToInt64(value, mode.Clamped());
 
             cfix64 IParser<cfix64>.Parse(string s) => Parse(s);
             cfix64 IParser<cfix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            byte ICast<cfix64>.ToByte(cfix64 value) => (byte)value;
-            decimal ICast<cfix64>.ToDecimal(cfix64 value) => (decimal)value;
-            double ICast<cfix64>.ToDouble(cfix64 value) => (double)value;
-            float ICast<cfix64>.ToSingle(cfix64 value) => (float)value;
-            int ICast<cfix64>.ToInt32(cfix64 value) => (int)value;
-            long ICast<cfix64>.ToInt64(cfix64 value) => (long)value;
-            sbyte ICast<cfix64>.ToSByte(cfix64 value) => (sbyte)value;
-            short ICast<cfix64>.ToInt16(cfix64 value) => (short)value;
-            uint ICast<cfix64>.ToUInt32(cfix64 value) => (uint)value;
-            ulong ICast<cfix64>.ToUInt64(cfix64 value) => (ulong)value;
-            ushort ICast<cfix64>.ToUInt16(cfix64 value) => (ushort)value;
-
-            cfix64 ICast<cfix64>.ToNumeric(byte value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(decimal value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(double value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(float value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(int value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(long value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(sbyte value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(short value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(uint value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(ulong value) => (cfix64)value;
-            cfix64 ICast<cfix64>.ToNumeric(ushort value) => (cfix64)value;
         }
     }
 }

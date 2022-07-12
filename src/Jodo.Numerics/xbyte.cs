@@ -31,7 +31,7 @@ namespace Jodo.Numerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct xbyte : INumeric<xbyte>
+    public readonly struct xbyte : INumericExtended<xbyte>
     {
         public static readonly xbyte MaxValue = new xbyte(byte.MaxValue);
         public static readonly xbyte MinValue = new xbyte(byte.MinValue);
@@ -130,8 +130,8 @@ namespace Jodo.Numerics
         xbyte INumeric<xbyte>.Subtract(xbyte value) => this - value;
 
         IBitConverter<xbyte> IProvider<IBitConverter<xbyte>>.GetInstance() => Utilities.Instance;
-        ICast<xbyte> IProvider<ICast<xbyte>>.GetInstance() => Utilities.Instance;
         IConvert<xbyte> IProvider<IConvert<xbyte>>.GetInstance() => Utilities.Instance;
+        IConvertUnsigned<xbyte> IProvider<IConvertUnsigned<xbyte>>.GetInstance() => Utilities.Instance;
         IMath<xbyte> IProvider<IMath<xbyte>>.GetInstance() => Utilities.Instance;
         INumericStatic<xbyte> IProvider<INumericStatic<xbyte>>.GetInstance() => Utilities.Instance;
         IRandom<xbyte> IProvider<IRandom<xbyte>>.GetInstance() => Utilities.Instance;
@@ -139,8 +139,8 @@ namespace Jodo.Numerics
 
         private sealed class Utilities :
             IBitConverter<xbyte>,
-            ICast<xbyte>,
             IConvert<xbyte>,
+            IConvertUnsigned<xbyte>,
             IMath<xbyte>,
             INumericStatic<xbyte>,
             IRandom<xbyte>,
@@ -217,59 +217,36 @@ namespace Jodo.Numerics
             xbyte IRandom<xbyte>.Next(Random random, xbyte bound1, xbyte bound2) => random.NextByte(bound1._value, bound2._value);
 
             bool IConvert<xbyte>.ToBoolean(xbyte value) => Convert.ToBoolean(value._value);
-            byte IConvert<xbyte>.ToByte(xbyte value) => Convert.ToByte(value._value);
-            decimal IConvert<xbyte>.ToDecimal(xbyte value) => Convert.ToDecimal(value._value);
-            double IConvert<xbyte>.ToDouble(xbyte value) => Convert.ToDouble(value._value);
-            float IConvert<xbyte>.ToSingle(xbyte value) => Convert.ToSingle(value._value);
-            int IConvert<xbyte>.ToInt32(xbyte value) => Convert.ToInt32(value._value);
-            long IConvert<xbyte>.ToInt64(xbyte value) => Convert.ToInt64(value._value);
-            sbyte IConvert<xbyte>.ToSByte(xbyte value) => Convert.ToSByte(value._value);
-            short IConvert<xbyte>.ToInt16(xbyte value) => Convert.ToInt16(value._value);
+            byte IConvert<xbyte>.ToByte(xbyte value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
+            decimal IConvert<xbyte>.ToDecimal(xbyte value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode);
+            double IConvert<xbyte>.ToDouble(xbyte value, Conversion mode) => NumericConvert.ToDouble(value._value, mode);
+            float IConvert<xbyte>.ToSingle(xbyte value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
+            int IConvert<xbyte>.ToInt32(xbyte value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
+            long IConvert<xbyte>.ToInt64(xbyte value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
+            sbyte IConvertUnsigned<xbyte>.ToSByte(xbyte value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
+            short IConvert<xbyte>.ToInt16(xbyte value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
             string IConvert<xbyte>.ToString(xbyte value) => Convert.ToString(value._value);
-            uint IConvert<xbyte>.ToUInt32(xbyte value) => Convert.ToUInt32(value._value);
-            ulong IConvert<xbyte>.ToUInt64(xbyte value) => Convert.ToUInt64(value._value);
-            ushort IConvert<xbyte>.ToUInt16(xbyte value) => Convert.ToUInt16(value._value);
+            uint IConvertUnsigned<xbyte>.ToUInt32(xbyte value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
+            ulong IConvertUnsigned<xbyte>.ToUInt64(xbyte value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
+            ushort IConvertUnsigned<xbyte>.ToUInt16(xbyte value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
 
-            xbyte IConvert<xbyte>.ToNumeric(bool value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(byte value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(decimal value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(double value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(float value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(int value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(long value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(sbyte value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(short value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(string value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(uint value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(ulong value) => Convert.ToByte(value);
-            xbyte IConvert<xbyte>.ToNumeric(ushort value) => Convert.ToByte(value);
+            xbyte IConvert<xbyte>.ToValue(bool value) => Convert.ToByte(value);
+            xbyte IConvert<xbyte>.ToValue(byte value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvert<xbyte>.ToValue(decimal value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvert<xbyte>.ToValue(double value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvert<xbyte>.ToValue(float value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvert<xbyte>.ToValue(int value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvert<xbyte>.ToValue(long value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvertUnsigned<xbyte>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvert<xbyte>.ToValue(short value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvert<xbyte>.ToValue(string value) => Convert.ToByte(value);
+            xbyte IConvertUnsigned<xbyte>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvertUnsigned<xbyte>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToByte(value, mode);
+            xbyte IConvertUnsigned<xbyte>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToByte(value, mode);
 
             xbyte IParser<xbyte>.Parse(string s) => Parse(s);
             xbyte IParser<xbyte>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
 
-            byte ICast<xbyte>.ToByte(xbyte value) => (byte)value;
-            decimal ICast<xbyte>.ToDecimal(xbyte value) => (decimal)value;
-            double ICast<xbyte>.ToDouble(xbyte value) => (double)value;
-            float ICast<xbyte>.ToSingle(xbyte value) => (float)value;
-            int ICast<xbyte>.ToInt32(xbyte value) => (int)value;
-            long ICast<xbyte>.ToInt64(xbyte value) => (long)value;
-            sbyte ICast<xbyte>.ToSByte(xbyte value) => (sbyte)value;
-            short ICast<xbyte>.ToInt16(xbyte value) => (short)value;
-            uint ICast<xbyte>.ToUInt32(xbyte value) => (uint)value;
-            ulong ICast<xbyte>.ToUInt64(xbyte value) => (ulong)value;
-            ushort ICast<xbyte>.ToUInt16(xbyte value) => (ushort)value;
-
-            xbyte ICast<xbyte>.ToNumeric(byte value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(decimal value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(double value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(float value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(int value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(long value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(sbyte value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(short value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(uint value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(ulong value) => (xbyte)value;
-            xbyte ICast<xbyte>.ToNumeric(ushort value) => (xbyte)value;
         }
     }
 }

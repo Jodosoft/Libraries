@@ -17,101 +17,142 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Jodo.Primitives;
 
 namespace Jodo.Numerics
 {
-    [CLSCompliant(false)]
-    public static class Convert<N> where N : struct, INumeric<N>
+    public static class Convert<N> where N : struct, IProvider<IConvert<N>>
     {
-        private static readonly IConvert<N> Default = ((IProvider<IConvert<N>>)default(N)).GetInstance();
+        private static readonly IConvert<N> Default = default(N).GetInstance();
 
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ToBoolean(N value) => Default.ToBoolean(value);
 
         [DebuggerStepThrough]
-        public static byte ToByte(N value) => Default.ToByte(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte ToByte(N value) => Default.ToByte(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        public static decimal ToDecimal(N value) => Default.ToDecimal(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte ToByte(N value, Conversion mode) => Default.ToByte(value, mode);
 
         [DebuggerStepThrough]
-        public static double ToDouble(N value) => Default.ToDouble(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal ToDecimal(N value) => Default.ToDecimal(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        public static float ToSingle(N value) => Default.ToSingle(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal ToDecimal(N value, Conversion mode) => Default.ToDecimal(value, mode);
 
         [DebuggerStepThrough]
-        public static int ToInt32(N value) => Default.ToInt32(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ToDouble(N value) => Default.ToDouble(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        public static long ToInt64(N value) => Default.ToInt64(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ToDouble(N value, Conversion mode) => Default.ToDouble(value, mode);
 
         [DebuggerStepThrough]
-        [CLSCompliant(false)]
-        public static sbyte ToSByte(N value) => Default.ToSByte(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ToSingle(N value) => Default.ToSingle(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        public static short ToInt16(N value) => Default.ToInt16(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ToSingle(N value, Conversion mode) => Default.ToSingle(value, mode);
 
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ToInt32(N value) => Default.ToInt32(value, Conversion.Default);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ToInt32(N value, Conversion mode) => Default.ToInt32(value, mode);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long ToInt64(N value) => Default.ToInt64(value, Conversion.Default);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long ToInt64(N value, Conversion mode) => Default.ToInt64(value, mode);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short ToInt16(N value) => Default.ToInt16(value, Conversion.Default);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short ToInt16(N value, Conversion mode) => Default.ToInt16(value, mode);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string ToString(N value) => Default.ToString(value);
 
         [DebuggerStepThrough]
-        [CLSCompliant(false)]
-        public static uint ToUInt32(N value) => Default.ToUInt32(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(bool value) => Default.ToValue(value);
 
         [DebuggerStepThrough]
-        [CLSCompliant(false)]
-        public static ulong ToUInt64(N value) => Default.ToUInt64(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(byte value) => Default.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        [CLSCompliant(false)]
-        public static ushort ToUInt16(N value) => Default.ToUInt16(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(byte value, Conversion mode) => Default.ToValue(value, mode);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(bool value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(decimal value) => Default.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(byte value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(decimal value, Conversion mode) => Default.ToValue(value, mode);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(decimal value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(double value) => Default.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(double value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(double value, Conversion mode) => Default.ToValue(value, mode);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(float value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(float value) => Default.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(int value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(float value, Conversion mode) => Default.ToValue(value, mode);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(long value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(int value) => Default.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        [CLSCompliant(false)]
-        public static N ToNumeric(sbyte value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(int value, Conversion mode) => Default.ToValue(value, mode);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(short value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(long value) => Default.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        public static N ToNumeric(string value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(long value, Conversion mode) => Default.ToValue(value, mode);
 
         [DebuggerStepThrough]
-        [CLSCompliant(false)]
-        public static N ToNumeric(uint value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(short value) => Default.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
-        [CLSCompliant(false)]
-        public static N ToNumeric(ulong value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(short value, Conversion mode) => Default.ToValue(value, mode);
 
         [DebuggerStepThrough]
-        [CLSCompliant(false)]
-        public static N ToNumeric(ushort value) => Default.ToNumeric(value);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N ToNumeric(string value) => Default.ToValue(value);
     }
 }

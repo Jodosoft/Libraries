@@ -32,7 +32,7 @@ namespace FluentAssertions
             if (!DoubleCompat.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
             double actual = Convert<N>.ToDouble((N)parent.Subject);
-            if (!Numeric<N>.IsReal)
+            if (Numeric<N>.IsIntegral)
             {
                 double expectedValue = Math.Truncate(expected);
                 Execute.Assertion
@@ -72,5 +72,8 @@ namespace FluentAssertions
 
             return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
+
+
+
     }
 }

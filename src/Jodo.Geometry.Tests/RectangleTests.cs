@@ -22,7 +22,7 @@ using Jodo.Testing;
 
 namespace Jodo.Geometry.Tests
 {
-    public static class AARectangleTests
+    public static class RectangleTests
     {
         public sealed class FixedPoint : General<fix64> { }
         public sealed class FloatingPoint : General<xfloat> { }

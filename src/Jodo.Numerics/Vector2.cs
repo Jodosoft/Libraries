@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -28,7 +29,6 @@ namespace Jodo.Numerics
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    [CLSCompliant(false)]
     public readonly struct Vector2<N> :
             IEquatable<Vector2<N>>,
             IFormattable,
@@ -65,6 +65,11 @@ namespace Jodo.Numerics
 
         public Vector2<NResult> Convert<NResult>(Func<N, NResult> convert) where NResult : struct, INumeric<NResult> => new Vector2<NResult>(convert(X), convert(Y));
 
+        public Vector2<N> Half() => new Vector2<N>(X.Half(), Y.Half());
+        public Vector2<N> Double() => new Vector2<N>(X.Double(), Y.Double());
+        public Vector2<N> AddX(N x) => new Vector2<N>(X.Add(x), Y);
+        public Vector2<N> AddY(N y) => new Vector2<N>(X, Y.Add(y));
+
         public bool Equals(Vector2<N> other) => X.Equals(other.X) && Y.Equals(other.Y);
         public override bool Equals(object? obj) => obj is Vector2<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y);
@@ -93,11 +98,138 @@ namespace Jodo.Numerics
                 Parser<N>.Parse(parts[1], style, provider));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Abs(Vector2<N> value)
+        {
+            return new Vector2<N>(
+                Math<N>.Abs(value.X),
+                Math<N>.Abs(value.Y)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Add(Vector2<N> left, Vector2<N> right)
+        {
+            return left + right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Clamp(Vector2<N> value1, Vector2<N> min, Vector2<N> max)
+        {
+            return Min(Max(value1, min), max);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N Distance(Vector2<N> value1, Vector2<N> value2)
+        {
+            return Math<N>.Sqrt(DistanceSquared(value1, value2));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N DistanceSquared(Vector2<N> value1, Vector2<N> value2)
+        {
+            Vector2<N> difference = value1 - value2;
+            return Dot(difference, difference);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Divide(Vector2<N> left, Vector2<N> right)
+        {
+            return left / right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Divide(Vector2<N> left, N divisor)
+        {
+            return left / divisor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N Dot(Vector2<N> value1, Vector2<N> value2)
+        {
+            return value1.X.Multiply(value2.X).Add(value1.Y.Multiply(value2.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Lerp(Vector2<N> value1, Vector2<N> value2, N amount)
+        {
+            return (value1 * Numeric<N>.One.Subtract(amount)) + (value2 * amount);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Max(Vector2<N> value1, Vector2<N> value2)
+        {
+            return new Vector2<N>(
+                Math<N>.Max(value1.X, value2.X),
+                Math<N>.Max(value1.Y, value2.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Min(Vector2<N> value1, Vector2<N> value2)
+        {
+            return new Vector2<N>(
+                Math<N>.Min(value1.X, value2.X),
+                Math<N>.Min(value1.Y, value2.Y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Multiply(Vector2<N> left, Vector2<N> right)
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Multiply(Vector2<N> left, N right)
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Multiply(N left, Vector2<N> right)
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Negate(Vector2<N> value)
+        {
+            return -value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Normalize(Vector2<N> value)
+        {
+            return value / value.Length();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Reflect(Vector2<N> vector, Vector2<N> normal)
+        {
+            return vector - (Dot(vector, normal).Double() * normal);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> SquareRoot(Vector2<N> value)
+        {
+            return new Vector2<N>(
+                Math<N>.Sqrt(value.X),
+                Math<N>.Sqrt(value.Y)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2<N> Subtract(Vector2<N> left, Vector2<N> right)
+        {
+            return left - right;
+        }
+
         public static Vector2<N> operator -(Vector2<N> value) => new Vector2<N>(value.X.Negative(), value.Y.Negative());
         public static Vector2<N> operator -(Vector2<N> value1, Vector2<N> value2) => new Vector2<N>(value1.X.Subtract(value2.X), value1.Y.Subtract(value2.Y));
-        public static Vector2<N> operator *(Vector2<N> value, N scalar) => new Vector2<N>(value.X.Multiply(scalar), value.Y.Multiply(scalar));
         public static Vector2<N> operator *(N scalar, Vector2<N> value) => value * scalar;
+        public static Vector2<N> operator *(Vector2<N> value, N scalar) => new Vector2<N>(value.X.Multiply(scalar), value.Y.Multiply(scalar));
+        public static Vector2<N> operator *(Vector2<N> value1, Vector2<N> value2) => new Vector2<N>(value1.X.Multiply(value2.X), value1.Y.Multiply(value2.Y));
         public static Vector2<N> operator /(Vector2<N> value, N scalar) => new Vector2<N>(value.X.Divide(scalar), value.Y.Divide(scalar));
+        public static Vector2<N> operator /(Vector2<N> value1, Vector2<N> value2) => new Vector2<N>(value1.X.Divide(value2.X), value1.Y.Divide(value2.Y));
         public static Vector2<N> operator +(Vector2<N> value) => value;
         public static Vector2<N> operator +(Vector2<N> value1, Vector2<N> value2) => new Vector2<N>(value1.X.Add(value2.X), value1.Y.Add(value2.Y));
 

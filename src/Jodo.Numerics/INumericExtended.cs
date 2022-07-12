@@ -18,24 +18,21 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
+using Jodo.Primitives;
 
-namespace Jodo.Numerics.Tests
+namespace Jodo.Numerics
 {
-    public static class TestUtilities
+    /// <summary>
+    /// Defines a generalization for numeric value types.
+    /// </summary>
+    /// <typeparam name="N">The type that implements INumeric&lt;N&gt;</typeparam>
+    [SuppressMessage("csharpsquid", "S3444")] // by design
+    [CLSCompliant(false)]
+    public interface INumericExtended<N> :
+            INumeric<N>,
+            IProvider<IConvertUnsigned<N>>
+        where N : struct, INumericExtended<N>
     {
-        public static double ReduceSignificance<N>(N value) where N : struct, INumeric<N>
-        {
-            double result = Math.Round(Cast<N>.ToDouble(value), 6);
-            int log10 = (int)Math.Log10(Math.Abs(result / 10));
-            if (log10 < -1) result *= 1000;
-            else if (log10 > 3) result /= Math.Pow(10, log10 - 3);
-
-            if (!Numeric<N>.IsFinite(Cast<N>.ToNumeric(result)))
-            {
-                throw new InvalidOperationException();
-            }
-
-            return Math.Round(result, 6);
-        }
     }
 }

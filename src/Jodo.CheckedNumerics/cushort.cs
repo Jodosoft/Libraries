@@ -32,7 +32,7 @@ namespace Jodo.CheckedNumerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct cushort : INumeric<cushort>
+    public readonly struct cushort : INumericExtended<cushort>
     {
         public static readonly cushort MaxValue = new cushort(ushort.MaxValue);
         public static readonly cushort MinValue = new cushort(ushort.MinValue);
@@ -66,25 +66,25 @@ namespace Jodo.CheckedNumerics
         public static cushort Parse(string s, NumberStyles style) => ushort.Parse(s, style);
         public static cushort Parse(string s, NumberStyles style, IFormatProvider? provider) => ushort.Parse(s, style, provider);
 
-        [CLSCompliant(false)] public static explicit operator cushort(sbyte value) => new cushort(CheckedConvert.ToUInt16(value));
-        [CLSCompliant(false)] public static explicit operator cushort(uint value) => new cushort(CheckedConvert.ToUInt16(value));
-        [CLSCompliant(false)] public static explicit operator cushort(ulong value) => new cushort(CheckedConvert.ToUInt16(value));
+        [CLSCompliant(false)] public static explicit operator cushort(sbyte value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator cushort(uint value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator cushort(ulong value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
         [CLSCompliant(false)] public static implicit operator cushort(ushort value) => new cushort(value);
-        public static explicit operator cushort(decimal value) => new cushort(CheckedTruncate.ToUInt16(value));
-        public static explicit operator cushort(double value) => new cushort(CheckedTruncate.ToUInt16(value));
-        public static explicit operator cushort(float value) => new cushort(CheckedTruncate.ToUInt16(value));
-        public static explicit operator cushort(int value) => new cushort(CheckedConvert.ToUInt16(value));
-        public static explicit operator cushort(long value) => new cushort(CheckedConvert.ToUInt16(value));
-        public static explicit operator cushort(short value) => new cushort(CheckedConvert.ToUInt16(value));
+        public static explicit operator cushort(decimal value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
+        public static explicit operator cushort(double value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
+        public static explicit operator cushort(float value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
+        public static explicit operator cushort(int value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
+        public static explicit operator cushort(long value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
+        public static explicit operator cushort(short value) => new cushort(NumericConvert.ToUInt16(value, Conversion.CastClamp));
         public static implicit operator cushort(byte value) => new cushort(value);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(cushort value) => CheckedConvert.ToSByte(value._value);
+        [CLSCompliant(false)] public static explicit operator sbyte(cushort value) => NumericConvert.ToSByte(value._value, Conversion.CastClamp);
         [CLSCompliant(false)] public static implicit operator uint(cushort value) => value._value;
         [CLSCompliant(false)] public static implicit operator ulong(cushort value) => value._value;
         [CLSCompliant(false)] public static implicit operator ushort(cushort value) => value._value;
-        public static explicit operator byte(cushort value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator int(cushort value) => CheckedConvert.ToInt32(value._value);
-        public static explicit operator short(cushort value) => CheckedConvert.ToInt16(value._value);
+        public static explicit operator byte(cushort value) => NumericConvert.ToByte(value._value, Conversion.CastClamp);
+        public static explicit operator int(cushort value) => NumericConvert.ToInt32(value._value, Conversion.CastClamp);
+        public static explicit operator short(cushort value) => NumericConvert.ToInt16(value._value, Conversion.CastClamp);
         public static implicit operator decimal(cushort value) => value._value;
         public static implicit operator double(cushort value) => value._value;
         public static implicit operator float(cushort value) => value._value;
@@ -131,8 +131,8 @@ namespace Jodo.CheckedNumerics
         cushort INumeric<cushort>.Subtract(cushort value) => this - value;
 
         IBitConverter<cushort> IProvider<IBitConverter<cushort>>.GetInstance() => Utilities.Instance;
-        ICast<cushort> IProvider<ICast<cushort>>.GetInstance() => Utilities.Instance;
         IConvert<cushort> IProvider<IConvert<cushort>>.GetInstance() => Utilities.Instance;
+        IConvertUnsigned<cushort> IProvider<IConvertUnsigned<cushort>>.GetInstance() => Utilities.Instance;
         IMath<cushort> IProvider<IMath<cushort>>.GetInstance() => Utilities.Instance;
         INumericStatic<cushort> IProvider<INumericStatic<cushort>>.GetInstance() => Utilities.Instance;
         IRandom<cushort> IProvider<IRandom<cushort>>.GetInstance() => Utilities.Instance;
@@ -140,8 +140,8 @@ namespace Jodo.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cushort>,
-            ICast<cushort>,
             IConvert<cushort>,
+            IConvertUnsigned<cushort>,
             IMath<cushort>,
             INumericStatic<cushort>,
             IRandom<cushort>,
@@ -217,60 +217,36 @@ namespace Jodo.CheckedNumerics
             cushort IRandom<cushort>.Next(Random random) => random.NextUInt16();
             cushort IRandom<cushort>.Next(Random random, cushort bound1, cushort bound2) => random.NextUInt16(bound1._value, bound2._value);
 
-            bool IConvert<cushort>.ToBoolean(cushort value) => CheckedConvert.ToBoolean(value._value);
-            byte IConvert<cushort>.ToByte(cushort value) => CheckedConvert.ToByte(value._value);
-            decimal IConvert<cushort>.ToDecimal(cushort value) => CheckedConvert.ToDecimal(value._value);
-            double IConvert<cushort>.ToDouble(cushort value) => CheckedConvert.ToDouble(value._value);
-            float IConvert<cushort>.ToSingle(cushort value) => CheckedConvert.ToSingle(value._value);
-            int IConvert<cushort>.ToInt32(cushort value) => CheckedConvert.ToInt32(value._value);
-            long IConvert<cushort>.ToInt64(cushort value) => CheckedConvert.ToInt64(value._value);
-            sbyte IConvert<cushort>.ToSByte(cushort value) => CheckedConvert.ToSByte(value._value);
-            short IConvert<cushort>.ToInt16(cushort value) => CheckedConvert.ToInt16(value._value);
+            bool IConvert<cushort>.ToBoolean(cushort value) => value._value != 0;
+            byte IConvert<cushort>.ToByte(cushort value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
+            decimal IConvert<cushort>.ToDecimal(cushort value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode.Clamped());
+            double IConvert<cushort>.ToDouble(cushort value, Conversion mode) => NumericConvert.ToDouble(value._value, mode.Clamped());
+            float IConvert<cushort>.ToSingle(cushort value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
+            int IConvert<cushort>.ToInt32(cushort value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
+            long IConvert<cushort>.ToInt64(cushort value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
+            sbyte IConvertUnsigned<cushort>.ToSByte(cushort value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            short IConvert<cushort>.ToInt16(cushort value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
             string IConvert<cushort>.ToString(cushort value) => Convert.ToString(value._value);
-            uint IConvert<cushort>.ToUInt32(cushort value) => value._value;
-            ulong IConvert<cushort>.ToUInt64(cushort value) => CheckedConvert.ToUInt64(value._value);
-            ushort IConvert<cushort>.ToUInt16(cushort value) => CheckedConvert.ToUInt16(value._value);
+            uint IConvertUnsigned<cushort>.ToUInt32(cushort value, Conversion mode) => value._value;
+            ulong IConvertUnsigned<cushort>.ToUInt64(cushort value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertUnsigned<cushort>.ToUInt16(cushort value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
 
-            cushort IConvert<cushort>.ToNumeric(bool value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(byte value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(decimal value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(double value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(float value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(int value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(long value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(sbyte value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(short value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(string value) => Convert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(uint value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(ulong value) => CheckedConvert.ToUInt16(value);
-            cushort IConvert<cushort>.ToNumeric(ushort value) => value;
+            cushort IConvert<cushort>.ToValue(bool value) => value ? (ushort)1 : (ushort)0;
+            cushort IConvert<cushort>.ToValue(byte value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvert<cushort>.ToValue(decimal value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvert<cushort>.ToValue(double value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvert<cushort>.ToValue(float value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvert<cushort>.ToValue(int value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvert<cushort>.ToValue(long value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvertUnsigned<cushort>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvert<cushort>.ToValue(short value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvert<cushort>.ToValue(string value) => Convert.ToUInt16(value);
+            cushort IConvertUnsigned<cushort>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvertUnsigned<cushort>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToUInt16(value, mode.Clamped());
+            cushort IConvertUnsigned<cushort>.ToNumeric(ushort value, Conversion mode) => value;
 
             cushort IParser<cushort>.Parse(string s) => Parse(s);
             cushort IParser<cushort>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            byte ICast<cushort>.ToByte(cushort value) => (byte)value;
-            decimal ICast<cushort>.ToDecimal(cushort value) => (decimal)value;
-            double ICast<cushort>.ToDouble(cushort value) => (double)value;
-            float ICast<cushort>.ToSingle(cushort value) => (float)value;
-            int ICast<cushort>.ToInt32(cushort value) => (int)value;
-            long ICast<cushort>.ToInt64(cushort value) => (long)value;
-            sbyte ICast<cushort>.ToSByte(cushort value) => (sbyte)value;
-            short ICast<cushort>.ToInt16(cushort value) => (short)value;
-            uint ICast<cushort>.ToUInt32(cushort value) => (uint)value;
-            ulong ICast<cushort>.ToUInt64(cushort value) => (ulong)value;
-            ushort ICast<cushort>.ToUInt16(cushort value) => (ushort)value;
-
-            cushort ICast<cushort>.ToNumeric(byte value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(decimal value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(double value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(float value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(int value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(long value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(sbyte value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(short value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(uint value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(ulong value) => (cushort)value;
-            cushort ICast<cushort>.ToNumeric(ushort value) => (cushort)value;
         }
     }
 }

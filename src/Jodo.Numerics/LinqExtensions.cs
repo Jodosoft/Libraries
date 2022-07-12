@@ -24,7 +24,6 @@ namespace System.Linq
 {
     public static class LinqExtensions
     {
-        [CLSCompliant(false)]
         public static N Average<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
             N sum = Numeric<N>.Zero;
@@ -37,7 +36,6 @@ namespace System.Linq
             return sum.Divide(count);
         }
 
-        [CLSCompliant(false)]
         public static N Sum<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
         {
             N sum = Numeric<N>.Zero;

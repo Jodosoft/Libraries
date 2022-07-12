@@ -17,22 +17,80 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
 using Jodo.Numerics;
 using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public static class RectangleTests
+    public static class AARectangleTests
     {
-        public sealed class FixedPoint : General<fix64> { }
-        public sealed class FloatingPoint : General<xfloat> { }
-        public sealed class UnsignedIntegral : General<xbyte> { }
+        public sealed class Intergral : Integral<xshort> { }
+        public sealed class GeneralUnsignedIntegral : General<xbyte> { }
+        public sealed class GeneralFloatingPoint : General<xfloat> { }
+        public sealed class GeneralFixedPoint : General<fix64> { }
 
-        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
         {
             public sealed class BitConverter : Primitives.Tests.BitConverterTests<AARectangle<N>> { }
             public sealed class StringParser : Primitives.Tests.StringParserTests<AARectangle<N>> { }
             public sealed class TwoDimensional : TwoDimensionalTests<AARectangle<N>, N> { }
+
+            [Test]
+            public void GetArea_RandomValues_CorrectResult()
+            {
+                //arrange
+                AARectangle<N> subject = GenerateAARectangle<N>();
+                N expected = Math<N>.Abs(subject.Dimensions.X.Multiply(subject.Dimensions.Y));
+
+                //act
+                N result = subject.GetArea();
+
+                //assert
+                result.Should().Be(expected);
+            }
+
+            [Test]
+            public void GetLeft_RandomValues_CorrectResult()
+            {
+                //arrange
+                AARectangle<N> subject = Random.NextAARectangle<N>();
+                N expected = subject.Origin.X;
+
+                //act
+                N result = subject.GetLeft();
+
+                //assert
+                result.Should().Be(expected);
+            }
+        }
+
+        public abstract class Integral<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        {
+            [SetUp]
+            public void SetUp() => Assert.That(Numeric<N>.IsIntegral);
+
+            [Test, Repeat(RandomVariations)]
+            public void GetVertices_UnitSquare_CorrectResult()
+            {
+                //arrange
+                AARectangle<N> subject = AARectangle<N>.FromCenter(
+                    new Vector2<N>(Numeric<N>.Zero, Numeric<N>.Zero),
+                    new Vector2<N>(Numeric<N>.One, Numeric<N>.One));
+                Vector2<N>[] expected = new Vector2<N>[] {
+                     new Vector2<N>(Numeric<N>.Zero, Numeric<N>.Zero),
+                     new Vector2<N>(Numeric<N>.One, Numeric<N>.Zero),
+                     new Vector2<N>(Numeric<N>.One, Numeric<N>.One),
+                     new Vector2<N>(Numeric<N>.Zero, Numeric<N>.One) };
+
+                //act
+                Vector2<N>[] results = subject.GetVertices();
+
+                //assert
+                results.Should().BeEquivalentTo(expected);
+            }
         }
     }
 }

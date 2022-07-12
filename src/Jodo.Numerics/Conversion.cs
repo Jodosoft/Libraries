@@ -19,26 +19,11 @@
 
 namespace Jodo.Numerics
 {
-    public interface IConvert<N>
+    public enum Conversion
     {
-        bool ToBoolean(N value);
-        byte ToByte(N value, Conversion mode);
-        decimal ToDecimal(N value, Conversion mode);
-        double ToDouble(N value, Conversion mode);
-        float ToSingle(N value, Conversion mode);
-        int ToInt32(N value, Conversion mode);
-        long ToInt64(N value, Conversion mode);
-        short ToInt16(N value, Conversion mode);
-        string ToString(N value);
-
-        N ToValue(bool value);
-        N ToValue(byte value, Conversion mode);
-        N ToValue(decimal value, Conversion mode);
-        N ToValue(double value, Conversion mode);
-        N ToValue(float value, Conversion mode);
-        N ToValue(int value, Conversion mode);
-        N ToValue(long value, Conversion mode);
-        N ToValue(short value, Conversion mode);
-        N ToValue(string value);
+        Default = 0,
+        Clamp = 1,
+        Cast = 2,
+        CastClamp = 3
     }
 }

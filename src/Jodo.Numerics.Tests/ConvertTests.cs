@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public abstract class ConvertTests<N> : GlobalFixtureBase where N : struct, INumeric<N>
+    public abstract class ConvertTests<N> : GlobalFixtureBase where N : struct, INumericExtended<N>
     {
         [Test, Repeat(RandomVariations)]
         public void ToBoolean_RoundTrip_SameValue()
@@ -44,7 +44,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             N input = Math<N>.Truncate(Random.NextNumeric(
-                Clamp<N>.ToNumeric(byte.MinValue), Clamp<N>.ToNumeric(byte.MaxValue)));
+                Convert<N>.ToNumeric(byte.MinValue, Conversion.Clamp), Convert<N>.ToNumeric(byte.MaxValue, Conversion.Clamp)));
 
             //act
             N result = Convert<N>.ToNumeric(Convert<N>.ToByte(input));
@@ -57,7 +57,7 @@ namespace Jodo.Numerics.Tests
         public void ToDecimal_SmallValueRoundTrip_SameValue()
         {
             //arrange
-            N input = Math<N>.Round(Random.NextNumeric(Clamp<N>.ToNumeric(-10M), Clamp<N>.ToNumeric(10M)), 2);
+            N input = Math<N>.Round(Random.NextNumeric(Convert<N>.ToNumeric(-10M, Conversion.Clamp), Convert<N>.ToNumeric(10M, Conversion.Clamp)), 2);
 
             //act
             N result = Convert<N>.ToNumeric(Convert<N>.ToDecimal(input));
@@ -70,7 +70,7 @@ namespace Jodo.Numerics.Tests
         public void ToDouble_SmallValueRoundTrip_SameValue()
         {
             //arrange
-            N input = Math<N>.Round(Random.NextNumeric(Clamp<N>.ToNumeric(-10.0), Clamp<N>.ToNumeric(10.0)), 2);
+            N input = Math<N>.Round(Random.NextNumeric(Convert<N>.ToNumeric(-10.0, Conversion.Clamp), Convert<N>.ToNumeric(10.0, Conversion.Clamp)), 2);
 
             //act
             N result = Convert<N>.ToNumeric(Convert<N>.ToDouble(input));
@@ -84,7 +84,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             N input = Math<N>.Truncate(Random.NextNumeric(
-                Clamp<N>.ToNumeric(short.MinValue), Clamp<N>.ToNumeric(short.MaxValue)));
+                Convert<N>.ToNumeric(short.MinValue, Conversion.Clamp), Convert<N>.ToNumeric(short.MaxValue, Conversion.Clamp)));
 
             //act
             N result = Convert<N>.ToNumeric(Convert<N>.ToInt16(input));
@@ -98,7 +98,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             N input = Math<N>.Truncate(Random.NextNumeric(
-                Clamp<N>.ToNumeric(int.MinValue), Clamp<N>.ToNumeric(int.MaxValue)));
+                Convert<N>.ToNumeric(int.MinValue, Conversion.Clamp), Convert<N>.ToNumeric(int.MaxValue, Conversion.Clamp)));
 
             //act
             N result = Convert<N>.ToNumeric(Convert<N>.ToInt32(input));
@@ -112,7 +112,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             N input = Math<N>.Truncate(Random.NextNumeric(
-                Clamp<N>.ToNumeric(long.MinValue), Clamp<N>.ToNumeric(long.MaxValue)));
+                Convert<N>.ToNumeric(long.MinValue, Conversion.Clamp), Convert<N>.ToNumeric(long.MaxValue, Conversion.Clamp)));
 
             //act
             N result = Convert<N>.ToNumeric(Convert<N>.ToInt64(input));
@@ -126,10 +126,10 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             N input = Math<N>.Truncate(Random.NextNumeric(
-                Clamp<N>.ToNumeric(sbyte.MinValue), Clamp<N>.ToNumeric(sbyte.MaxValue)));
+                Convert<N>.ToNumeric(sbyte.MinValue, Conversion.Clamp), Convert<N>.ToNumeric(sbyte.MaxValue, Conversion.Clamp)));
 
             //act
-            N result = Convert<N>.ToNumeric(Convert<N>.ToSByte(input));
+            N result = Convert<N>.ToNumeric(ConvertExtended<N>.ToSByte(input, Conversion.Cast));
 
             //assert
             result.Should().Be(input);
@@ -139,7 +139,7 @@ namespace Jodo.Numerics.Tests
         public void ToSingle_SmallValueRoundTrip_SameValue()
         {
             //arrange
-            N input = Math<N>.Round(Random.NextNumeric(Clamp<N>.ToNumeric(-10f), Clamp<N>.ToNumeric(10f)), 2);
+            N input = Math<N>.Round(Random.NextNumeric(Convert<N>.ToNumeric(-10f, Conversion.Clamp), Convert<N>.ToNumeric(10f, Conversion.Clamp)), 2);
 
             //act
             N result = Convert<N>.ToNumeric(Convert<N>.ToSingle(input));
@@ -153,10 +153,10 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             N input = Math<N>.Truncate(Random.NextNumeric(
-                Clamp<N>.ToNumeric(ushort.MinValue), Clamp<N>.ToNumeric(ushort.MaxValue)));
+                Convert<N>.ToNumeric(ushort.MinValue, Conversion.Clamp), Convert<N>.ToNumeric(ushort.MaxValue, Conversion.Clamp)));
 
             //act
-            N result = Convert<N>.ToNumeric(Convert<N>.ToUInt16(input));
+            N result = Convert<N>.ToNumeric(ConvertExtended<N>.ToUInt16(input));
 
             //assert
             result.Should().Be(input);
@@ -167,10 +167,10 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             N input = Math<N>.Truncate(Random.NextNumeric(
-                Clamp<N>.ToNumeric(uint.MinValue), Clamp<N>.ToNumeric(uint.MaxValue)));
+                Convert<N>.ToNumeric(uint.MinValue, Conversion.Clamp), Convert<N>.ToNumeric(uint.MaxValue, Conversion.Clamp)));
 
             //act
-            N result = Convert<N>.ToNumeric(Convert<N>.ToUInt32(input));
+            N result = Convert<N>.ToNumeric(ConvertExtended<N>.ToUInt32(input));
 
             //assert
             result.Should().Be(input);
@@ -181,10 +181,10 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             N input = Math<N>.Truncate(Random.NextNumeric(
-                Clamp<N>.ToNumeric(ulong.MinValue), Clamp<N>.ToNumeric(ulong.MaxValue)));
+                ConvertExtended<N>.ToNumeric(ulong.MinValue, Conversion.Clamp), ConvertExtended<N>.ToNumeric(ulong.MaxValue, Conversion.Clamp)));
 
             //act
-            N result = Convert<N>.ToNumeric(Convert<N>.ToUInt64(input));
+            N result = ConvertExtended<N>.ToNumeric(ConvertExtended<N>.ToUInt64(input));
 
             //assert
             result.Should().Be(input);
@@ -209,7 +209,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             int number = Random.NextInt32(0, 10);
             string input = number.ToString();
-            N expected = Cast<N>.ToNumeric(number);
+            N expected = Convert<N>.ToNumeric(number, Conversion.Cast);
 
             //act
             N result = Convert<N>.ToNumeric(input);

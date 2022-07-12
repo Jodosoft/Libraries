@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -28,7 +29,6 @@ namespace Jodo.Numerics
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    [CLSCompliant(false)]
     public readonly struct Vector3<N> :
             IEquatable<Vector3<N>>,
             IFormattable,
@@ -64,6 +64,18 @@ namespace Jodo.Numerics
             info.AddValue(nameof(Z), Z, typeof(N));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly N Length()
+        {
+            return Math<N>.Sqrt(LengthSquared());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly N LengthSquared()
+        {
+            return Dot(this, this);
+        }
+
         public bool Equals(Vector3<N> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         public override bool Equals(object? obj) => obj is Vector3<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
@@ -97,13 +109,158 @@ namespace Jodo.Numerics
                 Parser<N>.Parse(parts[2], style, provider));
         }
 
-        public static bool operator ==(Vector3<N> left, Vector3<N> right) => left.Equals(right);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Abs(Vector3<N> value)
+        {
+            return new Vector3<N>(
+                Math<N>.Abs(value.X),
+                Math<N>.Abs(value.Y),
+                Math<N>.Abs(value.Z)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Add(Vector3<N> left, Vector3<N> right)
+        {
+            return left + right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Clamp(Vector3<N> value1, Vector3<N> min, Vector3<N> max)
+        {
+            return Min(Max(value1, min), max);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Cross(Vector3<N> vector1, Vector3<N> vector2)
+        {
+            return new Vector3<N>(
+                vector1.Y.Multiply(vector2.Z).Subtract(vector1.Z.Multiply(vector2.Y)),
+                vector1.Z.Multiply(vector2.X).Subtract(vector1.X.Multiply(vector2.Z)),
+                vector1.X.Multiply(vector2.Y).Subtract(vector1.Y.Multiply(vector2.X))
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N Distance(Vector3<N> value1, Vector3<N> value2)
+        {
+            return Math<N>.Sqrt(DistanceSquared(value1, value2));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N DistanceSquared(Vector3<N> value1, Vector3<N> value2)
+        {
+            Vector3<N> difference = value1 - value2;
+            return Dot(difference, difference);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Divide(Vector3<N> left, Vector3<N> right)
+        {
+            return left / right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Divide(Vector3<N> left, N divisor)
+        {
+            return left / divisor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static N Dot(Vector3<N> vector1, Vector3<N> vector2)
+        {
+            return vector1.X.Multiply(vector2.X)
+                 .Add(vector1.Y.Multiply(vector2.Y))
+                 .Add(vector1.Z.Multiply(vector2.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Lerp(Vector3<N> value1, Vector3<N> value2, N amount)
+        {
+            return (value1 * Numeric<N>.One.Subtract(amount)) + (value2 * amount);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Max(Vector3<N> value1, Vector3<N> value2)
+        {
+            return new Vector3<N>(
+                Math<N>.Max(value1.X, value2.X),
+                Math<N>.Max(value1.Y, value2.Y),
+                Math<N>.Max(value1.Z, value2.Z));
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Min(Vector3<N> value1, Vector3<N> value2)
+        {
+            return new Vector3<N>(
+                Math<N>.Min(value1.X, value2.X),
+                Math<N>.Min(value1.Y, value2.Y),
+                Math<N>.Min(value1.Z, value2.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Multiply(Vector3<N> left, Vector3<N> right)
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Multiply(Vector3<N> left, N right)
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Multiply(N left, Vector3<N> right)
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Negate(Vector3<N> value)
+        {
+            return -value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Normalize(Vector3<N> value)
+        {
+            return value / value.Length();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Reflect(Vector3<N> vector, Vector3<N> normal)
+        {
+            N dot = Dot(vector, normal);
+            return vector - (dot.Double() * normal);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> SquareRoot(Vector3<N> value)
+        {
+            return new Vector3<N>(
+                Math<N>.Sqrt(value.X),
+                Math<N>.Sqrt(value.Y),
+                Math<N>.Sqrt(value.Z)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<N> Subtract(Vector3<N> left, Vector3<N> right)
+        {
+            return left - right;
+        }
+
         public static bool operator !=(Vector3<N> left, Vector3<N> right) => !(left == right);
+        public static bool operator ==(Vector3<N> left, Vector3<N> right) => left.Equals(right);
         public static Vector3<N> operator -(Vector3<N> value) => new Vector3<N>(value.X.Negative(), value.Y.Negative(), value.Z.Negative());
         public static Vector3<N> operator -(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X.Subtract(value2.X), value1.Y.Subtract(value2.Y), value1.Z.Subtract(value2.Z));
-        public static Vector3<N> operator *(Vector3<N> value, N scalar) => new Vector3<N>(value.X.Multiply(scalar), value.Y.Multiply(scalar), value.Z.Multiply(scalar));
         public static Vector3<N> operator *(N scalar, Vector3<N> value) => value * scalar;
+        public static Vector3<N> operator *(Vector3<N> value, N scalar) => new Vector3<N>(value.X.Multiply(scalar), value.Y.Multiply(scalar), value.Z.Multiply(scalar));
+        public static Vector3<N> operator *(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X.Multiply(value2.X), value1.Y.Multiply(value2.Y), value1.Y.Multiply(value2.Z));
         public static Vector3<N> operator /(Vector3<N> value, N scalar) => new Vector3<N>(value.X.Divide(scalar), value.Y.Divide(scalar), value.Z.Divide(scalar));
+        public static Vector3<N> operator /(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X.Divide(value2.X), value1.Y.Divide(value2.Y), value1.Y.Divide(value2.Z));
         public static Vector3<N> operator +(Vector3<N> value) => value;
         public static Vector3<N> operator +(Vector3<N> value1, Vector3<N> value2) => new Vector3<N>(value1.X.Add(value2.X), value1.Y.Add(value2.Y), value1.Z.Add(value2.Z));
         public static implicit operator Vector3<N>(Tuple<N, N, N> value) => new Vector3<N>(value.Item1, value.Item2, value.Item3);

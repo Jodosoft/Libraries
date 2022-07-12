@@ -17,12 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
 using Jodo.Numerics;
 
 namespace Jodo.Geometry
 {
-    [CLSCompliant(false)]
     public static class VectorExtensions
     {
         public static Vector2<N> RotateAround<N>(this Vector2<N> vector, Vector2<N> pivot, Angle<N> angle) where N : struct, INumeric<N>

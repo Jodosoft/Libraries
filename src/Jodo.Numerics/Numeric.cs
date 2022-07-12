@@ -32,7 +32,9 @@ namespace Jodo.Numerics
         public static bool HasInfinity => Default.HasInfinity;
         public static bool HasNaN => Default.HasNaN;
         public static bool IsReal => Default.IsReal;
+        public static bool IsIntegral => !Default.IsReal;
         public static bool IsSigned => Default.IsSigned;
+        public static bool IsUnsigned => !Default.IsSigned;
         public static T Epsilon => Default.Epsilon;
         public static T MaxUnit => Default.MaxUnit;
         public static T MaxValue => Default.MaxValue;

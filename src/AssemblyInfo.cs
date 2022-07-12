@@ -28,6 +28,8 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
 [assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
+[assembly: InternalsVisibleTo("Jodo.Numerics.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodo.Numerics.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
 
 [assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]

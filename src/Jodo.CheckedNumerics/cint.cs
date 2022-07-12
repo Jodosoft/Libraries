@@ -32,7 +32,7 @@ namespace Jodo.CheckedNumerics
     [DebuggerDisplay("{ToString(),nq}")]
     [SuppressMessage("Style", "IDE1006:Naming Styles")]
     [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct cint : INumeric<cint>
+    public readonly struct cint : INumericExtended<cint>
     {
         public static readonly cint MaxValue = new cint(int.MaxValue);
         public static readonly cint MinValue = new cint(int.MinValue);
@@ -66,24 +66,24 @@ namespace Jodo.CheckedNumerics
         public static cint Parse(string s, NumberStyles style) => int.Parse(s, style);
         public static cint Parse(string s, NumberStyles style, IFormatProvider? provider) => int.Parse(s, style, provider);
 
-        [CLSCompliant(false)] public static explicit operator cint(uint value) => new cint(CheckedConvert.ToInt32(value));
-        [CLSCompliant(false)] public static explicit operator cint(ulong value) => new cint(CheckedConvert.ToInt32(value));
+        [CLSCompliant(false)] public static explicit operator cint(uint value) => new cint(NumericConvert.ToInt32(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator cint(ulong value) => new cint(NumericConvert.ToInt32(value, Conversion.CastClamp));
         [CLSCompliant(false)] public static implicit operator cint(sbyte value) => new cint(value);
         [CLSCompliant(false)] public static implicit operator cint(ushort value) => new cint(value);
-        public static explicit operator cint(decimal value) => new cint(CheckedTruncate.ToInt32(value));
-        public static explicit operator cint(double value) => new cint(CheckedTruncate.ToInt32(value));
-        public static explicit operator cint(float value) => new cint(CheckedTruncate.ToInt32(value));
-        public static explicit operator cint(long value) => new cint(CheckedConvert.ToInt32(value));
+        public static explicit operator cint(decimal value) => new cint(NumericConvert.ToInt32(value, Conversion.CastClamp));
+        public static explicit operator cint(double value) => new cint(NumericConvert.ToInt32(value, Conversion.CastClamp));
+        public static explicit operator cint(float value) => new cint(NumericConvert.ToInt32(value, Conversion.CastClamp));
+        public static explicit operator cint(long value) => new cint(NumericConvert.ToInt32(value, Conversion.CastClamp));
         public static implicit operator cint(byte value) => new cint(value);
         public static implicit operator cint(int value) => new cint(value);
         public static implicit operator cint(short value) => new cint(value);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(cint value) => CheckedConvert.ToSByte(value._value);
-        [CLSCompliant(false)] public static explicit operator uint(cint value) => CheckedConvert.ToUInt32(value._value);
-        [CLSCompliant(false)] public static explicit operator ulong(cint value) => CheckedConvert.ToUInt64(value._value);
-        [CLSCompliant(false)] public static explicit operator ushort(cint value) => CheckedConvert.ToUInt16(value._value);
-        public static explicit operator byte(cint value) => CheckedConvert.ToByte(value._value);
-        public static explicit operator short(cint value) => CheckedConvert.ToInt16(value._value);
+        [CLSCompliant(false)] public static explicit operator sbyte(cint value) => NumericConvert.ToSByte(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator uint(cint value) => NumericConvert.ToUInt32(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ulong(cint value) => NumericConvert.ToUInt64(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ushort(cint value) => NumericConvert.ToUInt16(value._value, Conversion.CastClamp);
+        public static explicit operator byte(cint value) => NumericConvert.ToByte(value._value, Conversion.CastClamp);
+        public static explicit operator short(cint value) => NumericConvert.ToInt16(value._value, Conversion.CastClamp);
         public static implicit operator decimal(cint value) => value._value;
         public static implicit operator double(cint value) => value._value;
         public static implicit operator float(cint value) => value._value;
@@ -131,8 +131,8 @@ namespace Jodo.CheckedNumerics
         cint INumeric<cint>.Subtract(cint value) => this - value;
 
         IBitConverter<cint> IProvider<IBitConverter<cint>>.GetInstance() => Utilities.Instance;
-        ICast<cint> IProvider<ICast<cint>>.GetInstance() => Utilities.Instance;
         IConvert<cint> IProvider<IConvert<cint>>.GetInstance() => Utilities.Instance;
+        IConvertUnsigned<cint> IProvider<IConvertUnsigned<cint>>.GetInstance() => Utilities.Instance;
         IMath<cint> IProvider<IMath<cint>>.GetInstance() => Utilities.Instance;
         INumericStatic<cint> IProvider<INumericStatic<cint>>.GetInstance() => Utilities.Instance;
         IRandom<cint> IProvider<IRandom<cint>>.GetInstance() => Utilities.Instance;
@@ -140,8 +140,8 @@ namespace Jodo.CheckedNumerics
 
         private sealed class Utilities :
             IBitConverter<cint>,
-            ICast<cint>,
             IConvert<cint>,
+            IConvertUnsigned<cint>,
             IMath<cint>,
             INumericStatic<cint>,
             IRandom<cint>,
@@ -217,60 +217,36 @@ namespace Jodo.CheckedNumerics
             cint IRandom<cint>.Next(Random random) => random.NextInt32();
             cint IRandom<cint>.Next(Random random, cint bound1, cint bound2) => random.NextInt32(bound1._value, bound2._value);
 
-            bool IConvert<cint>.ToBoolean(cint value) => CheckedConvert.ToBoolean(value._value);
-            byte IConvert<cint>.ToByte(cint value) => CheckedConvert.ToByte(value._value);
-            decimal IConvert<cint>.ToDecimal(cint value) => CheckedConvert.ToDecimal(value._value);
-            double IConvert<cint>.ToDouble(cint value) => CheckedConvert.ToDouble(value._value);
-            float IConvert<cint>.ToSingle(cint value) => CheckedConvert.ToSingle(value._value);
-            int IConvert<cint>.ToInt32(cint value) => value._value;
-            long IConvert<cint>.ToInt64(cint value) => CheckedConvert.ToInt64(value._value);
-            sbyte IConvert<cint>.ToSByte(cint value) => CheckedConvert.ToSByte(value._value);
-            short IConvert<cint>.ToInt16(cint value) => CheckedConvert.ToInt16(value._value);
+            bool IConvert<cint>.ToBoolean(cint value) => value._value != 0;
+            byte IConvert<cint>.ToByte(cint value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
+            decimal IConvert<cint>.ToDecimal(cint value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode.Clamped());
+            double IConvert<cint>.ToDouble(cint value, Conversion mode) => NumericConvert.ToDouble(value._value, mode.Clamped());
+            float IConvert<cint>.ToSingle(cint value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
+            int IConvert<cint>.ToInt32(cint value, Conversion mode) => value._value;
+            long IConvert<cint>.ToInt64(cint value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
+            sbyte IConvertUnsigned<cint>.ToSByte(cint value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            short IConvert<cint>.ToInt16(cint value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
             string IConvert<cint>.ToString(cint value) => Convert.ToString(value._value);
-            uint IConvert<cint>.ToUInt32(cint value) => CheckedConvert.ToUInt32(value._value);
-            ulong IConvert<cint>.ToUInt64(cint value) => CheckedConvert.ToUInt64(value._value);
-            ushort IConvert<cint>.ToUInt16(cint value) => CheckedConvert.ToUInt16(value._value);
+            uint IConvertUnsigned<cint>.ToUInt32(cint value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
+            ulong IConvertUnsigned<cint>.ToUInt64(cint value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertUnsigned<cint>.ToUInt16(cint value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
 
-            cint IConvert<cint>.ToNumeric(bool value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(byte value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(decimal value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(double value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(float value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(int value) => value;
-            cint IConvert<cint>.ToNumeric(long value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(sbyte value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(short value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(string value) => Convert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(uint value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(ulong value) => CheckedConvert.ToInt32(value);
-            cint IConvert<cint>.ToNumeric(ushort value) => CheckedConvert.ToInt32(value);
+            cint IConvert<cint>.ToValue(bool value) => value ? 1 : 0;
+            cint IConvert<cint>.ToValue(byte value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvert<cint>.ToValue(decimal value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvert<cint>.ToValue(double value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvert<cint>.ToValue(float value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvert<cint>.ToValue(int value, Conversion mode) => value;
+            cint IConvert<cint>.ToValue(long value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvertUnsigned<cint>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvert<cint>.ToValue(short value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvert<cint>.ToValue(string value) => Convert.ToInt32(value);
+            cint IConvertUnsigned<cint>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvertUnsigned<cint>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
+            cint IConvertUnsigned<cint>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt32(value, mode.Clamped());
 
             cint IParser<cint>.Parse(string s) => Parse(s);
             cint IParser<cint>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            byte ICast<cint>.ToByte(cint value) => (byte)value;
-            decimal ICast<cint>.ToDecimal(cint value) => (decimal)value;
-            double ICast<cint>.ToDouble(cint value) => (double)value;
-            float ICast<cint>.ToSingle(cint value) => (float)value;
-            int ICast<cint>.ToInt32(cint value) => (int)value;
-            long ICast<cint>.ToInt64(cint value) => (long)value;
-            sbyte ICast<cint>.ToSByte(cint value) => (sbyte)value;
-            short ICast<cint>.ToInt16(cint value) => (short)value;
-            uint ICast<cint>.ToUInt32(cint value) => (uint)value;
-            ulong ICast<cint>.ToUInt64(cint value) => (ulong)value;
-            ushort ICast<cint>.ToUInt16(cint value) => (ushort)value;
-
-            cint ICast<cint>.ToNumeric(byte value) => (cint)value;
-            cint ICast<cint>.ToNumeric(decimal value) => (cint)value;
-            cint ICast<cint>.ToNumeric(double value) => (cint)value;
-            cint ICast<cint>.ToNumeric(float value) => (cint)value;
-            cint ICast<cint>.ToNumeric(int value) => (cint)value;
-            cint ICast<cint>.ToNumeric(long value) => (cint)value;
-            cint ICast<cint>.ToNumeric(sbyte value) => (cint)value;
-            cint ICast<cint>.ToNumeric(short value) => (cint)value;
-            cint ICast<cint>.ToNumeric(uint value) => (cint)value;
-            cint ICast<cint>.ToNumeric(ulong value) => (cint)value;
-            cint ICast<cint>.ToNumeric(ushort value) => (cint)value;
         }
     }
 }
