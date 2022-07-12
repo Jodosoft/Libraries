@@ -713,14 +713,14 @@ namespace Jodo.Numerics
             {
                 case Conversion.Default: return Convert.ToSingle(value);
 
-                case Conversion.Clamp: { try { checked { return Convert.ToSingle(value); } } catch (OverflowException) { return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0; } };
+                case Conversion.Clamp: { try { checked { return Convert.ToSingle(value); } } catch (OverflowException) { return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0; } }
 
                 case Conversion.Cast: return (float)value;
 
                 case Conversion.CastClamp: { try { checked { return (float)value; } } catch (OverflowException) { return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0; } }
 
                 default: throw new InvalidOperationException();
-            };
+            }
         }
 
         [CLSCompliant(false)]
@@ -758,14 +758,14 @@ namespace Jodo.Numerics
             {
                 case Conversion.Default: return Convert.ToDouble(value);
 
-                case Conversion.Clamp: { try { checked { return Convert.ToDouble(value); } } catch (OverflowException) { return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0; } };
+                case Conversion.Clamp: { try { checked { return Convert.ToDouble(value); } } catch (OverflowException) { return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0; } }
 
                 case Conversion.Cast: return (double)value;
 
                 case Conversion.CastClamp: { try { checked { return (double)value; } } catch (OverflowException) { return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0; } }
 
                 default: throw new InvalidOperationException();
-            };
+            }
         }
 
         [CLSCompliant(false)]
@@ -794,14 +794,14 @@ namespace Jodo.Numerics
             {
                 case Conversion.Default: return Convert.ToDecimal(value);
 
-                case Conversion.Clamp: { try { checked { return Convert.ToDecimal(value); } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } };
+                case Conversion.Clamp: { try { checked { return Convert.ToDecimal(value); } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } }
 
                 case Conversion.Cast: return (decimal)value;
 
                 case Conversion.CastClamp: { try { checked { return (decimal)value; } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } }
 
                 default: throw new InvalidOperationException();
-            };
+            }
         }
 
         public static decimal ToDecimal(double value, Conversion mode)
@@ -810,14 +810,14 @@ namespace Jodo.Numerics
             {
                 case Conversion.Default: return Convert.ToDecimal(value);
 
-                case Conversion.Clamp: { try { checked { return Convert.ToDecimal(value); } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } };
+                case Conversion.Clamp: { try { checked { return Convert.ToDecimal(value); } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } }
 
                 case Conversion.Cast: return (decimal)value;
 
                 case Conversion.CastClamp: { try { checked { return (decimal)value; } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } }
 
                 default: throw new InvalidOperationException();
-            };
+            }
         }
 
         public static N ToNumeric<N>(byte value) where N : struct, INumeric<N>
