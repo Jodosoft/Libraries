@@ -19,7 +19,7 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Packages: a collection of C# utilities covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
+Welcome to The Jodo Packages: a collection of .NET extensions written in C# covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
 
 <table>
   <tr>
