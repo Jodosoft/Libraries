@@ -676,8 +676,6 @@ namespace Jodo.Numerics
             _ => throw new InvalidOperationException(),
         };
 
-
-
         [CLSCompliant(false)]
         public static float ToSingle(sbyte value, Conversion _) => value;
 
@@ -701,27 +699,20 @@ namespace Jodo.Numerics
         public static float ToSingle(double value, Conversion mode) => mode switch
         {
             Conversion.Default => Convert.ToSingle(value),
-            Conversion.Clamp => value < float.MinValue ? float.MinValue : value > float.MaxValue ? float.MaxValue : double.IsNaN(value) ? 0 : Convert.ToSingle(value),
+            Conversion.Clamp => ClampToSingle(value),
             Conversion.Cast => (float)value,
-            Conversion.CastClamp => value < float.MinValue ? float.MinValue : value > float.MaxValue ? float.MaxValue : (float)value,
+            Conversion.CastClamp => CastClampToSingle(value),
             _ => throw new InvalidOperationException(),
         };
 
-        public static float ToSingle(decimal value, Conversion mode)
+        public static float ToSingle(decimal value, Conversion mode) => mode switch
         {
-            switch (mode)
-            {
-                case Conversion.Default: return Convert.ToSingle(value);
-
-                case Conversion.Clamp: { try { checked { return Convert.ToSingle(value); } } catch (OverflowException) { return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0; } }
-
-                case Conversion.Cast: return (float)value;
-
-                case Conversion.CastClamp: { try { checked { return (float)value; } } catch (OverflowException) { return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0; } }
-
-                default: throw new InvalidOperationException();
-            }
-        }
+            Conversion.Default => Convert.ToSingle(value),
+            Conversion.Clamp => ClampToSingle(value),
+            Conversion.Cast => (float)value,
+            Conversion.CastClamp => CastClampToSingle(value),
+            _ => throw new InvalidOperationException(),
+        };
 
         [CLSCompliant(false)]
         public static double ToDouble(sbyte value, Conversion _) => value;
@@ -746,27 +737,20 @@ namespace Jodo.Numerics
         public static double ToDouble(float value, Conversion mode) => mode switch
         {
             Conversion.Default => Convert.ToDouble(value),
-            Conversion.Clamp => value < double.MinValue ? double.MinValue : value > double.MaxValue ? double.MaxValue : double.IsNaN(value) ? 0 : Convert.ToDouble(value),
+            Conversion.Clamp => ClampToDouble(value),
             Conversion.Cast => (double)value,
-            Conversion.CastClamp => value < double.MinValue ? double.MinValue : value > double.MaxValue ? double.MaxValue : (double)value,
+            Conversion.CastClamp => CastClampToDouble(value),
             _ => throw new InvalidOperationException(),
         };
 
-        public static double ToDouble(decimal value, Conversion mode)
+        public static double ToDouble(decimal value, Conversion mode) => mode switch
         {
-            switch (mode)
-            {
-                case Conversion.Default: return Convert.ToDouble(value);
-
-                case Conversion.Clamp: { try { checked { return Convert.ToDouble(value); } } catch (OverflowException) { return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0; } }
-
-                case Conversion.Cast: return (double)value;
-
-                case Conversion.CastClamp: { try { checked { return (double)value; } } catch (OverflowException) { return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0; } }
-
-                default: throw new InvalidOperationException();
-            }
-        }
+            Conversion.Default => Convert.ToDouble(value),
+            Conversion.Clamp => ClampToDouble(value),
+            Conversion.Cast => (double)value,
+            Conversion.CastClamp => CastClampToDouble(value),
+            _ => throw new InvalidOperationException(),
+        };
 
         [CLSCompliant(false)]
         public static decimal ToDecimal(sbyte value, Conversion _) => value;
@@ -788,135 +772,166 @@ namespace Jodo.Numerics
 
         public static decimal ToDecimal(long value, Conversion _) => value;
 
-        public static decimal ToDecimal(float value, Conversion mode)
+        public static decimal ToDecimal(float value, Conversion mode) => mode switch
         {
-            switch (mode)
+            Conversion.Default => Convert.ToDecimal(value),
+            Conversion.Clamp => ClampToDecimal(value),
+            Conversion.Cast => (decimal)value,
+            Conversion.CastClamp => CastClampToDecimal(value),
+            _ => throw new InvalidOperationException(),
+        };
+
+        public static decimal ToDecimal(double value, Conversion mode) => mode switch
+        {
+            Conversion.Default => Convert.ToDecimal(value),
+            Conversion.Clamp => ClampToDecimal(value),
+            Conversion.Cast => (decimal)value,
+            Conversion.CastClamp => CastClampToDecimal(value),
+            _ => throw new InvalidOperationException(),
+        };
+
+        private static float ClampToSingle(double value)
+        {
+            try
             {
-                case Conversion.Default: return Convert.ToDecimal(value);
-
-                case Conversion.Clamp: { try { checked { return Convert.ToDecimal(value); } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } }
-
-                case Conversion.Cast: return (decimal)value;
-
-                case Conversion.CastClamp: { try { checked { return (decimal)value; } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } }
-
-                default: throw new InvalidOperationException();
+                return checked(Convert.ToSingle(value));
             }
-        }
-
-        public static decimal ToDecimal(double value, Conversion mode)
-        {
-            switch (mode)
-            {
-                case Conversion.Default: return Convert.ToDecimal(value);
-
-                case Conversion.Clamp: { try { checked { return Convert.ToDecimal(value); } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } }
-
-                case Conversion.Cast: return (decimal)value;
-
-                case Conversion.CastClamp: { try { checked { return (decimal)value; } } catch (OverflowException) { return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0; } }
-
-                default: throw new InvalidOperationException();
-            }
-        }
-
-        public static N ToNumeric<N>(byte value) where N : struct, INumeric<N>
-        {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
-            catch (OverflowException) { return Numeric<N>.MaxValue; }
-        }
-
-        public static N ToNumeric<N>(short value) where N : struct, INumeric<N>
-        {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
-            catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
-        }
-
-        public static N ToNumeric<N>(int value) where N : struct, INumeric<N>
-        {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
-            catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
-        }
-
-        public static N ToNumeric<N>(long value) where N : struct, INumeric<N>
-        {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
-            catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
-        }
-
-        public static N ToNumeric<N>(float value) where N : struct, INumeric<N>
-        {
-            if (float.IsPositiveInfinity(value)) return Numeric<N>.MaxValue;
-            if (float.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
-            if (float.IsNaN(value)) return Numeric<N>.Zero;
-
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException)
             {
-                if (value < 0 && Numeric<N>.IsUnsigned) return Numeric<N>.MinValue;
-                if (value < -1) return Numeric<N>.MinValue;
-                if (value > 1) return Numeric<N>.MaxValue;
-                if (value < 0) return Numeric<N>.Epsilon.Negative();
-                return Numeric<N>.Epsilon;
+                return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0;
             }
         }
 
-        public static N ToNumeric<N>(double value) where N : struct, INumeric<N>
+        private static float ClampToSingle(decimal value)
         {
-            if (double.IsPositiveInfinity(value)) return Numeric<N>.MaxValue;
-            if (double.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
-            if (double.IsNaN(value)) return Numeric<N>.Zero;
-
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
+            try
+            {
+                return checked(Convert.ToSingle(value));
+            }
             catch (OverflowException)
             {
-                if (value < 0 && Numeric<N>.IsUnsigned) return Numeric<N>.MinValue;
-                if (value < -1) return Numeric<N>.MinValue;
-                if (value > 1) return Numeric<N>.MaxValue;
-                if (value < 0) return Numeric<N>.Epsilon.Negative();
-                return Numeric<N>.Epsilon;
+                return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0;
             }
         }
 
-        public static N ToNumeric<N>(decimal value) where N : struct, INumeric<N>
+        private static double ClampToDouble(float value)
         {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
+            try
+            {
+                return checked(Convert.ToDouble(value));
+            }
             catch (OverflowException)
             {
-                if (value < 0 && Numeric<N>.IsUnsigned) return Numeric<N>.MinValue;
-                if (value < -1) return Numeric<N>.MinValue;
-                if (value > 1) return Numeric<N>.MaxValue;
-                if (value < 0) return Numeric<N>.Epsilon.Negative();
-                return Numeric<N>.Epsilon;
+                return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0;
             }
         }
 
-        [CLSCompliant(false)]
-        public static N ToNumeric<N>(sbyte value) where N : struct, INumericExtended<N>
+        private static double ClampToDouble(decimal value)
         {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
-            catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
+            try
+            {
+                return checked(Convert.ToDouble(value));
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0;
+            }
         }
 
-        [CLSCompliant(false)]
-        public static N ToNumeric<N>(ushort value) where N : struct, INumericExtended<N>
+        private static decimal ClampToDecimal(float value)
         {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
-            catch (OverflowException) { return Numeric<N>.MaxValue; }
+            try
+            {
+                return checked(Convert.ToDecimal(value));
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0;
+            }
         }
 
-        [CLSCompliant(false)]
-        public static N ToNumeric<N>(uint value) where N : struct, INumericExtended<N>
+        private static decimal ClampToDecimal(double value)
         {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
-            catch (OverflowException) { return Numeric<N>.MaxValue; }
+            try
+            {
+                return checked(Convert.ToDecimal(value));
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0;
+            }
         }
 
-        [CLSCompliant(false)]
-        public static N ToNumeric<N>(ulong value) where N : struct, INumericExtended<N>
+        private static float CastClampToSingle(double value)
         {
-            try { checked { return ConvertN.ToNumeric<N>(value); } }
-            catch (OverflowException) { return Numeric<N>.MaxValue; }
+            try
+            {
+                return checked((float)value);
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0;
+            }
+        }
+
+        private static float CastClampToSingle(decimal value)
+        {
+            try
+            {
+                return checked((float)value);
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0;
+            }
+        }
+
+        private static double CastClampToDouble(float value)
+        {
+            try
+            {
+                return checked((double)value);
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0;
+            }
+        }
+
+        private static double CastClampToDouble(decimal value)
+        {
+            try
+            {
+                return checked((double)value);
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0;
+            }
+        }
+
+        private static decimal CastClampToDecimal(float value)
+        {
+            try
+            {
+                return checked((decimal)value);
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0;
+            }
+        }
+
+        private static decimal CastClampToDecimal(double value)
+        {
+            try
+            {
+                return checked((decimal)value);
+            }
+            catch (OverflowException)
+            {
+                return value > 0 ? decimal.MaxValue : value < 0 ? decimal.MinValue : 0;
+            }
         }
     }
 }

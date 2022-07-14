@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Jodo.Primitives;
 
 namespace Jodo.Numerics
@@ -28,6 +29,7 @@ namespace Jodo.Numerics
     /// </summary>
     /// <typeparam name="TSelf">The type that implements <see cref="INumericExtended{N}"/></typeparam>
     [CLSCompliant(false)]
+    [SuppressMessage("csharpsquid", "S3444")] // by design
     public interface INumericExtended<TSelf> :
             INumeric<TSelf>,
             IConvertible,

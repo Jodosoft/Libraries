@@ -79,9 +79,14 @@ namespace Jodo.Numerics
         public bool Equals(Vector3<N> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         public override bool Equals(object? obj) => obj is Vector3<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y, Z);
-        public override string ToString() => $"({X}, {Y}, {Z})";
+        public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
+        public string ToString(string? format) => ToString(format, CultureInfo.CurrentCulture);
+
         public string ToString(string? format, IFormatProvider? formatProvider)
-            => $"({X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)}, {Z.ToString(format, formatProvider)})";
+        {
+            string separator = NumberFormatInfo.GetInstance(formatProvider).NumberGroupSeparator;
+            return $"<{X.ToString(format, formatProvider)}{separator} {Y.ToString(format, formatProvider)}{separator} {Z.ToString(format, formatProvider)}>";
+        }
 
         public static bool TryParse(string value, out Vector3<N> result)
             => Try.Run(() => Parse(value), out result);

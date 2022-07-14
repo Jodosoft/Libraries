@@ -38,8 +38,6 @@ namespace Jodo.Numerics
             ISerializable
         where N : struct, INumeric<N>
     {
-        private const string Symbol = "→";
-
         public static readonly Vector2<N> Zero = default;
 
         public readonly N X;
@@ -73,8 +71,14 @@ namespace Jodo.Numerics
         public bool Equals(Vector2<N> other) => X.Equals(other.X) && Y.Equals(other.Y);
         public override bool Equals(object? obj) => obj is Vector2<N> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y);
-        public override string ToString() => $"{Symbol}({X}, {Y})";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({X.ToString(format, formatProvider)}, {Y.ToString(format, formatProvider)})";
+        public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
+        public string ToString(string? format) => ToString(format, CultureInfo.CurrentCulture);
+
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            string separator = NumberFormatInfo.GetInstance(formatProvider).NumberGroupSeparator;
+            return $"<{X.ToString(format, formatProvider)}{separator} {Y.ToString(format, formatProvider)}>";
+        }
 
         public static bool TryParse(string value, out Vector2<N> result) => Try.Run(() => Parse(value), out result);
         public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Vector2<N> result)
@@ -82,7 +86,7 @@ namespace Jodo.Numerics
 
         public static Vector2<N> Parse(string value)
         {
-            string[] parts = StringUtilities.ParseVectorParts(value.Trim().Replace(Symbol, string.Empty));
+            string[] parts = StringUtilities.ParseVectorParts(value.Trim());
             if (parts.Length != 2) throw new FormatException();
             return new Vector2<N>(
                 Parser<N>.Parse(parts[0]),
@@ -91,7 +95,7 @@ namespace Jodo.Numerics
 
         public static Vector2<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
         {
-            string[] parts = StringUtilities.ParseVectorParts(value.Trim().Replace(Symbol, string.Empty));
+            string[] parts = StringUtilities.ParseVectorParts(value.Trim());
             if (parts.Length != 2) throw new FormatException();
             return new Vector2<N>(
                 Parser<N>.Parse(parts[0], style, provider),
