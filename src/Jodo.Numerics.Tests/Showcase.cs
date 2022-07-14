@@ -56,13 +56,13 @@ namespace Jodo.Numerics.Tests
             byte[] b = BitConverter<Fix64>.GetBytes(f);
 
             Console.WriteLine(w); // output: 4221
-            Console.WriteLine($"{v:X}"); // output: →(107D, 20F)
+            Console.WriteLine($"{v:X}"); // output: <107D, 20F>
 
             Console.WriteLine(f); // output: 6.283184
             Console.WriteLine(b.ToString()); // output: System.Byte[]
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("4221", "→(107D, 20F)", "6.283184", "System.Byte[]");
+                .Should().ContainInOrder("4221", "<107D, 20F>", "6.283184", "System.Byte[]");
         }
 
         [Test]
