@@ -23,14 +23,14 @@ using NUnit.Framework;
 
 namespace Jodo.Testing
 {
-    [Parallelizable]
+    [Parallelizable(ParallelScope.Children)]
     [Timeout(10000)]
     public abstract class GlobalFixtureBase
     {
 #if DEBUG
         public const int RandomVariations = 16;
 #else
-        public const int RandomVariations = 128;
+        public const int RandomVariations = 64;
 #endif
 
         public Random Random { get; private set; }
