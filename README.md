@@ -1,7 +1,5 @@
 <p align="center"><img src="Banner.png" alt="Logo" height="96"/></p>
-<h1 align="center">The Jodo Packages</h1>
-
-<p align="center">C# extension libraries to complement the .NET SDK.</p>
+<h1 align="center">The Jodo Libraries</h1>
 
 <p align="center">
   <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&no-cache"></a>
@@ -19,7 +17,7 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Packages: a collection of C# utilities covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
+Welcome to The Jodo Libraries: a collection of .NET extensions written in C# covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
 
 <table>
   <tr>
@@ -88,7 +86,7 @@ Welcome to The Jodo Packages: a collection of C# utilities covering numerics, ge
 
 Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
 
-<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided with <a href="#operators">full operator support</a> and <a href="#stringformatting">commonly used interfaces</a>. Static classes such as <a href="#mathn">Math&lt;N&gt;</a> and structs such as <a href="#vector3n">Vector3&lt;N&gt;</a> support generic usage of numeric types.
+<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided with <a href="#operators">full operator support</a> and <a href="#stringformatting">commonly used interfaces</a>. Static classes such as <a href="#mathn">MathN</a> and structs such as <a href="#vector3n">Vector3&lt;N&gt;</a> support generic usage of numeric types.
 
 The following code sample demonstrates how to use these types:
 
@@ -120,12 +118,12 @@ Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
   </tr>
   <tr />
   <tr>
-    <td id="mathn"><sub><em>static class</em></sub><br />Math&lt;N&gt;</td>
+    <td id="mathn"><sub><em>static class</em></sub><br />MathN</td>
     <td>
       <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">System.Math</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, e.g. <code>Log(N)</code>, <code>Acosh(N)</code> and <code>Round(N, int)</code>.</p>
       <p>This is demonstrated by the following code sample:</p>
     <pre lang="csharp"><code>var res1 = MathF.Log10(1000 * MathF.PI);
-var res2 = Math&lt;fix64&gt;.Log10(1000 * Math&lt;fix64&gt;.PI);
+var res2 = MathN.Log10(1000 * MathN.PI&lt;fix64&gt;());
 
 Console.WriteLine(res1); // output: 3.49715
 Console.WriteLine(res2); // output: 3.497149</code></pre>
@@ -133,12 +131,12 @@ Console.WriteLine(res2); // output: 3.497149</code></pre>
   </tr>
   <tr />
   <tr>
-    <td id="bitconvertern"><sub><em>static class</em></sub><br />BitConverter&lt;N&gt;</td>
+    <td id="bitconvertern"><sub><em>static class</em></sub><br />BitConverterN</td>
     <td>
       <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">System.BitConverter</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, supporting conversion to and from byte arrays.
       <p>This is demonstrated by the following code sample:</p>
 <pre lang="csharp"><code>byte[] res1 = BitConverter.GetBytes((ulong)1234567890);
-byte[] res2 = BitConverter&lt;ufix64&gt;.GetBytes((ufix64)256.512);
+byte[] res2 = BitConverterN.GetBytes((UFix64)256.512);
 
 Console.WriteLine(BitConverter.ToString(res1)); // output: D2-02-96-49-00-00-00-00
 Console.WriteLine(BitConverter.ToString(res2)); // output: 00-10-4A-0F-00-00-00-00</code></pre>
@@ -146,28 +144,13 @@ Console.WriteLine(BitConverter.ToString(res2)); // output: 00-10-4A-0F-00-00-00-
   </tr>
   <tr />
   <tr>
-    <td id="convertn"><sub><em>static class</em></sub><br />Convert&lt;N&gt;</td>
-    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a>, e.g. <code>ToBoolean(N)</code> and <code>ToDecimal(N)</code>, supporting conversion to and from .NET Base Types.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="castn"><sub><em>static class</em></sub><br />Cast&lt;N&gt;</td>
-    <td>Provides access to numeric conversion operators (casts) from within a generic context.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="clampn"><sub><em>static class</em></sub><br />Clamp&lt;N&gt;</td>
-    <td>Allows conversion to and from the built-in numeric types whilst preventing overflow by clamping to the <code>MinValue</code> and <code>MaxValue</code> of the target type.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="parsern"><sub><em>static class</em></sub><br />Parser&lt;N&gt;</td>
-    <td>Provides string parsing methods with support for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.globalization.numberstyles">System.NumberStyles</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformatprovider">System.IFormatProvider</a>.</td>
+    <td id="convertn"><sub><em>static class</em></sub><br />ConvertN</td>
+    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a> (e.g. <code>ToBoolean(N)</code> and <code>ToDecimal(N)</code>). Method overloads are provided to support different conversion modes, e.g. <code>Default</code>, <code>Cast</code> and <code>Clamp</code>.</td>
   </tr>
   <tr />
   <tr>
     <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;N&gt;</td>
-    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 unsigned), offering the same level of interface and operator support as.</td>
+    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
   </tr>
   <tr />
   <tr>
@@ -181,7 +164,7 @@ Console.WriteLine(BitConverter.ToString(res2)); // output: 00-10-4A-0F-00-00-00-
   </tr>
   <tr />
   <tr>
-    <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>fix64</code>,<br /><code>ufix64</code></td>
+    <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>Fix64</code>,<br /><code>UFix64</code></td>
     <td><p><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 decimal digits of precision, represented internally by 64-bit integers.</p>
       <p>Supports a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned).</p>
       <p>Useful when a constant level of precision is required, <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">regardless of magnitude</a>. The following code sample demonstrates this:</p>
@@ -194,14 +177,14 @@ Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
   <tr />
   <tr>
     <td id="wrappers"><sub><em>readonly struct</em></sub><br />
-      <code>xbyte</code>, <code>xsbyte</code>,<br />
-      <code>xshort</code>, <code>xushort</code>,<br />
-      <code>xint</code>, <code>xuint</code>,<br />
-      <code>xlong</code>, <code>xulong</code>,<br />
-      <code>xfloat</code>, <code>xdouble</code>,<br />
-      <code>xdecimal</code>
+      <code>ByteN</code>, <code>SByteN</code>,<br />
+      <code>Int16N</code>, <code>UInt16N</code>,<br />
+      <code>Int32N</code>, <code>UInt32N</code>,<br />
+      <code>Int64N</code>, <code>UInt64N</code>,<br />
+      <code>SingleN</code>, <code>DoubleN</code>,<br />
+      <code>DecimalN</code>
     </td>
-    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> with identical behaviour, allowing them to be used interchangeably with generics.</td>
+    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, allowing them to be used in a generic context .</td>
   </tr>
 </table>
 
