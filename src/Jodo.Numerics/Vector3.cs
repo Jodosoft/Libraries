@@ -67,7 +67,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly N Length()
         {
-            return Math<N>.Sqrt(LengthSquared());
+            return MathN.Sqrt(LengthSquared());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -113,9 +113,9 @@ namespace Jodo.Numerics
         public static Vector3<N> Abs(Vector3<N> value)
         {
             return new Vector3<N>(
-                Math<N>.Abs(value.X),
-                Math<N>.Abs(value.Y),
-                Math<N>.Abs(value.Z)
+                MathN.Abs(value.X),
+                MathN.Abs(value.Y),
+                MathN.Abs(value.Z)
             );
         }
 
@@ -144,7 +144,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static N Distance(Vector3<N> value1, Vector3<N> value2)
         {
-            return Math<N>.Sqrt(DistanceSquared(value1, value2));
+            return MathN.Sqrt(DistanceSquared(value1, value2));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -184,9 +184,9 @@ namespace Jodo.Numerics
         public static Vector3<N> Max(Vector3<N> value1, Vector3<N> value2)
         {
             return new Vector3<N>(
-                Math<N>.Max(value1.X, value2.X),
-                Math<N>.Max(value1.Y, value2.Y),
-                Math<N>.Max(value1.Z, value2.Z));
+                MathN.Max(value1.X, value2.X),
+                MathN.Max(value1.Y, value2.Y),
+                MathN.Max(value1.Z, value2.Z));
         }
 
 
@@ -194,9 +194,9 @@ namespace Jodo.Numerics
         public static Vector3<N> Min(Vector3<N> value1, Vector3<N> value2)
         {
             return new Vector3<N>(
-                Math<N>.Min(value1.X, value2.X),
-                Math<N>.Min(value1.Y, value2.Y),
-                Math<N>.Min(value1.Z, value2.Z));
+                MathN.Min(value1.X, value2.X),
+                MathN.Min(value1.Y, value2.Y),
+                MathN.Min(value1.Z, value2.Z));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -240,9 +240,9 @@ namespace Jodo.Numerics
         public static Vector3<N> SquareRoot(Vector3<N> value)
         {
             return new Vector3<N>(
-                Math<N>.Sqrt(value.X),
-                Math<N>.Sqrt(value.Y),
-                Math<N>.Sqrt(value.Z)
+                MathN.Sqrt(value.X),
+                MathN.Sqrt(value.Y),
+                MathN.Sqrt(value.Z)
             );
         }
 

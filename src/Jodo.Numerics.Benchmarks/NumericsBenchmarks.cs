@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Jodo.Benchmarking;
+using Jodo.Primitives;
 
 namespace Jodo.Numerics.Benchmarks
 {
@@ -29,12 +30,12 @@ namespace Jodo.Numerics.Benchmarks
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static void XInt_Versus_Int32_Division()
+        public static void Int32N_Versus_Int32_Division()
         {
             int baselineLeft = Random.NextInt32(100, 1000);
             int baselineRight = Random.NextInt32(2, 10);
-            xint sutLeft = (xint)baselineLeft;
-            xint sutRight = (xint)baselineRight;
+            Int32N sutLeft = (Int32N)baselineLeft;
+            Int32N sutRight = (Int32N)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -42,10 +43,10 @@ namespace Jodo.Numerics.Benchmarks
         }
 
         [Benchmark]
-        public static void XInt_Versus_Int32_ConversionToFloat()
+        public static void Int32N_Versus_Int32_ConversionToFloat()
         {
             int baseline = Random.NextInt32(100, 1000);
-            xint sut = (xint)baseline;
+            Int32N sut = (Int32N)baseline;
 
             Benchmark.Run(
                 () => (float)sut,
@@ -53,19 +54,19 @@ namespace Jodo.Numerics.Benchmarks
         }
 
         [Benchmark]
-        public static void XInt_Versus_Int32_StringParsing()
+        public static void Int32N_Versus_Int32_StringParsing()
         {
             string input = Random.NextInt32(-100, 100).ToString();
 
             Benchmark.Run(
-                () => xint.Parse(input),
+                () => Int32N.Parse(input),
                 () => int.Parse(input));
         }
 
         [Benchmark]
-        public static void XInt_Versus_Int32_Overflow()
+        public static void Int32N_Versus_Int32_Overflow()
         {
-            xint functionInput = xint.MaxValue;
+            Int32N functionInput = Int32N.MaxValue;
             int baselineInput = int.MaxValue;
 
             Benchmark.Run(
@@ -78,8 +79,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             double baselineLeft = Random.NextDouble(100, 1000);
             double baselineRight = Random.NextDouble(2, 10);
-            xdouble sutLeft = (xdouble)baselineLeft;
-            xdouble sutRight = (xdouble)baselineRight;
+            DoubleN sutLeft = (DoubleN)baselineLeft;
+            DoubleN sutRight = (DoubleN)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -92,7 +93,7 @@ namespace Jodo.Numerics.Benchmarks
             string input = Random.NextDouble(-100, 100).ToString();
 
             Benchmark.Run(
-                () => xdouble.Parse(input),
+                () => DoubleN.Parse(input),
                 () => double.Parse(input));
         }
 
@@ -101,8 +102,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             double baselineLeft = Random.NextDouble(100, 1000);
             double baselineRight = Random.NextDouble(2, 10);
-            fix64 sutLeft = (fix64)baselineLeft;
-            fix64 sutRight = (fix64)baselineRight;
+            Fix64 sutLeft = (Fix64)baselineLeft;
+            Fix64 sutRight = (Fix64)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -115,7 +116,7 @@ namespace Jodo.Numerics.Benchmarks
             string input = Random.NextDouble(-100, 100).ToString();
 
             Benchmark.Run(
-                () => fix64.Parse(input),
+                () => Fix64.Parse(input),
                 () => double.Parse(input));
         }
     }

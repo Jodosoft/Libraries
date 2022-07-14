@@ -32,7 +32,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static N Length<N>(this Vector2<N> value) where N : struct, INumeric<N>
         {
-            return Math<N>.Sqrt(value.LengthSquared());
+            return MathN.Sqrt(value.LengthSquared());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

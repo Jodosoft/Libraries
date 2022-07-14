@@ -27,61 +27,61 @@ namespace Jodo.Numerics
     /// <summary>
     /// Defines a generalization for numeric value types.
     /// </summary>
-    /// <typeparam name="N">The type that implements INumeric&lt;N&gt;</typeparam>
+    /// <typeparam name="TSelf">The type that implements <see cref="INumeric{TSelf}"/>.</typeparam>
     [SuppressMessage("csharpsquid", "S3444")] // by design
-    public interface INumeric<N> :
+    public interface INumeric<TSelf> :
             IComparable,
-            IComparable<N>,
-            IEquatable<N>,
+            IComparable<TSelf>,
+            IEquatable<TSelf>,
             IFormattable,
-            IProvider<IBitConverter<N>>,
-            IProvider<IConvert<N>>,
-            IProvider<IMath<N>>,
-            IProvider<INumericStatic<N>>,
-            IProvider<IRandom<N>>,
-            IProvider<IParser<N>>,
+            IProvider<IBitConverter<TSelf>>,
+            IProvider<IConvert<TSelf>>,
+            IProvider<IMath<TSelf>>,
+            IProvider<INumericStatic<TSelf>>,
+            IProvider<IRandom<TSelf>>,
+            IProvider<IParser<TSelf>>,
             ISerializable
-        where N : struct, INumeric<N>
+        where TSelf : struct, INumeric<TSelf>
     {
-        bool IsGreaterThan(N value);
-        bool IsGreaterThanOrEqualTo(N value);
-        bool IsLessThan(N value);
-        bool IsLessThanOrEqualTo(N value);
-        N Add(N value);
-        N BitwiseComplement();
-        N Divide(N value);
-        N LeftShift(int count);
-        N LogicalAnd(N value);
-        N LogicalExclusiveOr(N value);
-        N LogicalOr(N value);
-        N Multiply(N value);
-        N Negative();
-        N Positive();
-        N Remainder(N value);
-        N RightShift(int count);
-        N Subtract(N value);
+        bool IsGreaterThan(TSelf value);
+        bool IsGreaterThanOrEqualTo(TSelf value);
+        bool IsLessThan(TSelf value);
+        bool IsLessThanOrEqualTo(TSelf value);
+        TSelf Add(TSelf value);
+        TSelf BitwiseComplement();
+        TSelf Divide(TSelf value);
+        TSelf LeftShift(int count);
+        TSelf LogicalAnd(TSelf value);
+        TSelf LogicalExclusiveOr(TSelf value);
+        TSelf LogicalOr(TSelf value);
+        TSelf Multiply(TSelf value);
+        TSelf Negative();
+        TSelf Positive();
+        TSelf Remainder(TSelf value);
+        TSelf RightShift(int count);
+        TSelf Subtract(TSelf value);
 
         string ToString(string format);
         string ToString(IFormatProvider formatProvider);
 
 #if NETSTANDARD2_1
-        public static bool operator <(INumeric<N> left, INumeric<N> right) => left.IsLessThan((N)right);
-        public static bool operator <=(INumeric<N> left, INumeric<N> right) => left.IsLessThanOrEqualTo((N)right);
-        public static bool operator >(INumeric<N> left, INumeric<N> right) => left.IsGreaterThan((N)right);
-        public static bool operator >=(INumeric<N> left, INumeric<N> right) => left.IsGreaterThanOrEqualTo((N)right);
-        public static N operator %(INumeric<N> left, INumeric<N> right) => left.Remainder((N)right);
-        public static N operator &(INumeric<N> left, INumeric<N> right) => left.LogicalAnd((N)right);
-        public static N operator -(INumeric<N> left) => left.Negative();
-        public static N operator -(INumeric<N> left, INumeric<N> right) => left.Subtract((N)right);
-        public static N operator *(INumeric<N> left, INumeric<N> right) => left.Multiply((N)right);
-        public static N operator /(INumeric<N> left, INumeric<N> right) => left.Divide((N)right);
-        public static N operator ^(INumeric<N> left, INumeric<N> right) => left.LogicalExclusiveOr((N)right);
-        public static N operator |(INumeric<N> left, INumeric<N> right) => left.LogicalOr((N)right);
-        public static N operator ~(INumeric<N> left) => left.BitwiseComplement();
-        public static N operator +(INumeric<N> left) => left.Positive();
-        public static N operator +(INumeric<N> left, INumeric<N> right) => left.Add((N)right);
-        public static N operator <<(INumeric<N> left, int right) => left.LeftShift(right);
-        public static N operator >>(INumeric<N> left, int right) => left.RightShift(right);
+        public static bool operator <(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsLessThan((TSelf)right);
+        public static bool operator <=(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsLessThanOrEqualTo((TSelf)right);
+        public static bool operator >(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsGreaterThan((TSelf)right);
+        public static bool operator >=(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsGreaterThanOrEqualTo((TSelf)right);
+        public static TSelf operator %(INumeric<TSelf> left, INumeric<TSelf> right) => left.Remainder((TSelf)right);
+        public static TSelf operator &(INumeric<TSelf> left, INumeric<TSelf> right) => left.LogicalAnd((TSelf)right);
+        public static TSelf operator -(INumeric<TSelf> left) => left.Negative();
+        public static TSelf operator -(INumeric<TSelf> left, INumeric<TSelf> right) => left.Subtract((TSelf)right);
+        public static TSelf operator *(INumeric<TSelf> left, INumeric<TSelf> right) => left.Multiply((TSelf)right);
+        public static TSelf operator /(INumeric<TSelf> left, INumeric<TSelf> right) => left.Divide((TSelf)right);
+        public static TSelf operator ^(INumeric<TSelf> left, INumeric<TSelf> right) => left.LogicalExclusiveOr((TSelf)right);
+        public static TSelf operator |(INumeric<TSelf> left, INumeric<TSelf> right) => left.LogicalOr((TSelf)right);
+        public static TSelf operator ~(INumeric<TSelf> left) => left.BitwiseComplement();
+        public static TSelf operator +(INumeric<TSelf> left) => left.Positive();
+        public static TSelf operator +(INumeric<TSelf> left, INumeric<TSelf> right) => left.Add((TSelf)right);
+        public static TSelf operator <<(INumeric<TSelf> left, int right) => left.LeftShift(right);
+        public static TSelf operator >>(INumeric<TSelf> left, int right) => left.RightShift(right);
 #endif
     }
 }

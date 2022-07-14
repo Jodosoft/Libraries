@@ -45,7 +45,7 @@ namespace Jodo.Geometry
         public readonly N Radius;
 
         public N GetDiameter() => Numeric<N>.Two.Multiply(Radius);
-        public N GetCircumeference() => Numeric<N>.Two.Multiply(Math<N>.PI).Multiply(Radius);
+        public N GetCircumeference() => Numeric<N>.Two.Multiply(MathN.PI<N>()).Multiply(Radius);
 
         public Circle(Vector2<N> center, N radius)
         {
@@ -73,9 +73,9 @@ namespace Jodo.Geometry
 
         public Vector2<N>[] GetVertices(int circumferenceDivisor)
         {
-            double centerX = Convert<N>.ToDouble(Center.X);
-            double centerY = Convert<N>.ToDouble(Center.Y);
-            double radius = Convert<N>.ToDouble(Radius);
+            double centerX = ConvertN.ToDouble(Center.X);
+            double centerY = ConvertN.ToDouble(Center.Y);
+            double radius = ConvertN.ToDouble(Radius);
 
             Vector2<N>[]? results = new Vector2<N>[circumferenceDivisor + 1];
             results[0] = Center;
@@ -86,13 +86,13 @@ namespace Jodo.Geometry
                 double radians = degrees * NumericUtilities.RadiansPerDegree;
 
                 results[i + 1] = new Vector2<N>(
-                    Convert<N>.ToNumeric(centerX + (radius * Math.Cos(radians))),
-                    Convert<N>.ToNumeric(centerY + (radius * Math.Sin(radians))));
+                    ConvertN.ToNumeric<N>(centerX + (radius * Math.Cos(radians))),
+                    ConvertN.ToNumeric<N>(centerY + (radius * Math.Sin(radians))));
             }
             return results;
         }
 
-        public N GetArea() => Math<N>.PI.Multiply(Math<N>.Pow(Radius, Numeric<N>.Two));
+        public N GetArea() => MathN.PI<N>().Multiply(MathN.Pow(Radius, Numeric<N>.Two));
         public bool Contains(Circle<N> other)
             => Radius.IsGreaterThanOrEqualTo(other.Radius) && Center.DistanceFrom(other.Center).IsLessThanOrEqualTo(Radius.Subtract(other.Radius));
         public bool Contains(Vector2<N> point) => point.DistanceFrom(Center).IsLessThan(Radius);
@@ -169,16 +169,16 @@ namespace Jodo.Geometry
 
             Circle<N> IRandom<Circle<N>>.Next(Random random, Circle<N> bound1, Circle<N> bound2)
             {
-                N xMin = Math<N>.Min(bound1.Center.X.Subtract(bound1.Radius), bound2.Center.X.Subtract(bound2.Radius));
-                N xMax = Math<N>.Max(bound1.Center.X.Add(bound1.Radius), bound2.Center.X.Add(bound2.Radius));
-                N yMin = Math<N>.Min(bound1.Center.Y.Subtract(bound1.Radius), bound2.Center.Y.Subtract(bound2.Radius));
-                N yMax = Math<N>.Max(bound1.Center.Y.Add(bound1.Radius), bound2.Center.Y.Add(bound2.Radius));
+                N xMin = MathN.Min(bound1.Center.X.Subtract(bound1.Radius), bound2.Center.X.Subtract(bound2.Radius));
+                N xMax = MathN.Max(bound1.Center.X.Add(bound1.Radius), bound2.Center.X.Add(bound2.Radius));
+                N yMin = MathN.Min(bound1.Center.Y.Subtract(bound1.Radius), bound2.Center.Y.Subtract(bound2.Radius));
+                N yMax = MathN.Max(bound1.Center.Y.Add(bound1.Radius), bound2.Center.Y.Add(bound2.Radius));
 
                 Vector2<N> center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
 
-                N xMaxRadius = Math<N>.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
-                N yMaxRadius = Math<N>.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
-                N radius = random.NextNumeric(Numeric<N>.Zero, Math<N>.Min(xMaxRadius, yMaxRadius));
+                N xMaxRadius = MathN.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
+                N yMaxRadius = MathN.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
+                N radius = random.NextNumeric(Numeric<N>.Zero, MathN.Min(xMaxRadius, yMaxRadius));
 
                 return new Circle<N>(center, radius);
             }

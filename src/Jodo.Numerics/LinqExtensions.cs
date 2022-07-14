@@ -18,9 +18,8 @@
 // IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using Jodo.Numerics;
 
-namespace System.Linq
+namespace Jodo.Numerics
 {
     public static class LinqExtensions
     {

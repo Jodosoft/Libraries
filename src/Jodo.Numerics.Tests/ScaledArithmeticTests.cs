@@ -19,6 +19,7 @@
 
 using System;
 using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 

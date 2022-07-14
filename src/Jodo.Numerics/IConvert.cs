@@ -31,14 +31,14 @@ namespace Jodo.Numerics
         short ToInt16(N value, Conversion mode);
         string ToString(N value);
 
-        N ToValue(bool value);
-        N ToValue(byte value, Conversion mode);
-        N ToValue(decimal value, Conversion mode);
-        N ToValue(double value, Conversion mode);
-        N ToValue(float value, Conversion mode);
-        N ToValue(int value, Conversion mode);
-        N ToValue(long value, Conversion mode);
-        N ToValue(short value, Conversion mode);
-        N ToValue(string value);
+        N ToNumeric(bool value);
+        N ToNumeric(byte value, Conversion mode);
+        N ToNumeric(decimal value, Conversion mode);
+        N ToNumeric(double value, Conversion mode);
+        N ToNumeric(float value, Conversion mode);
+        N ToNumeric(int value, Conversion mode);
+        N ToNumeric(long value, Conversion mode);
+        N ToNumeric(short value, Conversion mode);
+        N ToNumeric(string value);
     }
 }

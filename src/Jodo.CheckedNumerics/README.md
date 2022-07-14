@@ -2,7 +2,6 @@
 
 Commonly Used Types:
 Jodo.CheckedNumerics.CheckedArithmetic
-Jodo.CheckedNumerics.CheckedConvert
-Jodo.CheckedNumerics.cint
-Jodo.CheckedNumerics.cfloat
-Jodo.CheckedNumerics.cdouble
+Jodo.CheckedNumerics.Int32C
+Jodo.CheckedNumerics.SingleC
+Jodo.CheckedNumerics.DoubleC

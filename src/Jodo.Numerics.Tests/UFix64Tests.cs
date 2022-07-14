@@ -21,18 +21,18 @@ namespace Jodo.Numerics.Tests
 {
     public static class UFix64Tests
     {
-        public sealed class BitConverter : BitConverterTests<ufix64> { }
-        public sealed class Cast : CastTests<ufix64> { }
-        public sealed class ConvertTests : ConvertTests<ufix64> { }
-        public sealed class MathGeneral : MathTests.General<ufix64> { }
-        public sealed class MathReal : MathTests.Real<ufix64> { }
-        public sealed class MathUnsigned : NumericTests.Unsigned<ufix64> { }
-        public sealed class NumericGeneral : NumericTests.General<ufix64> { }
-        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<ufix64> { }
-        public sealed class NumericNoInfinity : NumericTests.NoInfinity<ufix64> { }
-        public sealed class NumericNoNaN : NumericTests.NoNaN<ufix64> { }
-        public sealed class NumericReal : NumericTests.Real<ufix64> { }
-        public sealed class NumericUnsigned : NumericTests.Unsigned<ufix64> { }
-        public sealed class ParserGeneral : ParserTests.General<ufix64> { }
+        public sealed class BitConverter : BitConverterTests<UFix64> { }
+        public sealed class Cast : CastTests<UFix64> { }
+        public sealed class ConvertTests : ConvertTests<UFix64> { }
+        public sealed class MathGeneral : MathTests.General<UFix64> { }
+        public sealed class MathReal : MathTests.Real<UFix64> { }
+        public sealed class MathUnsigned : NumericTests.Unsigned<UFix64> { }
+        public sealed class NumericGeneral : NumericTests.General<UFix64> { }
+        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<UFix64> { }
+        public sealed class NumericNoInfinity : NumericTests.NoInfinity<UFix64> { }
+        public sealed class NumericNoNaN : NumericTests.NoNaN<UFix64> { }
+        public sealed class NumericReal : NumericTests.Real<UFix64> { }
+        public sealed class NumericUnsigned : NumericTests.Unsigned<UFix64> { }
+        public sealed class ParserGeneral : ParserTests.General<UFix64> { }
     }
 }

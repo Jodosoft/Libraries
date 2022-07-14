@@ -17,13 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
-namespace System
+namespace Jodo.Primitives
 {
     public static class RandomExtensions
     {
@@ -55,14 +55,14 @@ namespace System
             => (sbyte)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
         public static short NextInt16(this Random random)
-            => NextInt16(random, short.MinValue, short.MaxValue);
+            => random.NextInt16(short.MinValue, short.MaxValue);
 
         public static short NextInt16(this Random random, short bound1, short bound2)
             => (short)random.Next(Math.Min(bound1, bound2), Math.Max(bound1, bound2) + 1);
 
         [CLSCompliant(false)]
         public static ushort NextUInt16(this Random random)
-            => NextUInt16(random, ushort.MinValue, ushort.MaxValue);
+            => random.NextUInt16(ushort.MinValue, ushort.MaxValue);
 
         [CLSCompliant(false)]
         public static ushort NextUInt16(this Random random, ushort bound1, ushort bound2)
@@ -144,7 +144,7 @@ namespace System
                 checked { difference = bound2 - bound1; }
 
                 decimal scalar = (decimal)(random.Next() / (1.0 * (int.MaxValue - 1)));
-                decimal result = bound1 + (difference * scalar);
+                decimal result = bound1 + difference * scalar;
                 return result;
             }
             catch (OverflowException)
@@ -186,7 +186,7 @@ namespace System
             else
             {
                 double scalar = random.Next() / (1.0 * (int.MaxValue - 1));
-                double result = bound1 + (difference * scalar);
+                double result = bound1 + difference * scalar;
                 return result;
             }
         }

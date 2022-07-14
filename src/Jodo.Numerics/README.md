@@ -3,5 +3,5 @@
 Commonly Used Types:
 Jodo.Numerics.INumeric&lt;N&gt;
 Jodo.Numerics.Math&lt;N&gt;
-Jodo.Numerics.fix64
-Jodo.Numerics.ufix64
+Jodo.Numerics.Fix64
+Jodo.Numerics.UFix64

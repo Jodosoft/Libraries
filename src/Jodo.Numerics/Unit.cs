@@ -46,12 +46,12 @@ namespace Jodo.Numerics
 
         private Unit(N value)
         {
-            Value = Math<N>.Clamp(value, Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+            Value = MathN.Clamp(value, Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
         }
 
         private Unit(SerializationInfo info, StreamingContext context)
         {
-            Value = Math<N>.Clamp((N)info.GetValue(nameof(Value), typeof(N) ?? throw new InvalidOperationException()), Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+            Value = MathN.Clamp((N)info.GetValue(nameof(Value), typeof(N) ?? throw new InvalidOperationException()), Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

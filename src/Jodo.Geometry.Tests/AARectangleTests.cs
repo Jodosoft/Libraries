@@ -27,10 +27,10 @@ namespace Jodo.Geometry.Tests
 {
     public static class AARectangleTests
     {
-        public sealed class Intergral : Integral<xshort> { }
-        public sealed class GeneralUnsignedIntegral : General<xbyte> { }
-        public sealed class GeneralFloatingPoint : General<xfloat> { }
-        public sealed class GeneralFixedPoint : General<fix64> { }
+        public sealed class Intergral : Integral<Int16N> { }
+        public sealed class GeneralUnsignedIntegral : General<ByteN> { }
+        public sealed class GeneralFloatingPoint : General<SingleN> { }
+        public sealed class GeneralFixedPoint : General<Fix64> { }
 
         public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
         {
@@ -43,7 +43,7 @@ namespace Jodo.Geometry.Tests
             {
                 //arrange
                 AARectangle<N> subject = GenerateAARectangle<N>();
-                N expected = Math<N>.Abs(subject.Dimensions.X.Multiply(subject.Dimensions.Y));
+                N expected = MathN.Abs(subject.Dimensions.X.Multiply(subject.Dimensions.Y));
 
                 //act
                 N result = subject.GetArea();

@@ -34,7 +34,7 @@ namespace Jodo.Numerics.Tests
             public void Parse1_RoundTripSmallValue_CorrectResult()
             {
                 //arrange
-                N input = Math<N>.Round(Convert<N>.ToNumeric(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+                N input = MathN.Round(ConvertN.ToNumeric<N>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
 
                 //act
                 N result = Parser<N>.Parse(input.ToString());
@@ -47,7 +47,7 @@ namespace Jodo.Numerics.Tests
             public void Parse1_RoundTripFormat_CorrectResult()
             {
                 //arrange
-                N input = Math<N>.Round(Convert<N>.ToNumeric(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+                N input = MathN.Round(ConvertN.ToNumeric<N>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
 
                 //act
@@ -61,7 +61,7 @@ namespace Jodo.Numerics.Tests
             public void Parse1_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                N input = Math<N>.Round(Convert<N>.ToNumeric(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+                N input = MathN.Round(ConvertN.ToNumeric<N>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
 
                 //act
@@ -75,7 +75,7 @@ namespace Jodo.Numerics.Tests
             public void Parse2_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                N input = Math<N>.Round(Convert<N>.ToNumeric(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+                N input = MathN.Round(ConvertN.ToNumeric<N>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
                 NumberFormatInfo provider = NumberFormatInfo.InvariantInfo;
                 NumberStyles numberStyles = NumberStyles.Any;
@@ -104,7 +104,7 @@ namespace Jodo.Numerics.Tests
                 N result = Parser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
 
                 //assert
-                result.Should().Be(Convert<N>.ToNumeric(input));
+                result.Should().Be(ConvertN.ToNumeric<N>(input));
             }
         }
     }

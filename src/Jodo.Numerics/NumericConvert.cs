@@ -822,25 +822,25 @@ namespace Jodo.Numerics
 
         public static N ToNumeric<N>(byte value) where N : struct, INumeric<N>
         {
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         public static N ToNumeric<N>(short value) where N : struct, INumeric<N>
         {
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
         public static N ToNumeric<N>(int value) where N : struct, INumeric<N>
         {
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
         public static N ToNumeric<N>(long value) where N : struct, INumeric<N>
         {
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
@@ -850,7 +850,7 @@ namespace Jodo.Numerics
             if (float.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
             if (float.IsNaN(value)) return Numeric<N>.Zero;
 
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException)
             {
                 if (value < 0 && Numeric<N>.IsUnsigned) return Numeric<N>.MinValue;
@@ -867,7 +867,7 @@ namespace Jodo.Numerics
             if (double.IsNegativeInfinity(value)) return Numeric<N>.MinValue;
             if (double.IsNaN(value)) return Numeric<N>.Zero;
 
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException)
             {
                 if (value < 0 && Numeric<N>.IsUnsigned) return Numeric<N>.MinValue;
@@ -880,7 +880,7 @@ namespace Jodo.Numerics
 
         public static N ToNumeric<N>(decimal value) where N : struct, INumeric<N>
         {
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException)
             {
                 if (value < 0 && Numeric<N>.IsUnsigned) return Numeric<N>.MinValue;
@@ -892,30 +892,30 @@ namespace Jodo.Numerics
         }
 
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(sbyte value) where N : struct, INumericExtended<N>
+        public static N ToNumeric<N>(sbyte value) where N : struct, INumericNonCLS<N>
         {
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(ushort value) where N : struct, INumericExtended<N>
+        public static N ToNumeric<N>(ushort value) where N : struct, INumericNonCLS<N>
         {
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(uint value) where N : struct, INumericExtended<N>
+        public static N ToNumeric<N>(uint value) where N : struct, INumericNonCLS<N>
         {
-            try { checked { return Convert<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(ulong value) where N : struct, INumericExtended<N>
+        public static N ToNumeric<N>(ulong value) where N : struct, INumericNonCLS<N>
         {
-            try { checked { return ConvertExtended<N>.ToNumeric(value); } }
+            try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
     }

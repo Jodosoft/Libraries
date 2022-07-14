@@ -45,13 +45,13 @@ namespace Jodo.Geometry
 
         public readonly N Degrees;
 
-        public N GetRadians() => Math<N>.DegreesToRadians(Degrees);
-        public N Cos() => Math<N>.Cos(GetRadians());
-        public N Cosh() => Math<N>.Cosh(GetRadians());
-        public N Sinh() => Math<N>.Sinh(GetRadians());
-        public N Tanh() => Math<N>.Tanh(GetRadians());
-        public N Sin() => Math<N>.Sin(GetRadians());
-        public N Tan() => Math<N>.Tan(GetRadians());
+        public N GetRadians() => MathN.DegreesToRadians(Degrees);
+        public N Cos() => MathN.Cos(GetRadians());
+        public N Cosh() => MathN.Cosh(GetRadians());
+        public N Sinh() => MathN.Sinh(GetRadians());
+        public N Tanh() => MathN.Tanh(GetRadians());
+        public N Sin() => MathN.Sin(GetRadians());
+        public N Tan() => MathN.Tan(GetRadians());
 
         public Angle(N degrees)
         {
@@ -70,7 +70,7 @@ namespace Jodo.Geometry
 
         public Angle<N> Normalise()
         {
-            return new Angle<N>(Degrees.Remainder(Convert<N>.ToNumeric(360, Conversion.Cast)));
+            return new Angle<N>(Degrees.Remainder(ConvertN.ToNumeric<N>(360, Conversion.Cast)));
         }
 
         public int CompareTo(object? obj) => obj is Angle<N> other ? CompareTo(other) : 1;
@@ -82,9 +82,9 @@ namespace Jodo.Geometry
         public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}{Degrees.ToString(format, formatProvider)}°";
 
         public static Angle<N> FromDegrees(N degrees) => new Angle<N>(degrees);
-        public static Angle<N> FromDegrees(byte degrees) => new Angle<N>(Convert<N>.ToNumeric(degrees));
-        public static Angle<N> FromRadians(N radians) => new Angle<N>(Math<N>.RadiansToDegrees(radians));
-        public static Angle<N> FromRadians(byte radians) => new Angle<N>(Math<N>.RadiansToDegrees(Convert<N>.ToNumeric(radians)));
+        public static Angle<N> FromDegrees(byte degrees) => new Angle<N>(ConvertN.ToNumeric<N>(degrees));
+        public static Angle<N> FromRadians(N radians) => new Angle<N>(MathN.RadiansToDegrees(radians));
+        public static Angle<N> FromRadians(byte radians) => new Angle<N>(MathN.RadiansToDegrees(ConvertN.ToNumeric<N>(radians)));
 
         public static bool TryParse(string value, out Angle<N> result) => Try.Run(() => Parse(value), out result);
         public static bool TryParse(string value, NumberStyles numberStyles, IFormatProvider? formatProvider, out Angle<N> result)

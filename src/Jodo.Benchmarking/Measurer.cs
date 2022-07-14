@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using Jodo.Benchmarking.Internals;
 
 namespace Jodo.Benchmarking
 {

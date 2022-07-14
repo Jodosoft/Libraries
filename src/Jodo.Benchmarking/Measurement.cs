@@ -20,7 +20,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Jodo.Benchmarking.Internals
+namespace Jodo.Benchmarking
 {
     [ExcludeFromCodeCoverage]
     public readonly struct Measurement

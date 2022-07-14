@@ -33,10 +33,10 @@ namespace Jodo.Geometry.Tests
 
         public AARectangle<N> GenerateAARectangle<N>() where N : struct, INumeric<N>
         {
-            N minOrigin = Numeric<N>.IsSigned ? Convert<N>.ToNumeric(-10) : Numeric<N>.Zero;
-            N maxOrigin = Convert<N>.ToNumeric(10);
-            N minDimension = Numeric<N>.IsSigned ? Convert<N>.ToNumeric(-10) : Numeric<N>.Zero;
-            N maxDimension = Convert<N>.ToNumeric(10);
+            N minOrigin = Numeric<N>.IsSigned ? ConvertN.ToNumeric<N>(-10) : Numeric<N>.Zero;
+            N maxOrigin = ConvertN.ToNumeric<N>(10);
+            N minDimension = Numeric<N>.IsSigned ? ConvertN.ToNumeric<N>(-10) : Numeric<N>.Zero;
+            N maxDimension = ConvertN.ToNumeric<N>(10);
             return new AARectangle<N>(
                 new Vector2<N>(
                     Random.NextNumeric(minOrigin, maxOrigin),

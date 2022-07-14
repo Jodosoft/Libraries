@@ -23,6 +23,7 @@ using System;
 using System.IO;
 using System.Text;
 using FluentAssertions;
+using Jodo.Numerics;
 using Jodo.Primitives;
 using NUnit.Framework;
 
@@ -48,11 +49,11 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void NumericsSummary()
         {
-            xint w = -100 + Math<xint>.Max(1234, 4321);
-            Vector2<xint> v = new Vector2<xint>(w, w >> 0b11);
+            Int32N w = -100 + MathN.Max<Int32N>(1234, 4321);
+            Vector2<Int32N> v = new Vector2<Int32N>(w, w >> 0b11);
 
-            fix64 f = 2 * Math<fix64>.PI;
-            byte[] b = BitConverter<fix64>.GetBytes(f);
+            Fix64 f = 2 * MathN.PI<Fix64>();
+            byte[] b = BitConverter<Fix64>.GetBytes(f);
 
             Console.WriteLine(w); // output: 4221
             Console.WriteLine($"{v:X}"); // output: →(107D, 20F)
@@ -68,7 +69,7 @@ namespace Jodo.Numerics.Tests
         public void FixedPointArithmetic_LargeValues_NoLossOfPrecision()
         {
             float floatingPoint = 1000000 + MathF.PI;
-            fix64 fixedPoint = 1000000 + Math<fix64>.PI;
+            Fix64 fixedPoint = 1000000 + MathN.PI<Fix64>();
 
             Console.WriteLine(floatingPoint); // output: 1000003.1
             Console.WriteLine(fixedPoint); // output: 1000003.141592
@@ -80,8 +81,8 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void StringFormatting()
         {
-            xint var1 = (xint)1024;
-            fix64 var2 = (fix64)99.54322f;
+            Int32N var1 = (Int32N)1024;
+            Fix64 var2 = (Fix64)99.54322f;
 
             Console.WriteLine($"{var1:N}"); // output: 1,024.00
             Console.WriteLine($"{var1:X}"); // output: 400
@@ -95,8 +96,8 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void RandomValueGeneration()
         {
-            xdouble var1 = Random.NextNumeric<xdouble>();
-            xdouble var2 = Random.NextNumeric<xdouble>(100, 120);
+            DoubleN var1 = Random.NextNumeric<DoubleN>();
+            DoubleN var2 = Random.NextNumeric<DoubleN>(100, 120);
 
             Console.WriteLine(var1); // output: -7.405808417991177E+115 (example)
             Console.WriteLine(var2); // output: 102.85086051826445 (example)
@@ -107,9 +108,9 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void CastConvertAndClamp()
         {
-            xbyte castResult = Convert<xbyte>.ToNumeric(1023, Conversion.Cast);
-            xbyte convertResult = Convert<xbyte>.ToNumeric(199.956M, Conversion.Default);
-            xbyte clampResult = Convert<xbyte>.ToNumeric(-100, Conversion.Clamp);
+            ByteN castResult = ConvertN.ToNumeric<ByteN>(1023, Conversion.Cast);
+            ByteN convertResult = ConvertN.ToNumeric<ByteN>(199.956M, Conversion.Default);
+            ByteN clampResult = ConvertN.ToNumeric<ByteN>(-100, Conversion.Clamp);
 
             Console.WriteLine(castResult); // output: 255
             Console.WriteLine(convertResult); // output: 200
@@ -122,9 +123,9 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void FixedPointArithmetic()
         {
-            fix64 third = 1 / 3f;
-            fix64 pi = Math<fix64>.PI;
-            fix64 tooSmall = (fix64)0.0000001;
+            Fix64 third = 1 / 3f;
+            Fix64 pi = MathN.PI<Fix64>();
+            Fix64 tooSmall = (Fix64)0.0000001;
 
             Console.WriteLine(third); // output: 0.333333
             Console.WriteLine(pi); // output: 3.141592
@@ -135,10 +136,10 @@ namespace Jodo.Numerics.Tests
         }
 
         [Test]
-        public void MathN()
+        public void MathN_Examples()
         {
             float res1 = MathF.Log10(1000 * MathF.PI);
-            fix64 res2 = Math<fix64>.Log10(1000 * Math<fix64>.PI);
+            Fix64 res2 = MathN.Log10(1000 * MathN.PI<Fix64>());
 
             Console.WriteLine(res1); // output: 3.49715
             Console.WriteLine(res2); // output: 3.497149
@@ -151,7 +152,7 @@ namespace Jodo.Numerics.Tests
         public void BitConverterN()
         {
             byte[] res1 = BitConverter.GetBytes((ulong)1234567890);
-            byte[] res2 = BitConverter<ufix64>.GetBytes((ufix64)256.512);
+            byte[] res2 = BitConverter<UFix64>.GetBytes((UFix64)256.512);
 
             Console.WriteLine(BitConverter.ToString(res1)); // output: D2-02-96-49-00-00-00-00
             Console.WriteLine(BitConverter.ToString(res2)); // output: 00-10-4A-0F-00-00-00-00

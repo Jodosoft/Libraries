@@ -27,9 +27,9 @@ namespace Jodo.Geometry.Tests
 {
     public static class AngleTests
     {
-        public sealed class FixedPoint : General<fix64> { }
-        public sealed class FloatingPoint : General<xfloat> { }
-        public sealed class UnsignedIntegral : General<xbyte> { }
+        public sealed class FixedPoint : General<Fix64> { }
+        public sealed class FloatingPoint : General<SingleN> { }
+        public sealed class UnsignedIntegral : General<ByteN> { }
 
         public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {

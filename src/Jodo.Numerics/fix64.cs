@@ -19,7 +19,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
 using Jodo.Primitives;
@@ -27,55 +26,56 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Numerics
 {
+    /// <summary>
+    /// Represents a decimal fixed-point number.
+    /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    [SuppressMessage("Style", "IDE1006:Naming Styles")]
-    [SuppressMessage("csharpsquid", "S101")]
-    public readonly struct fix64 : INumericExtended<fix64>
+    public readonly struct Fix64 : INumericNonCLS<Fix64>
     {
-        public static readonly fix64 Epsilon = new fix64(1);
-        public static readonly fix64 MaxValue = new fix64(long.MaxValue);
-        public static readonly fix64 MinValue = new fix64(long.MinValue);
+        public static readonly Fix64 Epsilon = new Fix64(1);
+        public static readonly Fix64 MaxValue = new Fix64(long.MaxValue);
+        public static readonly Fix64 MinValue = new Fix64(long.MinValue);
 
         private const long ScalingFactor = 1_000_000;
 
         private readonly long _scaledValue;
 
-        private fix64(long scaledValue)
+        private Fix64(long scaledValue)
         {
             _scaledValue = scaledValue;
         }
 
-        private fix64(SerializationInfo info, StreamingContext context) : this(info.GetInt64(nameof(fix64))) { }
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(fix64), _scaledValue);
+        private Fix64(SerializationInfo info, StreamingContext context) : this(info.GetInt64(nameof(Fix64))) { }
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) => info.AddValue(nameof(Fix64), _scaledValue);
 
-        public int CompareTo(fix64 other) => _scaledValue.CompareTo(other._scaledValue);
-        public int CompareTo(object? obj) => obj is fix64 other ? CompareTo(other) : 1;
-        public bool Equals(fix64 other) => _scaledValue == other._scaledValue;
-        public override bool Equals(object? obj) => obj is fix64 other && Equals(other);
+        public int CompareTo(Fix64 other) => _scaledValue.CompareTo(other._scaledValue);
+        public int CompareTo(object? obj) => obj is Fix64 other ? CompareTo(other) : 1;
+        public bool Equals(Fix64 other) => _scaledValue == other._scaledValue;
+        public override bool Equals(object? obj) => obj is Fix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => ScaledArithmetic.ToString(_scaledValue, ScalingFactor);
         public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out fix64 result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out fix64 result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out fix64 result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out fix64 result) => Try.Run(() => Parse(s), out result);
-        public static fix64 Parse(string s) => new fix64(ScaledArithmetic.Parse(s, ScalingFactor));
-        public static fix64 Parse(string s, IFormatProvider? provider) => (fix64)double.Parse(s, provider);
-        public static fix64 Parse(string s, NumberStyles style) => (fix64)double.Parse(s, style);
-        public static fix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => (fix64)double.Parse(s, style, provider);
+        public static bool TryParse(string s, IFormatProvider? provider, out Fix64 result) => Try.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Fix64 result) => Try.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out Fix64 result) => Try.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out Fix64 result) => Try.Run(() => Parse(s), out result);
+        public static Fix64 Parse(string s) => new Fix64(ScaledArithmetic.Parse(s, ScalingFactor));
+        public static Fix64 Parse(string s, IFormatProvider? provider) => (Fix64)double.Parse(s, provider);
+        public static Fix64 Parse(string s, NumberStyles style) => (Fix64)double.Parse(s, style);
+        public static Fix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => (Fix64)double.Parse(s, style, provider);
 
-        private static fix64 Round(fix64 value, int digits, MidpointRounding mode)
+        private static Fix64 Round(Fix64 value, int digits, MidpointRounding mode)
         {
             if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (digits > 5) return value;
-            return new fix64(ScaledArithmetic.Round(value._scaledValue, 6 - digits, mode));
+            return new Fix64(ScaledArithmetic.Round(value._scaledValue, 6 - digits, mode));
         }
 
-        private static fix64 FromDouble(double value)
+        private static Fix64 FromDouble(double value)
         {
             string str = string
                 .Format(CultureInfo.InvariantCulture, "{0:0.0000000}", value)
@@ -83,7 +83,7 @@ namespace Jodo.Numerics
             str = str.Substring(0, str.Length - 1);
             if (long.TryParse(str, out long lng))
             {
-                return new fix64(lng);
+                return new Fix64(lng);
             }
             else
             {
@@ -92,7 +92,7 @@ namespace Jodo.Numerics
             }
         }
 
-        private static double ToDouble(fix64 value)
+        private static double ToDouble(Fix64 value)
         {
             long integral = value._scaledValue / ScalingFactor;
             long mantissa = value._scaledValue % ScalingFactor;
@@ -102,187 +102,204 @@ namespace Jodo.Numerics
             return result;
         }
 
-        [CLSCompliant(false)] public static explicit operator fix64(ulong value) => new fix64((long)(value * ScalingFactor));
-        [CLSCompliant(false)] public static implicit operator fix64(sbyte value) => new fix64(value * ScalingFactor);
-        [CLSCompliant(false)] public static implicit operator fix64(uint value) => new fix64(value * ScalingFactor);
-        [CLSCompliant(false)] public static implicit operator fix64(ushort value) => new fix64(value * ScalingFactor);
-        public static explicit operator fix64(decimal value) => new fix64((long)(value * ScalingFactor));
-        public static explicit operator fix64(double value) => FromDouble(value);
-        public static explicit operator fix64(long value) => new fix64(value * ScalingFactor);
-        public static implicit operator fix64(byte value) => new fix64(value * ScalingFactor);
-        public static implicit operator fix64(float value) => new fix64((long)(value * ScalingFactor));
-        public static implicit operator fix64(int value) => new fix64(value * ScalingFactor);
-        public static implicit operator fix64(short value) => new fix64(value * ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator Fix64(ulong value) => new Fix64((long)(value * ScalingFactor));
+        [CLSCompliant(false)] public static implicit operator Fix64(sbyte value) => new Fix64(value * ScalingFactor);
+        [CLSCompliant(false)] public static implicit operator Fix64(uint value) => new Fix64(value * ScalingFactor);
+        [CLSCompliant(false)] public static implicit operator Fix64(ushort value) => new Fix64(value * ScalingFactor);
+        public static explicit operator Fix64(decimal value) => new Fix64((long)(value * ScalingFactor));
+        public static explicit operator Fix64(double value) => FromDouble(value);
+        public static explicit operator Fix64(long value) => new Fix64(value * ScalingFactor);
+        public static implicit operator Fix64(byte value) => new Fix64(value * ScalingFactor);
+        public static implicit operator Fix64(float value) => new Fix64((long)(value * ScalingFactor));
+        public static implicit operator Fix64(int value) => new Fix64(value * ScalingFactor);
+        public static implicit operator Fix64(short value) => new Fix64(value * ScalingFactor);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(fix64 value) => (sbyte)(value._scaledValue / ScalingFactor);
-        [CLSCompliant(false)] public static explicit operator uint(fix64 value) => (uint)(value._scaledValue / ScalingFactor);
-        [CLSCompliant(false)] public static explicit operator ulong(fix64 value) => (ulong)(value._scaledValue / ScalingFactor);
-        [CLSCompliant(false)] public static explicit operator ushort(fix64 value) => (ushort)(value._scaledValue / ScalingFactor);
-        public static explicit operator byte(fix64 value) => (byte)(value._scaledValue / ScalingFactor);
-        public static explicit operator decimal(fix64 value) => (decimal)value._scaledValue / ScalingFactor;
-        public static explicit operator double(fix64 value) => ToDouble(value);
-        public static explicit operator float(fix64 value) => (float)value._scaledValue / ScalingFactor;
-        public static explicit operator int(fix64 value) => (int)(value._scaledValue / ScalingFactor);
-        public static explicit operator long(fix64 value) => value._scaledValue / ScalingFactor;
-        public static explicit operator short(fix64 value) => (short)(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator sbyte(Fix64 value) => (sbyte)(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator uint(Fix64 value) => (uint)(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator ulong(Fix64 value) => (ulong)(value._scaledValue / ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator ushort(Fix64 value) => (ushort)(value._scaledValue / ScalingFactor);
+        public static explicit operator byte(Fix64 value) => (byte)(value._scaledValue / ScalingFactor);
+        public static explicit operator decimal(Fix64 value) => (decimal)value._scaledValue / ScalingFactor;
+        public static explicit operator double(Fix64 value) => ToDouble(value);
+        public static explicit operator float(Fix64 value) => (float)value._scaledValue / ScalingFactor;
+        public static explicit operator int(Fix64 value) => (int)(value._scaledValue / ScalingFactor);
+        public static explicit operator long(Fix64 value) => value._scaledValue / ScalingFactor;
+        public static explicit operator short(Fix64 value) => (short)(value._scaledValue / ScalingFactor);
 
-        public static bool operator !=(fix64 left, fix64 right) => left._scaledValue != right._scaledValue;
-        public static bool operator <(fix64 left, fix64 right) => left._scaledValue < right._scaledValue;
-        public static bool operator <=(fix64 left, fix64 right) => left._scaledValue <= right._scaledValue;
-        public static bool operator ==(fix64 left, fix64 right) => left._scaledValue == right._scaledValue;
-        public static bool operator >(fix64 left, fix64 right) => left._scaledValue > right._scaledValue;
-        public static bool operator >=(fix64 left, fix64 right) => left._scaledValue >= right._scaledValue;
-        public static fix64 operator %(fix64 left, fix64 right) => new fix64(left._scaledValue % right._scaledValue);
-        public static fix64 operator &(fix64 left, fix64 right) => new fix64(left._scaledValue & right._scaledValue);
-        public static fix64 operator -(fix64 left, fix64 right) => new fix64(left._scaledValue - right._scaledValue);
-        public static fix64 operator --(fix64 value) => new fix64(value._scaledValue - ScalingFactor);
-        public static fix64 operator -(fix64 value) => new fix64(-value._scaledValue);
-        public static fix64 operator *(fix64 left, fix64 right) => new fix64(ScaledArithmetic.Multiply(left._scaledValue, right._scaledValue, ScalingFactor));
-        public static fix64 operator /(fix64 left, fix64 right) => new fix64(ScaledArithmetic.Divide(left._scaledValue, right._scaledValue, ScalingFactor));
-        public static fix64 operator ^(fix64 left, fix64 right) => new fix64(left._scaledValue ^ right._scaledValue);
-        public static fix64 operator |(fix64 left, fix64 right) => new fix64(left._scaledValue | right._scaledValue);
-        public static fix64 operator ~(fix64 value) => new fix64(~value._scaledValue);
-        public static fix64 operator +(fix64 left, fix64 right) => new fix64(left._scaledValue + right._scaledValue);
-        public static fix64 operator +(fix64 value) => value;
-        public static fix64 operator ++(fix64 value) => new fix64(value._scaledValue + ScalingFactor);
-        public static fix64 operator <<(fix64 left, int right) => new fix64(left._scaledValue << right);
-        public static fix64 operator >>(fix64 left, int right) => new fix64(left._scaledValue >> right);
+        public static bool operator !=(Fix64 left, Fix64 right) => left._scaledValue != right._scaledValue;
+        public static bool operator <(Fix64 left, Fix64 right) => left._scaledValue < right._scaledValue;
+        public static bool operator <=(Fix64 left, Fix64 right) => left._scaledValue <= right._scaledValue;
+        public static bool operator ==(Fix64 left, Fix64 right) => left._scaledValue == right._scaledValue;
+        public static bool operator >(Fix64 left, Fix64 right) => left._scaledValue > right._scaledValue;
+        public static bool operator >=(Fix64 left, Fix64 right) => left._scaledValue >= right._scaledValue;
+        public static Fix64 operator %(Fix64 left, Fix64 right) => new Fix64(left._scaledValue % right._scaledValue);
+        public static Fix64 operator &(Fix64 left, Fix64 right) => new Fix64(left._scaledValue & right._scaledValue);
+        public static Fix64 operator -(Fix64 left, Fix64 right) => new Fix64(left._scaledValue - right._scaledValue);
+        public static Fix64 operator --(Fix64 value) => new Fix64(value._scaledValue - ScalingFactor);
+        public static Fix64 operator -(Fix64 value) => new Fix64(-value._scaledValue);
+        public static Fix64 operator *(Fix64 left, Fix64 right) => new Fix64(ScaledArithmetic.Multiply(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static Fix64 operator /(Fix64 left, Fix64 right) => new Fix64(ScaledArithmetic.Divide(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static Fix64 operator ^(Fix64 left, Fix64 right) => new Fix64(left._scaledValue ^ right._scaledValue);
+        public static Fix64 operator |(Fix64 left, Fix64 right) => new Fix64(left._scaledValue | right._scaledValue);
+        public static Fix64 operator ~(Fix64 value) => new Fix64(~value._scaledValue);
+        public static Fix64 operator +(Fix64 left, Fix64 right) => new Fix64(left._scaledValue + right._scaledValue);
+        public static Fix64 operator +(Fix64 value) => value;
+        public static Fix64 operator ++(Fix64 value) => new Fix64(value._scaledValue + ScalingFactor);
+        public static Fix64 operator <<(Fix64 left, int right) => new Fix64(left._scaledValue << right);
+        public static Fix64 operator >>(Fix64 left, int right) => new Fix64(left._scaledValue >> right);
 
-        bool INumeric<fix64>.IsGreaterThan(fix64 value) => this > value;
-        bool INumeric<fix64>.IsGreaterThanOrEqualTo(fix64 value) => this >= value;
-        bool INumeric<fix64>.IsLessThan(fix64 value) => this < value;
-        bool INumeric<fix64>.IsLessThanOrEqualTo(fix64 value) => this <= value;
-        fix64 INumeric<fix64>.Add(fix64 value) => this + value;
-        fix64 INumeric<fix64>.BitwiseComplement() => ~this;
-        fix64 INumeric<fix64>.Divide(fix64 value) => this / value;
-        fix64 INumeric<fix64>.LeftShift(int count) => this << count;
-        fix64 INumeric<fix64>.LogicalAnd(fix64 value) => this & value;
-        fix64 INumeric<fix64>.LogicalExclusiveOr(fix64 value) => this ^ value;
-        fix64 INumeric<fix64>.LogicalOr(fix64 value) => this | value;
-        fix64 INumeric<fix64>.Multiply(fix64 value) => this * value;
-        fix64 INumeric<fix64>.Negative() => -this;
-        fix64 INumeric<fix64>.Positive() => +this;
-        fix64 INumeric<fix64>.Remainder(fix64 value) => this % value;
-        fix64 INumeric<fix64>.RightShift(int count) => this >> count;
-        fix64 INumeric<fix64>.Subtract(fix64 value) => this - value;
+        TypeCode IConvertible.GetTypeCode() => TypeCode.Object;
+        bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToBoolean(this);
+        char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToChar(provider);
+        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertNonCLS<Fix64>)Utilities.Instance).ToSByte(this, Conversion.Default);
+        byte IConvertible.ToByte(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToByte(this, Conversion.Default);
+        short IConvertible.ToInt16(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt16(this, Conversion.Default);
+        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertNonCLS<Fix64>)Utilities.Instance).ToUInt16(this, Conversion.Default);
+        int IConvertible.ToInt32(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt32(this, Conversion.Default);
+        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertNonCLS<Fix64>)Utilities.Instance).ToUInt32(this, Conversion.Default);
+        long IConvertible.ToInt64(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt64(this, Conversion.Default);
+        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertNonCLS<Fix64>)Utilities.Instance).ToUInt64(this, Conversion.Default);
+        float IConvertible.ToSingle(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToSingle(this, Conversion.Default);
+        double IConvertible.ToDouble(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default);
+        decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToDecimal(this, Conversion.Default);
+        DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToDateTime(provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToType(conversionType, provider);
 
-        IBitConverter<fix64> IProvider<IBitConverter<fix64>>.GetInstance() => Utilities.Instance;
-        IConvert<fix64> IProvider<IConvert<fix64>>.GetInstance() => Utilities.Instance;
-        IConvertUnsigned<fix64> IProvider<IConvertUnsigned<fix64>>.GetInstance() => Utilities.Instance;
-        IMath<fix64> IProvider<IMath<fix64>>.GetInstance() => Utilities.Instance;
-        INumericStatic<fix64> IProvider<INumericStatic<fix64>>.GetInstance() => Utilities.Instance;
-        IRandom<fix64> IProvider<IRandom<fix64>>.GetInstance() => Utilities.Instance;
-        IParser<fix64> IProvider<IParser<fix64>>.GetInstance() => Utilities.Instance;
+        bool INumeric<Fix64>.IsGreaterThan(Fix64 value) => this > value;
+        bool INumeric<Fix64>.IsGreaterThanOrEqualTo(Fix64 value) => this >= value;
+        bool INumeric<Fix64>.IsLessThan(Fix64 value) => this < value;
+        bool INumeric<Fix64>.IsLessThanOrEqualTo(Fix64 value) => this <= value;
+        Fix64 INumeric<Fix64>.Add(Fix64 value) => this + value;
+        Fix64 INumeric<Fix64>.BitwiseComplement() => ~this;
+        Fix64 INumeric<Fix64>.Divide(Fix64 value) => this / value;
+        Fix64 INumeric<Fix64>.LeftShift(int count) => this << count;
+        Fix64 INumeric<Fix64>.LogicalAnd(Fix64 value) => this & value;
+        Fix64 INumeric<Fix64>.LogicalExclusiveOr(Fix64 value) => this ^ value;
+        Fix64 INumeric<Fix64>.LogicalOr(Fix64 value) => this | value;
+        Fix64 INumeric<Fix64>.Multiply(Fix64 value) => this * value;
+        Fix64 INumeric<Fix64>.Negative() => -this;
+        Fix64 INumeric<Fix64>.Positive() => +this;
+        Fix64 INumeric<Fix64>.Remainder(Fix64 value) => this % value;
+        Fix64 INumeric<Fix64>.RightShift(int count) => this >> count;
+        Fix64 INumeric<Fix64>.Subtract(Fix64 value) => this - value;
+
+        IBitConverter<Fix64> IProvider<IBitConverter<Fix64>>.GetInstance() => Utilities.Instance;
+        IConvert<Fix64> IProvider<IConvert<Fix64>>.GetInstance() => Utilities.Instance;
+        IConvertNonCLS<Fix64> IProvider<IConvertNonCLS<Fix64>>.GetInstance() => Utilities.Instance;
+        IMath<Fix64> IProvider<IMath<Fix64>>.GetInstance() => Utilities.Instance;
+        INumericStatic<Fix64> IProvider<INumericStatic<Fix64>>.GetInstance() => Utilities.Instance;
+        IRandom<Fix64> IProvider<IRandom<Fix64>>.GetInstance() => Utilities.Instance;
+        IParser<Fix64> IProvider<IParser<Fix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<fix64>,
-            IConvert<fix64>,
-            IConvertUnsigned<fix64>,
-            IMath<fix64>,
-            INumericStatic<fix64>,
-            IRandom<fix64>,
-            IParser<fix64>
+            IBitConverter<Fix64>,
+            IConvert<Fix64>,
+            IConvertNonCLS<Fix64>,
+            IMath<Fix64>,
+            INumericStatic<Fix64>,
+            IRandom<Fix64>,
+            IParser<Fix64>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<fix64>.HasFloatingPoint { get; } = false;
-            bool INumericStatic<fix64>.HasInfinity { get; } = false;
-            bool INumericStatic<fix64>.HasNaN { get; } = false;
-            bool INumericStatic<fix64>.IsFinite(fix64 x) => true;
-            bool INumericStatic<fix64>.IsInfinity(fix64 x) => false;
-            bool INumericStatic<fix64>.IsNaN(fix64 x) => false;
-            bool INumericStatic<fix64>.IsNegative(fix64 x) => x._scaledValue < 0;
-            bool INumericStatic<fix64>.IsNegativeInfinity(fix64 x) => false;
-            bool INumericStatic<fix64>.IsNormal(fix64 x) => false;
-            bool INumericStatic<fix64>.IsPositiveInfinity(fix64 x) => false;
-            bool INumericStatic<fix64>.IsReal { get; } = true;
-            bool INumericStatic<fix64>.IsSigned { get; } = true;
-            bool INumericStatic<fix64>.IsSubnormal(fix64 x) => false;
-            fix64 INumericStatic<fix64>.Epsilon { get; } = new fix64(1);
-            fix64 INumericStatic<fix64>.MaxUnit { get; } = new fix64(ScalingFactor);
-            fix64 INumericStatic<fix64>.MaxValue => MaxValue;
-            fix64 INumericStatic<fix64>.MinUnit { get; } = new fix64(-ScalingFactor);
-            fix64 INumericStatic<fix64>.MinValue => MinValue;
-            fix64 INumericStatic<fix64>.One { get; } = new fix64(ScalingFactor);
-            fix64 INumericStatic<fix64>.Ten { get; } = new fix64(10 * ScalingFactor);
-            fix64 INumericStatic<fix64>.Two { get; } = new fix64(2 * ScalingFactor);
-            fix64 INumericStatic<fix64>.Zero { get; } = 0;
+            bool INumericStatic<Fix64>.HasFloatingPoint { get; } = false;
+            bool INumericStatic<Fix64>.HasInfinity { get; } = false;
+            bool INumericStatic<Fix64>.HasNaN { get; } = false;
+            bool INumericStatic<Fix64>.IsFinite(Fix64 x) => true;
+            bool INumericStatic<Fix64>.IsInfinity(Fix64 x) => false;
+            bool INumericStatic<Fix64>.IsNaN(Fix64 x) => false;
+            bool INumericStatic<Fix64>.IsNegative(Fix64 x) => x._scaledValue < 0;
+            bool INumericStatic<Fix64>.IsNegativeInfinity(Fix64 x) => false;
+            bool INumericStatic<Fix64>.IsNormal(Fix64 x) => false;
+            bool INumericStatic<Fix64>.IsPositiveInfinity(Fix64 x) => false;
+            bool INumericStatic<Fix64>.IsReal { get; } = true;
+            bool INumericStatic<Fix64>.IsSigned { get; } = true;
+            bool INumericStatic<Fix64>.IsSubnormal(Fix64 x) => false;
+            Fix64 INumericStatic<Fix64>.Epsilon { get; } = new Fix64(1);
+            Fix64 INumericStatic<Fix64>.MaxUnit { get; } = new Fix64(ScalingFactor);
+            Fix64 INumericStatic<Fix64>.MaxValue => MaxValue;
+            Fix64 INumericStatic<Fix64>.MinUnit { get; } = new Fix64(-ScalingFactor);
+            Fix64 INumericStatic<Fix64>.MinValue => MinValue;
+            Fix64 INumericStatic<Fix64>.One { get; } = new Fix64(ScalingFactor);
+            Fix64 INumericStatic<Fix64>.Ten { get; } = new Fix64(10 * ScalingFactor);
+            Fix64 INumericStatic<Fix64>.Two { get; } = new Fix64(2 * ScalingFactor);
+            Fix64 INumericStatic<Fix64>.Zero { get; } = 0;
 
-            fix64 IMath<fix64>.Abs(fix64 value) => value._scaledValue < 0 ? -value : value;
-            fix64 IMath<fix64>.Acos(fix64 x) => (fix64)Math.Acos((double)x);
-            fix64 IMath<fix64>.Acosh(fix64 x) => (fix64)MathCompat.Acosh((double)x);
-            fix64 IMath<fix64>.Asin(fix64 x) => (fix64)Math.Asin((double)x);
-            fix64 IMath<fix64>.Asinh(fix64 x) => (fix64)MathCompat.Asinh((double)x);
-            fix64 IMath<fix64>.Atan(fix64 x) => (fix64)Math.Atan((double)x);
-            fix64 IMath<fix64>.Atan2(fix64 x, fix64 y) => (fix64)Math.Atan2((double)x, (double)y);
-            fix64 IMath<fix64>.Atanh(fix64 x) => (fix64)MathCompat.Atanh((double)x);
-            fix64 IMath<fix64>.Cbrt(fix64 x) => (fix64)MathCompat.Cbrt((double)x);
-            fix64 IMath<fix64>.Ceiling(fix64 x) => new fix64(ScaledArithmetic.Ceiling(x._scaledValue, ScalingFactor));
-            fix64 IMath<fix64>.Clamp(fix64 x, fix64 bound1, fix64 bound2) => new fix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
-            fix64 IMath<fix64>.Cos(fix64 x) => (fix64)Math.Cos((double)x);
-            fix64 IMath<fix64>.Cosh(fix64 x) => (fix64)Math.Cosh((double)x);
-            fix64 IMath<fix64>.DegreesToRadians(fix64 x) => (fix64)((double)x * NumericUtilities.RadiansPerDegree);
-            fix64 IMath<fix64>.E { get; } = (fix64)Math.E;
-            fix64 IMath<fix64>.Exp(fix64 x) => (fix64)Math.Exp((double)x);
-            fix64 IMath<fix64>.Floor(fix64 x) => new fix64(ScaledArithmetic.Floor(x._scaledValue, ScalingFactor));
-            fix64 IMath<fix64>.IEEERemainder(fix64 x, fix64 y) => (fix64)Math.IEEERemainder((double)x, (double)y);
-            fix64 IMath<fix64>.Log(fix64 x) => (fix64)Math.Log((double)x);
-            fix64 IMath<fix64>.Log(fix64 x, fix64 y) => (fix64)Math.Log((double)x, (double)y);
-            fix64 IMath<fix64>.Log10(fix64 x) => (fix64)Math.Log10((double)x);
-            fix64 IMath<fix64>.Max(fix64 x, fix64 y) => new fix64(Math.Max(x._scaledValue, y._scaledValue));
-            fix64 IMath<fix64>.Min(fix64 x, fix64 y) => new fix64(Math.Min(x._scaledValue, y._scaledValue));
-            fix64 IMath<fix64>.PI { get; } = (fix64)Math.PI;
-            fix64 IMath<fix64>.Pow(fix64 x, fix64 y) => y == 1 ? x : (fix64)Math.Pow((double)x, (double)y);
-            fix64 IMath<fix64>.RadiansToDegrees(fix64 x) => (fix64)((double)x * NumericUtilities.DegreesPerRadian);
-            fix64 IMath<fix64>.Round(fix64 x) => Round(x, 0, MidpointRounding.ToEven);
-            fix64 IMath<fix64>.Round(fix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
-            fix64 IMath<fix64>.Round(fix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);
-            fix64 IMath<fix64>.Round(fix64 x, MidpointRounding mode) => Round(x, 0, mode);
-            fix64 IMath<fix64>.Sin(fix64 x) => (fix64)Math.Sin((double)x);
-            fix64 IMath<fix64>.Sinh(fix64 x) => (fix64)Math.Sinh((double)x);
-            fix64 IMath<fix64>.Sqrt(fix64 x) => (fix64)Math.Sqrt((double)x);
-            fix64 IMath<fix64>.Tan(fix64 x) => (fix64)Math.Tan((double)x);
-            fix64 IMath<fix64>.Tanh(fix64 x) => (fix64)Math.Tanh((double)x);
-            fix64 IMath<fix64>.Tau { get; } = (fix64)(Math.PI * 2d);
-            fix64 IMath<fix64>.Truncate(fix64 x) => new fix64(x._scaledValue / ScalingFactor * ScalingFactor);
-            int IMath<fix64>.Sign(fix64 x) => Math.Sign(x._scaledValue);
+            Fix64 IMath<Fix64>.Abs(Fix64 value) => value._scaledValue < 0 ? -value : value;
+            Fix64 IMath<Fix64>.Acos(Fix64 x) => (Fix64)Math.Acos((double)x);
+            Fix64 IMath<Fix64>.Acosh(Fix64 x) => (Fix64)MathCompat.Acosh((double)x);
+            Fix64 IMath<Fix64>.Asin(Fix64 x) => (Fix64)Math.Asin((double)x);
+            Fix64 IMath<Fix64>.Asinh(Fix64 x) => (Fix64)MathCompat.Asinh((double)x);
+            Fix64 IMath<Fix64>.Atan(Fix64 x) => (Fix64)Math.Atan((double)x);
+            Fix64 IMath<Fix64>.Atan2(Fix64 x, Fix64 y) => (Fix64)Math.Atan2((double)x, (double)y);
+            Fix64 IMath<Fix64>.Atanh(Fix64 x) => (Fix64)MathCompat.Atanh((double)x);
+            Fix64 IMath<Fix64>.Cbrt(Fix64 x) => (Fix64)MathCompat.Cbrt((double)x);
+            Fix64 IMath<Fix64>.Ceiling(Fix64 x) => new Fix64(ScaledArithmetic.Ceiling(x._scaledValue, ScalingFactor));
+            Fix64 IMath<Fix64>.Clamp(Fix64 x, Fix64 bound1, Fix64 bound2) => new Fix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
+            Fix64 IMath<Fix64>.Cos(Fix64 x) => (Fix64)Math.Cos((double)x);
+            Fix64 IMath<Fix64>.Cosh(Fix64 x) => (Fix64)Math.Cosh((double)x);
+            Fix64 IMath<Fix64>.DegreesToRadians(Fix64 x) => (Fix64)((double)x * NumericUtilities.RadiansPerDegree);
+            Fix64 IMath<Fix64>.E { get; } = (Fix64)Math.E;
+            Fix64 IMath<Fix64>.Exp(Fix64 x) => (Fix64)Math.Exp((double)x);
+            Fix64 IMath<Fix64>.Floor(Fix64 x) => new Fix64(ScaledArithmetic.Floor(x._scaledValue, ScalingFactor));
+            Fix64 IMath<Fix64>.IEEERemainder(Fix64 x, Fix64 y) => (Fix64)Math.IEEERemainder((double)x, (double)y);
+            Fix64 IMath<Fix64>.Log(Fix64 x) => (Fix64)Math.Log((double)x);
+            Fix64 IMath<Fix64>.Log(Fix64 x, Fix64 y) => (Fix64)Math.Log((double)x, (double)y);
+            Fix64 IMath<Fix64>.Log10(Fix64 x) => (Fix64)Math.Log10((double)x);
+            Fix64 IMath<Fix64>.Max(Fix64 x, Fix64 y) => new Fix64(Math.Max(x._scaledValue, y._scaledValue));
+            Fix64 IMath<Fix64>.Min(Fix64 x, Fix64 y) => new Fix64(Math.Min(x._scaledValue, y._scaledValue));
+            Fix64 IMath<Fix64>.PI { get; } = (Fix64)Math.PI;
+            Fix64 IMath<Fix64>.Pow(Fix64 x, Fix64 y) => y == 1 ? x : (Fix64)Math.Pow((double)x, (double)y);
+            Fix64 IMath<Fix64>.RadiansToDegrees(Fix64 x) => (Fix64)((double)x * NumericUtilities.DegreesPerRadian);
+            Fix64 IMath<Fix64>.Round(Fix64 x) => Round(x, 0, MidpointRounding.ToEven);
+            Fix64 IMath<Fix64>.Round(Fix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
+            Fix64 IMath<Fix64>.Round(Fix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);
+            Fix64 IMath<Fix64>.Round(Fix64 x, MidpointRounding mode) => Round(x, 0, mode);
+            Fix64 IMath<Fix64>.Sin(Fix64 x) => (Fix64)Math.Sin((double)x);
+            Fix64 IMath<Fix64>.Sinh(Fix64 x) => (Fix64)Math.Sinh((double)x);
+            Fix64 IMath<Fix64>.Sqrt(Fix64 x) => (Fix64)Math.Sqrt((double)x);
+            Fix64 IMath<Fix64>.Tan(Fix64 x) => (Fix64)Math.Tan((double)x);
+            Fix64 IMath<Fix64>.Tanh(Fix64 x) => (Fix64)Math.Tanh((double)x);
+            Fix64 IMath<Fix64>.Tau { get; } = (Fix64)(Math.PI * 2d);
+            Fix64 IMath<Fix64>.Truncate(Fix64 x) => new Fix64(x._scaledValue / ScalingFactor * ScalingFactor);
+            int IMath<Fix64>.Sign(Fix64 x) => Math.Sign(x._scaledValue);
 
-            fix64 IBitConverter<fix64>.Read(IReadOnlyStream<byte> stream) => new fix64(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
-            void IBitConverter<fix64>.Write(fix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            Fix64 IBitConverter<Fix64>.Read(IReadOnlyStream<byte> stream) => new Fix64(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
+            void IBitConverter<Fix64>.Write(Fix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
-            fix64 IRandom<fix64>.Next(Random random) => new fix64(random.NextInt64());
-            fix64 IRandom<fix64>.Next(Random random, fix64 bound1, fix64 bound2) => new fix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
+            Fix64 IRandom<Fix64>.Next(Random random) => new Fix64(random.NextInt64());
+            Fix64 IRandom<Fix64>.Next(Random random, Fix64 bound1, Fix64 bound2) => new Fix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
 
-            bool IConvert<fix64>.ToBoolean(fix64 value) => value._scaledValue != 0;
-            byte IConvert<fix64>.ToByte(fix64 value, Conversion mode) => NumericConvert.ToByte(value._scaledValue / ScalingFactor, mode);
-            decimal IConvert<fix64>.ToDecimal(fix64 value, Conversion mode) => (decimal)value._scaledValue / ScalingFactor;
-            double IConvert<fix64>.ToDouble(fix64 value, Conversion mode) => (double)value._scaledValue / ScalingFactor;
-            float IConvert<fix64>.ToSingle(fix64 value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
-            int IConvert<fix64>.ToInt32(fix64 value, Conversion mode) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, mode);
-            long IConvert<fix64>.ToInt64(fix64 value, Conversion mode) => value._scaledValue / ScalingFactor;
-            sbyte IConvertUnsigned<fix64>.ToSByte(fix64 value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode);
-            short IConvert<fix64>.ToInt16(fix64 value, Conversion mode) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, mode);
-            string IConvert<fix64>.ToString(fix64 value) => value.ToString();
-            uint IConvertUnsigned<fix64>.ToUInt32(fix64 value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode);
-            ulong IConvertUnsigned<fix64>.ToUInt64(fix64 value, Conversion mode) => NumericConvert.ToUInt64(value._scaledValue / ScalingFactor, mode);
-            ushort IConvertUnsigned<fix64>.ToUInt16(fix64 value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode);
+            bool IConvert<Fix64>.ToBoolean(Fix64 value) => value._scaledValue != 0;
+            byte IConvert<Fix64>.ToByte(Fix64 value, Conversion mode) => NumericConvert.ToByte(value._scaledValue / ScalingFactor, mode);
+            decimal IConvert<Fix64>.ToDecimal(Fix64 value, Conversion mode) => (decimal)value._scaledValue / ScalingFactor;
+            double IConvert<Fix64>.ToDouble(Fix64 value, Conversion mode) => (double)value._scaledValue / ScalingFactor;
+            float IConvert<Fix64>.ToSingle(Fix64 value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
+            int IConvert<Fix64>.ToInt32(Fix64 value, Conversion mode) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, mode);
+            long IConvert<Fix64>.ToInt64(Fix64 value, Conversion mode) => value._scaledValue / ScalingFactor;
+            sbyte IConvertNonCLS<Fix64>.ToSByte(Fix64 value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode);
+            short IConvert<Fix64>.ToInt16(Fix64 value, Conversion mode) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, mode);
+            string IConvert<Fix64>.ToString(Fix64 value) => value.ToString();
+            uint IConvertNonCLS<Fix64>.ToUInt32(Fix64 value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode);
+            ulong IConvertNonCLS<Fix64>.ToUInt64(Fix64 value, Conversion mode) => NumericConvert.ToUInt64(value._scaledValue / ScalingFactor, mode);
+            ushort IConvertNonCLS<Fix64>.ToUInt16(Fix64 value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode);
 
-            fix64 IConvert<fix64>.ToValue(bool value) => value ? ScalingFactor : 0;
-            fix64 IConvert<fix64>.ToValue(byte value, Conversion mode) => (fix64)NumericConvert.ToInt64(value, mode);
-            fix64 IConvert<fix64>.ToValue(decimal value, Conversion mode) => (fix64)value;
-            fix64 IConvert<fix64>.ToValue(double value, Conversion mode) => (fix64)value;
-            fix64 IConvert<fix64>.ToValue(float value, Conversion mode) => value;
-            fix64 IConvert<fix64>.ToValue(int value, Conversion mode) => (fix64)NumericConvert.ToInt64(value, mode);
-            fix64 IConvert<fix64>.ToValue(long value, Conversion mode) => (fix64)value;
-            fix64 IConvertUnsigned<fix64>.ToValue(sbyte value, Conversion mode) => (fix64)NumericConvert.ToInt64(value, mode);
-            fix64 IConvert<fix64>.ToValue(short value, Conversion mode) => (fix64)NumericConvert.ToInt64(value, mode);
-            fix64 IConvert<fix64>.ToValue(string value) => (fix64)Convert.ToInt64(value);
-            fix64 IConvertUnsigned<fix64>.ToNumeric(uint value, Conversion mode) => (fix64)NumericConvert.ToInt64(value, mode);
-            fix64 IConvertUnsigned<fix64>.ToNumeric(ulong value, Conversion mode) => (fix64)NumericConvert.ToInt64(value, mode);
-            fix64 IConvertUnsigned<fix64>.ToNumeric(ushort value, Conversion mode) => (fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvert<Fix64>.ToNumeric(bool value) => value ? ScalingFactor : 0;
+            Fix64 IConvert<Fix64>.ToNumeric(byte value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvert<Fix64>.ToNumeric(decimal value, Conversion mode) => (Fix64)value;
+            Fix64 IConvert<Fix64>.ToNumeric(double value, Conversion mode) => (Fix64)value;
+            Fix64 IConvert<Fix64>.ToNumeric(float value, Conversion mode) => value;
+            Fix64 IConvert<Fix64>.ToNumeric(int value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvert<Fix64>.ToNumeric(long value, Conversion mode) => (Fix64)value;
+            Fix64 IConvertNonCLS<Fix64>.ToValue(sbyte value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvert<Fix64>.ToNumeric(short value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvert<Fix64>.ToNumeric(string value) => (Fix64)Convert.ToInt64(value);
+            Fix64 IConvertNonCLS<Fix64>.ToNumeric(uint value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvertNonCLS<Fix64>.ToNumeric(ulong value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvertNonCLS<Fix64>.ToNumeric(ushort value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
 
-            fix64 IParser<fix64>.Parse(string s) => Parse(s);
-            fix64 IParser<fix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            Fix64 IParser<Fix64>.Parse(string s) => Parse(s);
+            Fix64 IParser<Fix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
         }
     }
 }

@@ -84,7 +84,7 @@ namespace Jodo.Geometry
             info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<N>));
         }
 
-        public N GetArea() => Math<N>.Abs(Dimensions.X.Multiply(Dimensions.Y));
+        public N GetArea() => MathN.Abs(Dimensions.X.Multiply(Dimensions.Y));
         public Vector2<N>[] GetVertices() => new[] { GetBottomLeft(), GetBottomRight(), GetTopRight(), GetTopLeft() };
 
         public AARectangle<N> Grow(Vector2<N> delta) => new AARectangle<N>(Origin, Dimensions + delta);
@@ -246,10 +246,10 @@ namespace Jodo.Geometry
 
             AARectangle<N> IRandom<AARectangle<N>>.Next(Random random, AARectangle<N> bound1, AARectangle<N> bound2)
             {
-                N xMin = Math<N>.Min(bound1.GetBottomLeft().X, bound2.GetBottomLeft().X);
-                N xMax = Math<N>.Max(bound1.GetTopRight().X, bound2.GetTopRight().X);
-                N yMin = Math<N>.Min(bound1.GetBottomLeft().Y, bound2.GetBottomLeft().Y);
-                N yMax = Math<N>.Max(bound1.GetTopRight().Y, bound2.GetTopRight().Y);
+                N xMin = MathN.Min(bound1.GetBottomLeft().X, bound2.GetBottomLeft().X);
+                N xMax = MathN.Max(bound1.GetTopRight().X, bound2.GetTopRight().X);
+                N yMin = MathN.Min(bound1.GetBottomLeft().Y, bound2.GetBottomLeft().Y);
+                N yMax = MathN.Max(bound1.GetTopRight().Y, bound2.GetTopRight().Y);
                 Vector2<N> point1 = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
                 Vector2<N> point2 = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
                 return AARectangle<N>.Between(point1, point2);

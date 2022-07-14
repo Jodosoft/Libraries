@@ -102,7 +102,7 @@ namespace Jodo.CheckedNumerics.Tests
         {
             //arrange
             N left = Numeric<N>.MaxValue;
-            N right = Convert<N>.ToNumeric(2, Conversion.Cast);
+            N right = ConvertN.ToNumeric<N>(2, Conversion.Cast);
 
             //act
             N result = left.Multiply(right);

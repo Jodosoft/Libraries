@@ -18,21 +18,21 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using Jodo.Primitives;
 
 namespace Jodo.Numerics
 {
     /// <summary>
-    /// Defines a generalization for numeric value types.
+    /// An extended version of <see cref="INumeric{N}"/> that supports non-CLS-compliant
+    /// operations such as conversion to unsigned numbers.
     /// </summary>
-    /// <typeparam name="N">The type that implements INumeric&lt;N&gt;</typeparam>
-    [SuppressMessage("csharpsquid", "S3444")] // by design
+    /// <typeparam name="TSelf">The type that implements <see cref="INumericNonCLS{N}"/></typeparam>
     [CLSCompliant(false)]
-    public interface INumericExtended<N> :
-            INumeric<N>,
-            IProvider<IConvertUnsigned<N>>
-        where N : struct, INumericExtended<N>
+    public interface INumericNonCLS<TSelf> :
+            INumeric<TSelf>,
+            IConvertible,
+            IProvider<IConvertNonCLS<TSelf>>
+        where TSelf : struct, INumericNonCLS<TSelf>
     {
     }
 }

@@ -36,10 +36,10 @@ namespace Jodo.Geometry
             => vector.X.Multiply(vector.X).Add(vector.Y.Multiply(vector.Y));
 
         public static N GetLength<N>(this Vector2<N> vector) where N : struct, INumeric<N>
-            => Math<N>.Sqrt(vector.GetLengthSquared());
+            => MathN.Sqrt(vector.GetLengthSquared());
 
         public static N DistanceFrom<N>(this Vector2<N> vector, Vector2<N> point) where N : struct, INumeric<N>
-            => Math<N>.Sqrt(vector.X.Subtract(point.X).Squared().Add(vector.Y.Subtract(point.Y).Squared()));
+            => MathN.Sqrt(vector.X.Subtract(point.X).Squared().Add(vector.Y.Subtract(point.Y).Squared()));
 
         public static Vector2<N> Translate<N>(this Vector2<N> vector, Vector2<N> delta) where N : struct, INumeric<N>
            => new Vector2<N>(vector.X.Add(delta.X), vector.Y.Add(delta.Y));

@@ -19,6 +19,7 @@
 
 using System;
 using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -26,9 +27,9 @@ namespace Jodo.Numerics.Tests
 {
     public static class Vector2Tests
     {
-        public sealed class FixedPoint : General<fix64> { }
-        public sealed class FloatingPoint : General<xfloat> { }
-        public sealed class UnsignedIntegral : General<xbyte> { }
+        public sealed class FixedPoint : General<Fix64> { }
+        public sealed class FloatingPoint : General<SingleN> { }
+        public sealed class UnsignedIntegral : General<ByteN> { }
 
         public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
         {
@@ -61,8 +62,8 @@ namespace Jodo.Numerics.Tests
                 Vector2<N> result = Random.NextRandomizable(bound1, bound2);
 
                 //assert
-                result.X.Should().BeInRange(Math<N>.Min(bound1.X, bound2.X), Math<N>.Max(bound1.X, bound2.X));
-                result.Y.Should().BeInRange(Math<N>.Min(bound1.Y, bound2.Y), Math<N>.Max(bound1.Y, bound2.Y));
+                result.X.Should().BeInRange(MathN.Min(bound1.X, bound2.X), MathN.Max(bound1.X, bound2.X));
+                result.Y.Should().BeInRange(MathN.Min(bound1.Y, bound2.Y), MathN.Max(bound1.Y, bound2.Y));
             }
         }
     }

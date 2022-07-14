@@ -18,12 +18,13 @@
 // IN THE SOFTWARE.
 
 using System;
+using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
 using Jodo.Numerics;
 using Jodo.Primitives.Compatibility;
 
-namespace FluentAssertions
+namespace Jodo.Numerics.Tests
 {
     public static class FluentAssertionsExtensions
     {
@@ -31,7 +32,7 @@ namespace FluentAssertions
         {
             if (!DoubleCompat.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
-            double actual = Convert<N>.ToDouble((N)parent.Subject);
+            double actual = ConvertN.ToDouble((N)parent.Subject);
             if (Numeric<N>.IsIntegral)
             {
                 double expectedValue = Math.Truncate(expected);
@@ -58,11 +59,11 @@ namespace FluentAssertions
             if (!Numeric<N>.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
             N actual = (N)parent.Subject;
-            N difference = Math<N>.Max(actual, expected).Subtract(Math<N>.Min(actual, expected));
+            N difference = MathN.Max(actual, expected).Subtract(MathN.Min(actual, expected));
 
             N tolerance = expected.IsGreaterThan(Numeric<N>.MinUnit) && expected.IsLessThan(Numeric<N>.MaxUnit) ?
-                (Numeric<N>.One.Divide(Numeric<N>.Ten)) :
-                Math<N>.Abs(expected.Divide(Numeric<N>.Ten));
+                Numeric<N>.One.Divide(Numeric<N>.Ten) :
+                MathN.Abs(expected.Divide(Numeric<N>.Ten));
 
             Execute.Assertion
                 .ForCondition(difference.IsLessThanOrEqualTo(tolerance))

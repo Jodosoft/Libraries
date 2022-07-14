@@ -25,12 +25,12 @@ namespace Jodo.Numerics.Tests
     {
         public static double ReduceSignificance<N>(N value) where N : struct, INumeric<N>
         {
-            double result = Math.Round(Convert<N>.ToDouble(value, Conversion.Cast), 6);
+            double result = Math.Round(ConvertN.ToDouble(value, Conversion.Cast), 6);
             int log10 = (int)Math.Log10(Math.Abs(result / 10));
             if (log10 < -1) result *= 1000;
             else if (log10 > 3) result /= Math.Pow(10, log10 - 3);
 
-            if (!Numeric<N>.IsFinite(Convert<N>.ToNumeric(result, Conversion.Cast)))
+            if (!Numeric<N>.IsFinite(ConvertN.ToNumeric<N>(result, Conversion.Cast)))
             {
                 throw new InvalidOperationException();
             }

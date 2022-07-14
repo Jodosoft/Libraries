@@ -102,8 +102,8 @@ namespace Jodo.Numerics
         public static Vector2<N> Abs(Vector2<N> value)
         {
             return new Vector2<N>(
-                Math<N>.Abs(value.X),
-                Math<N>.Abs(value.Y)
+                MathN.Abs(value.X),
+                MathN.Abs(value.Y)
             );
         }
 
@@ -122,7 +122,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static N Distance(Vector2<N> value1, Vector2<N> value2)
         {
-            return Math<N>.Sqrt(DistanceSquared(value1, value2));
+            return MathN.Sqrt(DistanceSquared(value1, value2));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -160,16 +160,16 @@ namespace Jodo.Numerics
         public static Vector2<N> Max(Vector2<N> value1, Vector2<N> value2)
         {
             return new Vector2<N>(
-                Math<N>.Max(value1.X, value2.X),
-                Math<N>.Max(value1.Y, value2.Y));
+                MathN.Max(value1.X, value2.X),
+                MathN.Max(value1.Y, value2.Y));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2<N> Min(Vector2<N> value1, Vector2<N> value2)
         {
             return new Vector2<N>(
-                Math<N>.Min(value1.X, value2.X),
-                Math<N>.Min(value1.Y, value2.Y));
+                MathN.Min(value1.X, value2.X),
+                MathN.Min(value1.Y, value2.Y));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -212,8 +212,8 @@ namespace Jodo.Numerics
         public static Vector2<N> SquareRoot(Vector2<N> value)
         {
             return new Vector2<N>(
-                Math<N>.Sqrt(value.X),
-                Math<N>.Sqrt(value.Y)
+                MathN.Sqrt(value.X),
+                MathN.Sqrt(value.Y)
             );
         }
 

@@ -42,7 +42,7 @@ namespace Jodo.Numerics.Tests
                 N input = Numeric<N>.MinValue;
 
                 //act
-                Action action = new Action(() => Math<N>.Abs(input));
+                Action action = new Action(() => MathN.Abs(input));
 
                 //assert
                 action.Should().Throw<OverflowException>();
@@ -58,10 +58,10 @@ namespace Jodo.Numerics.Tests
             public void Sign_NaN_ThrowsArithmeticException()
             {
                 //arrange
-                N input = Convert<N>.ToNumeric(float.NaN, Conversion.Cast);
+                N input = ConvertN.ToNumeric<N>(float.NaN, Conversion.Cast);
 
                 //act
-                Action action = new Action(() => Math<N>.Sign(input));
+                Action action = new Action(() => MathN.Sign(input));
 
                 //assert
                 action.Should().Throw<ArithmeticException>();
@@ -76,7 +76,7 @@ namespace Jodo.Numerics.Tests
                 while (input.IsGreaterThanOrEqualTo(Numeric<N>.MinUnit) && input.IsLessThanOrEqualTo(Numeric<N>.MaxUnit));
 
                 //act
-                N result = Math<N>.Acos(input);
+                N result = MathN.Acos(input);
 
                 //assert
                 Numeric<N>.IsNaN(result).Should().BeTrue();

@@ -96,7 +96,7 @@ namespace Jodo.Geometry
         }
 
 
-        public N GetArea() => Math<N>.Abs(Width.Multiply(Height));
+        public N GetArea() => MathN.Abs(Width.Multiply(Height));
 
         public Vector2<N>[] GetVertices()
         {
@@ -244,15 +244,15 @@ namespace Jodo.Geometry
             {
                 AARectangle<N> bound1Bounds = bound1.GetBounds();
                 AARectangle<N> bound2Bounds = bound2.GetBounds();
-                N xMin = Math<N>.Min(bound1Bounds.GetBottomLeft().X, bound2Bounds.GetBottomLeft().X);
-                N xMax = Math<N>.Max(bound1Bounds.GetTopRight().X, bound2Bounds.GetTopRight().X);
-                N yMin = Math<N>.Min(bound1Bounds.GetBottomLeft().Y, bound2Bounds.GetBottomLeft().Y);
-                N yMax = Math<N>.Max(bound1Bounds.GetTopRight().Y, bound2Bounds.GetTopRight().Y);
+                N xMin = MathN.Min(bound1Bounds.GetBottomLeft().X, bound2Bounds.GetBottomLeft().X);
+                N xMax = MathN.Max(bound1Bounds.GetTopRight().X, bound2Bounds.GetTopRight().X);
+                N yMin = MathN.Min(bound1Bounds.GetBottomLeft().Y, bound2Bounds.GetBottomLeft().Y);
+                N yMax = MathN.Max(bound1Bounds.GetTopRight().Y, bound2Bounds.GetTopRight().Y);
 
                 Vector2<N> center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
 
-                N xMaxRadius = Math<N>.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
-                N yMaxRadius = Math<N>.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
+                N xMaxRadius = MathN.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
+                N yMaxRadius = MathN.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
 
                 Angle<N> angle = random.NextAngle<N>();
                 Vector2<N> dimensions = new Vector2<N>(xMaxRadius.Double(), yMaxRadius.Double());
