@@ -1,7 +1,7 @@
 <p align="center"><img src="Banner.png" alt="Logo" height="96"/></p>
 <h1 align="center">The Jodo Packages</h1>
 
-<p align="center">C# extension libraries to complement the .NET SDK.</p>
+<p align="center">Extension libraries for the .NET SDK.</p>
 
 <p align="center">
   <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&no-cache"></a>
