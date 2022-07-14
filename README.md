@@ -1,7 +1,5 @@
 <p align="center"><img src="Banner.png" alt="Logo" height="96"/></p>
-<h1 align="center">The Jodo Packages</h1>
-
-<p align="center">Extension libraries for the .NET SDK.</p>
+<h1 align="center">The Jodo Libraries</h1>
 
 <p align="center">
   <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&no-cache"></a>
@@ -19,7 +17,7 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Packages: a collection of .NET extensions written in C# covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
+Welcome to The Jodo Libraries: a collection of .NET extensions written in C# covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
 
 <table>
   <tr>
