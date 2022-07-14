@@ -29,7 +29,7 @@ namespace Jodo.Numerics
     /// </summary>
     /// <typeparam name="TSelf">The type that implements <see cref="INumericExtended{N}"/></typeparam>
     [CLSCompliant(false)]
-    [SuppressMessage("csharpsquid", "S3444")] // by design
+    [SuppressMessage("csharpsquid", "S3444", Justification = "By design")]
     public interface INumericExtended<TSelf> :
             INumeric<TSelf>,
             IConvertible,

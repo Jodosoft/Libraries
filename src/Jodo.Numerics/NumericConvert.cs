@@ -23,7 +23,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Jodo.Numerics
 {
     [SuppressMessage("csharpsquid", "S3358")]
-    [SuppressMessage("csharpsquid", "S2583")] // false positives
+    [SuppressMessage("csharpsquid", "S2583", Justification = "False positives.")]
     public static class NumericConvert
     {
         [CLSCompliant(false)]

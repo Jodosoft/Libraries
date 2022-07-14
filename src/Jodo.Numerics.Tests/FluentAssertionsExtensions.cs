@@ -21,7 +21,6 @@ using System;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Numeric;
-using Jodo.Numerics;
 using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Numerics.Tests
@@ -73,8 +72,5 @@ namespace Jodo.Numerics.Tests
 
             return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
-
-
-
     }
 }

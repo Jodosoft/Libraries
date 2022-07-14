@@ -28,7 +28,7 @@ namespace Jodo.Numerics
     /// Defines a generalization for numeric value types.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements <see cref="INumeric{TSelf}"/>.</typeparam>
-    [SuppressMessage("csharpsquid", "S3444")] // by design
+    [SuppressMessage("csharpsquid", "S3444", Justification = "By design")]
     public interface INumeric<TSelf> :
             IComparable,
             IComparable<TSelf>,

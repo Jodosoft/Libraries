@@ -144,7 +144,6 @@ namespace Jodo.Geometry
         IRandom<Triangle<N>> IProvider<IRandom<Triangle<N>>>.GetInstance() => Utilities.Instance;
         IParser<Triangle<N>> IProvider<IParser<Triangle<N>>>.GetInstance() => Utilities.Instance;
 
-
         private sealed class Utilities :
            IBitConverter<Triangle<N>>,
            IRandom<Triangle<N>>,

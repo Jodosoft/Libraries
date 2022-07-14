@@ -44,8 +44,6 @@ namespace Jodo.Geometry.Tests
                 new Vector2<N>(
                     Random.NextNumeric(minDimension, maxDimension),
                     Random.NextNumeric(minDimension, maxDimension)));
-
         }
-
     }
 }

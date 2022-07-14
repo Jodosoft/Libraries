@@ -95,7 +95,6 @@ namespace Jodo.Geometry
             throw new NotImplementedException();
         }
 
-
         public N GetArea() => MathN.Abs(Width.Multiply(Height));
 
         public Vector2<N>[] GetVertices()

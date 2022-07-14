@@ -102,7 +102,7 @@ namespace Jodo.Primitives.Compatibility
             {
                 return -double.Epsilon;
             }
-            bits += ((bits < 0) ? +1 : -1);
+            bits += (bits < 0) ? +1 : -1;
             return BitConverter.Int64BitsToDouble(bits);
 #endif
         }
@@ -116,14 +116,14 @@ namespace Jodo.Primitives.Compatibility
 
             if (((bits >> 32) & 0x7FF00000) >= 0x7FF00000)
             {
-                return (bits == unchecked((long)(0xFFF00000_00000000))) ? double.MinValue : x;
+                return (bits == unchecked((long)0xFFF00000_00000000)) ? double.MinValue : x;
             }
 
-            if (bits == unchecked((long)(0x80000000_00000000)))
+            if (bits == unchecked((long)0x80000000_00000000))
             {
                 return double.Epsilon;
             }
-            bits += ((bits < 0) ? -1 : +1);
+            bits += (bits < 0) ? -1 : +1;
             return BitConverter.Int64BitsToDouble(bits);
 #endif
         }

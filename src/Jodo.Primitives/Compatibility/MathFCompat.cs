@@ -45,7 +45,7 @@ namespace Jodo.Primitives.Compatibility
             // Negative values need to be incremented
             // Positive values need to be decremented
 
-            bits += ((bits < 0) ? +1 : -1);
+            bits += (bits < 0) ? +1 : -1;
             return BitConverterCompat.Int32BitsToSingle(bits);
 #endif
         }
@@ -62,10 +62,10 @@ namespace Jodo.Primitives.Compatibility
                 // NaN returns NaN
                 // -Infinity returns float.MinValue
                 // +Infinity returns +Infinity
-                return (bits == unchecked((int)(0xFF800000))) ? float.MinValue : x;
+                return (bits == unchecked((int)0xFF800000)) ? float.MinValue : x;
             }
 
-            if (bits == unchecked((int)(0x80000000)))
+            if (bits == unchecked((int)0x80000000))
             {
                 // -0.0 returns float.Epsilon
                 return float.Epsilon;
@@ -74,7 +74,7 @@ namespace Jodo.Primitives.Compatibility
             // Negative values need to be decremented
             // Positive values need to be incremented
 
-            bits += ((bits < 0) ? -1 : +1);
+            bits += (bits < 0) ? -1 : +1;
             return BitConverterCompat.Int32BitsToSingle(bits);
 #endif
         }

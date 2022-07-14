@@ -545,7 +545,7 @@ namespace Jodo.Numerics.Tests
             [Test]
             public void Epsilon_LessThanOne()
             {
-                (Numeric<N>.Epsilon.IsLessThan(Numeric<N>.One)).Should().BeTrue();
+                Numeric<N>.Epsilon.IsLessThan(Numeric<N>.One).Should().BeTrue();
             }
 
             [Test]
@@ -652,7 +652,7 @@ namespace Jodo.Numerics.Tests
             [Test]
             public void MinValue_IsLessThanMinUnit()
             {
-                (Numeric<N>.MinValue.IsLessThan(Numeric<N>.MinUnit)).Should().BeTrue();
+                Numeric<N>.MinValue.IsLessThan(Numeric<N>.MinUnit).Should().BeTrue();
             }
 
             [Test, Repeat(RandomVariations)]

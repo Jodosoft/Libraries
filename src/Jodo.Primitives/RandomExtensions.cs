@@ -144,7 +144,7 @@ namespace Jodo.Primitives
                 checked { difference = bound2 - bound1; }
 
                 decimal scalar = (decimal)(random.Next() / (1.0 * (int.MaxValue - 1)));
-                decimal result = bound1 + difference * scalar;
+                decimal result = bound1 + (difference * scalar);
                 return result;
             }
             catch (OverflowException)
@@ -186,7 +186,7 @@ namespace Jodo.Primitives
             else
             {
                 double scalar = random.Next() / (1.0 * (int.MaxValue - 1));
-                double result = bound1 + difference * scalar;
+                double result = bound1 + (difference * scalar);
                 return result;
             }
         }

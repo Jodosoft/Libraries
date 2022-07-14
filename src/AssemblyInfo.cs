@@ -22,8 +22,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedGeometry.Tests")]
+[assembly: InternalsVisibleTo("Jodo.Geometry.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodo.Geometry.Tests")]
 [assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
 [assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
@@ -32,6 +32,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Jodo.Numerics.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "False positive on csharpsquid suppressions")]
+[assembly: SuppressMessage("Style", "IDE0057:Use range operator", Justification = "Not supported by all targets")]
 
 [assembly: CLSCompliant(true)]

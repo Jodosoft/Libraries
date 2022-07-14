@@ -258,7 +258,5 @@ namespace Jodo.Numerics
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static N Truncate<N>(N x) where N : struct, INumeric<N> => Provider<N, IMath<N>>.Default.Truncate(x);
-
-
     }
 }

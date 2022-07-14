@@ -59,7 +59,6 @@ namespace Jodo.Numerics.Tests
                 //arrange
                 Vector3<N> bound1 = Random.NextRandomizable<Vector3<N>>();
                 Vector3<N> bound2 = Random.NextRandomizable<Vector3<N>>();
-                Vector3<N> bound3 = Random.NextRandomizable<Vector3<N>>();
 
                 //act
                 Vector3<N> result = Random.NextRandomizable(bound1, bound2);

@@ -60,6 +60,5 @@ namespace Jodo.Numerics.Tests
         [Test] public void Int16ToUInt16Default_MaxValue_SameAsSystem() => Same.Outcome(() => NumericConvert.ToUInt16(short.MaxValue, Conversion.Default), () => Convert.ToUInt16(short.MaxValue));
         [Test] public void Int16ToUInt16Default_MinValue_SameAsSystem() => Same.Outcome(() => NumericConvert.ToUInt16(short.MinValue, Conversion.Default), () => Convert.ToUInt16(short.MinValue));
         [Test] public void Int16ToUInt16DefaultClamp_MinValue_ReturnsMinValue() => Same.Outcome(() => NumericConvert.ToUInt16(short.MinValue, Conversion.Clamp), ushort.MinValue);
-
     }
 }

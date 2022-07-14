@@ -263,7 +263,6 @@ namespace Jodo.Numerics
 
             ByteN IParser<ByteN>.Parse(string s) => Parse(s);
             ByteN IParser<ByteN>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
         }
     }
 }

@@ -40,6 +40,5 @@ namespace Jodo.Numerics
         {
             return Vector2<N>.Dot(value, value);
         }
-
     }
 }
