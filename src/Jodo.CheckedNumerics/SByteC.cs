@@ -33,7 +33,7 @@ namespace Jodo.CheckedNumerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct SByteC : INumericNonCLS<SByteC>
+    public readonly struct SByteC : INumericExtended<SByteC>
     {
         public static readonly SByteC MaxValue = new SByteC(sbyte.MaxValue);
         public static readonly SByteC MinValue = new SByteC(sbyte.MinValue);
@@ -150,7 +150,7 @@ namespace Jodo.CheckedNumerics
 
         IBitConverter<SByteC> IProvider<IBitConverter<SByteC>>.GetInstance() => Utilities.Instance;
         IConvert<SByteC> IProvider<IConvert<SByteC>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<SByteC> IProvider<IConvertNonCLS<SByteC>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<SByteC> IProvider<IConvertExtended<SByteC>>.GetInstance() => Utilities.Instance;
         IMath<SByteC> IProvider<IMath<SByteC>>.GetInstance() => Utilities.Instance;
         INumericStatic<SByteC> IProvider<INumericStatic<SByteC>>.GetInstance() => Utilities.Instance;
         IRandom<SByteC> IProvider<IRandom<SByteC>>.GetInstance() => Utilities.Instance;
@@ -159,7 +159,7 @@ namespace Jodo.CheckedNumerics
         private sealed class Utilities :
             IBitConverter<SByteC>,
             IConvert<SByteC>,
-            IConvertNonCLS<SByteC>,
+            IConvertExtended<SByteC>,
             IMath<SByteC>,
             INumericStatic<SByteC>,
             IRandom<SByteC>,
@@ -242,12 +242,12 @@ namespace Jodo.CheckedNumerics
             float IConvert<SByteC>.ToSingle(SByteC value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
             int IConvert<SByteC>.ToInt32(SByteC value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
             long IConvert<SByteC>.ToInt64(SByteC value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
-            sbyte IConvertNonCLS<SByteC>.ToSByte(SByteC value, Conversion mode) => value._value;
+            sbyte IConvertExtended<SByteC>.ToSByte(SByteC value, Conversion mode) => value._value;
             short IConvert<SByteC>.ToInt16(SByteC value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
             string IConvert<SByteC>.ToString(SByteC value) => Convert.ToString(value._value);
-            uint IConvertNonCLS<SByteC>.ToUInt32(SByteC value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
-            ulong IConvertNonCLS<SByteC>.ToUInt64(SByteC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
-            ushort IConvertNonCLS<SByteC>.ToUInt16(SByteC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            uint IConvertExtended<SByteC>.ToUInt32(SByteC value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
+            ulong IConvertExtended<SByteC>.ToUInt64(SByteC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertExtended<SByteC>.ToUInt16(SByteC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
 
             SByteC IConvert<SByteC>.ToNumeric(bool value) => value ? (sbyte)1 : (sbyte)0;
             SByteC IConvert<SByteC>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
@@ -256,12 +256,12 @@ namespace Jodo.CheckedNumerics
             SByteC IConvert<SByteC>.ToNumeric(float value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
             SByteC IConvert<SByteC>.ToNumeric(int value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
             SByteC IConvert<SByteC>.ToNumeric(long value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
-            SByteC IConvertNonCLS<SByteC>.ToValue(sbyte value, Conversion mode) => value;
+            SByteC IConvertExtended<SByteC>.ToValue(sbyte value, Conversion mode) => value;
             SByteC IConvert<SByteC>.ToNumeric(short value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
             SByteC IConvert<SByteC>.ToNumeric(string value) => Convert.ToSByte(value);
-            SByteC IConvertNonCLS<SByteC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
-            SByteC IConvertNonCLS<SByteC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
-            SByteC IConvertNonCLS<SByteC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
+            SByteC IConvertExtended<SByteC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
+            SByteC IConvertExtended<SByteC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
+            SByteC IConvertExtended<SByteC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
 
             SByteC IParser<SByteC>.Parse(string s) => Parse(s);
             SByteC IParser<SByteC>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

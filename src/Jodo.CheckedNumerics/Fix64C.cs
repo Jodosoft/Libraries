@@ -32,7 +32,7 @@ namespace Jodo.CheckedNumerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Fix64C : INumericNonCLS<Fix64C>
+    public readonly struct Fix64C : INumericExtended<Fix64C>
     {
         public static readonly Fix64C Epsilon = new Fix64C(1);
         public static readonly Fix64C MaxValue = new Fix64C(long.MaxValue);
@@ -152,14 +152,14 @@ namespace Jodo.CheckedNumerics
         TypeCode IConvertible.GetTypeCode() => TypeCode.Object;
         bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvert<Fix64C>)Utilities.Instance).ToBoolean(this);
         char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)((IConvert<Fix64C>)Utilities.Instance).ToDouble(this, Conversion.Clamp)).ToChar(provider);
-        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertNonCLS<Fix64C>)Utilities.Instance).ToSByte(this, Conversion.Clamp);
+        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertExtended<Fix64C>)Utilities.Instance).ToSByte(this, Conversion.Clamp);
         byte IConvertible.ToByte(IFormatProvider provider) => ((IConvert<Fix64C>)Utilities.Instance).ToByte(this, Conversion.Clamp);
         short IConvertible.ToInt16(IFormatProvider provider) => ((IConvert<Fix64C>)Utilities.Instance).ToInt16(this, Conversion.Clamp);
-        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertNonCLS<Fix64C>)Utilities.Instance).ToUInt16(this, Conversion.Clamp);
+        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertExtended<Fix64C>)Utilities.Instance).ToUInt16(this, Conversion.Clamp);
         int IConvertible.ToInt32(IFormatProvider provider) => ((IConvert<Fix64C>)Utilities.Instance).ToInt32(this, Conversion.Clamp);
-        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertNonCLS<Fix64C>)Utilities.Instance).ToUInt32(this, Conversion.Clamp);
+        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertExtended<Fix64C>)Utilities.Instance).ToUInt32(this, Conversion.Clamp);
         long IConvertible.ToInt64(IFormatProvider provider) => ((IConvert<Fix64C>)Utilities.Instance).ToInt64(this, Conversion.Clamp);
-        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertNonCLS<Fix64C>)Utilities.Instance).ToUInt64(this, Conversion.Clamp);
+        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertExtended<Fix64C>)Utilities.Instance).ToUInt64(this, Conversion.Clamp);
         float IConvertible.ToSingle(IFormatProvider provider) => ((IConvert<Fix64C>)Utilities.Instance).ToSingle(this, Conversion.Clamp);
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvert<Fix64C>)Utilities.Instance).ToDouble(this, Conversion.Clamp);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvert<Fix64C>)Utilities.Instance).ToDecimal(this, Conversion.Clamp);
@@ -186,7 +186,7 @@ namespace Jodo.CheckedNumerics
 
         IBitConverter<Fix64C> IProvider<IBitConverter<Fix64C>>.GetInstance() => Utilities.Instance;
         IConvert<Fix64C> IProvider<IConvert<Fix64C>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<Fix64C> IProvider<IConvertNonCLS<Fix64C>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<Fix64C> IProvider<IConvertExtended<Fix64C>>.GetInstance() => Utilities.Instance;
         IMath<Fix64C> IProvider<IMath<Fix64C>>.GetInstance() => Utilities.Instance;
         INumericStatic<Fix64C> IProvider<INumericStatic<Fix64C>>.GetInstance() => Utilities.Instance;
         IRandom<Fix64C> IProvider<IRandom<Fix64C>>.GetInstance() => Utilities.Instance;
@@ -195,7 +195,7 @@ namespace Jodo.CheckedNumerics
         private sealed class Utilities :
             IBitConverter<Fix64C>,
             IConvert<Fix64C>,
-            IConvertNonCLS<Fix64C>,
+            IConvertExtended<Fix64C>,
             IMath<Fix64C>,
             INumericStatic<Fix64C>,
             IRandom<Fix64C>,
@@ -278,12 +278,12 @@ namespace Jodo.CheckedNumerics
             float IConvert<Fix64C>.ToSingle(Fix64C value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
             int IConvert<Fix64C>.ToInt32(Fix64C value, Conversion mode) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, mode.Clamped());
             long IConvert<Fix64C>.ToInt64(Fix64C value, Conversion mode) => value._scaledValue / ScalingFactor;
-            sbyte IConvertNonCLS<Fix64C>.ToSByte(Fix64C value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode.Clamped());
+            sbyte IConvertExtended<Fix64C>.ToSByte(Fix64C value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode.Clamped());
             short IConvert<Fix64C>.ToInt16(Fix64C value, Conversion mode) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, mode.Clamped());
             string IConvert<Fix64C>.ToString(Fix64C value) => value.ToString();
-            uint IConvertNonCLS<Fix64C>.ToUInt32(Fix64C value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode.Clamped());
-            ulong IConvertNonCLS<Fix64C>.ToUInt64(Fix64C value, Conversion mode) => NumericConvert.ToUInt64(value._scaledValue / ScalingFactor, mode.Clamped());
-            ushort IConvertNonCLS<Fix64C>.ToUInt16(Fix64C value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode.Clamped());
+            uint IConvertExtended<Fix64C>.ToUInt32(Fix64C value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode.Clamped());
+            ulong IConvertExtended<Fix64C>.ToUInt64(Fix64C value, Conversion mode) => NumericConvert.ToUInt64(value._scaledValue / ScalingFactor, mode.Clamped());
+            ushort IConvertExtended<Fix64C>.ToUInt16(Fix64C value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode.Clamped());
 
             Fix64C IConvert<Fix64C>.ToNumeric(bool value) => value ? ScalingFactor : 0;
             Fix64C IConvert<Fix64C>.ToNumeric(byte value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
@@ -292,12 +292,12 @@ namespace Jodo.CheckedNumerics
             Fix64C IConvert<Fix64C>.ToNumeric(float value, Conversion mode) => value;
             Fix64C IConvert<Fix64C>.ToNumeric(int value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
             Fix64C IConvert<Fix64C>.ToNumeric(long value, Conversion mode) => (Fix64C)value;
-            Fix64C IConvertNonCLS<Fix64C>.ToValue(sbyte value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
+            Fix64C IConvertExtended<Fix64C>.ToValue(sbyte value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
             Fix64C IConvert<Fix64C>.ToNumeric(short value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
             Fix64C IConvert<Fix64C>.ToNumeric(string value) => (Fix64C)Convert.ToInt64(value);
-            Fix64C IConvertNonCLS<Fix64C>.ToNumeric(uint value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
-            Fix64C IConvertNonCLS<Fix64C>.ToNumeric(ulong value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
-            Fix64C IConvertNonCLS<Fix64C>.ToNumeric(ushort value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
+            Fix64C IConvertExtended<Fix64C>.ToNumeric(uint value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
+            Fix64C IConvertExtended<Fix64C>.ToNumeric(ulong value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
+            Fix64C IConvertExtended<Fix64C>.ToNumeric(ushort value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
 
             Fix64C IParser<Fix64C>.Parse(string s) => Parse(s);
             Fix64C IParser<Fix64C>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

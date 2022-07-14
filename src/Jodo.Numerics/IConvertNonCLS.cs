@@ -22,7 +22,7 @@ using System;
 namespace Jodo.Numerics
 {
     [CLSCompliant(false)]
-    public interface IConvertNonCLS<N>
+    public interface IConvertExtended<N>
     {
         sbyte ToSByte(N value, Conversion mode);
         uint ToUInt32(N value, Conversion mode);

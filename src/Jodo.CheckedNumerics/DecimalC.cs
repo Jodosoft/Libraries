@@ -32,7 +32,7 @@ namespace Jodo.CheckedNumerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct DecimalC : INumericNonCLS<DecimalC>
+    public readonly struct DecimalC : INumericExtended<DecimalC>
     {
         public static readonly DecimalC MaxValue = new DecimalC(decimal.MaxValue);
         public static readonly DecimalC MinValue = new DecimalC(decimal.MinValue);
@@ -149,7 +149,7 @@ namespace Jodo.CheckedNumerics
 
         IBitConverter<DecimalC> IProvider<IBitConverter<DecimalC>>.GetInstance() => Utilities.Instance;
         IConvert<DecimalC> IProvider<IConvert<DecimalC>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<DecimalC> IProvider<IConvertNonCLS<DecimalC>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<DecimalC> IProvider<IConvertExtended<DecimalC>>.GetInstance() => Utilities.Instance;
         IMath<DecimalC> IProvider<IMath<DecimalC>>.GetInstance() => Utilities.Instance;
         INumericStatic<DecimalC> IProvider<INumericStatic<DecimalC>>.GetInstance() => Utilities.Instance;
         IRandom<DecimalC> IProvider<IRandom<DecimalC>>.GetInstance() => Utilities.Instance;
@@ -158,7 +158,7 @@ namespace Jodo.CheckedNumerics
         private sealed class Utilities :
             IBitConverter<DecimalC>,
             IConvert<DecimalC>,
-            IConvertNonCLS<DecimalC>,
+            IConvertExtended<DecimalC>,
             IMath<DecimalC>,
             INumericStatic<DecimalC>,
             IRandom<DecimalC>,
@@ -260,12 +260,12 @@ namespace Jodo.CheckedNumerics
             float IConvert<DecimalC>.ToSingle(DecimalC value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
             int IConvert<DecimalC>.ToInt32(DecimalC value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
             long IConvert<DecimalC>.ToInt64(DecimalC value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
-            sbyte IConvertNonCLS<DecimalC>.ToSByte(DecimalC value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            sbyte IConvertExtended<DecimalC>.ToSByte(DecimalC value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
             short IConvert<DecimalC>.ToInt16(DecimalC value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
             string IConvert<DecimalC>.ToString(DecimalC value) => Convert.ToString(value._value);
-            uint IConvertNonCLS<DecimalC>.ToUInt32(DecimalC value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
-            ulong IConvertNonCLS<DecimalC>.ToUInt64(DecimalC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
-            ushort IConvertNonCLS<DecimalC>.ToUInt16(DecimalC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            uint IConvertExtended<DecimalC>.ToUInt32(DecimalC value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
+            ulong IConvertExtended<DecimalC>.ToUInt64(DecimalC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertExtended<DecimalC>.ToUInt16(DecimalC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
 
             DecimalC IConvert<DecimalC>.ToNumeric(bool value) => new DecimalC(value ? 1m : 0m);
             DecimalC IConvert<DecimalC>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
@@ -274,12 +274,12 @@ namespace Jodo.CheckedNumerics
             DecimalC IConvert<DecimalC>.ToNumeric(float value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
             DecimalC IConvert<DecimalC>.ToNumeric(int value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
             DecimalC IConvert<DecimalC>.ToNumeric(long value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
-            DecimalC IConvertNonCLS<DecimalC>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
+            DecimalC IConvertExtended<DecimalC>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
             DecimalC IConvert<DecimalC>.ToNumeric(short value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
             DecimalC IConvert<DecimalC>.ToNumeric(string value) => Convert.ToDecimal(value);
-            DecimalC IConvertNonCLS<DecimalC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
-            DecimalC IConvertNonCLS<DecimalC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
-            DecimalC IConvertNonCLS<DecimalC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
+            DecimalC IConvertExtended<DecimalC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
+            DecimalC IConvertExtended<DecimalC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
+            DecimalC IConvertExtended<DecimalC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
 
             DecimalC IParser<DecimalC>.Parse(string s) => Parse(s);
             DecimalC IParser<DecimalC>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

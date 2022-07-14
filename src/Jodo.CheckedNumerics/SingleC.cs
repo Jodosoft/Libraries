@@ -32,7 +32,7 @@ namespace Jodo.CheckedNumerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct SingleC : INumericNonCLS<SingleC>
+    public readonly struct SingleC : INumericExtended<SingleC>
     {
         public static readonly SingleC Epsilon = new SingleC(float.Epsilon);
         public static readonly SingleC MaxValue = new SingleC(float.MaxValue);
@@ -167,7 +167,7 @@ namespace Jodo.CheckedNumerics
 
         IBitConverter<SingleC> IProvider<IBitConverter<SingleC>>.GetInstance() => Utilities.Instance;
         IConvert<SingleC> IProvider<IConvert<SingleC>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<SingleC> IProvider<IConvertNonCLS<SingleC>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<SingleC> IProvider<IConvertExtended<SingleC>>.GetInstance() => Utilities.Instance;
         IMath<SingleC> IProvider<IMath<SingleC>>.GetInstance() => Utilities.Instance;
         INumericStatic<SingleC> IProvider<INumericStatic<SingleC>>.GetInstance() => Utilities.Instance;
         IRandom<SingleC> IProvider<IRandom<SingleC>>.GetInstance() => Utilities.Instance;
@@ -176,7 +176,7 @@ namespace Jodo.CheckedNumerics
         private sealed class Utilities :
             IBitConverter<SingleC>,
             IConvert<SingleC>,
-            IConvertNonCLS<SingleC>,
+            IConvertExtended<SingleC>,
             IMath<SingleC>,
             INumericStatic<SingleC>,
             IRandom<SingleC>,
@@ -259,12 +259,12 @@ namespace Jodo.CheckedNumerics
             float IConvert<SingleC>.ToSingle(SingleC value, Conversion mode) => value._value;
             int IConvert<SingleC>.ToInt32(SingleC value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
             long IConvert<SingleC>.ToInt64(SingleC value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
-            sbyte IConvertNonCLS<SingleC>.ToSByte(SingleC value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            sbyte IConvertExtended<SingleC>.ToSByte(SingleC value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
             short IConvert<SingleC>.ToInt16(SingleC value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
             string IConvert<SingleC>.ToString(SingleC value) => Convert.ToString(value._value);
-            uint IConvertNonCLS<SingleC>.ToUInt32(SingleC value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
-            ulong IConvertNonCLS<SingleC>.ToUInt64(SingleC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
-            ushort IConvertNonCLS<SingleC>.ToUInt16(SingleC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            uint IConvertExtended<SingleC>.ToUInt32(SingleC value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
+            ulong IConvertExtended<SingleC>.ToUInt64(SingleC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertExtended<SingleC>.ToUInt16(SingleC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
 
             SingleC IConvert<SingleC>.ToNumeric(bool value) => value ? 1f : 0f;
             SingleC IConvert<SingleC>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
@@ -273,12 +273,12 @@ namespace Jodo.CheckedNumerics
             SingleC IConvert<SingleC>.ToNumeric(float value, Conversion mode) => value;
             SingleC IConvert<SingleC>.ToNumeric(int value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
             SingleC IConvert<SingleC>.ToNumeric(long value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
-            SingleC IConvertNonCLS<SingleC>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            SingleC IConvertExtended<SingleC>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
             SingleC IConvert<SingleC>.ToNumeric(short value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
             SingleC IConvert<SingleC>.ToNumeric(string value) => Convert.ToSingle(value);
-            SingleC IConvertNonCLS<SingleC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
-            SingleC IConvertNonCLS<SingleC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
-            SingleC IConvertNonCLS<SingleC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            SingleC IConvertExtended<SingleC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            SingleC IConvertExtended<SingleC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
+            SingleC IConvertExtended<SingleC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
 
             SingleC IParser<SingleC>.Parse(string s) => Parse(s);
             SingleC IParser<SingleC>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

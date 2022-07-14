@@ -33,7 +33,7 @@ namespace Jodo.CheckedNumerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Int16C : INumericNonCLS<Int16C>
+    public readonly struct Int16C : INumericExtended<Int16C>
     {
         public static readonly Int16C MaxValue = new Int16C(short.MaxValue);
         public static readonly Int16C MinValue = new Int16C(short.MinValue);
@@ -150,7 +150,7 @@ namespace Jodo.CheckedNumerics
 
         IBitConverter<Int16C> IProvider<IBitConverter<Int16C>>.GetInstance() => Utilities.Instance;
         IConvert<Int16C> IProvider<IConvert<Int16C>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<Int16C> IProvider<IConvertNonCLS<Int16C>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<Int16C> IProvider<IConvertExtended<Int16C>>.GetInstance() => Utilities.Instance;
         IMath<Int16C> IProvider<IMath<Int16C>>.GetInstance() => Utilities.Instance;
         INumericStatic<Int16C> IProvider<INumericStatic<Int16C>>.GetInstance() => Utilities.Instance;
         IRandom<Int16C> IProvider<IRandom<Int16C>>.GetInstance() => Utilities.Instance;
@@ -159,7 +159,7 @@ namespace Jodo.CheckedNumerics
         private sealed class Utilities :
             IBitConverter<Int16C>,
             IConvert<Int16C>,
-            IConvertNonCLS<Int16C>,
+            IConvertExtended<Int16C>,
             IMath<Int16C>,
             INumericStatic<Int16C>,
             IRandom<Int16C>,
@@ -242,12 +242,12 @@ namespace Jodo.CheckedNumerics
             float IConvert<Int16C>.ToSingle(Int16C value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
             int IConvert<Int16C>.ToInt32(Int16C value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
             long IConvert<Int16C>.ToInt64(Int16C value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
-            sbyte IConvertNonCLS<Int16C>.ToSByte(Int16C value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            sbyte IConvertExtended<Int16C>.ToSByte(Int16C value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
             short IConvert<Int16C>.ToInt16(Int16C value, Conversion mode) => value._value;
             string IConvert<Int16C>.ToString(Int16C value) => Convert.ToString(value._value);
-            uint IConvertNonCLS<Int16C>.ToUInt32(Int16C value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
-            ulong IConvertNonCLS<Int16C>.ToUInt64(Int16C value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
-            ushort IConvertNonCLS<Int16C>.ToUInt16(Int16C value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            uint IConvertExtended<Int16C>.ToUInt32(Int16C value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
+            ulong IConvertExtended<Int16C>.ToUInt64(Int16C value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertExtended<Int16C>.ToUInt16(Int16C value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
 
             Int16C IConvert<Int16C>.ToNumeric(bool value) => value ? (short)1 : (short)0;
             Int16C IConvert<Int16C>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
@@ -256,12 +256,12 @@ namespace Jodo.CheckedNumerics
             Int16C IConvert<Int16C>.ToNumeric(float value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
             Int16C IConvert<Int16C>.ToNumeric(int value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
             Int16C IConvert<Int16C>.ToNumeric(long value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvertNonCLS<Int16C>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
+            Int16C IConvertExtended<Int16C>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
             Int16C IConvert<Int16C>.ToNumeric(short value, Conversion mode) => value;
             Int16C IConvert<Int16C>.ToNumeric(string value) => Convert.ToInt16(value);
-            Int16C IConvertNonCLS<Int16C>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvertNonCLS<Int16C>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvertNonCLS<Int16C>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
+            Int16C IConvertExtended<Int16C>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
+            Int16C IConvertExtended<Int16C>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
+            Int16C IConvertExtended<Int16C>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
 
             Int16C IParser<Int16C>.Parse(string s) => Parse(s);
             Int16C IParser<Int16C>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

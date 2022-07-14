@@ -31,7 +31,7 @@ namespace Jodo.Numerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct DoubleN : INumericNonCLS<DoubleN>
+    public readonly struct DoubleN : INumericExtended<DoubleN>
     {
         public static readonly DoubleN Epsilon = double.Epsilon;
         public static readonly DoubleN MaxValue = double.MaxValue;
@@ -158,7 +158,7 @@ namespace Jodo.Numerics
 
         IBitConverter<DoubleN> IProvider<IBitConverter<DoubleN>>.GetInstance() => Utilities.Instance;
         IConvert<DoubleN> IProvider<IConvert<DoubleN>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<DoubleN> IProvider<IConvertNonCLS<DoubleN>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<DoubleN> IProvider<IConvertExtended<DoubleN>>.GetInstance() => Utilities.Instance;
         IMath<DoubleN> IProvider<IMath<DoubleN>>.GetInstance() => Utilities.Instance;
         INumericStatic<DoubleN> IProvider<INumericStatic<DoubleN>>.GetInstance() => Utilities.Instance;
         IRandom<DoubleN> IProvider<IRandom<DoubleN>>.GetInstance() => Utilities.Instance;
@@ -167,7 +167,7 @@ namespace Jodo.Numerics
         private sealed class Utilities :
             IBitConverter<DoubleN>,
             IConvert<DoubleN>,
-            IConvertNonCLS<DoubleN>,
+            IConvertExtended<DoubleN>,
             IMath<DoubleN>,
             INumericStatic<DoubleN>,
             IRandom<DoubleN>,
@@ -250,12 +250,12 @@ namespace Jodo.Numerics
             float IConvert<DoubleN>.ToSingle(DoubleN value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
             int IConvert<DoubleN>.ToInt32(DoubleN value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
             long IConvert<DoubleN>.ToInt64(DoubleN value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
-            sbyte IConvertNonCLS<DoubleN>.ToSByte(DoubleN value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
+            sbyte IConvertExtended<DoubleN>.ToSByte(DoubleN value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
             short IConvert<DoubleN>.ToInt16(DoubleN value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
             string IConvert<DoubleN>.ToString(DoubleN value) => Convert.ToString(value._value);
-            uint IConvertNonCLS<DoubleN>.ToUInt32(DoubleN value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
-            ulong IConvertNonCLS<DoubleN>.ToUInt64(DoubleN value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
-            ushort IConvertNonCLS<DoubleN>.ToUInt16(DoubleN value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            uint IConvertExtended<DoubleN>.ToUInt32(DoubleN value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
+            ulong IConvertExtended<DoubleN>.ToUInt64(DoubleN value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
+            ushort IConvertExtended<DoubleN>.ToUInt16(DoubleN value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
 
             DoubleN IConvert<DoubleN>.ToNumeric(bool value) => Convert.ToDouble(value);
             DoubleN IConvert<DoubleN>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToDouble(value, mode);
@@ -264,12 +264,12 @@ namespace Jodo.Numerics
             DoubleN IConvert<DoubleN>.ToNumeric(float value, Conversion mode) => NumericConvert.ToDouble(value, mode);
             DoubleN IConvert<DoubleN>.ToNumeric(int value, Conversion mode) => NumericConvert.ToDouble(value, mode);
             DoubleN IConvert<DoubleN>.ToNumeric(long value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvertNonCLS<DoubleN>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToDouble(value, mode);
+            DoubleN IConvertExtended<DoubleN>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToDouble(value, mode);
             DoubleN IConvert<DoubleN>.ToNumeric(short value, Conversion mode) => NumericConvert.ToDouble(value, mode);
             DoubleN IConvert<DoubleN>.ToNumeric(string value) => Convert.ToDouble(value);
-            DoubleN IConvertNonCLS<DoubleN>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvertNonCLS<DoubleN>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvertNonCLS<DoubleN>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDouble(value, mode);
+            DoubleN IConvertExtended<DoubleN>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToDouble(value, mode);
+            DoubleN IConvertExtended<DoubleN>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDouble(value, mode);
+            DoubleN IConvertExtended<DoubleN>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDouble(value, mode);
 
             DoubleN IParser<DoubleN>.Parse(string s) => Parse(s);
             DoubleN IParser<DoubleN>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

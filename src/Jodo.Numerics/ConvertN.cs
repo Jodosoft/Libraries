@@ -93,42 +93,42 @@ namespace Jodo.Numerics
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static sbyte ToSByte<N>(N value) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToSByte(value, Conversion.Default);
+        public static sbyte ToSByte<N>(N value) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToSByte(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static sbyte ToSByte<N>(N value, Conversion mode) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToSByte(value, mode);
+        public static sbyte ToSByte<N>(N value, Conversion mode) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToSByte(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static uint ToUInt32<N>(N value) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToUInt32(value, Conversion.Default);
+        public static uint ToUInt32<N>(N value) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToUInt32(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static uint ToUInt32<N>(N value, Conversion mode) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToUInt32(value, mode);
+        public static uint ToUInt32<N>(N value, Conversion mode) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToUInt32(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static ulong ToUInt64<N>(N value) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToUInt64(value, Conversion.Default);
+        public static ulong ToUInt64<N>(N value) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToUInt64(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static ulong ToUInt64<N>(N value, Conversion mode) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToUInt64(value, mode);
+        public static ulong ToUInt64<N>(N value, Conversion mode) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToUInt64(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static ushort ToUInt16<N>(N value) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToUInt16(value, Conversion.Default);
+        public static ushort ToUInt16<N>(N value) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToUInt16(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static ushort ToUInt16<N>(N value, Conversion mode) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToUInt16(value, mode);
+        public static ushort ToUInt16<N>(N value, Conversion mode) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToUInt16(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -197,41 +197,41 @@ namespace Jodo.Numerics
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(sbyte value) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToValue(value, Conversion.Default);
+        public static N ToNumeric<N>(sbyte value) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(sbyte value, Conversion mode) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToValue(value, mode);
+        public static N ToNumeric<N>(sbyte value, Conversion mode) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToValue(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(uint value) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToNumeric(value, Conversion.Default);
+        public static N ToNumeric<N>(uint value) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(uint value, Conversion mode) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToNumeric(value, mode);
+        public static N ToNumeric<N>(uint value, Conversion mode) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(ulong value) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToNumeric(value, Conversion.Default);
+        public static N ToNumeric<N>(ulong value) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(ulong value, Conversion mode) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToNumeric(value, mode);
+        public static N ToNumeric<N>(ulong value, Conversion mode) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(ushort value) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToNumeric(value, Conversion.Default);
+        public static N ToNumeric<N>(ushort value) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(ushort value, Conversion mode) where N : struct, INumericNonCLS<N> => Provider<N, IConvertNonCLS<N>>.Default.ToNumeric(value, mode);
+        public static N ToNumeric<N>(ushort value, Conversion mode) where N : struct, INumericExtended<N> => Provider<N, IConvertExtended<N>>.Default.ToNumeric(value, mode);
     }
 }

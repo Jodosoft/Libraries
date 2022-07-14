@@ -31,7 +31,7 @@ namespace Jodo.Numerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct UFix64 : INumericNonCLS<UFix64>
+    public readonly struct UFix64 : INumericExtended<UFix64>
     {
         public static readonly UFix64 Epsilon = new UFix64(1);
         public static readonly UFix64 MaxValue = new UFix64(ulong.MaxValue);
@@ -151,14 +151,14 @@ namespace Jodo.Numerics
         TypeCode IConvertible.GetTypeCode() => TypeCode.Object;
         bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToBoolean(this);
         char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToChar(provider);
-        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertNonCLS<UFix64>)Utilities.Instance).ToSByte(this, Conversion.Default);
+        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToSByte(this, Conversion.Default);
         byte IConvertible.ToByte(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToByte(this, Conversion.Default);
         short IConvertible.ToInt16(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt16(this, Conversion.Default);
-        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertNonCLS<UFix64>)Utilities.Instance).ToUInt16(this, Conversion.Default);
+        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt16(this, Conversion.Default);
         int IConvertible.ToInt32(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt32(this, Conversion.Default);
-        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertNonCLS<UFix64>)Utilities.Instance).ToUInt32(this, Conversion.Default);
+        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt32(this, Conversion.Default);
         long IConvertible.ToInt64(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt64(this, Conversion.Default);
-        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertNonCLS<UFix64>)Utilities.Instance).ToUInt64(this, Conversion.Default);
+        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt64(this, Conversion.Default);
         float IConvertible.ToSingle(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToSingle(this, Conversion.Default);
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToDecimal(this, Conversion.Default);
@@ -185,7 +185,7 @@ namespace Jodo.Numerics
 
         IBitConverter<UFix64> IProvider<IBitConverter<UFix64>>.GetInstance() => Utilities.Instance;
         IConvert<UFix64> IProvider<IConvert<UFix64>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<UFix64> IProvider<IConvertNonCLS<UFix64>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<UFix64> IProvider<IConvertExtended<UFix64>>.GetInstance() => Utilities.Instance;
         IMath<UFix64> IProvider<IMath<UFix64>>.GetInstance() => Utilities.Instance;
         INumericStatic<UFix64> IProvider<INumericStatic<UFix64>>.GetInstance() => Utilities.Instance;
         IRandom<UFix64> IProvider<IRandom<UFix64>>.GetInstance() => Utilities.Instance;
@@ -194,7 +194,7 @@ namespace Jodo.Numerics
         private sealed class Utilities :
             IBitConverter<UFix64>,
             IConvert<UFix64>,
-            IConvertNonCLS<UFix64>,
+            IConvertExtended<UFix64>,
             IMath<UFix64>,
             INumericStatic<UFix64>,
             IRandom<UFix64>,
@@ -277,12 +277,12 @@ namespace Jodo.Numerics
             float IConvert<UFix64>.ToSingle(UFix64 value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
             int IConvert<UFix64>.ToInt32(UFix64 value, Conversion mode) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, mode);
             long IConvert<UFix64>.ToInt64(UFix64 value, Conversion mode) => NumericConvert.ToInt64(value._scaledValue / ScalingFactor, mode);
-            sbyte IConvertNonCLS<UFix64>.ToSByte(UFix64 value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode);
+            sbyte IConvertExtended<UFix64>.ToSByte(UFix64 value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode);
             short IConvert<UFix64>.ToInt16(UFix64 value, Conversion mode) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, mode);
             string IConvert<UFix64>.ToString(UFix64 value) => value.ToString();
-            uint IConvertNonCLS<UFix64>.ToUInt32(UFix64 value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode);
-            ulong IConvertNonCLS<UFix64>.ToUInt64(UFix64 value, Conversion mode) => value._scaledValue / ScalingFactor;
-            ushort IConvertNonCLS<UFix64>.ToUInt16(UFix64 value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode);
+            uint IConvertExtended<UFix64>.ToUInt32(UFix64 value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode);
+            ulong IConvertExtended<UFix64>.ToUInt64(UFix64 value, Conversion mode) => value._scaledValue / ScalingFactor;
+            ushort IConvertExtended<UFix64>.ToUInt16(UFix64 value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode);
 
             UFix64 IConvert<UFix64>.ToNumeric(bool value) => value ? new UFix64(ScalingFactor) : new UFix64(0);
             UFix64 IConvert<UFix64>.ToNumeric(byte value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
@@ -291,12 +291,12 @@ namespace Jodo.Numerics
             UFix64 IConvert<UFix64>.ToNumeric(float value, Conversion mode) => (UFix64)value;
             UFix64 IConvert<UFix64>.ToNumeric(int value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
             UFix64 IConvert<UFix64>.ToNumeric(long value, Conversion mode) => (UFix64)value;
-            UFix64 IConvertNonCLS<UFix64>.ToValue(sbyte value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
+            UFix64 IConvertExtended<UFix64>.ToValue(sbyte value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
             UFix64 IConvert<UFix64>.ToNumeric(short value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
             UFix64 IConvert<UFix64>.ToNumeric(string value) => (UFix64)Convert.ToUInt64(value);
-            UFix64 IConvertNonCLS<UFix64>.ToNumeric(uint value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
-            UFix64 IConvertNonCLS<UFix64>.ToNumeric(ulong value, Conversion mode) => (UFix64)value;
-            UFix64 IConvertNonCLS<UFix64>.ToNumeric(ushort value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
+            UFix64 IConvertExtended<UFix64>.ToNumeric(uint value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
+            UFix64 IConvertExtended<UFix64>.ToNumeric(ulong value, Conversion mode) => (UFix64)value;
+            UFix64 IConvertExtended<UFix64>.ToNumeric(ushort value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
 
             UFix64 IParser<UFix64>.Parse(string s) => Parse(s);
             UFix64 IParser<UFix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

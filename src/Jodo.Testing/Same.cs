@@ -46,9 +46,9 @@ namespace Jodo.Testing
             {
                 subject.Should().Throw<Exception>().Which.Should().BeOfType(expectedException.GetType());
             }
-
         }
 
+        [AssertionMethod]
         public static void Outcome<TResult>(Func<TResult> subject, TResult expected)
         {
             subject.Should().NotThrow().Which.Should().Be(expected);

@@ -33,7 +33,7 @@ namespace Jodo.CheckedNumerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct ByteC : INumericNonCLS<ByteC>
+    public readonly struct ByteC : INumericExtended<ByteC>
     {
         public static readonly ByteC MaxValue = new ByteC(byte.MaxValue);
         public static readonly ByteC MinValue = new ByteC(byte.MinValue);
@@ -150,7 +150,7 @@ namespace Jodo.CheckedNumerics
 
         IBitConverter<ByteC> IProvider<IBitConverter<ByteC>>.GetInstance() => Utilities.Instance;
         IConvert<ByteC> IProvider<IConvert<ByteC>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<ByteC> IProvider<IConvertNonCLS<ByteC>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<ByteC> IProvider<IConvertExtended<ByteC>>.GetInstance() => Utilities.Instance;
         IMath<ByteC> IProvider<IMath<ByteC>>.GetInstance() => Utilities.Instance;
         INumericStatic<ByteC> IProvider<INumericStatic<ByteC>>.GetInstance() => Utilities.Instance;
         IRandom<ByteC> IProvider<IRandom<ByteC>>.GetInstance() => Utilities.Instance;
@@ -159,7 +159,7 @@ namespace Jodo.CheckedNumerics
         private sealed class Utilities :
             IBitConverter<ByteC>,
             IConvert<ByteC>,
-            IConvertNonCLS<ByteC>,
+            IConvertExtended<ByteC>,
             IMath<ByteC>,
             INumericStatic<ByteC>,
             IRandom<ByteC>,
@@ -242,12 +242,12 @@ namespace Jodo.CheckedNumerics
             float IConvert<ByteC>.ToSingle(ByteC value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
             int IConvert<ByteC>.ToInt32(ByteC value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
             long IConvert<ByteC>.ToInt64(ByteC value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
-            sbyte IConvertNonCLS<ByteC>.ToSByte(ByteC value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            sbyte IConvertExtended<ByteC>.ToSByte(ByteC value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
             short IConvert<ByteC>.ToInt16(ByteC value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
             string IConvert<ByteC>.ToString(ByteC value) => Convert.ToString(value._value);
-            uint IConvertNonCLS<ByteC>.ToUInt32(ByteC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
-            ulong IConvertNonCLS<ByteC>.ToUInt64(ByteC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
-            ushort IConvertNonCLS<ByteC>.ToUInt16(ByteC value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
+            uint IConvertExtended<ByteC>.ToUInt32(ByteC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            ulong IConvertExtended<ByteC>.ToUInt64(ByteC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertExtended<ByteC>.ToUInt16(ByteC value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
 
             ByteC IConvert<ByteC>.ToNumeric(bool value) => value ? (byte)1 : (byte)0;
             ByteC IConvert<ByteC>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
@@ -256,12 +256,12 @@ namespace Jodo.CheckedNumerics
             ByteC IConvert<ByteC>.ToNumeric(float value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
             ByteC IConvert<ByteC>.ToNumeric(int value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
             ByteC IConvert<ByteC>.ToNumeric(long value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
-            ByteC IConvertNonCLS<ByteC>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            ByteC IConvertExtended<ByteC>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
             ByteC IConvert<ByteC>.ToNumeric(short value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
             ByteC IConvert<ByteC>.ToNumeric(string value) => Convert.ToByte(value);
-            ByteC IConvertNonCLS<ByteC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
-            ByteC IConvertNonCLS<ByteC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
-            ByteC IConvertNonCLS<ByteC>.ToNumeric(ushort value, Conversion mode) => value;
+            ByteC IConvertExtended<ByteC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            ByteC IConvertExtended<ByteC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToByte(value, mode.Clamped());
+            ByteC IConvertExtended<ByteC>.ToNumeric(ushort value, Conversion mode) => value;
 
             ByteC IParser<ByteC>.Parse(string s) => Parse(s);
             ByteC IParser<ByteC>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

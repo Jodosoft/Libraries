@@ -892,28 +892,28 @@ namespace Jodo.Numerics
         }
 
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(sbyte value) where N : struct, INumericNonCLS<N>
+        public static N ToNumeric<N>(sbyte value) where N : struct, INumericExtended<N>
         {
             try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return value < 0 ? Numeric<N>.MinValue : Numeric<N>.MaxValue; }
         }
 
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(ushort value) where N : struct, INumericNonCLS<N>
+        public static N ToNumeric<N>(ushort value) where N : struct, INumericExtended<N>
         {
             try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(uint value) where N : struct, INumericNonCLS<N>
+        public static N ToNumeric<N>(uint value) where N : struct, INumericExtended<N>
         {
             try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return Numeric<N>.MaxValue; }
         }
 
         [CLSCompliant(false)]
-        public static N ToNumeric<N>(ulong value) where N : struct, INumericNonCLS<N>
+        public static N ToNumeric<N>(ulong value) where N : struct, INumericExtended<N>
         {
             try { checked { return ConvertN.ToNumeric<N>(value); } }
             catch (OverflowException) { return Numeric<N>.MaxValue; }

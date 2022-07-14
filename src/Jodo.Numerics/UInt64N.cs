@@ -31,7 +31,7 @@ namespace Jodo.Numerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct UInt64N : INumericNonCLS<UInt64N>
+    public readonly struct UInt64N : INumericExtended<UInt64N>
     {
         public static readonly UInt64N MaxValue = new UInt64N(ulong.MaxValue);
         public static readonly UInt64N MinValue = new UInt64N(ulong.MinValue);
@@ -148,7 +148,7 @@ namespace Jodo.Numerics
 
         IBitConverter<UInt64N> IProvider<IBitConverter<UInt64N>>.GetInstance() => Utilities.Instance;
         IConvert<UInt64N> IProvider<IConvert<UInt64N>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<UInt64N> IProvider<IConvertNonCLS<UInt64N>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<UInt64N> IProvider<IConvertExtended<UInt64N>>.GetInstance() => Utilities.Instance;
         IMath<UInt64N> IProvider<IMath<UInt64N>>.GetInstance() => Utilities.Instance;
         INumericStatic<UInt64N> IProvider<INumericStatic<UInt64N>>.GetInstance() => Utilities.Instance;
         IRandom<UInt64N> IProvider<IRandom<UInt64N>>.GetInstance() => Utilities.Instance;
@@ -157,7 +157,7 @@ namespace Jodo.Numerics
         private sealed class Utilities :
             IBitConverter<UInt64N>,
             IConvert<UInt64N>,
-            IConvertNonCLS<UInt64N>,
+            IConvertExtended<UInt64N>,
             IMath<UInt64N>,
             INumericStatic<UInt64N>,
             IRandom<UInt64N>,
@@ -240,12 +240,12 @@ namespace Jodo.Numerics
             float IConvert<UInt64N>.ToSingle(UInt64N value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
             int IConvert<UInt64N>.ToInt32(UInt64N value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
             long IConvert<UInt64N>.ToInt64(UInt64N value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
-            sbyte IConvertNonCLS<UInt64N>.ToSByte(UInt64N value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
+            sbyte IConvertExtended<UInt64N>.ToSByte(UInt64N value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
             short IConvert<UInt64N>.ToInt16(UInt64N value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
             string IConvert<UInt64N>.ToString(UInt64N value) => Convert.ToString(value._value);
-            uint IConvertNonCLS<UInt64N>.ToUInt32(UInt64N value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
-            ulong IConvertNonCLS<UInt64N>.ToUInt64(UInt64N value, Conversion mode) => value._value;
-            ushort IConvertNonCLS<UInt64N>.ToUInt16(UInt64N value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            uint IConvertExtended<UInt64N>.ToUInt32(UInt64N value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
+            ulong IConvertExtended<UInt64N>.ToUInt64(UInt64N value, Conversion mode) => value._value;
+            ushort IConvertExtended<UInt64N>.ToUInt16(UInt64N value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
 
             UInt64N IConvert<UInt64N>.ToNumeric(bool value) => Convert.ToUInt64(value);
             UInt64N IConvert<UInt64N>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
@@ -254,12 +254,12 @@ namespace Jodo.Numerics
             UInt64N IConvert<UInt64N>.ToNumeric(float value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
             UInt64N IConvert<UInt64N>.ToNumeric(int value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
             UInt64N IConvert<UInt64N>.ToNumeric(long value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvertNonCLS<UInt64N>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            UInt64N IConvertExtended<UInt64N>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
             UInt64N IConvert<UInt64N>.ToNumeric(short value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
             UInt64N IConvert<UInt64N>.ToNumeric(string value) => Convert.ToUInt64(value);
-            UInt64N IConvertNonCLS<UInt64N>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvertNonCLS<UInt64N>.ToNumeric(ulong value, Conversion mode) => value;
-            UInt64N IConvertNonCLS<UInt64N>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            UInt64N IConvertExtended<UInt64N>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            UInt64N IConvertExtended<UInt64N>.ToNumeric(ulong value, Conversion mode) => value;
+            UInt64N IConvertExtended<UInt64N>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
 
             UInt64N IParser<UInt64N>.Parse(string s) => Parse(s);
             UInt64N IParser<UInt64N>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);

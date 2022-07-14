@@ -25,7 +25,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public abstract class ConvertTests<N> : GlobalFixtureBase where N : struct, INumericNonCLS<N>
+    public abstract class ConvertTests<N> : GlobalFixtureBase where N : struct, INumericExtended<N>
     {
         [Test, Repeat(RandomVariations)]
         public void ToBoolean_RoundTrip_SameValue()

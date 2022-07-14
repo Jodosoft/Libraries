@@ -26,13 +26,13 @@ namespace Jodo.Numerics
     /// An extended version of <see cref="INumeric{N}"/> that supports non-CLS-compliant
     /// operations such as conversion to unsigned numbers.
     /// </summary>
-    /// <typeparam name="TSelf">The type that implements <see cref="INumericNonCLS{N}"/></typeparam>
+    /// <typeparam name="TSelf">The type that implements <see cref="INumericExtended{N}"/></typeparam>
     [CLSCompliant(false)]
-    public interface INumericNonCLS<TSelf> :
+    public interface INumericExtended<TSelf> :
             INumeric<TSelf>,
             IConvertible,
-            IProvider<IConvertNonCLS<TSelf>>
-        where TSelf : struct, INumericNonCLS<TSelf>
+            IProvider<IConvertExtended<TSelf>>
+        where TSelf : struct, INumericExtended<TSelf>
     {
     }
 }

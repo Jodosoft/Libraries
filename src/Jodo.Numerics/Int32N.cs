@@ -31,7 +31,7 @@ namespace Jodo.Numerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Int32N : INumericNonCLS<Int32N>
+    public readonly struct Int32N : INumericExtended<Int32N>
     {
         public static readonly Int32N MaxValue = new Int32N(int.MaxValue);
         public static readonly Int32N MinValue = new Int32N(int.MinValue);
@@ -148,7 +148,7 @@ namespace Jodo.Numerics
 
         IBitConverter<Int32N> IProvider<IBitConverter<Int32N>>.GetInstance() => Utilities.Instance;
         IConvert<Int32N> IProvider<IConvert<Int32N>>.GetInstance() => Utilities.Instance;
-        IConvertNonCLS<Int32N> IProvider<IConvertNonCLS<Int32N>>.GetInstance() => Utilities.Instance;
+        IConvertExtended<Int32N> IProvider<IConvertExtended<Int32N>>.GetInstance() => Utilities.Instance;
         IMath<Int32N> IProvider<IMath<Int32N>>.GetInstance() => Utilities.Instance;
         INumericStatic<Int32N> IProvider<INumericStatic<Int32N>>.GetInstance() => Utilities.Instance;
         IRandom<Int32N> IProvider<IRandom<Int32N>>.GetInstance() => Utilities.Instance;
@@ -157,7 +157,7 @@ namespace Jodo.Numerics
         private sealed class Utilities :
             IBitConverter<Int32N>,
             IConvert<Int32N>,
-            IConvertNonCLS<Int32N>,
+            IConvertExtended<Int32N>,
             IMath<Int32N>,
             INumericStatic<Int32N>,
             IRandom<Int32N>,
@@ -240,12 +240,12 @@ namespace Jodo.Numerics
             float IConvert<Int32N>.ToSingle(Int32N value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
             int IConvert<Int32N>.ToInt32(Int32N value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
             long IConvert<Int32N>.ToInt64(Int32N value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
-            sbyte IConvertNonCLS<Int32N>.ToSByte(Int32N value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
+            sbyte IConvertExtended<Int32N>.ToSByte(Int32N value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
             short IConvert<Int32N>.ToInt16(Int32N value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
             string IConvert<Int32N>.ToString(Int32N value) => Convert.ToString(value._value);
-            uint IConvertNonCLS<Int32N>.ToUInt32(Int32N value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
-            ulong IConvertNonCLS<Int32N>.ToUInt64(Int32N value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
-            ushort IConvertNonCLS<Int32N>.ToUInt16(Int32N value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            uint IConvertExtended<Int32N>.ToUInt32(Int32N value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
+            ulong IConvertExtended<Int32N>.ToUInt64(Int32N value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
+            ushort IConvertExtended<Int32N>.ToUInt16(Int32N value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
 
             Int32N IConvert<Int32N>.ToNumeric(bool value) => Convert.ToInt32(value);
             Int32N IConvert<Int32N>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToInt32(value, mode);
@@ -254,12 +254,12 @@ namespace Jodo.Numerics
             Int32N IConvert<Int32N>.ToNumeric(float value, Conversion mode) => NumericConvert.ToInt32(value, mode);
             Int32N IConvert<Int32N>.ToNumeric(int value, Conversion mode) => NumericConvert.ToInt32(value, mode);
             Int32N IConvert<Int32N>.ToNumeric(long value, Conversion mode) => NumericConvert.ToInt32(value, mode);
-            Int32N IConvertNonCLS<Int32N>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            Int32N IConvertExtended<Int32N>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToInt32(value, mode);
             Int32N IConvert<Int32N>.ToNumeric(short value, Conversion mode) => NumericConvert.ToInt32(value, mode);
             Int32N IConvert<Int32N>.ToNumeric(string value) => Convert.ToInt32(value);
-            Int32N IConvertNonCLS<Int32N>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToInt32(value, mode);
-            Int32N IConvertNonCLS<Int32N>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt32(value, mode);
-            Int32N IConvertNonCLS<Int32N>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            Int32N IConvertExtended<Int32N>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            Int32N IConvertExtended<Int32N>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt32(value, mode);
+            Int32N IConvertExtended<Int32N>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt32(value, mode);
 
             Int32N IParser<Int32N>.Parse(string s) => Parse(s);
             Int32N IParser<Int32N>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
