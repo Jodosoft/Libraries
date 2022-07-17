@@ -167,7 +167,7 @@ namespace Jodo.Numerics.Tests
             {
                 //arrange
                 Vector2<N> input1 = Random.NextVector2<N>();
-                Vector2<N> input2 = Random.NextVector2<N>();
+                Vector2<N> input2 = Random.NextVector2<N>(TestBounds.HighMagnitude);
 
                 //act
                 //assert
@@ -181,14 +181,13 @@ namespace Jodo.Numerics.Tests
             {
                 //arrange
                 Vector2<N> input1 = Random.NextVector2<N>();
-                N input2 = Random.NextNumeric<N>();
-                Vector2<N> expected = unchecked(new Vector2<N>(input1.X.Divide(input2), input1.Y.Divide(input2)));
+                N input2 = Random.NextNumeric<N>(TestBounds.HighMagnitude);
 
                 //act
-                Vector2<N> result = unchecked(Vector2<N>.Divide(input1, input2));
-
                 //assert
-                result.Should().Be(expected);
+                Same.Outcome(
+                    () => Vector2<N>.Divide(input1, input2),
+                    () => new Vector2<N>(input1.X.Divide(input2), input1.Y.Divide(input2)));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -209,13 +208,12 @@ namespace Jodo.Numerics.Tests
             {
                 //arrange
                 Vector2<N> input = Random.NextVector2<N>();
-                Vector2<N> expected = unchecked(new Vector2<N>(input.X.Negative(), input.Y.Negative()));
 
                 //act
-                Vector2<N> result = unchecked(Vector2<N>.Negate(input));
-
                 //assert
-                result.Should().Be(expected);
+                Same.Outcome(
+                    () => Vector2<N>.Negate(input),
+                    () => new Vector2<N>(input.X.Negative(), input.Y.Negative()));
             }
 
             [Test, Repeat(RandomVariations)]
