@@ -20,6 +20,7 @@
 #if NET5_0_OR_GREATER
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using FluentAssertions;
@@ -31,6 +32,7 @@ using NUnit.Framework;
 namespace Jodo.Numerics.Tests
 {
     [NonParallelizable]
+    [SuppressMessage("Style", "IDE0008:Use explicit type", Justification = "For demonstration.")]
     public sealed class Showcase : GlobalFixtureBase
     {
         public StringBuilder ConsoleOuput;
@@ -51,20 +53,18 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void NumericsSummary()
         {
-            Int32N w = -100 + MathN.Max<Int32N>(1234, 4321);
-            Vector2<Int32N> v = new Vector2<Int32N>(w, w >> 0b11);
+            var value1 = MathN.Log10(99999 * (Fix64)3.444);
+            var value2 = (Int32N)107 << 4;
+            var value3 = BitConverterN.GetBytes(value1);
+            var value4 = new Vector2<Fix64>(101, -202);
 
-            Fix64 f = 2 * MathN.PI<Fix64>();
-            byte[] b = BitConverter<Fix64>.GetBytes(f);
-
-            Console.WriteLine(w); // output: 4221
-            Console.WriteLine($"{v:X}"); // output: <107D, 20F>
-
-            Console.WriteLine(f); // output: 6.283184
-            Console.WriteLine(b.ToString()); // output: System.Byte[]
+            Console.WriteLine(value1); // output: 5.537058
+            Console.WriteLine(value2.ToString("X")); // output: 6B0
+            Console.WriteLine(value3); // output: System.Byte[]
+            Console.WriteLine(value4); // output: <101, -202>
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("4221", "<107D, 20F>", "6.283184", "System.Byte[]");
+                .Should().ContainInOrder("5.537058", "6B0", "System.Byte[]", "<101, -202>");
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace Jodo.Numerics.Tests
         }
 
         [Test]
-        public void BitConverterN()
+        public void BitConverterN_Examples()
         {
             byte[] res1 = BitConverter.GetBytes((ulong)1234567890);
             byte[] res2 = BitConverter<UFix64>.GetBytes((UFix64)256.512);

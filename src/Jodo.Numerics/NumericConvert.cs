@@ -737,16 +737,16 @@ namespace Jodo.Numerics
         public static double ToDouble(float value, Conversion mode) => mode switch
         {
             Conversion.Default => Convert.ToDouble(value),
-            Conversion.Clamp => ClampToDouble(value),
+            Conversion.Clamp => Convert.ToDouble(value),
             Conversion.Cast => (double)value,
-            Conversion.CastClamp => CastClampToDouble(value),
+            Conversion.CastClamp => (double)value,
             _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static double ToDouble(decimal value, Conversion mode) => mode switch
         {
             Conversion.Default => Convert.ToDouble(value),
-            Conversion.Clamp => ClampToDouble(value),
+            Conversion.Clamp => Convert.ToDouble(value),
             Conversion.Cast => (double)value,
             Conversion.CastClamp => CastClampToDouble(value),
             _ => throw new ArgumentOutOfRangeException(nameof(mode)),
@@ -792,50 +792,18 @@ namespace Jodo.Numerics
 
         private static float ClampToSingle(double value)
         {
-            try
-            {
-                return checked(Convert.ToSingle(value));
-            }
-            catch (OverflowException)
-            {
-                return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0;
-            }
+            float result = Convert.ToSingle(value);
+            if (float.IsNegativeInfinity(result)) return float.MinValue;
+            if (float.IsPositiveInfinity(result)) return float.MaxValue;
+            return result;
         }
 
         private static float ClampToSingle(decimal value)
         {
-            try
-            {
-                return checked(Convert.ToSingle(value));
-            }
-            catch (OverflowException)
-            {
-                return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0;
-            }
-        }
-
-        private static double ClampToDouble(float value)
-        {
-            try
-            {
-                return checked(Convert.ToDouble(value));
-            }
-            catch (OverflowException)
-            {
-                return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0;
-            }
-        }
-
-        private static double ClampToDouble(decimal value)
-        {
-            try
-            {
-                return checked(Convert.ToDouble(value));
-            }
-            catch (OverflowException)
-            {
-                return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0;
-            }
+            float result = Convert.ToSingle(value);
+            if (float.IsNegativeInfinity(result)) return float.MinValue;
+            if (float.IsPositiveInfinity(result)) return float.MaxValue;
+            return result;
         }
 
         private static decimal ClampToDecimal(float value)
@@ -864,38 +832,18 @@ namespace Jodo.Numerics
 
         private static float CastClampToSingle(double value)
         {
-            try
-            {
-                return checked((float)value);
-            }
-            catch (OverflowException)
-            {
-                return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0;
-            }
+            float result = (float)value;
+            if (float.IsNegativeInfinity(result)) return float.MinValue;
+            if (float.IsPositiveInfinity(result)) return float.MaxValue;
+            return result;
         }
 
         private static float CastClampToSingle(decimal value)
         {
-            try
-            {
-                return checked((float)value);
-            }
-            catch (OverflowException)
-            {
-                return value > 0 ? float.MaxValue : value < 0 ? float.MinValue : 0;
-            }
-        }
-
-        private static double CastClampToDouble(float value)
-        {
-            try
-            {
-                return checked((double)value);
-            }
-            catch (OverflowException)
-            {
-                return value > 0 ? double.MaxValue : value < 0 ? double.MinValue : 0;
-            }
+            float result = (float)value;
+            if (float.IsNegativeInfinity(result)) return float.MinValue;
+            if (float.IsPositiveInfinity(result)) return float.MaxValue;
+            return result;
         }
 
         private static double CastClampToDouble(decimal value)
