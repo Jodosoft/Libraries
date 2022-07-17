@@ -26,7 +26,6 @@ namespace Jodo.Numerics.Tests
 {
     public abstract class BitConverterTests<N> : Primitives.Tests.BitConverterTests<N> where N : struct, INumeric<N>
     {
-#if NET5_0_OR_GREATER
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomSmallValue_SameAsOriginal()
         {
@@ -34,7 +33,7 @@ namespace Jodo.Numerics.Tests
             N input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
 
             //act
-            N result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            N result = BitConverterN.FromBytes<N>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -47,7 +46,7 @@ namespace Jodo.Numerics.Tests
             N input = Numeric<N>.MaxValue;
 
             //act
-            N result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            N result = BitConverterN.FromBytes<N>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -60,7 +59,7 @@ namespace Jodo.Numerics.Tests
             N input = Numeric<N>.MinValue;
 
             //act
-            N result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            N result = BitConverterN.FromBytes<N>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -73,11 +72,10 @@ namespace Jodo.Numerics.Tests
             N input = Numeric<N>.Epsilon;
 
             //act
-            N result = BitConverter<N>.FromBytes(BitConverter<N>.GetBytes(input));
+            N result = BitConverterN.FromBytes<N>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().Be(input);
         }
-#endif
     }
 }
