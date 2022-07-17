@@ -29,11 +29,17 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     <td>
       <p>
         This project adheres to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET design guidelines</a> for ease of use, consistency and maintainability.
-      </p>      
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>Compatibility</td>
+    <td>     
       <p>
         <code>netstandard2.0</code> (.NET Standard 2.0) and <code>net461</code> (.NET Framework 4.6) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
         Additional targets like <code>netstandard2.1</code> (.NET Standard 2.1) are used for supporting newer language features such as <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
+      <p>Publically exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a> where possible.</p>
     </td>
   </tr>
   <tr>
