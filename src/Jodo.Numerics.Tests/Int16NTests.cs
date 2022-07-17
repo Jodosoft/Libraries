@@ -21,7 +21,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class Int16NTests
     {
-        public sealed class BitConverter : BitConverterTests<Int16N> { }
+        public sealed class BitConverter : BitConverterNTests<Int16N> { }
         public sealed class Cast : CastTests<Int16N> { }
         public sealed class ConvertTests : ConvertTests<Int16N> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<Int16N> { }

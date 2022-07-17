@@ -23,7 +23,7 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class Fix64CTests
     {
-        public sealed class BitConverter : BitConverterTests<Fix64C> { }
+        public sealed class BitConverter : BitConverterNTests<Fix64C> { }
         public sealed class Cast : CastTests<Fix64C> { }
         public sealed class CheckedNumeric : CheckedNumericTests<Fix64C> { }
         public sealed class ConvertTests : ConvertTests<Fix64C> { }

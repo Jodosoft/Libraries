@@ -27,7 +27,7 @@ namespace Jodo.Numerics.Tests
 {
     public sealed class DecimalNTests : GlobalFixtureBase
     {
-        public sealed class BitConverter : BitConverterTests<DecimalN> { }
+        public sealed class BitConverter : BitConverterNTests<DecimalN> { }
         public sealed class Cast : CastTests<DecimalN> { }
         public sealed class ConvertTests : ConvertTests<DecimalN> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<DecimalN> { }

@@ -62,6 +62,16 @@ namespace Jodo.Numerics.Tests
         [Test] public void Int16ToUInt16Default_MinValue_SameAsSystem() => Same.Outcome(() => NumericConvert.ToUInt16(short.MinValue, Conversion.Default), () => Convert.ToUInt16(short.MinValue));
         [Test] public void Int16ToUInt16DefaultClamp_MinValue_ReturnsMinValue() => Same.Outcome(() => NumericConvert.ToUInt16(short.MinValue, Conversion.Clamp), ushort.MinValue);
 
+        [Test] public void DoubleToSingleClamp_MaxValue_ReturnsSingleMaxValue() => NumericConvert.ToSingle(double.MaxValue, Conversion.Clamp).Should().Be(float.MaxValue);
+        [Test] public void DoubleToSingleClamp_MinValue_ReturnsSingleMinValue() => NumericConvert.ToSingle(double.MinValue, Conversion.Clamp).Should().Be(float.MinValue);
+        [Test] public void DoubleToSingleCastClamp_MaxValue_ReturnsSingleMaxValue() => NumericConvert.ToSingle(double.MaxValue, Conversion.CastClamp).Should().Be(float.MaxValue);
+        [Test] public void DoubleToSingleCastClamp_MinValue_ReturnsSingleMinValue() => NumericConvert.ToSingle(double.MinValue, Conversion.CastClamp).Should().Be(float.MinValue);
+
+        [Test] public void DoubleToDecimalClamp_MaxValue_ReturnsSingleMaxValue() => NumericConvert.ToDecimal(double.MaxValue, Conversion.Clamp).Should().Be(decimal.MaxValue);
+        [Test] public void DoubleToDecimalClamp_MinValue_ReturnsSingleMinValue() => NumericConvert.ToDecimal(double.MinValue, Conversion.Clamp).Should().Be(decimal.MinValue);
+        [Test] public void DoubleToDecimalCastClamp_MaxValue_ReturnsSingleMaxValue() => NumericConvert.ToDecimal(double.MaxValue, Conversion.CastClamp).Should().Be(decimal.MaxValue);
+        [Test] public void DoubleToDecimalCastClamp_MinValue_ReturnsSingleMinValue() => NumericConvert.ToDecimal(double.MinValue, Conversion.CastClamp).Should().Be(decimal.MinValue);
+
         [Test]
         public void AllMethods_UnrecognisedConversion_MayOnlyThrowArgumentOutOfRange()
         {

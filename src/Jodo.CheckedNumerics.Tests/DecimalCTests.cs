@@ -29,7 +29,7 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public sealed class DecimalCTests : GlobalFixtureBase
     {
-        public sealed class BitConverter : BitConverterTests<DecimalC> { }
+        public sealed class BitConverter : BitConverterNTests<DecimalC> { }
         public sealed class Cast : CastTests<DecimalC> { }
         public sealed class CheckedNumeric : CheckedNumericTests<DecimalC> { }
         public sealed class ConvertTests : ConvertTests<DecimalC> { }

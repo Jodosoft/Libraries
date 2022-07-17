@@ -21,7 +21,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class UFix64Tests
     {
-        public sealed class BitConverter : BitConverterTests<UFix64> { }
+        public sealed class BitConverter : BitConverterNTests<UFix64> { }
         public sealed class Cast : CastTests<UFix64> { }
         public sealed class ConvertTests : ConvertTests<UFix64> { }
         public sealed class MathGeneral : MathTests.General<UFix64> { }

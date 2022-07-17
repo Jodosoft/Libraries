@@ -23,7 +23,7 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class UInt64CTests
     {
-        public sealed class BitConverter : BitConverterTests<UInt64C> { }
+        public sealed class BitConverter : BitConverterNTests<UInt64C> { }
         public sealed class Cast : CastTests<UInt64C> { }
         public sealed class CheckedNumeric : CheckedNumericTests<UInt64C> { }
         public sealed class ConvertTests : ConvertTests<UInt64C> { }

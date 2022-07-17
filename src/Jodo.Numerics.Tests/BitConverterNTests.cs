@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public abstract class BitConverterTests<N> : Primitives.Tests.BitConverterTests<N> where N : struct, INumeric<N>
+    public abstract class BitConverterNTests<N> : Primitives.Tests.BitConverterTests<N> where N : struct, INumeric<N>
     {
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomSmallValue_SameAsOriginal()
