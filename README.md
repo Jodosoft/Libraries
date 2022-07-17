@@ -91,17 +91,15 @@ Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities 
 The following code sample demonstrates how to use these types:
 
 ```csharp
-var w = -100 + Math<xint>.Max(1234, 4321);
-var v = new Vector2<xint>(w, w >> 0b11);
+var value1 = MathN.Log10(99999 * (Fix64)3.444);
+var value2 = (Int32N)107 << 4;
+var value3 = BitConverterN.GetBytes(value1);
+var value4 = new Vector2<Fix64>(101, -202);
 
-var f = 2 * Math<fix64>.PI;
-var b = BitConverter<fix64>.GetBytes(f);
-
-Console.WriteLine(w); // outputs: 4221
-Console.WriteLine($"{v:X}"); // outputs: →(107D, 20F)
-
-Console.WriteLine(f); // outputs: 6.283184
-Console.WriteLine(b.ToString()); // outputs: System.ReadOnlySpan<Byte>[8]
+Console.WriteLine(value1); // output: 5.537058
+Console.WriteLine(value2.ToString("X")); // output: 6B0
+Console.WriteLine(value3); // output: System.Byte[]
+Console.WriteLine(value4); // output: <101, -202>
 ```
 
 ### Types
@@ -242,7 +240,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 </tr>
   <tr />
 <tr>
-<td>Commonly-used abstractions</td> <td>All the provided numeric types implement <a href="">IComparable</a>, <a href="">IComparable&lt;T&gt;</a>. <a href="">IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">ISerializable</a>, override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
+<td>Commonly-used abstractions</td> <td>All the provided numeric types implement <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable">System.IComparable</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1">System.IComparable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iconvertible">System.IConvertible</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">System.IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">System.ISerializable</a>. They also override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
 </tr>
 </table>
 
