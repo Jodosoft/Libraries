@@ -20,6 +20,8 @@
 using System;
 using AutoFixture;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
 
 namespace Jodo.Testing
 {
@@ -33,16 +35,17 @@ namespace Jodo.Testing
         public const int RandomVariations = 64;
 #endif
 
-        public Random Random { get; private set; }
-        public Fixture Fixture { get; private set; }
-        public Exception Exception { get; private set; }
+        public Random Random => GetOrAdd("JodoRandom", () => new Random());
+        public Fixture Fixture => GetOrAdd("JodoFixture", () => new Fixture());
 
-        [SetUp]
-        public void GlobalSetUp()
+        private static T GetOrAdd<T>(string key, Func<T> factory)
         {
-            Random = new Random();
-            Fixture = new Fixture();
-            Exception = Fixture.Create<Exception>();
+            IPropertyBag propertyBag = TestExecutionContext.CurrentContext.CurrentTest.Properties;
+            if (!propertyBag.ContainsKey(key))
+            {
+                propertyBag.Set(key, factory());
+            }
+            return (T)propertyBag.Get(key);
         }
     }
 }

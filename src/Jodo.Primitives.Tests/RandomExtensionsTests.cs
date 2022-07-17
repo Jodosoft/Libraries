@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Jodo.Primitives.Compatibility;
@@ -50,8 +51,8 @@ namespace Jodo.Primitives.Tests
         public void NextByte_Bounds_ReturnsValidValues()
         {
             //arrange
-            byte min = (byte)(byte.MinValue / 2);
-            byte max = (byte)(byte.MaxValue / 2);
+            byte min = byte.MinValue / 2;
+            byte max = byte.MaxValue / 2;
 
             //act
             byte[] results = Enumerable.Range(0, NumberToGenerate)
@@ -66,8 +67,8 @@ namespace Jodo.Primitives.Tests
         public void NextByte_ReverseBounds_ReturnsValidValues()
         {
             //arrange
-            byte min = (byte)(byte.MinValue / 2);
-            byte max = (byte)(byte.MaxValue / 2);
+            byte min = byte.MinValue / 2;
+            byte max = byte.MaxValue / 2;
 
             //act
             byte[] results = Enumerable.Range(0, NumberToGenerate)
@@ -83,7 +84,7 @@ namespace Jodo.Primitives.Tests
         {
             //arrange
             byte min = byte.MinValue;
-            byte max = (byte)(byte.MinValue + BoundedRange - 1);
+            byte max = byte.MinValue + BoundedRange - 1;
 
             //act
             byte[] results = Enumerable.Range(0, BoundedNumberToGenerate)
@@ -98,7 +99,7 @@ namespace Jodo.Primitives.Tests
         public void NextByte_NearMax_ReturnsAllValues()
         {
             //arrange
-            byte min = (byte)(byte.MaxValue - BoundedRange + 1);
+            byte min = byte.MaxValue - BoundedRange + 1;
             byte max = byte.MaxValue;
 
             //act
@@ -117,7 +118,7 @@ namespace Jodo.Primitives.Tests
             byte bounds = Random.NextByte();
 
             //act
-            System.Collections.Generic.IEnumerable<byte> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<byte> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextByte(bounds, bounds));
 
             //assert
@@ -140,8 +141,8 @@ namespace Jodo.Primitives.Tests
         public void NextSByte_Bounds_ReturnsValidValues()
         {
             //arrange
-            sbyte min = (sbyte)(sbyte.MinValue / 2);
-            sbyte max = (sbyte)(sbyte.MaxValue / 2);
+            sbyte min = sbyte.MinValue / 2;
+            sbyte max = sbyte.MaxValue / 2;
 
             //act
             sbyte[] results = Enumerable.Range(0, NumberToGenerate)
@@ -156,8 +157,8 @@ namespace Jodo.Primitives.Tests
         public void NextSByte_ReverseBounds_ReturnsValidValues()
         {
             //arrange
-            sbyte min = (sbyte)(sbyte.MinValue / 2);
-            sbyte max = (sbyte)(sbyte.MaxValue / 2);
+            sbyte min = sbyte.MinValue / 2;
+            sbyte max = sbyte.MaxValue / 2;
 
             //act
             sbyte[] results = Enumerable.Range(0, NumberToGenerate)
@@ -173,7 +174,7 @@ namespace Jodo.Primitives.Tests
         {
             //arrange
             sbyte min = sbyte.MinValue;
-            sbyte max = (sbyte)(sbyte.MinValue + BoundedRange - 1);
+            sbyte max = sbyte.MinValue + BoundedRange - 1;
 
             //act
             sbyte[] results = Enumerable.Range(0, BoundedNumberToGenerate)
@@ -188,7 +189,7 @@ namespace Jodo.Primitives.Tests
         public void NextSByte_NearMax_ReturnsAllValues()
         {
             //arrange
-            sbyte min = (sbyte)(sbyte.MaxValue - BoundedRange + 1);
+            sbyte min = sbyte.MaxValue - BoundedRange + 1;
             sbyte max = sbyte.MaxValue;
 
             //act
@@ -207,7 +208,7 @@ namespace Jodo.Primitives.Tests
             sbyte bounds = Random.NextSByte();
 
             //act
-            System.Collections.Generic.IEnumerable<sbyte> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<sbyte> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextSByte(bounds, bounds));
 
             //assert
@@ -230,8 +231,8 @@ namespace Jodo.Primitives.Tests
         public void NextInt16_Bounds_ReturnsValidValues()
         {
             //arrange
-            short min = (short)(short.MinValue / 2);
-            short max = (short)(short.MaxValue / 2);
+            short min = short.MinValue / 2;
+            short max = short.MaxValue / 2;
 
             //act
             short[] results = Enumerable.Range(0, NumberToGenerate)
@@ -246,8 +247,8 @@ namespace Jodo.Primitives.Tests
         public void NextInt16_ReverseBounds_ReturnsValidValues()
         {
             //arrange
-            short min = (short)(short.MinValue / 2);
-            short max = (short)(short.MaxValue / 2);
+            short min = short.MinValue / 2;
+            short max = short.MaxValue / 2;
 
             //act
             short[] results = Enumerable.Range(0, NumberToGenerate)
@@ -263,7 +264,7 @@ namespace Jodo.Primitives.Tests
         {
             //arrange
             short min = short.MinValue;
-            short max = (short)(short.MinValue + BoundedRange - 1);
+            short max = short.MinValue + BoundedRange - 1;
 
             //act
             short[] results = Enumerable.Range(0, BoundedNumberToGenerate)
@@ -278,7 +279,7 @@ namespace Jodo.Primitives.Tests
         public void NextInt16_NearMax_ReturnsAllValues()
         {
             //arrange
-            short min = (short)(short.MaxValue - BoundedRange + 1);
+            short min = short.MaxValue - BoundedRange + 1;
             short max = short.MaxValue;
 
             //act
@@ -297,7 +298,7 @@ namespace Jodo.Primitives.Tests
             short bounds = Random.NextInt16();
 
             //act
-            System.Collections.Generic.IEnumerable<short> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<short> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextInt16(bounds, bounds));
 
             //assert
@@ -320,8 +321,8 @@ namespace Jodo.Primitives.Tests
         public void NextUInt16_Bounds_ReturnsValidValues()
         {
             //arrange
-            ushort min = (ushort)(ushort.MinValue / 2);
-            ushort max = (ushort)(ushort.MaxValue / 2);
+            ushort min = ushort.MinValue / 2;
+            ushort max = ushort.MaxValue / 2;
 
             //act
             ushort[] results = Enumerable.Range(0, NumberToGenerate)
@@ -336,8 +337,8 @@ namespace Jodo.Primitives.Tests
         public void NextUInt16_ReverseBounds_ReturnsValidValues()
         {
             //arrange
-            ushort min = (ushort)(ushort.MinValue / 2);
-            ushort max = (ushort)(ushort.MaxValue / 2);
+            ushort min = ushort.MinValue / 2;
+            ushort max = ushort.MaxValue / 2;
 
             //act
             ushort[] results = Enumerable.Range(0, NumberToGenerate)
@@ -353,7 +354,7 @@ namespace Jodo.Primitives.Tests
         {
             //arrange
             ushort min = ushort.MinValue;
-            ushort max = (ushort)(ushort.MinValue + BoundedRange - 1);
+            ushort max = ushort.MinValue + BoundedRange - 1;
 
             //act
             ushort[] results = Enumerable.Range(0, BoundedNumberToGenerate)
@@ -368,7 +369,7 @@ namespace Jodo.Primitives.Tests
         public void NextUInt16_NearMax_ReturnsAllValues()
         {
             //arrange
-            ushort min = (ushort)(ushort.MaxValue - BoundedRange + 1);
+            ushort min = ushort.MaxValue - BoundedRange + 1;
             ushort max = ushort.MaxValue;
 
             //act
@@ -387,7 +388,7 @@ namespace Jodo.Primitives.Tests
             ushort bounds = Random.NextUInt16();
 
             //act
-            System.Collections.Generic.IEnumerable<ushort> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<ushort> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextUInt16(bounds, bounds));
 
             //assert
@@ -477,7 +478,7 @@ namespace Jodo.Primitives.Tests
             int bounds = Random.NextInt32();
 
             //act
-            System.Collections.Generic.IEnumerable<int> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<int> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextInt32(bounds, bounds));
 
             //assert
@@ -567,7 +568,7 @@ namespace Jodo.Primitives.Tests
             uint bounds = Random.NextUInt32();
 
             //act
-            System.Collections.Generic.IEnumerable<uint> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<uint> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextUInt32(bounds, bounds));
 
             //assert
@@ -657,7 +658,7 @@ namespace Jodo.Primitives.Tests
             long bounds = Random.NextInt64();
 
             //act
-            System.Collections.Generic.IEnumerable<long> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<long> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextInt64(bounds, bounds));
 
             //assert
@@ -747,7 +748,7 @@ namespace Jodo.Primitives.Tests
             ulong bounds = Random.NextUInt64();
 
             //act
-            System.Collections.Generic.IEnumerable<ulong> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<ulong> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextUInt64(bounds, bounds));
 
             //assert
@@ -839,7 +840,7 @@ namespace Jodo.Primitives.Tests
             float bounds = Random.NextSingle();
 
             //act
-            System.Collections.Generic.IEnumerable<float> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<float> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextSingle(bounds, bounds));
 
             //assert
@@ -987,7 +988,7 @@ namespace Jodo.Primitives.Tests
             double bounds = Random.NextDouble();
 
             //act
-            System.Collections.Generic.IEnumerable<double> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<double> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextDouble(bounds, bounds));
 
             //assert
@@ -1115,7 +1116,7 @@ namespace Jodo.Primitives.Tests
             decimal bounds = Random.NextDecimal();
 
             //act
-            System.Collections.Generic.IEnumerable<decimal> results = Enumerable.Range(0, BoundedNumberToGenerate)
+            IEnumerable<decimal> results = Enumerable.Range(0, BoundedNumberToGenerate)
                 .Select(_ => Random.NextDecimal(bounds, bounds));
 
             //assert

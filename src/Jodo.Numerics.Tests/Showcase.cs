@@ -25,11 +25,13 @@ using System.Text;
 using FluentAssertions;
 using Jodo.Numerics;
 using Jodo.Primitives;
+using Jodo.Testing;
 using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public sealed class Showcase : Testing.GlobalFixtureBase
+    [NonParallelizable]
+    public sealed class Showcase : GlobalFixtureBase
     {
         public StringBuilder ConsoleOuput;
 
