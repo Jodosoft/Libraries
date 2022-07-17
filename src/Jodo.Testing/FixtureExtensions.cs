@@ -17,23 +17,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
+using System.Linq;
+using System.Reflection;
 using AutoFixture;
-using NUnit.Framework;
+using AutoFixture.Kernel;
 
 namespace Jodo.Testing
 {
-    [Parallelizable(ParallelScope.Children)]
-    [Timeout(10000)]
-    public abstract class GlobalFixtureBase
+    public static class FixtureExtensions
     {
-#if DEBUG
-        public const int RandomVariations = 16;
-#else
-        public const int RandomVariations = 64;
-#endif
-
-        public static Random Random => TestLocal.GetOrAdd("JodoRandom", () => new Random());
-        public static Fixture Fixture => TestLocal.GetOrAdd("JodoFixture", () => new Fixture());
+        public static object[] MockParameters(this Fixture fixture, MethodInfo methodInfo) =>
+            methodInfo.GetParameters()
+            .Select(p => new SpecimenContext(fixture).Resolve(p.ParameterType))
+            .ToArray();
     }
 }

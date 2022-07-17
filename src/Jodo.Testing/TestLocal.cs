@@ -18,22 +18,26 @@
 // IN THE SOFTWARE.
 
 using System;
-using AutoFixture;
-using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
 
 namespace Jodo.Testing
 {
-    [Parallelizable(ParallelScope.Children)]
-    [Timeout(10000)]
-    public abstract class GlobalFixtureBase
+    public static class TestLocal
     {
-#if DEBUG
-        public const int RandomVariations = 16;
-#else
-        public const int RandomVariations = 64;
-#endif
+        public static T GetOrAdd<T>(string key, Func<T> factory)
+        {
+            IPropertyBag propertyBag = TestExecutionContext.CurrentContext?.CurrentTest?.Properties;
+            if (propertyBag == null)
+            {
+                throw new InvalidOperationException("Test context not found.");
+            }
 
-        public static Random Random => TestLocal.GetOrAdd("JodoRandom", () => new Random());
-        public static Fixture Fixture => TestLocal.GetOrAdd("JodoFixture", () => new Fixture());
+            if (!propertyBag.ContainsKey(key))
+            {
+                propertyBag.Set(key, factory());
+            }
+            return (T)propertyBag.Get(key);
+        }
     }
 }

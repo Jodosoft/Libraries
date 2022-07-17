@@ -19,6 +19,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using FluentAssertions;
 using Jodo.Testing;
 using NUnit.Framework;
@@ -26,7 +27,7 @@ using NUnit.Framework;
 namespace Jodo.Numerics.Tests
 {
     [SuppressMessage("Style", "IDE0004:Cast is redundant")]
-    public class ConversionUtilitiesTests : GlobalFixtureBase
+    public class NumericConvertTests : GlobalFixtureBase
     {
         [Test] public void DoubleToByteCast_NaN_SameAsSystem() => Same.Outcome(() => NumericConvert.ToByte(double.NaN, Conversion.Cast), unchecked((byte)double.NaN));
         [Test] public void DoubleToByteCast_NegativeInfinity_SameAsSystem() => Same.Outcome(() => NumericConvert.ToByte(double.NegativeInfinity, Conversion.Cast), unchecked((byte)double.NegativeInfinity));
@@ -60,5 +61,33 @@ namespace Jodo.Numerics.Tests
         [Test] public void Int16ToUInt16Default_MaxValue_SameAsSystem() => Same.Outcome(() => NumericConvert.ToUInt16(short.MaxValue, Conversion.Default), () => Convert.ToUInt16(short.MaxValue));
         [Test] public void Int16ToUInt16Default_MinValue_SameAsSystem() => Same.Outcome(() => NumericConvert.ToUInt16(short.MinValue, Conversion.Default), () => Convert.ToUInt16(short.MinValue));
         [Test] public void Int16ToUInt16DefaultClamp_MinValue_ReturnsMinValue() => Same.Outcome(() => NumericConvert.ToUInt16(short.MinValue, Conversion.Clamp), ushort.MinValue);
+
+        [Test]
+        public void AllMethods_UnrecognisedConversion_MayOnlyThrowArgumentOutOfRange()
+        {
+            foreach (MethodInfo method in typeof(NumericConvert).GetMethods(
+                BindingFlags.Static & BindingFlags.Public & BindingFlags.DeclaredOnly))
+            {
+                //arrange
+                object[] parameters = Fixture.MockParameters(method);
+                int index = Array.FindIndex(parameters, x => x is Conversion);
+                if (index < 0) throw new InvalidOperationException();
+                while (Enum.IsDefined(typeof(Conversion), (Conversion)parameters[index]))
+                {
+                    parameters[index] = (Conversion)Random.Next();
+                }
+
+                //act
+                try
+                {
+                    method.Invoke(null, parameters);
+                }
+                catch (Exception exception)
+                {
+                    exception.InnerException.Should().BeOfType<ArgumentOutOfRangeException>();
+                    exception.InnerException.Message.ToLowerInvariant().Should().Contain("mode");
+                }
+            }
+        }
     }
 }

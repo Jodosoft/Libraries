@@ -33,7 +33,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > sbyte.MaxValue ? sbyte.MaxValue : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -43,7 +43,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > sbyte.MaxValue ? sbyte.MaxValue : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -53,7 +53,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > (ulong)sbyte.MaxValue ? sbyte.MaxValue : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value > (ulong)sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -63,7 +63,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > sbyte.MaxValue ? sbyte.MaxValue : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -73,7 +73,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -83,7 +83,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -93,7 +93,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -103,7 +103,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : float.IsNaN(value) ? (sbyte)0 : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -113,7 +113,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : double.IsNaN(value) ? (sbyte)0 : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -123,7 +123,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : Convert.ToSByte(value),
             Conversion.Cast => (sbyte)value,
             Conversion.CastClamp => value < sbyte.MinValue ? sbyte.MinValue : value > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -133,7 +133,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? (ushort)0 : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value < 0 ? (ushort)0 : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -143,7 +143,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > ushort.MaxValue ? ushort.MaxValue : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value > ushort.MaxValue ? ushort.MaxValue : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -153,7 +153,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > ushort.MaxValue ? ushort.MaxValue : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value > ushort.MaxValue ? ushort.MaxValue : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -166,7 +166,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? (ushort)0 : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value < 0 ? (ushort)0 : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -176,7 +176,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -186,7 +186,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -196,7 +196,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : float.IsNaN(value) ? (ushort)0 : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -206,7 +206,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : double.IsNaN(value) ? (ushort)0 : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -216,7 +216,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : Convert.ToUInt16(value),
             Conversion.Cast => (ushort)value,
             Conversion.CastClamp => value < 0 ? (ushort)0 : value > ushort.MaxValue ? ushort.MaxValue : (ushort)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -226,7 +226,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : Convert.ToUInt32(value),
             Conversion.Cast => (uint)value,
             Conversion.CastClamp => value < 0 ? 0 : (uint)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -239,7 +239,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > uint.MaxValue ? uint.MaxValue : Convert.ToUInt32(value),
             Conversion.Cast => (uint)value,
             Conversion.CastClamp => value > uint.MaxValue ? uint.MaxValue : (uint)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -252,7 +252,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : Convert.ToUInt32(value),
             Conversion.Cast => (uint)value,
             Conversion.CastClamp => value < 0 ? 0 : (uint)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -262,7 +262,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : Convert.ToUInt32(value),
             Conversion.Cast => (uint)value,
             Conversion.CastClamp => value < 0 ? 0 : (uint)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -272,7 +272,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : value > uint.MaxValue ? uint.MaxValue : Convert.ToUInt32(value),
             Conversion.Cast => (uint)value,
             Conversion.CastClamp => value < 0 ? 0 : value > uint.MaxValue ? uint.MaxValue : (uint)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -282,7 +282,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : value > uint.MaxValue ? uint.MaxValue : float.IsNaN(value) ? 0 : Convert.ToUInt32(value),
             Conversion.Cast => (uint)value,
             Conversion.CastClamp => value < 0 ? 0 : value > uint.MaxValue ? uint.MaxValue : (uint)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -292,7 +292,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : value > uint.MaxValue ? uint.MaxValue : double.IsNaN(value) ? 0 : Convert.ToUInt32(value),
             Conversion.Cast => (uint)value,
             Conversion.CastClamp => value < 0 ? 0 : value > uint.MaxValue ? uint.MaxValue : (uint)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -302,7 +302,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : value > uint.MaxValue ? uint.MaxValue : Convert.ToUInt32(value),
             Conversion.Cast => (uint)value,
             Conversion.CastClamp => value < 0 ? 0 : value > uint.MaxValue ? uint.MaxValue : (uint)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -312,7 +312,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : Convert.ToUInt64(value),
             Conversion.Cast => (ulong)value,
             Conversion.CastClamp => value < 0 ? 0 : (ulong)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -331,7 +331,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : Convert.ToUInt64(value),
             Conversion.Cast => (ulong)value,
             Conversion.CastClamp => value < 0 ? 0 : (ulong)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -341,7 +341,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : Convert.ToUInt64(value),
             Conversion.Cast => (ulong)value,
             Conversion.CastClamp => value < 0 ? 0 : (ulong)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -351,7 +351,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < 0 ? 0 : Convert.ToUInt64(value),
             Conversion.Cast => (ulong)value,
             Conversion.CastClamp => value < 0 ? 0 : (ulong)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -361,7 +361,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < ulong.MinValue ? ulong.MinValue : value > ulong.MaxValue ? ulong.MaxValue : float.IsNaN(value) ? 0 : Convert.ToUInt64(value),
             Conversion.Cast => (ulong)value,
             Conversion.CastClamp => value < ulong.MinValue ? ulong.MinValue : value > ulong.MaxValue ? ulong.MaxValue : (ulong)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -371,7 +371,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < ulong.MinValue ? ulong.MinValue : value > ulong.MaxValue ? ulong.MaxValue : double.IsNaN(value) ? 0 : Convert.ToUInt64(value),
             Conversion.Cast => (ulong)value,
             Conversion.CastClamp => value < ulong.MinValue ? ulong.MinValue : value > ulong.MaxValue ? ulong.MaxValue : (ulong)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -381,7 +381,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < ulong.MinValue ? ulong.MinValue : value > ulong.MaxValue ? ulong.MaxValue : Convert.ToUInt64(value),
             Conversion.Cast => (ulong)value,
             Conversion.CastClamp => value < ulong.MinValue ? ulong.MinValue : value > ulong.MaxValue ? ulong.MaxValue : (ulong)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -391,7 +391,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < byte.MinValue ? byte.MinValue : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value < byte.MinValue ? byte.MinValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -401,7 +401,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > byte.MaxValue ? byte.MaxValue : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -411,7 +411,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > byte.MaxValue ? byte.MaxValue : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -421,7 +421,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > byte.MaxValue ? byte.MaxValue : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static byte ToByte(short value, Conversion mode) => mode switch
@@ -430,7 +430,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static byte ToByte(int value, Conversion mode) => mode switch
@@ -439,7 +439,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static byte ToByte(long value, Conversion mode) => mode switch
@@ -448,7 +448,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static byte ToByte(float value, Conversion mode) => mode switch
@@ -457,7 +457,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : float.IsNaN(value) ? (byte)0 : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static byte ToByte(double value, Conversion mode) => mode switch
@@ -466,7 +466,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : double.IsNaN(value) ? (byte)0 : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static byte ToByte(decimal value, Conversion mode) => mode switch
@@ -475,7 +475,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : Convert.ToByte(value),
             Conversion.Cast => (byte)value,
             Conversion.CastClamp => value < byte.MinValue ? byte.MinValue : value > byte.MaxValue ? byte.MaxValue : (byte)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -488,7 +488,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > short.MaxValue ? short.MaxValue : Convert.ToInt16(value),
             Conversion.Cast => (short)value,
             Conversion.CastClamp => value > short.MaxValue ? short.MaxValue : (short)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -498,7 +498,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > short.MaxValue ? short.MaxValue : Convert.ToInt16(value),
             Conversion.Cast => (short)value,
             Conversion.CastClamp => value > short.MaxValue ? short.MaxValue : (short)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -508,7 +508,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > (ulong)short.MaxValue ? short.MaxValue : Convert.ToInt16(value),
             Conversion.Cast => (short)value,
             Conversion.CastClamp => value > (ulong)short.MaxValue ? short.MaxValue : (short)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static short ToInt16(byte value, Conversion _) => value;
@@ -519,7 +519,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : Convert.ToInt16(value),
             Conversion.Cast => (short)value,
             Conversion.CastClamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : (short)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static short ToInt16(long value, Conversion mode) => mode switch
@@ -528,7 +528,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : Convert.ToInt16(value),
             Conversion.Cast => (short)value,
             Conversion.CastClamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : (short)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static short ToInt16(float value, Conversion mode) => mode switch
@@ -537,7 +537,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : float.IsNaN(value) ? (short)0 : Convert.ToInt16(value),
             Conversion.Cast => (short)value,
             Conversion.CastClamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : (short)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static short ToInt16(double value, Conversion mode) => mode switch
@@ -546,7 +546,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : double.IsNaN(value) ? (short)0 : Convert.ToInt16(value),
             Conversion.Cast => (short)value,
             Conversion.CastClamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : (short)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static short ToInt16(decimal value, Conversion mode) => mode switch
@@ -555,7 +555,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : Convert.ToInt16(value),
             Conversion.Cast => (short)value,
             Conversion.CastClamp => value < short.MinValue ? short.MinValue : value > short.MaxValue ? short.MaxValue : (short)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -571,7 +571,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > int.MaxValue ? int.MaxValue : Convert.ToInt32(value),
             Conversion.Cast => (int)value,
             Conversion.CastClamp => value > int.MaxValue ? int.MaxValue : (int)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -581,7 +581,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > int.MaxValue ? int.MaxValue : Convert.ToInt32(value),
             Conversion.Cast => (int)value,
             Conversion.CastClamp => value > int.MaxValue ? int.MaxValue : (int)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static int ToInt32(byte value, Conversion _) => value;
@@ -594,7 +594,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < int.MinValue ? int.MinValue : value > int.MaxValue ? int.MaxValue : Convert.ToInt32(value),
             Conversion.Cast => (int)value,
             Conversion.CastClamp => value < int.MinValue ? int.MinValue : value > int.MaxValue ? int.MaxValue : (int)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static int ToInt32(float value, Conversion mode) => mode switch
@@ -603,7 +603,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < int.MinValue ? int.MinValue : value > int.MaxValue ? int.MaxValue : float.IsNaN(value) ? 0 : Convert.ToInt32(value),
             Conversion.Cast => (int)value,
             Conversion.CastClamp => value < int.MinValue ? int.MinValue : value > int.MaxValue ? int.MaxValue : (int)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static int ToInt32(double value, Conversion mode) => mode switch
@@ -612,7 +612,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < int.MinValue ? int.MinValue : value > int.MaxValue ? int.MaxValue : double.IsNaN(value) ? 0 : Convert.ToInt32(value),
             Conversion.Cast => (int)value,
             Conversion.CastClamp => value < int.MinValue ? int.MinValue : value > int.MaxValue ? int.MaxValue : (int)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static int ToInt32(decimal value, Conversion mode) => mode switch
@@ -621,7 +621,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < int.MinValue ? int.MinValue : value > int.MaxValue ? int.MaxValue : Convert.ToInt32(value),
             Conversion.Cast => (int)value,
             Conversion.CastClamp => value < int.MinValue ? int.MinValue : value > int.MaxValue ? int.MaxValue : (int)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -640,7 +640,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value > long.MaxValue ? long.MaxValue : Convert.ToInt64(value),
             Conversion.Cast => (long)value,
             Conversion.CastClamp => value > long.MaxValue ? long.MaxValue : (long)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static long ToInt64(byte value, Conversion _) => value;
@@ -655,7 +655,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < long.MinValue ? long.MinValue : value > long.MaxValue ? long.MaxValue : float.IsNaN(value) ? 0 : Convert.ToInt64(value),
             Conversion.Cast => (long)value,
             Conversion.CastClamp => value < long.MinValue ? long.MinValue : value > long.MaxValue ? long.MaxValue : (long)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static long ToInt64(double value, Conversion mode) => mode switch
@@ -664,7 +664,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < long.MinValue ? long.MinValue : value > long.MaxValue ? long.MaxValue : double.IsNaN(value) ? 0 : Convert.ToInt64(value),
             Conversion.Cast => (long)value,
             Conversion.CastClamp => value < long.MinValue ? long.MinValue : value > long.MaxValue ? long.MaxValue : (long)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static long ToInt64(decimal value, Conversion mode) => mode switch
@@ -673,7 +673,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => value < long.MinValue ? long.MinValue : value > long.MaxValue ? long.MaxValue : Convert.ToInt64(value),
             Conversion.Cast => (long)value,
             Conversion.CastClamp => value < long.MinValue ? long.MinValue : value > long.MaxValue ? long.MaxValue : (long)value,
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -702,7 +702,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => ClampToSingle(value),
             Conversion.Cast => (float)value,
             Conversion.CastClamp => CastClampToSingle(value),
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static float ToSingle(decimal value, Conversion mode) => mode switch
@@ -711,7 +711,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => ClampToSingle(value),
             Conversion.Cast => (float)value,
             Conversion.CastClamp => CastClampToSingle(value),
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -740,7 +740,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => ClampToDouble(value),
             Conversion.Cast => (double)value,
             Conversion.CastClamp => CastClampToDouble(value),
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static double ToDouble(decimal value, Conversion mode) => mode switch
@@ -749,7 +749,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => ClampToDouble(value),
             Conversion.Cast => (double)value,
             Conversion.CastClamp => CastClampToDouble(value),
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         [CLSCompliant(false)]
@@ -778,7 +778,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => ClampToDecimal(value),
             Conversion.Cast => (decimal)value,
             Conversion.CastClamp => CastClampToDecimal(value),
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         public static decimal ToDecimal(double value, Conversion mode) => mode switch
@@ -787,7 +787,7 @@ namespace Jodo.Numerics
             Conversion.Clamp => ClampToDecimal(value),
             Conversion.Cast => (decimal)value,
             Conversion.CastClamp => CastClampToDecimal(value),
-            _ => throw new InvalidOperationException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 
         private static float ClampToSingle(double value)

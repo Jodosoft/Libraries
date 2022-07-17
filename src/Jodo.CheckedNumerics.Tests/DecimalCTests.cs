@@ -42,13 +42,15 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericSigned : NumericTests.Signed<DecimalC> { }
         public sealed class ParserGeneral : ParserTests.General<DecimalC> { }
 
-#if NET5_0_OR_GREATER
         [Test, Repeat(RandomVariations)]
         public void IsFinite_RandomValue_AlwaysTrue()
         {
             //arrange
             byte[] bytes = BitConverter<DecimalC>.GetBytes(default);
-            Random.NextBytes(bytes[..12]);
+            for (int i = 0; i < 12; i++)
+            {
+                bytes[i] = Random.NextByte();
+            }
             DecimalC input = BitConverter<DecimalC>.FromBytes(bytes);
 
             //act
@@ -63,7 +65,10 @@ namespace Jodo.CheckedNumerics.Tests
         {
             //arrange
             byte[] bytes = BitConverter<DecimalC>.GetBytes(default);
-            Random.NextBytes(bytes[..12]);
+            for (int i = 0; i < 12; i++)
+            {
+                bytes[i] = Random.NextByte();
+            }
             DecimalC input = BitConverter<DecimalC>.FromBytes(bytes);
 
             //act
@@ -78,7 +83,10 @@ namespace Jodo.CheckedNumerics.Tests
         {
             //arrange
             byte[] bytes = BitConverter<DecimalC>.GetBytes(default);
-            Random.NextBytes(bytes[..12]);
+            for (int i = 0; i < 12; i++)
+            {
+                bytes[i] = Random.NextByte();
+            }
             DecimalC input = BitConverter<DecimalC>.FromBytes(bytes);
 
             //act
@@ -93,7 +101,10 @@ namespace Jodo.CheckedNumerics.Tests
         {
             //arrange
             byte[] bytes = BitConverter<DecimalC>.GetBytes(default);
-            Random.NextBytes(bytes[..12]);
+            for (int i = 0; i < 12; i++)
+            {
+                bytes[i] = Random.NextByte();
+            }
             DecimalC input = BitConverter<DecimalC>.FromBytes(bytes);
 
             //act
@@ -108,7 +119,10 @@ namespace Jodo.CheckedNumerics.Tests
         {
             //arrange
             byte[] bytes = BitConverter<DecimalC>.GetBytes(default);
-            Random.NextBytes(bytes[..12]);
+            for (int i = 0; i < 12; i++)
+            {
+                bytes[i] = Random.NextByte();
+            }
             DecimalC input = Random.NextNumeric<DecimalC>();
 
             //act
@@ -117,6 +131,5 @@ namespace Jodo.CheckedNumerics.Tests
             //assert
             result.Should().BeFalse();
         }
-#endif
     }
 }

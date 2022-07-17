@@ -26,7 +26,6 @@ namespace Jodo.Primitives.Tests
 {
     public abstract class BitConverterTests<T> : GlobalFixtureBase where T : struct, IProvider<IBitConverter<T>>, IProvider<IRandom<T>>
     {
-#if NET5_0_OR_GREATER
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomValue_ReturnsBytes()
         {
@@ -34,7 +33,7 @@ namespace Jodo.Primitives.Tests
             T input = Random.NextRandomizable<T>();
 
             //act
-            ReadOnlySpan<byte> result = BitConverter<T>.GetBytes(input);
+            byte[] result = BitConverter<T>.GetBytes(input);
 
             //assert
             result.Length.Should().BeGreaterThan(0);
@@ -64,6 +63,5 @@ namespace Jodo.Primitives.Tests
             //assert
             action.Should().Throw<ArgumentException>();
         }
-#endif
     }
 }
