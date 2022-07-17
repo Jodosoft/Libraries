@@ -102,7 +102,7 @@ namespace Jodo.Numerics
         ///     <see cref="Numeric{T}.MaxUnit"/>.
         /// </param>
         /// <returns>
-        ///     An angle, θ, measured in radians, such that 0 ≤ θ ≤ <see cref="Math{T}.PI"/>
+        ///     An angle, θ, measured in radians, such that 0 ≤ θ ≤ <see cref="MathN.PI{N}"/>
         ///     -or- <c>NaN</c> if <see cref="Numeric{T}.HasNaN"/> equals
         ///     <c>true</c> and <paramref name="n"/> &lt; -1 or <paramref name="n"/> &gt; 1 or
         ///     d equals <c>NaN</c>.</returns>
