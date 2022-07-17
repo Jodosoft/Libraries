@@ -66,7 +66,7 @@ namespace Jodo.Numerics.Tests
         public void AllMethods_UnrecognisedConversion_MayOnlyThrowArgumentOutOfRange()
         {
             foreach (MethodInfo method in typeof(NumericConvert).GetMethods(
-                BindingFlags.Static & BindingFlags.Public & BindingFlags.DeclaredOnly))
+                BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly))
             {
                 //arrange
                 object[] parameters = Fixture.MockParameters(method);

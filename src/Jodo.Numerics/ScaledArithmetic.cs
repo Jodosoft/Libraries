@@ -24,15 +24,29 @@ namespace Jodo.Numerics
 {
     public static class ScaledArithmetic
     {
+        private static readonly BigInteger MaxInt64 = new BigInteger(long.MaxValue);
+        private static readonly BigInteger MinInt64 = new BigInteger(long.MinValue);
+        private static readonly BigInteger MaxUInt64 = new BigInteger(ulong.MaxValue);
+
         public static long Multiply(long scaledLeft, long scaledRight, long scalingFactor)
         {
-            return (long)(new BigInteger(scaledLeft) * new BigInteger(scaledRight) / new BigInteger(scalingFactor));
+            BigInteger result = new BigInteger(scaledLeft) * new BigInteger(scaledRight) / new BigInteger(scalingFactor);
+            if (result > MaxInt64 || result < MinInt64)
+            {
+                return BitConverter.ToInt64(result.ToByteArray(), 0);
+            }
+            return (long)result;
         }
 
         [CLSCompliant(false)]
         public static ulong Multiply(ulong scaledLeft, ulong scaledRight, ulong scalingFactor)
         {
-            return (ulong)(new BigInteger(scaledLeft) * new BigInteger(scaledRight) / new BigInteger(scalingFactor));
+            BigInteger result = new BigInteger(scaledLeft) * new BigInteger(scaledRight) / new BigInteger(scalingFactor);
+            if (result > MaxUInt64)
+            {
+                return BitConverter.ToUInt64(result.ToByteArray(), 0);
+            }
+            return (ulong)result;
         }
 
         public static long Divide(long scaledLeft, long scaledRight, long scalingFactor)
