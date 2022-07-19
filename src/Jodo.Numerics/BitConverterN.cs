@@ -19,9 +19,9 @@
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Jodo.Numerics;
+using Jodo.Primitives;
 
-namespace Jodo.Primitives
+namespace Jodo.Numerics
 {
     public static class BitConverterN
     {

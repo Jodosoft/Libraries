@@ -31,24 +31,22 @@ namespace Jodo.Collections
         public static readonly Array2<T> Empty = new Array2<T>(0, 0);
 
         private readonly T[] _array;
-        private readonly int _lengthX;
-        private readonly int _lengthY;
 
         public int Length => _array.Length;
-        public int LengthX => _lengthX;
-        public int LengthY => _lengthY;
+        public int LengthX { get; }
+        public int LengthY { get; }
 
         public T this[int x, int y]
         {
-            get => _array[(y * _lengthX) + x];
-            set => _array[(y * _lengthX) + x] = value;
+            get => _array[(y * LengthX) + x];
+            set => _array[(y * LengthX) + x] = value;
         }
 
         public Array2(int lengthX, int lengthY)
         {
             _array = new T[lengthX * lengthY];
-            _lengthX = lengthX;
-            _lengthY = lengthY;
+            LengthX = lengthX;
+            LengthY = lengthY;
         }
 
 #if NETSTANDARD2_1

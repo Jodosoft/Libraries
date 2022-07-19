@@ -39,10 +39,10 @@ namespace Jodo.Benchmarking
             {
                 Console.WriteLine(
                     "Benchmarks are disabled with a debugger attached." +
-                    " Use the -fd flag to override this behaviour.");
+                    " Use the -fd flag to override this behavior.");
                 Console.WriteLine();
                 Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+                _ = Console.ReadKey();
                 Environment.Exit(-1);
             }
 
@@ -71,7 +71,7 @@ namespace Jodo.Benchmarking
                         !method.ContainsGenericParameters &&
                         !method.ReflectedType.ContainsGenericParameters)
                     {
-                        method.Invoke(null, Array.Empty<object>());
+                        _ = method.Invoke(null, Array.Empty<object>());
                     }
                     else
                     {
@@ -85,7 +85,7 @@ namespace Jodo.Benchmarking
 
             Console.WriteLine();
             Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+            _ = Console.ReadKey();
         }
     }
 }

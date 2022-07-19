@@ -194,7 +194,6 @@ namespace Jodo.Numerics
                 MathN.Max(value1.Z, value2.Z));
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3<N> Min(Vector3<N> value1, Vector3<N> value2)
         {

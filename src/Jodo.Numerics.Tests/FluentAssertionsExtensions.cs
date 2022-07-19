@@ -53,7 +53,7 @@ namespace Jodo.Numerics.Tests
             return new AndConstraint<ComparableTypeAssertions<N>>(parent);
         }
 
-        public static AndConstraint<ComparableTypeAssertions<N>> BeApproximately<N>(this ComparableTypeAssertions<N> parent, N expected, byte significantDigits = 3, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
+        public static AndConstraint<ComparableTypeAssertions<N>> BeApproximately<N>(this ComparableTypeAssertions<N> parent, N expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
         {
             if (!Numeric<N>.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 

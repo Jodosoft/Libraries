@@ -31,7 +31,7 @@ namespace Jodo.Geometry.Tests
         {
         }
 
-        public AARectangle<N> GenerateAARectangle<N>() where N : struct, INumeric<N>
+        public static AARectangle<N> GenerateAARectangle<N>() where N : struct, INumeric<N>
         {
             N minOrigin = Numeric<N>.IsSigned ? ConvertN.ToNumeric<N>(-10) : Numeric<N>.Zero;
             N maxOrigin = ConvertN.ToNumeric<N>(10);

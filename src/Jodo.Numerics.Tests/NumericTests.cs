@@ -403,7 +403,7 @@ namespace Jodo.Numerics.Tests
             {
                 //arrange
                 N input = Random.NextNumeric<N>();
-                N? other = (N?)null;
+                N? other = null;
 
                 //act
                 int result = input.CompareTo(other);
