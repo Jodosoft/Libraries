@@ -23,9 +23,9 @@ namespace Jodo.Geometry
 {
     public static class TwoDimensionalExtensions
     {
-        public static T Translate<T, N>(this T value, N deltaX, N deltaY)
-                where T : struct, ITwoDimensional<T, N>
-                where N : struct, INumeric<N>
-            => value.Translate(new Vector2<N>(deltaX, deltaY));
+        public static T Translate<T, TNumeric>(this T value, TNumeric deltaX, TNumeric deltaY)
+                where T : struct, ITwoDimensional<T, TNumeric>
+                where TNumeric : struct, INumeric<TNumeric>
+            => value.Translate(new Vector2<TNumeric>(deltaX, deltaY));
     }
 }

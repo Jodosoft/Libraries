@@ -55,16 +55,16 @@ namespace Jodo.CheckedNumerics
         public bool Equals(Fix64C other) => _scaledValue == other._scaledValue;
         public override bool Equals(object? obj) => obj is Fix64C other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
-        public override string ToString() => ScaledArithmetic.ToString(_scaledValue, ScalingFactor);
+        public override string ToString() => ScaledArithmetic.ToString(_scaledValue, ScalingFactor, null);
         public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out Fix64C result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Fix64C result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out Fix64C result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out Fix64C result) => Try.Run(() => Parse(s), out result);
-        public static Fix64C Parse(string s) => new Fix64C(ScaledArithmetic.Parse(s, ScalingFactor));
+        public static bool TryParse(string s, IFormatProvider? provider, out Fix64C result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Fix64C result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out Fix64C result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out Fix64C result) => TryHelper.Run(() => Parse(s), out result);
+        public static Fix64C Parse(string s) => new Fix64C(ScaledArithmetic.Parse(s, ScalingFactor, null, null));
         public static Fix64C Parse(string s, IFormatProvider? provider) => (Fix64C)double.Parse(s, provider);
         public static Fix64C Parse(string s, NumberStyles style) => (Fix64C)double.Parse(s, style);
         public static Fix64C Parse(string s, NumberStyles style, IFormatProvider? provider) => (Fix64C)double.Parse(s, style, provider);
@@ -190,7 +190,7 @@ namespace Jodo.CheckedNumerics
         IMath<Fix64C> IProvider<IMath<Fix64C>>.GetInstance() => Utilities.Instance;
         INumericStatic<Fix64C> IProvider<INumericStatic<Fix64C>>.GetInstance() => Utilities.Instance;
         IRandom<Fix64C> IProvider<IRandom<Fix64C>>.GetInstance() => Utilities.Instance;
-        IParser<Fix64C> IProvider<IParser<Fix64C>>.GetInstance() => Utilities.Instance;
+        IStringParser<Fix64C> IProvider<IStringParser<Fix64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<Fix64C>,
@@ -199,13 +199,13 @@ namespace Jodo.CheckedNumerics
             IMath<Fix64C>,
             INumericStatic<Fix64C>,
             IRandom<Fix64C>,
-            IParser<Fix64C>
+            IStringParser<Fix64C>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<Fix64C>.HasFloatingPoint { get; } = false;
-            bool INumericStatic<Fix64C>.HasInfinity { get; } = false;
-            bool INumericStatic<Fix64C>.HasNaN { get; } = false;
+            bool INumericStatic<Fix64C>.HasFloatingPoint => false;
+            bool INumericStatic<Fix64C>.HasInfinity => false;
+            bool INumericStatic<Fix64C>.HasNaN => false;
             bool INumericStatic<Fix64C>.IsFinite(Fix64C x) => true;
             bool INumericStatic<Fix64C>.IsInfinity(Fix64C x) => false;
             bool INumericStatic<Fix64C>.IsNaN(Fix64C x) => false;
@@ -213,8 +213,8 @@ namespace Jodo.CheckedNumerics
             bool INumericStatic<Fix64C>.IsNegativeInfinity(Fix64C x) => false;
             bool INumericStatic<Fix64C>.IsNormal(Fix64C x) => false;
             bool INumericStatic<Fix64C>.IsPositiveInfinity(Fix64C x) => false;
-            bool INumericStatic<Fix64C>.IsReal { get; } = true;
-            bool INumericStatic<Fix64C>.IsSigned { get; } = true;
+            bool INumericStatic<Fix64C>.IsReal => true;
+            bool INumericStatic<Fix64C>.IsSigned => true;
             bool INumericStatic<Fix64C>.IsSubnormal(Fix64C x) => false;
             Fix64C INumericStatic<Fix64C>.Epsilon { get; } = new Fix64C(1);
             Fix64C INumericStatic<Fix64C>.MaxUnit { get; } = new Fix64C(ScalingFactor);
@@ -224,7 +224,7 @@ namespace Jodo.CheckedNumerics
             Fix64C INumericStatic<Fix64C>.One { get; } = new Fix64C(ScalingFactor);
             Fix64C INumericStatic<Fix64C>.Ten { get; } = new Fix64C(10 * ScalingFactor);
             Fix64C INumericStatic<Fix64C>.Two { get; } = new Fix64C(2 * ScalingFactor);
-            Fix64C INumericStatic<Fix64C>.Zero { get; } = 0;
+            Fix64C INumericStatic<Fix64C>.Zero => 0;
 
             Fix64C IMath<Fix64C>.Abs(Fix64C value) => value._scaledValue < 0 ? -value : value;
             Fix64C IMath<Fix64C>.Acos(Fix64C x) => (Fix64C)Math.Acos((double)x);
@@ -265,8 +265,8 @@ namespace Jodo.CheckedNumerics
             Fix64C IMath<Fix64C>.Truncate(Fix64C x) => new Fix64C(x._scaledValue / ScalingFactor * ScalingFactor);
             int IMath<Fix64C>.Sign(Fix64C x) => Math.Sign(x._scaledValue);
 
-            Fix64C IBitConverter<Fix64C>.Read(IReadOnlyStream<byte> stream) => new Fix64C(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
-            void IBitConverter<Fix64C>.Write(Fix64C value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            Fix64C IBitConverter<Fix64C>.Read(IReader<byte> stream) => new Fix64C(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
+            void IBitConverter<Fix64C>.Write(Fix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             Fix64C IRandom<Fix64C>.Next(Random random) => new Fix64C(random.NextInt64());
             Fix64C IRandom<Fix64C>.Next(Random random, Fix64C bound1, Fix64C bound2) => new Fix64C(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
@@ -299,8 +299,8 @@ namespace Jodo.CheckedNumerics
             Fix64C IConvertExtended<Fix64C>.ToNumeric(ulong value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
             Fix64C IConvertExtended<Fix64C>.ToNumeric(ushort value, Conversion mode) => (Fix64C)NumericConvert.ToInt64(value, mode.Clamped());
 
-            Fix64C IParser<Fix64C>.Parse(string s) => Parse(s);
-            Fix64C IParser<Fix64C>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            Fix64C IStringParser<Fix64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Number, provider);
         }
     }
 }

@@ -24,17 +24,17 @@ namespace Jodo.Primitives
 {
     public static class StreamExtensions
     {
-        public static T Read<T>(this IReadOnlyStream<byte> stream) where T : struct, IProvider<IBitConverter<T>>
+        public static T Read<T>(this IReader<byte> stream) where T : struct, IProvider<IBitConverter<T>>
         {
-            return BitConverter<T>.Read(stream);
+            return BitConvert.Read<T>(stream);
         }
 
-        public static void Write<T>(this IWriteOnlyStream<byte> stream, T value) where T : struct, IProvider<IBitConverter<T>>
+        public static void Write<T>(this IWriter<byte> stream, T value) where T : struct, IProvider<IBitConverter<T>>
         {
-            BitConverter<T>.Write(stream, value);
+            BitConvert.Write(stream, value);
         }
 
-        public static void Write<T>(this IWriteOnlyStream<T> stream, T[] values)
+        public static void Write<T>(this IWriter<T> stream, T[] values)
         {
             foreach (T value in values)
             {
@@ -42,10 +42,10 @@ namespace Jodo.Primitives
             }
         }
 
-        public static IWriteOnlyStream<T> AsWriteOnlyStream<T>(this ICollection<T> collection)
+        public static IWriter<T> AsWriteOnlyStream<T>(this ICollection<T> collection)
            => new StreamWrappers.CollectionWriteOnly<T>(collection);
 
-        public static IReadOnlyStream<T> AsReadOnlyStream<T>(this IReadOnlyList<T> collection)
+        public static IReader<T> AsReadOnlyStream<T>(this IReadOnlyList<T> collection)
             => new StreamWrappers.ListReadOnly<T>(collection);
     }
 }

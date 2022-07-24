@@ -23,19 +23,19 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class DoubleCTests
     {
-        public sealed class BitConverter : BitConverterNTests<DoubleC> { }
+        public sealed class BitConvert : BitConvertTests<DoubleC> { }
         public sealed class Cast : CastTests<DoubleC> { }
         public sealed class CheckedNumeric : CheckedNumericTests<DoubleC> { }
         public sealed class ConvertTests : ConvertTests<DoubleC> { }
         public sealed class MathFloatingPoint : MathTests.FloatingPoint<DoubleC> { }
         public sealed class MathGeneral : MathTests.General<DoubleC> { }
         public sealed class MathReal : MathTests.Real<DoubleC> { }
-        public sealed class MathSigned : MathTests.Signed<DoubleC> { }
+        public sealed class MathSigned : MathTests.SingedOnly<DoubleC> { }
         public sealed class NumericGeneral : NumericTests.General<DoubleC> { }
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<DoubleC> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<DoubleC> { }
         public sealed class NumericReal : NumericTests.Real<DoubleC> { }
-        public sealed class NumericSigned : NumericTests.Signed<DoubleC> { }
-        public sealed class ParserGeneral : ParserTests.General<DoubleC> { }
+        public sealed class NumericSigned : NumericTests.SignedOnly<DoubleC> { }
+        public sealed class ParserGeneral : StringParserTests.General<DoubleC> { }
     }
 }

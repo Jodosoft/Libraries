@@ -21,46 +21,46 @@ using System;
 
 namespace Jodo.Numerics
 {
-    public interface IMath<N>
+    public interface IMath<TNumeric>
     {
-        N E { get; }
-        N PI { get; }
-        N Tau { get; }
+        TNumeric E { get; }
+        TNumeric PI { get; }
+        TNumeric Tau { get; }
 
-        int Sign(N x);
-        N Abs(N value);
-        N Acos(N x);
-        N Acosh(N x);
-        N Asin(N x);
-        N Asinh(N x);
-        N Atan(N x);
-        N Atan2(N x, N y);
-        N Atanh(N x);
-        N Cbrt(N x);
-        N Ceiling(N x);
-        N Clamp(N x, N bound1, N bound2);
-        N Cos(N x);
-        N Cosh(N x);
-        N DegreesToRadians(N degrees);
-        N Exp(N x);
-        N Floor(N x);
-        N IEEERemainder(N x, N y);
-        N Log(N x);
-        N Log(N x, N y);
-        N Log10(N x);
-        N Max(N x, N y);
-        N Min(N x, N y);
-        N Pow(N x, N y);
-        N RadiansToDegrees(N radians);
-        N Round(N x);
-        N Round(N x, int digits);
-        N Round(N x, int digits, MidpointRounding mode);
-        N Round(N x, MidpointRounding mode);
-        N Sin(N x);
-        N Sinh(N x);
-        N Sqrt(N x);
-        N Tan(N x);
-        N Tanh(N x);
-        N Truncate(N x);
+        int Sign(TNumeric x);
+        TNumeric Abs(TNumeric value);
+        TNumeric Acos(TNumeric x);
+        TNumeric Acosh(TNumeric x);
+        TNumeric Asin(TNumeric x);
+        TNumeric Asinh(TNumeric x);
+        TNumeric Atan(TNumeric x);
+        TNumeric Atan2(TNumeric x, TNumeric y);
+        TNumeric Atanh(TNumeric x);
+        TNumeric Cbrt(TNumeric x);
+        TNumeric Ceiling(TNumeric x);
+        TNumeric Clamp(TNumeric x, TNumeric bound1, TNumeric bound2);
+        TNumeric Cos(TNumeric x);
+        TNumeric Cosh(TNumeric x);
+        TNumeric DegreesToRadians(TNumeric degrees);
+        TNumeric Exp(TNumeric x);
+        TNumeric Floor(TNumeric x);
+        TNumeric IEEERemainder(TNumeric x, TNumeric y);
+        TNumeric Log(TNumeric x);
+        TNumeric Log(TNumeric x, TNumeric y);
+        TNumeric Log10(TNumeric x);
+        TNumeric Max(TNumeric x, TNumeric y);
+        TNumeric Min(TNumeric x, TNumeric y);
+        TNumeric Pow(TNumeric x, TNumeric y);
+        TNumeric RadiansToDegrees(TNumeric radians);
+        TNumeric Round(TNumeric x);
+        TNumeric Round(TNumeric x, int digits);
+        TNumeric Round(TNumeric x, int digits, MidpointRounding mode);
+        TNumeric Round(TNumeric x, MidpointRounding mode);
+        TNumeric Sin(TNumeric x);
+        TNumeric Sinh(TNumeric x);
+        TNumeric Sqrt(TNumeric x);
+        TNumeric Tan(TNumeric x);
+        TNumeric Tanh(TNumeric x);
+        TNumeric Truncate(TNumeric x);
     }
 }

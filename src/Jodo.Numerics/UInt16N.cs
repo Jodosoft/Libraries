@@ -56,10 +56,10 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out UInt16N result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UInt16N result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out UInt16N result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out UInt16N result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out UInt16N result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UInt16N result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out UInt16N result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out UInt16N result) => TryHelper.Run(() => Parse(s), out result);
         public static UInt16N Parse(string s) => ushort.Parse(s);
         public static UInt16N Parse(string s, IFormatProvider? provider) => ushort.Parse(s, provider);
         public static UInt16N Parse(string s, NumberStyles style) => ushort.Parse(s, style);
@@ -152,7 +152,7 @@ namespace Jodo.Numerics
         IMath<UInt16N> IProvider<IMath<UInt16N>>.GetInstance() => Utilities.Instance;
         INumericStatic<UInt16N> IProvider<INumericStatic<UInt16N>>.GetInstance() => Utilities.Instance;
         IRandom<UInt16N> IProvider<IRandom<UInt16N>>.GetInstance() => Utilities.Instance;
-        IParser<UInt16N> IProvider<IParser<UInt16N>>.GetInstance() => Utilities.Instance;
+        IStringParser<UInt16N> IProvider<IStringParser<UInt16N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<UInt16N>,
@@ -161,24 +161,24 @@ namespace Jodo.Numerics
             IMath<UInt16N>,
             INumericStatic<UInt16N>,
             IRandom<UInt16N>,
-            IParser<UInt16N>
+            IStringParser<UInt16N>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<UInt16N>.HasFloatingPoint { get; } = false;
-            bool INumericStatic<UInt16N>.HasInfinity { get; } = false;
-            bool INumericStatic<UInt16N>.HasNaN { get; } = false;
-            bool INumericStatic<UInt16N>.IsReal { get; } = false;
-            bool INumericStatic<UInt16N>.IsSigned { get; } = false;
-            UInt16N INumericStatic<UInt16N>.Epsilon { get; } = (ushort)1;
-            UInt16N INumericStatic<UInt16N>.MaxUnit { get; } = (ushort)1;
+            bool INumericStatic<UInt16N>.HasFloatingPoint => false;
+            bool INumericStatic<UInt16N>.HasInfinity => false;
+            bool INumericStatic<UInt16N>.HasNaN => false;
+            bool INumericStatic<UInt16N>.IsReal => false;
+            bool INumericStatic<UInt16N>.IsSigned => false;
+            UInt16N INumericStatic<UInt16N>.Epsilon => (ushort)1;
+            UInt16N INumericStatic<UInt16N>.MaxUnit => (ushort)1;
             UInt16N INumericStatic<UInt16N>.MaxValue => MaxValue;
-            UInt16N INumericStatic<UInt16N>.MinUnit { get; } = (ushort)0;
+            UInt16N INumericStatic<UInt16N>.MinUnit => (ushort)0;
             UInt16N INumericStatic<UInt16N>.MinValue => MinValue;
-            UInt16N INumericStatic<UInt16N>.One { get; } = (ushort)1;
-            UInt16N INumericStatic<UInt16N>.Ten { get; } = (ushort)10;
-            UInt16N INumericStatic<UInt16N>.Two { get; } = (ushort)2;
-            UInt16N INumericStatic<UInt16N>.Zero { get; } = (ushort)0;
+            UInt16N INumericStatic<UInt16N>.One => (ushort)1;
+            UInt16N INumericStatic<UInt16N>.Ten => (ushort)10;
+            UInt16N INumericStatic<UInt16N>.Two => (ushort)2;
+            UInt16N INumericStatic<UInt16N>.Zero => (ushort)0;
             bool INumericStatic<UInt16N>.IsFinite(UInt16N x) => true;
             bool INumericStatic<UInt16N>.IsInfinity(UInt16N x) => false;
             bool INumericStatic<UInt16N>.IsNaN(UInt16N x) => false;
@@ -227,8 +227,8 @@ namespace Jodo.Numerics
             UInt16N IMath<UInt16N>.Tau { get; } = (ushort)6;
             UInt16N IMath<UInt16N>.Truncate(UInt16N x) => x;
 
-            UInt16N IBitConverter<UInt16N>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)), 0);
-            void IBitConverter<UInt16N>.Write(UInt16N value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            UInt16N IBitConverter<UInt16N>.Read(IReader<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)), 0);
+            void IBitConverter<UInt16N>.Write(UInt16N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             UInt16N IRandom<UInt16N>.Next(Random random) => random.NextUInt16();
             UInt16N IRandom<UInt16N>.Next(Random random, UInt16N bound1, UInt16N bound2) => random.NextUInt16(bound1._value, bound2._value);
@@ -261,8 +261,8 @@ namespace Jodo.Numerics
             UInt16N IConvertExtended<UInt16N>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToUInt16(value, mode);
             UInt16N IConvertExtended<UInt16N>.ToNumeric(ushort value, Conversion mode) => value;
 
-            UInt16N IParser<UInt16N>.Parse(string s) => Parse(s);
-            UInt16N IParser<UInt16N>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            UInt16N IStringParser<UInt16N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }
 }

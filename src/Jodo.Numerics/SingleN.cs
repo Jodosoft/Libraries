@@ -66,10 +66,10 @@ namespace Jodo.Numerics
         public static bool IsPositiveInfinity(SingleN f) => float.IsPositiveInfinity(f);
         public static bool IsSubnormal(SingleN f) => SingleCompat.IsSubnormal(f);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out SingleN result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SingleN result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out SingleN result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out SingleN result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out SingleN result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SingleN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out SingleN result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out SingleN result) => TryHelper.Run(() => Parse(s), out result);
         public static SingleN Parse(string s) => float.Parse(s);
         public static SingleN Parse(string s, IFormatProvider? provider) => float.Parse(s, provider);
         public static SingleN Parse(string s, NumberStyles style) => float.Parse(s, style);
@@ -162,7 +162,7 @@ namespace Jodo.Numerics
         IMath<SingleN> IProvider<IMath<SingleN>>.GetInstance() => Utilities.Instance;
         INumericStatic<SingleN> IProvider<INumericStatic<SingleN>>.GetInstance() => Utilities.Instance;
         IRandom<SingleN> IProvider<IRandom<SingleN>>.GetInstance() => Utilities.Instance;
-        IParser<SingleN> IProvider<IParser<SingleN>>.GetInstance() => Utilities.Instance;
+        IStringParser<SingleN> IProvider<IStringParser<SingleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<SingleN>,
@@ -171,13 +171,13 @@ namespace Jodo.Numerics
             IMath<SingleN>,
             INumericStatic<SingleN>,
             IRandom<SingleN>,
-            IParser<SingleN>
+            IStringParser<SingleN>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<SingleN>.HasFloatingPoint { get; } = true;
-            bool INumericStatic<SingleN>.HasInfinity { get; } = true;
-            bool INumericStatic<SingleN>.HasNaN { get; } = true;
+            bool INumericStatic<SingleN>.HasFloatingPoint => true;
+            bool INumericStatic<SingleN>.HasInfinity => true;
+            bool INumericStatic<SingleN>.HasNaN => true;
             bool INumericStatic<SingleN>.IsFinite(SingleN x) => IsFinite(x);
             bool INumericStatic<SingleN>.IsInfinity(SingleN x) => IsInfinity(x);
             bool INumericStatic<SingleN>.IsNaN(SingleN x) => IsNaN(x);
@@ -185,18 +185,18 @@ namespace Jodo.Numerics
             bool INumericStatic<SingleN>.IsNegativeInfinity(SingleN x) => IsNegativeInfinity(x);
             bool INumericStatic<SingleN>.IsNormal(SingleN x) => IsNormal(x);
             bool INumericStatic<SingleN>.IsPositiveInfinity(SingleN x) => IsPositiveInfinity(x);
-            bool INumericStatic<SingleN>.IsReal { get; } = true;
-            bool INumericStatic<SingleN>.IsSigned { get; } = true;
+            bool INumericStatic<SingleN>.IsReal => true;
+            bool INumericStatic<SingleN>.IsSigned => true;
             bool INumericStatic<SingleN>.IsSubnormal(SingleN x) => IsSubnormal(x);
             SingleN INumericStatic<SingleN>.Epsilon => Epsilon;
-            SingleN INumericStatic<SingleN>.MaxUnit { get; } = 1f;
+            SingleN INumericStatic<SingleN>.MaxUnit => 1f;
             SingleN INumericStatic<SingleN>.MaxValue => MaxValue;
-            SingleN INumericStatic<SingleN>.MinUnit { get; } = -1f;
+            SingleN INumericStatic<SingleN>.MinUnit => -1f;
             SingleN INumericStatic<SingleN>.MinValue => MinValue;
-            SingleN INumericStatic<SingleN>.One { get; } = 1f;
-            SingleN INumericStatic<SingleN>.Ten { get; } = 10f;
-            SingleN INumericStatic<SingleN>.Two { get; } = 2f;
-            SingleN INumericStatic<SingleN>.Zero { get; } = 0f;
+            SingleN INumericStatic<SingleN>.One => 1f;
+            SingleN INumericStatic<SingleN>.Ten => 10f;
+            SingleN INumericStatic<SingleN>.Two => 2f;
+            SingleN INumericStatic<SingleN>.Zero => 0f;
 
             int IMath<SingleN>.Sign(SingleN x) => Math.Sign(x._value);
             SingleN IMath<SingleN>.Abs(SingleN value) => MathF.Abs(value._value);
@@ -237,8 +237,8 @@ namespace Jodo.Numerics
             SingleN IMath<SingleN>.Tau { get; } = MathF.PI * 2;
             SingleN IMath<SingleN>.Truncate(SingleN x) => MathF.Truncate(x._value);
 
-            SingleN IBitConverter<SingleN>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
-            void IBitConverter<SingleN>.Write(SingleN value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            SingleN IBitConverter<SingleN>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
+            void IBitConverter<SingleN>.Write(SingleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             SingleN IRandom<SingleN>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
             SingleN IRandom<SingleN>.Next(Random random, SingleN bound1, SingleN bound2) => random.NextSingle(bound1._value, bound2._value);
@@ -271,8 +271,8 @@ namespace Jodo.Numerics
             SingleN IConvertExtended<SingleN>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSingle(value, mode);
             SingleN IConvertExtended<SingleN>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSingle(value, mode);
 
-            SingleN IParser<SingleN>.Parse(string s) => Parse(s);
-            SingleN IParser<SingleN>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            SingleN IStringParser<SingleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
         }
     }
 }

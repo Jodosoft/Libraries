@@ -66,10 +66,10 @@ namespace Jodo.Numerics
         public static bool IsPositiveInfinity(DoubleN d) => double.IsPositiveInfinity(d);
         public static bool IsSubnormal(DoubleN d) => DoubleCompat.IsSubnormal(d);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out DoubleN result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleN result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out DoubleN result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out DoubleN result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out DoubleN result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out DoubleN result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out DoubleN result) => TryHelper.Run(() => Parse(s), out result);
         public static DoubleN Parse(string s) => double.Parse(s);
         public static DoubleN Parse(string s, IFormatProvider? provider) => double.Parse(s, provider);
         public static DoubleN Parse(string s, NumberStyles style) => double.Parse(s, style);
@@ -162,7 +162,7 @@ namespace Jodo.Numerics
         IMath<DoubleN> IProvider<IMath<DoubleN>>.GetInstance() => Utilities.Instance;
         INumericStatic<DoubleN> IProvider<INumericStatic<DoubleN>>.GetInstance() => Utilities.Instance;
         IRandom<DoubleN> IProvider<IRandom<DoubleN>>.GetInstance() => Utilities.Instance;
-        IParser<DoubleN> IProvider<IParser<DoubleN>>.GetInstance() => Utilities.Instance;
+        IStringParser<DoubleN> IProvider<IStringParser<DoubleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<DoubleN>,
@@ -171,13 +171,13 @@ namespace Jodo.Numerics
             IMath<DoubleN>,
             INumericStatic<DoubleN>,
             IRandom<DoubleN>,
-            IParser<DoubleN>
+            IStringParser<DoubleN>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<DoubleN>.HasFloatingPoint { get; } = true;
-            bool INumericStatic<DoubleN>.HasInfinity { get; } = true;
-            bool INumericStatic<DoubleN>.HasNaN { get; } = true;
+            bool INumericStatic<DoubleN>.HasFloatingPoint => true;
+            bool INumericStatic<DoubleN>.HasInfinity => true;
+            bool INumericStatic<DoubleN>.HasNaN => true;
             bool INumericStatic<DoubleN>.IsFinite(DoubleN x) => IsFinite(x);
             bool INumericStatic<DoubleN>.IsInfinity(DoubleN x) => IsInfinity(x);
             bool INumericStatic<DoubleN>.IsNaN(DoubleN x) => IsNaN(x);
@@ -185,18 +185,18 @@ namespace Jodo.Numerics
             bool INumericStatic<DoubleN>.IsNegativeInfinity(DoubleN x) => IsNegativeInfinity(x);
             bool INumericStatic<DoubleN>.IsNormal(DoubleN x) => IsNormal(x);
             bool INumericStatic<DoubleN>.IsPositiveInfinity(DoubleN x) => IsPositiveInfinity(x);
-            bool INumericStatic<DoubleN>.IsReal { get; } = true;
-            bool INumericStatic<DoubleN>.IsSigned { get; } = true;
+            bool INumericStatic<DoubleN>.IsReal => true;
+            bool INumericStatic<DoubleN>.IsSigned => true;
             bool INumericStatic<DoubleN>.IsSubnormal(DoubleN x) => IsSubnormal(x);
             DoubleN INumericStatic<DoubleN>.Epsilon => Epsilon;
-            DoubleN INumericStatic<DoubleN>.MaxUnit { get; } = 1d;
+            DoubleN INumericStatic<DoubleN>.MaxUnit => 1d;
             DoubleN INumericStatic<DoubleN>.MaxValue => MaxValue;
-            DoubleN INumericStatic<DoubleN>.MinUnit { get; } = -1d;
+            DoubleN INumericStatic<DoubleN>.MinUnit => -1d;
             DoubleN INumericStatic<DoubleN>.MinValue => MinValue;
-            DoubleN INumericStatic<DoubleN>.One { get; } = 1d;
-            DoubleN INumericStatic<DoubleN>.Ten { get; } = 10d;
-            DoubleN INumericStatic<DoubleN>.Two { get; } = 2d;
-            DoubleN INumericStatic<DoubleN>.Zero { get; } = 0d;
+            DoubleN INumericStatic<DoubleN>.One => 1d;
+            DoubleN INumericStatic<DoubleN>.Ten => 10d;
+            DoubleN INumericStatic<DoubleN>.Two => 2d;
+            DoubleN INumericStatic<DoubleN>.Zero => 0d;
 
             int IMath<DoubleN>.Sign(DoubleN x) => Math.Sign(x._value);
             DoubleN IMath<DoubleN>.Abs(DoubleN value) => Math.Abs(value._value);
@@ -237,8 +237,8 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Tau { get; } = Math.PI * 2d;
             DoubleN IMath<DoubleN>.Truncate(DoubleN x) => Math.Truncate(x._value);
 
-            DoubleN IBitConverter<DoubleN>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
-            void IBitConverter<DoubleN>.Write(DoubleN value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            DoubleN IBitConverter<DoubleN>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
+            void IBitConverter<DoubleN>.Write(DoubleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             DoubleN IRandom<DoubleN>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);
             DoubleN IRandom<DoubleN>.Next(Random random, DoubleN bound1, DoubleN bound2) => random.NextDouble(bound1._value, bound2._value);
@@ -271,8 +271,8 @@ namespace Jodo.Numerics
             DoubleN IConvertExtended<DoubleN>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDouble(value, mode);
             DoubleN IConvertExtended<DoubleN>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDouble(value, mode);
 
-            DoubleN IParser<DoubleN>.Parse(string s) => Parse(s);
-            DoubleN IParser<DoubleN>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            DoubleN IStringParser<DoubleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
         }
     }
 }

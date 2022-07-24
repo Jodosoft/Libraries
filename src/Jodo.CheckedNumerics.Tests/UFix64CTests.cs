@@ -23,19 +23,19 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class UFix64CTests
     {
-        public sealed class BitConverter : BitConverterNTests<UFix64C> { }
+        public sealed class BitConvert : BitConvertTests<UFix64C> { }
         public sealed class Cast : CastTests<UFix64C> { }
         public sealed class CheckedNumeric : CheckedNumericTests<UFix64C> { }
         public sealed class ConvertTests : ConvertTests<UFix64C> { }
         public sealed class MathGeneral : MathTests.General<UFix64C> { }
         public sealed class MathReal : MathTests.Real<UFix64C> { }
-        public sealed class MathUnsigned : NumericTests.Unsigned<UFix64C> { }
+        public sealed class MathUnsigned : NumericTests.UnsignedOnly<UFix64C> { }
         public sealed class NumericGeneral : NumericTests.General<UFix64C> { }
         public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<UFix64C> { }
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<UFix64C> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<UFix64C> { }
         public sealed class NumericReal : NumericTests.Real<UFix64C> { }
-        public sealed class NumericUnsigned : NumericTests.Unsigned<UFix64C> { }
-        public sealed class ParserGeneral : ParserTests.General<UFix64C> { }
+        public sealed class NumericUnsigned : NumericTests.UnsignedOnly<UFix64C> { }
+        public sealed class ParserGeneral : StringParserTests.General<UFix64C> { }
     }
 }

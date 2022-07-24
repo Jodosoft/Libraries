@@ -23,14 +23,14 @@ namespace Jodo.Numerics.Tests
 {
     public static class TestUtilities
     {
-        public static double ReduceSignificance<N>(N value) where N : struct, INumeric<N>
+        public static double ReduceSignificance<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric>
         {
             double result = Math.Round(ConvertN.ToDouble(value, Conversion.Cast), 6);
             int log10 = (int)Math.Log10(Math.Abs(result / 10));
             if (log10 < -1) result *= 1000;
             else if (log10 > 3) result /= Math.Pow(10, log10 - 3);
 
-            if (!Numeric<N>.IsFinite(ConvertN.ToNumeric<N>(result, Conversion.Cast)))
+            if (!Numeric.IsFinite(ConvertN.ToNumeric<TNumeric>(result, Conversion.Cast)))
             {
                 throw new InvalidOperationException();
             }

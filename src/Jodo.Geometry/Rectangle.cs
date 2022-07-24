@@ -28,76 +28,115 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Geometry
 {
+    public static class Rectangle
+    {
+        public static Rectangle<TNumeric> FromCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(center, dimensions, angle);
+        public static Rectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetTopRight(bottomLeft, dimensions, default), dimensions, angle);
+        public static Rectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions, default), dimensions, angle);
+        public static Rectangle<TNumeric> FromBottomRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions, default), dimensions, angle);
+        public static Rectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions, default), dimensions, angle);
+        public static Rectangle<TNumeric> FromRightCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions, default), dimensions, angle);
+        public static Rectangle<TNumeric> FromTopLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions, default), dimensions, angle);
+        public static Rectangle<TNumeric> FromTopCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions, default), dimensions, angle);
+        public static Rectangle<TNumeric> FromTopRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetBottomLeft(bottomLeft, dimensions, default), dimensions, angle);
+
+        internal static Vector2<TNumeric> GetBottomCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X, center.Y.Add(dimensions.Y.Divide(Numeric.Two<TNumeric>()))).RotateAround(center, angle);
+        internal static Vector2<TNumeric> GetBottomLeft<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => (center - (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
+        internal static Vector2<TNumeric> GetBottomRight<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X.Add(dimensions.X.Halved()), center.Y.Subtract(dimensions.Y.Halved())).RotateAround(center, angle);
+        internal static Vector2<TNumeric> GetLeftCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X.Subtract(dimensions.X.Halved()), center.Y).RotateAround(center, angle);
+        internal static Vector2<TNumeric> GetRightCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X.Add(dimensions.X.Halved()), center.Y).RotateAround(center, angle);
+        internal static Vector2<TNumeric> GetTopCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X, center.Y.Add(dimensions.Y.Halved())).RotateAround(center, angle);
+        internal static Vector2<TNumeric> GetTopLeft<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X.Subtract(dimensions.X.Halved()), center.Y.Add(dimensions.Y.Halved())).RotateAround(center, angle);
+        internal static Vector2<TNumeric> GetTopRight<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
+        where TNumeric : struct, INumeric<TNumeric> => (center + (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
+    }
+
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Rectangle<N> :
-            IEquatable<Rectangle<N>>,
+    public readonly struct Rectangle<TNumeric> :
+            IEquatable<Rectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Rectangle<N>>>,
-            IProvider<IRandom<Rectangle<N>>>,
-            IProvider<IParser<Rectangle<N>>>,
-            ITwoDimensional<Rectangle<N>, N>,
-            IRotatable<Rectangle<N>, Angle<N>, Vector2<N>>,
+            IProvider<IBitConverter<Rectangle<TNumeric>>>,
+            IProvider<IRandom<Rectangle<TNumeric>>>,
+            IProvider<IStringParser<Rectangle<TNumeric>>>,
+            ITwoDimensional<Rectangle<TNumeric>, TNumeric>,
+            IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2<TNumeric>>,
             ISerializable
-        where N : struct, INumeric<N>
+        where TNumeric : struct, INumeric<TNumeric>
     {
         private const string Symbol = "□";
 
-        public readonly Vector2<N> Center;
-        public readonly Vector2<N> Dimensions;
-        public readonly Angle<N> Angle;
+        public readonly Vector2<TNumeric> Center;
+        public readonly Vector2<TNumeric> Dimensions;
+        public readonly Angle<TNumeric> Angle;
 
-        public N Height => Dimensions.Y;
-        public N Width => Dimensions.X;
+        public TNumeric Height => Dimensions.Y;
+        public TNumeric Width => Dimensions.X;
 
-        public Vector2<N> GetBottomCenter() => GetBottomCenter(Center, Dimensions, Angle);
-        public Vector2<N> GetBottomLeft() => GetBottomLeft(Center, Dimensions, Angle);
-        public Vector2<N> GetBottomRight() => GetBottomRight(Center, Dimensions, Angle);
-        public Vector2<N> GetLeftCenter() => GetLeftCenter(Center, Dimensions, Angle);
-        public Vector2<N> GetRightCenter() => GetRightCenter(Center, Dimensions, Angle);
-        public Vector2<N> GetTopCenter() => GetTopCenter(Center, Dimensions, Angle);
-        public Vector2<N> GetTopLeft() => GetTopLeft(Center, Dimensions, Angle);
-        public Vector2<N> GetTopRight() => GetTopRight(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetBottomCenter() => Rectangle.GetBottomCenter(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetBottomLeft() => Rectangle.GetBottomLeft(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetBottomRight() => Rectangle.GetBottomRight(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetLeftCenter() => Rectangle.GetLeftCenter(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetRightCenter() => Rectangle.GetRightCenter(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetTopCenter() => Rectangle.GetTopCenter(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetTopLeft() => Rectangle.GetTopLeft(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetTopRight() => Rectangle.GetTopRight(Center, Dimensions, Angle);
 
-        public Rectangle(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle)
+        public Rectangle(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
         {
-            Center = center;
+            Center = origin;
             Dimensions = dimensions;
             Angle = angle;
         }
 
         private Rectangle(SerializationInfo info, StreamingContext context)
         {
-            Center = (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>));
-            Dimensions = (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>));
-            Angle = (Angle<N>)info.GetValue(nameof(Angle), typeof(Angle<N>));
+            Center = (Vector2<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2<TNumeric>));
+            Dimensions = (Vector2<TNumeric>)info.GetValue(nameof(Dimensions), typeof(Vector2<TNumeric>));
+            Angle = (Angle<TNumeric>)info.GetValue(nameof(Angle), typeof(Angle<TNumeric>));
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Center), Center, typeof(Vector2<N>));
-            info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<N>));
-            info.AddValue(nameof(Angle), Angle, typeof(Angle<N>));
+            info.AddValue(nameof(Center), Center, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(Angle), Angle, typeof(Angle<TNumeric>));
         }
 
-        public bool Contains(Rectangle<N> other)
+        public bool Contains(Rectangle<TNumeric> other)
         {
             throw new NotImplementedException();
         }
 
-        public bool Contains(Vector2<N> point)
+        public bool Contains(Vector2<TNumeric> point)
         {
             throw new NotImplementedException();
         }
 
-        public bool IntersectsWith(Rectangle<N> other)
+        public bool IntersectsWith(Rectangle<TNumeric> other)
         {
             throw new NotImplementedException();
         }
 
-        public N GetArea() => MathN.Abs(Width.Multiply(Height));
+        public TNumeric GetArea() => MathN.Abs(Width.Multiply(Height));
 
-        public Vector2<N>[] GetVertices()
+        public Vector2<TNumeric>[] GetVertices()
         {
             return new[]
             {
@@ -108,27 +147,27 @@ namespace Jodo.Geometry
             };
         }
 
-        public Rectangle<N> Grow(N delta) => Grow(new Vector2<N>(delta, delta));
-        public Rectangle<N> Grow(N deltaX, N deltaY) => Grow(new Vector2<N>(deltaX, deltaY));
-        public Rectangle<N> Grow(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft() - delta, Dimensions + delta + delta, Angle);
+        public Rectangle<TNumeric> Grow(TNumeric delta) => Grow(new Vector2<TNumeric>(delta, delta));
+        public Rectangle<TNumeric> Grow(TNumeric deltaX, TNumeric deltaY) => Grow(new Vector2<TNumeric>(deltaX, deltaY));
+        public Rectangle<TNumeric> Grow(Vector2<TNumeric> delta) => new Rectangle<TNumeric>(GetBottomLeft() - delta, Dimensions + delta + delta, Angle);
 
-        public Rectangle<N> Scale(N scale) => new Rectangle<N>(Center, Dimensions * scale, Angle);
+        public Rectangle<TNumeric> Scale(TNumeric scale) => new Rectangle<TNumeric>(Center, Dimensions * scale, Angle);
 
-        public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(GetBottomLeft(), Dimensions, Angle + angle);
-        public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Center.RotateAround(pivot, angle), Dimensions, Angle + angle);
-        public Rectangle<N> Shrink(N delta) => Shrink(new Vector2<N>(delta, delta));
-        public Rectangle<N> Shrink(N deltaX, N deltaY) => Shrink(new Vector2<N>(deltaX, deltaY));
-        public Rectangle<N> Shrink(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft(), Dimensions - delta, Angle);
-        public Rectangle<N> Translate(N deltaX, N deltaY) => Translate(new Vector2<N>(deltaX, deltaY));
-        public Rectangle<N> Translate(Vector2<N> delta) => new Rectangle<N>(GetBottomLeft() + delta, Dimensions, Angle);
-        public Rectangle<N> UnitTranslate(N deltaX, N deltaY) => Translate(new Vector2<N>(deltaX, deltaY));
-        public Rectangle<N> UnitTranslate(Vector2<N> delta) => new Rectangle<N>(
-            GetBottomLeft() + new Vector2<N>(delta.X.Multiply(Width), delta.Y.Multiply(Height)), Dimensions, Angle);
+        public Rectangle<TNumeric> Rotate(Angle<TNumeric> angle) => new Rectangle<TNumeric>(GetBottomLeft(), Dimensions, Angle + angle);
+        public Rectangle<TNumeric> RotateAround(Vector2<TNumeric> pivot, Angle<TNumeric> angle) => new Rectangle<TNumeric>(Center.RotateAround(pivot, angle), Dimensions, Angle + angle);
+        public Rectangle<TNumeric> Shrink(TNumeric delta) => Shrink(new Vector2<TNumeric>(delta, delta));
+        public Rectangle<TNumeric> Shrink(TNumeric deltaX, TNumeric deltaY) => Shrink(new Vector2<TNumeric>(deltaX, deltaY));
+        public Rectangle<TNumeric> Shrink(Vector2<TNumeric> delta) => new Rectangle<TNumeric>(GetBottomLeft(), Dimensions - delta, Angle);
+        public Rectangle<TNumeric> Translate(TNumeric deltaX, TNumeric deltaY) => Translate(new Vector2<TNumeric>(deltaX, deltaY));
+        public Rectangle<TNumeric> Translate(Vector2<TNumeric> delta) => new Rectangle<TNumeric>(GetBottomLeft() + delta, Dimensions, Angle);
+        public Rectangle<TNumeric> UnitTranslate(TNumeric deltaX, TNumeric deltaY) => Translate(new Vector2<TNumeric>(deltaX, deltaY));
+        public Rectangle<TNumeric> UnitTranslate(Vector2<TNumeric> delta) => new Rectangle<TNumeric>(
+            GetBottomLeft() + new Vector2<TNumeric>(delta.X.Multiply(Width), delta.Y.Multiply(Height)), Dimensions, Angle);
 
-        public bool Equals(Rectangle<N> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
+        public bool Equals(Rectangle<TNumeric> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
         public override bool Equals(object? obj)
         {
-            return obj is Rectangle<N> rectangle && Equals(rectangle);
+            return obj is Rectangle<TNumeric> rectangle && Equals(rectangle);
         }
 
         public override int GetHashCode() => HashCode.Combine(Center, Dimensions, Angle);
@@ -136,86 +175,41 @@ namespace Jodo.Geometry
         public string ToString(string? format, IFormatProvider? formatProvider)
             => $"{Symbol}({Center.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)}, {Angle.ToString(format, formatProvider)})";
 
-        public static bool TryParse(string value, out Rectangle<N> result)
-            => Try.Run(() => Parse(value), out result);
 
-        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Rectangle<N> result)
-            => Try.Run(() => Parse(value, style, provider), out result);
-
-        public static Rectangle<N> Parse(string value)
+        public AARectangle<TNumeric> GetBounds()
         {
-            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
-            if (parts.Length == 3)
-                return new Rectangle<N>(
-                    Vector2<N>.Parse(parts[0]),
-                    Vector2<N>.Parse(parts[1]),
-                    Angle<N>.Parse(parts[2]));
-            else throw new FormatException();
+            TNumeric[]? xs = new[] { GetTopLeft().X, GetTopRight().X, GetBottomLeft().X, GetBottomRight().X };
+            TNumeric[]? ys = new[] { GetTopLeft().Y, GetTopRight().Y, GetBottomLeft().Y, GetBottomRight().Y };
+
+            TNumeric minX = xs.Min();
+            TNumeric maxX = xs.Max();
+            TNumeric minY = ys.Min();
+            TNumeric maxY = ys.Max();
+
+            Vector2<TNumeric> dimensions = new Vector2<TNumeric>(maxX.Subtract(minX), maxY.Subtract(minY));
+            return AARectangle.FromBottomLeft(new Vector2<TNumeric>(minX, minY), dimensions);
         }
 
-        public static Rectangle<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
-        {
-            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
-            if (parts.Length == 3)
-                return new Rectangle<N>(
-                    Vector2<N>.Parse(parts[0], style, provider),
-                    Vector2<N>.Parse(parts[1], style, provider),
-                    Angle<N>.Parse(parts[1], style, provider));
-            else throw new FormatException();
-        }
 
-        public static Rectangle<N> FromCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(center, dimensions, angle);
-        public static Rectangle<N> FromBottomLeft(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetTopRight(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<N> FromBottomCenter(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetTopCenter(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<N> FromBottomRight(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetTopLeft(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<N> FromLeftCenter(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetRightCenter(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<N> FromRightCenter(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetLeftCenter(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<N> FromTopLeft(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetBottomRight(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<N> FromTopCenter(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetBottomCenter(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<N> FromTopRight(Vector2<N> bottomLeft, Vector2<N> dimensions, Angle<N> angle) => new Rectangle<N>(GetBottomLeft(bottomLeft, dimensions, default), dimensions, angle);
+        public static bool operator ==(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => left.Equals(right);
+        public static bool operator !=(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => !(left == right);
+        public static implicit operator Rectangle<TNumeric>(AARectangle<TNumeric> value) => new Rectangle<TNumeric>(value.Origin, value.Dimensions, default);
 
-        public AARectangle<N> GetBounds()
-        {
-            N[]? xs = new[] { GetTopLeft().X, GetTopRight().X, GetBottomLeft().X, GetBottomRight().X };
-            N[]? ys = new[] { GetTopLeft().Y, GetTopRight().Y, GetBottomLeft().Y, GetBottomRight().Y };
+        Vector2<TNumeric>[] ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
+        Vector2<TNumeric> ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetCenter() => Center;
 
-            N minX = xs.Min();
-            N maxX = xs.Max();
-            N minY = ys.Min();
-            N maxY = ys.Max();
-
-            Vector2<N> dimensions = new Vector2<N>(maxX.Subtract(minX), maxY.Subtract(minY));
-            return AARectangle<N>.FromBottomLeft(new Vector2<N>(minX, minY), dimensions);
-        }
-
-        private static Vector2<N> GetBottomCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X, center.Y.Add(dimensions.Y.Divide(Numeric<N>.Two))).RotateAround(center, angle);
-        private static Vector2<N> GetBottomLeft(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => (center - (dimensions / Numeric<N>.Two)).RotateAround(center, angle);
-        private static Vector2<N> GetBottomRight(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X.Add(dimensions.X.Half()), center.Y.Subtract(dimensions.Y.Half())).RotateAround(center, angle);
-        private static Vector2<N> GetLeftCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X.Subtract(dimensions.X.Half()), center.Y).RotateAround(center, angle);
-        private static Vector2<N> GetRightCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X.Add(dimensions.X.Half()), center.Y).RotateAround(center, angle);
-        private static Vector2<N> GetTopCenter(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X, center.Y.Add(dimensions.Y.Half())).RotateAround(center, angle);
-        private static Vector2<N> GetTopLeft(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => new Vector2<N>(center.X.Subtract(dimensions.X.Half()), center.Y.Add(dimensions.Y.Half())).RotateAround(center, angle);
-        private static Vector2<N> GetTopRight(Vector2<N> center, Vector2<N> dimensions, Angle<N> angle) => (center + (dimensions / Numeric<N>.Two)).RotateAround(center, angle);
-
-        public static bool operator ==(Rectangle<N> left, Rectangle<N> right) => left.Equals(right);
-        public static bool operator !=(Rectangle<N> left, Rectangle<N> right) => !(left == right);
-        public static implicit operator Rectangle<N>(AARectangle<N> value) => new Rectangle<N>(value.Origin, value.Dimensions, Angle<N>.Zero);
-
-        Vector2<N>[] ITwoDimensional<Rectangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
-        Vector2<N> ITwoDimensional<Rectangle<N>, N>.GetCenter() => Center;
-
-        IBitConverter<Rectangle<N>> IProvider<IBitConverter<Rectangle<N>>>.GetInstance() => Utilities.Instance;
-        IRandom<Rectangle<N>> IProvider<IRandom<Rectangle<N>>>.GetInstance() => Utilities.Instance;
-        IParser<Rectangle<N>> IProvider<IParser<Rectangle<N>>>.GetInstance() => Utilities.Instance;
+        IBitConverter<Rectangle<TNumeric>> IProvider<IBitConverter<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IRandom<Rectangle<TNumeric>> IProvider<IRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Rectangle<TNumeric>> IProvider<IStringParser<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<Rectangle<N>>,
-           IRandom<Rectangle<N>>,
-           IParser<Rectangle<N>>
+           IBitConverter<Rectangle<TNumeric>>,
+           IRandom<Rectangle<TNumeric>>,
+           IStringParser<Rectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Rectangle<N> IRandom<Rectangle<N>>.Next(Random random)
+            Rectangle<TNumeric> IRandom<Rectangle<TNumeric>>.Next(Random random)
             {
                 do
                 {
@@ -223,9 +217,9 @@ namespace Jodo.Geometry
                     {
                         checked
                         {
-                            Rectangle<N> result = AARectangle<N>.Between(
-                                random.NextVector2<N>(),
-                                random.NextVector2<N>()).Rotate(random.NextAngle<N>());
+                            Rectangle<TNumeric> result = AARectangle.Between(
+                                random.NextVector2<TNumeric>(),
+                                random.NextVector2<TNumeric>()).Rotate(random.NextAngle<TNumeric>());
                             if (result.GetBounds() != default)
                             {
                                 return result;
@@ -239,45 +233,50 @@ namespace Jodo.Geometry
                 } while (true);
             }
 
-            Rectangle<N> IRandom<Rectangle<N>>.Next(Random random, Rectangle<N> bound1, Rectangle<N> bound2)
+            Rectangle<TNumeric> IRandom<Rectangle<TNumeric>>.Next(Random random, Rectangle<TNumeric> bound1, Rectangle<TNumeric> bound2)
             {
-                AARectangle<N> bound1Bounds = bound1.GetBounds();
-                AARectangle<N> bound2Bounds = bound2.GetBounds();
-                N xMin = MathN.Min(bound1Bounds.GetBottomLeft().X, bound2Bounds.GetBottomLeft().X);
-                N xMax = MathN.Max(bound1Bounds.GetTopRight().X, bound2Bounds.GetTopRight().X);
-                N yMin = MathN.Min(bound1Bounds.GetBottomLeft().Y, bound2Bounds.GetBottomLeft().Y);
-                N yMax = MathN.Max(bound1Bounds.GetTopRight().Y, bound2Bounds.GetTopRight().Y);
+                AARectangle<TNumeric> bound1Bounds = bound1.GetBounds();
+                AARectangle<TNumeric> bound2Bounds = bound2.GetBounds();
+                TNumeric xMin = MathN.Min(bound1Bounds.GetBottomLeft().X, bound2Bounds.GetBottomLeft().X);
+                TNumeric xMax = MathN.Max(bound1Bounds.GetTopRight().X, bound2Bounds.GetTopRight().X);
+                TNumeric yMin = MathN.Min(bound1Bounds.GetBottomLeft().Y, bound2Bounds.GetBottomLeft().Y);
+                TNumeric yMax = MathN.Max(bound1Bounds.GetTopRight().Y, bound2Bounds.GetTopRight().Y);
 
-                Vector2<N> center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
+                Vector2<TNumeric> center = new Vector2<TNumeric>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
 
-                N xMaxRadius = MathN.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
-                N yMaxRadius = MathN.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
+                TNumeric xMaxRadius = MathN.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
+                TNumeric yMaxRadius = MathN.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
 
-                Angle<N> angle = random.NextAngle<N>();
-                Vector2<N> dimensions = new Vector2<N>(xMaxRadius.Double(), yMaxRadius.Double());
+                Angle<TNumeric> angle = random.NextAngle<TNumeric>();
+                Vector2<TNumeric> dimensions = new Vector2<TNumeric>(xMaxRadius.Doubled(), yMaxRadius.Doubled());
 
-                return new Rectangle<N>(center, dimensions, angle);
+                return new Rectangle<TNumeric>(center, dimensions, angle);
             }
 
-            Rectangle<N> IParser<Rectangle<N>>.Parse(string s)
-                => Parse(s);
-
-            Rectangle<N> IParser<Rectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
-                => Parse(s, style, provider);
-
-            Rectangle<N> IBitConverter<Rectangle<N>>.Read(IReadOnlyStream<byte> stream)
+            Rectangle<TNumeric> IStringParser<Rectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
-                return new Rectangle<N>(
-                    BitConverter<Vector2<N>>.Read(stream),
-                    BitConverter<Vector2<N>>.Read(stream),
-                    BitConverter<Angle<N>>.Read(stream));
+                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty));
+                if (parts.Length == 3)
+                    return new Rectangle<TNumeric>(
+                        StringParser.Parse<Vector2<TNumeric>>(parts[0], style, provider),
+                        StringParser.Parse<Vector2<TNumeric>>(parts[1], style, provider),
+                        StringParser.Parse<Angle<TNumeric>>(parts[1], style, provider));
+                else throw new FormatException();
             }
 
-            void IBitConverter<Rectangle<N>>.Write(Rectangle<N> value, IWriteOnlyStream<byte> stream)
+            Rectangle<TNumeric> IBitConverter<Rectangle<TNumeric>>.Read(IReader<byte> stream)
             {
-                BitConverter<Vector2<N>>.Write(stream, value.Center);
-                BitConverter<Vector2<N>>.Write(stream, value.Dimensions);
-                BitConverter<Angle<N>>.Write(stream, value.Angle);
+                return new Rectangle<TNumeric>(
+                    BitConvert.Read<Vector2<TNumeric>>(stream),
+                    BitConvert.Read<Vector2<TNumeric>>(stream),
+                    BitConvert.Read<Angle<TNumeric>>(stream));
+            }
+
+            void IBitConverter<Rectangle<TNumeric>>.Write(Rectangle<TNumeric> value, IWriter<byte> stream)
+            {
+                BitConvert.Write(stream, value.Center);
+                BitConvert.Write(stream, value.Dimensions);
+                BitConvert.Write(stream, value.Angle);
             }
         }
     }

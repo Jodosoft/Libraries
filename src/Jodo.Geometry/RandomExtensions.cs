@@ -27,43 +27,43 @@ namespace Jodo.Geometry
     public static class RandomExtensions
     {
         [DebuggerStepThrough]
-        public static AARectangle<N> NextAARectangle<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<AARectangle<N>>>)default(AARectangle<N>)).GetInstance().Next(random);
+        public static AARectangle<TNumeric> NextAARectangle<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<AARectangle<TNumeric>>>)default(AARectangle<TNumeric>)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static AARectangle<N> NextAARectangle<N>(this Random random, AARectangle<N> bound1, AARectangle<N> bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<AARectangle<N>>>)default(AARectangle<N>)).GetInstance().Next(random, bound1, bound2);
+        public static AARectangle<TNumeric> NextAARectangle<TNumeric>(this Random random, AARectangle<TNumeric> bound1, AARectangle<TNumeric> bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<AARectangle<TNumeric>>>)default(AARectangle<TNumeric>)).GetInstance().Next(random, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static Angle<N> NextAngle<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Angle<N>>>)default(Angle<N>)).GetInstance().Next(random);
+        public static Angle<TNumeric> NextAngle<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Angle<TNumeric>>>)default(Angle<TNumeric>)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static Angle<N> NextAngle<N>(this Random random, Angle<N> bound1, Angle<N> bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Angle<N>>>)default(Angle<N>)).GetInstance().Next(random, bound1, bound2);
+        public static Angle<TNumeric> NextAngle<TNumeric>(this Random random, Angle<TNumeric> bound1, Angle<TNumeric> bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Angle<TNumeric>>>)default(Angle<TNumeric>)).GetInstance().Next(random, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static Circle<N> NextCircle<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Circle<N>>>)default(Circle<N>)).GetInstance().Next(random);
+        public static Circle<TNumeric> NextCircle<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Circle<TNumeric>>>)default(Circle<TNumeric>)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static Circle<N> NextCircle<N>(this Random random, Circle<N> bound1, Circle<N> bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Circle<N>>>)default(Circle<N>)).GetInstance().Next(random, bound1, bound2);
+        public static Circle<TNumeric> NextCircle<TNumeric>(this Random random, Circle<TNumeric> bound1, Circle<TNumeric> bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Circle<TNumeric>>>)default(Circle<TNumeric>)).GetInstance().Next(random, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static Rectangle<N> NextRectangle<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Rectangle<N>>>)default(Rectangle<N>)).GetInstance().Next(random);
+        public static Rectangle<TNumeric> NextRectangle<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Rectangle<TNumeric>>>)default(Rectangle<TNumeric>)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static Rectangle<N> NextRectangle<N>(this Random random, Rectangle<N> bound1, Rectangle<N> bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Rectangle<N>>>)default(Rectangle<N>)).GetInstance().Next(random, bound1, bound2);
+        public static Rectangle<TNumeric> NextRectangle<TNumeric>(this Random random, Rectangle<TNumeric> bound1, Rectangle<TNumeric> bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Rectangle<TNumeric>>>)default(Rectangle<TNumeric>)).GetInstance().Next(random, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static Triangle<N> NextTriangle<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Triangle<N>>>)default(Triangle<N>)).GetInstance().Next(random);
+        public static Triangle<TNumeric> NextTriangle<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Triangle<TNumeric>>>)default(Triangle<TNumeric>)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static Triangle<N> NextTriangle<N>(this Random random, Triangle<N> bound1, Triangle<N> bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Triangle<N>>>)default(Triangle<N>)).GetInstance().Next(random, bound1, bound2);
+        public static Triangle<TNumeric> NextTriangle<TNumeric>(this Random random, Triangle<TNumeric> bound1, Triangle<TNumeric> bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Triangle<TNumeric>>>)default(Triangle<TNumeric>)).GetInstance().Next(random, bound1, bound2);
     }
 }

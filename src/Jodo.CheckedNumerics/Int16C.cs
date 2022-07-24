@@ -19,7 +19,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
 using Jodo.Numerics;
@@ -58,10 +57,10 @@ namespace Jodo.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out Int16C result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Int16C result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out Int16C result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out Int16C result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out Int16C result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Int16C result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out Int16C result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out Int16C result) => TryHelper.Run(() => Parse(s), out result);
         public static Int16C Parse(string s) => short.Parse(s);
         public static Int16C Parse(string s, IFormatProvider? provider) => short.Parse(s, provider);
         public static Int16C Parse(string s, NumberStyles style) => short.Parse(s, style);
@@ -154,7 +153,7 @@ namespace Jodo.CheckedNumerics
         IMath<Int16C> IProvider<IMath<Int16C>>.GetInstance() => Utilities.Instance;
         INumericStatic<Int16C> IProvider<INumericStatic<Int16C>>.GetInstance() => Utilities.Instance;
         IRandom<Int16C> IProvider<IRandom<Int16C>>.GetInstance() => Utilities.Instance;
-        IParser<Int16C> IProvider<IParser<Int16C>>.GetInstance() => Utilities.Instance;
+        IStringParser<Int16C> IProvider<IStringParser<Int16C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<Int16C>,
@@ -163,13 +162,13 @@ namespace Jodo.CheckedNumerics
             IMath<Int16C>,
             INumericStatic<Int16C>,
             IRandom<Int16C>,
-            IParser<Int16C>
+            IStringParser<Int16C>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<Int16C>.HasFloatingPoint { get; } = false;
-            bool INumericStatic<Int16C>.HasInfinity { get; } = false;
-            bool INumericStatic<Int16C>.HasNaN { get; } = false;
+            bool INumericStatic<Int16C>.HasFloatingPoint => false;
+            bool INumericStatic<Int16C>.HasInfinity => false;
+            bool INumericStatic<Int16C>.HasNaN => false;
             bool INumericStatic<Int16C>.IsFinite(Int16C x) => true;
             bool INumericStatic<Int16C>.IsInfinity(Int16C x) => false;
             bool INumericStatic<Int16C>.IsNaN(Int16C x) => false;
@@ -177,18 +176,18 @@ namespace Jodo.CheckedNumerics
             bool INumericStatic<Int16C>.IsNegativeInfinity(Int16C x) => false;
             bool INumericStatic<Int16C>.IsNormal(Int16C x) => false;
             bool INumericStatic<Int16C>.IsPositiveInfinity(Int16C x) => false;
-            bool INumericStatic<Int16C>.IsReal { get; } = false;
-            bool INumericStatic<Int16C>.IsSigned { get; } = true;
+            bool INumericStatic<Int16C>.IsReal => false;
+            bool INumericStatic<Int16C>.IsSigned => true;
             bool INumericStatic<Int16C>.IsSubnormal(Int16C x) => false;
-            Int16C INumericStatic<Int16C>.Epsilon { get; } = (short)1;
-            Int16C INumericStatic<Int16C>.MaxUnit { get; } = (short)1;
+            Int16C INumericStatic<Int16C>.Epsilon => (short)1;
+            Int16C INumericStatic<Int16C>.MaxUnit => (short)1;
             Int16C INumericStatic<Int16C>.MaxValue => MaxValue;
-            Int16C INumericStatic<Int16C>.MinUnit { get; } = (short)-1;
+            Int16C INumericStatic<Int16C>.MinUnit => (short)-1;
             Int16C INumericStatic<Int16C>.MinValue => MinValue;
-            Int16C INumericStatic<Int16C>.One { get; } = (short)1;
-            Int16C INumericStatic<Int16C>.Ten { get; } = (short)10;
-            Int16C INumericStatic<Int16C>.Two { get; } = (short)2;
-            Int16C INumericStatic<Int16C>.Zero { get; } = (short)0;
+            Int16C INumericStatic<Int16C>.One => (short)1;
+            Int16C INumericStatic<Int16C>.Ten => (short)10;
+            Int16C INumericStatic<Int16C>.Two => (short)2;
+            Int16C INumericStatic<Int16C>.Zero => (short)0;
 
             Int16C IMath<Int16C>.Abs(Int16C value) => Math.Abs(value._value);
             Int16C IMath<Int16C>.Acos(Int16C x) => (Int16C)Math.Acos(x._value);
@@ -229,8 +228,8 @@ namespace Jodo.CheckedNumerics
             Int16C IMath<Int16C>.Truncate(Int16C x) => x;
             int IMath<Int16C>.Sign(Int16C x) => Math.Sign(x._value);
 
-            Int16C IBitConverter<Int16C>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)), 0);
-            void IBitConverter<Int16C>.Write(Int16C value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            Int16C IBitConverter<Int16C>.Read(IReader<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)), 0);
+            void IBitConverter<Int16C>.Write(Int16C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             Int16C IRandom<Int16C>.Next(Random random) => random.NextInt16();
             Int16C IRandom<Int16C>.Next(Random random, Int16C bound1, Int16C bound2) => random.NextInt16(bound1._value, bound2._value);
@@ -263,8 +262,8 @@ namespace Jodo.CheckedNumerics
             Int16C IConvertExtended<Int16C>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
             Int16C IConvertExtended<Int16C>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
 
-            Int16C IParser<Int16C>.Parse(string s) => Parse(s);
-            Int16C IParser<Int16C>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            Int16C IStringParser<Int16C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }
 }

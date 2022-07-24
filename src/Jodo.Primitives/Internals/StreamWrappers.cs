@@ -24,7 +24,7 @@ namespace Jodo.Primitives.Internals
 {
     internal static class StreamWrappers
     {
-        internal sealed class ListReadOnly<T> : IReadOnlyStream<T>
+        internal sealed class ListReadOnly<T> : IReader<T>
         {
             private readonly IReadOnlyList<T> _list;
             private int _position;
@@ -50,7 +50,7 @@ namespace Jodo.Primitives.Internals
             }
         }
 
-        internal sealed class CollectionWriteOnly<T> : IWriteOnlyStream<T>
+        internal sealed class CollectionWriteOnly<T> : IWriter<T>
         {
             private readonly ICollection<T> _collection;
 

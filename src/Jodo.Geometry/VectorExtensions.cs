@@ -23,25 +23,25 @@ namespace Jodo.Geometry
 {
     public static class VectorExtensions
     {
-        public static Vector2<N> RotateAround<N>(this Vector2<N> vector, Vector2<N> pivot, Angle<N> angle) where N : struct, INumeric<N>
+        public static Vector2<TNumeric> RotateAround<TNumeric>(this Vector2<TNumeric> vector, Vector2<TNumeric> pivot, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
         {
-            Angle<N> newAngle = -angle;
-            Vector2<N> difference = vector - pivot;
-            return pivot + new Vector2<N>(
+            Angle<TNumeric> newAngle = -angle;
+            Vector2<TNumeric> difference = vector - pivot;
+            return pivot + new Vector2<TNumeric>(
                 difference.X.Multiply(newAngle.Cos()).Subtract(difference.Y.Multiply(newAngle.Sin())),
                 difference.X.Multiply(newAngle.Sin()).Add(difference.Y.Multiply(newAngle.Cos())));
         }
 
-        public static N GetLengthSquared<N>(this Vector2<N> vector) where N : struct, INumeric<N>
+        public static TNumeric GetLengthSquared<TNumeric>(this Vector2<TNumeric> vector) where TNumeric : struct, INumeric<TNumeric>
             => vector.X.Multiply(vector.X).Add(vector.Y.Multiply(vector.Y));
 
-        public static N GetLength<N>(this Vector2<N> vector) where N : struct, INumeric<N>
+        public static TNumeric GetLength<TNumeric>(this Vector2<TNumeric> vector) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Sqrt(vector.GetLengthSquared());
 
-        public static N DistanceFrom<N>(this Vector2<N> vector, Vector2<N> point) where N : struct, INumeric<N>
+        public static TNumeric DistanceFrom<TNumeric>(this Vector2<TNumeric> vector, Vector2<TNumeric> point) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Sqrt(vector.X.Subtract(point.X).Squared().Add(vector.Y.Subtract(point.Y).Squared()));
 
-        public static Vector2<N> Translate<N>(this Vector2<N> vector, Vector2<N> delta) where N : struct, INumeric<N>
-           => new Vector2<N>(vector.X.Add(delta.X), vector.Y.Add(delta.Y));
+        public static Vector2<TNumeric> Translate<TNumeric>(this Vector2<TNumeric> vector, Vector2<TNumeric> delta) where TNumeric : struct, INumeric<TNumeric>
+           => new Vector2<TNumeric>(vector.X.Add(delta.X), vector.Y.Add(delta.Y));
     }
 }

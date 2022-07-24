@@ -23,22 +23,22 @@ namespace Jodo.Numerics
 {
     public static class LinqExtensions
     {
-        public static N Average<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
+        public static TNumeric Average<TNumeric>(this IEnumerable<TNumeric> source) where TNumeric : struct, INumeric<TNumeric>
         {
-            N sum = Numeric<N>.Zero;
-            N count = Numeric<N>.Zero;
-            foreach (N item in source)
+            TNumeric sum = Numeric.Zero<TNumeric>();
+            TNumeric count = Numeric.Zero<TNumeric>();
+            foreach (TNumeric item in source)
             {
                 sum = sum.Add(item);
-                count = count.Add(Numeric<N>.One);
+                count = count.Add(Numeric.One<TNumeric>());
             }
             return sum.Divide(count);
         }
 
-        public static N Sum<N>(this IEnumerable<N> source) where N : struct, INumeric<N>
+        public static TNumeric Sum<TNumeric>(this IEnumerable<TNumeric> source) where TNumeric : struct, INumeric<TNumeric>
         {
-            N sum = Numeric<N>.Zero;
-            foreach (N item in source)
+            TNumeric sum = Numeric.Zero<TNumeric>();
+            foreach (TNumeric item in source)
             {
                 sum = sum.Add(item);
             }

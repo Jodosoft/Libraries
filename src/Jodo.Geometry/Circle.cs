@@ -29,55 +29,55 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Circle<N> :
-            IEquatable<Circle<N>>,
+    public readonly struct Circle<TNumeric> :
+            IEquatable<Circle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Circle<N>>>,
-            IProvider<IRandom<Circle<N>>>,
-            IProvider<IParser<Circle<N>>>,
-            ITwoDimensional<Circle<N>, N>,
+            IProvider<IBitConverter<Circle<TNumeric>>>,
+            IProvider<IRandom<Circle<TNumeric>>>,
+            IProvider<IStringParser<Circle<TNumeric>>>,
+            ITwoDimensional<Circle<TNumeric>, TNumeric>,
             ISerializable
-        where N : struct, INumeric<N>
+        where TNumeric : struct, INumeric<TNumeric>
     {
         private const string Symbol = "○";
 
-        public readonly Vector2<N> Center;
-        public readonly N Radius;
+        public readonly Vector2<TNumeric> Center;
+        public readonly TNumeric Radius;
 
-        public N GetDiameter() => Numeric<N>.Two.Multiply(Radius);
-        public N GetCircumeference() => Numeric<N>.Two.Multiply(MathN.PI<N>()).Multiply(Radius);
+        public TNumeric GetDiameter() => Numeric.Two<TNumeric>().Multiply(Radius);
+        public TNumeric GetCircumeference() => Numeric.Two<TNumeric>().Multiply(MathN.PI<TNumeric>()).Multiply(Radius);
 
-        public Circle(Vector2<N> center, N radius)
+        public Circle(Vector2<TNumeric> center, TNumeric radius)
         {
             Center = center;
             Radius = radius;
         }
 
-        public Circle(N centerX, N centerY, N radius)
+        public Circle(TNumeric centerX, TNumeric centerY, TNumeric radius)
         {
-            Center = new Vector2<N>(centerX, centerY);
+            Center = new Vector2<TNumeric>(centerX, centerY);
             Radius = radius;
         }
 
         private Circle(SerializationInfo info, StreamingContext context)
         {
-            Center = (Vector2<N>)info.GetValue(nameof(Center), typeof(Vector2<N>));
-            Radius = (N)info.GetValue(nameof(Radius), typeof(N));
+            Center = (Vector2<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2<TNumeric>));
+            Radius = (TNumeric)info.GetValue(nameof(Radius), typeof(TNumeric));
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Center), Center, typeof(Vector2<N>));
-            info.AddValue(nameof(Radius), Radius, typeof(N));
+            info.AddValue(nameof(Center), Center, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(Radius), Radius, typeof(TNumeric));
         }
 
-        public Vector2<N>[] GetVertices(int circumferenceDivisor)
+        public Vector2<TNumeric>[] GetVertices(int circumferenceDivisor)
         {
             double centerX = ConvertN.ToDouble(Center.X);
             double centerY = ConvertN.ToDouble(Center.Y);
             double radius = ConvertN.ToDouble(Radius);
 
-            Vector2<N>[]? results = new Vector2<N>[circumferenceDivisor + 1];
+            Vector2<TNumeric>[]? results = new Vector2<TNumeric>[circumferenceDivisor + 1];
             results[0] = Center;
             for (int i = 0; i < circumferenceDivisor; i++)
             {
@@ -85,74 +85,47 @@ namespace Jodo.Geometry
 
                 double radians = degrees * NumericUtilities.RadiansPerDegree;
 
-                results[i + 1] = new Vector2<N>(
-                    ConvertN.ToNumeric<N>(centerX + (radius * Math.Cos(radians))),
-                    ConvertN.ToNumeric<N>(centerY + (radius * Math.Sin(radians))));
+                results[i + 1] = new Vector2<TNumeric>(
+                    ConvertN.ToNumeric<TNumeric>(centerX + (radius * Math.Cos(radians))),
+                    ConvertN.ToNumeric<TNumeric>(centerY + (radius * Math.Sin(radians))));
             }
             return results;
         }
 
-        public N GetArea() => MathN.PI<N>().Multiply(MathN.Pow(Radius, Numeric<N>.Two));
-        public bool Contains(Circle<N> other)
-            => Radius.IsGreaterThanOrEqualTo(other.Radius) && Center.DistanceFrom(other.Center).IsLessThanOrEqualTo(Radius.Subtract(other.Radius));
-        public bool Contains(Vector2<N> point) => point.DistanceFrom(Center).IsLessThan(Radius);
-        public Circle<N> Translate(Vector2<N> delta) => new Circle<N>(Center.Translate(delta), Radius);
-        public Circle<N> Translate(N deltaX, N deltaY) => new Circle<N>(Center.Translate(new Vector2<N>(deltaX, deltaY)), Radius);
-        public AARectangle<N> GetBounds() => AARectangle<N>.FromCenter(Center, new Vector2<N>(GetDiameter(), GetDiameter()));
-        public bool IntersectsWith(Circle<N> other) => Center.DistanceFrom(other.Center).IsLessThan(Radius.Add(other.Radius));
+        public TNumeric GetArea() => MathN.PI<TNumeric>().Multiply(MathN.Pow(Radius, Numeric.Two<TNumeric>()));
+        public bool Contains(Circle<TNumeric> other) => Radius.IsGreaterThanOrEqualTo(other.Radius) && Center.DistanceFrom(other.Center).IsLessThanOrEqualTo(Radius.Subtract(other.Radius));
+        public bool Contains(Vector2<TNumeric> point) => point.DistanceFrom(Center).IsLessThan(Radius);
+        public Circle<TNumeric> Translate(Vector2<TNumeric> delta) => new Circle<TNumeric>(Center.Translate(delta), Radius);
+        public Circle<TNumeric> Translate(TNumeric deltaX, TNumeric deltaY) => new Circle<TNumeric>(Center.Translate(new Vector2<TNumeric>(deltaX, deltaY)), Radius);
+        public AARectangle<TNumeric> GetBounds() => AARectangle.FromCenter(Center, new Vector2<TNumeric>(GetDiameter(), GetDiameter()));
+        public bool IntersectsWith(Circle<TNumeric> other) => Center.DistanceFrom(other.Center).IsLessThan(Radius.Add(other.Radius));
 
-        public bool Equals(Circle<N> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
-        public override bool Equals(object? obj) => obj is Circle<N> circle && Equals(circle);
+        public bool Equals(Circle<TNumeric> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
+        public override bool Equals(object? obj) => obj is Circle<TNumeric> circle && Equals(circle);
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
         public override string ToString() => $"{Symbol}({Center}, r{GetDiameter()})";
         public string ToString(string format, IFormatProvider formatProvider) => $"{Symbol}({Center.ToString(format, formatProvider)}, r{GetDiameter().ToString(format, formatProvider)})";
 
-        public static bool TryParse(string value, out Circle<N> result)
-                    => Try.Run(() => Parse(value), out result);
+        public static bool operator ==(Circle<TNumeric> left, Circle<TNumeric> right) => left.Equals(right);
+        public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
 
-        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Circle<N> result)
-            => Try.Run(() => Parse(value, style, provider), out result);
-
-        public static Circle<N> Parse(string value)
-        {
-            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
-            if (parts.Length == 2)
-                return new Circle<N>(
-                    Vector2<N>.Parse(parts[0]),
-                    Parser<N>.Parse(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1]));
-            else throw new FormatException();
-        }
-
-        public static Circle<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
-        {
-            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
-            if (parts.Length == 2)
-                return new Circle<N>(
-                    Vector2<N>.Parse(parts[0], style, provider),
-                    Parser<N>.Parse(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1], style, provider));
-            else throw new FormatException();
-        }
-
-        public static bool operator ==(Circle<N> left, Circle<N> right) => left.Equals(right);
-        public static bool operator !=(Circle<N> left, Circle<N> right) => !(left == right);
-
-        Vector2<N> ITwoDimensional<Circle<N>, N>.GetCenter() => Center;
-        IBitConverter<Circle<N>> IProvider<IBitConverter<Circle<N>>>.GetInstance() => Utilities.Instance;
-        IRandom<Circle<N>> IProvider<IRandom<Circle<N>>>.GetInstance() => Utilities.Instance;
-        IParser<Circle<N>> IProvider<IParser<Circle<N>>>.GetInstance() => Utilities.Instance;
+        Vector2<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
+        IBitConverter<Circle<TNumeric>> IProvider<IBitConverter<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IRandom<Circle<TNumeric>> IProvider<IRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Circle<TNumeric>> IProvider<IStringParser<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<Circle<N>>,
-           IRandom<Circle<N>>,
-           IParser<Circle<N>>
+           IBitConverter<Circle<TNumeric>>,
+           IRandom<Circle<TNumeric>>,
+           IStringParser<Circle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Circle<N> IRandom<Circle<N>>.Next(Random random)
+            Circle<TNumeric> IRandom<Circle<TNumeric>>.Next(Random random)
             {
                 do
                 {
-                    Circle<N> result = new Circle<N>(random.NextVector2<N>(), random.NextNumeric<N>());
+                    Circle<TNumeric> result = new Circle<TNumeric>(random.NextVector2<TNumeric>(), random.NextNumeric<TNumeric>());
                     try
                     {
                         if (checked(result.GetBounds() != default))
@@ -167,35 +140,41 @@ namespace Jodo.Geometry
                 } while (true);
             }
 
-            Circle<N> IRandom<Circle<N>>.Next(Random random, Circle<N> bound1, Circle<N> bound2)
+            Circle<TNumeric> IRandom<Circle<TNumeric>>.Next(Random random, Circle<TNumeric> bound1, Circle<TNumeric> bound2)
             {
-                N xMin = MathN.Min(bound1.Center.X.Subtract(bound1.Radius), bound2.Center.X.Subtract(bound2.Radius));
-                N xMax = MathN.Max(bound1.Center.X.Add(bound1.Radius), bound2.Center.X.Add(bound2.Radius));
-                N yMin = MathN.Min(bound1.Center.Y.Subtract(bound1.Radius), bound2.Center.Y.Subtract(bound2.Radius));
-                N yMax = MathN.Max(bound1.Center.Y.Add(bound1.Radius), bound2.Center.Y.Add(bound2.Radius));
+                TNumeric xMin = MathN.Min(bound1.Center.X.Subtract(bound1.Radius), bound2.Center.X.Subtract(bound2.Radius));
+                TNumeric xMax = MathN.Max(bound1.Center.X.Add(bound1.Radius), bound2.Center.X.Add(bound2.Radius));
+                TNumeric yMin = MathN.Min(bound1.Center.Y.Subtract(bound1.Radius), bound2.Center.Y.Subtract(bound2.Radius));
+                TNumeric yMax = MathN.Max(bound1.Center.Y.Add(bound1.Radius), bound2.Center.Y.Add(bound2.Radius));
 
-                Vector2<N> center = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
+                Vector2<TNumeric> center = new Vector2<TNumeric>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
 
-                N xMaxRadius = MathN.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
-                N yMaxRadius = MathN.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
-                N radius = random.NextNumeric(Numeric<N>.Zero, MathN.Min(xMaxRadius, yMaxRadius));
+                TNumeric xMaxRadius = MathN.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
+                TNumeric yMaxRadius = MathN.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
+                TNumeric radius = random.NextNumeric(Numeric.Zero<TNumeric>(), MathN.Min(xMaxRadius, yMaxRadius));
 
-                return new Circle<N>(center, radius);
+                return new Circle<TNumeric>(center, radius);
             }
 
-            Circle<N> IParser<Circle<N>>.Parse(string s) => Parse(s);
-
-            Circle<N> IParser<Circle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            Circle<N> IBitConverter<Circle<N>>.Read(IReadOnlyStream<byte> stream)
+            Circle<TNumeric> IStringParser<Circle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
-                return new Circle<N>(BitConverter<Vector2<N>>.Read(stream), BitConverter<N>.Read(stream));
+                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty));
+                if (parts.Length == 2)
+                    return new Circle<TNumeric>(
+                        StringParser.Parse<Vector2<TNumeric>>(parts[0], style, provider),
+                        StringParser.Parse<TNumeric>(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1], style, provider));
+                else throw new FormatException();
             }
 
-            void IBitConverter<Circle<N>>.Write(Circle<N> value, IWriteOnlyStream<byte> stream)
+            Circle<TNumeric> IBitConverter<Circle<TNumeric>>.Read(IReader<byte> stream)
             {
-                BitConverter<Vector2<N>>.Write(stream, value.Center);
-                BitConverter<N>.Write(stream, value.Radius);
+                return new Circle<TNumeric>(BitConvert.Read<Vector2<TNumeric>>(stream), BitConvert.Read<TNumeric>(stream));
+            }
+
+            void IBitConverter<Circle<TNumeric>>.Write(Circle<TNumeric> value, IWriter<byte> stream)
+            {
+                BitConvert.Write(stream, value.Center);
+                BitConvert.Write(stream, value.Radius);
             }
         }
     }

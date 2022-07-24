@@ -30,47 +30,47 @@ namespace Jodo.Numerics.Tests
         public sealed class FloatingPoint : General<SingleN> { }
         public sealed class UnsignedIntegral : General<ByteN> { }
 
-        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Unit<N>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<N>> { }
+            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Unit<TNumeric>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<TNumeric>> { }
 
             [Test]
-            public void Clamp_ValueGreaterThanMaxUnit_ReturnsMaxUnit()
+            public void Ctor_ValueGreaterThanMaxUnit_ReturnsMaxUnit()
             {
                 //arrange
-                N input = Random.NextNumeric(Numeric<N>.MaxUnit, Numeric<N>.MaxValue);
+                TNumeric input = Random.NextNumeric(Numeric.MaxUnit<TNumeric>(), Numeric.MaxValue<TNumeric>());
 
                 //act
-                Unit<N> result = Unit<N>.Clamp(input);
+                Unit<TNumeric> result = new Unit<TNumeric>(input);
 
                 //assert
-                result.Value.Should().Be(Numeric<N>.MaxUnit);
+                result.Value.Should().Be(Numeric.MaxUnit<TNumeric>());
             }
 
             [Test]
-            public void Clamp_ValueGreaterThanMaxUnit_ReturnsMinUnit()
+            public void Ctor_ValueGreaterThanMaxUnit_ReturnsMinUnit()
             {
                 //arrange
-                N input = Random.NextNumeric(Numeric<N>.MinValue, Numeric<N>.MinUnit);
+                TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>(), Numeric.MinUnit<TNumeric>());
 
                 //act
-                Unit<N> result = Unit<N>.Clamp(input);
+                Unit<TNumeric> result = new Unit<TNumeric>(input);
 
                 //assert
-                result.Value.Should().Be(Numeric<N>.MinUnit);
+                result.Value.Should().Be(Numeric.MinUnit<TNumeric>());
             }
 
             [Test]
             public void Add_Numeric_CorrectResult()
             {
                 //arrange
-                Unit<N> left = Random.NextUnit<N>();
-                Unit<N> right = Random.NextUnit<N>();
-                N expected = left.Value.Add(right.Value);
+                Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+                Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+                TNumeric expected = left.Value.Add(right.Value);
 
                 //act
-                N result = left + right;
+                TNumeric result = left + right;
 
                 //assert
                 result.Should().Be(expected);

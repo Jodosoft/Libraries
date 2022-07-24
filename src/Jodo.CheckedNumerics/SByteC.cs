@@ -19,7 +19,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
 using Jodo.Numerics;
@@ -58,10 +57,10 @@ namespace Jodo.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out SByteC result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SByteC result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out SByteC result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out SByteC result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out SByteC result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SByteC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out SByteC result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out SByteC result) => TryHelper.Run(() => Parse(s), out result);
         public static SByteC Parse(string s) => sbyte.Parse(s);
         public static SByteC Parse(string s, IFormatProvider? provider) => sbyte.Parse(s, provider);
         public static SByteC Parse(string s, NumberStyles style) => sbyte.Parse(s, style);
@@ -154,7 +153,7 @@ namespace Jodo.CheckedNumerics
         IMath<SByteC> IProvider<IMath<SByteC>>.GetInstance() => Utilities.Instance;
         INumericStatic<SByteC> IProvider<INumericStatic<SByteC>>.GetInstance() => Utilities.Instance;
         IRandom<SByteC> IProvider<IRandom<SByteC>>.GetInstance() => Utilities.Instance;
-        IParser<SByteC> IProvider<IParser<SByteC>>.GetInstance() => Utilities.Instance;
+        IStringParser<SByteC> IProvider<IStringParser<SByteC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<SByteC>,
@@ -163,13 +162,13 @@ namespace Jodo.CheckedNumerics
             IMath<SByteC>,
             INumericStatic<SByteC>,
             IRandom<SByteC>,
-            IParser<SByteC>
+            IStringParser<SByteC>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<SByteC>.HasFloatingPoint { get; } = false;
-            bool INumericStatic<SByteC>.HasInfinity { get; } = false;
-            bool INumericStatic<SByteC>.HasNaN { get; } = false;
+            bool INumericStatic<SByteC>.HasFloatingPoint => false;
+            bool INumericStatic<SByteC>.HasInfinity => false;
+            bool INumericStatic<SByteC>.HasNaN => false;
             bool INumericStatic<SByteC>.IsFinite(SByteC x) => true;
             bool INumericStatic<SByteC>.IsInfinity(SByteC x) => false;
             bool INumericStatic<SByteC>.IsNaN(SByteC x) => false;
@@ -177,18 +176,18 @@ namespace Jodo.CheckedNumerics
             bool INumericStatic<SByteC>.IsNegativeInfinity(SByteC x) => false;
             bool INumericStatic<SByteC>.IsNormal(SByteC x) => false;
             bool INumericStatic<SByteC>.IsPositiveInfinity(SByteC x) => false;
-            bool INumericStatic<SByteC>.IsReal { get; } = false;
-            bool INumericStatic<SByteC>.IsSigned { get; } = true;
+            bool INumericStatic<SByteC>.IsReal => false;
+            bool INumericStatic<SByteC>.IsSigned => true;
             bool INumericStatic<SByteC>.IsSubnormal(SByteC x) => false;
-            SByteC INumericStatic<SByteC>.Epsilon { get; } = 1;
-            SByteC INumericStatic<SByteC>.MaxUnit { get; } = 1;
+            SByteC INumericStatic<SByteC>.Epsilon => 1;
+            SByteC INumericStatic<SByteC>.MaxUnit => 1;
             SByteC INumericStatic<SByteC>.MaxValue => MaxValue;
-            SByteC INumericStatic<SByteC>.MinUnit { get; } = -1;
+            SByteC INumericStatic<SByteC>.MinUnit => -1;
             SByteC INumericStatic<SByteC>.MinValue => MinValue;
-            SByteC INumericStatic<SByteC>.One { get; } = 1;
-            SByteC INumericStatic<SByteC>.Ten { get; } = 10;
-            SByteC INumericStatic<SByteC>.Two { get; } = 2;
-            SByteC INumericStatic<SByteC>.Zero { get; } = 0;
+            SByteC INumericStatic<SByteC>.One => 1;
+            SByteC INumericStatic<SByteC>.Ten => 10;
+            SByteC INumericStatic<SByteC>.Two => 2;
+            SByteC INumericStatic<SByteC>.Zero => 0;
 
             SByteC IMath<SByteC>.Abs(SByteC value) => Math.Abs(value._value);
             SByteC IMath<SByteC>.Acos(SByteC x) => (SByteC)Math.Acos(x._value);
@@ -229,8 +228,8 @@ namespace Jodo.CheckedNumerics
             SByteC IMath<SByteC>.Truncate(SByteC x) => x;
             int IMath<SByteC>.Sign(SByteC x) => Math.Sign(x._value);
 
-            SByteC IBitConverter<SByteC>.Read(IReadOnlyStream<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
-            void IBitConverter<SByteC>.Write(SByteC value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            SByteC IBitConverter<SByteC>.Read(IReader<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
+            void IBitConverter<SByteC>.Write(SByteC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             SByteC IRandom<SByteC>.Next(Random random) => random.NextSByte();
             SByteC IRandom<SByteC>.Next(Random random, SByteC bound1, SByteC bound2) => random.NextSByte(bound1._value, bound2._value);
@@ -263,8 +262,8 @@ namespace Jodo.CheckedNumerics
             SByteC IConvertExtended<SByteC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
             SByteC IConvertExtended<SByteC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSByte(value, mode.Clamped());
 
-            SByteC IParser<SByteC>.Parse(string s) => Parse(s);
-            SByteC IParser<SByteC>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            SByteC IStringParser<SByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }
 }

@@ -19,26 +19,26 @@
 
 namespace Jodo.Numerics
 {
-    public interface IConvert<N>
+    public interface IConvert<TNumeric>
     {
-        bool ToBoolean(N value);
-        byte ToByte(N value, Conversion mode);
-        decimal ToDecimal(N value, Conversion mode);
-        double ToDouble(N value, Conversion mode);
-        float ToSingle(N value, Conversion mode);
-        int ToInt32(N value, Conversion mode);
-        long ToInt64(N value, Conversion mode);
-        short ToInt16(N value, Conversion mode);
-        string ToString(N value);
+        bool ToBoolean(TNumeric value);
+        byte ToByte(TNumeric value, Conversion mode);
+        decimal ToDecimal(TNumeric value, Conversion mode);
+        double ToDouble(TNumeric value, Conversion mode);
+        float ToSingle(TNumeric value, Conversion mode);
+        int ToInt32(TNumeric value, Conversion mode);
+        long ToInt64(TNumeric value, Conversion mode);
+        short ToInt16(TNumeric value, Conversion mode);
+        string ToString(TNumeric value);
 
-        N ToNumeric(bool value);
-        N ToNumeric(byte value, Conversion mode);
-        N ToNumeric(decimal value, Conversion mode);
-        N ToNumeric(double value, Conversion mode);
-        N ToNumeric(float value, Conversion mode);
-        N ToNumeric(int value, Conversion mode);
-        N ToNumeric(long value, Conversion mode);
-        N ToNumeric(short value, Conversion mode);
-        N ToNumeric(string value);
+        TNumeric ToNumeric(bool value);
+        TNumeric ToNumeric(byte value, Conversion mode);
+        TNumeric ToNumeric(decimal value, Conversion mode);
+        TNumeric ToNumeric(double value, Conversion mode);
+        TNumeric ToNumeric(float value, Conversion mode);
+        TNumeric ToNumeric(int value, Conversion mode);
+        TNumeric ToNumeric(long value, Conversion mode);
+        TNumeric ToNumeric(short value, Conversion mode);
+        TNumeric ToNumeric(string value);
     }
 }

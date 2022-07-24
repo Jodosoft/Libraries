@@ -27,12 +27,12 @@ namespace Jodo.Numerics.Tests
 {
     public static class FluentAssertionsExtensions
     {
-        public static AndConstraint<ComparableTypeAssertions<N>> BeApproximately<N>(this ComparableTypeAssertions<N> parent, double expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
+        public static AndConstraint<ComparableTypeAssertions<TNumeric>> BeApproximately<TNumeric>(this ComparableTypeAssertions<TNumeric> parent, double expected, string because = "", params object[] becauseArgs) where TNumeric : struct, INumeric<TNumeric>
         {
             if (!DoubleCompat.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
-            double actual = ConvertN.ToDouble((N)parent.Subject);
-            if (Numeric<N>.IsIntegral)
+            double actual = ConvertN.ToDouble((TNumeric)parent.Subject);
+            if (Numeric.IsIntegral<TNumeric>())
             {
                 double expectedValue = Math.Truncate(expected);
                 Execute.Assertion
@@ -50,19 +50,19 @@ namespace Jodo.Numerics.Tests
                     .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1}.", expectedValue, actualValue);
             }
 
-            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
+            return new AndConstraint<ComparableTypeAssertions<TNumeric>>(parent);
         }
 
-        public static AndConstraint<ComparableTypeAssertions<N>> BeApproximately<N>(this ComparableTypeAssertions<N> parent, N expected, string because = "", params object[] becauseArgs) where N : struct, INumeric<N>
+        public static AndConstraint<ComparableTypeAssertions<TNumeric>> BeApproximately<TNumeric>(this ComparableTypeAssertions<TNumeric> parent, TNumeric expected, string because = "", params object[] becauseArgs) where TNumeric : struct, INumeric<TNumeric>
         {
-            if (!Numeric<N>.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
+            if (!Numeric.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
-            N actual = (N)parent.Subject;
-            N difference = MathN.Max(actual, expected).Subtract(MathN.Min(actual, expected));
+            TNumeric actual = (TNumeric)parent.Subject;
+            TNumeric difference = MathN.Max(actual, expected).Subtract(MathN.Min(actual, expected));
 
-            N tolerance = expected.IsGreaterThan(Numeric<N>.MinUnit) && expected.IsLessThan(Numeric<N>.MaxUnit) ?
-                Numeric<N>.One.Divide(Numeric<N>.Ten) :
-                MathN.Abs(expected.Divide(Numeric<N>.Ten));
+            TNumeric tolerance = expected.IsGreaterThan(Numeric.MinUnit<TNumeric>()) && expected.IsLessThan(Numeric.MaxUnit<TNumeric>()) ?
+                Numeric.One<TNumeric>().Divide(Numeric.Ten<TNumeric>()) :
+                MathN.Abs(expected.Divide(Numeric.Ten<TNumeric>()));
 
             Execute.Assertion
                 .ForCondition(difference.IsLessThanOrEqualTo(tolerance))
@@ -70,7 +70,7 @@ namespace Jodo.Numerics.Tests
                 .FailWith("Expected {context:value} to be approximately {0}{reason}, but it was {1} (difference of {2}).",
                 expected, parent.Subject, difference);
 
-            return new AndConstraint<ComparableTypeAssertions<N>>(parent);
+            return new AndConstraint<ComparableTypeAssertions<TNumeric>>(parent);
         }
     }
 }

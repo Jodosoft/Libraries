@@ -18,32 +18,50 @@
 // IN THE SOFTWARE.
 
 using System;
-using Jodo.Numerics;
+using FluentAssertions;
 using Jodo.Testing;
 using NUnit.Framework;
 
-namespace Jodo.Geometry.Tests
+namespace Jodo.Primitives.Tests
 {
-    public class AssemblyFixtureBase : GlobalFixtureBase
+    public abstract class BitConvertTests<T> : GlobalFixtureBase where T : struct, IProvider<IBitConverter<T>>, IProvider<IRandom<T>>
     {
-        [SetUp]
-        public void AssemblySetUp()
+        [Test, Repeat(RandomVariations)]
+        public void GetBytes_RandomValue_ReturnsBytes()
         {
+            //arrange
+            T input = Random.NextRandomizable<T>();
+
+            //act
+            byte[] result = BitConvert.GetBytes(input);
+
+            //assert
+            result.Length.Should().BeGreaterThan(0);
         }
 
-        public static AARectangle<TNumeric> GenerateAARectangle<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+        [Test, Repeat(RandomVariations)]
+        public void GetBytes_RoundTrip_SameAsOriginal()
         {
-            TNumeric minOrigin = Numeric.IsSigned<TNumeric>() ? ConvertN.ToNumeric<TNumeric>(-10) : Numeric.Zero<TNumeric>();
-            TNumeric maxOrigin = ConvertN.ToNumeric<TNumeric>(10);
-            TNumeric minDimension = Numeric.IsSigned<TNumeric>() ? ConvertN.ToNumeric<TNumeric>(-10) : Numeric.Zero<TNumeric>();
-            TNumeric maxDimension = ConvertN.ToNumeric<TNumeric>(10);
-            return new AARectangle<TNumeric>(
-                new Vector2<TNumeric>(
-                    Random.NextNumeric(minOrigin, maxOrigin),
-                    Random.NextNumeric(minOrigin, maxOrigin)),
-                new Vector2<TNumeric>(
-                    Random.NextNumeric(minDimension, maxDimension),
-                    Random.NextNumeric(minDimension, maxDimension)));
+            //arrange
+            T input = Random.NextRandomizable<T>();
+
+            //act
+            T result = BitConvert.FromBytes<T>(BitConvert.GetBytes(input));
+
+            //assert
+            result.Should().BeEquivalentTo(input);
+        }
+
+        [Test]
+        public void FromBytes_ZeroLength_Throws()
+        {
+            //arrange
+
+            //act
+            Action action = new Action(() => BitConvert.FromBytes<T>(Array.Empty<byte>()));
+
+            //assert
+            action.Should().Throw<ArgumentException>();
         }
     }
 }

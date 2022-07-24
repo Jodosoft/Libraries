@@ -21,35 +21,33 @@ using System.Collections.Generic;
 
 namespace Jodo.Primitives
 {
-    public static class BitConverter<T> where T : struct, IProvider<IBitConverter<T>>
+    public static class BitConvert
     {
-        private static readonly IBitConverter<T> Default = default(T).GetInstance();
-
-        public static byte[] GetBytes(T value)
+        public static byte[] GetBytes<T>(T value) where T : struct, IProvider<IBitConverter<T>>
         {
             List<byte>? list = new List<byte>();
-            Default.Write(value, list.AsWriteOnlyStream());
+            Provider<T, IBitConverter<T>>.Default.Write(value, list.AsWriteOnlyStream());
             return list.ToArray();
         }
 
-        public static T FromBytes(byte[] bytes)
+        public static T FromBytes<T>(byte[] bytes) where T : struct, IProvider<IBitConverter<T>>
         {
-            return Default.Read(bytes.AsReadOnlyStream());
+            return Provider<T, IBitConverter<T>>.Default.Read(bytes.AsReadOnlyStream());
         }
 
-        public static T FromBytes(IReadOnlyList<byte> bytes)
+        public static T FromBytes<T>(IReadOnlyList<byte> bytes) where T : struct, IProvider<IBitConverter<T>>
         {
-            return Default.Read(bytes.AsReadOnlyStream());
+            return Provider<T, IBitConverter<T>>.Default.Read(bytes.AsReadOnlyStream());
         }
 
-        public static T Read(IReadOnlyStream<byte> stream)
+        public static T Read<T>(IReader<byte> stream) where T : struct, IProvider<IBitConverter<T>>
         {
-            return Default.Read(stream);
+            return Provider<T, IBitConverter<T>>.Default.Read(stream);
         }
 
-        public static void Write(IWriteOnlyStream<byte> stream, T value)
+        public static void Write<T>(IWriter<byte> stream, T value) where T : struct, IProvider<IBitConverter<T>>
         {
-            Default.Write(value, stream);
+            Provider<T, IBitConverter<T>>.Default.Write(value, stream);
         }
     }
 }

@@ -22,16 +22,16 @@ using System;
 namespace Jodo.Numerics
 {
     [CLSCompliant(false)]
-    public interface IConvertExtended<N>
+    public interface IConvertExtended<TNumeric>
     {
-        sbyte ToSByte(N value, Conversion mode);
-        uint ToUInt32(N value, Conversion mode);
-        ulong ToUInt64(N value, Conversion mode);
-        ushort ToUInt16(N value, Conversion mode);
+        sbyte ToSByte(TNumeric value, Conversion mode);
+        uint ToUInt32(TNumeric value, Conversion mode);
+        ulong ToUInt64(TNumeric value, Conversion mode);
+        ushort ToUInt16(TNumeric value, Conversion mode);
 
-        N ToValue(sbyte value, Conversion mode);
-        N ToNumeric(ushort value, Conversion mode);
-        N ToNumeric(ulong value, Conversion mode);
-        N ToNumeric(uint value, Conversion mode);
+        TNumeric ToValue(sbyte value, Conversion mode);
+        TNumeric ToNumeric(ushort value, Conversion mode);
+        TNumeric ToNumeric(ulong value, Conversion mode);
+        TNumeric ToNumeric(uint value, Conversion mode);
     }
 }

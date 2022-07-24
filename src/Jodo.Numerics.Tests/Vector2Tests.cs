@@ -36,27 +36,27 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             //act
-            SingleN result = Vector2<SingleN>.Dot(
+            SingleN result = VectorN.Dot(
                 new Vector2<SingleN>(2, -4), new Vector2<SingleN>(-8, 104));
 
             //assert
             result.Should().Be(-432);
         }
 
-        public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class General<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Unit<N>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<N>> { }
+            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Unit<TNumeric>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<TNumeric>> { }
 
             [Test, Repeat(RandomVariations)]
             public void Ctor_RandomValues_CorrectResult()
             {
                 //arrange
-                N x = Random.NextNumeric<N>();
-                N y = Random.NextNumeric<N>();
+                TNumeric x = Random.NextNumeric<TNumeric>();
+                TNumeric y = Random.NextNumeric<TNumeric>();
 
                 //act
-                Vector2<N> result = new Vector2<N>(x, y);
+                Vector2<TNumeric> result = new Vector2<TNumeric>(x, y);
 
                 //assert
                 result.X.Should().Be(x);
@@ -67,11 +67,11 @@ namespace Jodo.Numerics.Tests
             public void Random_WithinBounds_CorrectResult()
             {
                 //arrange
-                Vector2<N> bound1 = Random.NextRandomizable<Vector2<N>>();
-                Vector2<N> bound2 = Random.NextRandomizable<Vector2<N>>();
+                Vector2<TNumeric> bound1 = Random.NextRandomizable<Vector2<TNumeric>>();
+                Vector2<TNumeric> bound2 = Random.NextRandomizable<Vector2<TNumeric>>();
 
                 //act
-                Vector2<N> result = Random.NextRandomizable(bound1, bound2);
+                Vector2<TNumeric> result = Random.NextRandomizable(bound1, bound2);
 
                 //assert
                 result.X.Should().BeInRange(MathN.Min(bound1.X, bound2.X), MathN.Max(bound1.X, bound2.X));
@@ -82,13 +82,13 @@ namespace Jodo.Numerics.Tests
             public void Dot_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>(TestBounds.HighMagnitude | TestBounds.LowSignificance);
-                Vector2<N> input2 = Random.NextVector2<N>(TestBounds.HighMagnitude | TestBounds.LowSignificance);
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>(TestBounds.HighMagnitude | TestBounds.LowSignificance);
+                Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>(TestBounds.HighMagnitude | TestBounds.LowSignificance);
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Dot(input1, input2),
+                    () => VectorN.Dot(input1, input2),
                     () => input1.X.Multiply(input2.X).Add(input1.Y.Multiply(input2.Y)));
             }
 
@@ -96,152 +96,152 @@ namespace Jodo.Numerics.Tests
             public void Multiply1_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>(TestBounds.Positive | TestBounds.HighMagnitude);
-                Vector2<N> input2 = Random.NextVector2<N>();
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>(TestBounds.Positive | TestBounds.HighMagnitude);
+                Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>();
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Multiply(input1, input2),
-                    () => new Vector2<N>(input1.X.Multiply(input2.X), input1.Y.Multiply(input2.Y)));
+                    () => VectorN.Multiply(input1, input2),
+                    () => new Vector2<TNumeric>(input1.X.Multiply(input2.X), input1.Y.Multiply(input2.Y)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Multiply2_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>();
-                N input2 = Random.NextNumeric<N>();
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>();
+                TNumeric input2 = Random.NextNumeric<TNumeric>();
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Multiply(input1, input2),
-                    () => new Vector2<N>(input1.X.Multiply(input2), input1.Y.Multiply(input2)));
+                    () => VectorN.Multiply(input1, input2),
+                    () => new Vector2<TNumeric>(input1.X.Multiply(input2), input1.Y.Multiply(input2)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Multiply3_RandomValues_CorrectResult()
             {
                 //arrange
-                N input1 = Random.NextNumeric<N>();
-                Vector2<N> input2 = Random.NextVector2<N>();
+                TNumeric input1 = Random.NextNumeric<TNumeric>();
+                Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>();
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Multiply(input1, input2),
-                    () => new Vector2<N>(input1.Multiply(input2.X), input1.Multiply(input2.Y)));
+                    () => VectorN.Multiply(input1, input2),
+                    () => new Vector2<TNumeric>(input1.Multiply(input2.X), input1.Multiply(input2.Y)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Add_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>();
-                Vector2<N> input2 = Random.NextVector2<N>();
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>();
+                Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>();
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Add(input1, input2),
-                    () => new Vector2<N>(input1.X.Add(input2.X), input1.Y.Add(input2.Y)));
+                    () => VectorN.Add(input1, input2),
+                    () => new Vector2<TNumeric>(input1.X.Add(input2.X), input1.Y.Add(input2.Y)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Subtract_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>();
-                Vector2<N> input2 = Random.NextVector2<N>();
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>();
+                Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>();
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Subtract(input1, input2),
-                    () => new Vector2<N>(input1.X.Subtract(input2.X), input1.Y.Subtract(input2.Y)));
+                    () => VectorN.Subtract(input1, input2),
+                    () => new Vector2<TNumeric>(input1.X.Subtract(input2.X), input1.Y.Subtract(input2.Y)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Divide1_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>();
-                Vector2<N> input2 = Random.NextVector2<N>(TestBounds.HighMagnitude);
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>();
+                Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>(TestBounds.HighMagnitude);
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Divide(input1, input2),
-                    () => new Vector2<N>(input1.X.Divide(input2.X), input1.Y.Divide(input2.Y)));
+                    () => VectorN.Divide(input1, input2),
+                    () => new Vector2<TNumeric>(input1.X.Divide(input2.X), input1.Y.Divide(input2.Y)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Divide2_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>();
-                N input2 = Random.NextNumeric<N>(TestBounds.HighMagnitude);
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>();
+                TNumeric input2 = Random.NextNumeric<TNumeric>(TestBounds.HighMagnitude);
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Divide(input1, input2),
-                    () => new Vector2<N>(input1.X.Divide(input2), input1.Y.Divide(input2)));
+                    () => VectorN.Divide(input1, input2),
+                    () => new Vector2<TNumeric>(input1.X.Divide(input2), input1.Y.Divide(input2)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void SquareRoot_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input = Random.NextVector2<N>(TestBounds.Positive | TestBounds.HighMagnitude);
+                Vector2<TNumeric> input = Random.NextVector2<TNumeric>(TestBounds.Positive | TestBounds.HighMagnitude);
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.SquareRoot(input),
-                    () => new Vector2<N>(MathN.Sqrt(input.X), MathN.Sqrt(input.Y)));
+                    () => VectorN.SquareRoot(input),
+                    () => new Vector2<TNumeric>(MathN.Sqrt(input.X), MathN.Sqrt(input.Y)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Negate_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input = Random.NextVector2<N>();
+                Vector2<TNumeric> input = Random.NextVector2<TNumeric>();
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Negate(input),
-                    () => new Vector2<N>(input.X.Negative(), input.Y.Negative()));
+                    () => VectorN.Negate(input),
+                    () => new Vector2<TNumeric>(input.X.Negative(), input.Y.Negative()));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Max_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>();
-                Vector2<N> input2 = Random.NextVector2<N>();
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>();
+                Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>();
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Max(input1, input2),
-                    () => new Vector2<N>(MathN.Max(input1.X, input2.X), MathN.Max(input1.Y, input2.Y)));
+                    () => VectorN.Max(input1, input2),
+                    () => new Vector2<TNumeric>(MathN.Max(input1.X, input2.X), MathN.Max(input1.Y, input2.Y)));
             }
 
             [Test, Repeat(RandomVariations)]
             public void Min_RandomValues_CorrectResult()
             {
                 //arrange
-                Vector2<N> input1 = Random.NextVector2<N>();
-                Vector2<N> input2 = Random.NextVector2<N>();
+                Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>();
+                Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>();
 
                 //act
                 //assert
                 Same.Outcome(
-                    () => Vector2<N>.Min(input1, input2),
-                    () => new Vector2<N>(MathN.Min(input1.X, input2.X), MathN.Min(input1.Y, input2.Y)));
+                    () => VectorN.Min(input1, input2),
+                    () => new Vector2<TNumeric>(MathN.Min(input1.X, input2.X), MathN.Min(input1.Y, input2.Y)));
             }
         }
     }

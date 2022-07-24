@@ -24,10 +24,10 @@ using Jodo.Primitives;
 namespace Jodo.Numerics
 {
     /// <summary>
-    /// An extended version of <see cref="INumeric{N}"/> that supports non-CLS-compliant
+    /// An extended version of <see cref="INumeric{TNumeric}"/> that supports non-CLS-compliant
     /// operations such as conversion to unsigned numbers.
     /// </summary>
-    /// <typeparam name="TSelf">The type that implements <see cref="INumericExtended{N}"/></typeparam>
+    /// <typeparam name="TSelf">The type that implements <see cref="INumericExtended{TNumeric}"/></typeparam>
     [CLSCompliant(false)]
     [SuppressMessage("csharpsquid", "S3444", Justification = "By design")]
     public interface INumericExtended<TSelf> :

@@ -26,35 +26,35 @@ namespace Jodo.Numerics
     public static class RandomExtensions
     {
         [DebuggerStepThrough]
-        public static N NextNumeric<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<N>>)default(N)).GetInstance().Next(random);
+        public static TNumeric NextNumeric<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static N NextNumeric<N>(this Random random, N bound1, N bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<N>>)default(N)).GetInstance().Next(random, bound1, bound2);
+        public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric bound1, TNumeric bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static Unit<N> NextUnit<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Unit<N>>>)default(Unit<N>)).GetInstance().Next(random);
+        public static Unit<TNumeric> NextUnit<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Unit<TNumeric>>>)default(Unit<TNumeric>)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static Unit<N> NextUnit<N>(this Random random, Unit<N> bound1, Unit<N> bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Unit<N>>>)default(Unit<N>)).GetInstance().Next(random, bound1, bound2);
+        public static Unit<TNumeric> NextUnit<TNumeric>(this Random random, Unit<TNumeric> bound1, Unit<TNumeric> bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Unit<TNumeric>>>)default(Unit<TNumeric>)).GetInstance().Next(random, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static Vector2<N> NextVector2<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Vector2<N>>>)default(Vector2<N>)).GetInstance().Next(random);
+        public static Vector2<TNumeric> NextVector2<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Vector2<TNumeric>>>)default(Vector2<TNumeric>)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static Vector2<N> NextVector2<N>(this Random random, Vector2<N> bound1, Vector2<N> bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Vector2<N>>>)default(Vector2<N>)).GetInstance().Next(random, bound1, bound2);
+        public static Vector2<TNumeric> NextVector2<TNumeric>(this Random random, Vector2<TNumeric> bound1, Vector2<TNumeric> bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Vector2<TNumeric>>>)default(Vector2<TNumeric>)).GetInstance().Next(random, bound1, bound2);
 
         [DebuggerStepThrough]
-        public static Vector3<N> NextVector3<N>(this Random random) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Vector3<N>>>)default(Vector3<N>)).GetInstance().Next(random);
+        public static Vector3<TNumeric> NextVector3<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Vector3<TNumeric>>>)default(Vector3<TNumeric>)).GetInstance().Next(random);
 
         [DebuggerStepThrough]
-        public static Vector3<N> NextVector3<N>(this Random random, Vector3<N> bound1, Vector3<N> bound2) where N : struct, INumeric<N>
-            => ((IProvider<IRandom<Vector3<N>>>)default(Vector3<N>)).GetInstance().Next(random, bound1, bound2);
+        public static Vector3<TNumeric> NextVector3<TNumeric>(this Random random, Vector3<TNumeric> bound1, Vector3<TNumeric> bound2) where TNumeric : struct, INumeric<TNumeric>
+            => ((IProvider<IRandom<Vector3<TNumeric>>>)default(Vector3<TNumeric>)).GetInstance().Next(random, bound1, bound2);
     }
 }

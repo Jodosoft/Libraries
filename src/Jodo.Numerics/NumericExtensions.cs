@@ -21,17 +21,17 @@ namespace Jodo.Numerics
 {
     public static class NumericExtensions
     {
-        public static N Double<N>(this N n) where N : struct, INumeric<N>
+        public static TNumeric Doubled<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
         {
-            return n.Multiply(Numeric<N>.Two);
+            return n.Multiply(Numeric.Two<TNumeric>());
         }
 
-        public static N Half<N>(this N n) where N : struct, INumeric<N>
+        public static TNumeric Halved<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
         {
-            return n.Divide(Numeric<N>.Two);
+            return n.Divide(Numeric.Two<TNumeric>());
         }
 
-        public static N Squared<N>(this N n) where N : struct, INumeric<N>
+        public static TNumeric Squared<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
         {
             return n.Multiply(n);
         }

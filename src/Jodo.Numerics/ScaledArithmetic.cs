@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Globalization;
 using System.Numerics;
 
 namespace Jodo.Numerics
@@ -88,42 +89,49 @@ namespace Jodo.Numerics
             return scaledValue / scalingFactor * scalingFactor;
         }
 
-        public static string ToString(long scaledValue, long scalingFactor)
+        public static string ToString(long scaledValue, long scalingFactor, IFormatProvider? formatProvider)
         {
+            NumberFormatInfo numberFormatInfo = NumberFormatInfo.GetInstance(formatProvider);
+
             long integral = Math.Abs(scaledValue / scalingFactor);
             long mantissa = Math.Abs(scaledValue % scalingFactor) + scalingFactor;
-            string? sign = scaledValue < 0 ? "-" : string.Empty;
+            string? sign = scaledValue < 0 ? numberFormatInfo.NegativeSign : string.Empty;
             if (mantissa != scalingFactor)
             {
                 string mantissaString = mantissa.ToString();
-                return $"{sign}{integral}.{mantissaString.Substring(1, mantissaString.Length - 1)}";
+                return $"{sign}{integral.ToString(formatProvider)}{numberFormatInfo.NumberDecimalSeparator}{mantissaString.Substring(1, mantissaString.Length - 1)}";
             }
-            return $"{sign}{integral}";
+            return $"{sign}{integral.ToString(formatProvider)}";
         }
 
         [CLSCompliant(false)]
-        public static string ToString(ulong scaledValue, ulong scalingFactor)
+        public static string ToString(ulong scaledValue, ulong scalingFactor, IFormatProvider? formatProvider)
         {
+            NumberFormatInfo numberFormatInfo = NumberFormatInfo.GetInstance(formatProvider);
+
             ulong integral = scaledValue / scalingFactor;
             ulong mantissa = (scaledValue % scalingFactor) + scalingFactor;
             if (mantissa != scalingFactor)
             {
                 string mantissaString = mantissa.ToString();
-                return $"{integral}.{mantissaString.Substring(1, mantissaString.Length - 1)}";
+                return $"{integral}{numberFormatInfo.NumberDecimalSeparator}{mantissaString.Substring(1, mantissaString.Length - 1)}";
             }
-            return integral.ToString();
+            return integral.ToString(formatProvider);
         }
 
-        public static long Parse(string value, long scalingFactor)
+        public static long Parse(string value, long scalingFactor, NumberStyles? style, IFormatProvider? formatProvider)
         {
-            int pointIndex = value.IndexOf(".");
-            long integral = ParseIntegral(value, pointIndex, scalingFactor);
+            NumberStyles numberStyles = style ?? NumberStyles.Integer;
+            NumberFormatInfo numberFormatInfo = NumberFormatInfo.GetInstance(formatProvider);
+
+            int pointIndex = value.IndexOf(numberFormatInfo.NumberDecimalSeparator, StringComparison.Ordinal);
+            long integral = ParseIntegral(value, pointIndex, scalingFactor, numberStyles, formatProvider);
 
             long mantissa = (long)ParseMantissa(value, pointIndex, (ulong)scalingFactor);
             checked
             {
                 long result = integral < 0 ? integral - mantissa : integral + mantissa;
-                if (value.StartsWith("-") && integral == 0)
+                if (value.StartsWith(numberFormatInfo.NegativeSign, StringComparison.Ordinal) && integral == 0)
                 {
                     result = -result;
                 }
@@ -132,10 +140,13 @@ namespace Jodo.Numerics
         }
 
         [CLSCompliant(false)]
-        public static ulong Parse(string value, ulong scalingFactor)
+        public static ulong Parse(string value, ulong scalingFactor, NumberStyles? style, IFormatProvider? formatProvider)
         {
-            int pointIndex = value.IndexOf(".");
-            ulong integral = ParseIntegral(value, pointIndex, scalingFactor);
+            NumberStyles numberStyles = style ?? NumberStyles.Number;
+            NumberFormatInfo numberFormatInfo = NumberFormatInfo.GetInstance(formatProvider);
+
+            int pointIndex = value.IndexOf(numberFormatInfo.NumberDecimalSeparator, StringComparison.Ordinal);
+            ulong integral = ParseIntegral(value, pointIndex, scalingFactor, numberStyles, formatProvider);
             ulong mantissa = ParseMantissa(value, pointIndex, scalingFactor);
             return checked(integral + mantissa);
         }
@@ -147,11 +158,18 @@ namespace Jodo.Numerics
             return checked(long.Parse(value.Substring(0, index)) * scalingFactor);
         }
 
-        private static ulong ParseIntegral(string value, int index, ulong scalingFactor)
+        private static long ParseIntegral(string value, int index, long scalingFactor, NumberStyles style, IFormatProvider? provider)
         {
             if (index == 0) return 0;
-            if (index < 0) return checked(ulong.Parse(value) * scalingFactor);
-            return checked(ulong.Parse(value.Substring(0, index)) * scalingFactor);
+            if (index < 0) return checked(long.Parse(value, style, provider) * scalingFactor);
+            return checked(long.Parse(value.Substring(0, index), style, provider) * scalingFactor);
+        }
+
+        private static ulong ParseIntegral(string value, int index, ulong scalingFactor, NumberStyles style, IFormatProvider? provider)
+        {
+            if (index == 0) return 0;
+            if (index < 0) return checked(ulong.Parse(value, style, provider) * scalingFactor);
+            return checked(ulong.Parse(value.Substring(0, index), style, provider) * scalingFactor);
         }
 
         private static ulong ParseMantissa(string value, int index, ulong scalingFactor)

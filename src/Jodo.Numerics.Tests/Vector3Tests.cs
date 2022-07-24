@@ -31,21 +31,21 @@ namespace Jodo.Numerics.Tests
         public sealed class FloatingPoint : General<SingleN> { }
         public sealed class UnsignedIntegral : General<ByteN> { }
 
-        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Unit<N>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<N>> { }
+            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Unit<TNumeric>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<TNumeric>> { }
 
             [Test]
             public void Ctor_RandomValues_CorrectResult()
             {
                 //arrange
-                N x = Random.NextNumeric<N>();
-                N y = Random.NextNumeric<N>();
-                N z = Random.NextNumeric<N>();
+                TNumeric x = Random.NextNumeric<TNumeric>();
+                TNumeric y = Random.NextNumeric<TNumeric>();
+                TNumeric z = Random.NextNumeric<TNumeric>();
 
                 //act
-                Vector3<N> result = new Vector3<N>(x, y, z);
+                Vector3<TNumeric> result = new Vector3<TNumeric>(x, y, z);
 
                 //assert
                 result.X.Should().Be(x);
@@ -57,11 +57,11 @@ namespace Jodo.Numerics.Tests
             public void Random_WithinBounds_CorrectResult()
             {
                 //arrange
-                Vector3<N> bound1 = Random.NextRandomizable<Vector3<N>>();
-                Vector3<N> bound2 = Random.NextRandomizable<Vector3<N>>();
+                Vector3<TNumeric> bound1 = Random.NextRandomizable<Vector3<TNumeric>>();
+                Vector3<TNumeric> bound2 = Random.NextRandomizable<Vector3<TNumeric>>();
 
                 //act
-                Vector3<N> result = Random.NextRandomizable(bound1, bound2);
+                Vector3<TNumeric> result = Random.NextRandomizable(bound1, bound2);
 
                 //assert
                 result.X.Should().BeInRange(MathN.Min(bound1.X, bound2.X), MathN.Max(bound1.X, bound2.X));

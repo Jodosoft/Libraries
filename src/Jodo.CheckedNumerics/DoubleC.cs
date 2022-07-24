@@ -19,7 +19,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
 using Jodo.Numerics;
@@ -68,10 +67,10 @@ namespace Jodo.CheckedNumerics
 
         public static bool IsNormal(DoubleC d) => DoubleCompat.IsNormal(d._value);
         public static bool IsSubnormal(DoubleC d) => DoubleCompat.IsSubnormal(d._value);
-        public static bool TryParse(string s, IFormatProvider? provider, out DoubleC result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleC result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out DoubleC result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out DoubleC result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out DoubleC result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out DoubleC result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out DoubleC result) => TryHelper.Run(() => Parse(s), out result);
         public static DoubleC Parse(string s) => double.Parse(s);
         public static DoubleC Parse(string s, IFormatProvider? provider) => double.Parse(s, provider);
         public static DoubleC Parse(string s, NumberStyles style) => double.Parse(s, style);
@@ -172,7 +171,7 @@ namespace Jodo.CheckedNumerics
         IMath<DoubleC> IProvider<IMath<DoubleC>>.GetInstance() => Utilities.Instance;
         INumericStatic<DoubleC> IProvider<INumericStatic<DoubleC>>.GetInstance() => Utilities.Instance;
         IRandom<DoubleC> IProvider<IRandom<DoubleC>>.GetInstance() => Utilities.Instance;
-        IParser<DoubleC> IProvider<IParser<DoubleC>>.GetInstance() => Utilities.Instance;
+        IStringParser<DoubleC> IProvider<IStringParser<DoubleC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<DoubleC>,
@@ -181,13 +180,13 @@ namespace Jodo.CheckedNumerics
             IMath<DoubleC>,
             INumericStatic<DoubleC>,
             IRandom<DoubleC>,
-            IParser<DoubleC>
+            IStringParser<DoubleC>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<DoubleC>.HasFloatingPoint { get; } = true;
-            bool INumericStatic<DoubleC>.HasInfinity { get; } = false;
-            bool INumericStatic<DoubleC>.HasNaN { get; } = false;
+            bool INumericStatic<DoubleC>.HasFloatingPoint => true;
+            bool INumericStatic<DoubleC>.HasInfinity => false;
+            bool INumericStatic<DoubleC>.HasNaN => false;
             bool INumericStatic<DoubleC>.IsFinite(DoubleC x) => true;
             bool INumericStatic<DoubleC>.IsInfinity(DoubleC x) => false;
             bool INumericStatic<DoubleC>.IsNaN(DoubleC x) => false;
@@ -195,18 +194,18 @@ namespace Jodo.CheckedNumerics
             bool INumericStatic<DoubleC>.IsNegativeInfinity(DoubleC x) => false;
             bool INumericStatic<DoubleC>.IsNormal(DoubleC x) => IsNormal(x);
             bool INumericStatic<DoubleC>.IsPositiveInfinity(DoubleC x) => false;
-            bool INumericStatic<DoubleC>.IsReal { get; } = true;
-            bool INumericStatic<DoubleC>.IsSigned { get; } = true;
+            bool INumericStatic<DoubleC>.IsReal => true;
+            bool INumericStatic<DoubleC>.IsSigned => true;
             bool INumericStatic<DoubleC>.IsSubnormal(DoubleC x) => IsSubnormal(x);
             DoubleC INumericStatic<DoubleC>.Epsilon => Epsilon;
-            DoubleC INumericStatic<DoubleC>.MaxUnit { get; } = 1d;
+            DoubleC INumericStatic<DoubleC>.MaxUnit => 1d;
             DoubleC INumericStatic<DoubleC>.MaxValue => MaxValue;
-            DoubleC INumericStatic<DoubleC>.MinUnit { get; } = -1d;
+            DoubleC INumericStatic<DoubleC>.MinUnit => -1d;
             DoubleC INumericStatic<DoubleC>.MinValue => MinValue;
-            DoubleC INumericStatic<DoubleC>.One { get; } = 1d;
-            DoubleC INumericStatic<DoubleC>.Ten { get; } = 10d;
-            DoubleC INumericStatic<DoubleC>.Two { get; } = 2d;
-            DoubleC INumericStatic<DoubleC>.Zero { get; } = 0d;
+            DoubleC INumericStatic<DoubleC>.One => 1d;
+            DoubleC INumericStatic<DoubleC>.Ten => 10d;
+            DoubleC INumericStatic<DoubleC>.Two => 2d;
+            DoubleC INumericStatic<DoubleC>.Zero => 0d;
 
             DoubleC IMath<DoubleC>.Abs(DoubleC value) => Math.Abs(value._value);
             DoubleC IMath<DoubleC>.Acos(DoubleC x) => Math.Acos(x._value);
@@ -247,8 +246,8 @@ namespace Jodo.CheckedNumerics
             DoubleC IMath<DoubleC>.Truncate(DoubleC x) => Math.Truncate(x._value);
             int IMath<DoubleC>.Sign(DoubleC x) => Math.Sign(x._value);
 
-            DoubleC IBitConverter<DoubleC>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
-            void IBitConverter<DoubleC>.Write(DoubleC value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            DoubleC IBitConverter<DoubleC>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
+            void IBitConverter<DoubleC>.Write(DoubleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             DoubleC IRandom<DoubleC>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);
             DoubleC IRandom<DoubleC>.Next(Random random, DoubleC bound1, DoubleC bound2) => random.NextDouble(bound1._value, bound2._value);
@@ -281,8 +280,8 @@ namespace Jodo.CheckedNumerics
             DoubleC IConvertExtended<DoubleC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
             DoubleC IConvertExtended<DoubleC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
 
-            DoubleC IParser<DoubleC>.Parse(string s) => Parse(s);
-            DoubleC IParser<DoubleC>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            DoubleC IStringParser<DoubleC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
         }
     }
 }

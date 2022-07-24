@@ -18,55 +18,131 @@
 // IN THE SOFTWARE.
 
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Jodo.Primitives;
 
 namespace Jodo.Numerics
 {
-    [SuppressMessage("csharpsquid", "S2743")]
-    public static class Numeric<T> where T : struct, IProvider<INumericStatic<T>>
+    public static class Numeric
     {
-        private static readonly INumericStatic<T> Default = default(T).GetInstance();
-
-        public static bool HasFloatingPoint => Default.HasFloatingPoint;
-        public static bool HasInfinity => Default.HasInfinity;
-        public static bool HasNaN => Default.HasNaN;
-        public static bool IsReal => Default.IsReal;
-        public static bool IsIntegral => !Default.IsReal;
-        public static bool IsSigned => Default.IsSigned;
-        public static bool IsUnsigned => !Default.IsSigned;
-        public static T Epsilon => Default.Epsilon;
-        public static T MaxUnit => Default.MaxUnit;
-        public static T MaxValue => Default.MaxValue;
-        public static T MinUnit => Default.MinUnit;
-        public static T MinValue => Default.MinValue;
-        public static T One => Default.One;
-        public static T Ten => Default.Ten;
-        public static T Two => Default.Two;
-        public static T Zero => Default.Zero;
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFloatingPoint<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.HasFloatingPoint;
 
         [DebuggerStepThrough]
-        public static bool IsFinite(T x) => Default.IsFinite(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasInfinity<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.HasInfinity;
 
         [DebuggerStepThrough]
-        public static bool IsInfinity(T x) => Default.IsInfinity(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasNaN<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.HasNaN;
 
         [DebuggerStepThrough]
-        public static bool IsNaN(T x) => Default.IsNaN(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsReal<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsReal;
 
         [DebuggerStepThrough]
-        public static bool IsNegative(T x) => Default.IsNegative(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsIntegral<T>() where T : struct, INumeric<T>
+            => !Provider<T, INumericStatic<T>>.Default.IsReal;
 
         [DebuggerStepThrough]
-        public static bool IsNegativeInfinity(T x) => Default.IsNegativeInfinity(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsSigned<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsSigned;
 
         [DebuggerStepThrough]
-        public static bool IsNormal(T x) => Default.IsNormal(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsUnsigned<T>() where T : struct, INumeric<T>
+            => !Provider<T, INumericStatic<T>>.Default.IsSigned;
 
         [DebuggerStepThrough]
-        public static bool IsPositiveInfinity(T x) => Default.IsPositiveInfinity(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Epsilon<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.Epsilon;
 
         [DebuggerStepThrough]
-        public static bool IsSubnormal(T x) => Default.IsSubnormal(x);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T MaxUnit<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.MaxUnit;
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T MaxValue<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.MaxValue;
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T MinUnit<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.MinUnit;
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T MinValue<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.MinValue;
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T One<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.One;
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Ten<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.Ten;
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Two<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.Two;
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Zero<T>() where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.Zero;
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsFinite<T>(T x) where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsFinite(x);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsInfinity<T>(T x) where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsInfinity(x);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsNaN<T>(T x) where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsNaN(x);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsNegative<T>(T x) where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsNegative(x);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsNegativeInfinity<T>(T x) where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsNegativeInfinity(x);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsNormal<T>(T x) where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsNormal(x);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsPositiveInfinity<T>(T x) where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsPositiveInfinity(x);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsSubnormal<T>(T x) where T : struct, INumeric<T>
+            => Provider<T, INumericStatic<T>>.Default.IsSubnormal(x);
     }
 }

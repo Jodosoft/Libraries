@@ -21,15 +21,15 @@ using Jodo.Numerics;
 
 namespace Jodo.Geometry
 {
-    public interface ITwoDimensional<T, N> where N : struct, INumeric<N>
+    public interface ITwoDimensional<T, TNumeric> where TNumeric : struct, INumeric<TNumeric>
     {
-        AARectangle<N> GetBounds();
+        AARectangle<TNumeric> GetBounds();
         bool Contains(T other);
-        bool Contains(Vector2<N> point);
+        bool Contains(Vector2<TNumeric> point);
         bool IntersectsWith(T other);
-        N GetArea();
-        Vector2<N>[] GetVertices(int circumferenceDivisor);
-        Vector2<N> GetCenter();
-        T Translate(Vector2<N> delta);
+        TNumeric GetArea();
+        Vector2<TNumeric>[] GetVertices(int circumferenceDivisor);
+        Vector2<TNumeric> GetCenter();
+        T Translate(Vector2<TNumeric> delta);
     }
 }

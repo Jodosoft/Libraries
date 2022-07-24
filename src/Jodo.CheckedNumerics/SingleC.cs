@@ -67,10 +67,10 @@ namespace Jodo.CheckedNumerics
 
         public static bool IsNormal(SingleC d) => SingleCompat.IsNormal(d._value);
         public static bool IsSubnormal(SingleC d) => SingleCompat.IsSubnormal(d._value);
-        public static bool TryParse(string s, IFormatProvider? provider, out SingleC result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SingleC result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out SingleC result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out SingleC result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out SingleC result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SingleC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out SingleC result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out SingleC result) => TryHelper.Run(() => Parse(s), out result);
         public static SingleC Parse(string s) => float.Parse(s);
         public static SingleC Parse(string s, IFormatProvider? provider) => float.Parse(s, provider);
         public static SingleC Parse(string s, NumberStyles style) => float.Parse(s, style);
@@ -171,7 +171,7 @@ namespace Jodo.CheckedNumerics
         IMath<SingleC> IProvider<IMath<SingleC>>.GetInstance() => Utilities.Instance;
         INumericStatic<SingleC> IProvider<INumericStatic<SingleC>>.GetInstance() => Utilities.Instance;
         IRandom<SingleC> IProvider<IRandom<SingleC>>.GetInstance() => Utilities.Instance;
-        IParser<SingleC> IProvider<IParser<SingleC>>.GetInstance() => Utilities.Instance;
+        IStringParser<SingleC> IProvider<IStringParser<SingleC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<SingleC>,
@@ -180,13 +180,13 @@ namespace Jodo.CheckedNumerics
             IMath<SingleC>,
             INumericStatic<SingleC>,
             IRandom<SingleC>,
-            IParser<SingleC>
+            IStringParser<SingleC>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<SingleC>.HasFloatingPoint { get; } = true;
-            bool INumericStatic<SingleC>.HasInfinity { get; } = false;
-            bool INumericStatic<SingleC>.HasNaN { get; } = false;
+            bool INumericStatic<SingleC>.HasFloatingPoint => true;
+            bool INumericStatic<SingleC>.HasInfinity => false;
+            bool INumericStatic<SingleC>.HasNaN => false;
             bool INumericStatic<SingleC>.IsFinite(SingleC x) => true;
             bool INumericStatic<SingleC>.IsInfinity(SingleC x) => false;
             bool INumericStatic<SingleC>.IsNaN(SingleC x) => false;
@@ -194,18 +194,18 @@ namespace Jodo.CheckedNumerics
             bool INumericStatic<SingleC>.IsNegativeInfinity(SingleC x) => false;
             bool INumericStatic<SingleC>.IsNormal(SingleC x) => IsNormal(x);
             bool INumericStatic<SingleC>.IsPositiveInfinity(SingleC x) => false;
-            bool INumericStatic<SingleC>.IsReal { get; } = true;
-            bool INumericStatic<SingleC>.IsSigned { get; } = true;
+            bool INumericStatic<SingleC>.IsReal => true;
+            bool INumericStatic<SingleC>.IsSigned => true;
             bool INumericStatic<SingleC>.IsSubnormal(SingleC x) => IsSubnormal(x);
             SingleC INumericStatic<SingleC>.Epsilon => Epsilon;
-            SingleC INumericStatic<SingleC>.MaxUnit { get; } = 1;
+            SingleC INumericStatic<SingleC>.MaxUnit => 1;
             SingleC INumericStatic<SingleC>.MaxValue => MaxValue;
-            SingleC INumericStatic<SingleC>.MinUnit { get; } = -1;
+            SingleC INumericStatic<SingleC>.MinUnit => -1;
             SingleC INumericStatic<SingleC>.MinValue => MinValue;
-            SingleC INumericStatic<SingleC>.One { get; } = 1;
-            SingleC INumericStatic<SingleC>.Ten { get; } = 10;
-            SingleC INumericStatic<SingleC>.Two { get; } = 2;
-            SingleC INumericStatic<SingleC>.Zero { get; } = 0;
+            SingleC INumericStatic<SingleC>.One => 1;
+            SingleC INumericStatic<SingleC>.Ten => 10;
+            SingleC INumericStatic<SingleC>.Two => 2;
+            SingleC INumericStatic<SingleC>.Zero => 0;
 
             SingleC IMath<SingleC>.Abs(SingleC value) => MathF.Abs(value._value);
             SingleC IMath<SingleC>.Acos(SingleC x) => MathF.Acos(x._value);
@@ -246,8 +246,8 @@ namespace Jodo.CheckedNumerics
             SingleC IMath<SingleC>.Truncate(SingleC x) => MathF.Truncate(x._value);
             int IMath<SingleC>.Sign(SingleC x) => Math.Sign(x._value);
 
-            SingleC IBitConverter<SingleC>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
-            void IBitConverter<SingleC>.Write(SingleC value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            SingleC IBitConverter<SingleC>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
+            void IBitConverter<SingleC>.Write(SingleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             SingleC IRandom<SingleC>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
             SingleC IRandom<SingleC>.Next(Random random, SingleC bound1, SingleC bound2) => random.NextSingle(bound1._value, bound2._value);
@@ -280,8 +280,8 @@ namespace Jodo.CheckedNumerics
             SingleC IConvertExtended<SingleC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
             SingleC IConvertExtended<SingleC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSingle(value, mode.Clamped());
 
-            SingleC IParser<SingleC>.Parse(string s) => Parse(s);
-            SingleC IParser<SingleC>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            SingleC IStringParser<SingleC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class DoubleNTests
     {
-        public sealed class BitConverter : BitConverterNTests<DoubleN> { }
+        public sealed class BitConvert : BitConvertTests<DoubleN> { }
         public sealed class Cast : CastTests<DoubleN> { }
         public sealed class ConvertTests : ConvertTests<DoubleN> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<DoubleN> { }
@@ -29,11 +29,11 @@ namespace Jodo.Numerics.Tests
         public sealed class MathFloatingPoint : MathTests.FloatingPoint<DoubleN> { }
         public sealed class MathGeneral : MathTests.General<DoubleN> { }
         public sealed class MathReal : MathTests.Real<DoubleN> { }
-        public sealed class MathSigned : MathTests.Signed<DoubleN> { }
+        public sealed class MathSigned : MathTests.SingedOnly<DoubleN> { }
         public sealed class NumericGeneral : NumericTests.General<DoubleN> { }
         public sealed class NumericNaN : NumericTests.NaN<DoubleN> { }
         public sealed class NumericReal : NumericTests.Real<DoubleN> { }
-        public sealed class NumericSigned : NumericTests.Signed<DoubleN> { }
-        public sealed class ParserGeneral : ParserTests.General<DoubleN> { }
+        public sealed class NumericSigned : NumericTests.SignedOnly<DoubleN> { }
+        public sealed class ParserGeneral : StringParserTests.General<DoubleN> { }
     }
 }

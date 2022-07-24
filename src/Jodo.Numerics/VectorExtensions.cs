@@ -24,21 +24,21 @@ namespace Jodo.Numerics
     public static class VectorExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2<N> Double<N>(this Vector2<N> vector) where N : struct, INumeric<N>
+        public static Vector2<TNumeric> Doubled<TNumeric>(this Vector2<TNumeric> vector) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2<N>(vector.X.Double(), vector.Y.Double());
+            return new Vector2<TNumeric>(vector.X.Doubled(), vector.Y.Doubled());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static N Length<N>(this Vector2<N> value) where N : struct, INumeric<N>
+        public static TNumeric Length<TNumeric>(this Vector2<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
             return MathN.Sqrt(value.LengthSquared());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static N LengthSquared<N>(this Vector2<N> value) where N : struct, INumeric<N>
+        public static TNumeric LengthSquared<TNumeric>(this Vector2<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return Vector2<N>.Dot(value, value);
+            return VectorN.Dot(value, value);
         }
     }
 }

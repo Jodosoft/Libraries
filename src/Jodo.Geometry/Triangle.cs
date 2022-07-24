@@ -29,23 +29,23 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Triangle<N> :
-            IEquatable<Triangle<N>>,
+    public readonly struct Triangle<TNumeric> :
+            IEquatable<Triangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Triangle<N>>>,
-            IProvider<IRandom<Triangle<N>>>,
-            IProvider<IParser<Triangle<N>>>,
-            ITwoDimensional<Triangle<N>, N>,
+            IProvider<IBitConverter<Triangle<TNumeric>>>,
+            IProvider<IRandom<Triangle<TNumeric>>>,
+            IProvider<IStringParser<Triangle<TNumeric>>>,
+            ITwoDimensional<Triangle<TNumeric>, TNumeric>,
             ISerializable
-        where N : struct, INumeric<N>
+        where TNumeric : struct, INumeric<TNumeric>
     {
         private const string Symbol = "△";
 
-        public readonly Vector2<N> A;
-        public readonly Vector2<N> B;
-        public readonly Vector2<N> C;
+        public readonly Vector2<TNumeric> A;
+        public readonly Vector2<TNumeric> B;
+        public readonly Vector2<TNumeric> C;
 
-        public Triangle(Vector2<N> a, Vector2<N> b, Vector2<N> c)
+        public Triangle(Vector2<TNumeric> a, Vector2<TNumeric> b, Vector2<TNumeric> c)
         {
             A = a;
             B = b;
@@ -53,130 +53,99 @@ namespace Jodo.Geometry
         }
 
         private Triangle(SerializationInfo info, StreamingContext context) : this(
-            (Vector2<N>)info.GetValue(nameof(A), typeof(Vector2<N>)),
-            (Vector2<N>)info.GetValue(nameof(B), typeof(Vector2<N>)),
-            (Vector2<N>)info.GetValue(nameof(C), typeof(Vector2<N>)))
+            (Vector2<TNumeric>)info.GetValue(nameof(A), typeof(Vector2<TNumeric>)),
+            (Vector2<TNumeric>)info.GetValue(nameof(B), typeof(Vector2<TNumeric>)),
+            (Vector2<TNumeric>)info.GetValue(nameof(C), typeof(Vector2<TNumeric>)))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(A), A, typeof(Vector2<N>));
-            info.AddValue(nameof(B), B, typeof(Vector2<N>));
-            info.AddValue(nameof(C), C, typeof(Vector2<N>));
+            info.AddValue(nameof(A), A, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(B), B, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(C), C, typeof(Vector2<TNumeric>));
         }
 
-        public AARectangle<N> GetBounds()
+        public AARectangle<TNumeric> GetBounds()
         {
             throw new NotImplementedException();
         }
 
-        public N GetArea()
+        public TNumeric GetArea()
         {
             throw new NotImplementedException();
         }
 
-        public Vector2<N>[] GetVertices()
+        public Vector2<TNumeric>[] GetVertices()
         {
             throw new NotImplementedException();
         }
 
-        public Vector2<N> GetCenter()
+        public Vector2<TNumeric> GetCenter()
         {
             throw new NotImplementedException();
         }
 
-        public Triangle<N> Translate(Vector2<N> delta) => new Triangle<N>(A + delta, B + delta, C + delta);
+        public Triangle<TNumeric> Translate(Vector2<TNumeric> delta) => new Triangle<TNumeric>(A + delta, B + delta, C + delta);
 
-        public bool Contains(Vector2<N> point) => throw new NotImplementedException();
-        public bool Contains(N pointX, N pointY) => Contains(new Vector2<N>(pointX, pointY));
+        public bool Contains(Vector2<TNumeric> point) => throw new NotImplementedException();
+        public bool Contains(TNumeric pointX, TNumeric pointY) => Contains(new Vector2<TNumeric>(pointX, pointY));
 
-        public bool Contains(Triangle<N> other) => throw new NotImplementedException();
-        public bool IntersectsWith(Triangle<N> other) => throw new NotImplementedException();
+        public bool Contains(Triangle<TNumeric> other) => throw new NotImplementedException();
+        public bool IntersectsWith(Triangle<TNumeric> other) => throw new NotImplementedException();
 
-        public Triangle<N> Rotate90() => throw new NotImplementedException();
-        public Rectangle<N> Rotate(Angle<N> angle) => throw new NotImplementedException();
-        public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => throw new NotImplementedException();
+        public Triangle<TNumeric> Rotate90() => throw new NotImplementedException();
+        public Rectangle<TNumeric> Rotate(Angle<TNumeric> angle) => throw new NotImplementedException();
+        public Rectangle<TNumeric> RotateAround(Vector2<TNumeric> pivot, Angle<TNumeric> angle) => throw new NotImplementedException();
 
-        public Triangle<NResult> Convert<NResult>(Func<N, NResult> converter) where NResult : struct, INumeric<NResult>
-            => new Triangle<NResult>(A.Convert(converter), B.Convert(converter), C.Convert(converter));
-        public bool Equals(Triangle<N> other) => A.Equals(other.A) && B.Equals(other.B) && C.Equals(other.C);
-        public override bool Equals(object? obj) => obj is Triangle<N> fix && Equals(fix);
+        public Triangle<TResult> Convert<TResult>(Func<TNumeric, TResult> converter) where TResult : struct, INumeric<TResult>
+            => new Triangle<TResult>(A.Convert(converter), B.Convert(converter), C.Convert(converter));
+        public bool Equals(Triangle<TNumeric> other) => A.Equals(other.A) && B.Equals(other.B) && C.Equals(other.C);
+        public override bool Equals(object? obj) => obj is Triangle<TNumeric> fix && Equals(fix);
         public override int GetHashCode() => HashCode.Combine(A, B, C);
         public override string ToString() => $"{Symbol}({A}, {B}, {C})";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({A}, {B}, {C})";
 
-        public static bool TryParse(string value, out Vector3<N> result)
-            => Try.Run(() => Parse(value), out result);
-
-        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out Vector3<N> result)
-            => Try.Run(() => Parse(value, style, provider), out result);
-
-        public static Vector3<N> Parse(string value)
-        {
-            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
-            if (parts.Length != 3) throw new FormatException();
-            return new Vector3<N>(
-                Parser<N>.Parse(parts[0]),
-                Parser<N>.Parse(parts[1]),
-                Parser<N>.Parse(parts[2]));
-        }
-
-        public static Vector3<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
-        {
-            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
-            if (parts.Length != 3) throw new FormatException();
-            return new Vector3<N>(
-                Parser<N>.Parse(parts[0], style, provider),
-                Parser<N>.Parse(parts[1], style, provider),
-                Parser<N>.Parse(parts[2], style, provider));
-        }
-
-        public static bool operator ==(Triangle<N> left, Triangle<N> right) => left.Equals(right);
-        public static bool operator !=(Triangle<N> left, Triangle<N> right) => !(left == right);
+        public static bool operator ==(Triangle<TNumeric> left, Triangle<TNumeric> right) => left.Equals(right);
+        public static bool operator !=(Triangle<TNumeric> left, Triangle<TNumeric> right) => !(left == right);
 
 #if NETSTANDARD2_0_OR_GREATER
-        public static implicit operator Triangle<N>((Vector2<N>, Vector2<N>, Vector2<N>) value) => new Triangle<N>(value.Item1, value.Item2, value.Item3);
-        public static implicit operator (Vector2<N>, Vector2<N>, Vector2<N>)(Triangle<N> value) => (value.A, value.B, value.C);
+        public static implicit operator Triangle<TNumeric>((Vector2<TNumeric>, Vector2<TNumeric>, Vector2<TNumeric>) value) => new Triangle<TNumeric>(value.Item1, value.Item2, value.Item3);
+        public static implicit operator (Vector2<TNumeric>, Vector2<TNumeric>, Vector2<TNumeric>)(Triangle<TNumeric> value) => (value.A, value.B, value.C);
 #endif
 
-        Vector2<N>[] ITwoDimensional<Triangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
-        IBitConverter<Triangle<N>> IProvider<IBitConverter<Triangle<N>>>.GetInstance() => Utilities.Instance;
-        IRandom<Triangle<N>> IProvider<IRandom<Triangle<N>>>.GetInstance() => Utilities.Instance;
-        IParser<Triangle<N>> IProvider<IParser<Triangle<N>>>.GetInstance() => Utilities.Instance;
+        Vector2<TNumeric>[] ITwoDimensional<Triangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
+        IBitConverter<Triangle<TNumeric>> IProvider<IBitConverter<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IRandom<Triangle<TNumeric>> IProvider<IRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Triangle<TNumeric>> IProvider<IStringParser<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<Triangle<N>>,
-           IRandom<Triangle<N>>,
-           IParser<Triangle<N>>
+           IBitConverter<Triangle<TNumeric>>,
+           IRandom<Triangle<TNumeric>>,
+           IStringParser<Triangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Triangle<N> IRandom<Triangle<N>>.Next(Random random)
+            Triangle<TNumeric> IRandom<Triangle<TNumeric>>.Next(Random random)
             {
                 throw new NotImplementedException();
             }
 
-            Triangle<N> IRandom<Triangle<N>>.Next(Random random, Triangle<N> bound1, Triangle<N> bound2)
+            Triangle<TNumeric> IRandom<Triangle<TNumeric>>.Next(Random random, Triangle<TNumeric> bound1, Triangle<TNumeric> bound2)
             {
                 throw new NotImplementedException();
             }
 
-            Triangle<N> IParser<Triangle<N>>.Parse(string s)
+            Triangle<TNumeric> IStringParser<Triangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
                 throw new NotImplementedException();
             }
 
-            Triangle<N> IParser<Triangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+            Triangle<TNumeric> IBitConverter<Triangle<TNumeric>>.Read(IReader<byte> stream)
             {
                 throw new NotImplementedException();
             }
 
-            Triangle<N> IBitConverter<Triangle<N>>.Read(IReadOnlyStream<byte> stream)
-            {
-                throw new NotImplementedException();
-            }
-
-            void IBitConverter<Triangle<N>>.Write(Triangle<N> value, IWriteOnlyStream<byte> stream)
+            void IBitConverter<Triangle<TNumeric>>.Write(Triangle<TNumeric> value, IWriter<byte> stream)
             {
                 throw new NotImplementedException();
             }

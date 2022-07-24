@@ -54,19 +54,19 @@ namespace Jodo.Numerics
         public bool Equals(UFix64 other) => _scaledValue == other._scaledValue;
         public override bool Equals(object? obj) => obj is UFix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
-        public override string ToString() => ScaledArithmetic.ToString(_scaledValue, ScalingFactor);
+        public override string ToString() => ScaledArithmetic.ToString(_scaledValue, ScalingFactor, null);
         public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out UFix64 result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64 result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out UFix64 result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out UFix64 result) => Try.Run(() => Parse(s), out result);
-        public static UFix64 Parse(string s) => new UFix64(ScaledArithmetic.Parse(s, ScalingFactor));
-        public static UFix64 Parse(string s, IFormatProvider? provider) => (UFix64)double.Parse(s, provider);
-        public static UFix64 Parse(string s, NumberStyles style) => (UFix64)double.Parse(s, style);
-        public static UFix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => (UFix64)double.Parse(s, style, provider);
+        public static bool TryParse(string s, IFormatProvider? provider, out UFix64 result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64 result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out UFix64 result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out UFix64 result) => TryHelper.Run(() => Parse(s), out result);
+        public static UFix64 Parse(string s) => new UFix64(ScaledArithmetic.Parse(s, ScalingFactor, default, null));
+        public static UFix64 Parse(string s, IFormatProvider? provider) => new UFix64(ScaledArithmetic.Parse(s, ScalingFactor, default, provider));
+        public static UFix64 Parse(string s, NumberStyles style) => new UFix64(ScaledArithmetic.Parse(s, ScalingFactor, style, null));
+        public static UFix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => new UFix64(ScaledArithmetic.Parse(s, ScalingFactor, style, provider));
 
         private static UFix64 Round(UFix64 value, int digits, MidpointRounding mode)
         {
@@ -189,7 +189,7 @@ namespace Jodo.Numerics
         IMath<UFix64> IProvider<IMath<UFix64>>.GetInstance() => Utilities.Instance;
         INumericStatic<UFix64> IProvider<INumericStatic<UFix64>>.GetInstance() => Utilities.Instance;
         IRandom<UFix64> IProvider<IRandom<UFix64>>.GetInstance() => Utilities.Instance;
-        IParser<UFix64> IProvider<IParser<UFix64>>.GetInstance() => Utilities.Instance;
+        IStringParser<UFix64> IProvider<IStringParser<UFix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<UFix64>,
@@ -198,13 +198,13 @@ namespace Jodo.Numerics
             IMath<UFix64>,
             INumericStatic<UFix64>,
             IRandom<UFix64>,
-            IParser<UFix64>
+            IStringParser<UFix64>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<UFix64>.HasFloatingPoint { get; } = false;
-            bool INumericStatic<UFix64>.HasInfinity { get; } = false;
-            bool INumericStatic<UFix64>.HasNaN { get; } = false;
+            bool INumericStatic<UFix64>.HasFloatingPoint => false;
+            bool INumericStatic<UFix64>.HasInfinity => false;
+            bool INumericStatic<UFix64>.HasNaN => false;
             bool INumericStatic<UFix64>.IsFinite(UFix64 x) => true;
             bool INumericStatic<UFix64>.IsInfinity(UFix64 x) => false;
             bool INumericStatic<UFix64>.IsNaN(UFix64 x) => false;
@@ -212,18 +212,18 @@ namespace Jodo.Numerics
             bool INumericStatic<UFix64>.IsNegativeInfinity(UFix64 x) => false;
             bool INumericStatic<UFix64>.IsNormal(UFix64 x) => false;
             bool INumericStatic<UFix64>.IsPositiveInfinity(UFix64 x) => false;
-            bool INumericStatic<UFix64>.IsReal { get; } = true;
-            bool INumericStatic<UFix64>.IsSigned { get; } = false;
+            bool INumericStatic<UFix64>.IsReal => true;
+            bool INumericStatic<UFix64>.IsSigned => false;
             bool INumericStatic<UFix64>.IsSubnormal(UFix64 x) => false;
             UFix64 INumericStatic<UFix64>.Epsilon { get; } = new UFix64(1);
             UFix64 INumericStatic<UFix64>.MaxUnit { get; } = new UFix64(ScalingFactor);
             UFix64 INumericStatic<UFix64>.MaxValue => MaxValue;
-            UFix64 INumericStatic<UFix64>.MinUnit { get; } = 0;
+            UFix64 INumericStatic<UFix64>.MinUnit => 0;
             UFix64 INumericStatic<UFix64>.MinValue => MinValue;
             UFix64 INumericStatic<UFix64>.One { get; } = new UFix64(ScalingFactor);
             UFix64 INumericStatic<UFix64>.Ten { get; } = new UFix64(10 * ScalingFactor);
             UFix64 INumericStatic<UFix64>.Two { get; } = new UFix64(2 * ScalingFactor);
-            UFix64 INumericStatic<UFix64>.Zero { get; } = 0;
+            UFix64 INumericStatic<UFix64>.Zero => 0;
 
             int IMath<UFix64>.Sign(UFix64 x) => x._scaledValue == 0 ? 0 : 1;
             UFix64 IMath<UFix64>.Abs(UFix64 value) => value;
@@ -264,8 +264,8 @@ namespace Jodo.Numerics
             UFix64 IMath<UFix64>.Tau { get; } = (UFix64)(Math.PI * 2d);
             UFix64 IMath<UFix64>.Truncate(UFix64 x) => new UFix64(x._scaledValue / ScalingFactor * ScalingFactor);
 
-            UFix64 IBitConverter<UFix64>.Read(IReadOnlyStream<byte> stream) => new UFix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
-            void IBitConverter<UFix64>.Write(UFix64 value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            UFix64 IBitConverter<UFix64>.Read(IReader<byte> stream) => new UFix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
+            void IBitConverter<UFix64>.Write(UFix64 value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             UFix64 IRandom<UFix64>.Next(Random random) => new UFix64(random.NextUInt64());
             UFix64 IRandom<UFix64>.Next(Random random, UFix64 bound1, UFix64 bound2) => new UFix64(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
@@ -298,8 +298,8 @@ namespace Jodo.Numerics
             UFix64 IConvertExtended<UFix64>.ToNumeric(ulong value, Conversion mode) => (UFix64)value;
             UFix64 IConvertExtended<UFix64>.ToNumeric(ushort value, Conversion mode) => (UFix64)NumericConvert.ToUInt64(value, mode);
 
-            UFix64 IParser<UFix64>.Parse(string s) => Parse(s);
-            UFix64 IParser<UFix64>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            UFix64 IStringParser<UFix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Number, provider);
         }
     }
 }

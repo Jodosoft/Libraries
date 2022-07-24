@@ -32,21 +32,21 @@ namespace Jodo.Geometry.Tests
         public sealed class GeneralFloatingPoint : General<SingleN> { }
         public sealed class GeneralFixedPoint : General<Fix64> { }
 
-        public abstract class General<N> : AssemblyFixtureBase where N : struct, INumeric<N>
+        public abstract class General<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConverterTests<AARectangle<N>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<AARectangle<N>> { }
-            public sealed class TwoDimensional : TwoDimensionalTests<AARectangle<N>, N> { }
+            public sealed class BitConverter : Primitives.Tests.BitConvertTests<AARectangle<TNumeric>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<AARectangle<TNumeric>> { }
+            public sealed class TwoDimensional : TwoDimensionalTests<AARectangle<TNumeric>, TNumeric> { }
 
             [Test]
             public void GetArea_RandomValues_CorrectResult()
             {
                 //arrange
-                AARectangle<N> subject = GenerateAARectangle<N>();
-                N expected = MathN.Abs(subject.Dimensions.X.Multiply(subject.Dimensions.Y));
+                AARectangle<TNumeric> subject = GenerateAARectangle<TNumeric>();
+                TNumeric expected = MathN.Abs(subject.Dimensions.X.Multiply(subject.Dimensions.Y));
 
                 //act
-                N result = subject.GetArea();
+                TNumeric result = subject.GetArea();
 
                 //assert
                 result.Should().Be(expected);
@@ -56,37 +56,37 @@ namespace Jodo.Geometry.Tests
             public void GetLeft_RandomValues_CorrectResult()
             {
                 //arrange
-                AARectangle<N> subject = Random.NextAARectangle<N>();
-                N expected = subject.Origin.X;
+                AARectangle<TNumeric> subject = Random.NextAARectangle<TNumeric>();
+                TNumeric expected = subject.Origin.X;
 
                 //act
-                N result = subject.GetLeft();
+                TNumeric result = subject.GetLeft();
 
                 //assert
                 result.Should().Be(expected);
             }
         }
 
-        public abstract class Integral<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class Integral<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
             [SetUp]
-            public void SetUp() => Assert.That(Numeric<N>.IsIntegral);
+            public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>());
 
             [Test, Repeat(RandomVariations)]
             public void GetVertices_UnitSquare_CorrectResult()
             {
                 //arrange
-                AARectangle<N> subject = AARectangle<N>.FromCenter(
-                    new Vector2<N>(Numeric<N>.Zero, Numeric<N>.Zero),
-                    new Vector2<N>(Numeric<N>.One, Numeric<N>.One));
-                Vector2<N>[] expected = new Vector2<N>[] {
-                     new Vector2<N>(Numeric<N>.Zero, Numeric<N>.Zero),
-                     new Vector2<N>(Numeric<N>.One, Numeric<N>.Zero),
-                     new Vector2<N>(Numeric<N>.One, Numeric<N>.One),
-                     new Vector2<N>(Numeric<N>.Zero, Numeric<N>.One) };
+                AARectangle<TNumeric> subject = AARectangle.FromCenter(
+                    new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
+                    new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
+                Vector2<TNumeric>[] expected = new Vector2<TNumeric>[] {
+                     new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
+                     new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.Zero<TNumeric>()),
+                     new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()),
+                     new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.One<TNumeric>()) };
 
                 //act
-                Vector2<N>[] results = subject.GetVertices();
+                Vector2<TNumeric>[] results = subject.GetVertices();
 
                 //assert
                 results.Should().BeEquivalentTo(expected);

@@ -23,20 +23,20 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class ByteCTests
     {
-        public sealed class BitConverter : BitConverterNTests<ByteC> { }
+        public sealed class BitConvert : BitConvertTests<ByteC> { }
         public sealed class Cast : CastTests<ByteC> { }
         public sealed class CheckedNumeric : CheckedNumericTests<ByteC> { }
         public sealed class ConvertTests : ConvertTests<ByteC> { }
         public sealed class MathGeneral : MathTests.General<ByteC> { }
         public sealed class MathIntegral : MathTests.Integral<ByteC> { }
-        public sealed class MathUnsigned : NumericTests.Unsigned<ByteC> { }
+        public sealed class MathUnsigned : NumericTests.UnsignedOnly<ByteC> { }
         public sealed class NumericGeneral : NumericTests.General<ByteC> { }
         public sealed class NumericIntegral : NumericTests.Integral<ByteC> { }
         public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<ByteC> { }
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<ByteC> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<ByteC> { }
-        public sealed class NumericUnsigned : NumericTests.Unsigned<ByteC> { }
-        public sealed class ParserGeneral : ParserTests.General<ByteC> { }
-        public sealed class StringParserIntegral : ParserTests.Integral<ByteC> { }
+        public sealed class NumericUnsigned : NumericTests.UnsignedOnly<ByteC> { }
+        public sealed class ParserGeneral : StringParserTests.General<ByteC> { }
+        public sealed class StringParserIntegral : StringParserTests.Integral<ByteC> { }
     }
 }

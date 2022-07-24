@@ -21,7 +21,7 @@ using System;
 
 namespace Jodo.Primitives
 {
-    public static class Try
+    public static class TryHelper
     {
         public static bool Run<TResult>(Func<TResult> function, out TResult result)
         {

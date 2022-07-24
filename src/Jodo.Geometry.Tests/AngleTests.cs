@@ -31,19 +31,19 @@ namespace Jodo.Geometry.Tests
         public sealed class FloatingPoint : General<SingleN> { }
         public sealed class UnsignedIntegral : General<ByteN> { }
 
-        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Angle<N>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Angle<N>> { }
+            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Angle<TNumeric>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Angle<TNumeric>> { }
 
             [Test]
             public void Degrees_FromDegrees_SameAsOriginal()
             {
                 //arrange
-                N input = Random.NextNumeric<N>();
+                TNumeric input = Random.NextNumeric<TNumeric>();
 
                 //act
-                N result = Angle<N>.FromDegrees(input).Degrees;
+                TNumeric result = Angle.FromDegrees(input).Degrees;
 
                 //assert
                 result.Should().Be(input);

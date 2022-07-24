@@ -26,18 +26,18 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class ParserTests
+    public static class StringParserTests
     {
-        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
             [Test, Repeat(RandomVariations)]
             public void Parse1_RoundTripSmallValue_CorrectResult()
             {
                 //arrange
-                N input = MathN.Round(ConvertN.ToNumeric<N>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+                TNumeric input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
 
                 //act
-                N result = Parser<N>.Parse(input.ToString());
+                TNumeric result = StringParser.Parse<TNumeric>(input.ToString());
 
                 //assert
                 result.Should().Be(input);
@@ -47,11 +47,11 @@ namespace Jodo.Numerics.Tests
             public void Parse1_RoundTripFormat_CorrectResult()
             {
                 //arrange
-                N input = MathN.Round(ConvertN.ToNumeric<N>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+                TNumeric input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
 
                 //act
-                N result = Parser<N>.Parse(input.ToString(format));
+                TNumeric result = StringParser.Parse<TNumeric>(input.ToString(format));
 
                 //assert
                 result.Should().Be(input);
@@ -61,11 +61,11 @@ namespace Jodo.Numerics.Tests
             public void Parse1_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                N input = MathN.Round(ConvertN.ToNumeric<N>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+                TNumeric input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
 
                 //act
-                N result = Parser<N>.Parse(input.ToString(format, NumberFormatInfo.InvariantInfo));
+                TNumeric result = StringParser.Parse<TNumeric>(input.ToString(format, NumberFormatInfo.InvariantInfo));
 
                 //assert
                 result.Should().Be(input);
@@ -75,23 +75,23 @@ namespace Jodo.Numerics.Tests
             public void Parse2_RoundTripFormatWithProvider_CorrectResult()
             {
                 //arrange
-                N input = MathN.Round(ConvertN.ToNumeric<N>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+                TNumeric input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
                 string format = "G17";
                 NumberFormatInfo provider = NumberFormatInfo.InvariantInfo;
                 NumberStyles numberStyles = NumberStyles.Any;
 
                 //act
-                N result = Parser<N>.Parse(input.ToString(format, provider), numberStyles, provider);
+                TNumeric result = StringParser.Parse<TNumeric>(input.ToString(format, provider), numberStyles, provider);
 
                 //assert
                 result.Should().Be(input);
             }
         }
 
-        public abstract class Integral<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class Integral<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
             [SetUp]
-            public void SetUp() => Assert.That(Numeric<N>.IsIntegral);
+            public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>());
 
             [Test, Repeat(RandomVariations)]
             public void Parse2_SmallIntegralHexString_CorrectResult()
@@ -101,10 +101,10 @@ namespace Jodo.Numerics.Tests
                 string hexString = input.ToString("X");
 
                 //act
-                N result = Parser<N>.Parse(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
+                TNumeric result = StringParser.Parse<TNumeric>(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
 
                 //assert
-                result.Should().Be(ConvertN.ToNumeric<N>(input));
+                result.Should().Be(ConvertN.ToNumeric<TNumeric>(input));
             }
         }
     }

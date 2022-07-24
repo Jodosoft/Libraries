@@ -17,38 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using FluentAssertions;
-using Jodo.Testing;
-using NUnit.Framework;
-
-namespace Jodo.Primitives.Tests
+namespace Jodo.Primitives
 {
-    public abstract class StringParserTests<T> : GlobalFixtureBase where T : struct, IProvider<IParser<T>>, IProvider<IRandom<T>>
+    public interface IReader<out T>
     {
-        [Test]
-        public void Parse1_RandomValueRoundTrip_SameAsInput()
-        {
-            //arrange
-            T input = Random.NextRandomizable<T>();
-
-            //act
-            T result = Parser<T>.Parse(input.ToString());
-
-            //assert
-            result.Should().Be(input);
-        }
-
-        [Test]
-        public void Parse1_EmptyString_Throws()
-        {
-            //arrange
-
-            //act
-            Action action = new Action(() => Parser<T>.Parse(string.Empty));
-
-            //assert
-            action.Should().Throw<FormatException>();
-        }
+        T[] Read(int count);
     }
 }

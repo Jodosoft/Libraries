@@ -23,27 +23,33 @@ using System.Globalization;
 
 namespace Jodo.Primitives
 {
-    public static class Parser<T> where T : struct, IProvider<IParser<T>>
+    public static class StringParser
     {
-        private static readonly IParser<T> Default = default(T).GetInstance();
+        [DebuggerStepThrough]
+        public static T Parse<T>(string s) where T : struct, IProvider<IStringParser<T>>
+            => Provider<T, IStringParser<T>>.Default.Parse(s, null, null);
 
         [DebuggerStepThrough]
-        public static T Parse(string s) => Default.Parse(s);
+        public static T Parse<T>(string s, IFormatProvider? formatProvider) where T : struct, IProvider<IStringParser<T>>
+            => Provider<T, IStringParser<T>>.Default.Parse(s, null, formatProvider);
 
         [DebuggerStepThrough]
-        public static T Parse(string s, IFormatProvider? formatProvider) => Default.Parse(s, default, formatProvider);
+        public static T Parse<T>(string s, NumberStyles numberStyles) where T : struct, IProvider<IStringParser<T>>
+            => Provider<T, IStringParser<T>>.Default.Parse(s, numberStyles, null);
 
         [DebuggerStepThrough]
-        public static T Parse(string s, NumberStyles numberStyles) => Default.Parse(s, numberStyles, null);
+        public static T Parse<T>(string s, NumberStyles numberStyles, IFormatProvider? formatProvider) where T : struct, IProvider<IStringParser<T>>
+            => Provider<T, IStringParser<T>>.Default.Parse(s, numberStyles, formatProvider);
 
         [DebuggerStepThrough]
-        public static T Parse(string s, NumberStyles numberStyles, IFormatProvider? formatProvider) => Default.Parse(s, numberStyles, formatProvider);
+        public static T Parse<T>(string s, NumberStyles? numberStyles, IFormatProvider? formatProvider) where T : struct, IProvider<IStringParser<T>>
+            => Provider<T, IStringParser<T>>.Default.Parse(s, numberStyles, formatProvider);
 
-        public static bool TryParse(string s, out T result)
+        public static bool TryParse<T>(string s, out T result) where T : struct, IProvider<IStringParser<T>>
         {
             try
             {
-                result = Parse(s);
+                result = Parse<T>(s);
                 return true;
             }
             catch (Exception)
@@ -53,11 +59,11 @@ namespace Jodo.Primitives
             }
         }
 
-        public static bool TryParse(string s, IFormatProvider? provider, out T result)
+        public static bool TryParse<T>(string s, IFormatProvider? provider, out T result) where T : struct, IProvider<IStringParser<T>>
         {
             try
             {
-                result = Parse(s, provider);
+                result = Parse<T>(s, provider);
                 return true;
             }
             catch (Exception)
@@ -67,11 +73,11 @@ namespace Jodo.Primitives
             }
         }
 
-        public static bool TryParse(string s, NumberStyles style, out T result)
+        public static bool TryParse<T>(string s, NumberStyles style, out T result) where T : struct, IProvider<IStringParser<T>>
         {
             try
             {
-                result = Parse(s, style);
+                result = Parse<T>(s, style);
                 return true;
             }
             catch (Exception)
@@ -81,11 +87,11 @@ namespace Jodo.Primitives
             }
         }
 
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out T result)
+        public static bool TryParse<T>(string s, NumberStyles style, IFormatProvider? provider, out T result) where T : struct, IProvider<IStringParser<T>>
         {
             try
             {
-                result = Parse(s, style, provider);
+                result = Parse<T>(s, style, provider);
                 return true;
             }
             catch (Exception)

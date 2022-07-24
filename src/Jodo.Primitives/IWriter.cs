@@ -19,7 +19,7 @@
 
 namespace Jodo.Primitives
 {
-    public interface IWriteOnlyStream<in T>
+    public interface IWriter<in T>
     {
         void Write(T value);
     }

@@ -56,10 +56,10 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out Int64N result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Int64N result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out Int64N result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out Int64N result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out Int64N result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Int64N result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out Int64N result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out Int64N result) => TryHelper.Run(() => Parse(s), out result);
         public static Int64N Parse(string s) => long.Parse(s);
         public static Int64N Parse(string s, IFormatProvider? provider) => long.Parse(s, provider);
         public static Int64N Parse(string s, NumberStyles style) => long.Parse(s, style);
@@ -152,7 +152,7 @@ namespace Jodo.Numerics
         IMath<Int64N> IProvider<IMath<Int64N>>.GetInstance() => Utilities.Instance;
         INumericStatic<Int64N> IProvider<INumericStatic<Int64N>>.GetInstance() => Utilities.Instance;
         IRandom<Int64N> IProvider<IRandom<Int64N>>.GetInstance() => Utilities.Instance;
-        IParser<Int64N> IProvider<IParser<Int64N>>.GetInstance() => Utilities.Instance;
+        IStringParser<Int64N> IProvider<IStringParser<Int64N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<Int64N>,
@@ -161,13 +161,13 @@ namespace Jodo.Numerics
             IMath<Int64N>,
             INumericStatic<Int64N>,
             IRandom<Int64N>,
-            IParser<Int64N>
+            IStringParser<Int64N>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<Int64N>.HasFloatingPoint { get; } = false;
-            bool INumericStatic<Int64N>.HasInfinity { get; } = false;
-            bool INumericStatic<Int64N>.HasNaN { get; } = false;
+            bool INumericStatic<Int64N>.HasFloatingPoint => false;
+            bool INumericStatic<Int64N>.HasInfinity => false;
+            bool INumericStatic<Int64N>.HasNaN => false;
             bool INumericStatic<Int64N>.IsFinite(Int64N x) => true;
             bool INumericStatic<Int64N>.IsInfinity(Int64N x) => false;
             bool INumericStatic<Int64N>.IsNaN(Int64N x) => false;
@@ -175,18 +175,18 @@ namespace Jodo.Numerics
             bool INumericStatic<Int64N>.IsNegativeInfinity(Int64N x) => false;
             bool INumericStatic<Int64N>.IsNormal(Int64N x) => false;
             bool INumericStatic<Int64N>.IsPositiveInfinity(Int64N x) => false;
-            bool INumericStatic<Int64N>.IsReal { get; } = false;
-            bool INumericStatic<Int64N>.IsSigned { get; } = true;
+            bool INumericStatic<Int64N>.IsReal => false;
+            bool INumericStatic<Int64N>.IsSigned => true;
             bool INumericStatic<Int64N>.IsSubnormal(Int64N x) => false;
-            Int64N INumericStatic<Int64N>.Epsilon { get; } = 1L;
-            Int64N INumericStatic<Int64N>.MaxUnit { get; } = 1L;
+            Int64N INumericStatic<Int64N>.Epsilon => 1L;
+            Int64N INumericStatic<Int64N>.MaxUnit => 1L;
             Int64N INumericStatic<Int64N>.MaxValue => MaxValue;
-            Int64N INumericStatic<Int64N>.MinUnit { get; } = -1L;
+            Int64N INumericStatic<Int64N>.MinUnit => -1L;
             Int64N INumericStatic<Int64N>.MinValue => MinValue;
-            Int64N INumericStatic<Int64N>.One { get; } = 1L;
-            Int64N INumericStatic<Int64N>.Ten { get; } = 10L;
-            Int64N INumericStatic<Int64N>.Two { get; } = 2L;
-            Int64N INumericStatic<Int64N>.Zero { get; } = 0;
+            Int64N INumericStatic<Int64N>.One => 1L;
+            Int64N INumericStatic<Int64N>.Ten => 10L;
+            Int64N INumericStatic<Int64N>.Two => 2L;
+            Int64N INumericStatic<Int64N>.Zero => 0;
 
             int IMath<Int64N>.Sign(Int64N x) => Math.Sign(x._value);
             Int64N IMath<Int64N>.Abs(Int64N value) => Math.Abs(value);
@@ -227,8 +227,8 @@ namespace Jodo.Numerics
             Int64N IMath<Int64N>.Tau { get; } = 6L;
             Int64N IMath<Int64N>.Truncate(Int64N x) => x;
 
-            Int64N IBitConverter<Int64N>.Read(IReadOnlyStream<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)), 0);
-            void IBitConverter<Int64N>.Write(Int64N value, IWriteOnlyStream<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            Int64N IBitConverter<Int64N>.Read(IReader<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)), 0);
+            void IBitConverter<Int64N>.Write(Int64N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             Int64N IRandom<Int64N>.Next(Random random) => random.NextInt64();
             Int64N IRandom<Int64N>.Next(Random random, Int64N bound1, Int64N bound2) => random.NextInt64(bound1._value, bound2._value);
@@ -261,8 +261,8 @@ namespace Jodo.Numerics
             Int64N IConvertExtended<Int64N>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt64(value, mode);
             Int64N IConvertExtended<Int64N>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt64(value, mode);
 
-            Int64N IParser<Int64N>.Parse(string s) => Parse(s);
-            Int64N IParser<Int64N>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            Int64N IStringParser<Int64N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }
 }

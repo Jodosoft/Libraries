@@ -28,11 +28,11 @@ namespace Jodo.Geometry.Tests
         public sealed class FloatingPoint : General<SingleN> { }
         public sealed class UnsignedIntegral : General<ByteN> { }
 
-        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConverterTests<Rectangle<N>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Rectangle<N>> { }
-            public sealed class TwoDimensional : TwoDimensionalTests<Rectangle<N>, N> { }
+            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Rectangle<TNumeric>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Rectangle<TNumeric>> { }
+            public sealed class TwoDimensional : TwoDimensionalTests<Rectangle<TNumeric>, TNumeric> { }
         }
     }
 }

@@ -57,10 +57,10 @@ namespace Jodo.CheckedNumerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out DecimalC result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DecimalC result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out DecimalC result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out DecimalC result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out DecimalC result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DecimalC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out DecimalC result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out DecimalC result) => TryHelper.Run(() => Parse(s), out result);
         public static DecimalC Parse(string s) => decimal.Parse(s);
         public static DecimalC Parse(string s, IFormatProvider? provider) => decimal.Parse(s, provider);
         public static DecimalC Parse(string s, NumberStyles style) => decimal.Parse(s, style);
@@ -153,7 +153,7 @@ namespace Jodo.CheckedNumerics
         IMath<DecimalC> IProvider<IMath<DecimalC>>.GetInstance() => Utilities.Instance;
         INumericStatic<DecimalC> IProvider<INumericStatic<DecimalC>>.GetInstance() => Utilities.Instance;
         IRandom<DecimalC> IProvider<IRandom<DecimalC>>.GetInstance() => Utilities.Instance;
-        IParser<DecimalC> IProvider<IParser<DecimalC>>.GetInstance() => Utilities.Instance;
+        IStringParser<DecimalC> IProvider<IStringParser<DecimalC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<DecimalC>,
@@ -162,13 +162,13 @@ namespace Jodo.CheckedNumerics
             IMath<DecimalC>,
             INumericStatic<DecimalC>,
             IRandom<DecimalC>,
-            IParser<DecimalC>
+            IStringParser<DecimalC>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<DecimalC>.HasFloatingPoint { get; } = true;
-            bool INumericStatic<DecimalC>.HasInfinity { get; } = false;
-            bool INumericStatic<DecimalC>.HasNaN { get; } = false;
+            bool INumericStatic<DecimalC>.HasFloatingPoint => true;
+            bool INumericStatic<DecimalC>.HasInfinity => false;
+            bool INumericStatic<DecimalC>.HasNaN => false;
             bool INumericStatic<DecimalC>.IsFinite(DecimalC x) => true;
             bool INumericStatic<DecimalC>.IsInfinity(DecimalC x) => false;
             bool INumericStatic<DecimalC>.IsNaN(DecimalC x) => false;
@@ -176,18 +176,18 @@ namespace Jodo.CheckedNumerics
             bool INumericStatic<DecimalC>.IsNegativeInfinity(DecimalC x) => false;
             bool INumericStatic<DecimalC>.IsNormal(DecimalC x) => false;
             bool INumericStatic<DecimalC>.IsPositiveInfinity(DecimalC x) => false;
-            bool INumericStatic<DecimalC>.IsReal { get; } = true;
-            bool INumericStatic<DecimalC>.IsSigned { get; } = true;
+            bool INumericStatic<DecimalC>.IsReal => true;
+            bool INumericStatic<DecimalC>.IsSigned => true;
             bool INumericStatic<DecimalC>.IsSubnormal(DecimalC x) => false;
             DecimalC INumericStatic<DecimalC>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
-            DecimalC INumericStatic<DecimalC>.MaxUnit { get; } = 1m;
+            DecimalC INumericStatic<DecimalC>.MaxUnit => 1m;
             DecimalC INumericStatic<DecimalC>.MaxValue => MaxValue;
-            DecimalC INumericStatic<DecimalC>.MinUnit { get; } = -1m;
+            DecimalC INumericStatic<DecimalC>.MinUnit => -1m;
             DecimalC INumericStatic<DecimalC>.MinValue => MinValue;
-            DecimalC INumericStatic<DecimalC>.One { get; } = 1m;
-            DecimalC INumericStatic<DecimalC>.Ten { get; } = 10m;
-            DecimalC INumericStatic<DecimalC>.Two { get; } = 2m;
-            DecimalC INumericStatic<DecimalC>.Zero { get; } = 0m;
+            DecimalC INumericStatic<DecimalC>.One => 1m;
+            DecimalC INumericStatic<DecimalC>.Ten => 10m;
+            DecimalC INumericStatic<DecimalC>.Two => 2m;
+            DecimalC INumericStatic<DecimalC>.Zero => 0m;
 
             DecimalC IMath<DecimalC>.Abs(DecimalC value) => Math.Abs(value._value);
             DecimalC IMath<DecimalC>.Acos(DecimalC x) => NumericConvert.ToDecimal(Math.Acos(NumericConvert.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
@@ -228,7 +228,7 @@ namespace Jodo.CheckedNumerics
             DecimalC IMath<DecimalC>.Truncate(DecimalC x) => decimal.Truncate(x._value);
             int IMath<DecimalC>.Sign(DecimalC x) => Math.Sign(x._value);
 
-            DecimalC IBitConverter<DecimalC>.Read(IReadOnlyStream<byte> stream)
+            DecimalC IBitConverter<DecimalC>.Read(IReader<byte> stream)
             {
                 int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
                 int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
@@ -241,7 +241,7 @@ namespace Jodo.CheckedNumerics
                 return new decimal(part0, part1, part2, sign, scale);
             }
 
-            void IBitConverter<DecimalC>.Write(DecimalC value, IWriteOnlyStream<byte> stream)
+            void IBitConverter<DecimalC>.Write(DecimalC value, IWriter<byte> stream)
             {
                 int[]? parts = decimal.GetBits(value);
                 stream.Write(BitConverter.GetBytes(parts[0]));
@@ -281,8 +281,8 @@ namespace Jodo.CheckedNumerics
             DecimalC IConvertExtended<DecimalC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
             DecimalC IConvertExtended<DecimalC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDecimal(value, mode.Clamped());
 
-            DecimalC IParser<DecimalC>.Parse(string s) => Parse(s);
-            DecimalC IParser<DecimalC>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            DecimalC IStringParser<DecimalC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Number, provider);
         }
     }
 }

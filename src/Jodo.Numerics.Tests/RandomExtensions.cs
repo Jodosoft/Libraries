@@ -23,26 +23,26 @@ namespace Jodo.Numerics.Tests
 {
     public static class RandomExtensions
     {
-        public static N NextNumeric<N>(this Random random, TestBounds bounds) where N : struct, INumeric<N>
+        public static TNumeric NextNumeric<TNumeric>(this Random random, TestBounds bounds) where TNumeric : struct, INumeric<TNumeric>
         {
-            N result;
+            TNumeric result;
             do
             {
-                result = random.NextNumeric<N>();
+                result = random.NextNumeric<TNumeric>();
             } while (
-                (bounds.HasFlag(TestBounds.Positive) && result.IsLessThanOrEqualTo(Numeric<N>.Zero)) ||
-                (bounds.HasFlag(TestBounds.HighMagnitude) && MathN.Abs(result).IsLessThan(Numeric<N>.Ten)));
+                (bounds.HasFlag(TestBounds.Positive) && result.IsLessThanOrEqualTo(Numeric.Zero<TNumeric>())) ||
+                (bounds.HasFlag(TestBounds.HighMagnitude) && MathN.Abs(result).IsLessThan(Numeric.Ten<TNumeric>())));
 
             if (bounds.HasFlag(TestBounds.LowSignificance))
             {
-                while (MathN.Log10(MathN.Abs(result)).IsGreaterThan(ConvertN.ToNumeric<N>(3)))
+                while (MathN.Log10(MathN.Abs(result)).IsGreaterThan(ConvertN.ToNumeric<TNumeric>(3)))
                 {
-                    result = result.Divide(Numeric<N>.Ten);
+                    result = result.Divide(Numeric.Ten<TNumeric>());
                 }
                 result = MathN.Round(result, 2);
             }
 
-            if (!Numeric<N>.IsFinite(result))
+            if (!Numeric.IsFinite(result))
             {
                 throw new InvalidOperationException();
             }
@@ -50,19 +50,19 @@ namespace Jodo.Numerics.Tests
             return result;
         }
 
-        public static Vector2<N> NextVector2<N>(this Random random, TestBounds bounds) where N : struct, INumeric<N>
+        public static Vector2<TNumeric> NextVector2<TNumeric>(this Random random, TestBounds bounds) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2<N>(
-                random.NextNumeric<N>(bounds),
-                random.NextNumeric<N>(bounds));
+            return new Vector2<TNumeric>(
+                random.NextNumeric<TNumeric>(bounds),
+                random.NextNumeric<TNumeric>(bounds));
         }
 
-        public static Vector3<N> NextVector3<N>(this Random random, TestBounds bounds) where N : struct, INumeric<N>
+        public static Vector3<TNumeric> NextVector3<TNumeric>(this Random random, TestBounds bounds) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector3<N>(
-                random.NextNumeric<N>(bounds),
-                random.NextNumeric<N>(bounds),
-                random.NextNumeric<N>(bounds));
+            return new Vector3<TNumeric>(
+                random.NextNumeric<TNumeric>(bounds),
+                random.NextNumeric<TNumeric>(bounds),
+                random.NextNumeric<TNumeric>(bounds));
         }
     }
 }

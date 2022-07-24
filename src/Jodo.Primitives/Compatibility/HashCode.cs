@@ -23,8 +23,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Primitives.Compatibility
 {
-    [SuppressMessage("csharpsquid", "S2436")]
-    [SuppressMessage("csharpsquid", "S107")]
+    [SuppressMessage("csharpsquid", "S2436:Types and methods should not have too many generic parameters", Justification = "Like-for-like shims for SDK methods")]
+    [SuppressMessage("csharpsquid", "S107:Methods should not have too many parameters", Justification = "Like-for-like shims for SDK methods")]
     public struct HashCode
     {
         public static int Combine<T1>(T1 value1)

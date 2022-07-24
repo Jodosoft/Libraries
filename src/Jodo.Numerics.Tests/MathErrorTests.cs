@@ -26,20 +26,20 @@ namespace Jodo.Numerics.Tests
 {
     public static class MathErrorTests
     {
-        public abstract class General<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
         }
 
-        public abstract class SignedIntegral<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class SignedIntegral<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
             [SetUp]
-            public void SetUp() => Assert.That(Numeric<N>.IsIntegral && Numeric<N>.IsSigned);
+            public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>() && Numeric.IsSigned<TNumeric>());
 
             [Test]
             public void Abs_MinValue_ThrowsOverflowException()
             {
                 //arrange
-                N input = Numeric<N>.MinValue;
+                TNumeric input = Numeric.MinValue<TNumeric>();
 
                 //act
                 Action action = new Action(() => MathN.Abs(input));
@@ -49,16 +49,16 @@ namespace Jodo.Numerics.Tests
             }
         }
 
-        public abstract class NaN<N> : GlobalFixtureBase where N : struct, INumeric<N>
+        public abstract class NaN<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
             [SetUp]
-            public void SetUp() => Assert.That(Numeric<N>.HasNaN);
+            public void SetUp() => Assert.That(Numeric.HasNaN<TNumeric>());
 
             [Test]
             public void Sign_NaN_ThrowsArithmeticException()
             {
                 //arrange
-                N input = ConvertN.ToNumeric<N>(float.NaN, Conversion.Cast);
+                TNumeric input = ConvertN.ToNumeric<TNumeric>(float.NaN, Conversion.Cast);
 
                 //act
                 Action action = new Action(() => MathN.Sign(input));
@@ -71,15 +71,15 @@ namespace Jodo.Numerics.Tests
             public void Acos_ValueOutOfRange_ReturnsNaNOrZero()
             {
                 //arrange
-                N input;
-                do { input = Random.NextNumeric<N>(); }
-                while (input.IsGreaterThanOrEqualTo(Numeric<N>.MinUnit) && input.IsLessThanOrEqualTo(Numeric<N>.MaxUnit));
+                TNumeric input;
+                do { input = Random.NextNumeric<TNumeric>(); }
+                while (input.IsGreaterThanOrEqualTo(Numeric.MinUnit<TNumeric>()) && input.IsLessThanOrEqualTo(Numeric.MaxUnit<TNumeric>()));
 
                 //act
-                N result = MathN.Acos(input);
+                TNumeric result = MathN.Acos(input);
 
                 //assert
-                Numeric<N>.IsNaN(result).Should().BeTrue();
+                Numeric.IsNaN(result).Should().BeTrue();
             }
         }
     }

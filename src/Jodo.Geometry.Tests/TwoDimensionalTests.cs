@@ -26,19 +26,18 @@ using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public abstract class TwoDimensionalTests<T, N> : GlobalFixtureBase
-        where T : struct, ITwoDimensional<T, N>, IProvider<IRandom<T>>
-        where N : struct, INumeric<N>
+    public abstract class TwoDimensionalTests<T, TNumeric> : GlobalFixtureBase
+        where T : struct, ITwoDimensional<T, TNumeric>, IProvider<IRandom<T>>
+        where TNumeric : struct, INumeric<TNumeric>
     {
         [Test, Repeat(RandomVariations)]
         public void Translate_ByZero_SameAsOriginal()
         {
             //arrange
             T sut = Random.NextRandomizable<T>();
-            Vector2<N> input = Vector2<N>.Zero;
 
             //act
-            T result = sut.Translate(input);
+            T result = sut.Translate(default);
 
             //assert
             result.Should().Be(sut);

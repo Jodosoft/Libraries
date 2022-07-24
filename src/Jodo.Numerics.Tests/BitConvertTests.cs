@@ -24,16 +24,16 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public abstract class BitConverterNTests<N> : Primitives.Tests.BitConverterTests<N> where N : struct, INumeric<N>
+    public abstract class BitConvertTests<TNumeric> : Primitives.Tests.BitConvertTests<TNumeric> where TNumeric : struct, INumeric<TNumeric>
     {
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomSmallValue_SameAsOriginal()
         {
             //arrange
-            N input = Random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+            TNumeric input = Random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>());
 
             //act
-            N result = BitConverterN.FromBytes<N>(BitConverterN.GetBytes(input));
+            TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -43,10 +43,10 @@ namespace Jodo.Numerics.Tests
         public void GetBytes_MaxValueRoundTrip_SameAsOriginal()
         {
             //arrange
-            N input = Numeric<N>.MaxValue;
+            TNumeric input = Numeric.MaxValue<TNumeric>();
 
             //act
-            N result = BitConverterN.FromBytes<N>(BitConverterN.GetBytes(input));
+            TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -56,10 +56,10 @@ namespace Jodo.Numerics.Tests
         public void GetBytes_MinValueRoundTrip_SameAsOriginal()
         {
             //arrange
-            N input = Numeric<N>.MinValue;
+            TNumeric input = Numeric.MinValue<TNumeric>();
 
             //act
-            N result = BitConverterN.FromBytes<N>(BitConverterN.GetBytes(input));
+            TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -69,10 +69,10 @@ namespace Jodo.Numerics.Tests
         public void GetBytes_EpsilonRoundTrip_SameAsOriginal()
         {
             //arrange
-            N input = Numeric<N>.Epsilon;
+            TNumeric input = Numeric.Epsilon<TNumeric>();
 
             //act
-            N result = BitConverterN.FromBytes<N>(BitConverterN.GetBytes(input));
+            TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));
 
             //assert
             result.Should().Be(input);

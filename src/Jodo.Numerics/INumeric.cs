@@ -39,7 +39,7 @@ namespace Jodo.Numerics
             IProvider<IMath<TSelf>>,
             IProvider<INumericStatic<TSelf>>,
             IProvider<IRandom<TSelf>>,
-            IProvider<IParser<TSelf>>,
+            IProvider<IStringParser<TSelf>>,
             ISerializable
         where TSelf : struct, INumeric<TSelf>
     {

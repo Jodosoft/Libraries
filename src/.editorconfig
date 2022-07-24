@@ -7,10 +7,10 @@ indent_style = space
 
 dotnet_analyzer_diagnostic.category-CodeQuality.severity = error
 dotnet_analyzer_diagnostic.category-Design.severity = error
-#dotnet_analyzer_diagnostic.category-Naming.severity = error
+dotnet_analyzer_diagnostic.category-Naming.severity = error
 dotnet_analyzer_diagnostic.category-SingleFile.severity = error
 #dotnet_analyzer_diagnostic.category-Style.severity = error - False positives (unnecessary usings in multi-target projects)
-#dotnet_analyzer_diagnostic.category-Usage.severity = error
+dotnet_analyzer_diagnostic.category-Usage.severity = error
 dotnet_analyzer_diagnostic.category-Documentation.severity = error
 #dotnet_analyzer_diagnostic.category-Globalization.severity = error
 dotnet_analyzer_diagnostic.category-Interoperability.severity = error
@@ -98,7 +98,7 @@ csharp_style_var_elsewhere = false:warning
 csharp_style_var_for_built_in_types = false:warning
 csharp_style_var_when_type_is_apparent = false:warning
 
-# Disabled rules
+# Disabled rules (decisions based on style)
 dotnet_style_prefer_conditional_expression_over_assignment = false:none
 dotnet_style_prefer_conditional_expression_over_return = false:none
 csharp_style_expression_bodied_accessors = false:none
@@ -112,3 +112,14 @@ csharp_style_expression_bodied_properties = false:none
 
 # CA1051: Do not declare visible instance fields
 dotnet_diagnostic.CA1051.severity = none # By design, used appropriately in read-only structs
+
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none # For consistency with the SDK, overloads are provided with and without IFormatProvider
+
+# CA1846: Prefer 'AsSpan' over 'Substring'
+dotnet_diagnostic.CA1846.severity = none # Not supported by all target frameworks
+
+# IDE0057: Use range operator
+csharp_style_prefer_range_operator = false:none # Not supported by all target frameworks
+dotnet_diagnostic.IDE0057.severity = none # Not supported by all target frameworks
+

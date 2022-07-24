@@ -32,7 +32,6 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Jodo.Numerics.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
 
-[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "False positive on csharpsquid suppressions")]
-[assembly: SuppressMessage("Style", "IDE0057:Use range operator", Justification = "Not supported by all targets")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", MessageId = "csharpsquid", Justification = "False positive on csharpsquid suppressions")]
 
 [assembly: CLSCompliant(true)]

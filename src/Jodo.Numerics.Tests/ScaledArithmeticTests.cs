@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Globalization;
 using FluentAssertions;
 using Jodo.Primitives;
 using Jodo.Testing;
@@ -212,6 +213,38 @@ namespace Jodo.Numerics.Tests
 
             //assert
             result.Should().Be(0);
+        }
+
+        [TestCase("123.999", 10, null, "en-US", 1240)]
+        [TestCase("123.456", 1000, null, "en-GB", 123456)]
+        [TestCase("1,234.56", 100, NumberStyles.AllowThousands, "en-US", 123456)]
+        [TestCase("-1,234.56", 100, NumberStyles.AllowThousands | NumberStyles.AllowLeadingSign, "en-US", -123456)]
+        [TestCase("1.234,56", 100, NumberStyles.AllowThousands, "da-DK", 123456)]
+        [TestCase("-1.234,56", 100, NumberStyles.AllowThousands | NumberStyles.AllowLeadingSign, "da-DK", -123456)]
+        [TestCase("-1234.56", 100, null, "ja-JP", -123456)]
+        public void Parse1_VariousScenarios_CorrectResultAsDouble(string input, long scalingFactor, NumberStyles? style, string culture, long expected)
+        {
+
+            //arrange
+            //act
+            long result = ScaledArithmetic.Parse(input, scalingFactor, style, CultureInfo.GetCultureInfo(culture));
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [TestCase("123.999", (ulong)10, null, "en-US", 1240)]
+        [TestCase("123.456", (ulong)1000, null, "en-GB", 123456)]
+        [TestCase("1,234.56", (ulong)100, NumberStyles.AllowThousands, "en-US", 123456)]
+        [TestCase("1.234,56", (ulong)100, NumberStyles.AllowThousands, "da-DK", 123456)]
+        public void Parse2_VariousScenarios_CorrectResultAsDouble(string input, ulong scalingFactor, NumberStyles? style, string culture, ulong expected)
+        {
+            //arrange
+            //act
+            ulong result = ScaledArithmetic.Parse(input, scalingFactor, style, CultureInfo.GetCultureInfo(culture));
+
+            //assert
+            result.Should().Be(expected);
         }
     }
 }

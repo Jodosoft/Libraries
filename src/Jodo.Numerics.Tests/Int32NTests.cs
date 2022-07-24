@@ -21,21 +21,21 @@ namespace Jodo.Numerics.Tests
 {
     public static class Int32NTests
     {
-        public sealed class BitConverter : BitConverterNTests<Int32N> { }
+        public sealed class BitConvert : BitConvertTests<Int32N> { }
         public sealed class Cast : CastTests<Int32N> { }
         public sealed class ConvertTests : ConvertTests<Int32N> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<Int32N> { }
         public sealed class MathErrorSignedIntegral : MathErrorTests.SignedIntegral<Int32N> { }
         public sealed class MathGeneral : MathTests.General<Int32N> { }
         public sealed class MathIntegral : MathTests.Integral<Int32N> { }
-        public sealed class MathSigned : MathTests.Signed<Int32N> { }
+        public sealed class MathSigned : MathTests.SingedOnly<Int32N> { }
         public sealed class NumericGeneral : NumericTests.General<Int32N> { }
         public sealed class NumericIntegral : NumericTests.Integral<Int32N> { }
         public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<Int32N> { }
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<Int32N> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<Int32N> { }
-        public sealed class NumericSigned : NumericTests.Signed<Int32N> { }
-        public sealed class ParserGeneral : ParserTests.General<Int32N> { }
-        public sealed class StringParserIntegral : ParserTests.Integral<Int32N> { }
+        public sealed class NumericSigned : NumericTests.SignedOnly<Int32N> { }
+        public sealed class ParserGeneral : StringParserTests.General<Int32N> { }
+        public sealed class StringParserIntegral : StringParserTests.Integral<Int32N> { }
     }
 }

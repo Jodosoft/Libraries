@@ -24,11 +24,11 @@ namespace Jodo.Numerics.Tests
 {
     public class AssemblyFixtureBase : GlobalFixtureBase
     {
-        public static Vector2<N> GenerateVector2<N>() where N : struct, INumeric<N>
+        public static Vector2<TNumeric> GenerateVector2<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
         {
-            N minOrigin = Numeric<N>.IsSigned ? ConvertN.ToNumeric<N>(-10) : Numeric<N>.Zero;
-            N maxOrigin = ConvertN.ToNumeric<N>(10);
-            return new Vector2<N>(
+            TNumeric minOrigin = Numeric.IsSigned<TNumeric>() ? ConvertN.ToNumeric<TNumeric>(-10) : Numeric.Zero<TNumeric>();
+            TNumeric maxOrigin = ConvertN.ToNumeric<TNumeric>(10);
+            return new Vector2<TNumeric>(
                 Random.NextNumeric(minOrigin, maxOrigin),
                 Random.NextNumeric(minOrigin, maxOrigin));
         }

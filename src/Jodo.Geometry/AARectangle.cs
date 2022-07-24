@@ -29,213 +29,135 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct AARectangle<N> :
-            IEquatable<AARectangle<N>>,
+    public readonly struct AARectangle<TNumeric> :
+            IEquatable<AARectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<AARectangle<N>>>,
-            IProvider<IRandom<AARectangle<N>>>,
-            IProvider<IParser<AARectangle<N>>>,
-            ITwoDimensional<AARectangle<N>, N>,
-            IRotatable<Rectangle<N>, Angle<N>, Vector2<N>>,
+            IProvider<IBitConverter<AARectangle<TNumeric>>>,
+            IProvider<IRandom<AARectangle<TNumeric>>>,
+            IProvider<IStringParser<AARectangle<TNumeric>>>,
+            ITwoDimensional<AARectangle<TNumeric>, TNumeric>,
+            IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2<TNumeric>>,
             ISerializable
-        where N : struct, INumeric<N>
+        where TNumeric : struct, INumeric<TNumeric>
     {
         private const string Symbol = "□";
 
-        public readonly Vector2<N> Origin;
-        public readonly Vector2<N> Dimensions;
-        public N Height => Dimensions.Y;
-        public N Width => Dimensions.X;
+        public readonly Vector2<TNumeric> Origin;
+        public readonly Vector2<TNumeric> Dimensions;
+        public TNumeric Height => Dimensions.Y;
+        public TNumeric Width => Dimensions.X;
 
-        public N GetBottom() => Origin.Y;
-        public N GetLeft() => Origin.X;
-        public N GetRight() => Origin.X.Add(Dimensions.X);
-        public N GetTop() => Origin.Y.Add(Dimensions.Y);
-        public Vector2<N> GetCenter() => GetCenter(Origin, Dimensions);
-        public Vector2<N> GetBottomCenter() => GetBottomCenter(Origin, Dimensions);
-        public Vector2<N> GetBottomLeft() => Origin;
-        public Vector2<N> GetBottomRight() => GetBottomRight(Origin, Dimensions);
-        public Vector2<N> GetLeftCenter() => GetLeftCenter(Origin, Dimensions);
-        public Vector2<N> GetRightCenter() => GetRightCenter(Origin, Dimensions);
-        public Vector2<N> GetTopCenter() => GetTopCenter(Origin, Dimensions);
-        public Vector2<N> GetTopLeft() => GetTopLeft(Origin, Dimensions);
-        public Vector2<N> GetTopRight() => GetTopRight(Origin, Dimensions);
+        public TNumeric GetBottom() => Origin.Y;
+        public TNumeric GetLeft() => Origin.X;
+        public TNumeric GetRight() => Origin.X.Add(Dimensions.X);
+        public TNumeric GetTop() => Origin.Y.Add(Dimensions.Y);
+        public Vector2<TNumeric> GetCenter() => AARectangle.GetCenter(Origin, Dimensions);
+        public Vector2<TNumeric> GetBottomCenter() => AARectangle.GetBottomCenter(Origin, Dimensions);
+        public Vector2<TNumeric> GetBottomLeft() => Origin;
+        public Vector2<TNumeric> GetBottomRight() => AARectangle.GetBottomRight(Origin, Dimensions);
+        public Vector2<TNumeric> GetLeftCenter() => AARectangle.GetLeftCenter(Origin, Dimensions);
+        public Vector2<TNumeric> GetRightCenter() => AARectangle.GetRightCenter(Origin, Dimensions);
+        public Vector2<TNumeric> GetTopCenter() => AARectangle.GetTopCenter(Origin, Dimensions);
+        public Vector2<TNumeric> GetTopLeft() => AARectangle.GetTopLeft(Origin, Dimensions);
+        public Vector2<TNumeric> GetTopRight() => AARectangle.GetTopRight(Origin, Dimensions);
 
-        public AARectangle(Vector2<N> origin, Vector2<N> dimensions)
+        public AARectangle(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions)
         {
             Origin = origin;
             Dimensions = dimensions;
         }
 
-        public AARectangle(N originX, N originY, N width, N height)
+        public AARectangle(TNumeric originX, TNumeric originY, TNumeric width, TNumeric height)
         {
-            Origin = new Vector2<N>(originX, originY);
-            Dimensions = new Vector2<N>(width, height);
+            Origin = new Vector2<TNumeric>(originX, originY);
+            Dimensions = new Vector2<TNumeric>(width, height);
         }
 
         private AARectangle(SerializationInfo info, StreamingContext context) : this(
-            (Vector2<N>)info.GetValue(nameof(Origin), typeof(Vector2<N>)),
-            (Vector2<N>)info.GetValue(nameof(Dimensions), typeof(Vector2<N>)))
+            (Vector2<TNumeric>)info.GetValue(nameof(Origin), typeof(Vector2<TNumeric>)),
+            (Vector2<TNumeric>)info.GetValue(nameof(Dimensions), typeof(Vector2<TNumeric>)))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Origin), Origin, typeof(Vector2<N>));
-            info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<N>));
+            info.AddValue(nameof(Origin), Origin, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<TNumeric>));
         }
 
-        public N GetArea() => MathN.Abs(Dimensions.X.Multiply(Dimensions.Y));
-        public Vector2<N>[] GetVertices() => new[] { GetBottomLeft(), GetBottomRight(), GetTopRight(), GetTopLeft() };
+        public TNumeric GetArea() => MathN.Abs(Dimensions.X.Multiply(Dimensions.Y));
+        public Vector2<TNumeric>[] GetVertices() => new[] { GetBottomLeft(), GetBottomRight(), GetTopRight(), GetTopLeft() };
 
-        public AARectangle<N> Grow(Vector2<N> delta) => new AARectangle<N>(Origin, Dimensions + delta);
-        public AARectangle<N> Grow(N deltaX, N deltaY) => Grow(new Vector2<N>(deltaX, deltaY));
-        public AARectangle<N> Grow(N delta) => Grow(new Vector2<N>(delta, delta));
-        public AARectangle<N> Shrink(Vector2<N> delta) => new AARectangle<N>(Origin, Dimensions - delta);
-        public AARectangle<N> Shrink(N deltaX, N deltaY) => Shrink(new Vector2<N>(deltaX, deltaY));
-        public AARectangle<N> Shrink(N delta) => Shrink(new Vector2<N>(delta, delta));
-        public AARectangle<N> Translate(Vector2<N> delta) => new AARectangle<N>(Origin + delta, Dimensions);
+        public AARectangle<TNumeric> Grow(Vector2<TNumeric> delta) => new AARectangle<TNumeric>(Origin, Dimensions + delta);
+        public AARectangle<TNumeric> Grow(TNumeric deltaX, TNumeric deltaY) => Grow(new Vector2<TNumeric>(deltaX, deltaY));
+        public AARectangle<TNumeric> Grow(TNumeric delta) => Grow(new Vector2<TNumeric>(delta, delta));
+        public AARectangle<TNumeric> Shrink(Vector2<TNumeric> delta) => new AARectangle<TNumeric>(Origin, Dimensions - delta);
+        public AARectangle<TNumeric> Shrink(TNumeric deltaX, TNumeric deltaY) => Shrink(new Vector2<TNumeric>(deltaX, deltaY));
+        public AARectangle<TNumeric> Shrink(TNumeric delta) => Shrink(new Vector2<TNumeric>(delta, delta));
+        public AARectangle<TNumeric> Translate(Vector2<TNumeric> delta) => new AARectangle<TNumeric>(Origin + delta, Dimensions);
 
-        public bool Contains(Vector2<N> point) =>
+        public bool Contains(Vector2<TNumeric> point) =>
             point.X.IsGreaterThanOrEqualTo(GetLeft()) &&
             point.X.IsLessThanOrEqualTo(GetRight()) &&
             point.Y.IsGreaterThanOrEqualTo(GetBottom()) &&
             point.Y.IsLessThanOrEqualTo(GetTop());
 
-        public bool Contains(AARectangle<N> other) =>
+        public bool Contains(AARectangle<TNumeric> other) =>
             GetLeft().IsLessThanOrEqualTo(other.GetLeft()) &&
             GetRight().IsGreaterThanOrEqualTo(other.GetRight()) &&
             GetBottom().IsLessThanOrEqualTo(other.GetBottom()) &&
             GetTop().IsGreaterThanOrEqualTo(other.GetTop());
 
-        public bool IntersectsWith(AARectangle<N> other) =>
+        public bool IntersectsWith(AARectangle<TNumeric> other) =>
             GetLeft().IsLessThan(other.GetRight()) &&
             GetRight().IsGreaterThan(other.GetLeft()) &&
             GetBottom().IsLessThan(other.GetTop()) &&
             GetTop().IsGreaterThan(other.GetBottom());
 
-        public AARectangle<N> RotateRight() => new AARectangle<N>(Origin, new Vector2<N>(Dimensions.Y, Dimensions.X));
+        public AARectangle<TNumeric> RotateRight() => new AARectangle<TNumeric>(Origin, new Vector2<TNumeric>(Dimensions.Y, Dimensions.X));
+        public Rectangle<TNumeric> Rotate(Angle<TNumeric> angle) => new Rectangle<TNumeric>(Origin, Dimensions, angle);
+        public Rectangle<TNumeric> RotateAround(Vector2<TNumeric> pivot, Angle<TNumeric> angle) => new Rectangle<TNumeric>(Origin.RotateAround(pivot, angle), Dimensions, angle);
 
-        public Rectangle<N> Rotate(Angle<N> angle) => new Rectangle<N>(Origin, Dimensions, angle);
-        public Rectangle<N> RotateAround(Vector2<N> pivot, Angle<N> angle) => new Rectangle<N>(Origin.RotateAround(pivot, angle), Dimensions, angle);
-
-        public AARectangle<TOther> Convert<TOther>(Func<N, TOther> convert) where TOther : struct, INumeric<TOther> => new AARectangle<TOther>(convert(Origin.X), convert(Origin.Y), convert(Dimensions.X), convert(Dimensions.Y));
-        public bool Equals(AARectangle<N> other) => Origin.Equals(other.Origin) && Dimensions.Equals(other.Dimensions);
-        public override bool Equals(object? obj) => obj is AARectangle<N> fix && Equals(fix);
+        public AARectangle<TOther> Convert<TOther>(Func<TNumeric, TOther> convert) where TOther : struct, INumeric<TOther> => new AARectangle<TOther>(convert(Origin.X), convert(Origin.Y), convert(Dimensions.X), convert(Dimensions.Y));
+        public bool Equals(AARectangle<TNumeric> other) => Origin.Equals(other.Origin) && Dimensions.Equals(other.Dimensions);
+        public override bool Equals(object? obj) => obj is AARectangle<TNumeric> fix && Equals(fix);
         public override int GetHashCode() => HashCode.Combine(Origin, Dimensions);
         public override string ToString() => $"{Symbol}({Origin}, {Dimensions})";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({Origin.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)})";
 
-        public static bool TryParse(string value, out AARectangle<N> result)
-            => Try.Run(() => Parse(value), out result);
-
-        public static bool TryParse(string value, NumberStyles style, IFormatProvider? provider, out AARectangle<N> result)
-            => Try.Run(() => Parse(value, style, provider), out result);
-
-        public static AARectangle<N> Parse(string value)
-        {
-            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
-            if (parts.Length == 2)
-                return new AARectangle<N>(
-                    Vector2<N>.Parse(parts[0]),
-                    Vector2<N>.Parse(parts[1]));
-            if (parts.Length == 4)
-                return new AARectangle<N>(
-                    Parser<N>.Parse(parts[0]),
-                    Parser<N>.Parse(parts[1]),
-                    Parser<N>.Parse(parts[2]),
-                    Parser<N>.Parse(parts[2]));
-            else throw new FormatException();
-        }
-
-        public static AARectangle<N> Parse(string value, NumberStyles style, IFormatProvider? provider)
-        {
-            string[] parts = StringUtilities.ParseVectorParts(value.Replace(Symbol, string.Empty));
-            if (parts.Length == 2)
-                return new AARectangle<N>(
-                    Vector2<N>.Parse(parts[0], style, provider),
-                    Vector2<N>.Parse(parts[1], style, provider));
-            if (parts.Length == 4)
-                return new AARectangle<N>(
-                    Parser<N>.Parse(parts[0], style, provider),
-                    Parser<N>.Parse(parts[1], style, provider),
-                    Parser<N>.Parse(parts[2], style, provider),
-                    Parser<N>.Parse(parts[2], style, provider));
-            else throw new FormatException();
-        }
-
-        public static AARectangle<N> FromCenter(Vector2<N> center, Vector2<N> dimensions) => new AARectangle<N>(center, dimensions);
-        public static AARectangle<N> FromBottomLeft(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(bottomLeft, dimensions);
-        public static AARectangle<N> FromBottomCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetTopCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<N> FromBottomRight(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetTopLeft(bottomLeft, dimensions), dimensions);
-        public static AARectangle<N> FromLeftCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetRightCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<N> FromRightCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetLeftCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<N> FromTopLeft(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetBottomRight(bottomLeft, dimensions), dimensions);
-        public static AARectangle<N> FromTopCenter(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(GetBottomCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<N> FromTopRight(Vector2<N> bottomLeft, Vector2<N> dimensions) => new AARectangle<N>(bottomLeft, dimensions);
-
-        public static AARectangle<N> Between(Vector2<N> point1, Vector2<N> point2)
-        {
-            return new AARectangle<N>(point1, point2 - point1);
-        }
-
-        private static Vector2<N> GetCenter(Vector2<N> origin, Vector2<N> dimensions)
-            => origin + dimensions.Half();
-
-        private static Vector2<N> GetBottomCenter(Vector2<N> origin, Vector2<N> dimensions)
-            => new Vector2<N>(origin.X.Add(dimensions.X.Half()), origin.Y);
-
-        private static Vector2<N> GetBottomRight(Vector2<N> origin, Vector2<N> dimensions)
-            => new Vector2<N>(origin.X.Add(dimensions.X), origin.Y);
-
-        private static Vector2<N> GetLeftCenter(Vector2<N> origin, Vector2<N> dimensions)
-            => new Vector2<N>(origin.X, origin.Y.Add(dimensions.Y.Half()));
-
-        private static Vector2<N> GetRightCenter(Vector2<N> origin, Vector2<N> dimensions)
-             => new Vector2<N>(origin.X.Add(dimensions.X), origin.Y.Add(dimensions.Y.Half()));
-
-        private static Vector2<N> GetTopCenter(Vector2<N> origin, Vector2<N> dimensions)
-             => new Vector2<N>(origin.X.Add(dimensions.X.Half()), origin.Y.Add(dimensions.Y));
-
-        private static Vector2<N> GetTopLeft(Vector2<N> origin, Vector2<N> dimensions)
-             => new Vector2<N>(origin.X, origin.Y.Add(dimensions.Y));
-
-        private static Vector2<N> GetTopRight(Vector2<N> origin, Vector2<N> dimensions)
-             => origin + dimensions;
-
-        public static bool operator ==(AARectangle<N> left, AARectangle<N> right) => left.Equals(right);
-        public static bool operator !=(AARectangle<N> left, AARectangle<N> right) => !(left == right);
+        public static bool operator ==(AARectangle<TNumeric> left, AARectangle<TNumeric> right) => left.Equals(right);
+        public static bool operator !=(AARectangle<TNumeric> left, AARectangle<TNumeric> right) => !(left == right);
 
 #if NETSTANDARD2_0_OR_GREATER
-        public static implicit operator AARectangle<N>((Vector2<N>, Vector2<N>) value) => new AARectangle<N>(value.Item1, value.Item2);
-        public static implicit operator (Vector2<N>, Vector2<N>)(AARectangle<N> value) => (value.Origin, value.Dimensions);
-        public static implicit operator AARectangle<N>((N, N, N, N) value) => new AARectangle<N>((value.Item1, value.Item2), (value.Item3, value.Item4));
-        public static implicit operator (N, N, N, N)(AARectangle<N> value) => (value.Origin.X, value.Origin.Y, value.Dimensions.X, value.Dimensions.Y);
+        public static implicit operator AARectangle<TNumeric>((Vector2<TNumeric>, Vector2<TNumeric>) value) => new AARectangle<TNumeric>(value.Item1, value.Item2);
+        public static implicit operator (Vector2<TNumeric>, Vector2<TNumeric>)(AARectangle<TNumeric> value) => (value.Origin, value.Dimensions);
+        public static implicit operator AARectangle<TNumeric>((TNumeric, TNumeric, TNumeric, TNumeric) value) => new AARectangle<TNumeric>((value.Item1, value.Item2), (value.Item3, value.Item4));
+        public static implicit operator (TNumeric, TNumeric, TNumeric, TNumeric)(AARectangle<TNumeric> value) => (value.Origin.X, value.Origin.Y, value.Dimensions.X, value.Dimensions.Y);
 #endif
 
-        Vector2<N> ITwoDimensional<AARectangle<N>, N>.GetCenter() => GetCenter();
-        AARectangle<N> ITwoDimensional<AARectangle<N>, N>.GetBounds() => this;
-        Vector2<N>[] ITwoDimensional<AARectangle<N>, N>.GetVertices(int circumferenceDivisor) => GetVertices();
+        Vector2<TNumeric> ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetCenter() => GetCenter();
+        AARectangle<TNumeric> ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetBounds() => this;
+        Vector2<TNumeric>[] ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
 
-        IBitConverter<AARectangle<N>> IProvider<IBitConverter<AARectangle<N>>>.GetInstance() => Utilities.Instance;
-        IRandom<AARectangle<N>> IProvider<IRandom<AARectangle<N>>>.GetInstance() => Utilities.Instance;
-        IParser<AARectangle<N>> IProvider<IParser<AARectangle<N>>>.GetInstance() => Utilities.Instance;
+        IBitConverter<AARectangle<TNumeric>> IProvider<IBitConverter<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IRandom<AARectangle<TNumeric>> IProvider<IRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringParser<AARectangle<TNumeric>> IProvider<IStringParser<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<AARectangle<N>>,
-           IRandom<AARectangle<N>>,
-           IParser<AARectangle<N>>
+           IBitConverter<AARectangle<TNumeric>>,
+           IRandom<AARectangle<TNumeric>>,
+           IStringParser<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            AARectangle<N> IRandom<AARectangle<N>>.Next(Random random)
+            AARectangle<TNumeric> IRandom<AARectangle<TNumeric>>.Next(Random random)
             {
                 do
                 {
                     try
                     {
-                        return checked(AARectangle<N>.Between(
-                            random.NextVector2<N>(),
-                            random.NextVector2<N>()));
+                        return checked(AARectangle.Between(
+                            random.NextVector2<TNumeric>(),
+                            random.NextVector2<TNumeric>()));
                     }
                     catch (OverflowException)
                     {
@@ -244,33 +166,83 @@ namespace Jodo.Geometry
                 } while (true);
             }
 
-            AARectangle<N> IRandom<AARectangle<N>>.Next(Random random, AARectangle<N> bound1, AARectangle<N> bound2)
+            AARectangle<TNumeric> IRandom<AARectangle<TNumeric>>.Next(Random random, AARectangle<TNumeric> bound1, AARectangle<TNumeric> bound2)
             {
-                N xMin = MathN.Min(bound1.GetBottomLeft().X, bound2.GetBottomLeft().X);
-                N xMax = MathN.Max(bound1.GetTopRight().X, bound2.GetTopRight().X);
-                N yMin = MathN.Min(bound1.GetBottomLeft().Y, bound2.GetBottomLeft().Y);
-                N yMax = MathN.Max(bound1.GetTopRight().Y, bound2.GetTopRight().Y);
-                Vector2<N> point1 = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
-                Vector2<N> point2 = new Vector2<N>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
-                return AARectangle<N>.Between(point1, point2);
+                TNumeric xMin = MathN.Min(bound1.GetBottomLeft().X, bound2.GetBottomLeft().X);
+                TNumeric xMax = MathN.Max(bound1.GetTopRight().X, bound2.GetTopRight().X);
+                TNumeric yMin = MathN.Min(bound1.GetBottomLeft().Y, bound2.GetBottomLeft().Y);
+                TNumeric yMax = MathN.Max(bound1.GetTopRight().Y, bound2.GetTopRight().Y);
+                Vector2<TNumeric> point1 = new Vector2<TNumeric>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
+                Vector2<TNumeric> point2 = new Vector2<TNumeric>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
+                return AARectangle.Between(point1, point2);
             }
 
-            AARectangle<N> IParser<AARectangle<N>>.Parse(string s) => Parse(s);
-
-            AARectangle<N> IParser<AARectangle<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
-
-            AARectangle<N> IBitConverter<AARectangle<N>>.Read(IReadOnlyStream<byte> stream)
+            AARectangle<TNumeric> IStringParser<AARectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
-                return new AARectangle<N>(
-                    BitConverter<Vector2<N>>.Read(stream),
-                    BitConverter<Vector2<N>>.Read(stream));
+                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty));
+                if (parts.Length == 2)
+                    return new AARectangle<TNumeric>(
+                        StringParser.Parse<Vector2<TNumeric>>(parts[0], style, provider),
+                        StringParser.Parse<Vector2<TNumeric>>(parts[1], style, provider));
+                if (parts.Length == 4)
+                    return new AARectangle<TNumeric>(
+                        StringParser.Parse<TNumeric>(parts[0], style, provider),
+                        StringParser.Parse<TNumeric>(parts[1], style, provider),
+                        StringParser.Parse<TNumeric>(parts[2], style, provider),
+                        StringParser.Parse<TNumeric>(parts[2], style, provider));
+                else throw new FormatException();
             }
 
-            void IBitConverter<AARectangle<N>>.Write(AARectangle<N> value, IWriteOnlyStream<byte> stream)
+            AARectangle<TNumeric> IBitConverter<AARectangle<TNumeric>>.Read(IReader<byte> stream)
             {
-                BitConverter<Vector2<N>>.Write(stream, value.Origin);
-                BitConverter<Vector2<N>>.Write(stream, value.Dimensions);
+                return new AARectangle<TNumeric>(
+                    BitConvert.Read<Vector2<TNumeric>>(stream),
+                    BitConvert.Read<Vector2<TNumeric>>(stream));
+            }
+
+            void IBitConverter<AARectangle<TNumeric>>.Write(AARectangle<TNumeric> value, IWriter<byte> stream)
+            {
+                BitConvert.Write(stream, value.Origin);
+                BitConvert.Write(stream, value.Dimensions);
             }
         }
+    }
+
+    public static class AARectangle
+    {
+        public static AARectangle<TNumeric> Between<TNumeric>(Vector2<TNumeric> point1, Vector2<TNumeric> point2) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(point1, point2 - point1);
+        public static AARectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
+        public static AARectangle<TNumeric> FromBottomRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(center, dimensions);
+        public static AARectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromRightCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
+
+        internal static Vector2<TNumeric> GetCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => origin + dimensions.Halved();
+
+        internal static Vector2<TNumeric> GetBottomCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y);
+
+        internal static Vector2<TNumeric> GetBottomRight<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(origin.X.Add(dimensions.X), origin.Y);
+
+        internal static Vector2<TNumeric> GetLeftCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(origin.X, origin.Y.Add(dimensions.Y.Halved()));
+
+        internal static Vector2<TNumeric> GetRightCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2<TNumeric>(origin.X.Add(dimensions.X), origin.Y.Add(dimensions.Y.Halved()));
+
+        internal static Vector2<TNumeric> GetTopCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y.Add(dimensions.Y));
+
+        internal static Vector2<TNumeric> GetTopLeft<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2<TNumeric>(origin.X, origin.Y.Add(dimensions.Y));
+
+        internal static Vector2<TNumeric> GetTopRight<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => origin + dimensions;
     }
 }

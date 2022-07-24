@@ -24,44 +24,31 @@ using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
-    public abstract class BitConverterTests<T> : GlobalFixtureBase where T : struct, IProvider<IBitConverter<T>>, IProvider<IRandom<T>>
+    public abstract class StringParserTests<T> : GlobalFixtureBase where T : struct, IProvider<IStringParser<T>>, IProvider<IRandom<T>>
     {
-        [Test, Repeat(RandomVariations)]
-        public void GetBytes_RandomValue_ReturnsBytes()
+        [Test]
+        public void Parse1_RandomValueRoundTrip_SameAsInput()
         {
             //arrange
             T input = Random.NextRandomizable<T>();
 
             //act
-            byte[] result = BitConverter<T>.GetBytes(input);
+            T result = StringParser.Parse<T>(input.ToString());
 
             //assert
-            result.Length.Should().BeGreaterThan(0);
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void GetBytes_RoundTrip_SameAsOriginal()
-        {
-            //arrange
-            T input = Random.NextRandomizable<T>();
-
-            //act
-            T result = BitConverter<T>.FromBytes(BitConverter<T>.GetBytes(input));
-
-            //assert
-            result.Should().BeEquivalentTo(input);
+            result.Should().Be(input);
         }
 
         [Test]
-        public void FromBytes_ZeroLength_Throws()
+        public void Parse1_EmptyString_Throws()
         {
             //arrange
 
             //act
-            Action action = new Action(() => BitConverter<T>.FromBytes(Array.Empty<byte>()));
+            Action action = new Action(() => StringParser.Parse<T>(string.Empty));
 
             //assert
-            action.Should().Throw<ArgumentException>();
+            action.Should().Throw<FormatException>();
         }
     }
 }

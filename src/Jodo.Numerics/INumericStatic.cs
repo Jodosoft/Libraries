@@ -19,7 +19,7 @@
 
 namespace Jodo.Numerics
 {
-    public interface INumericStatic<N>
+    public interface INumericStatic<TNumeric>
     {
         bool IsSigned { get; }
         bool IsReal { get; }
@@ -27,23 +27,23 @@ namespace Jodo.Numerics
         bool HasInfinity { get; }
         bool HasFloatingPoint { get; }
 
-        N Epsilon { get; }
-        N MaxUnit { get; }
-        N MaxValue { get; }
-        N MinUnit { get; }
-        N MinValue { get; }
-        N One { get; }
-        N Ten { get; }
-        N Two { get; }
-        N Zero { get; }
+        TNumeric Epsilon { get; }
+        TNumeric MaxUnit { get; }
+        TNumeric MaxValue { get; }
+        TNumeric MinUnit { get; }
+        TNumeric MinValue { get; }
+        TNumeric One { get; }
+        TNumeric Ten { get; }
+        TNumeric Two { get; }
+        TNumeric Zero { get; }
 
-        bool IsFinite(N x);
-        bool IsInfinity(N x);
-        bool IsNaN(N x);
-        bool IsNegative(N x);
-        bool IsNegativeInfinity(N x);
-        bool IsNormal(N x);
-        bool IsPositiveInfinity(N x);
-        bool IsSubnormal(N x);
+        bool IsFinite(TNumeric x);
+        bool IsInfinity(TNumeric x);
+        bool IsNaN(TNumeric x);
+        bool IsNegative(TNumeric x);
+        bool IsNegativeInfinity(TNumeric x);
+        bool IsNormal(TNumeric x);
+        bool IsPositiveInfinity(TNumeric x);
+        bool IsSubnormal(TNumeric x);
     }
 }

@@ -27,106 +27,104 @@ namespace Jodo.Numerics
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Unit<N> :
+    public readonly struct Unit<TNumeric> :
             IComparable,
-            IComparable<Unit<N>>,
-            IEquatable<Unit<N>>,
+            IComparable<Unit<TNumeric>>,
+            IEquatable<Unit<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Unit<N>>>,
-            IProvider<IRandom<Unit<N>>>,
-            IProvider<IParser<Unit<N>>>,
+            IProvider<IBitConverter<Unit<TNumeric>>>,
+            IProvider<IRandom<Unit<TNumeric>>>,
+            IProvider<IStringParser<Unit<TNumeric>>>,
             ISerializable
-        where N : struct, INumeric<N>
+        where TNumeric : struct, INumeric<TNumeric>
     {
-        public static readonly Unit<N> Zero = new Unit<N>(Numeric<N>.Zero);
-        public static readonly Unit<N> MaxValue = new Unit<N>(Numeric<N>.MaxUnit);
-        public static readonly Unit<N> MinValue = new Unit<N>(Numeric<N>.MinUnit);
+        public static readonly Unit<TNumeric> Zero = new Unit<TNumeric>(Numeric.Zero<TNumeric>());
+        public static readonly Unit<TNumeric> MaxValue = new Unit<TNumeric>(Numeric.MaxUnit<TNumeric>());
+        public static readonly Unit<TNumeric> MinValue = new Unit<TNumeric>(Numeric.MinUnit<TNumeric>());
 
-        public readonly N Value { get; }
+        public readonly TNumeric Value { get; }
 
-        private Unit(N value)
+        public Unit(TNumeric value)
         {
-            Value = MathN.Clamp(value, Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+            Value = MathN.Clamp(value, Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>());
         }
 
         private Unit(SerializationInfo info, StreamingContext context)
         {
-            Value = MathN.Clamp((N)info.GetValue(nameof(Value), typeof(N) ?? throw new InvalidOperationException()), Numeric<N>.MinUnit, Numeric<N>.MaxUnit);
+            Value = MathN.Clamp((TNumeric)info.GetValue(nameof(Value), typeof(TNumeric) ?? throw new InvalidOperationException()), Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>());
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-            => info.AddValue(nameof(Value), Value, typeof(N));
+            => info.AddValue(nameof(Value), Value, typeof(TNumeric));
 
-        public int CompareTo(object? obj) => obj is Unit<N> other ? CompareTo(other) : 1;
-        public int CompareTo(Unit<N> other) => Value.CompareTo(other.Value);
-        public bool Equals(Unit<N> other) => Value.Equals(other.Value);
-        public override bool Equals(object? obj) => obj is Unit<N> unit && Equals(unit);
+        public int CompareTo(object? obj) => obj is Unit<TNumeric> other ? CompareTo(other) : 1;
+        public int CompareTo(Unit<TNumeric> other) => Value.CompareTo(other.Value);
+        public bool Equals(Unit<TNumeric> other) => Value.Equals(other.Value);
+        public override bool Equals(object? obj) => obj is Unit<TNumeric> unit && Equals(unit);
         public override int GetHashCode() => Value.GetHashCode();
         public override string? ToString() => Value.ToString();
         public string ToString(string? format, IFormatProvider? formatProvider) => Value.ToString(format, formatProvider);
 
-        public static Unit<N> Clamp(N value) => new Unit<N>(value);
+        public static implicit operator TNumeric(Unit<TNumeric> unit) => unit.Value;
+        public static explicit operator Unit<TNumeric>(TNumeric value) => new Unit<TNumeric>(value);
 
-        public static implicit operator N(Unit<N> unit) => unit.Value;
-        public static explicit operator Unit<N>(N value) => new Unit<N>(value);
+        public static bool operator !=(Unit<TNumeric> left, Unit<TNumeric> right) => !left.Equals(right);
+        public static bool operator <(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsLessThan(right.Value);
+        public static bool operator <=(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsLessThan(right.Value);
+        public static bool operator ==(Unit<TNumeric> left, Unit<TNumeric> right) => left.Equals(right);
+        public static bool operator >(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsGreaterThan(right.Value);
+        public static bool operator >=(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsGreaterThanOrEqualTo(right.Value);
+        public static TNumeric operator %(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.Remainder(right.Value);
+        public static TNumeric operator -(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.Subtract(right.Value);
+        public static TNumeric operator -(Unit<TNumeric> value) => value.Value.Negative();
+        public static TNumeric operator *(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.Multiply(right.Value);
+        public static TNumeric operator /(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.Divide(right.Value);
+        public static TNumeric operator +(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.Add(right.Value);
+        public static TNumeric operator +(Unit<TNumeric> value) => value.Value;
 
-        public static bool operator !=(Unit<N> left, Unit<N> right) => !left.Equals(right);
-        public static bool operator <(Unit<N> left, Unit<N> right) => left.Value.IsLessThan(right.Value);
-        public static bool operator <=(Unit<N> left, Unit<N> right) => left.Value.IsLessThan(right.Value);
-        public static bool operator ==(Unit<N> left, Unit<N> right) => left.Equals(right);
-        public static bool operator >(Unit<N> left, Unit<N> right) => left.Value.IsGreaterThan(right.Value);
-        public static bool operator >=(Unit<N> left, Unit<N> right) => left.Value.IsGreaterThanOrEqualTo(right.Value);
-        public static N operator %(Unit<N> left, Unit<N> right) => left.Value.Remainder(right.Value);
-        public static N operator -(Unit<N> left, Unit<N> right) => left.Value.Subtract(right.Value);
-        public static N operator -(Unit<N> value) => value.Value.Negative();
-        public static N operator *(Unit<N> left, Unit<N> right) => left.Value.Multiply(right.Value);
-        public static N operator /(Unit<N> left, Unit<N> right) => left.Value.Divide(right.Value);
-        public static N operator +(Unit<N> left, Unit<N> right) => left.Value.Add(right.Value);
-        public static N operator +(Unit<N> value) => value.Value;
+        public static bool operator !=(Unit<TNumeric> left, TNumeric right) => !left.Value.Equals(right);
+        public static bool operator <(Unit<TNumeric> left, TNumeric right) => left.Value.IsLessThan(right);
+        public static bool operator <=(Unit<TNumeric> left, TNumeric right) => left.Value.IsLessThanOrEqualTo(right);
+        public static bool operator ==(Unit<TNumeric> left, TNumeric right) => left.Value.Equals(right);
+        public static bool operator >(Unit<TNumeric> left, TNumeric right) => left.Value.IsGreaterThan(right);
+        public static bool operator >=(Unit<TNumeric> left, TNumeric right) => left.Value.IsGreaterThanOrEqualTo(right);
+        public static TNumeric operator %(Unit<TNumeric> left, TNumeric right) => left.Value.Remainder(right);
+        public static TNumeric operator -(Unit<TNumeric> left, TNumeric right) => left.Value.Subtract(right);
+        public static TNumeric operator *(Unit<TNumeric> left, TNumeric right) => left.Value.Multiply(right);
+        public static TNumeric operator /(Unit<TNumeric> left, TNumeric right) => left.Value.Divide(right);
+        public static TNumeric operator +(Unit<TNumeric> left, TNumeric right) => left.Value.Add(right);
 
-        public static bool operator !=(Unit<N> left, N right) => !left.Value.Equals(right);
-        public static bool operator <(Unit<N> left, N right) => left.Value.IsLessThan(right);
-        public static bool operator <=(Unit<N> left, N right) => left.Value.IsLessThanOrEqualTo(right);
-        public static bool operator ==(Unit<N> left, N right) => left.Value.Equals(right);
-        public static bool operator >(Unit<N> left, N right) => left.Value.IsGreaterThan(right);
-        public static bool operator >=(Unit<N> left, N right) => left.Value.IsGreaterThanOrEqualTo(right);
-        public static N operator %(Unit<N> left, N right) => left.Value.Remainder(right);
-        public static N operator -(Unit<N> left, N right) => left.Value.Subtract(right);
-        public static N operator *(Unit<N> left, N right) => left.Value.Multiply(right);
-        public static N operator /(Unit<N> left, N right) => left.Value.Divide(right);
-        public static N operator +(Unit<N> left, N right) => left.Value.Add(right);
+        public static bool operator !=(TNumeric left, Unit<TNumeric> right) => !left.Equals(right.Value);
+        public static bool operator <(TNumeric left, Unit<TNumeric> right) => left.IsLessThan(right.Value);
+        public static bool operator <=(TNumeric left, Unit<TNumeric> right) => left.IsLessThanOrEqualTo(right.Value);
+        public static bool operator ==(TNumeric left, Unit<TNumeric> right) => left.Equals(right.Value);
+        public static bool operator >(TNumeric left, Unit<TNumeric> right) => left.IsGreaterThan(right.Value);
+        public static bool operator >=(TNumeric left, Unit<TNumeric> right) => left.IsGreaterThanOrEqualTo(right.Value);
+        public static TNumeric operator %(TNumeric left, Unit<TNumeric> right) => left.Remainder(right.Value);
+        public static TNumeric operator -(TNumeric left, Unit<TNumeric> right) => left.Subtract(right.Value);
+        public static TNumeric operator *(TNumeric left, Unit<TNumeric> right) => left.Multiply(right.Value);
+        public static TNumeric operator /(TNumeric left, Unit<TNumeric> right) => left.Divide(right.Value);
+        public static TNumeric operator +(TNumeric left, Unit<TNumeric> right) => left.Add(right.Value);
 
-        public static bool operator !=(N left, Unit<N> right) => !left.Equals(right.Value);
-        public static bool operator <(N left, Unit<N> right) => left.IsLessThan(right.Value);
-        public static bool operator <=(N left, Unit<N> right) => left.IsLessThanOrEqualTo(right.Value);
-        public static bool operator ==(N left, Unit<N> right) => left.Equals(right.Value);
-        public static bool operator >(N left, Unit<N> right) => left.IsGreaterThan(right.Value);
-        public static bool operator >=(N left, Unit<N> right) => left.IsGreaterThanOrEqualTo(right.Value);
-        public static N operator %(N left, Unit<N> right) => left.Remainder(right.Value);
-        public static N operator -(N left, Unit<N> right) => left.Subtract(right.Value);
-        public static N operator *(N left, Unit<N> right) => left.Multiply(right.Value);
-        public static N operator /(N left, Unit<N> right) => left.Divide(right.Value);
-        public static N operator +(N left, Unit<N> right) => left.Add(right.Value);
-
-        IBitConverter<Unit<N>> IProvider<IBitConverter<Unit<N>>>.GetInstance() => Utilities.Instance;
-        IRandom<Unit<N>> IProvider<IRandom<Unit<N>>>.GetInstance() => Utilities.Instance;
-        IParser<Unit<N>> IProvider<IParser<Unit<N>>>.GetInstance() => Utilities.Instance;
+        IBitConverter<Unit<TNumeric>> IProvider<IBitConverter<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IRandom<Unit<TNumeric>> IProvider<IRandom<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringParser<Unit<TNumeric>> IProvider<IStringParser<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<Unit<N>>,
-            IRandom<Unit<N>>,
-            IParser<Unit<N>>
+            IBitConverter<Unit<TNumeric>>,
+            IRandom<Unit<TNumeric>>,
+            IStringParser<Unit<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Unit<N> IRandom<Unit<N>>.Next(Random random) => new Unit<N>(random.NextNumeric(Numeric<N>.MinUnit, Numeric<N>.MaxUnit));
-            Unit<N> IRandom<Unit<N>>.Next(Random random, Unit<N> bound1, Unit<N> bound2) => new Unit<N>(random.NextNumeric(bound1.Value, bound2.Value));
+            Unit<TNumeric> IRandom<Unit<TNumeric>>.Next(Random random) => new Unit<TNumeric>(random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>()));
+            Unit<TNumeric> IRandom<Unit<TNumeric>>.Next(Random random, Unit<TNumeric> bound1, Unit<TNumeric> bound2) => new Unit<TNumeric>(random.NextNumeric(bound1.Value, bound2.Value));
 
-            Unit<N> IParser<Unit<N>>.Parse(string s) => new Unit<N>(Parser<N>.Parse(s));
-            Unit<N> IParser<Unit<N>>.Parse(string s, NumberStyles style, IFormatProvider? provider) => new Unit<N>(Parser<N>.Parse(s, style, provider));
+            Unit<TNumeric> IStringParser<Unit<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => new Unit<TNumeric>(StringParser.Parse<TNumeric>(s, style, provider));
 
-            Unit<N> IBitConverter<Unit<N>>.Read(IReadOnlyStream<byte> stream) => new Unit<N>(BitConverter<N>.Read(stream));
-            void IBitConverter<Unit<N>>.Write(Unit<N> value, IWriteOnlyStream<byte> stream) => BitConverter<N>.Write(stream, value.Value);
+            Unit<TNumeric> IBitConverter<Unit<TNumeric>>.Read(IReader<byte> stream) => new Unit<TNumeric>(BitConvert.Read<TNumeric>(stream));
+            void IBitConverter<Unit<TNumeric>>.Write(Unit<TNumeric> value, IWriter<byte> stream) => BitConvert.Write(stream, value.Value);
         }
     }
 }

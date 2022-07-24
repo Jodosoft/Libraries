@@ -56,10 +56,10 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out DecimalN result) => Try.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DecimalN result) => Try.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out DecimalN result) => Try.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out DecimalN result) => Try.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out DecimalN result) => TryHelper.Run(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DecimalN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out DecimalN result) => TryHelper.Run(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out DecimalN result) => TryHelper.Run(() => Parse(s), out result);
         public static DecimalN Parse(string s) => decimal.Parse(s);
         public static DecimalN Parse(string s, IFormatProvider? provider) => decimal.Parse(s, provider);
         public static DecimalN Parse(string s, NumberStyles style) => decimal.Parse(s, style);
@@ -152,7 +152,7 @@ namespace Jodo.Numerics
         IMath<DecimalN> IProvider<IMath<DecimalN>>.GetInstance() => Utilities.Instance;
         INumericStatic<DecimalN> IProvider<INumericStatic<DecimalN>>.GetInstance() => Utilities.Instance;
         IRandom<DecimalN> IProvider<IRandom<DecimalN>>.GetInstance() => Utilities.Instance;
-        IParser<DecimalN> IProvider<IParser<DecimalN>>.GetInstance() => Utilities.Instance;
+        IStringParser<DecimalN> IProvider<IStringParser<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConverter<DecimalN>,
@@ -161,13 +161,13 @@ namespace Jodo.Numerics
             IMath<DecimalN>,
             INumericStatic<DecimalN>,
             IRandom<DecimalN>,
-            IParser<DecimalN>
+            IStringParser<DecimalN>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            bool INumericStatic<DecimalN>.HasFloatingPoint { get; } = true;
-            bool INumericStatic<DecimalN>.HasInfinity { get; } = false;
-            bool INumericStatic<DecimalN>.HasNaN { get; } = false;
+            bool INumericStatic<DecimalN>.HasFloatingPoint => true;
+            bool INumericStatic<DecimalN>.HasInfinity => false;
+            bool INumericStatic<DecimalN>.HasNaN => false;
             bool INumericStatic<DecimalN>.IsFinite(DecimalN x) => true;
             bool INumericStatic<DecimalN>.IsInfinity(DecimalN x) => false;
             bool INumericStatic<DecimalN>.IsNaN(DecimalN x) => false;
@@ -175,18 +175,18 @@ namespace Jodo.Numerics
             bool INumericStatic<DecimalN>.IsNegativeInfinity(DecimalN x) => false;
             bool INumericStatic<DecimalN>.IsNormal(DecimalN x) => false;
             bool INumericStatic<DecimalN>.IsPositiveInfinity(DecimalN x) => false;
-            bool INumericStatic<DecimalN>.IsReal { get; } = true;
-            bool INumericStatic<DecimalN>.IsSigned { get; } = true;
+            bool INumericStatic<DecimalN>.IsReal => true;
+            bool INumericStatic<DecimalN>.IsSigned => true;
             bool INumericStatic<DecimalN>.IsSubnormal(DecimalN x) => false;
             DecimalN INumericStatic<DecimalN>.Epsilon { get; } = new decimal(1, 0, 0, false, 28);
-            DecimalN INumericStatic<DecimalN>.MaxUnit { get; } = 1m;
+            DecimalN INumericStatic<DecimalN>.MaxUnit => 1m;
             DecimalN INumericStatic<DecimalN>.MaxValue => MaxValue;
-            DecimalN INumericStatic<DecimalN>.MinUnit { get; } = -1m;
+            DecimalN INumericStatic<DecimalN>.MinUnit => -1m;
             DecimalN INumericStatic<DecimalN>.MinValue => MinValue;
-            DecimalN INumericStatic<DecimalN>.One { get; } = 1m;
-            DecimalN INumericStatic<DecimalN>.Ten { get; } = 10m;
-            DecimalN INumericStatic<DecimalN>.Two { get; } = 2m;
-            DecimalN INumericStatic<DecimalN>.Zero { get; } = 0m;
+            DecimalN INumericStatic<DecimalN>.One => 1m;
+            DecimalN INumericStatic<DecimalN>.Ten => 10m;
+            DecimalN INumericStatic<DecimalN>.Two => 2m;
+            DecimalN INumericStatic<DecimalN>.Zero => 0m;
 
             int IMath<DecimalN>.Sign(DecimalN x) => Math.Sign(x);
             DecimalN IMath<DecimalN>.Abs(DecimalN value) => Math.Abs(value);
@@ -227,7 +227,7 @@ namespace Jodo.Numerics
             DecimalN IMath<DecimalN>.Tau { get; } = (DecimalN)Math.PI * 2m;
             DecimalN IMath<DecimalN>.Truncate(DecimalN x) => decimal.Truncate(x);
 
-            DecimalN IBitConverter<DecimalN>.Read(IReadOnlyStream<byte> stream)
+            DecimalN IBitConverter<DecimalN>.Read(IReader<byte> stream)
             {
                 int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
                 int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
@@ -240,7 +240,7 @@ namespace Jodo.Numerics
                 return new decimal(part0, part1, part2, sign, scale);
             }
 
-            void IBitConverter<DecimalN>.Write(DecimalN value, IWriteOnlyStream<byte> stream)
+            void IBitConverter<DecimalN>.Write(DecimalN value, IWriter<byte> stream)
             {
                 int[]? parts = decimal.GetBits(value);
                 stream.Write(BitConverter.GetBytes(parts[0]));
@@ -280,8 +280,8 @@ namespace Jodo.Numerics
             DecimalN IConvertExtended<DecimalN>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
             DecimalN IConvertExtended<DecimalN>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
 
-            DecimalN IParser<DecimalN>.Parse(string s) => Parse(s);
-            DecimalN IParser<DecimalN>.Parse(string s, NumberStyles style, IFormatProvider? provider) => Parse(s, style, provider);
+            DecimalN IStringParser<DecimalN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => Parse(s, style ?? NumberStyles.Number, provider);
         }
     }
 }

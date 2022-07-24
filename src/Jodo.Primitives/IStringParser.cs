@@ -22,9 +22,8 @@ using System.Globalization;
 
 namespace Jodo.Primitives
 {
-    public interface IParser<out T>
+    public interface IStringParser<out T>
     {
-        T Parse(string s);
-        T Parse(string s, NumberStyles style, IFormatProvider? provider);
+        T Parse(string s, NumberStyles? style, IFormatProvider? provider);
     }
 }
