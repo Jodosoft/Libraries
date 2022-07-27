@@ -19,6 +19,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
 using Jodo.Numerics;
@@ -76,6 +77,7 @@ namespace Jodo.CheckedNumerics
             return new UFix64C(ScaledArithmetic.Round(value._scaledValue, 6 - digits, mode));
         }
 
+        [SuppressMessage("Style", "JSON002:Probable JSON string detected", Justification = "False positive")]
         private static UFix64C FromDouble(double value)
         {
             string str = string

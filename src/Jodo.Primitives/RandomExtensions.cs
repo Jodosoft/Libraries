@@ -20,8 +20,11 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using Jodo.Primitives.Compatibility;
+
+#if !NETSTANDARD2_0_OR_GREATER
+using System.Runtime.CompilerServices;
+#endif
 
 namespace Jodo.Primitives
 {

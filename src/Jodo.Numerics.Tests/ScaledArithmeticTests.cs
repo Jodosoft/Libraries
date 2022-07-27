@@ -233,10 +233,10 @@ namespace Jodo.Numerics.Tests
             result.Should().Be(expected);
         }
 
-        [TestCase("123.999", (ulong)10, null, "en-US", 1240)]
-        [TestCase("123.456", (ulong)1000, null, "en-GB", 123456)]
-        [TestCase("1,234.56", (ulong)100, NumberStyles.AllowThousands, "en-US", 123456)]
-        [TestCase("1.234,56", (ulong)100, NumberStyles.AllowThousands, "da-DK", 123456)]
+        [TestCase("123.999", (ulong)10, null, "en-US", (ulong)1240)]
+        [TestCase("123.456", (ulong)1000, null, "en-GB", (ulong)123456)]
+        [TestCase("1,234.56", (ulong)100, NumberStyles.AllowThousands, "en-US", (ulong)123456)]
+        [TestCase("1.234,56", (ulong)100, NumberStyles.AllowThousands, "da-DK", (ulong)123456)]
         public void Parse2_VariousScenarios_CorrectResultAsDouble(string input, ulong scalingFactor, NumberStyles? style, string culture, ulong expected)
         {
             //arrange

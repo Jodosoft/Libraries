@@ -35,7 +35,7 @@ namespace Jodo.Numerics.Tests
     [SuppressMessage("Style", "IDE0008:Use explicit type", Justification = "For demonstration.")]
     public sealed class Showcase : GlobalFixtureBase
     {
-        public StringBuilder ConsoleOuput;
+        public StringBuilder ConsoleOuput { get; set; }
 
         [SetUp]
         public void SetUp()

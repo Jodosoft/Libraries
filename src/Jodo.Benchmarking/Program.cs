@@ -23,7 +23,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 [assembly: ExcludeFromCodeCoverage]
-[assembly: SuppressMessage("csharpsquid", "S2245")]
+[assembly: SuppressMessage("csharpsquid", "S2245:Using pseudorandom number generators (PRNGs) is security-sensitive", Justification = "Not a security-sensitive application.")]
 
 namespace Jodo.Benchmarking
 {

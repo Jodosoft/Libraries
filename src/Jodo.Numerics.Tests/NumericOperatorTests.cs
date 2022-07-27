@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using FluentAssertions;
@@ -328,7 +327,6 @@ namespace Jodo.Numerics.Tests
             }
 
             [Test, Repeat(RandomVariations)]
-            [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
             public void Serialize_RoundTrip_SameAsOriginal()
             {
                 //arrange
@@ -339,11 +337,13 @@ namespace Jodo.Numerics.Tests
                 TNumeric result;
                 using (MemoryStream stream = new MemoryStream())
                 {
+#pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
                     formatter.Serialize(stream, input);
                     stream.Position = 0;
                     result = (TNumeric)formatter.Deserialize(stream);
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
+#pragma warning restore IDE0079 // Remove unnecessary suppression
                 }
 
                 //assert

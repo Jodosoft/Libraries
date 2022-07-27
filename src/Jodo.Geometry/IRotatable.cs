@@ -21,7 +21,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Geometry
 {
-    [SuppressMessage("csharpsquid", "S2436")]
+    [SuppressMessage("csharpsquid", "S2436:Types and methods should not have too many generic parameters")]
     public interface IRotatable<out T, in TAngle, in TPivot>
     {
         T Rotate(TAngle angle);

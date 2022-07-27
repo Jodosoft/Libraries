@@ -17,6 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+
 namespace Jodo.Primitives
 {
     public static class StringUtilities
@@ -25,10 +27,21 @@ namespace Jodo.Primitives
         {
             value = value.Trim();
 
-            if (value.StartsWith("(") && value.EndsWith(")")) value = value.Substring(1, value.Length - 2);
-            if (value.StartsWith("[") && value.EndsWith("]")) value = value.Substring(1, value.Length - 2);
-            if (value.StartsWith("{") && value.EndsWith("}")) value = value.Substring(1, value.Length - 2);
-            if (value.StartsWith("<") && value.EndsWith(">")) value = value.Substring(1, value.Length - 2);
+            if (value.StartsWith("(", StringComparison.InvariantCultureIgnoreCase) &&
+                value.EndsWith(")", StringComparison.InvariantCultureIgnoreCase))
+                value = value.Substring(1, value.Length - 2);
+
+            if (value.StartsWith("[", StringComparison.InvariantCultureIgnoreCase) &&
+                value.EndsWith("]", StringComparison.InvariantCultureIgnoreCase))
+                value = value.Substring(1, value.Length - 2);
+
+            if (value.StartsWith("{", StringComparison.InvariantCultureIgnoreCase) &&
+                value.EndsWith("}", StringComparison.InvariantCultureIgnoreCase))
+                value = value.Substring(1, value.Length - 2);
+
+            if (value.StartsWith("<", StringComparison.InvariantCultureIgnoreCase) &&
+                value.EndsWith(">", StringComparison.InvariantCultureIgnoreCase))
+                value = value.Substring(1, value.Length - 2);
 
             string[] parts = value.Split(',');
             if (parts.Length == 1) parts = value.Split('|');

@@ -162,7 +162,7 @@ namespace Jodo.Geometry
                 if (parts.Length == 2)
                     return new Circle<TNumeric>(
                         StringParser.Parse<Vector2<TNumeric>>(parts[0], style, provider),
-                        StringParser.Parse<TNumeric>(parts[1].StartsWith("r") ? parts[1].Substring(1) : parts[1], style, provider));
+                        StringParser.Parse<TNumeric>(parts[1].StartsWith("r", StringComparison.InvariantCultureIgnoreCase) ? parts[1].Substring(1) : parts[1], style, provider));
                 else throw new FormatException();
             }
 

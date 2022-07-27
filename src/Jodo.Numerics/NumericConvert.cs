@@ -22,8 +22,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Numerics
 {
-    [SuppressMessage("csharpsquid", "S3358")]
-    [SuppressMessage("csharpsquid", "S2583", Justification = "False positives.")]
+    [SuppressMessage("csharpsquid", "S2583:Useless \"if(true) {...}\" and \"if(false){...}\" blocks should be removed", Justification = "False positives.")]
+    [SuppressMessage("csharpsquid", "S3358:Ternary operators should not be nested", Justification = "The alternative seems worse.")]
     public static class NumericConvert
     {
         [CLSCompliant(false)]

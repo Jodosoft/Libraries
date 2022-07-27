@@ -175,7 +175,6 @@ namespace Jodo.Geometry
         public string ToString(string? format, IFormatProvider? formatProvider)
             => $"{Symbol}({Center.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)}, {Angle.ToString(format, formatProvider)})";
 
-
         public AARectangle<TNumeric> GetBounds()
         {
             TNumeric[]? xs = new[] { GetTopLeft().X, GetTopRight().X, GetBottomLeft().X, GetBottomRight().X };
@@ -189,7 +188,6 @@ namespace Jodo.Geometry
             Vector2<TNumeric> dimensions = new Vector2<TNumeric>(maxX.Subtract(minX), maxY.Subtract(minY));
             return AARectangle.FromBottomLeft(new Vector2<TNumeric>(minX, minY), dimensions);
         }
-
 
         public static bool operator ==(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => !(left == right);

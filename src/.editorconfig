@@ -3,16 +3,16 @@ root = true
 [*]
 indent_style = space
 
-#dotnet_analyzer_diagnostic.severity = error
+dotnet_analyzer_diagnostic.severity = error
 
 dotnet_analyzer_diagnostic.category-CodeQuality.severity = error
 dotnet_analyzer_diagnostic.category-Design.severity = error
 dotnet_analyzer_diagnostic.category-Naming.severity = error
 dotnet_analyzer_diagnostic.category-SingleFile.severity = error
-#dotnet_analyzer_diagnostic.category-Style.severity = error - False positives (unnecessary usings in multi-target projects)
+dotnet_analyzer_diagnostic.category-Style.severity = error
 dotnet_analyzer_diagnostic.category-Usage.severity = error
 dotnet_analyzer_diagnostic.category-Documentation.severity = error
-#dotnet_analyzer_diagnostic.category-Globalization.severity = error
+dotnet_analyzer_diagnostic.category-Globalization.severity = error
 dotnet_analyzer_diagnostic.category-Interoperability.severity = error
 dotnet_analyzer_diagnostic.category-Maintainability.severity = error
 dotnet_analyzer_diagnostic.category-Performance.severity = error
@@ -28,13 +28,14 @@ indent_size = 4
 insert_final_newline = true
 charset = utf-8-bom
 
+dotnet_code_quality.ca1051.exclude_structs = true
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
-dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
-dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
-dotnet_naming_symbols.constant_fields.applicable_kinds            = field
-dotnet_naming_symbols.constant_fields.required_modifiers          = const
+dotnet_naming_symbols.constant_fields.applicable_kinds = field
+dotnet_naming_symbols.constant_fields.required_modifiers = const
 dotnet_sort_system_directives_first = true
 dotnet_style_allow_multiple_blank_lines_experimental = false
 dotnet_style_coalesce_expression = true:suggestion
@@ -110,16 +111,20 @@ csharp_style_expression_bodied_properties = false:none
 
 # Suppressions
 
-# CA1051: Do not declare visible instance fields
-dotnet_diagnostic.CA1051.severity = none # By design, used appropriately in read-only structs
-
 # CA1305: Specify IFormatProvider
-dotnet_diagnostic.CA1305.severity = none # For consistency with the SDK, overloads are provided with and without IFormatProvider
+# Justification: For consistency with the SDK, overloads are provided with and without IFormatProvider.
+dotnet_diagnostic.CA1305.severity = none
 
 # CA1846: Prefer 'AsSpan' over 'Substring'
-dotnet_diagnostic.CA1846.severity = none # Not supported by all target frameworks
+# Justification: Spans are not supported by all target frameworks.
+dotnet_diagnostic.CA1846.severity = none
 
 # IDE0057: Use range operator
-csharp_style_prefer_range_operator = false:none # Not supported by all target frameworks
-dotnet_diagnostic.IDE0057.severity = none # Not supported by all target frameworks
+# Justification: Range operators are not supported by all target frameworks.
+csharp_style_prefer_range_operator = false:none
+dotnet_diagnostic.IDE0057.severity = none
 
+# IDE0005: Using directive is unnecessary.
+# This produces false positives in files with target-specific code.
+# In Visual StudioCode Cleanup (on save) can be used in visual studio to prevent unnecessary usings.
+dotnet_diagnostic.IDE0005.severity = none

@@ -25,8 +25,8 @@ namespace Jodo.Benchmarking
     [ExcludeFromCodeCoverage]
     public readonly struct Measurement
     {
-        public readonly ulong Count;
-        public readonly TimeSpan TotalTime;
+        public ulong Count { get; }
+        public TimeSpan TotalTime { get; }
 
         public readonly TimeSpan AverageTime => new TimeSpan(TotalTime.Ticks / (long)Count);
         public readonly double PerSecond => Count / TotalTime.TotalSeconds;
