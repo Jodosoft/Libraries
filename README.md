@@ -66,8 +66,8 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
   <tr>
     <td>Community</td>
     <td>
-      <p>This work is licensed under the <a href="LICENSE.md">MIT License</a>.</p>
       <p>Community contributions are always welcome at https://github.com/JosephJShort/Jodo (the home of this repository). Contributors are requested to adhere to the <a href="CODE-OF-CONDUCT.md">code of conduct</a>.</p>
+      <p>This work is licensed under the <a href="LICENSE.md">MIT License</a>.</p>
       <p>
         <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github&no-cache"></a>
         <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
