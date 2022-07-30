@@ -28,7 +28,7 @@ namespace Jodo.Numerics.Tests
     public sealed class DecimalNTests : GlobalFixtureBase
     {
         public sealed class BitConvertTests : BitConvertTests<DecimalN> { }
-        public sealed class Cast : CastTests<DecimalN> { }
+        public sealed class CastTests : CastTests<DecimalN> { }
         public sealed class ConvertTests : ConvertTests<DecimalN> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<DecimalN> { }
         public sealed class MathFloatingPoint : MathTests.FloatingPoint<DecimalN> { }
@@ -38,7 +38,10 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericGeneral : NumericTests.General<DecimalN> { }
         public sealed class NumericReal : NumericTests.Real<DecimalN> { }
         public sealed class NumericSigned : NumericTests.SignedOnly<DecimalN> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTests<DecimalN> { }
         public sealed class ParserGeneral : StringParserTests.General<DecimalN> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTests<DecimalN> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTests<DecimalN> { }
 
         [Test, Repeat(RandomVariations)]
         public void IsFinite_RandomValue_AlwaysTrue()

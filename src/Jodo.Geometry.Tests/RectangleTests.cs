@@ -31,6 +31,8 @@ namespace Jodo.Geometry.Tests
         public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
             public sealed class BitConverter : Primitives.Tests.BitConvertTests<Rectangle<TNumeric>> { }
+            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Rectangle<TNumeric>> { }
+            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Rectangle<TNumeric>> { }
             public sealed class StringParser : Primitives.Tests.StringParserTests<Rectangle<TNumeric>> { }
             public sealed class TwoDimensional : TwoDimensionalTests<Rectangle<TNumeric>, TNumeric> { }
         }

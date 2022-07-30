@@ -37,6 +37,8 @@ namespace Jodo.Geometry.Tests
             public sealed class BitConverter : Primitives.Tests.BitConvertTests<AARectangle<TNumeric>> { }
             public sealed class StringParser : Primitives.Tests.StringParserTests<AARectangle<TNumeric>> { }
             public sealed class TwoDimensional : TwoDimensionalTests<AARectangle<TNumeric>, TNumeric> { }
+            public sealed class SerializableTests : Primitives.Tests.SerializableTests<AARectangle<TNumeric>> { }
+            public sealed class ObjectTests : Primitives.Tests.ObjectTests<AARectangle<TNumeric>> { }
 
             [Test]
             public void GetArea_RandomValues_CorrectResult()

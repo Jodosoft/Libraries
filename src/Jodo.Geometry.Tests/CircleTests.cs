@@ -33,6 +33,8 @@ namespace Jodo.Geometry.Tests
             public sealed class BitConverter : Primitives.Tests.BitConvertTests<Circle<TNumeric>> { }
             public sealed class StringParser : Primitives.Tests.StringParserTests<Circle<TNumeric>> { }
             public sealed class TwoDimensional : TwoDimensionalTests<Circle<TNumeric>, TNumeric> { }
+            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Circle<TNumeric>> { }
+            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Circle<TNumeric>> { }
         }
     }
 }

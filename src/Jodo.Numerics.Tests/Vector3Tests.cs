@@ -33,8 +33,10 @@ namespace Jodo.Numerics.Tests
 
         public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Unit<TNumeric>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Unit<TNumeric>> { }
+            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Vector3<TNumeric>> { }
+            public sealed class StringParser : Primitives.Tests.StringParserTests<Vector3<TNumeric>> { }
+            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Vector3<TNumeric>> { }
+            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Vector3<TNumeric>> { }
 
             [Test]
             public void Ctor_RandomValues_CorrectResult()

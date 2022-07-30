@@ -21,8 +21,8 @@ namespace Jodo.Numerics.Tests
 {
     public static class Fix64Tests
     {
-        public sealed class BitConvert : BitConvertTests<Fix64> { }
-        public sealed class Cast : CastTests<Fix64> { }
+        public sealed class BitConvertTests : BitConvertTests<Fix64> { }
+        public sealed class CastTests : CastTests<Fix64> { }
         public sealed class ConvertTests : ConvertTests<Fix64> { }
         public sealed class MathGeneral : MathTests.General<Fix64> { }
         public sealed class MathReal : MathTests.Real<Fix64> { }
@@ -33,6 +33,9 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNoNaN : NumericTests.NoNaN<Fix64> { }
         public sealed class NumericReal : NumericTests.Real<Fix64> { }
         public sealed class NumericSigned : NumericTests.SignedOnly<Fix64> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTests<Fix64> { }
         public sealed class ParserGeneral : StringParserTests.General<Fix64> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTests<Fix64> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTests<Fix64> { }
     }
 }

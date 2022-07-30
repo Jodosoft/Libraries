@@ -30,7 +30,7 @@ namespace Jodo.CheckedNumerics.Tests
     public sealed class DecimalCTests : GlobalFixtureBase
     {
         public sealed class BitConvertTests : BitConvertTests<DecimalC> { }
-        public sealed class Cast : CastTests<DecimalC> { }
+        public sealed class CastTests : CastTests<DecimalC> { }
         public sealed class CheckedNumeric : CheckedNumericTests<DecimalC> { }
         public sealed class ConvertTests : ConvertTests<DecimalC> { }
         public sealed class MathFloatingPoint : MathTests.FloatingPoint<DecimalC> { }
@@ -40,7 +40,10 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericGeneral : NumericTests.General<DecimalC> { }
         public sealed class NumericReal : NumericTests.Real<DecimalC> { }
         public sealed class NumericSigned : NumericTests.SignedOnly<DecimalC> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTests<DecimalC> { }
         public sealed class ParserGeneral : StringParserTests.General<DecimalC> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTests<DecimalC> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTests<DecimalC> { }
 
         [Test, Repeat(RandomVariations)]
         public void IsFinite_RandomValue_AlwaysTrue()

@@ -23,8 +23,8 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class ByteCTests
     {
-        public sealed class BitConvert : BitConvertTests<ByteC> { }
-        public sealed class Cast : CastTests<ByteC> { }
+        public sealed class BitConvertTests : BitConvertTests<ByteC> { }
+        public sealed class CastTests : CastTests<ByteC> { }
         public sealed class CheckedNumeric : CheckedNumericTests<ByteC> { }
         public sealed class ConvertTests : ConvertTests<ByteC> { }
         public sealed class MathGeneral : MathTests.General<ByteC> { }
@@ -36,7 +36,10 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<ByteC> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<ByteC> { }
         public sealed class NumericUnsigned : NumericTests.UnsignedOnly<ByteC> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTests<ByteC> { }
         public sealed class ParserGeneral : StringParserTests.General<ByteC> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTests<ByteC> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTests<ByteC> { }
         public sealed class StringParserIntegral : StringParserTests.Integral<ByteC> { }
     }
 }

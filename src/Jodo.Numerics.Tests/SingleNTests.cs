@@ -21,8 +21,8 @@ namespace Jodo.Numerics.Tests
 {
     public static class SingleNTests
     {
-        public sealed class BitConvert : BitConvertTests<SingleN> { }
-        public sealed class Cast : CastTests<SingleN> { }
+        public sealed class BitConvertTests : BitConvertTests<SingleN> { }
+        public sealed class CastTests : CastTests<SingleN> { }
         public sealed class ConvertTests : ConvertTests<SingleN> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<SingleN> { }
         public sealed class MathErrorNaN : MathErrorTests.NaN<SingleN> { }
@@ -35,6 +35,9 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNaN : NumericTests.NaN<SingleN> { }
         public sealed class NumericReal : NumericTests.Real<SingleN> { }
         public sealed class NumericSigned : NumericTests.SignedOnly<SingleN> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTests<SingleN> { }
         public sealed class ParserGeneral : StringParserTests.General<SingleN> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTests<SingleN> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTests<SingleN> { }
     }
 }

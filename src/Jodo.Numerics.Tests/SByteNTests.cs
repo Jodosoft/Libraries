@@ -21,8 +21,8 @@ namespace Jodo.Numerics.Tests
 {
     public static class SByteNTests
     {
-        public sealed class BitConvert : BitConvertTests<SByteN> { }
-        public sealed class Cast : CastTests<SByteN> { }
+        public sealed class BitConvertTests : BitConvertTests<SByteN> { }
+        public sealed class CastTests : CastTests<SByteN> { }
         public sealed class ConvertTests : ConvertTests<SByteN> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<SByteN> { }
         public sealed class MathErrorSignedIntegral : MathErrorTests.SignedIntegral<SByteN> { }
@@ -35,7 +35,10 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<SByteN> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<SByteN> { }
         public sealed class NumericSigned : NumericTests.SignedOnly<SByteN> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTests<SByteN> { }
         public sealed class ParserGeneral : StringParserTests.General<SByteN> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTests<SByteN> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTests<SByteN> { }
         public sealed class StringParserIntegral : StringParserTests.Integral<SByteN> { }
     }
 }

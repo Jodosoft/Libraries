@@ -23,8 +23,8 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class DoubleCTests
     {
-        public sealed class BitConvert : BitConvertTests<DoubleC> { }
-        public sealed class Cast : CastTests<DoubleC> { }
+        public sealed class BitConvertTests : BitConvertTests<DoubleC> { }
+        public sealed class CastTests : CastTests<DoubleC> { }
         public sealed class CheckedNumeric : CheckedNumericTests<DoubleC> { }
         public sealed class ConvertTests : ConvertTests<DoubleC> { }
         public sealed class MathFloatingPoint : MathTests.FloatingPoint<DoubleC> { }
@@ -36,6 +36,9 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericNoNaN : NumericTests.NoNaN<DoubleC> { }
         public sealed class NumericReal : NumericTests.Real<DoubleC> { }
         public sealed class NumericSigned : NumericTests.SignedOnly<DoubleC> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTests<DoubleC> { }
         public sealed class ParserGeneral : StringParserTests.General<DoubleC> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTests<DoubleC> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTests<DoubleC> { }
     }
 }

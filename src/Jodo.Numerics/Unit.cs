@@ -25,6 +25,19 @@ using Jodo.Primitives;
 
 namespace Jodo.Numerics
 {
+    public static class Unit
+    {
+
+        public static Unit<TNumeric> Zero<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+            => new Unit<TNumeric>(Numeric.Zero<TNumeric>());
+
+        public static Unit<TNumeric> MaxValue<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+            => new Unit<TNumeric>(Numeric.MaxUnit<TNumeric>());
+
+        public static Unit<TNumeric> MinValue<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+            => new Unit<TNumeric>(Numeric.MinUnit<TNumeric>());
+    }
+
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Unit<TNumeric> :
@@ -38,9 +51,6 @@ namespace Jodo.Numerics
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
-        public static readonly Unit<TNumeric> Zero = new Unit<TNumeric>(Numeric.Zero<TNumeric>());
-        public static readonly Unit<TNumeric> MaxValue = new Unit<TNumeric>(Numeric.MaxUnit<TNumeric>());
-        public static readonly Unit<TNumeric> MinValue = new Unit<TNumeric>(Numeric.MinUnit<TNumeric>());
 
         public readonly TNumeric Value { get; }
 
@@ -70,7 +80,7 @@ namespace Jodo.Numerics
 
         public static bool operator !=(Unit<TNumeric> left, Unit<TNumeric> right) => !left.Equals(right);
         public static bool operator <(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsLessThan(right.Value);
-        public static bool operator <=(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsLessThan(right.Value);
+        public static bool operator <=(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsLessThanOrEqualTo(right.Value);
         public static bool operator ==(Unit<TNumeric> left, Unit<TNumeric> right) => left.Equals(right);
         public static bool operator >(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsGreaterThan(right.Value);
         public static bool operator >=(Unit<TNumeric> left, Unit<TNumeric> right) => left.Value.IsGreaterThanOrEqualTo(right.Value);

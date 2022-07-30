@@ -21,8 +21,8 @@ namespace Jodo.Numerics.Tests
 {
     public static class UInt64NTests
     {
-        public sealed class BitConvert : BitConvertTests<UInt64N> { }
-        public sealed class Cast : CastTests<UInt64N> { }
+        public sealed class BitConvertTests : BitConvertTests<UInt64N> { }
+        public sealed class CastTests : CastTests<UInt64N> { }
         public sealed class ConvertTests : ConvertTests<UInt64N> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<UInt64N> { }
         public sealed class MathGeneral : MathTests.General<UInt64N> { }
@@ -34,7 +34,10 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNoInfinity : NumericTests.NoInfinity<UInt64N> { }
         public sealed class NumericNoNaN : NumericTests.NoNaN<UInt64N> { }
         public sealed class NumericUnsigned : NumericTests.UnsignedOnly<UInt64N> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTests<UInt64N> { }
         public sealed class ParserGeneral : StringParserTests.General<UInt64N> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTests<UInt64N> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTests<UInt64N> { }
         public sealed class StringParserIntegral : StringParserTests.Integral<UInt64N> { }
     }
 }

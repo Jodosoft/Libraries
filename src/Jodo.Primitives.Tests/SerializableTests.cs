@@ -17,24 +17,42 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Numerics;
+using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using FluentAssertions;
 using Jodo.Testing;
+using NUnit.Framework;
 
-namespace Jodo.Geometry.Tests
+namespace Jodo.Primitives.Tests
 {
-    public static class TriangleTests
-    {
-        public sealed class FixedPoint : General<Fix64> { }
-        public sealed class FloatingPoint : General<SingleN> { }
-        public sealed class UnsignedIntegral : General<ByteN> { }
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
 
-        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class SerializableTests<T> : GlobalFixtureBase where T : struct, ISerializable, IProvider<IRandom<T>>
+    {
+        [Test, Repeat(RandomVariations)]
+        public void Serialize_RoundTrip_SameAsOriginal()
         {
-            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Triangle<TNumeric>> { }
-            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Triangle<TNumeric>> { }
-            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Triangle<TNumeric>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Triangle<TNumeric>> { }
-            public sealed class TwoDimensional : TwoDimensionalTests<Triangle<TNumeric>, TNumeric> { }
+            //arrange
+            T input = Random.NextRandomizable<T>();
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            //act
+            T result;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                formatter.Serialize(stream, input);
+                stream.Position = 0;
+                result = (T)formatter.Deserialize(stream);
+            }
+
+            //assert
+            result.Should().Be(input);
         }
     }
+
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
+#pragma warning restore IDE0079 // Remove unnecessary suppression
 }
