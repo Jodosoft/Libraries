@@ -18,6 +18,8 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Jodo.Testing;
 using NUnit.Framework;
@@ -50,6 +52,24 @@ namespace Jodo.Primitives.Tests
 
             //assert
             result.Should().BeEquivalentTo(input);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void GetBytes_RoundTripMultiple_SameAsOriginal()
+        {
+            //arrange
+            T[] input = Enumerable.Range(0, 10).Select(_ => Random.NextRandomizable<T>()).ToArray();
+            T[] results = new T[input.Length];
+            List<byte> buffer = new List<byte>();
+            IWriter<byte> writer = buffer.AsWriteOnlyStream();
+            IReader<byte> reader = buffer.AsReadOnlyStream();
+
+            //act
+            for (int i = 0; i < input.Length; i++) BitConvert.Write(writer, input[i]);
+            for (int i = 0; i < input.Length; i++) results[i] = BitConvert.Read<T>(reader);
+
+            //assert
+            results.Should().BeEquivalentTo(input);
         }
 
         [Test]

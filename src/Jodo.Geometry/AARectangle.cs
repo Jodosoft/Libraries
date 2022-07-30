@@ -27,6 +27,45 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Geometry
 {
+
+    public static class AARectangle
+    {
+        public static AARectangle<TNumeric> Between<TNumeric>(Vector2<TNumeric> point1, Vector2<TNumeric> point2) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(point1, point2 - point1);
+        public static AARectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
+        public static AARectangle<TNumeric> FromBottomRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(center, dimensions);
+        public static AARectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromRightCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
+
+        internal static Vector2<TNumeric> GetCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => origin + dimensions.Halved();
+
+        internal static Vector2<TNumeric> GetBottomCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y);
+
+        internal static Vector2<TNumeric> GetBottomRight<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(origin.X.Add(dimensions.X), origin.Y);
+
+        internal static Vector2<TNumeric> GetLeftCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(origin.X, origin.Y.Add(dimensions.Y.Halved()));
+
+        internal static Vector2<TNumeric> GetRightCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2<TNumeric>(origin.X.Add(dimensions.X), origin.Y.Add(dimensions.Y.Halved()));
+
+        internal static Vector2<TNumeric> GetTopCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y.Add(dimensions.Y));
+
+        internal static Vector2<TNumeric> GetTopLeft<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2<TNumeric>(origin.X, origin.Y.Add(dimensions.Y));
+
+        internal static Vector2<TNumeric> GetTopRight<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => origin + dimensions;
+    }
+
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct AARectangle<TNumeric> :
@@ -121,8 +160,8 @@ namespace Jodo.Geometry
         public bool Equals(AARectangle<TNumeric> other) => Origin.Equals(other.Origin) && Dimensions.Equals(other.Dimensions);
         public override bool Equals(object? obj) => obj is AARectangle<TNumeric> fix && Equals(fix);
         public override int GetHashCode() => HashCode.Combine(Origin, Dimensions);
-        public override string ToString() => $"{Symbol}({Origin}, {Dimensions})";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({Origin.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)})";
+        public override string ToString() => $"{Symbol}<X:{Origin.X}, Y:{Origin.Y}, W:{Dimensions.X}, H:{Dimensions.Y}>";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}<X:{Origin.X.ToString(format, formatProvider)}, Y:{Origin.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}>";
 
         public static bool operator ==(AARectangle<TNumeric> left, AARectangle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(AARectangle<TNumeric> left, AARectangle<TNumeric> right) => !(left == right);
@@ -179,17 +218,13 @@ namespace Jodo.Geometry
 
             AARectangle<TNumeric> IStringParser<AARectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
-                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty));
-                if (parts.Length == 2)
-                    return new AARectangle<TNumeric>(
-                        StringParser.Parse<Vector2<TNumeric>>(parts[0], style, provider),
-                        StringParser.Parse<Vector2<TNumeric>>(parts[1], style, provider));
+                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
                 if (parts.Length == 4)
                     return new AARectangle<TNumeric>(
-                        StringParser.Parse<TNumeric>(parts[0], style, provider),
-                        StringParser.Parse<TNumeric>(parts[1], style, provider),
-                        StringParser.Parse<TNumeric>(parts[2], style, provider),
-                        StringParser.Parse<TNumeric>(parts[2], style, provider));
+                        StringParser.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                        StringParser.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
+                        StringParser.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
+                        StringParser.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider));
                 else throw new FormatException();
             }
 
@@ -206,43 +241,5 @@ namespace Jodo.Geometry
                 BitConvert.Write(stream, value.Dimensions);
             }
         }
-    }
-
-    public static class AARectangle
-    {
-        public static AARectangle<TNumeric> Between<TNumeric>(Vector2<TNumeric> point1, Vector2<TNumeric> point2) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(point1, point2 - point1);
-        public static AARectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
-        public static AARectangle<TNumeric> FromBottomRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(center, dimensions);
-        public static AARectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromRightCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromTopCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromTopLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromTopRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
-
-        internal static Vector2<TNumeric> GetCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => origin + dimensions.Halved();
-
-        internal static Vector2<TNumeric> GetBottomCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y);
-
-        internal static Vector2<TNumeric> GetBottomRight<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2<TNumeric>(origin.X.Add(dimensions.X), origin.Y);
-
-        internal static Vector2<TNumeric> GetLeftCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2<TNumeric>(origin.X, origin.Y.Add(dimensions.Y.Halved()));
-
-        internal static Vector2<TNumeric> GetRightCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => new Vector2<TNumeric>(origin.X.Add(dimensions.X), origin.Y.Add(dimensions.Y.Halved()));
-
-        internal static Vector2<TNumeric> GetTopCenter<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => new Vector2<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y.Add(dimensions.Y));
-
-        internal static Vector2<TNumeric> GetTopLeft<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => new Vector2<TNumeric>(origin.X, origin.Y.Add(dimensions.Y));
-
-        internal static Vector2<TNumeric> GetTopRight<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => origin + dimensions;
     }
 }

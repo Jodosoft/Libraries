@@ -228,7 +228,7 @@ namespace Jodo.Numerics
             ByteN IMath<ByteN>.Truncate(ByteN x) => x;
 
             ByteN IBitConverter<ByteN>.Read(IReader<byte> stream) => stream.Read(1)[0];
-            void IBitConverter<ByteN>.Write(ByteN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            void IBitConverter<ByteN>.Write(ByteN value, IWriter<byte> stream) => stream.Write(value._value);
 
             ByteN IRandom<ByteN>.Next(Random random) => random.NextByte();
             ByteN IRandom<ByteN>.Next(Random random, ByteN bound1, ByteN bound2) => random.NextByte(bound1._value, bound2._value);

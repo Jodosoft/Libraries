@@ -103,8 +103,8 @@ namespace Jodo.Geometry
         public bool Equals(Circle<TNumeric> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
         public override bool Equals(object? obj) => obj is Circle<TNumeric> circle && Equals(circle);
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
-        public override string ToString() => $"{Symbol}({Center}, r{GetDiameter()})";
-        public string ToString(string format, IFormatProvider formatProvider) => $"{Symbol}({Center.ToString(format, formatProvider)}, r{GetDiameter().ToString(format, formatProvider)})";
+        public override string ToString() => $"{Symbol}<X:{Center.X}, Y:{Center.Y}, R:{Radius}>";
+        public string ToString(string format, IFormatProvider formatProvider) => $"{Symbol}<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, R:{Radius.ToString(format, formatProvider)}>";
 
         public static bool operator ==(Circle<TNumeric> left, Circle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
@@ -158,11 +158,12 @@ namespace Jodo.Geometry
 
             Circle<TNumeric> IStringParser<Circle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
-                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty));
-                if (parts.Length == 2)
+                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
+                if (parts.Length == 3)
                     return new Circle<TNumeric>(
-                        StringParser.Parse<Vector2<TNumeric>>(parts[0], style, provider),
-                        StringParser.Parse<TNumeric>(parts[1].StartsWith("r", StringComparison.InvariantCultureIgnoreCase) ? parts[1].Substring(1) : parts[1], style, provider));
+                        StringParser.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                        StringParser.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
+                        StringParser.Parse<TNumeric>(parts[2].Replace("R:", string.Empty).Trim(), style, provider));
                 else throw new FormatException();
             }
 

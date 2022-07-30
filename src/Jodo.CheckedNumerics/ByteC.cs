@@ -229,7 +229,7 @@ namespace Jodo.CheckedNumerics
             int IMath<ByteC>.Sign(ByteC x) => x._value == 0 ? 0 : 1;
 
             ByteC IBitConverter<ByteC>.Read(IReader<byte> stream) => stream.Read(1)[0];
-            void IBitConverter<ByteC>.Write(ByteC value, IWriter<byte> stream) => stream.Write(new[] { value._value });
+            void IBitConverter<ByteC>.Write(ByteC value, IWriter<byte> stream) => stream.Write(value._value);
 
             ByteC IRandom<ByteC>.Next(Random random) => random.NextByte();
             ByteC IRandom<ByteC>.Next(Random random, ByteC bound1, ByteC bound2) => random.NextByte(bound1._value, bound2._value);

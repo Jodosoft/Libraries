@@ -27,18 +27,24 @@ namespace Jodo.Geometry.Tests
 {
     public static class AARectangleTests
     {
-        public sealed class Intergral : Integral<Int16N> { }
-        public sealed class GeneralUnsignedIntegral : General<ByteN> { }
-        public sealed class GeneralFloatingPoint : General<SingleN> { }
-        public sealed class GeneralFixedPoint : General<Fix64> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<AARectangle<Fix64>> { }
+        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<AARectangle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<AARectangle<Fix64>> { }
 
-        public abstract class General<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<AARectangle<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<AARectangle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<AARectangle<SingleN>> { }
+
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<AARectangle<ByteN>> { }
+
+        public abstract class GeneralTests<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConvertTests<AARectangle<TNumeric>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<AARectangle<TNumeric>> { }
-            public sealed class TwoDimensional : TwoDimensionalTests<AARectangle<TNumeric>, TNumeric> { }
-            public sealed class SerializableTests : Primitives.Tests.SerializableTests<AARectangle<TNumeric>> { }
-            public sealed class ObjectTests : Primitives.Tests.ObjectTests<AARectangle<TNumeric>> { }
 
             [Test]
             public void GetArea_RandomValues_CorrectResult()

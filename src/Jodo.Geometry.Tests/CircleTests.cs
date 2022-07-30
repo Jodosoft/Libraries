@@ -24,17 +24,24 @@ namespace Jodo.Geometry.Tests
 {
     public static class CircleTests
     {
-        public sealed class FixedPoint : General<Fix64> { }
-        public sealed class FloatingPoint : General<SingleN> { }
-        public sealed class UnsignedIntegral : General<ByteN> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<Circle<Fix64>> { }
+        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Circle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Circle<Fix64>> { }
 
-        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<Circle<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Circle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Circle<SingleN>> { }
+
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<Circle<ByteN>> { }
+
+        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Circle<TNumeric>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Circle<TNumeric>> { }
-            public sealed class TwoDimensional : TwoDimensionalTests<Circle<TNumeric>, TNumeric> { }
-            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Circle<TNumeric>> { }
-            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Circle<TNumeric>> { }
         }
     }
 }

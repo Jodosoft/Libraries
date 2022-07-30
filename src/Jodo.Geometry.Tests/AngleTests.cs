@@ -27,18 +27,24 @@ namespace Jodo.Geometry.Tests
 {
     public static class AngleTests
     {
-        public sealed class FixedPoint : General<Fix64> { }
-        public sealed class FloatingPoint : General<SingleN> { }
-        public sealed class UnsignedIntegral : General<ByteN> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<Angle<Fix64>> { }
+        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Angle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Angle<Fix64>> { }
 
-        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<Angle<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Angle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Angle<SingleN>> { }
+
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<Angle<ByteN>> { }
+
+        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Angle<TNumeric>> { }
-            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Angle<TNumeric>> { }
-            public sealed class RandomTests : Primitives.Tests.RandomTests<Angle<TNumeric>> { }
-            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Angle<TNumeric>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Angle<TNumeric>> { }
-
             [Test]
             public void Degrees_FromDegrees_SameAsOriginal()
             {

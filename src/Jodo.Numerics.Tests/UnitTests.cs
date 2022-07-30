@@ -26,17 +26,25 @@ namespace Jodo.Numerics.Tests
 {
     public static class UnitTests
     {
-        public sealed class FixedPoint : General<Fix64> { }
-        public sealed class FloatingPoint : General<SingleN> { }
-        public sealed class UnsignedIntegral : General<ByteN> { }
+        public sealed class FixedPointBitConvertTests : Primitives.Tests.BitConvertTests<Unit<Fix64>> { }
+        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Unit<Fix64>> { }
+        public sealed class FixedPointRandomTests : Primitives.Tests.RandomTests<Unit<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Unit<Fix64>> { }
+        public sealed class FloatingPointBitConvertTests : Primitives.Tests.BitConvertTests<Unit<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Unit<SingleN>> { }
+        public sealed class FloatingPointRandomTests : Primitives.Tests.RandomTests<Unit<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Unit<SingleN>> { }
+        public sealed class UnsignedIntegralBitConvertTests : Primitives.Tests.BitConvertTests<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralRandomTests : Primitives.Tests.RandomTests<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralStringParserTests : Primitives.Tests.StringParserTests<Unit<ByteN>> { }
 
-        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConvertTests : Primitives.Tests.BitConvertTests<Unit<TNumeric>> { }
-            public sealed class StringParserTests : Primitives.Tests.StringParserTests<Unit<TNumeric>> { }
-            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Unit<TNumeric>> { }
-            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Unit<TNumeric>> { }
-            public sealed class RandomTests : Primitives.Tests.RandomTests<Unit<TNumeric>> { }
 
             [Test]
             public void Zero_ValueEqualToNumericZero()

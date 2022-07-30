@@ -54,8 +54,6 @@ namespace Jodo.Geometry
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
-        private const string Symbol = "∠";
-
         public readonly TNumeric Degrees;
 
         public TNumeric GetRadians() => MathN.DegreesToRadians(Degrees);
@@ -91,8 +89,8 @@ namespace Jodo.Geometry
         public bool Equals(Angle<TNumeric> other) => Degrees.Equals(other.Degrees);
         public override bool Equals(object? obj) => obj is Angle<TNumeric> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
-        public override string ToString() => $"{Symbol}{Degrees}°";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}{Degrees.ToString(format, formatProvider)}°";
+        public override string ToString() => $"{Degrees}°";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Degrees.ToString(format, formatProvider)}°";
 
         public static implicit operator TNumeric(Angle<TNumeric> unit) => unit.Degrees;
         public static explicit operator Angle<TNumeric>(TNumeric value) => new Angle<TNumeric>(value);
@@ -151,7 +149,7 @@ namespace Jodo.Geometry
 
             Angle<TNumeric> IStringParser<Angle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
-                string? trimmed = s.Trim();
+                string trimmed = s.Trim();
 
                 if (TryParse(trimmed, "°", style, provider, out TNumeric number)) return Angle.FromDegrees(number);
                 if (TryParse(trimmed, "Degrees", style, provider, out number)) return Angle.FromDegrees(number);

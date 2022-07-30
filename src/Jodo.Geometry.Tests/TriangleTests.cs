@@ -24,17 +24,8 @@ namespace Jodo.Geometry.Tests
 {
     public static class TriangleTests
     {
-        public sealed class FixedPoint : General<Fix64> { }
-        public sealed class FloatingPoint : General<SingleN> { }
-        public sealed class UnsignedIntegral : General<ByteN> { }
-
-        public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Triangle<TNumeric>> { }
-            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Triangle<TNumeric>> { }
-            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Triangle<TNumeric>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Triangle<TNumeric>> { }
-            public sealed class TwoDimensional : TwoDimensionalTests<Triangle<TNumeric>, TNumeric> { }
         }
     }
 }

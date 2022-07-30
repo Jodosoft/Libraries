@@ -27,9 +27,21 @@ namespace Jodo.Numerics.Tests
 {
     public class Vector2Tests : AssemblyFixtureBase
     {
-        public sealed class FixedPoint : General<Fix64> { }
-        public sealed class FloatingPoint : General<SingleN> { }
-        public sealed class UnsignedIntegral : General<ByteN> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<Vector2<Fix64>> { }
+        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Vector2<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Vector2<Fix64>> { }
+
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<Vector2<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Vector2<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Vector2<SingleN>> { }
+
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<Vector2<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Vector2<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Vector2<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<Vector2<ByteN>> { }
 
         [Test]
         public void Dot_WorkedExample_CorrectResult()
@@ -43,12 +55,8 @@ namespace Jodo.Numerics.Tests
             result.Should().Be(-432);
         }
 
-        public abstract class General<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
+        public abstract class GeneralTests<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
-            public sealed class BitConverter : Primitives.Tests.BitConvertTests<Vector2<TNumeric>> { }
-            public sealed class StringParser : Primitives.Tests.StringParserTests<Vector2<TNumeric>> { }
-            public sealed class SerializableTests : Primitives.Tests.SerializableTests<Vector2<TNumeric>> { }
-            public sealed class ObjectTests : Primitives.Tests.ObjectTests<Vector2<TNumeric>> { }
 
             [Test, Repeat(RandomVariations)]
             public void Ctor_RandomValues_CorrectResult()

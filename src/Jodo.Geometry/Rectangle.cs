@@ -82,39 +82,39 @@ namespace Jodo.Geometry
     {
         private const string Symbol = "□";
 
-        public readonly Vector2<TNumeric> Center;
+        public readonly Vector2<TNumeric> Origin;
         public readonly Vector2<TNumeric> Dimensions;
         public readonly Angle<TNumeric> Angle;
 
         public TNumeric Height => Dimensions.Y;
         public TNumeric Width => Dimensions.X;
 
-        public Vector2<TNumeric> GetBottomCenter() => Rectangle.GetBottomCenter(Center, Dimensions, Angle);
-        public Vector2<TNumeric> GetBottomLeft() => Rectangle.GetBottomLeft(Center, Dimensions, Angle);
-        public Vector2<TNumeric> GetBottomRight() => Rectangle.GetBottomRight(Center, Dimensions, Angle);
-        public Vector2<TNumeric> GetLeftCenter() => Rectangle.GetLeftCenter(Center, Dimensions, Angle);
-        public Vector2<TNumeric> GetRightCenter() => Rectangle.GetRightCenter(Center, Dimensions, Angle);
-        public Vector2<TNumeric> GetTopCenter() => Rectangle.GetTopCenter(Center, Dimensions, Angle);
-        public Vector2<TNumeric> GetTopLeft() => Rectangle.GetTopLeft(Center, Dimensions, Angle);
-        public Vector2<TNumeric> GetTopRight() => Rectangle.GetTopRight(Center, Dimensions, Angle);
+        public Vector2<TNumeric> GetBottomCenter() => Rectangle.GetBottomCenter(Origin, Dimensions, Angle);
+        public Vector2<TNumeric> GetBottomLeft() => Rectangle.GetBottomLeft(Origin, Dimensions, Angle);
+        public Vector2<TNumeric> GetBottomRight() => Rectangle.GetBottomRight(Origin, Dimensions, Angle);
+        public Vector2<TNumeric> GetLeftCenter() => Rectangle.GetLeftCenter(Origin, Dimensions, Angle);
+        public Vector2<TNumeric> GetRightCenter() => Rectangle.GetRightCenter(Origin, Dimensions, Angle);
+        public Vector2<TNumeric> GetTopCenter() => Rectangle.GetTopCenter(Origin, Dimensions, Angle);
+        public Vector2<TNumeric> GetTopLeft() => Rectangle.GetTopLeft(Origin, Dimensions, Angle);
+        public Vector2<TNumeric> GetTopRight() => Rectangle.GetTopRight(Origin, Dimensions, Angle);
 
         public Rectangle(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
         {
-            Center = origin;
+            Origin = origin;
             Dimensions = dimensions;
             Angle = angle;
         }
 
         private Rectangle(SerializationInfo info, StreamingContext context)
         {
-            Center = (Vector2<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2<TNumeric>));
+            Origin = (Vector2<TNumeric>)info.GetValue(nameof(Origin), typeof(Vector2<TNumeric>));
             Dimensions = (Vector2<TNumeric>)info.GetValue(nameof(Dimensions), typeof(Vector2<TNumeric>));
             Angle = (Angle<TNumeric>)info.GetValue(nameof(Angle), typeof(Angle<TNumeric>));
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Center), Center, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(Origin), Origin, typeof(Vector2<TNumeric>));
             info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2<TNumeric>));
             info.AddValue(nameof(Angle), Angle, typeof(Angle<TNumeric>));
         }
@@ -151,10 +151,10 @@ namespace Jodo.Geometry
         public Rectangle<TNumeric> Grow(TNumeric deltaX, TNumeric deltaY) => Grow(new Vector2<TNumeric>(deltaX, deltaY));
         public Rectangle<TNumeric> Grow(Vector2<TNumeric> delta) => new Rectangle<TNumeric>(GetBottomLeft() - delta, Dimensions + delta + delta, Angle);
 
-        public Rectangle<TNumeric> Scale(TNumeric scale) => new Rectangle<TNumeric>(Center, Dimensions * scale, Angle);
+        public Rectangle<TNumeric> Scale(TNumeric scale) => new Rectangle<TNumeric>(Origin, Dimensions * scale, Angle);
 
         public Rectangle<TNumeric> Rotate(Angle<TNumeric> angle) => new Rectangle<TNumeric>(GetBottomLeft(), Dimensions, Angle + angle);
-        public Rectangle<TNumeric> RotateAround(Vector2<TNumeric> pivot, Angle<TNumeric> angle) => new Rectangle<TNumeric>(Center.RotateAround(pivot, angle), Dimensions, Angle + angle);
+        public Rectangle<TNumeric> RotateAround(Vector2<TNumeric> pivot, Angle<TNumeric> angle) => new Rectangle<TNumeric>(Origin.RotateAround(pivot, angle), Dimensions, Angle + angle);
         public Rectangle<TNumeric> Shrink(TNumeric delta) => Shrink(new Vector2<TNumeric>(delta, delta));
         public Rectangle<TNumeric> Shrink(TNumeric deltaX, TNumeric deltaY) => Shrink(new Vector2<TNumeric>(deltaX, deltaY));
         public Rectangle<TNumeric> Shrink(Vector2<TNumeric> delta) => new Rectangle<TNumeric>(GetBottomLeft(), Dimensions - delta, Angle);
@@ -164,16 +164,15 @@ namespace Jodo.Geometry
         public Rectangle<TNumeric> UnitTranslate(Vector2<TNumeric> delta) => new Rectangle<TNumeric>(
             GetBottomLeft() + new Vector2<TNumeric>(delta.X.Multiply(Width), delta.Y.Multiply(Height)), Dimensions, Angle);
 
-        public bool Equals(Rectangle<TNumeric> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
+        public bool Equals(Rectangle<TNumeric> other) => Origin.Equals(other.Origin) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
         public override bool Equals(object? obj)
         {
             return obj is Rectangle<TNumeric> rectangle && Equals(rectangle);
         }
 
-        public override int GetHashCode() => HashCode.Combine(Center, Dimensions, Angle);
-        public override string ToString() => $"{Symbol}({Center}, {Dimensions}, {Angle})";
-        public string ToString(string? format, IFormatProvider? formatProvider)
-            => $"{Symbol}({Center.ToString(format, formatProvider)}, {Dimensions.ToString(format, formatProvider)}, {Angle.ToString(format, formatProvider)})";
+        public override int GetHashCode() => HashCode.Combine(Origin, Dimensions, Angle);
+        public override string ToString() => $"{Symbol}<X:{Origin.X}, Y:{Origin.Y}, W:{Dimensions.X}, H:{Dimensions.Y}, A:{Angle}>";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}<X:{Origin.X.ToString(format, formatProvider)}, Y:{Origin.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}, A:{Angle.ToString(format, formatProvider)}>";
 
         public AARectangle<TNumeric> GetBounds()
         {
@@ -194,7 +193,7 @@ namespace Jodo.Geometry
         public static implicit operator Rectangle<TNumeric>(AARectangle<TNumeric> value) => new Rectangle<TNumeric>(value.Origin, value.Dimensions, default);
 
         Vector2<TNumeric>[] ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
-        Vector2<TNumeric> ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetCenter() => Center;
+        Vector2<TNumeric> ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetCenter() => Origin;
 
         IBitConverter<Rectangle<TNumeric>> IProvider<IBitConverter<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IRandom<Rectangle<TNumeric>> IProvider<IRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
@@ -253,12 +252,16 @@ namespace Jodo.Geometry
 
             Rectangle<TNumeric> IStringParser<Rectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
-                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty));
-                if (parts.Length == 3)
+                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
+                if (parts.Length == 5)
                     return new Rectangle<TNumeric>(
-                        StringParser.Parse<Vector2<TNumeric>>(parts[0], style, provider),
-                        StringParser.Parse<Vector2<TNumeric>>(parts[1], style, provider),
-                        StringParser.Parse<Angle<TNumeric>>(parts[1], style, provider));
+                        new Vector2<TNumeric>(
+                            StringParser.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                            StringParser.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider)),
+                        new Vector2<TNumeric>(
+                            StringParser.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
+                            StringParser.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider)),
+                        new Angle<TNumeric>(StringParser.Parse<Angle<TNumeric>>(parts[4].Replace("A:", string.Empty).Trim(), style, provider)));
                 else throw new FormatException();
             }
 
@@ -272,7 +275,7 @@ namespace Jodo.Geometry
 
             void IBitConverter<Rectangle<TNumeric>>.Write(Rectangle<TNumeric> value, IWriter<byte> stream)
             {
-                BitConvert.Write(stream, value.Center);
+                BitConvert.Write(stream, value.Origin);
                 BitConvert.Write(stream, value.Dimensions);
                 BitConvert.Write(stream, value.Angle);
             }
