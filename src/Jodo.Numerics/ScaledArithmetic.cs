@@ -151,13 +151,6 @@ namespace Jodo.Numerics
             return checked(integral + mantissa);
         }
 
-        private static long ParseIntegral(string value, int index, long scalingFactor)
-        {
-            if (index == 0) return 0;
-            if (index < 0) return checked(long.Parse(value) * scalingFactor);
-            return checked(long.Parse(value.Substring(0, index)) * scalingFactor);
-        }
-
         private static long ParseIntegral(string value, int index, long scalingFactor, NumberStyles style, IFormatProvider? provider)
         {
             if (index == 0) return 0;
