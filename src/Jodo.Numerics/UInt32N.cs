@@ -99,7 +99,6 @@ namespace Jodo.Numerics
         public static UInt32N operator &(UInt32N left, UInt32N right) => left._value & right._value;
         public static UInt32N operator -(UInt32N left, UInt32N right) => left._value - right._value;
         public static UInt32N operator --(UInt32N value) => value._value - 1;
-        public static UInt32N operator -(UInt32N value) => (uint)-value._value;
         public static UInt32N operator *(UInt32N left, UInt32N right) => left._value * right._value;
         public static UInt32N operator /(UInt32N left, UInt32N right) => left._value / right._value;
         public static UInt32N operator ^(UInt32N left, UInt32N right) => left._value ^ right._value;
@@ -140,7 +139,7 @@ namespace Jodo.Numerics
         UInt32N INumeric<UInt32N>.LogicalExclusiveOr(UInt32N value) => this ^ value;
         UInt32N INumeric<UInt32N>.LogicalOr(UInt32N value) => this | value;
         UInt32N INumeric<UInt32N>.Multiply(UInt32N value) => this * value;
-        UInt32N INumeric<UInt32N>.Negative() => -this;
+        UInt32N INumeric<UInt32N>.Negative() => (UInt32N)(0 - _value);
         UInt32N INumeric<UInt32N>.Positive() => +this;
         UInt32N INumeric<UInt32N>.Remainder(UInt32N value) => this % value;
         UInt32N INumeric<UInt32N>.RightShift(int count) => this >> count;

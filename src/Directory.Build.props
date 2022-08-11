@@ -117,5 +117,15 @@
     </Otherwise>
 
   </Choose>
+  
+  <!-- Constants -->
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
+    <DefineConstants>HAS_DEFAULT_INTERFACE_METHODS;$(AdditionalConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
+    <DefineConstants>HAS_DEFAULT_INTERFACE_METHODS;$(AdditionalConstants)</DefineConstants>
+  </PropertyGroup>
 
 </Project>

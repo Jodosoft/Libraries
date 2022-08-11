@@ -29,21 +29,21 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public sealed class DecimalCTests : GlobalFixtureBase
     {
-        public sealed class BitConvertTests : BitConvertTests<DecimalC> { }
+        public sealed class BitConvertTests : BitConvertTestsBase<DecimalC> { }
         public sealed class CastTests : CastTests<DecimalC> { }
         public sealed class CheckedNumeric : CheckedNumericTests<DecimalC> { }
         public sealed class ConvertTests : ConvertTests<DecimalC> { }
-        public sealed class MathFloatingPoint : MathTests.FloatingPoint<DecimalC> { }
-        public sealed class MathGeneral : MathTests.General<DecimalC> { }
-        public sealed class MathReal : MathTests.Real<DecimalC> { }
-        public sealed class MathSigned : MathTests.SingedOnly<DecimalC> { }
-        public sealed class NumericGeneral : NumericTests.General<DecimalC> { }
-        public sealed class NumericReal : NumericTests.Real<DecimalC> { }
-        public sealed class NumericSigned : NumericTests.SignedOnly<DecimalC> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTests<DecimalC> { }
-        public sealed class ParserGeneral : StringParserTests.General<DecimalC> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTests<DecimalC> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTests<DecimalC> { }
+        public sealed class MathFloatingPoint : MathTestsBase.FloatingPoint<DecimalC> { }
+        public sealed class MathGeneral : MathTestsBase.General<DecimalC> { }
+        public sealed class MathReal : MathTestsBase.Real<DecimalC> { }
+        public sealed class MathSigned : MathTestsBase.SingedOnly<DecimalC> { }
+        public sealed class NumericGeneral : NumericTestsBase.General<DecimalC> { }
+        public sealed class NumericReal : NumericTestsBase.Real<DecimalC> { }
+        public sealed class NumericSigned : NumericTestsBase.SignedOnly<DecimalC> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<DecimalC> { }
+        public sealed class ParserGeneral : StringParserTestsBase.General<DecimalC> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<DecimalC> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<DecimalC> { }
 
         [Test, Repeat(RandomVariations)]
         public void IsFinite_RandomValue_AlwaysTrue()

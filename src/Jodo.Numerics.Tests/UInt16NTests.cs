@@ -21,23 +21,25 @@ namespace Jodo.Numerics.Tests
 {
     public static class UInt16NTests
     {
-        public sealed class BitConvertTests : BitConvertTests<UInt16N> { }
+        public sealed class BitConvertTests : BitConvertTestsBase<UInt16N> { }
         public sealed class CastTests : CastTests<UInt16N> { }
         public sealed class ConvertTests : ConvertTests<UInt16N> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<UInt16N> { }
-        public sealed class MathGeneral : MathTests.General<UInt16N> { }
-        public sealed class MathIntegral : MathTests.Integral<UInt16N> { }
-        public sealed class MathUnsigned : NumericTests.UnsignedOnly<UInt16N> { }
-        public sealed class NumericGeneral : NumericTests.General<UInt16N> { }
-        public sealed class NumericIntegral : NumericTests.Integral<UInt16N> { }
-        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<UInt16N> { }
-        public sealed class NumericNoInfinity : NumericTests.NoInfinity<UInt16N> { }
-        public sealed class NumericNoNaN : NumericTests.NoNaN<UInt16N> { }
-        public sealed class NumericUnsigned : NumericTests.UnsignedOnly<UInt16N> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTests<UInt16N> { }
-        public sealed class ParserGeneral : StringParserTests.General<UInt16N> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTests<UInt16N> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTests<UInt16N> { }
-        public sealed class StringParserIntegral : StringParserTests.Integral<UInt16N> { }
+        public sealed class MathGeneral : MathTestsBase.General<UInt16N> { }
+        public sealed class MathIntegral : MathTestsBase.Integral<UInt16N> { }
+        public sealed class MathUnsigned : NumericTestsBase.UnsignedOnly<UInt16N> { }
+        public sealed class NumericGeneral : NumericTestsBase.General<UInt16N> { }
+        public sealed class NumericIntegral : NumericTestsBase.Integral<UInt16N> { }
+        public sealed class NumericNoFloatingPoint : NumericTestsBase.NoFloatingPoint<UInt16N> { }
+        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<UInt16N> { }
+        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<UInt16N> { }
+        public sealed class NumericUnsigned : NumericTestsBase.UnsignedOnly<UInt16N> { }
+        public sealed class NumericWrapperIntegralOnlyTests : NumericWrapperTestsBase.IntegralOnly<UInt16N, ushort> { }
+        public sealed class NumericWrapperTests : NumericWrapperTestsBase.General<UInt16N, ushort> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<UInt16N> { }
+        public sealed class ParserGeneral : StringParserTestsBase.General<UInt16N> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<UInt16N> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<UInt16N> { }
+        public sealed class StringParserIntegral : StringParserTestsBase.Integral<UInt16N> { }
     }
 }

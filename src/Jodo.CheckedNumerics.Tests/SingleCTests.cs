@@ -23,22 +23,22 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class SingleCTests
     {
-        public sealed class BitConvertTests : BitConvertTests<SingleC> { }
+        public sealed class BitConvertTests : BitConvertTestsBase<SingleC> { }
         public sealed class CastTests : CastTests<SingleC> { }
         public sealed class CheckedNumeric : CheckedNumericTests<SingleC> { }
         public sealed class ConvertTests : ConvertTests<SingleC> { }
-        public sealed class MathFloatingPoint : MathTests.FloatingPoint<SingleC> { }
-        public sealed class MathGeneral : MathTests.General<SingleC> { }
-        public sealed class MathReal : MathTests.Real<SingleC> { }
-        public sealed class MathSigned : MathTests.SingedOnly<SingleC> { }
-        public sealed class NumericGeneral : NumericTests.General<SingleC> { }
-        public sealed class NumericNoInfinity : NumericTests.NoInfinity<SingleC> { }
-        public sealed class NumericNoNaN : NumericTests.NoNaN<SingleC> { }
-        public sealed class NumericReal : NumericTests.Real<SingleC> { }
-        public sealed class NumericSigned : NumericTests.SignedOnly<SingleC> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTests<SingleC> { }
-        public sealed class ParserGeneral : StringParserTests.General<SingleC> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTests<SingleC> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTests<SingleC> { }
+        public sealed class MathFloatingPoint : MathTestsBase.FloatingPoint<SingleC> { }
+        public sealed class MathGeneral : MathTestsBase.General<SingleC> { }
+        public sealed class MathReal : MathTestsBase.Real<SingleC> { }
+        public sealed class MathSigned : MathTestsBase.SingedOnly<SingleC> { }
+        public sealed class NumericGeneral : NumericTestsBase.General<SingleC> { }
+        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<SingleC> { }
+        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<SingleC> { }
+        public sealed class NumericReal : NumericTestsBase.Real<SingleC> { }
+        public sealed class NumericSigned : NumericTestsBase.SignedOnly<SingleC> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<SingleC> { }
+        public sealed class ParserGeneral : StringParserTestsBase.General<SingleC> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<SingleC> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<SingleC> { }
     }
 }

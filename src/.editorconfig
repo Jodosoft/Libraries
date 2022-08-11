@@ -125,6 +125,10 @@ csharp_style_prefer_range_operator = false:none
 dotnet_diagnostic.IDE0057.severity = none
 
 # IDE0005: Using directive is unnecessary.
-# This produces false positives in files with target-specific code.
-# In Visual StudioCode Cleanup (on save) can be used in visual studio to prevent unnecessary usings.
+# Justification: This produces false positives in files with target-specific code.
+#                In Visual StudioCode Cleanup (on save) can be used in visual studio to prevent unnecessary usings.
 dotnet_diagnostic.IDE0005.severity = none
+
+# IDE0061: Use block body for local functions
+# Justification: Both can be appropriate.
+dotnet_diagnostic.IDE0061.severity = none

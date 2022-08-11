@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
-    public abstract class StringParserTests<T> : GlobalFixtureBase where T : struct, IProvider<IStringParser<T>>, IProvider<IRandom<T>>
+    public abstract class StringParserTestsBase<T> : GlobalFixtureBase where T : struct, IProvider<IStringParser<T>>, IProvider<IRandom<T>>
     {
         [Test]
         public void Parse1_RandomValueRoundTrip_SameAsInput()

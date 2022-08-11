@@ -99,7 +99,6 @@ namespace Jodo.Numerics
         public static UInt16N operator &(UInt16N left, UInt16N right) => (ushort)(left._value & right._value);
         public static UInt16N operator -(UInt16N left, UInt16N right) => (ushort)(left._value - right._value);
         public static UInt16N operator --(UInt16N value) => (ushort)(value._value - 1);
-        public static UInt16N operator -(UInt16N value) => (ushort)-value._value;
         public static UInt16N operator *(UInt16N left, UInt16N right) => (ushort)(left._value * right._value);
         public static UInt16N operator /(UInt16N left, UInt16N right) => (ushort)(left._value / right._value);
         public static UInt16N operator ^(UInt16N left, UInt16N right) => (ushort)(left._value ^ right._value);
@@ -140,7 +139,7 @@ namespace Jodo.Numerics
         UInt16N INumeric<UInt16N>.LogicalExclusiveOr(UInt16N value) => this ^ value;
         UInt16N INumeric<UInt16N>.LogicalOr(UInt16N value) => this | value;
         UInt16N INumeric<UInt16N>.Multiply(UInt16N value) => this * value;
-        UInt16N INumeric<UInt16N>.Negative() => -this;
+        UInt16N INumeric<UInt16N>.Negative() => (UInt16N)(0 - _value);
         UInt16N INumeric<UInt16N>.Positive() => +this;
         UInt16N INumeric<UInt16N>.Remainder(UInt16N value) => this % value;
         UInt16N INumeric<UInt16N>.RightShift(int count) => this >> count;

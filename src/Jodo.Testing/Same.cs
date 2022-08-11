@@ -18,14 +18,29 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Globalization;
 using FluentAssertions;
 
 namespace Jodo.Testing
 {
     public static class Same
     {
+
         [AssertionMethod]
-        public static void Outcome<TResult>(Func<TResult> subject, Func<TResult> expected)
+        public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> subject, params Func<TResult>[] subjects)
+        {
+            Outcome(expected, subject);
+            if (subjects != null)
+            {
+                foreach (Func<TResult> s in subjects)
+                {
+                    Outcome(expected, s);
+                }
+            }
+        }
+
+        [AssertionMethod]
+        public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> subject)
         {
             object expectedResult = null;
             Exception expectedException = null;
@@ -40,16 +55,22 @@ namespace Jodo.Testing
 
             if (expectedException == null)
             {
-                subject.Should().NotThrow().Which.Should().Be(expectedResult);
+                TResult actualResult = subject.Should().NotThrow().Subject;
+
+                if (!(expectedResult.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol &&
+                    actualResult.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol))
+                {
+                    actualResult.Should().Be(actualResult);
+                }
             }
             else
             {
-                subject.Should().Throw<Exception>().Which.Should().BeOfType(expectedException.GetType());
+                subject.Should().Throw<Exception>($"expected threw \"{expectedException.Message}\"").Which.Should().BeOfType(expectedException.GetType());
             }
         }
 
         [AssertionMethod]
-        public static void Outcome<TResult>(Func<TResult> subject, TResult expected)
+        public static void Outcome<TResult>(TResult expected, Func<TResult> subject)
         {
             subject.Should().NotThrow().Which.Should().Be(expected);
         }

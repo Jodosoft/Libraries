@@ -26,7 +26,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class NumericTests
+    public static class NumericTestsBase
     {
         public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
@@ -468,6 +468,318 @@ namespace Jodo.Numerics.Tests
 
                 //assert
                 result1.Should().NotBe(result2);
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void AdditionMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left + right,
+#endif
+                    () => left.Add(right),
+                    () => DynamicInvoke.AdditionOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void BitwiseComplementMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => ~left,
+#endif
+                    () => left.BitwiseComplement(),
+                    () => DynamicInvoke.BitwiseComplementOperator(left));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void DivisionMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left / right,
+#endif
+                    () => left.Divide(right),
+                    () => DynamicInvoke.DivisionOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void EqualityMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+                    () => left.Equals(right),
+                    () => left.Equals((object)right),
+                    () => left.CompareTo(right) == 0,
+                    () => left.CompareTo((object)right) == 0,
+                    () => DynamicInvoke.EqualityOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void GreaterThanMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left > right,
+#endif
+                    () => left.IsGreaterThan(right),
+                    () => left.CompareTo(right) > 0,
+                    () => left.CompareTo((object)right) > 0,
+                    () => DynamicInvoke.GreaterThanOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void GreaterThanOrEqualMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left >= right,
+#endif
+                    () => left.IsGreaterThanOrEqualTo(right),
+                    () => left.CompareTo(right) >= 0,
+                    () => left.CompareTo((object)right) >= 0,
+                    () => DynamicInvoke.GreaterThanOrEqualOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void InequalityMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+                    () => !left.Equals(right),
+                    () => !left.Equals((object)right),
+                    () => left.CompareTo(right) != 0,
+                    () => left.CompareTo((object)right) != 0,
+                    () => DynamicInvoke.InequalityOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LeftShiftMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                int right = Random.Next(-1, 65);
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left << right,
+#endif
+                    () => left.LeftShift(right),
+                    () => DynamicInvoke.LeftShiftOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LessThanMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left < right,
+#endif
+                    () => left.IsLessThan(right),
+                    () => left.CompareTo(right) < 0,
+                    () => left.CompareTo((object)right) < 0,
+                    () => DynamicInvoke.LessThanOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LessThanOrEqualMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left <= right,
+#endif
+                    () => left.IsLessThanOrEqualTo(right),
+                    () => left.CompareTo(right) <= 0,
+                    () => left.CompareTo((object)right) <= 0,
+                    () => DynamicInvoke.LessThanOrEqualOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LogicalAndMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left & right,
+#endif
+                    () => left.LogicalAnd(right),
+                    () => DynamicInvoke.LogicalAndOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LogicalExclusiveOrMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left ^ right,
+#endif
+                    () => left.LogicalExclusiveOr(right),
+                    () => DynamicInvoke.LogicalExclusiveOrOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void LogicalOrMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left | right,
+#endif
+                    () => left.LogicalOr(right),
+                    () => DynamicInvoke.LogicalOrOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void MultiplicationMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left * right,
+#endif
+                    () => left.Multiply(right),
+                    () => DynamicInvoke.MultiplicationOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void RemainderMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left % right,
+#endif
+                    () => left.Remainder(right),
+                    () => DynamicInvoke.RemainderOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void RightShiftMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                int right = Random.Next(-1, 65);
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left >> right,
+#endif
+                    () => left.RightShift(right),
+                    () => DynamicInvoke.RightShiftOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void SubtractionMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+                TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => left - right,
+#endif
+                    () => left.Subtract(right),
+                    () => DynamicInvoke.SubtractionOperator(left, right));
+            }
+
+            [Test, Repeat(RandomVariations)]
+            public void UnaryPlusMethods_RandomValues_ConsistentResults()
+            {
+                //arrange
+                TNumeric left = Random.NextNumeric<TNumeric>();
+
+                //act
+                //assert
+                Same.Outcome(
+#if HAS_DEFAULT_INTERFACE_METHODS
+                    () => +left,
+#endif
+                    () => left.Positive(),
+                    () => DynamicInvoke.UnaryPlusOperator(left));
             }
         }
 

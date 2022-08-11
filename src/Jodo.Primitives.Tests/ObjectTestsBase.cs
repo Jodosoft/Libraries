@@ -26,7 +26,7 @@ using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
-    public abstract class ObjectTests<T> : GlobalFixtureBase where T : struct, IProvider<IRandom<T>>
+    public abstract class ObjectTestsBase<T> : GlobalFixtureBase where T : struct, IProvider<IRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
         public void Equals_Null_ReturnsFalse()

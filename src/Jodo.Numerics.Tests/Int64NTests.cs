@@ -21,24 +21,26 @@ namespace Jodo.Numerics.Tests
 {
     public static class Int64NTests
     {
-        public sealed class BitConvertTests : BitConvertTests<Int64N> { }
+        public sealed class BitConvertTests : BitConvertTestsBase<Int64N> { }
         public sealed class CastTests : CastTests<Int64N> { }
         public sealed class ConvertTests : ConvertTests<Int64N> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<Int64N> { }
         public sealed class MathErrorSignedIntegral : MathErrorTests.SignedIntegral<Int64N> { }
-        public sealed class MathGeneral : MathTests.General<Int64N> { }
-        public sealed class MathIntegral : MathTests.Integral<Int64N> { }
-        public sealed class MathSigned : MathTests.SingedOnly<Int64N> { }
-        public sealed class NumericGeneral : NumericTests.General<Int64N> { }
-        public sealed class NumericIntegral : NumericTests.Integral<Int64N> { }
-        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<Int64N> { }
-        public sealed class NumericNoInfinity : NumericTests.NoInfinity<Int64N> { }
-        public sealed class NumericNoNaN : NumericTests.NoNaN<Int64N> { }
-        public sealed class NumericSigned : NumericTests.SignedOnly<Int64N> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTests<Int64N> { }
-        public sealed class ParserGeneral : StringParserTests.General<Int64N> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTests<Int64N> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTests<Int64N> { }
-        public sealed class StringParserIntegral : StringParserTests.Integral<Int64N> { }
+        public sealed class MathGeneral : MathTestsBase.General<Int64N> { }
+        public sealed class MathIntegral : MathTestsBase.Integral<Int64N> { }
+        public sealed class MathSigned : MathTestsBase.SingedOnly<Int64N> { }
+        public sealed class NumericGeneral : NumericTestsBase.General<Int64N> { }
+        public sealed class NumericIntegral : NumericTestsBase.Integral<Int64N> { }
+        public sealed class NumericNoFloatingPoint : NumericTestsBase.NoFloatingPoint<Int64N> { }
+        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<Int64N> { }
+        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<Int64N> { }
+        public sealed class NumericSigned : NumericTestsBase.SignedOnly<Int64N> { }
+        public sealed class NumericWrapperIntegralOnlyTests : NumericWrapperTestsBase.IntegralOnly<Int64N, long> { }
+        public sealed class NumericWrapperTests : NumericWrapperTestsBase.General<Int64N, long> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<Int64N> { }
+        public sealed class ParserGeneral : StringParserTestsBase.General<Int64N> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<Int64N> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<Int64N> { }
+        public sealed class StringParserIntegral : StringParserTestsBase.Integral<Int64N> { }
     }
 }

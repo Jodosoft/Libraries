@@ -26,7 +26,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class StringParserTests
+    public static class StringParserTestsBase
     {
         public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {

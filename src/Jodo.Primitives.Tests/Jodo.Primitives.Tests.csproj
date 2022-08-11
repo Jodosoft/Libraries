@@ -2,7 +2,6 @@
   <PropertyGroup>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Jodo.Primitives\Jodo.Primitives.csproj" />
     <ProjectReference Include="..\Jodo.Testing\Jodo.Testing.csproj" />
   </ItemGroup>
 </Project>

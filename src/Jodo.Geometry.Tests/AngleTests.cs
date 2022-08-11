@@ -27,21 +27,21 @@ namespace Jodo.Geometry.Tests
 {
     public static class AngleTests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<Angle<Fix64>> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<Angle<Fix64>> { }
         public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Angle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Angle<Fix64>> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Angle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Angle<Fix64>> { }
 
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<Angle<SingleN>> { }
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<Angle<SingleN>> { }
         public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Angle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Angle<SingleN>> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Angle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Angle<SingleN>> { }
 
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<Angle<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<Angle<ByteN>> { }
 
         public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {

@@ -24,21 +24,21 @@ namespace Jodo.Geometry.Tests
 {
     public static class RectangleTests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<Rectangle<Fix64>> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<Rectangle<Fix64>> { }
         public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Rectangle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Rectangle<Fix64>> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Rectangle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Rectangle<Fix64>> { }
 
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<Rectangle<SingleN>> { }
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<Rectangle<SingleN>> { }
         public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Rectangle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Rectangle<SingleN>> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Rectangle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Rectangle<SingleN>> { }
 
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<Rectangle<ByteN>> { }
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<Rectangle<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Rectangle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Rectangle<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<Rectangle<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Rectangle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Rectangle<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<Rectangle<ByteN>> { }
 
         public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {

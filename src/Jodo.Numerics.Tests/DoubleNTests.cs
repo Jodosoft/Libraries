@@ -17,26 +17,32 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
+using Jodo.Primitives.Tests;
+using Jodo.Testing;
+
 namespace Jodo.Numerics.Tests
 {
-    public static class DoubleNTests
+    [SuppressMessage("Style", "IDE0001:Simplify Names", Justification = "To make easily repeatable test fixture.")]
+    public sealed class DoubleNTests : GlobalFixtureBase
     {
-        public sealed class BitConvertTests : BitConvertTests<DoubleN> { }
+        public sealed class BitConvertTests : BitConvertTestsBase<DoubleN> { }
         public sealed class CastTests : CastTests<DoubleN> { }
         public sealed class ConvertTests : ConvertTests<DoubleN> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<DoubleN> { }
         public sealed class MathErrorNaN : MathErrorTests.NaN<DoubleN> { }
-        public sealed class MathFloatingPoint : MathTests.FloatingPoint<DoubleN> { }
-        public sealed class MathGeneral : MathTests.General<DoubleN> { }
-        public sealed class MathReal : MathTests.Real<DoubleN> { }
-        public sealed class MathSigned : MathTests.SingedOnly<DoubleN> { }
-        public sealed class NumericGeneral : NumericTests.General<DoubleN> { }
-        public sealed class NumericNaN : NumericTests.NaN<DoubleN> { }
-        public sealed class NumericReal : NumericTests.Real<DoubleN> { }
-        public sealed class NumericSigned : NumericTests.SignedOnly<DoubleN> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTests<DoubleN> { }
-        public sealed class ParserGeneral : StringParserTests.General<DoubleN> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTests<DoubleN> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTests<DoubleN> { }
+        public sealed class MathTestsFloatingPoint : MathTestsBase.FloatingPoint<DoubleN> { }
+        public sealed class MathTestsGeneral : MathTestsBase.General<DoubleN> { }
+        public sealed class MathTestsReal : MathTestsBase.Real<DoubleN> { }
+        public sealed class MathTestsSigned : MathTestsBase.SingedOnly<DoubleN> { }
+        public sealed class NumericGeneral : NumericTestsBase.General<DoubleN> { }
+        public sealed class NumericNaN : NumericTestsBase.NaN<DoubleN> { }
+        public sealed class NumericReal : NumericTestsBase.Real<DoubleN> { }
+        public sealed class NumericSigned : NumericTestsBase.SignedOnly<DoubleN> { }
+        public sealed class NumericWrapperTests : NumericWrapperTestsBase.General<DoubleN, double> { }
+        public sealed class ObjectTests : ObjectTestsBase<DoubleN> { }
+        public sealed class RandomTests : RandomTestsBase<DoubleN> { }
+        public sealed class SerializableTests : SerializableTestsBase<DoubleN> { }
+        public sealed class StringParserTests : StringParserTestsBase.General<DoubleN> { }
     }
 }

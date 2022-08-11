@@ -26,7 +26,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class MathTests
+    public static class MathTestsBase
     {
         [Timeout(1000)]
         public abstract class General<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>

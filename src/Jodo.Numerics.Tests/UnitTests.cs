@@ -26,22 +26,22 @@ namespace Jodo.Numerics.Tests
 {
     public static class UnitTests
     {
-        public sealed class FixedPointBitConvertTests : Primitives.Tests.BitConvertTests<Unit<Fix64>> { }
+        public sealed class FixedPointBitConvertTests : Primitives.Tests.BitConvertTestsBase<Unit<Fix64>> { }
         public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Unit<Fix64>> { }
-        public sealed class FixedPointRandomTests : Primitives.Tests.RandomTests<Unit<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Unit<Fix64>> { }
-        public sealed class FloatingPointBitConvertTests : Primitives.Tests.BitConvertTests<Unit<SingleN>> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Unit<Fix64>> { }
+        public sealed class FixedPointRandomTests : Primitives.Tests.RandomTestsBase<Unit<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Unit<Fix64>> { }
+        public sealed class FloatingPointBitConvertTests : Primitives.Tests.BitConvertTestsBase<Unit<SingleN>> { }
         public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Unit<SingleN>> { }
-        public sealed class FloatingPointRandomTests : Primitives.Tests.RandomTests<Unit<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Unit<SingleN>> { }
-        public sealed class UnsignedIntegralBitConvertTests : Primitives.Tests.BitConvertTests<Unit<ByteN>> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Unit<SingleN>> { }
+        public sealed class FloatingPointRandomTests : Primitives.Tests.RandomTestsBase<Unit<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Unit<SingleN>> { }
+        public sealed class UnsignedIntegralBitConvertTests : Primitives.Tests.BitConvertTestsBase<Unit<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralRandomTests : Primitives.Tests.RandomTests<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralStringParserTests : Primitives.Tests.StringParserTests<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralRandomTests : Primitives.Tests.RandomTestsBase<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralStringParserTests : Primitives.Tests.StringParserTestsBase<Unit<ByteN>> { }
 
         public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {
@@ -120,7 +120,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left.CompareTo(right), () => left.Value.CompareTo(right.Value));
+                Same.Outcome(() => left.Value.CompareTo(right.Value), () => left.CompareTo(right));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -132,7 +132,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left.CompareTo((object)right), () => left.Value.CompareTo((object)right.Value));
+                Same.Outcome(() => left.Value.CompareTo((object)right.Value), () => left.CompareTo((object)right));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -143,7 +143,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left.ToString(), () => left.Value.ToString());
+                Same.Outcome(() => left.Value.ToString(), () => left.ToString());
             }
 
             [Test, Repeat(RandomVariations)]
@@ -154,7 +154,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left.GetHashCode(), () => left.Value.GetHashCode());
+                Same.Outcome(() => left.Value.GetHashCode(), () => left.GetHashCode());
             }
 
             [Test, Repeat(RandomVariations)]
@@ -166,7 +166,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left == right, () => left.Value.Equals(right.Value));
+                Same.Outcome(() => left.Value.Equals(right.Value), () => left == right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -178,7 +178,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left.Equals(right), () => left.Value.Equals(right.Value));
+                Same.Outcome(() => left.Value.Equals(right.Value), () => left.Equals(right));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -190,7 +190,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left != right, () => !left.Value.Equals(right.Value));
+                Same.Outcome(() => !left.Value.Equals(right.Value), () => left != right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -202,7 +202,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left + right, () => left.Value.Add(right.Value));
+                Same.Outcome(() => left.Value.Add(right.Value), () => left + right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -214,7 +214,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left + right, () => left.Value.Add(right));
+                Same.Outcome(() => left.Value.Add(right), () => left + right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -226,7 +226,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left + right, () => left.Add(right.Value));
+                Same.Outcome(() => left.Add(right.Value), () => left + right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -238,7 +238,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left / right, () => left.Value.Divide(right.Value));
+                Same.Outcome(() => left.Value.Divide(right.Value), () => left / right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -250,7 +250,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left / right, () => left.Value.Divide(right));
+                Same.Outcome(() => left.Value.Divide(right), () => left / right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -262,7 +262,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left / right, () => left.Divide(right.Value));
+                Same.Outcome(() => left.Divide(right.Value), () => left / right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -274,7 +274,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left > right, () => left.Value.IsGreaterThan(right.Value));
+                Same.Outcome(() => left.Value.IsGreaterThan(right.Value), () => left > right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -286,7 +286,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left > right, () => left.Value.IsGreaterThan(right));
+                Same.Outcome(() => left.Value.IsGreaterThan(right), () => left > right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -298,7 +298,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left > right, () => left.IsGreaterThan(right.Value));
+                Same.Outcome(() => left.IsGreaterThan(right.Value), () => left > right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -310,7 +310,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left >= right, () => left.Value.IsGreaterThanOrEqualTo(right.Value));
+                Same.Outcome(() => left.Value.IsGreaterThanOrEqualTo(right.Value), () => left >= right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -322,7 +322,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left >= right, () => left.Value.IsGreaterThanOrEqualTo(right));
+                Same.Outcome(() => left.Value.IsGreaterThanOrEqualTo(right), () => left >= right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -334,7 +334,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left >= right, () => left.IsGreaterThanOrEqualTo(right.Value));
+                Same.Outcome(() => left.IsGreaterThanOrEqualTo(right.Value), () => left >= right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -346,7 +346,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left < right, () => left.Value.IsLessThan(right.Value));
+                Same.Outcome(() => left.Value.IsLessThan(right.Value), () => left < right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -358,7 +358,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left < right, () => left.Value.IsLessThan(right));
+                Same.Outcome(() => left.Value.IsLessThan(right), () => left < right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -370,7 +370,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left < right, () => left.IsLessThan(right));
+                Same.Outcome(() => left.IsLessThan(right), () => left < right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -382,7 +382,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left <= right, () => left.Value.IsLessThanOrEqualTo(right.Value));
+                Same.Outcome(() => left.Value.IsLessThanOrEqualTo(right.Value), () => left <= right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -394,7 +394,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left <= right, () => left.Value.IsLessThanOrEqualTo(right));
+                Same.Outcome(() => left.Value.IsLessThanOrEqualTo(right), () => left <= right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -406,7 +406,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left <= right, () => left.IsLessThanOrEqualTo(right.Value));
+                Same.Outcome(() => left.IsLessThanOrEqualTo(right.Value), () => left <= right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -418,7 +418,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left * right, () => left.Value.Multiply(right.Value));
+                Same.Outcome(() => left.Value.Multiply(right.Value), () => left * right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -430,7 +430,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left * right, () => left.Value.Multiply(right));
+                Same.Outcome(() => left.Value.Multiply(right), () => left * right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -442,7 +442,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left * right, () => left.Multiply(right.Value));
+                Same.Outcome(() => left.Multiply(right.Value), () => left * right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -453,7 +453,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => -left, () => left.Value.Negative());
+                Same.Outcome(() => left.Value.Negative(), () => -left);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -464,7 +464,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => +left, () => left.Value.Positive());
+                Same.Outcome(() => left.Value.Positive(), () => +left);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -476,7 +476,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left % right, () => left.Value.Remainder(right.Value));
+                Same.Outcome(() => left.Value.Remainder(right.Value), () => left % right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -488,7 +488,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left % right, () => left.Value.Remainder(right));
+                Same.Outcome(() => left.Value.Remainder(right), () => left % right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -500,7 +500,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left % right, () => left.Remainder(right.Value));
+                Same.Outcome(() => left.Remainder(right.Value), () => left % right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -512,7 +512,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left - right, () => left.Value.Subtract(right.Value));
+                Same.Outcome(() => left.Value.Subtract(right.Value), () => left - right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -524,7 +524,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left - right, () => left.Value.Subtract(right));
+                Same.Outcome(() => left.Value.Subtract(right), () => left - right);
             }
 
             [Test, Repeat(RandomVariations)]
@@ -536,7 +536,7 @@ namespace Jodo.Numerics.Tests
 
                 //act
                 //assert
-                Same.Outcome(() => left - right, () => left.Subtract(right.Value));
+                Same.Outcome(() => left.Subtract(right.Value), () => left - right);
             }
         }
     }

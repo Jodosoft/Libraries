@@ -27,21 +27,21 @@ namespace Jodo.Numerics.Tests
 {
     public class Vector2Tests : AssemblyFixtureBase
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<Vector2<Fix64>> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<Vector2<Fix64>> { }
         public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Vector2<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Vector2<Fix64>> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Vector2<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Vector2<Fix64>> { }
 
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<Vector2<SingleN>> { }
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<Vector2<SingleN>> { }
         public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Vector2<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Vector2<SingleN>> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Vector2<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Vector2<SingleN>> { }
 
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<Vector2<ByteN>> { }
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<Vector2<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Vector2<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Vector2<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<Vector2<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Vector2<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Vector2<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<Vector2<ByteN>> { }
 
         [Test]
         public void Dot_WorkedExample_CorrectResult()
@@ -98,8 +98,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Dot(input1, input2),
-                    () => input1.X.Multiply(input2.X).Add(input1.Y.Multiply(input2.Y)));
+                    () => input1.X.Multiply(input2.X).Add(input1.Y.Multiply(input2.Y)),
+                    () => VectorN.Dot(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -112,8 +112,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Multiply(input1, input2),
-                    () => new Vector2<TNumeric>(input1.X.Multiply(input2.X), input1.Y.Multiply(input2.Y)));
+                    () => new Vector2<TNumeric>(input1.X.Multiply(input2.X), input1.Y.Multiply(input2.Y)),
+                    () => VectorN.Multiply(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -126,8 +126,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Multiply(input1, input2),
-                    () => new Vector2<TNumeric>(input1.X.Multiply(input2), input1.Y.Multiply(input2)));
+                    () => new Vector2<TNumeric>(input1.X.Multiply(input2), input1.Y.Multiply(input2)),
+                    () => VectorN.Multiply(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -140,8 +140,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Multiply(input1, input2),
-                    () => new Vector2<TNumeric>(input1.Multiply(input2.X), input1.Multiply(input2.Y)));
+                    () => new Vector2<TNumeric>(input1.Multiply(input2.X), input1.Multiply(input2.Y)),
+                    () => VectorN.Multiply(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -154,8 +154,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Add(input1, input2),
-                    () => new Vector2<TNumeric>(input1.X.Add(input2.X), input1.Y.Add(input2.Y)));
+                    () => new Vector2<TNumeric>(input1.X.Add(input2.X), input1.Y.Add(input2.Y)),
+                    () => VectorN.Add(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -168,8 +168,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Subtract(input1, input2),
-                    () => new Vector2<TNumeric>(input1.X.Subtract(input2.X), input1.Y.Subtract(input2.Y)));
+                    () => new Vector2<TNumeric>(input1.X.Subtract(input2.X), input1.Y.Subtract(input2.Y)),
+                    () => VectorN.Subtract(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -182,8 +182,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Divide(input1, input2),
-                    () => new Vector2<TNumeric>(input1.X.Divide(input2.X), input1.Y.Divide(input2.Y)));
+                    () => new Vector2<TNumeric>(input1.X.Divide(input2.X), input1.Y.Divide(input2.Y)),
+                    () => VectorN.Divide(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -196,8 +196,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Divide(input1, input2),
-                    () => new Vector2<TNumeric>(input1.X.Divide(input2), input1.Y.Divide(input2)));
+                    () => new Vector2<TNumeric>(input1.X.Divide(input2), input1.Y.Divide(input2)),
+                    () => VectorN.Divide(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -209,8 +209,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.SquareRoot(input),
-                    () => new Vector2<TNumeric>(MathN.Sqrt(input.X), MathN.Sqrt(input.Y)));
+                    () => new Vector2<TNumeric>(MathN.Sqrt(input.X), MathN.Sqrt(input.Y)),
+                    () => VectorN.SquareRoot(input));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -222,8 +222,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Negate(input),
-                    () => new Vector2<TNumeric>(input.X.Negative(), input.Y.Negative()));
+                    () => new Vector2<TNumeric>(input.X.Negative(), input.Y.Negative()),
+                    () => VectorN.Negate(input));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -236,8 +236,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Max(input1, input2),
-                    () => new Vector2<TNumeric>(MathN.Max(input1.X, input2.X), MathN.Max(input1.Y, input2.Y)));
+                    () => new Vector2<TNumeric>(MathN.Max(input1.X, input2.X), MathN.Max(input1.Y, input2.Y)),
+                    () => VectorN.Max(input1, input2));
             }
 
             [Test, Repeat(RandomVariations)]
@@ -250,8 +250,8 @@ namespace Jodo.Numerics.Tests
                 //act
                 //assert
                 Same.Outcome(
-                    () => VectorN.Min(input1, input2),
-                    () => new Vector2<TNumeric>(MathN.Min(input1.X, input2.X), MathN.Min(input1.Y, input2.Y)));
+                    () => new Vector2<TNumeric>(MathN.Min(input1.X, input2.X), MathN.Min(input1.Y, input2.Y)),
+                    () => VectorN.Min(input1, input2));
             }
         }
     }

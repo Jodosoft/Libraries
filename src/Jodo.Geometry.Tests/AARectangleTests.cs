@@ -27,21 +27,21 @@ namespace Jodo.Geometry.Tests
 {
     public static class AARectangleTests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<AARectangle<Fix64>> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<AARectangle<Fix64>> { }
         public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<AARectangle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<AARectangle<Fix64>> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<AARectangle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<AARectangle<Fix64>> { }
 
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<AARectangle<SingleN>> { }
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<AARectangle<SingleN>> { }
         public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<AARectangle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<AARectangle<SingleN>> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<AARectangle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<AARectangle<SingleN>> { }
 
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<AARectangle<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<AARectangle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<AARectangle<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<AARectangle<ByteN>> { }
 
         public abstract class GeneralTests<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {

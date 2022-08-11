@@ -30,7 +30,7 @@ namespace Jodo.Primitives.Tests
 #pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
 
-    public abstract class SerializableTests<T> : GlobalFixtureBase where T : struct, ISerializable, IProvider<IRandom<T>>
+    public abstract class SerializableTestsBase<T> : GlobalFixtureBase where T : struct, ISerializable, IProvider<IRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
         public void Serialize_RoundTrip_SameAsOriginal()

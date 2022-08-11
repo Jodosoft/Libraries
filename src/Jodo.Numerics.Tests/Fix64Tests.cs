@@ -21,21 +21,21 @@ namespace Jodo.Numerics.Tests
 {
     public static class Fix64Tests
     {
-        public sealed class BitConvertTests : BitConvertTests<Fix64> { }
+        public sealed class BitConvertTests : BitConvertTestsBase<Fix64> { }
         public sealed class CastTests : CastTests<Fix64> { }
         public sealed class ConvertTests : ConvertTests<Fix64> { }
-        public sealed class MathGeneral : MathTests.General<Fix64> { }
-        public sealed class MathReal : MathTests.Real<Fix64> { }
-        public sealed class MathSigned : MathTests.SingedOnly<Fix64> { }
-        public sealed class NumericGeneral : NumericTests.General<Fix64> { }
-        public sealed class NumericNoFloatingPoint : NumericTests.NoFloatingPoint<Fix64> { }
-        public sealed class NumericNoInfinity : NumericTests.NoInfinity<Fix64> { }
-        public sealed class NumericNoNaN : NumericTests.NoNaN<Fix64> { }
-        public sealed class NumericReal : NumericTests.Real<Fix64> { }
-        public sealed class NumericSigned : NumericTests.SignedOnly<Fix64> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTests<Fix64> { }
-        public sealed class ParserGeneral : StringParserTests.General<Fix64> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTests<Fix64> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTests<Fix64> { }
+        public sealed class MathGeneral : MathTestsBase.General<Fix64> { }
+        public sealed class MathReal : MathTestsBase.Real<Fix64> { }
+        public sealed class MathSigned : MathTestsBase.SingedOnly<Fix64> { }
+        public sealed class NumericGeneral : NumericTestsBase.General<Fix64> { }
+        public sealed class NumericNoFloatingPoint : NumericTestsBase.NoFloatingPoint<Fix64> { }
+        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<Fix64> { }
+        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<Fix64> { }
+        public sealed class NumericReal : NumericTestsBase.Real<Fix64> { }
+        public sealed class NumericSigned : NumericTestsBase.SignedOnly<Fix64> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<Fix64> { }
+        public sealed class ParserGeneral : StringParserTestsBase.General<Fix64> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<Fix64> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<Fix64> { }
     }
 }

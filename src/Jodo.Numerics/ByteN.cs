@@ -99,7 +99,6 @@ namespace Jodo.Numerics
         public static ByteN operator &(ByteN left, ByteN right) => (byte)(left._value & right._value);
         public static ByteN operator -(ByteN left, ByteN right) => (byte)(left._value - right._value);
         public static ByteN operator --(ByteN value) => (byte)(value._value - 1);
-        public static ByteN operator -(ByteN value) => (byte)-value._value;
         public static ByteN operator *(ByteN left, ByteN right) => (byte)(left._value * right._value);
         public static ByteN operator /(ByteN left, ByteN right) => (byte)(left._value / right._value);
         public static ByteN operator ^(ByteN left, ByteN right) => (byte)(left._value ^ right._value);
@@ -140,7 +139,7 @@ namespace Jodo.Numerics
         ByteN INumeric<ByteN>.LogicalExclusiveOr(ByteN value) => this ^ value;
         ByteN INumeric<ByteN>.LogicalOr(ByteN value) => this | value;
         ByteN INumeric<ByteN>.Multiply(ByteN value) => this * value;
-        ByteN INumeric<ByteN>.Negative() => -this;
+        ByteN INumeric<ByteN>.Negative() => (ByteN)(0 - _value);
         ByteN INumeric<ByteN>.Positive() => +this;
         ByteN INumeric<ByteN>.Remainder(ByteN value) => this % value;
         ByteN INumeric<ByteN>.RightShift(int count) => this >> count;

@@ -24,21 +24,21 @@ namespace Jodo.Geometry.Tests
 {
     public static class CircleTests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTests<Circle<Fix64>> { }
+        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<Circle<Fix64>> { }
         public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTests<Circle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTests<Circle<Fix64>> { }
+        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Circle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Circle<Fix64>> { }
 
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTests<Circle<SingleN>> { }
+        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<Circle<SingleN>> { }
         public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTests<Circle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTests<Circle<SingleN>> { }
+        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Circle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Circle<SingleN>> { }
 
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTests<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<Circle<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTests<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTests<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTests<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<Circle<ByteN>> { }
 
         public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
         {

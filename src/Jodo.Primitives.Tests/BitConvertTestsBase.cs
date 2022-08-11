@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Jodo.Testing;
@@ -25,74 +26,62 @@ using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
-    public abstract class RandomTests<T> : GlobalFixtureBase where T : struct, IProvider<IRandom<T>>, IComparable<T>
+    public abstract class BitConvertTestsBase<T> : GlobalFixtureBase where T : struct, IProvider<IBitConverter<T>>, IProvider<IRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
-        public void NextRandomizable_WithEqualBounds_ProducesSameResult()
+        public void GetBytes_RandomValue_ReturnsBytes()
         {
             //arrange
-            T bound = Random.NextRandomizable<T>();
+            T input = Random.NextRandomizable<T>();
 
             //act
-            T result = Random.NextRandomizable(bound, bound);
+            byte[] result = BitConvert.GetBytes(input);
 
             //assert
-            result.Should().Be(bound);
+            result.Length.Should().BeGreaterThan(0);
         }
 
         [Test, Repeat(RandomVariations)]
-        public void NextRandomizable_WithRandomBounds_IsWithinBounds()
+        public void GetBytes_RoundTrip_SameAsOriginal()
         {
             //arrange
-            T bound1 = Random.NextRandomizable<T>();
-            T bound2 = Random.NextRandomizable<T>();
+            T input = Random.NextRandomizable<T>();
 
             //act
-            T result = Random.NextRandomizable(bound1, bound2);
+            T result = BitConvert.FromBytes<T>(BitConvert.GetBytes(input));
 
             //assert
-            if (bound1.CompareTo(bound2) <= 0)
-            {
-                result.Should().BeGreaterThanOrEqualTo(bound1);
-                result.Should().BeLessThanOrEqualTo(bound2);
-            }
-            else
-            {
-                result.Should().BeGreaterThanOrEqualTo(bound2);
-                result.Should().BeLessThanOrEqualTo(bound1);
-            }
+            result.Should().BeEquivalentTo(input);
         }
 
         [Test, Repeat(RandomVariations)]
-        public void NextRandomizable_ProducesDifferentResults()
+        public void GetBytes_RoundTripMultiple_SameAsOriginal()
         {
             //arrange
-            T[] results = new T[10];
+            T[] input = Enumerable.Range(0, 10).Select(_ => Random.NextRandomizable<T>()).ToArray();
+            T[] results = new T[input.Length];
+            List<byte> buffer = new List<byte>();
+            IWriter<byte> writer = buffer.AsWriteOnlyStream();
+            IReader<byte> reader = buffer.AsReadOnlyStream();
 
             //act
-            for (int i = 0; i < results.Length; i++)
-            {
-                results[i] = Random.NextRandomizable<T>();
-            }
+            for (int i = 0; i < input.Length; i++) BitConvert.Write(writer, input[i]);
+            for (int i = 0; i < input.Length; i++) results[i] = BitConvert.Read<T>(reader);
 
             //assert
-            results.Distinct().Should().HaveCountGreaterThan(1);
+            results.Should().BeEquivalentTo(input);
         }
 
-        [Test, Repeat(RandomVariations)]
-        public void NextRandomizable_WithRandomBounds_ProducesDifferentResults()
+        [Test]
+        public void FromBytes_ZeroLength_Throws()
         {
             //arrange
-            T[] results = new T[10];
 
             //act
-            for (int i = 0; i < results.Length; i++)
-            {
-                results[i] = Random.NextRandomizable(Random.NextRandomizable<T>(), Random.NextRandomizable<T>());
-            }
+            Action action = new Action(() => BitConvert.FromBytes<T>(Array.Empty<byte>()));
 
             //assert
-            results.Distinct().Should().HaveCountGreaterThan(1);
+            action.Should().Throw<ArgumentException>();
         }
     }
 }

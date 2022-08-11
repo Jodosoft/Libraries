@@ -27,21 +27,22 @@ namespace Jodo.Numerics.Tests
 {
     public sealed class DecimalNTests : GlobalFixtureBase
     {
-        public sealed class BitConvertTests : BitConvertTests<DecimalN> { }
+        public sealed class BitConvertTests : BitConvertTestsBase<DecimalN> { }
         public sealed class CastTests : CastTests<DecimalN> { }
         public sealed class ConvertTests : ConvertTests<DecimalN> { }
         public sealed class MathErrorGeneral : MathErrorTests.General<DecimalN> { }
-        public sealed class MathFloatingPoint : MathTests.FloatingPoint<DecimalN> { }
-        public sealed class MathGeneral : MathTests.General<DecimalN> { }
-        public sealed class MathReal : MathTests.Real<DecimalN> { }
-        public sealed class MathSigned : MathTests.SingedOnly<DecimalN> { }
-        public sealed class NumericGeneral : NumericTests.General<DecimalN> { }
-        public sealed class NumericReal : NumericTests.Real<DecimalN> { }
-        public sealed class NumericSigned : NumericTests.SignedOnly<DecimalN> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTests<DecimalN> { }
-        public sealed class ParserGeneral : StringParserTests.General<DecimalN> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTests<DecimalN> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTests<DecimalN> { }
+        public sealed class MathFloatingPoint : MathTestsBase.FloatingPoint<DecimalN> { }
+        public sealed class MathGeneral : MathTestsBase.General<DecimalN> { }
+        public sealed class MathReal : MathTestsBase.Real<DecimalN> { }
+        public sealed class MathSigned : MathTestsBase.SingedOnly<DecimalN> { }
+        public sealed class NumericGeneral : NumericTestsBase.General<DecimalN> { }
+        public sealed class NumericReal : NumericTestsBase.Real<DecimalN> { }
+        public sealed class NumericSigned : NumericTestsBase.SignedOnly<DecimalN> { }
+        public sealed class NumericWrapperTests : NumericWrapperTestsBase.General<DecimalN, decimal> { }
+        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<DecimalN> { }
+        public sealed class ParserGeneral : StringParserTestsBase.General<DecimalN> { }
+        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<DecimalN> { }
+        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<DecimalN> { }
 
         [Test, Repeat(RandomVariations)]
         public void IsFinite_RandomValue_AlwaysTrue()
