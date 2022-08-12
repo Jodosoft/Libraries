@@ -79,7 +79,7 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
       <p>This work is licensed under the <a href="LICENSE.md">MIT License</a>.</p>
       <p>
         <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github&no-cache"></a>
-        <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+        <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&color=005784&no-cache"></a>
       </p>
     </td>
   </tr>
