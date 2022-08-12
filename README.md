@@ -26,10 +26,16 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
   </tr>
   <tr>
     <td>Design goals</td>
-    <td>The Jodo packages are intedend to provide simple, intuitive and reliable utilities to complement the SDK.</td>
+    <td>
+      <p>The Jodo packages are intedend to provide simple, intuitive and reliable utilities to complement the SDK.</p>
+      <p>
+        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
+        <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+      </p>
+    </td>
   </tr>
   <tr>
-    <td>Style</td>
+    <td>Maintainability</td>
     <td>
       <p>
         This project adheres to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET design guidelines</a> for ease of use, consistency and maintainability.
@@ -47,7 +53,6 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     <td>
       <p>Unit tests, benchmarks, and continuous integration are used to ensure a high level of quality. Click on the shields below to see the latest results.</p>
       <p>
-        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
       </p>
@@ -61,6 +66,10 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
         Additional targets like .NET Standard 2.1 (<code>netstandard2.1</code>) are used for supporting newer language features like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
       <p>Publically exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a> wherever possible.</p>
+      <p>
+        <img alt="Target net461" src="https://img.shields.io/badge/target-.NET%20Framework%204.6-005784?logo=dotnet&style=flat-square&color=005784&no-cache">
+        <img alt="Target netstandard2.0" src="https://img.shields.io/badge/target-.NET%20Standard%202.0-005784?logo=dotnet&style=flat-square&color=005784&no-cache">
+      </p>
     </td>
   </tr>
   <tr>
@@ -71,7 +80,6 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
       <p>
         <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github&no-cache"></a>
         <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
-        <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
       </p>
     </td>
   </tr>
