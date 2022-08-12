@@ -18,30 +18,24 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Testing;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.Geometry.Tests
 {
     public static class CircleTests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<Circle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Circle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Circle<Fix64>> { }
-
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<Circle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Circle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Circle<SingleN>> { }
-
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<Circle<ByteN>> { }
-
-        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
-        {
-        }
+        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Circle<Fix64>> { }
+        public sealed class FixedPointGeneralTests : CircleTestBase<Fix64> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Circle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Circle<Fix64>> { }
+        public sealed class FloatingPointBitConvertTetsts : BitConvertTestBase<Circle<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : CircleTestBase<SingleN> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Circle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Circle<SingleN>> { }
+        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : CircleTestBase<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralStringConvertTests : StringConvertTestBase<Circle<ByteN>> { }
     }
 }

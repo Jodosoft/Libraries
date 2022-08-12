@@ -56,7 +56,7 @@ namespace Jodo.CheckedNumerics
         public bool Equals(UFix64C other) => _scaledValue == other._scaledValue;
         public override bool Equals(object? obj) => obj is UFix64C other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
-        public override string ToString() => ScaledArithmetic.ToString(_scaledValue, ScalingFactor, null);
+        public override string ToString() => ScaledMath.ToString(_scaledValue, ScalingFactor, null);
         public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
@@ -65,7 +65,7 @@ namespace Jodo.CheckedNumerics
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64C result) => TryHelper.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out UFix64C result) => TryHelper.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out UFix64C result) => TryHelper.Run(() => Parse(s), out result);
-        public static UFix64C Parse(string s) => new UFix64C(ScaledArithmetic.Parse(s, ScalingFactor, null, null));
+        public static UFix64C Parse(string s) => new UFix64C(ScaledMath.Parse(s, ScalingFactor, null, null));
         public static UFix64C Parse(string s, IFormatProvider? provider) => (UFix64C)double.Parse(s, provider);
         public static UFix64C Parse(string s, NumberStyles style) => (UFix64C)double.Parse(s, style);
         public static UFix64C Parse(string s, NumberStyles style, IFormatProvider? provider) => (UFix64C)double.Parse(s, style, provider);
@@ -74,7 +74,7 @@ namespace Jodo.CheckedNumerics
         {
             if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (digits > 5) return value;
-            return new UFix64C(ScaledArithmetic.Round(value._scaledValue, 6 - digits, mode));
+            return new UFix64C(ScaledMath.Round(value._scaledValue, 6 - digits, mode));
         }
 
         [SuppressMessage("Style", "JSON002:Probable JSON string detected", Justification = "False positive")]
@@ -105,29 +105,29 @@ namespace Jodo.CheckedNumerics
             return result;
         }
 
-        [CLSCompliant(false)] public static explicit operator UFix64C(sbyte value) => new UFix64C(NumericConvert.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
+        [CLSCompliant(false)] public static explicit operator UFix64C(sbyte value) => new UFix64C(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
         [CLSCompliant(false)] public static explicit operator UFix64C(ulong value) => new UFix64C(value * ScalingFactor);
-        [CLSCompliant(false)] public static implicit operator UFix64C(uint value) => new UFix64C(NumericConvert.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
-        [CLSCompliant(false)] public static implicit operator UFix64C(ushort value) => new UFix64C(NumericConvert.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
-        public static explicit operator UFix64C(decimal value) => value < 0 ? new UFix64C(0) : new UFix64C(NumericConvert.ToUInt64(value * ScalingFactor, Conversion.CastClamp));
+        [CLSCompliant(false)] public static implicit operator UFix64C(uint value) => new UFix64C(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
+        [CLSCompliant(false)] public static implicit operator UFix64C(ushort value) => new UFix64C(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
+        public static explicit operator UFix64C(decimal value) => value < 0 ? new UFix64C(0) : new UFix64C(ConvertN.ToUInt64(CheckedMath.Multiply(value, ScalingFactor), Conversion.CastClamp));
         public static explicit operator UFix64C(double value) => value < 0 ? new UFix64C(0) : FromDouble(value);
-        public static explicit operator UFix64C(float value) => value < 0 ? new UFix64C(0) : new UFix64C(NumericConvert.ToUInt64(value * ScalingFactor, Conversion.CastClamp));
-        public static explicit operator UFix64C(int value) => new UFix64C(NumericConvert.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
-        public static explicit operator UFix64C(long value) => new UFix64C(NumericConvert.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
-        public static explicit operator UFix64C(short value) => new UFix64C(NumericConvert.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
+        public static explicit operator UFix64C(float value) => value < 0 ? new UFix64C(0) : new UFix64C(ConvertN.ToUInt64(value * ScalingFactor, Conversion.CastClamp));
+        public static explicit operator UFix64C(int value) => new UFix64C(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
+        public static explicit operator UFix64C(long value) => new UFix64C(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
+        public static explicit operator UFix64C(short value) => new UFix64C(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
         public static implicit operator UFix64C(byte value) => new UFix64C(value * ScalingFactor);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(UFix64C value) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator uint(UFix64C value) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator sbyte(UFix64C value) => ConvertN.ToSByte(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator uint(UFix64C value) => ConvertN.ToUInt32(value._scaledValue / ScalingFactor, Conversion.CastClamp);
         [CLSCompliant(false)] public static explicit operator ulong(UFix64C value) => value._scaledValue / ScalingFactor;
-        [CLSCompliant(false)] public static explicit operator ushort(UFix64C value) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, Conversion.CastClamp);
-        public static explicit operator byte(UFix64C value) => NumericConvert.ToByte(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ushort(UFix64C value) => ConvertN.ToUInt16(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        public static explicit operator byte(UFix64C value) => ConvertN.ToByte(value._scaledValue / ScalingFactor, Conversion.CastClamp);
         public static explicit operator decimal(UFix64C value) => (decimal)value._scaledValue / ScalingFactor;
         public static explicit operator double(UFix64C value) => ToDouble(value);
         public static explicit operator float(UFix64C value) => (float)value._scaledValue / ScalingFactor;
-        public static explicit operator int(UFix64C value) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, Conversion.CastClamp);
-        public static explicit operator long(UFix64C value) => NumericConvert.ToInt64(value._scaledValue / ScalingFactor, Conversion.CastClamp);
-        public static explicit operator short(UFix64C value) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        public static explicit operator int(UFix64C value) => ConvertN.ToInt32(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        public static explicit operator long(UFix64C value) => ConvertN.ToInt64(value._scaledValue / ScalingFactor, Conversion.CastClamp);
+        public static explicit operator short(UFix64C value) => ConvertN.ToInt16(value._scaledValue / ScalingFactor, Conversion.CastClamp);
 
         public static bool operator !=(UFix64C left, UFix64C right) => left._scaledValue != right._scaledValue;
         public static bool operator <(UFix64C left, UFix64C right) => left._scaledValue < right._scaledValue;
@@ -135,17 +135,17 @@ namespace Jodo.CheckedNumerics
         public static bool operator ==(UFix64C left, UFix64C right) => left._scaledValue == right._scaledValue;
         public static bool operator >(UFix64C left, UFix64C right) => left._scaledValue > right._scaledValue;
         public static bool operator >=(UFix64C left, UFix64C right) => left._scaledValue >= right._scaledValue;
-        public static UFix64C operator %(UFix64C left, UFix64C right) => new UFix64C(CheckedArithmetic.Remainder(left._scaledValue, right._scaledValue));
+        public static UFix64C operator %(UFix64C left, UFix64C right) => new UFix64C(CheckedMath.Remainder(left._scaledValue, right._scaledValue));
         public static UFix64C operator &(UFix64C left, UFix64C right) => new UFix64C(left._scaledValue & right._scaledValue);
         public static UFix64C operator -(UFix64C _) => 0;
-        public static UFix64C operator -(UFix64C left, UFix64C right) => new UFix64C(CheckedArithmetic.Subtract(left._scaledValue, right._scaledValue));
+        public static UFix64C operator -(UFix64C left, UFix64C right) => new UFix64C(CheckedMath.Subtract(left._scaledValue, right._scaledValue));
         public static UFix64C operator --(UFix64C value) => new UFix64C(value._scaledValue - ScalingFactor);
-        public static UFix64C operator *(UFix64C left, UFix64C right) => new UFix64C(CheckedArithmetic.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
-        public static UFix64C operator /(UFix64C left, UFix64C right) => new UFix64C(CheckedArithmetic.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static UFix64C operator *(UFix64C left, UFix64C right) => new UFix64C(CheckedMath.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static UFix64C operator /(UFix64C left, UFix64C right) => new UFix64C(CheckedMath.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
         public static UFix64C operator ^(UFix64C left, UFix64C right) => new UFix64C(left._scaledValue ^ right._scaledValue);
         public static UFix64C operator |(UFix64C left, UFix64C right) => new UFix64C(left._scaledValue | right._scaledValue);
         public static UFix64C operator ~(UFix64C value) => new UFix64C(~value._scaledValue);
-        public static UFix64C operator +(UFix64C left, UFix64C right) => new UFix64C(CheckedArithmetic.Add(left._scaledValue, right._scaledValue));
+        public static UFix64C operator +(UFix64C left, UFix64C right) => new UFix64C(CheckedMath.Add(left._scaledValue, right._scaledValue));
         public static UFix64C operator +(UFix64C value) => value;
         public static UFix64C operator ++(UFix64C value) => new UFix64C(value._scaledValue + ScalingFactor);
         public static UFix64C operator <<(UFix64C left, int right) => new UFix64C(left._scaledValue << right);
@@ -186,22 +186,22 @@ namespace Jodo.CheckedNumerics
         UFix64C INumeric<UFix64C>.RightShift(int count) => this >> count;
         UFix64C INumeric<UFix64C>.Subtract(UFix64C value) => this - value;
 
-        IBitConverter<UFix64C> IProvider<IBitConverter<UFix64C>>.GetInstance() => Utilities.Instance;
+        IBitConvert<UFix64C> IProvider<IBitConvert<UFix64C>>.GetInstance() => Utilities.Instance;
         IConvert<UFix64C> IProvider<IConvert<UFix64C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UFix64C> IProvider<IConvertExtended<UFix64C>>.GetInstance() => Utilities.Instance;
         IMath<UFix64C> IProvider<IMath<UFix64C>>.GetInstance() => Utilities.Instance;
         INumericStatic<UFix64C> IProvider<INumericStatic<UFix64C>>.GetInstance() => Utilities.Instance;
         IRandom<UFix64C> IProvider<IRandom<UFix64C>>.GetInstance() => Utilities.Instance;
-        IStringParser<UFix64C> IProvider<IStringParser<UFix64C>>.GetInstance() => Utilities.Instance;
+        IStringConvert<UFix64C> IProvider<IStringConvert<UFix64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<UFix64C>,
+            IBitConvert<UFix64C>,
             IConvert<UFix64C>,
             IConvertExtended<UFix64C>,
             IMath<UFix64C>,
             INumericStatic<UFix64C>,
             IRandom<UFix64C>,
-            IStringParser<UFix64C>
+            IStringConvert<UFix64C>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -238,14 +238,14 @@ namespace Jodo.CheckedNumerics
             UFix64C IMath<UFix64C>.Atan2(UFix64C x, UFix64C y) => (UFix64C)Math.Atan2((double)x, (double)y);
             UFix64C IMath<UFix64C>.Atanh(UFix64C x) => (UFix64C)MathCompat.Atanh((double)x);
             UFix64C IMath<UFix64C>.Cbrt(UFix64C x) => (UFix64C)MathCompat.Cbrt((double)x);
-            UFix64C IMath<UFix64C>.Ceiling(UFix64C x) => new UFix64C(ScaledArithmetic.Ceiling(x._scaledValue, ScalingFactor));
+            UFix64C IMath<UFix64C>.Ceiling(UFix64C x) => new UFix64C(ScaledMath.Ceiling(x._scaledValue, ScalingFactor));
             UFix64C IMath<UFix64C>.Clamp(UFix64C x, UFix64C bound1, UFix64C bound2) => new UFix64C(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             UFix64C IMath<UFix64C>.Cos(UFix64C x) => (UFix64C)Math.Cos((double)x);
             UFix64C IMath<UFix64C>.Cosh(UFix64C x) => (UFix64C)Math.Cosh((double)x);
-            UFix64C IMath<UFix64C>.DegreesToRadians(UFix64C x) => (UFix64C)CheckedArithmetic.Multiply((double)x, NumericUtilities.RadiansPerDegree);
+            UFix64C IMath<UFix64C>.DegreesToRadians(UFix64C x) => (UFix64C)CheckedMath.Multiply((double)x, NumericUtilities.RadiansPerDegree);
             UFix64C IMath<UFix64C>.E { get; } = (UFix64C)Math.E;
             UFix64C IMath<UFix64C>.Exp(UFix64C x) => (UFix64C)Math.Exp((double)x);
-            UFix64C IMath<UFix64C>.Floor(UFix64C x) => new UFix64C(ScaledArithmetic.Floor(x._scaledValue, ScalingFactor));
+            UFix64C IMath<UFix64C>.Floor(UFix64C x) => new UFix64C(ScaledMath.Floor(x._scaledValue, ScalingFactor));
             UFix64C IMath<UFix64C>.IEEERemainder(UFix64C x, UFix64C y) => (UFix64C)Math.IEEERemainder((double)x, (double)y);
             UFix64C IMath<UFix64C>.Log(UFix64C x) => (UFix64C)Math.Log((double)x);
             UFix64C IMath<UFix64C>.Log(UFix64C x, UFix64C y) => (UFix64C)Math.Log((double)x, (double)y);
@@ -254,7 +254,7 @@ namespace Jodo.CheckedNumerics
             UFix64C IMath<UFix64C>.Min(UFix64C x, UFix64C y) => new UFix64C(Math.Min(x._scaledValue, y._scaledValue));
             UFix64C IMath<UFix64C>.PI { get; } = (UFix64C)Math.PI;
             UFix64C IMath<UFix64C>.Pow(UFix64C x, UFix64C y) => y == 1 ? x : (UFix64C)Math.Pow((double)x, (double)y);
-            UFix64C IMath<UFix64C>.RadiansToDegrees(UFix64C x) => (UFix64C)CheckedArithmetic.Multiply((double)x, NumericUtilities.DegreesPerRadian);
+            UFix64C IMath<UFix64C>.RadiansToDegrees(UFix64C x) => (UFix64C)CheckedMath.Multiply((double)x, NumericUtilities.DegreesPerRadian);
             UFix64C IMath<UFix64C>.Round(UFix64C x) => Round(x, 0, MidpointRounding.ToEven);
             UFix64C IMath<UFix64C>.Round(UFix64C x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             UFix64C IMath<UFix64C>.Round(UFix64C x, int digits, MidpointRounding mode) => Round(x, digits, mode);
@@ -267,41 +267,41 @@ namespace Jodo.CheckedNumerics
             UFix64C IMath<UFix64C>.Tau { get; } = (UFix64C)(Math.PI * 2d);
             UFix64C IMath<UFix64C>.Truncate(UFix64C x) => new UFix64C(x._scaledValue / ScalingFactor * ScalingFactor);
 
-            UFix64C IBitConverter<UFix64C>.Read(IReader<byte> stream) => new UFix64C(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
-            void IBitConverter<UFix64C>.Write(UFix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            UFix64C IBitConvert<UFix64C>.Read(IReader<byte> stream) => new UFix64C(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
+            void IBitConvert<UFix64C>.Write(UFix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             UFix64C IRandom<UFix64C>.Next(Random random) => new UFix64C(random.NextUInt64());
             UFix64C IRandom<UFix64C>.Next(Random random, UFix64C bound1, UFix64C bound2) => new UFix64C(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<UFix64C>.ToBoolean(UFix64C value) => value._scaledValue != 0;
-            byte IConvert<UFix64C>.ToByte(UFix64C value, Conversion mode) => NumericConvert.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());
+            byte IConvert<UFix64C>.ToByte(UFix64C value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());
             decimal IConvert<UFix64C>.ToDecimal(UFix64C value, Conversion mode) => (decimal)value._scaledValue / ScalingFactor;
             double IConvert<UFix64C>.ToDouble(UFix64C value, Conversion mode) => (double)value._scaledValue / ScalingFactor;
             float IConvert<UFix64C>.ToSingle(UFix64C value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
-            int IConvert<UFix64C>.ToInt32(UFix64C value, Conversion mode) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, mode.Clamped());
-            long IConvert<UFix64C>.ToInt64(UFix64C value, Conversion mode) => NumericConvert.ToInt64(value._scaledValue / ScalingFactor, mode.Clamped());
-            sbyte IConvertExtended<UFix64C>.ToSByte(UFix64C value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode.Clamped());
-            short IConvert<UFix64C>.ToInt16(UFix64C value, Conversion mode) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, mode.Clamped());
+            int IConvert<UFix64C>.ToInt32(UFix64C value, Conversion mode) => ConvertN.ToInt32(value._scaledValue / ScalingFactor, mode.Clamped());
+            long IConvert<UFix64C>.ToInt64(UFix64C value, Conversion mode) => ConvertN.ToInt64(value._scaledValue / ScalingFactor, mode.Clamped());
+            sbyte IConvertExtended<UFix64C>.ToSByte(UFix64C value, Conversion mode) => ConvertN.ToSByte(value._scaledValue / ScalingFactor, mode.Clamped());
+            short IConvert<UFix64C>.ToInt16(UFix64C value, Conversion mode) => ConvertN.ToInt16(value._scaledValue / ScalingFactor, mode.Clamped());
             string IConvert<UFix64C>.ToString(UFix64C value) => value.ToString();
-            uint IConvertExtended<UFix64C>.ToUInt32(UFix64C value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode.Clamped());
+            uint IConvertExtended<UFix64C>.ToUInt32(UFix64C value, Conversion mode) => ConvertN.ToUInt32(value._scaledValue / ScalingFactor, mode.Clamped());
             ulong IConvertExtended<UFix64C>.ToUInt64(UFix64C value, Conversion mode) => value._scaledValue / ScalingFactor;
-            ushort IConvertExtended<UFix64C>.ToUInt16(UFix64C value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode.Clamped());
+            ushort IConvertExtended<UFix64C>.ToUInt16(UFix64C value, Conversion mode) => ConvertN.ToUInt16(value._scaledValue / ScalingFactor, mode.Clamped());
 
             UFix64C IConvert<UFix64C>.ToNumeric(bool value) => value ? new UFix64C(ScalingFactor) : new UFix64C(0);
-            UFix64C IConvert<UFix64C>.ToNumeric(byte value, Conversion mode) => (UFix64C)NumericConvert.ToUInt64(value, mode.Clamped());
+            UFix64C IConvert<UFix64C>.ToNumeric(byte value, Conversion mode) => (UFix64C)ConvertN.ToUInt64(value, mode.Clamped());
             UFix64C IConvert<UFix64C>.ToNumeric(decimal value, Conversion mode) => (UFix64C)value;
             UFix64C IConvert<UFix64C>.ToNumeric(double value, Conversion mode) => (UFix64C)value;
             UFix64C IConvert<UFix64C>.ToNumeric(float value, Conversion mode) => (UFix64C)value;
-            UFix64C IConvert<UFix64C>.ToNumeric(int value, Conversion mode) => (UFix64C)NumericConvert.ToUInt64(value, mode.Clamped());
+            UFix64C IConvert<UFix64C>.ToNumeric(int value, Conversion mode) => (UFix64C)ConvertN.ToUInt64(value, mode.Clamped());
             UFix64C IConvert<UFix64C>.ToNumeric(long value, Conversion mode) => (UFix64C)value;
-            UFix64C IConvertExtended<UFix64C>.ToValue(sbyte value, Conversion mode) => (UFix64C)NumericConvert.ToUInt64(value, mode.Clamped());
-            UFix64C IConvert<UFix64C>.ToNumeric(short value, Conversion mode) => (UFix64C)NumericConvert.ToUInt64(value, mode.Clamped());
+            UFix64C IConvertExtended<UFix64C>.ToValue(sbyte value, Conversion mode) => (UFix64C)ConvertN.ToUInt64(value, mode.Clamped());
+            UFix64C IConvert<UFix64C>.ToNumeric(short value, Conversion mode) => (UFix64C)ConvertN.ToUInt64(value, mode.Clamped());
             UFix64C IConvert<UFix64C>.ToNumeric(string value) => (UFix64C)Convert.ToUInt64(value);
-            UFix64C IConvertExtended<UFix64C>.ToNumeric(uint value, Conversion mode) => (UFix64C)NumericConvert.ToUInt64(value, mode.Clamped());
+            UFix64C IConvertExtended<UFix64C>.ToNumeric(uint value, Conversion mode) => (UFix64C)ConvertN.ToUInt64(value, mode.Clamped());
             UFix64C IConvertExtended<UFix64C>.ToNumeric(ulong value, Conversion mode) => (UFix64C)value;
-            UFix64C IConvertExtended<UFix64C>.ToNumeric(ushort value, Conversion mode) => (UFix64C)NumericConvert.ToUInt64(value, mode.Clamped());
+            UFix64C IConvertExtended<UFix64C>.ToNumeric(ushort value, Conversion mode) => (UFix64C)ConvertN.ToUInt64(value, mode.Clamped());
 
-            UFix64C IStringParser<UFix64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            UFix64C IStringConvert<UFix64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
         }
     }

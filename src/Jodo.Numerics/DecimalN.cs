@@ -146,22 +146,22 @@ namespace Jodo.Numerics
         DecimalN INumeric<DecimalN>.RightShift(int count) => this >> count;
         DecimalN INumeric<DecimalN>.Subtract(DecimalN value) => this - value;
 
-        IBitConverter<DecimalN> IProvider<IBitConverter<DecimalN>>.GetInstance() => Utilities.Instance;
+        IBitConvert<DecimalN> IProvider<IBitConvert<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvert<DecimalN> IProvider<IConvert<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DecimalN> IProvider<IConvertExtended<DecimalN>>.GetInstance() => Utilities.Instance;
         IMath<DecimalN> IProvider<IMath<DecimalN>>.GetInstance() => Utilities.Instance;
         INumericStatic<DecimalN> IProvider<INumericStatic<DecimalN>>.GetInstance() => Utilities.Instance;
         IRandom<DecimalN> IProvider<IRandom<DecimalN>>.GetInstance() => Utilities.Instance;
-        IStringParser<DecimalN> IProvider<IStringParser<DecimalN>>.GetInstance() => Utilities.Instance;
+        IStringConvert<DecimalN> IProvider<IStringConvert<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<DecimalN>,
+            IBitConvert<DecimalN>,
             IConvert<DecimalN>,
             IConvertExtended<DecimalN>,
             IMath<DecimalN>,
             INumericStatic<DecimalN>,
             IRandom<DecimalN>,
-            IStringParser<DecimalN>
+            IStringConvert<DecimalN>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -227,7 +227,7 @@ namespace Jodo.Numerics
             DecimalN IMath<DecimalN>.Tau { get; } = (DecimalN)Math.PI * 2m;
             DecimalN IMath<DecimalN>.Truncate(DecimalN x) => decimal.Truncate(x);
 
-            DecimalN IBitConverter<DecimalN>.Read(IReader<byte> stream)
+            DecimalN IBitConvert<DecimalN>.Read(IReader<byte> stream)
             {
                 int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
                 int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
@@ -240,7 +240,7 @@ namespace Jodo.Numerics
                 return new decimal(part0, part1, part2, sign, scale);
             }
 
-            void IBitConverter<DecimalN>.Write(DecimalN value, IWriter<byte> stream)
+            void IBitConvert<DecimalN>.Write(DecimalN value, IWriter<byte> stream)
             {
                 int[]? parts = decimal.GetBits(value);
                 stream.Write(BitConverter.GetBytes(parts[0]));
@@ -253,34 +253,34 @@ namespace Jodo.Numerics
             DecimalN IRandom<DecimalN>.Next(Random random, DecimalN bound1, DecimalN bound2) => random.NextDecimal(bound1._value, bound2._value);
 
             bool IConvert<DecimalN>.ToBoolean(DecimalN value) => Convert.ToBoolean(value._value);
-            byte IConvert<DecimalN>.ToByte(DecimalN value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
+            byte IConvert<DecimalN>.ToByte(DecimalN value, Conversion mode) => ConvertN.ToByte(value._value, mode);
             decimal IConvert<DecimalN>.ToDecimal(DecimalN value, Conversion mode) => value;
-            double IConvert<DecimalN>.ToDouble(DecimalN value, Conversion mode) => NumericConvert.ToDouble(value._value, mode);
-            float IConvert<DecimalN>.ToSingle(DecimalN value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
-            int IConvert<DecimalN>.ToInt32(DecimalN value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
-            long IConvert<DecimalN>.ToInt64(DecimalN value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
-            sbyte IConvertExtended<DecimalN>.ToSByte(DecimalN value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
-            short IConvert<DecimalN>.ToInt16(DecimalN value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
+            double IConvert<DecimalN>.ToDouble(DecimalN value, Conversion mode) => ConvertN.ToDouble(value._value, mode);
+            float IConvert<DecimalN>.ToSingle(DecimalN value, Conversion mode) => ConvertN.ToSingle(value._value, mode);
+            int IConvert<DecimalN>.ToInt32(DecimalN value, Conversion mode) => ConvertN.ToInt32(value._value, mode);
+            long IConvert<DecimalN>.ToInt64(DecimalN value, Conversion mode) => ConvertN.ToInt64(value._value, mode);
+            sbyte IConvertExtended<DecimalN>.ToSByte(DecimalN value, Conversion mode) => ConvertN.ToSByte(value._value, mode);
+            short IConvert<DecimalN>.ToInt16(DecimalN value, Conversion mode) => ConvertN.ToInt16(value._value, mode);
             string IConvert<DecimalN>.ToString(DecimalN value) => Convert.ToString(value._value);
-            uint IConvertExtended<DecimalN>.ToUInt32(DecimalN value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
-            ulong IConvertExtended<DecimalN>.ToUInt64(DecimalN value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
-            ushort IConvertExtended<DecimalN>.ToUInt16(DecimalN value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            uint IConvertExtended<DecimalN>.ToUInt32(DecimalN value, Conversion mode) => ConvertN.ToUInt32(value._value, mode);
+            ulong IConvertExtended<DecimalN>.ToUInt64(DecimalN value, Conversion mode) => ConvertN.ToUInt64(value._value, mode);
+            ushort IConvertExtended<DecimalN>.ToUInt16(DecimalN value, Conversion mode) => ConvertN.ToUInt16(value._value, mode);
 
             DecimalN IConvert<DecimalN>.ToNumeric(bool value) => Convert.ToDecimal(value);
-            DecimalN IConvert<DecimalN>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
+            DecimalN IConvert<DecimalN>.ToNumeric(byte value, Conversion mode) => ConvertN.ToDecimal(value, mode);
             DecimalN IConvert<DecimalN>.ToNumeric(decimal value, Conversion mode) => value;
-            DecimalN IConvert<DecimalN>.ToNumeric(double value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
-            DecimalN IConvert<DecimalN>.ToNumeric(float value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
-            DecimalN IConvert<DecimalN>.ToNumeric(int value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
-            DecimalN IConvert<DecimalN>.ToNumeric(long value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
-            DecimalN IConvertExtended<DecimalN>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
-            DecimalN IConvert<DecimalN>.ToNumeric(short value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
+            DecimalN IConvert<DecimalN>.ToNumeric(double value, Conversion mode) => ConvertN.ToDecimal(value, mode);
+            DecimalN IConvert<DecimalN>.ToNumeric(float value, Conversion mode) => ConvertN.ToDecimal(value, mode);
+            DecimalN IConvert<DecimalN>.ToNumeric(int value, Conversion mode) => ConvertN.ToDecimal(value, mode);
+            DecimalN IConvert<DecimalN>.ToNumeric(long value, Conversion mode) => ConvertN.ToDecimal(value, mode);
+            DecimalN IConvertExtended<DecimalN>.ToValue(sbyte value, Conversion mode) => ConvertN.ToDecimal(value, mode);
+            DecimalN IConvert<DecimalN>.ToNumeric(short value, Conversion mode) => ConvertN.ToDecimal(value, mode);
             DecimalN IConvert<DecimalN>.ToNumeric(string value) => Convert.ToDecimal(value);
-            DecimalN IConvertExtended<DecimalN>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
-            DecimalN IConvertExtended<DecimalN>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
-            DecimalN IConvertExtended<DecimalN>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDecimal(value, mode);
+            DecimalN IConvertExtended<DecimalN>.ToNumeric(uint value, Conversion mode) => ConvertN.ToDecimal(value, mode);
+            DecimalN IConvertExtended<DecimalN>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToDecimal(value, mode);
+            DecimalN IConvertExtended<DecimalN>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToDecimal(value, mode);
 
-            DecimalN IStringParser<DecimalN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            DecimalN IStringConvert<DecimalN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
         }
     }

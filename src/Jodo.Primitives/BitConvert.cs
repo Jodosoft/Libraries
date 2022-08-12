@@ -23,31 +23,31 @@ namespace Jodo.Primitives
 {
     public static class BitConvert
     {
-        public static byte[] GetBytes<T>(T value) where T : struct, IProvider<IBitConverter<T>>
+        public static byte[] GetBytes<T>(T value) where T : struct, IProvider<IBitConvert<T>>
         {
             List<byte>? list = new List<byte>();
-            Provider<T, IBitConverter<T>>.Default.Write(value, list.AsWriteOnlyStream());
+            Provider<T, IBitConvert<T>>.Default.Write(value, list.AsWriteOnlyStream());
             return list.ToArray();
         }
 
-        public static T FromBytes<T>(byte[] bytes) where T : struct, IProvider<IBitConverter<T>>
+        public static T FromBytes<T>(byte[] bytes) where T : struct, IProvider<IBitConvert<T>>
         {
-            return Provider<T, IBitConverter<T>>.Default.Read(bytes.AsReadOnlyStream());
+            return Provider<T, IBitConvert<T>>.Default.Read(bytes.AsReadOnlyStream());
         }
 
-        public static T FromBytes<T>(IReadOnlyList<byte> bytes) where T : struct, IProvider<IBitConverter<T>>
+        public static T FromBytes<T>(IReadOnlyList<byte> bytes) where T : struct, IProvider<IBitConvert<T>>
         {
-            return Provider<T, IBitConverter<T>>.Default.Read(bytes.AsReadOnlyStream());
+            return Provider<T, IBitConvert<T>>.Default.Read(bytes.AsReadOnlyStream());
         }
 
-        public static T Read<T>(IReader<byte> stream) where T : struct, IProvider<IBitConverter<T>>
+        public static T Read<T>(IReader<byte> stream) where T : struct, IProvider<IBitConvert<T>>
         {
-            return Provider<T, IBitConverter<T>>.Default.Read(stream);
+            return Provider<T, IBitConvert<T>>.Default.Read(stream);
         }
 
-        public static void Write<T>(IWriter<byte> stream, T value) where T : struct, IProvider<IBitConverter<T>>
+        public static void Write<T>(IWriter<byte> stream, T value) where T : struct, IProvider<IBitConvert<T>>
         {
-            Provider<T, IBitConverter<T>>.Default.Write(value, stream);
+            Provider<T, IBitConvert<T>>.Default.Write(value, stream);
         }
     }
 }

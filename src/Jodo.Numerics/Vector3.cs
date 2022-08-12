@@ -32,9 +32,9 @@ namespace Jodo.Numerics
     public readonly struct Vector3<TNumeric> :
             IEquatable<Vector3<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Vector3<TNumeric>>>,
+            IProvider<IBitConvert<Vector3<TNumeric>>>,
             IProvider<IRandom<Vector3<TNumeric>>>,
-            IProvider<IStringParser<Vector3<TNumeric>>>,
+            IProvider<IStringConvert<Vector3<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -105,14 +105,14 @@ namespace Jodo.Numerics
         public static implicit operator (TNumeric, TNumeric, TNumeric)(Vector3<TNumeric> value) => (value.X, value.Y, value.Z);
 #endif
 
-        IBitConverter<Vector3<TNumeric>> IProvider<IBitConverter<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBitConvert<Vector3<TNumeric>> IProvider<IBitConvert<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
         IRandom<Vector3<TNumeric>> IProvider<IRandom<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Vector3<TNumeric>> IProvider<IStringParser<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringConvert<Vector3<TNumeric>> IProvider<IStringConvert<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<Vector3<TNumeric>>,
+           IBitConvert<Vector3<TNumeric>>,
            IRandom<Vector3<TNumeric>>,
-           IStringParser<Vector3<TNumeric>>
+           IStringConvert<Vector3<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -132,17 +132,17 @@ namespace Jodo.Numerics
                     random.NextNumeric(bound1.Z, bound2.Z));
             }
 
-            Vector3<TNumeric> IStringParser<Vector3<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            Vector3<TNumeric> IStringConvert<Vector3<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
                 string[] parts = StringUtilities.ParseVectorParts(s);
                 if (parts.Length != 3) throw new FormatException();
                 return new Vector3<TNumeric>(
-                    StringParser.Parse<TNumeric>(parts[0], style, provider),
-                    StringParser.Parse<TNumeric>(parts[1], style, provider),
-                    StringParser.Parse<TNumeric>(parts[2], style, provider));
+                    StringConvert.Parse<TNumeric>(parts[0], style, provider),
+                    StringConvert.Parse<TNumeric>(parts[1], style, provider),
+                    StringConvert.Parse<TNumeric>(parts[2], style, provider));
             }
 
-            Vector3<TNumeric> IBitConverter<Vector3<TNumeric>>.Read(IReader<byte> stream)
+            Vector3<TNumeric> IBitConvert<Vector3<TNumeric>>.Read(IReader<byte> stream)
             {
                 return new Vector3<TNumeric>(
                     BitConvert.Read<TNumeric>(stream),
@@ -150,7 +150,7 @@ namespace Jodo.Numerics
                     BitConvert.Read<TNumeric>(stream));
             }
 
-            void IBitConverter<Vector3<TNumeric>>.Write(Vector3<TNumeric> value, IWriter<byte> stream)
+            void IBitConvert<Vector3<TNumeric>>.Write(Vector3<TNumeric> value, IWriter<byte> stream)
             {
                 BitConvert.Write(stream, value.X);
                 BitConvert.Write(stream, value.Y);

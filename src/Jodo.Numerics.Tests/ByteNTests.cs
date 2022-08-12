@@ -17,27 +17,28 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Primitives.Tests;
+
 namespace Jodo.Numerics.Tests
 {
     public static class ByteNTests
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<ByteN> { }
-        public sealed class CastTests : CastTests<ByteN> { }
-        public sealed class ConvertTests : ConvertTests<ByteN> { }
-        public sealed class MathErrorGeneral : MathErrorTests.General<ByteN> { }
-        public sealed class MathGeneral : MathTestsBase.General<ByteN> { }
-        public sealed class MathIntegral : MathTestsBase.Integral<ByteN> { }
-        public sealed class MathUnsigned : NumericTestsBase.UnsignedOnly<ByteN> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<ByteN> { }
-        public sealed class NumericIntegral : NumericTestsBase.Integral<ByteN> { }
-        public sealed class NumericNoFloatingPoint : NumericTestsBase.NoFloatingPoint<ByteN> { }
-        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<ByteN> { }
-        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<ByteN> { }
-        public sealed class NumericUnsigned : NumericTestsBase.UnsignedOnly<ByteN> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<ByteN> { }
-        public sealed class ParserGeneral : StringParserTestsBase.General<ByteN> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<ByteN> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<ByteN> { }
-        public sealed class StringParserIntegral : StringParserTestsBase.Integral<ByteN> { }
+        public sealed class BitConvertTests : BitConvertTestBase<ByteN> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<ByteN> { }
+        public sealed class NumericCastTests : NumericCastTestBase<ByteN> { }
+        public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<ByteN> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<ByteN> { }
+        public sealed class NumericIntegralTests : NumericIntegralTestBase<ByteN> { }
+        public sealed class NumericMathTests : NumericMathTestBase<ByteN> { }
+        public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<ByteN> { }
+        public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<ByteN> { }
+        public sealed class NumericNonNaNTests : NumericNonNaNTestBase<ByteN> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<ByteN> { }
+        public sealed class NumericTests : NumericTestBase<ByteN> { }
+        public sealed class NumericUnsignedTests : NumericUnsignedTestBase<ByteN> { }
+        public sealed class ObjectTests : ObjectTestBase<ByteN> { }
+        public sealed class RandomTests : RandomTestBase<ByteN> { }
+        public sealed class SerializableTests : SerializableTestBase<ByteN> { }
+        public sealed class StringConvertTests : StringConvertTestBase<ByteN> { }
     }
 }

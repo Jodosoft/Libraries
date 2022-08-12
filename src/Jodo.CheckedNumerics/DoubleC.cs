@@ -80,7 +80,7 @@ namespace Jodo.CheckedNumerics
         [CLSCompliant(false)] public static implicit operator DoubleC(uint value) => new DoubleC(value);
         [CLSCompliant(false)] public static implicit operator DoubleC(ulong value) => new DoubleC(value);
         [CLSCompliant(false)] public static implicit operator DoubleC(ushort value) => new DoubleC(value);
-        public static explicit operator DoubleC(decimal value) => new DoubleC(NumericConvert.ToDouble(value, Conversion.CastClamp));
+        public static explicit operator DoubleC(decimal value) => new DoubleC(ConvertN.ToDouble(value, Conversion.CastClamp));
         public static implicit operator DoubleC(byte value) => new DoubleC(value);
         public static implicit operator DoubleC(double value) => new DoubleC(value);
         public static implicit operator DoubleC(float value) => new DoubleC(value);
@@ -88,16 +88,16 @@ namespace Jodo.CheckedNumerics
         public static implicit operator DoubleC(long value) => new DoubleC(value);
         public static implicit operator DoubleC(short value) => new DoubleC(value);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(DoubleC value) => NumericConvert.ToSByte(value._value, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator uint(DoubleC value) => NumericConvert.ToUInt32(value._value, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator ulong(DoubleC value) => NumericConvert.ToUInt64(value._value, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator ushort(DoubleC value) => NumericConvert.ToUInt16(value._value, Conversion.CastClamp);
-        public static explicit operator byte(DoubleC value) => NumericConvert.ToByte(value._value, Conversion.CastClamp);
-        public static explicit operator decimal(DoubleC value) => NumericConvert.ToDecimal(value._value, Conversion.CastClamp);
-        public static explicit operator float(DoubleC value) => NumericConvert.ToSingle(value._value, Conversion.CastClamp);
-        public static explicit operator int(DoubleC value) => NumericConvert.ToInt32(value._value, Conversion.CastClamp);
-        public static explicit operator long(DoubleC value) => NumericConvert.ToInt64(value._value, Conversion.CastClamp);
-        public static explicit operator short(DoubleC value) => NumericConvert.ToInt16(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator sbyte(DoubleC value) => ConvertN.ToSByte(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator uint(DoubleC value) => ConvertN.ToUInt32(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ulong(DoubleC value) => ConvertN.ToUInt64(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ushort(DoubleC value) => ConvertN.ToUInt16(value._value, Conversion.CastClamp);
+        public static explicit operator byte(DoubleC value) => ConvertN.ToByte(value._value, Conversion.CastClamp);
+        public static explicit operator decimal(DoubleC value) => ConvertN.ToDecimal(value._value, Conversion.CastClamp);
+        public static explicit operator float(DoubleC value) => ConvertN.ToSingle(value._value, Conversion.CastClamp);
+        public static explicit operator int(DoubleC value) => ConvertN.ToInt32(value._value, Conversion.CastClamp);
+        public static explicit operator long(DoubleC value) => ConvertN.ToInt64(value._value, Conversion.CastClamp);
+        public static explicit operator short(DoubleC value) => ConvertN.ToInt16(value._value, Conversion.CastClamp);
         public static implicit operator double(DoubleC value) => value._value;
 
         public static bool operator !=(DoubleC left, DoubleC right) => left._value != right._value;
@@ -106,13 +106,13 @@ namespace Jodo.CheckedNumerics
         public static bool operator ==(DoubleC left, DoubleC right) => left._value == right._value;
         public static bool operator >(DoubleC left, DoubleC right) => left._value > right._value;
         public static bool operator >=(DoubleC left, DoubleC right) => left._value >= right._value;
-        public static DoubleC operator %(DoubleC left, DoubleC right) => CheckedArithmetic.Remainder(left._value, right._value);
-        public static DoubleC operator -(DoubleC left, DoubleC right) => CheckedArithmetic.Subtract(left._value, right._value);
+        public static DoubleC operator %(DoubleC left, DoubleC right) => CheckedMath.Remainder(left._value, right._value);
+        public static DoubleC operator -(DoubleC left, DoubleC right) => CheckedMath.Subtract(left._value, right._value);
         public static DoubleC operator --(DoubleC value) => value - 1;
         public static DoubleC operator -(DoubleC value) => -value._value;
-        public static DoubleC operator *(DoubleC left, DoubleC right) => CheckedArithmetic.Multiply(left._value, right._value);
-        public static DoubleC operator /(DoubleC left, DoubleC right) => CheckedArithmetic.Divide(left._value, right._value);
-        public static DoubleC operator +(DoubleC left, DoubleC right) => CheckedArithmetic.Add(left._value, right._value);
+        public static DoubleC operator *(DoubleC left, DoubleC right) => CheckedMath.Multiply(left._value, right._value);
+        public static DoubleC operator /(DoubleC left, DoubleC right) => CheckedMath.Divide(left._value, right._value);
+        public static DoubleC operator +(DoubleC left, DoubleC right) => CheckedMath.Add(left._value, right._value);
         public static DoubleC operator +(DoubleC value) => value;
         public static DoubleC operator ++(DoubleC value) => value + 1;
         public static DoubleC operator &(DoubleC left, DoubleC right) => NumericUtilities.LogicalAnd(left._value, right._value);
@@ -123,20 +123,20 @@ namespace Jodo.CheckedNumerics
         public static DoubleC operator <<(DoubleC left, int right) => NumericUtilities.LeftShift(left._value, right);
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
-        bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvertible)_value).ToBoolean(provider);
-        char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)_value).ToChar(provider);
-        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertible)_value).ToSByte(provider);
-        byte IConvertible.ToByte(IFormatProvider provider) => ((IConvertible)_value).ToByte(provider);
-        short IConvertible.ToInt16(IFormatProvider provider) => ((IConvertible)_value).ToInt16(provider);
-        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertible)_value).ToUInt16(provider);
-        int IConvertible.ToInt32(IFormatProvider provider) => ((IConvertible)_value).ToInt32(provider);
-        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertible)_value).ToUInt32(provider);
-        long IConvertible.ToInt64(IFormatProvider provider) => ((IConvertible)_value).ToInt64(provider);
-        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertible)_value).ToUInt64(provider);
-        float IConvertible.ToSingle(IFormatProvider provider) => ((IConvertible)_value).ToSingle(provider);
-        double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
-        decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
-        DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
+        bool IConvertible.ToBoolean(IFormatProvider provider) => Convert.ToBoolean(_value, provider);
+        byte IConvertible.ToByte(IFormatProvider provider) => ConvertN.ToByte(_value, Conversion.Clamp);
+        char IConvertible.ToChar(IFormatProvider provider) => Convert.ToChar(_value, provider);
+        DateTime IConvertible.ToDateTime(IFormatProvider provider) => Convert.ToDateTime(provider);
+        decimal IConvertible.ToDecimal(IFormatProvider provider) => ConvertN.ToDecimal(_value, Conversion.Clamp);
+        double IConvertible.ToDouble(IFormatProvider provider) => _value;
+        float IConvertible.ToSingle(IFormatProvider provider) => ConvertN.ToSingle(_value, Conversion.Clamp);
+        int IConvertible.ToInt32(IFormatProvider provider) => ConvertN.ToInt32(_value, Conversion.Clamp);
+        long IConvertible.ToInt64(IFormatProvider provider) => ConvertN.ToInt64(_value, Conversion.Clamp);
+        sbyte IConvertible.ToSByte(IFormatProvider provider) => ConvertN.ToSByte(_value, Conversion.Clamp);
+        short IConvertible.ToInt16(IFormatProvider provider) => ConvertN.ToInt16(_value, Conversion.Clamp);
+        uint IConvertible.ToUInt32(IFormatProvider provider) => ConvertN.ToUInt32(_value, Conversion.Clamp);
+        ulong IConvertible.ToUInt64(IFormatProvider provider) => ConvertN.ToUInt64(_value, Conversion.Clamp);
+        ushort IConvertible.ToUInt16(IFormatProvider provider) => ConvertN.ToUInt16(_value, Conversion.Clamp);
         object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
 
         private static double Check(double value)
@@ -165,22 +165,22 @@ namespace Jodo.CheckedNumerics
         DoubleC INumeric<DoubleC>.RightShift(int count) => this >> count;
         DoubleC INumeric<DoubleC>.Subtract(DoubleC value) => this - value;
 
-        IBitConverter<DoubleC> IProvider<IBitConverter<DoubleC>>.GetInstance() => Utilities.Instance;
+        IBitConvert<DoubleC> IProvider<IBitConvert<DoubleC>>.GetInstance() => Utilities.Instance;
         IConvert<DoubleC> IProvider<IConvert<DoubleC>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DoubleC> IProvider<IConvertExtended<DoubleC>>.GetInstance() => Utilities.Instance;
         IMath<DoubleC> IProvider<IMath<DoubleC>>.GetInstance() => Utilities.Instance;
         INumericStatic<DoubleC> IProvider<INumericStatic<DoubleC>>.GetInstance() => Utilities.Instance;
         IRandom<DoubleC> IProvider<IRandom<DoubleC>>.GetInstance() => Utilities.Instance;
-        IStringParser<DoubleC> IProvider<IStringParser<DoubleC>>.GetInstance() => Utilities.Instance;
+        IStringConvert<DoubleC> IProvider<IStringConvert<DoubleC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<DoubleC>,
+            IBitConvert<DoubleC>,
             IConvert<DoubleC>,
             IConvertExtended<DoubleC>,
             IMath<DoubleC>,
             INumericStatic<DoubleC>,
             IRandom<DoubleC>,
-            IStringParser<DoubleC>
+            IStringConvert<DoubleC>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -246,41 +246,41 @@ namespace Jodo.CheckedNumerics
             DoubleC IMath<DoubleC>.Truncate(DoubleC x) => Math.Truncate(x._value);
             int IMath<DoubleC>.Sign(DoubleC x) => Math.Sign(x._value);
 
-            DoubleC IBitConverter<DoubleC>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
-            void IBitConverter<DoubleC>.Write(DoubleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            DoubleC IBitConvert<DoubleC>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
+            void IBitConvert<DoubleC>.Write(DoubleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             DoubleC IRandom<DoubleC>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);
             DoubleC IRandom<DoubleC>.Next(Random random, DoubleC bound1, DoubleC bound2) => random.NextDouble(bound1._value, bound2._value);
 
             bool IConvert<DoubleC>.ToBoolean(DoubleC value) => value._value != 0;
-            byte IConvert<DoubleC>.ToByte(DoubleC value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
-            decimal IConvert<DoubleC>.ToDecimal(DoubleC value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode.Clamped());
+            byte IConvert<DoubleC>.ToByte(DoubleC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
+            decimal IConvert<DoubleC>.ToDecimal(DoubleC value, Conversion mode) => ConvertN.ToDecimal(value._value, mode.Clamped());
             double IConvert<DoubleC>.ToDouble(DoubleC value, Conversion mode) => value._value;
-            float IConvert<DoubleC>.ToSingle(DoubleC value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
-            int IConvert<DoubleC>.ToInt32(DoubleC value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
-            long IConvert<DoubleC>.ToInt64(DoubleC value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
-            sbyte IConvertExtended<DoubleC>.ToSByte(DoubleC value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
-            short IConvert<DoubleC>.ToInt16(DoubleC value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
+            float IConvert<DoubleC>.ToSingle(DoubleC value, Conversion mode) => ConvertN.ToSingle(value._value, mode.Clamped());
+            int IConvert<DoubleC>.ToInt32(DoubleC value, Conversion mode) => ConvertN.ToInt32(value._value, mode.Clamped());
+            long IConvert<DoubleC>.ToInt64(DoubleC value, Conversion mode) => ConvertN.ToInt64(value._value, mode.Clamped());
+            sbyte IConvertExtended<DoubleC>.ToSByte(DoubleC value, Conversion mode) => ConvertN.ToSByte(value._value, mode.Clamped());
+            short IConvert<DoubleC>.ToInt16(DoubleC value, Conversion mode) => ConvertN.ToInt16(value._value, mode.Clamped());
             string IConvert<DoubleC>.ToString(DoubleC value) => Convert.ToString(value._value);
-            uint IConvertExtended<DoubleC>.ToUInt32(DoubleC value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
-            ulong IConvertExtended<DoubleC>.ToUInt64(DoubleC value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
-            ushort IConvertExtended<DoubleC>.ToUInt16(DoubleC value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            uint IConvertExtended<DoubleC>.ToUInt32(DoubleC value, Conversion mode) => ConvertN.ToUInt32(value._value, mode.Clamped());
+            ulong IConvertExtended<DoubleC>.ToUInt64(DoubleC value, Conversion mode) => ConvertN.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertExtended<DoubleC>.ToUInt16(DoubleC value, Conversion mode) => ConvertN.ToUInt16(value._value, mode.Clamped());
 
             DoubleC IConvert<DoubleC>.ToNumeric(bool value) => value ? 1d : 0d;
-            DoubleC IConvert<DoubleC>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
-            DoubleC IConvert<DoubleC>.ToNumeric(decimal value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
+            DoubleC IConvert<DoubleC>.ToNumeric(byte value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
+            DoubleC IConvert<DoubleC>.ToNumeric(decimal value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
             DoubleC IConvert<DoubleC>.ToNumeric(double value, Conversion mode) => value;
-            DoubleC IConvert<DoubleC>.ToNumeric(float value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
-            DoubleC IConvert<DoubleC>.ToNumeric(int value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
-            DoubleC IConvert<DoubleC>.ToNumeric(long value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
-            DoubleC IConvertExtended<DoubleC>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
-            DoubleC IConvert<DoubleC>.ToNumeric(short value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
+            DoubleC IConvert<DoubleC>.ToNumeric(float value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
+            DoubleC IConvert<DoubleC>.ToNumeric(int value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
+            DoubleC IConvert<DoubleC>.ToNumeric(long value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
+            DoubleC IConvertExtended<DoubleC>.ToValue(sbyte value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
+            DoubleC IConvert<DoubleC>.ToNumeric(short value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
             DoubleC IConvert<DoubleC>.ToNumeric(string value) => Convert.ToDouble(value);
-            DoubleC IConvertExtended<DoubleC>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
-            DoubleC IConvertExtended<DoubleC>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
-            DoubleC IConvertExtended<DoubleC>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDouble(value, mode.Clamped());
+            DoubleC IConvertExtended<DoubleC>.ToNumeric(uint value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
+            DoubleC IConvertExtended<DoubleC>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
+            DoubleC IConvertExtended<DoubleC>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToDouble(value, mode.Clamped());
 
-            DoubleC IStringParser<DoubleC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            DoubleC IStringConvert<DoubleC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
         }
     }

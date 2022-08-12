@@ -22,6 +22,7 @@ using FluentAssertions;
 using Jodo.Numerics;
 using Jodo.Numerics.Tests;
 using Jodo.Primitives;
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -29,21 +30,20 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public sealed class DecimalCTests : GlobalFixtureBase
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<DecimalC> { }
-        public sealed class CastTests : CastTests<DecimalC> { }
-        public sealed class CheckedNumeric : CheckedNumericTests<DecimalC> { }
-        public sealed class ConvertTests : ConvertTests<DecimalC> { }
-        public sealed class MathFloatingPoint : MathTestsBase.FloatingPoint<DecimalC> { }
-        public sealed class MathGeneral : MathTestsBase.General<DecimalC> { }
-        public sealed class MathReal : MathTestsBase.Real<DecimalC> { }
-        public sealed class MathSigned : MathTestsBase.SingedOnly<DecimalC> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<DecimalC> { }
-        public sealed class NumericReal : NumericTestsBase.Real<DecimalC> { }
-        public sealed class NumericSigned : NumericTestsBase.SignedOnly<DecimalC> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<DecimalC> { }
-        public sealed class ParserGeneral : StringParserTestsBase.General<DecimalC> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<DecimalC> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<DecimalC> { }
+        public sealed class BitConvertTests : BitConvertTestBase<DecimalC> { }
+        public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DecimalC> { }
+        public sealed class CheckedNumericTests : CheckedNumericTestBase<DecimalC> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<DecimalC> { }
+        public sealed class NumericCastTests : NumericCastTestBase<DecimalC> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<DecimalC> { }
+        public sealed class NumericMathTests : NumericMathTestBase<DecimalC> { }
+        public sealed class NumericRealTests : NumericRealTestBase<DecimalC> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<DecimalC> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<DecimalC> { }
+        public sealed class NumericTests : NumericTestBase<DecimalC> { }
+        public sealed class ObjectTests : ObjectTestBase<DecimalC> { }
+        public sealed class RandomTests : RandomTestBase<DecimalC> { }
+        public sealed class SerializableTests : SerializableTestBase<DecimalC> { }
 
         [Test, Repeat(RandomVariations)]
         public void IsFinite_RandomValue_AlwaysTrue()

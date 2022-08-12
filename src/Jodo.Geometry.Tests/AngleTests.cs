@@ -17,46 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using FluentAssertions;
 using Jodo.Numerics;
-using Jodo.Testing;
-using NUnit.Framework;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.Geometry.Tests
 {
     public static class AngleTests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<Angle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Angle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Angle<Fix64>> { }
-
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<Angle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Angle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Angle<SingleN>> { }
-
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<Angle<ByteN>> { }
-
-        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
-        {
-            [Test]
-            public void Degrees_FromDegrees_SameAsOriginal()
-            {
-                //arrange
-                TNumeric input = Random.NextNumeric<TNumeric>();
-
-                //act
-                TNumeric result = Angle.FromDegrees(input).Degrees;
-
-                //assert
-                result.Should().Be(input);
-            }
-        }
+        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Angle<Fix64>> { }
+        public sealed class FixedPointGeneralTests : AngleTestBase<Fix64> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Angle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Angle<Fix64>> { }
+        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Angle<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : AngleTestBase<SingleN> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Angle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Angle<SingleN>> { }
+        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : AngleTestBase<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Angle<ByteN>> { }
+        public sealed class UnsignedIntegralStringConvertTests : StringConvertTestBase<Angle<ByteN>> { }
     }
 }

@@ -17,88 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using FluentAssertions;
 using Jodo.Numerics;
-using Jodo.Testing;
-using NUnit.Framework;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.Geometry.Tests
 {
     public static class AARectangleTests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<AARectangle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<AARectangle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<AARectangle<Fix64>> { }
-
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<AARectangle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<AARectangle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<AARectangle<SingleN>> { }
-
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<AARectangle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<AARectangle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<AARectangle<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<AARectangle<ByteN>> { }
-
-        public abstract class GeneralTests<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
-        {
-
-            [Test]
-            public void GetArea_RandomValues_CorrectResult()
-            {
-                //arrange
-                AARectangle<TNumeric> subject = GenerateAARectangle<TNumeric>();
-                TNumeric expected = MathN.Abs(subject.Dimensions.X.Multiply(subject.Dimensions.Y));
-
-                //act
-                TNumeric result = subject.GetArea();
-
-                //assert
-                result.Should().Be(expected);
-            }
-
-            [Test]
-            public void GetLeft_RandomValues_CorrectResult()
-            {
-                //arrange
-                AARectangle<TNumeric> subject = Random.NextAARectangle<TNumeric>();
-                TNumeric expected = subject.Origin.X;
-
-                //act
-                TNumeric result = subject.GetLeft();
-
-                //assert
-                result.Should().Be(expected);
-            }
-        }
-
-        public abstract class Integral<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
-        {
-            [SetUp]
-            public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>());
-
-            [Test, Repeat(RandomVariations)]
-            public void GetVertices_UnitSquare_CorrectResult()
-            {
-                //arrange
-                AARectangle<TNumeric> subject = AARectangle.FromCenter(
-                    new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
-                    new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
-                Vector2<TNumeric>[] expected = new Vector2<TNumeric>[] {
-                     new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
-                     new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.Zero<TNumeric>()),
-                     new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()),
-                     new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.One<TNumeric>()) };
-
-                //act
-                Vector2<TNumeric>[] results = subject.GetVertices();
-
-                //assert
-                results.Should().BeEquivalentTo(expected);
-            }
-        }
+        public sealed class FixedPointAARectangleIntegralTests : AARectangleTestBase<Fix64> { }
+        public sealed class FixedPointBitConverter : BitConvertTestBase<AARectangle<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<AARectangle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<AARectangle<Fix64>> { }
+        public sealed class FloatingPointAARectangleIntegralTests : AARectangleTestBase<SingleN> { }
+        public sealed class FloatingPointBitConverter : BitConvertTestBase<AARectangle<SingleN>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<AARectangle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<AARectangle<SingleN>> { }
+        public sealed class UnsignedIntegralAARectangleIntegralTests : AARectangleIntegralTestBase<ByteN> { }
+        public sealed class UnsignedIntegralBitConverter : BitConvertTestBase<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralStringConvertTests : StringConvertTestBase<AARectangle<ByteN>> { }
     }
 }

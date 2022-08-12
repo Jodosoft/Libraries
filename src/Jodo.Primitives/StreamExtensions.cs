@@ -24,12 +24,12 @@ namespace Jodo.Primitives
 {
     public static class StreamExtensions
     {
-        public static T Read<T>(this IReader<byte> stream) where T : struct, IProvider<IBitConverter<T>>
+        public static T Read<T>(this IReader<byte> stream) where T : struct, IProvider<IBitConvert<T>>
         {
             return BitConvert.Read<T>(stream);
         }
 
-        public static void Write<T>(this IWriter<byte> stream, T value) where T : struct, IProvider<IBitConverter<T>>
+        public static void Write<T>(this IWriter<byte> stream, T value) where T : struct, IProvider<IBitConvert<T>>
         {
             BitConvert.Write(stream, value);
         }

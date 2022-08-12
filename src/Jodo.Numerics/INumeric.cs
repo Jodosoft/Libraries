@@ -34,12 +34,12 @@ namespace Jodo.Numerics
             IComparable<TSelf>,
             IEquatable<TSelf>,
             IFormattable,
-            IProvider<IBitConverter<TSelf>>,
+            IProvider<IBitConvert<TSelf>>,
             IProvider<IConvert<TSelf>>,
             IProvider<IMath<TSelf>>,
             IProvider<INumericStatic<TSelf>>,
             IProvider<IRandom<TSelf>>,
-            IProvider<IStringParser<TSelf>>,
+            IProvider<IStringConvert<TSelf>>,
             ISerializable
         where TSelf : struct, INumeric<TSelf>
     {

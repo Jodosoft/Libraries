@@ -17,25 +17,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Primitives.Tests;
+
 namespace Jodo.Numerics.Tests
 {
     public static class UFix64Tests
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<UFix64> { }
-        public sealed class CastTests : CastTests<UFix64> { }
-        public sealed class ConvertTests : ConvertTests<UFix64> { }
-        public sealed class MathGeneral : MathTestsBase.General<UFix64> { }
-        public sealed class MathReal : MathTestsBase.Real<UFix64> { }
-        public sealed class MathUnsigned : NumericTestsBase.UnsignedOnly<UFix64> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<UFix64> { }
-        public sealed class NumericNoFloatingPoint : NumericTestsBase.NoFloatingPoint<UFix64> { }
-        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<UFix64> { }
-        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<UFix64> { }
-        public sealed class NumericReal : NumericTestsBase.Real<UFix64> { }
-        public sealed class NumericUnsigned : NumericTestsBase.UnsignedOnly<UFix64> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<UFix64> { }
-        public sealed class ParserGeneral : StringParserTestsBase.General<UFix64> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<UFix64> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<UFix64> { }
+        public sealed class BitConvertTests : BitConvertTestBase<UFix64> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<UFix64> { }
+        public sealed class NumericCastTests : NumericCastTestBase<UFix64> { }
+        public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<UFix64> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<UFix64> { }
+        public sealed class NumericMathTests : NumericMathTestBase<UFix64> { }
+        public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<UFix64> { }
+        public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<UFix64> { }
+        public sealed class NumericNonNaNTests : NumericNonNaNTestBase<UFix64> { }
+        public sealed class NumericRealTests : NumericRealTestBase<UFix64> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<UFix64> { }
+        public sealed class NumericTests : NumericTestBase<UFix64> { }
+        public sealed class NumericUnsignedTests : NumericUnsignedTestBase<UFix64> { }
+        public sealed class ObjectTests : ObjectTestBase<UFix64> { }
+        public sealed class RandomTests : RandomTestBase<UFix64> { }
+        public sealed class SerializableTests : SerializableTestBase<UFix64> { }
     }
 }

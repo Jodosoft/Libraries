@@ -31,9 +31,9 @@ namespace Jodo.Numerics
     public readonly struct Vector2<TNumeric> :
             IEquatable<Vector2<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Vector2<TNumeric>>>,
+            IProvider<IBitConvert<Vector2<TNumeric>>>,
             IProvider<IRandom<Vector2<TNumeric>>>,
-            IProvider<IStringParser<Vector2<TNumeric>>>,
+            IProvider<IStringConvert<Vector2<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -98,14 +98,14 @@ namespace Jodo.Numerics
         public static bool operator ==(Vector2<TNumeric> left, Vector2<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Vector2<TNumeric> left, Vector2<TNumeric> right) => !(left == right);
 
-        IBitConverter<Vector2<TNumeric>> IProvider<IBitConverter<Vector2<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBitConvert<Vector2<TNumeric>> IProvider<IBitConvert<Vector2<TNumeric>>>.GetInstance() => Utilities.Instance;
         IRandom<Vector2<TNumeric>> IProvider<IRandom<Vector2<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Vector2<TNumeric>> IProvider<IStringParser<Vector2<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringConvert<Vector2<TNumeric>> IProvider<IStringConvert<Vector2<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<Vector2<TNumeric>>,
+           IBitConvert<Vector2<TNumeric>>,
            IRandom<Vector2<TNumeric>>,
-           IStringParser<Vector2<TNumeric>>
+           IStringConvert<Vector2<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -119,21 +119,21 @@ namespace Jodo.Numerics
                 return new Vector2<TNumeric>(random.NextNumeric(bound1.X, bound2.X), random.NextNumeric(bound1.Y, bound2.Y));
             }
 
-            Vector2<TNumeric> IStringParser<Vector2<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            Vector2<TNumeric> IStringConvert<Vector2<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
                 string[] parts = StringUtilities.ParseVectorParts(s.Trim());
                 if (parts.Length != 2) throw new FormatException();
                 return new Vector2<TNumeric>(
-                    StringParser.Parse<TNumeric>(parts[0], style, provider),
-                    StringParser.Parse<TNumeric>(parts[1], style, provider));
+                    StringConvert.Parse<TNumeric>(parts[0], style, provider),
+                    StringConvert.Parse<TNumeric>(parts[1], style, provider));
             }
 
-            Vector2<TNumeric> IBitConverter<Vector2<TNumeric>>.Read(IReader<byte> stream)
+            Vector2<TNumeric> IBitConvert<Vector2<TNumeric>>.Read(IReader<byte> stream)
             {
                 return new Vector2<TNumeric>(BitConvert.Read<TNumeric>(stream), BitConvert.Read<TNumeric>(stream));
             }
 
-            void IBitConverter<Vector2<TNumeric>>.Write(Vector2<TNumeric> value, IWriter<byte> stream)
+            void IBitConvert<Vector2<TNumeric>>.Write(Vector2<TNumeric> value, IWriter<byte> stream)
             {
                 BitConvert.Write(stream, value.X);
                 BitConvert.Write(stream, value.Y);

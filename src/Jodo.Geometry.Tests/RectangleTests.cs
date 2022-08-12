@@ -18,30 +18,24 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Testing;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.Geometry.Tests
 {
     public static class RectangleTests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<Rectangle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Rectangle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Rectangle<Fix64>> { }
-
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<Rectangle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Rectangle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Rectangle<SingleN>> { }
-
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<Rectangle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Rectangle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Rectangle<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<Rectangle<ByteN>> { }
-
-        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
-        {
-        }
+        public sealed class BitConvertFixedPointTests : BitConvertTestBase<Rectangle<Fix64>> { }
+        public sealed class BitConvertFloatingPointTests : BitConvertTestBase<Rectangle<SingleN>> { }
+        public sealed class BitConvertUnsignedIntegralTests : BitConvertTestBase<Rectangle<ByteN>> { }
+        public sealed class ObjectFixedPointTests : ObjectTestBase<Rectangle<Fix64>> { }
+        public sealed class ObjectFloatingPointTests : ObjectTestBase<Rectangle<SingleN>> { }
+        public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<Rectangle<ByteN>> { }
+        public sealed class RectangleFixedPointTests : RectangleTestBase<Fix64> { }
+        public sealed class RectangleFloatingPointTests : RectangleTestBase<SingleN> { }
+        public sealed class RectangleUnsignedIntegralTests : RectangleTestBase<ByteN> { }
+        public sealed class SerializableFixedPointTests : SerializableTestBase<Rectangle<Fix64>> { }
+        public sealed class SerializableFloatingPointTests : SerializableTestBase<Rectangle<SingleN>> { }
+        public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<Rectangle<ByteN>> { }
+        public sealed class StringConvertUnsignedIntegralTests : StringConvertTestBase<Rectangle<ByteN>> { }
     }
 }

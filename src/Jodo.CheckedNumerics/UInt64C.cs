@@ -66,26 +66,26 @@ namespace Jodo.CheckedNumerics
         public static UInt64C Parse(string s, NumberStyles style) => ulong.Parse(s, style);
         public static UInt64C Parse(string s, NumberStyles style, IFormatProvider? provider) => ulong.Parse(s, style, provider);
 
-        [CLSCompliant(false)] public static explicit operator UInt64C(sbyte value) => new UInt64C(NumericConvert.ToUInt64(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator UInt64C(sbyte value) => new UInt64C(ConvertN.ToUInt64(value, Conversion.CastClamp));
         [CLSCompliant(false)] public static implicit operator UInt64C(uint value) => new UInt64C(value);
         [CLSCompliant(false)] public static implicit operator UInt64C(ulong value) => new UInt64C(value);
         [CLSCompliant(false)] public static implicit operator UInt64C(ushort value) => new UInt64C(value);
-        public static explicit operator UInt64C(decimal value) => new UInt64C(NumericConvert.ToUInt64(value, Conversion.CastClamp));
-        public static explicit operator UInt64C(double value) => new UInt64C(NumericConvert.ToUInt64(value, Conversion.CastClamp));
-        public static explicit operator UInt64C(float value) => new UInt64C(NumericConvert.ToUInt64(value, Conversion.CastClamp));
-        public static explicit operator UInt64C(int value) => new UInt64C(NumericConvert.ToUInt64(value, Conversion.CastClamp));
-        public static explicit operator UInt64C(long value) => new UInt64C(NumericConvert.ToUInt64(value, Conversion.CastClamp));
-        public static explicit operator UInt64C(short value) => new UInt64C(NumericConvert.ToUInt64(value, Conversion.CastClamp));
+        public static explicit operator UInt64C(decimal value) => new UInt64C(ConvertN.ToUInt64(value, Conversion.CastClamp));
+        public static explicit operator UInt64C(double value) => new UInt64C(ConvertN.ToUInt64(value, Conversion.CastClamp));
+        public static explicit operator UInt64C(float value) => new UInt64C(ConvertN.ToUInt64(value, Conversion.CastClamp));
+        public static explicit operator UInt64C(int value) => new UInt64C(ConvertN.ToUInt64(value, Conversion.CastClamp));
+        public static explicit operator UInt64C(long value) => new UInt64C(ConvertN.ToUInt64(value, Conversion.CastClamp));
+        public static explicit operator UInt64C(short value) => new UInt64C(ConvertN.ToUInt64(value, Conversion.CastClamp));
         public static implicit operator UInt64C(byte value) => new UInt64C(value);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(UInt64C value) => NumericConvert.ToSByte(value._value, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator uint(UInt64C value) => NumericConvert.ToUInt32(value._value, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator ushort(UInt64C value) => NumericConvert.ToUInt16(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator sbyte(UInt64C value) => ConvertN.ToSByte(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator uint(UInt64C value) => ConvertN.ToUInt32(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ushort(UInt64C value) => ConvertN.ToUInt16(value._value, Conversion.CastClamp);
         [CLSCompliant(false)] public static implicit operator ulong(UInt64C value) => value._value;
-        public static explicit operator byte(UInt64C value) => NumericConvert.ToByte(value._value, Conversion.CastClamp);
-        public static explicit operator int(UInt64C value) => NumericConvert.ToInt32(value._value, Conversion.CastClamp);
-        public static explicit operator long(UInt64C value) => NumericConvert.ToInt64(value._value, Conversion.CastClamp);
-        public static explicit operator short(UInt64C value) => NumericConvert.ToInt16(value._value, Conversion.CastClamp);
+        public static explicit operator byte(UInt64C value) => ConvertN.ToByte(value._value, Conversion.CastClamp);
+        public static explicit operator int(UInt64C value) => ConvertN.ToInt32(value._value, Conversion.CastClamp);
+        public static explicit operator long(UInt64C value) => ConvertN.ToInt64(value._value, Conversion.CastClamp);
+        public static explicit operator short(UInt64C value) => ConvertN.ToInt16(value._value, Conversion.CastClamp);
         public static implicit operator decimal(UInt64C value) => value._value;
         public static implicit operator double(UInt64C value) => value._value;
         public static implicit operator float(UInt64C value) => value._value;
@@ -96,37 +96,37 @@ namespace Jodo.CheckedNumerics
         public static bool operator ==(UInt64C left, UInt64C right) => left._value == right._value;
         public static bool operator >(UInt64C left, UInt64C right) => left._value > right._value;
         public static bool operator >=(UInt64C left, UInt64C right) => left._value >= right._value;
-        public static UInt64C operator %(UInt64C left, UInt64C right) => CheckedArithmetic.Remainder(left._value, right._value);
+        public static UInt64C operator %(UInt64C left, UInt64C right) => CheckedMath.Remainder(left._value, right._value);
         public static UInt64C operator &(UInt64C left, UInt64C right) => left._value & right._value;
         public static UInt64C operator -(UInt64C _) => MinValue;
-        public static UInt64C operator -(UInt64C left, UInt64C right) => CheckedArithmetic.Subtract(left._value, right._value);
+        public static UInt64C operator -(UInt64C left, UInt64C right) => CheckedMath.Subtract(left._value, right._value);
         public static UInt64C operator --(UInt64C value) => value - 1;
-        public static UInt64C operator *(UInt64C left, UInt64C right) => CheckedArithmetic.Multiply(left._value, right._value);
-        public static UInt64C operator /(UInt64C left, UInt64C right) => CheckedArithmetic.Divide(left._value, right._value);
+        public static UInt64C operator *(UInt64C left, UInt64C right) => CheckedMath.Multiply(left._value, right._value);
+        public static UInt64C operator /(UInt64C left, UInt64C right) => CheckedMath.Divide(left._value, right._value);
         public static UInt64C operator ^(UInt64C left, UInt64C right) => left._value ^ right._value;
         public static UInt64C operator |(UInt64C left, UInt64C right) => left._value | right._value;
         public static UInt64C operator ~(UInt64C value) => ~value._value;
-        public static UInt64C operator +(UInt64C left, UInt64C right) => CheckedArithmetic.Add(left._value, right._value);
+        public static UInt64C operator +(UInt64C left, UInt64C right) => CheckedMath.Add(left._value, right._value);
         public static UInt64C operator +(UInt64C value) => value;
         public static UInt64C operator ++(UInt64C value) => value + 1;
         public static UInt64C operator <<(UInt64C left, int right) => left._value << right;
         public static UInt64C operator >>(UInt64C left, int right) => left._value >> right;
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
-        bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvertible)_value).ToBoolean(provider);
-        char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)_value).ToChar(provider);
-        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertible)_value).ToSByte(provider);
-        byte IConvertible.ToByte(IFormatProvider provider) => ((IConvertible)_value).ToByte(provider);
-        short IConvertible.ToInt16(IFormatProvider provider) => ((IConvertible)_value).ToInt16(provider);
-        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertible)_value).ToUInt16(provider);
-        int IConvertible.ToInt32(IFormatProvider provider) => ((IConvertible)_value).ToInt32(provider);
-        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertible)_value).ToUInt32(provider);
-        long IConvertible.ToInt64(IFormatProvider provider) => ((IConvertible)_value).ToInt64(provider);
-        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertible)_value).ToUInt64(provider);
-        float IConvertible.ToSingle(IFormatProvider provider) => ((IConvertible)_value).ToSingle(provider);
-        double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
-        decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
-        DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
+        bool IConvertible.ToBoolean(IFormatProvider provider) => Convert.ToBoolean(_value, provider);
+        byte IConvertible.ToByte(IFormatProvider provider) => ConvertN.ToByte(_value, Conversion.Clamp);
+        char IConvertible.ToChar(IFormatProvider provider) => Convert.ToChar(_value, provider);
+        DateTime IConvertible.ToDateTime(IFormatProvider provider) => Convert.ToDateTime(provider);
+        decimal IConvertible.ToDecimal(IFormatProvider provider) => ConvertN.ToDecimal(_value, Conversion.Clamp);
+        double IConvertible.ToDouble(IFormatProvider provider) => ConvertN.ToDouble(_value, Conversion.Clamp);
+        float IConvertible.ToSingle(IFormatProvider provider) => ConvertN.ToSingle(_value, Conversion.Clamp);
+        int IConvertible.ToInt32(IFormatProvider provider) => ConvertN.ToInt32(_value, Conversion.Clamp);
+        long IConvertible.ToInt64(IFormatProvider provider) => ConvertN.ToInt64(_value, Conversion.Clamp);
+        sbyte IConvertible.ToSByte(IFormatProvider provider) => ConvertN.ToSByte(_value, Conversion.Clamp);
+        short IConvertible.ToInt16(IFormatProvider provider) => ConvertN.ToInt16(_value, Conversion.Clamp);
+        uint IConvertible.ToUInt32(IFormatProvider provider) => ConvertN.ToUInt32(_value, Conversion.Clamp);
+        ulong IConvertible.ToUInt64(IFormatProvider provider) => _value;
+        ushort IConvertible.ToUInt16(IFormatProvider provider) => ConvertN.ToUInt16(_value, Conversion.Clamp);
         object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
 
         bool INumeric<UInt64C>.IsGreaterThan(UInt64C value) => this > value;
@@ -147,22 +147,22 @@ namespace Jodo.CheckedNumerics
         UInt64C INumeric<UInt64C>.RightShift(int count) => this >> count;
         UInt64C INumeric<UInt64C>.Subtract(UInt64C value) => this - value;
 
-        IBitConverter<UInt64C> IProvider<IBitConverter<UInt64C>>.GetInstance() => Utilities.Instance;
+        IBitConvert<UInt64C> IProvider<IBitConvert<UInt64C>>.GetInstance() => Utilities.Instance;
         IConvert<UInt64C> IProvider<IConvert<UInt64C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt64C> IProvider<IConvertExtended<UInt64C>>.GetInstance() => Utilities.Instance;
         IMath<UInt64C> IProvider<IMath<UInt64C>>.GetInstance() => Utilities.Instance;
         INumericStatic<UInt64C> IProvider<INumericStatic<UInt64C>>.GetInstance() => Utilities.Instance;
         IRandom<UInt64C> IProvider<IRandom<UInt64C>>.GetInstance() => Utilities.Instance;
-        IStringParser<UInt64C> IProvider<IStringParser<UInt64C>>.GetInstance() => Utilities.Instance;
+        IStringConvert<UInt64C> IProvider<IStringConvert<UInt64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<UInt64C>,
+            IBitConvert<UInt64C>,
             IConvert<UInt64C>,
             IConvertExtended<UInt64C>,
             IMath<UInt64C>,
             INumericStatic<UInt64C>,
             IRandom<UInt64C>,
-            IStringParser<UInt64C>
+            IStringConvert<UInt64C>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -203,7 +203,7 @@ namespace Jodo.CheckedNumerics
             UInt64C IMath<UInt64C>.Clamp(UInt64C x, UInt64C bound1, UInt64C bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             UInt64C IMath<UInt64C>.Cos(UInt64C x) => (UInt64C)Math.Cos(x._value);
             UInt64C IMath<UInt64C>.Cosh(UInt64C x) => (UInt64C)Math.Cosh(x._value);
-            UInt64C IMath<UInt64C>.DegreesToRadians(UInt64C x) => (UInt64C)CheckedArithmetic.Multiply(x, NumericUtilities.RadiansPerDegree);
+            UInt64C IMath<UInt64C>.DegreesToRadians(UInt64C x) => (UInt64C)CheckedMath.Multiply(x, NumericUtilities.RadiansPerDegree);
             UInt64C IMath<UInt64C>.E { get; } = 2;
             UInt64C IMath<UInt64C>.Exp(UInt64C x) => (UInt64C)Math.Exp(x._value);
             UInt64C IMath<UInt64C>.Floor(UInt64C x) => x;
@@ -214,8 +214,8 @@ namespace Jodo.CheckedNumerics
             UInt64C IMath<UInt64C>.Max(UInt64C x, UInt64C y) => Math.Max(x._value, y._value);
             UInt64C IMath<UInt64C>.Min(UInt64C x, UInt64C y) => Math.Min(x._value, y._value);
             UInt64C IMath<UInt64C>.PI { get; } = 3;
-            UInt64C IMath<UInt64C>.Pow(UInt64C x, UInt64C y) => CheckedArithmetic.Pow(x._value, y._value);
-            UInt64C IMath<UInt64C>.RadiansToDegrees(UInt64C x) => (UInt64C)CheckedArithmetic.Multiply(x, NumericUtilities.DegreesPerRadian);
+            UInt64C IMath<UInt64C>.Pow(UInt64C x, UInt64C y) => CheckedMath.Pow(x._value, y._value);
+            UInt64C IMath<UInt64C>.RadiansToDegrees(UInt64C x) => (UInt64C)CheckedMath.Multiply(x, NumericUtilities.DegreesPerRadian);
             UInt64C IMath<UInt64C>.Round(UInt64C x) => x;
             UInt64C IMath<UInt64C>.Round(UInt64C x, int digits) => x;
             UInt64C IMath<UInt64C>.Round(UInt64C x, int digits, MidpointRounding mode) => x;
@@ -228,41 +228,41 @@ namespace Jodo.CheckedNumerics
             UInt64C IMath<UInt64C>.Tau { get; } = 6;
             UInt64C IMath<UInt64C>.Truncate(UInt64C x) => x;
 
-            UInt64C IBitConverter<UInt64C>.Read(IReader<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
-            void IBitConverter<UInt64C>.Write(UInt64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            UInt64C IBitConvert<UInt64C>.Read(IReader<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
+            void IBitConvert<UInt64C>.Write(UInt64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             UInt64C IRandom<UInt64C>.Next(Random random) => random.NextUInt64();
             UInt64C IRandom<UInt64C>.Next(Random random, UInt64C bound1, UInt64C bound2) => random.NextUInt64(bound1._value, bound2._value);
 
             bool IConvert<UInt64C>.ToBoolean(UInt64C value) => value._value != 0;
-            byte IConvert<UInt64C>.ToByte(UInt64C value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
-            decimal IConvert<UInt64C>.ToDecimal(UInt64C value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode.Clamped());
-            double IConvert<UInt64C>.ToDouble(UInt64C value, Conversion mode) => NumericConvert.ToDouble(value._value, mode.Clamped());
-            float IConvert<UInt64C>.ToSingle(UInt64C value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
-            int IConvert<UInt64C>.ToInt32(UInt64C value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
-            long IConvert<UInt64C>.ToInt64(UInt64C value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
-            sbyte IConvertExtended<UInt64C>.ToSByte(UInt64C value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
-            short IConvert<UInt64C>.ToInt16(UInt64C value, Conversion mode) => NumericConvert.ToInt16(value._value, mode.Clamped());
+            byte IConvert<UInt64C>.ToByte(UInt64C value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
+            decimal IConvert<UInt64C>.ToDecimal(UInt64C value, Conversion mode) => ConvertN.ToDecimal(value._value, mode.Clamped());
+            double IConvert<UInt64C>.ToDouble(UInt64C value, Conversion mode) => ConvertN.ToDouble(value._value, mode.Clamped());
+            float IConvert<UInt64C>.ToSingle(UInt64C value, Conversion mode) => ConvertN.ToSingle(value._value, mode.Clamped());
+            int IConvert<UInt64C>.ToInt32(UInt64C value, Conversion mode) => ConvertN.ToInt32(value._value, mode.Clamped());
+            long IConvert<UInt64C>.ToInt64(UInt64C value, Conversion mode) => ConvertN.ToInt64(value._value, mode.Clamped());
+            sbyte IConvertExtended<UInt64C>.ToSByte(UInt64C value, Conversion mode) => ConvertN.ToSByte(value._value, mode.Clamped());
+            short IConvert<UInt64C>.ToInt16(UInt64C value, Conversion mode) => ConvertN.ToInt16(value._value, mode.Clamped());
             string IConvert<UInt64C>.ToString(UInt64C value) => Convert.ToString(value._value);
-            uint IConvertExtended<UInt64C>.ToUInt32(UInt64C value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
+            uint IConvertExtended<UInt64C>.ToUInt32(UInt64C value, Conversion mode) => ConvertN.ToUInt32(value._value, mode.Clamped());
             ulong IConvertExtended<UInt64C>.ToUInt64(UInt64C value, Conversion mode) => value._value;
-            ushort IConvertExtended<UInt64C>.ToUInt16(UInt64C value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            ushort IConvertExtended<UInt64C>.ToUInt16(UInt64C value, Conversion mode) => ConvertN.ToUInt16(value._value, mode.Clamped());
 
             UInt64C IConvert<UInt64C>.ToNumeric(bool value) => value ? 1 : (ulong)0;
-            UInt64C IConvert<UInt64C>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
-            UInt64C IConvert<UInt64C>.ToNumeric(decimal value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
-            UInt64C IConvert<UInt64C>.ToNumeric(double value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
-            UInt64C IConvert<UInt64C>.ToNumeric(float value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
-            UInt64C IConvert<UInt64C>.ToNumeric(int value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
-            UInt64C IConvert<UInt64C>.ToNumeric(long value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
-            UInt64C IConvertExtended<UInt64C>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
-            UInt64C IConvert<UInt64C>.ToNumeric(short value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
+            UInt64C IConvert<UInt64C>.ToNumeric(byte value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
+            UInt64C IConvert<UInt64C>.ToNumeric(decimal value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
+            UInt64C IConvert<UInt64C>.ToNumeric(double value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
+            UInt64C IConvert<UInt64C>.ToNumeric(float value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
+            UInt64C IConvert<UInt64C>.ToNumeric(int value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
+            UInt64C IConvert<UInt64C>.ToNumeric(long value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
+            UInt64C IConvertExtended<UInt64C>.ToValue(sbyte value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
+            UInt64C IConvert<UInt64C>.ToNumeric(short value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
             UInt64C IConvert<UInt64C>.ToNumeric(string value) => Convert.ToUInt64(value);
-            UInt64C IConvertExtended<UInt64C>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
+            UInt64C IConvertExtended<UInt64C>.ToNumeric(uint value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
             UInt64C IConvertExtended<UInt64C>.ToNumeric(ulong value, Conversion mode) => value;
-            UInt64C IConvertExtended<UInt64C>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToUInt64(value, mode.Clamped());
+            UInt64C IConvertExtended<UInt64C>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToUInt64(value, mode.Clamped());
 
-            UInt64C IStringParser<UInt64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            UInt64C IStringConvert<UInt64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }

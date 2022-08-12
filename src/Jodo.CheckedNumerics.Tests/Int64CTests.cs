@@ -18,28 +18,29 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics.Tests;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.CheckedNumerics.Tests
 {
     public static class Int64CTests
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<Int64C> { }
-        public sealed class CastTests : CastTests<Int64C> { }
-        public sealed class CheckedNumeric : CheckedNumericTests<Int64C> { }
-        public sealed class ConvertTests : ConvertTests<Int64C> { }
-        public sealed class MathGeneral : MathTestsBase.General<Int64C> { }
-        public sealed class MathIntegral : MathTestsBase.Integral<Int64C> { }
-        public sealed class MathSigned : MathTestsBase.SingedOnly<Int64C> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<Int64C> { }
-        public sealed class NumericIntegral : NumericTestsBase.Integral<Int64C> { }
-        public sealed class NumericNoFloatingPoint : NumericTestsBase.NoFloatingPoint<Int64C> { }
-        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<Int64C> { }
-        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<Int64C> { }
-        public sealed class NumericSigned : NumericTestsBase.SignedOnly<Int64C> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<Int64C> { }
-        public sealed class ParserGeneral : StringParserTestsBase.General<Int64C> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<Int64C> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<Int64C> { }
-        public sealed class StringParserIntegral : StringParserTestsBase.Integral<Int64C> { }
+        public sealed class BitConvertTests : BitConvertTestBase<Int64C> { }
+        public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<Int64C> { }
+        public sealed class CheckedNumericTests : CheckedNumericTestBase<Int64C> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<Int64C> { }
+        public sealed class NumericCastTests : NumericCastTestBase<Int64C> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<Int64C> { }
+        public sealed class NumericIntegralTests : NumericIntegralTestBase<Int64C> { }
+        public sealed class NumericMathTests : NumericMathTestBase<Int64C> { }
+        public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<Int64C> { }
+        public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<Int64C> { }
+        public sealed class NumericNonNaNTests : NumericNonNaNTestBase<Int64C> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<Int64C> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Int64C> { }
+        public sealed class NumericTests : NumericTestBase<Int64C> { }
+        public sealed class ObjectTests : ObjectTestBase<Int64C> { }
+        public sealed class RandomTests : RandomTestBase<Int64C> { }
+        public sealed class SerializableTests : SerializableTestBase<Int64C> { }
+        public sealed class StringConvertTests : StringConvertTestBase<Int64C> { }
     }
 }

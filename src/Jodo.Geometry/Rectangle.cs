@@ -72,9 +72,9 @@ namespace Jodo.Geometry
     public readonly struct Rectangle<TNumeric> :
             IEquatable<Rectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Rectangle<TNumeric>>>,
+            IProvider<IBitConvert<Rectangle<TNumeric>>>,
             IProvider<IRandom<Rectangle<TNumeric>>>,
-            IProvider<IStringParser<Rectangle<TNumeric>>>,
+            IProvider<IStringConvert<Rectangle<TNumeric>>>,
             ITwoDimensional<Rectangle<TNumeric>, TNumeric>,
             IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2<TNumeric>>,
             ISerializable
@@ -195,14 +195,14 @@ namespace Jodo.Geometry
         Vector2<TNumeric>[] ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
         Vector2<TNumeric> ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetCenter() => Origin;
 
-        IBitConverter<Rectangle<TNumeric>> IProvider<IBitConverter<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBitConvert<Rectangle<TNumeric>> IProvider<IBitConvert<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IRandom<Rectangle<TNumeric>> IProvider<IRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Rectangle<TNumeric>> IProvider<IStringParser<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringConvert<Rectangle<TNumeric>> IProvider<IStringConvert<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<Rectangle<TNumeric>>,
+           IBitConvert<Rectangle<TNumeric>>,
            IRandom<Rectangle<TNumeric>>,
-           IStringParser<Rectangle<TNumeric>>
+           IStringConvert<Rectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -250,22 +250,22 @@ namespace Jodo.Geometry
                 return new Rectangle<TNumeric>(center, dimensions, angle);
             }
 
-            Rectangle<TNumeric> IStringParser<Rectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            Rectangle<TNumeric> IStringConvert<Rectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
                 string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
                 if (parts.Length == 5)
                     return new Rectangle<TNumeric>(
                         new Vector2<TNumeric>(
-                            StringParser.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
-                            StringParser.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider)),
+                            StringConvert.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                            StringConvert.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider)),
                         new Vector2<TNumeric>(
-                            StringParser.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
-                            StringParser.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider)),
-                        new Angle<TNumeric>(StringParser.Parse<Angle<TNumeric>>(parts[4].Replace("A:", string.Empty).Trim(), style, provider)));
+                            StringConvert.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
+                            StringConvert.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider)),
+                        new Angle<TNumeric>(StringConvert.Parse<Angle<TNumeric>>(parts[4].Replace("A:", string.Empty).Trim(), style, provider)));
                 else throw new FormatException();
             }
 
-            Rectangle<TNumeric> IBitConverter<Rectangle<TNumeric>>.Read(IReader<byte> stream)
+            Rectangle<TNumeric> IBitConvert<Rectangle<TNumeric>>.Read(IReader<byte> stream)
             {
                 return new Rectangle<TNumeric>(
                     BitConvert.Read<Vector2<TNumeric>>(stream),
@@ -273,7 +273,7 @@ namespace Jodo.Geometry
                     BitConvert.Read<Angle<TNumeric>>(stream));
             }
 
-            void IBitConverter<Rectangle<TNumeric>>.Write(Rectangle<TNumeric> value, IWriter<byte> stream)
+            void IBitConvert<Rectangle<TNumeric>>.Write(Rectangle<TNumeric> value, IWriter<byte> stream)
             {
                 BitConvert.Write(stream, value.Origin);
                 BitConvert.Write(stream, value.Dimensions);

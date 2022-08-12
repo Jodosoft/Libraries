@@ -17,28 +17,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Primitives.Tests;
+
 namespace Jodo.Numerics.Tests
 {
     public static class SingleNTests
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<SingleN> { }
-        public sealed class CastTests : CastTests<SingleN> { }
-        public sealed class ConvertTests : ConvertTests<SingleN> { }
-        public sealed class MathErrorGeneral : MathErrorTests.General<SingleN> { }
-        public sealed class MathErrorNaN : MathErrorTests.NaN<SingleN> { }
-        public sealed class MathFloatingPoint : MathTestsBase.FloatingPoint<SingleN> { }
-        public sealed class MathGeneral : MathTestsBase.General<SingleN> { }
-        public sealed class MathReal : MathTestsBase.Real<SingleN> { }
-        public sealed class MathSigned : MathTestsBase.SingedOnly<SingleN> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<SingleN> { }
-        public sealed class NumericInfinity : NumericTestsBase.Infinity<SingleN> { }
-        public sealed class NumericNaN : NumericTestsBase.NaN<SingleN> { }
-        public sealed class NumericReal : NumericTestsBase.Real<SingleN> { }
-        public sealed class NumericSigned : NumericTestsBase.SignedOnly<SingleN> { }
-        public sealed class NumericWrapperTests : NumericWrapperTestsBase.General<SingleN, float> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<SingleN> { }
-        public sealed class ParserGeneral : StringParserTestsBase.General<SingleN> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<SingleN> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<SingleN> { }
+        public sealed class BitConvertTests : BitConvertTestBase<SingleN> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<SingleN> { }
+        public sealed class NumericCastTests : NumericCastTestBase<SingleN> { }
+        public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<SingleN> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<SingleN> { }
+        public sealed class NumericFloatingPointTests : NumericFloatingPointTestBase<SingleN> { }
+        public sealed class NumericInfinityTests : NumericInfinityTestBase<SingleN> { }
+        public sealed class NumericMathErrorNaNTests : NumericMathErrorNaNTestBase<SingleN> { }
+        public sealed class NumericMathTests : NumericMathTestBase<SingleN> { }
+        public sealed class NumericNaNTests : NumericNaNTestBase<SingleN> { }
+        public sealed class NumericRealTests : NumericRealTestBase<SingleN> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<SingleN> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<SingleN> { }
+        public sealed class NumericTests : NumericTestBase<SingleN> { }
+        public sealed class NumericWrapperTests : NumericWrapperTestBase<SingleN, float> { }
+        public sealed class ObjectTests : ObjectTestBase<SingleN> { }
+        public sealed class RandomTests : RandomTestBase<SingleN> { }
+        public sealed class SerializableTests : SerializableTestBase<SingleN> { }
     }
 }

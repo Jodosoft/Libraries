@@ -55,7 +55,7 @@ namespace Jodo.Numerics
         public bool Equals(Fix64 other) => _scaledValue == other._scaledValue;
         public override bool Equals(object? obj) => obj is Fix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
-        public override string ToString() => ScaledArithmetic.ToString(_scaledValue, ScalingFactor, null);
+        public override string ToString() => ScaledMath.ToString(_scaledValue, ScalingFactor, null);
         public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
@@ -64,8 +64,8 @@ namespace Jodo.Numerics
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Fix64 result) => TryHelper.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out Fix64 result) => TryHelper.Run(() => Parse(s, style), out result);
         public static bool TryParse(string s, out Fix64 result) => TryHelper.Run(() => Parse(s), out result);
-        public static Fix64 Parse(string s) => new Fix64(ScaledArithmetic.Parse(s, ScalingFactor, null, null));
-        public static Fix64 Parse(string s, IFormatProvider? provider) => new Fix64(ScaledArithmetic.Parse(s, ScalingFactor, null, provider));
+        public static Fix64 Parse(string s) => new Fix64(ScaledMath.Parse(s, ScalingFactor, null, null));
+        public static Fix64 Parse(string s, IFormatProvider? provider) => new Fix64(ScaledMath.Parse(s, ScalingFactor, null, provider));
         public static Fix64 Parse(string s, NumberStyles style) => (Fix64)double.Parse(s, style);
         public static Fix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => (Fix64)double.Parse(s, style, provider);
 
@@ -73,7 +73,7 @@ namespace Jodo.Numerics
         {
             if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (digits > 5) return value;
-            return new Fix64(ScaledArithmetic.Round(value._scaledValue, 6 - digits, mode));
+            return new Fix64(ScaledMath.Round(value._scaledValue, 6 - digits, mode));
         }
 
         [SuppressMessage("Style", "JSON002:Probable JSON string detected", Justification = "False positive")]
@@ -139,8 +139,8 @@ namespace Jodo.Numerics
         public static Fix64 operator -(Fix64 left, Fix64 right) => new Fix64(left._scaledValue - right._scaledValue);
         public static Fix64 operator --(Fix64 value) => new Fix64(value._scaledValue - ScalingFactor);
         public static Fix64 operator -(Fix64 value) => new Fix64(-value._scaledValue);
-        public static Fix64 operator *(Fix64 left, Fix64 right) => new Fix64(ScaledArithmetic.Multiply(left._scaledValue, right._scaledValue, ScalingFactor));
-        public static Fix64 operator /(Fix64 left, Fix64 right) => new Fix64(ScaledArithmetic.Divide(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static Fix64 operator *(Fix64 left, Fix64 right) => new Fix64(ScaledMath.Multiply(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static Fix64 operator /(Fix64 left, Fix64 right) => new Fix64(ScaledMath.Divide(left._scaledValue, right._scaledValue, ScalingFactor));
         public static Fix64 operator ^(Fix64 left, Fix64 right) => new Fix64(left._scaledValue ^ right._scaledValue);
         public static Fix64 operator |(Fix64 left, Fix64 right) => new Fix64(left._scaledValue | right._scaledValue);
         public static Fix64 operator ~(Fix64 value) => new Fix64(~value._scaledValue);
@@ -185,22 +185,22 @@ namespace Jodo.Numerics
         Fix64 INumeric<Fix64>.RightShift(int count) => this >> count;
         Fix64 INumeric<Fix64>.Subtract(Fix64 value) => this - value;
 
-        IBitConverter<Fix64> IProvider<IBitConverter<Fix64>>.GetInstance() => Utilities.Instance;
+        IBitConvert<Fix64> IProvider<IBitConvert<Fix64>>.GetInstance() => Utilities.Instance;
         IConvert<Fix64> IProvider<IConvert<Fix64>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Fix64> IProvider<IConvertExtended<Fix64>>.GetInstance() => Utilities.Instance;
         IMath<Fix64> IProvider<IMath<Fix64>>.GetInstance() => Utilities.Instance;
         INumericStatic<Fix64> IProvider<INumericStatic<Fix64>>.GetInstance() => Utilities.Instance;
         IRandom<Fix64> IProvider<IRandom<Fix64>>.GetInstance() => Utilities.Instance;
-        IStringParser<Fix64> IProvider<IStringParser<Fix64>>.GetInstance() => Utilities.Instance;
+        IStringConvert<Fix64> IProvider<IStringConvert<Fix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<Fix64>,
+            IBitConvert<Fix64>,
             IConvert<Fix64>,
             IConvertExtended<Fix64>,
             IMath<Fix64>,
             INumericStatic<Fix64>,
             IRandom<Fix64>,
-            IStringParser<Fix64>
+            IStringConvert<Fix64>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -236,14 +236,14 @@ namespace Jodo.Numerics
             Fix64 IMath<Fix64>.Atan2(Fix64 x, Fix64 y) => (Fix64)Math.Atan2((double)x, (double)y);
             Fix64 IMath<Fix64>.Atanh(Fix64 x) => (Fix64)MathCompat.Atanh((double)x);
             Fix64 IMath<Fix64>.Cbrt(Fix64 x) => (Fix64)MathCompat.Cbrt((double)x);
-            Fix64 IMath<Fix64>.Ceiling(Fix64 x) => new Fix64(ScaledArithmetic.Ceiling(x._scaledValue, ScalingFactor));
+            Fix64 IMath<Fix64>.Ceiling(Fix64 x) => new Fix64(ScaledMath.Ceiling(x._scaledValue, ScalingFactor));
             Fix64 IMath<Fix64>.Clamp(Fix64 x, Fix64 bound1, Fix64 bound2) => new Fix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             Fix64 IMath<Fix64>.Cos(Fix64 x) => (Fix64)Math.Cos((double)x);
             Fix64 IMath<Fix64>.Cosh(Fix64 x) => (Fix64)Math.Cosh((double)x);
             Fix64 IMath<Fix64>.DegreesToRadians(Fix64 x) => (Fix64)((double)x * NumericUtilities.RadiansPerDegree);
             Fix64 IMath<Fix64>.E { get; } = (Fix64)Math.E;
             Fix64 IMath<Fix64>.Exp(Fix64 x) => (Fix64)Math.Exp((double)x);
-            Fix64 IMath<Fix64>.Floor(Fix64 x) => new Fix64(ScaledArithmetic.Floor(x._scaledValue, ScalingFactor));
+            Fix64 IMath<Fix64>.Floor(Fix64 x) => new Fix64(ScaledMath.Floor(x._scaledValue, ScalingFactor));
             Fix64 IMath<Fix64>.IEEERemainder(Fix64 x, Fix64 y) => (Fix64)Math.IEEERemainder((double)x, (double)y);
             Fix64 IMath<Fix64>.Log(Fix64 x) => (Fix64)Math.Log((double)x);
             Fix64 IMath<Fix64>.Log(Fix64 x, Fix64 y) => (Fix64)Math.Log((double)x, (double)y);
@@ -266,41 +266,41 @@ namespace Jodo.Numerics
             Fix64 IMath<Fix64>.Truncate(Fix64 x) => new Fix64(x._scaledValue / ScalingFactor * ScalingFactor);
             int IMath<Fix64>.Sign(Fix64 x) => Math.Sign(x._scaledValue);
 
-            Fix64 IBitConverter<Fix64>.Read(IReader<byte> stream) => new Fix64(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
-            void IBitConverter<Fix64>.Write(Fix64 value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            Fix64 IBitConvert<Fix64>.Read(IReader<byte> stream) => new Fix64(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
+            void IBitConvert<Fix64>.Write(Fix64 value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             Fix64 IRandom<Fix64>.Next(Random random) => new Fix64(random.NextInt64());
             Fix64 IRandom<Fix64>.Next(Random random, Fix64 bound1, Fix64 bound2) => new Fix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<Fix64>.ToBoolean(Fix64 value) => value._scaledValue != 0;
-            byte IConvert<Fix64>.ToByte(Fix64 value, Conversion mode) => NumericConvert.ToByte(value._scaledValue / ScalingFactor, mode);
+            byte IConvert<Fix64>.ToByte(Fix64 value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode);
             decimal IConvert<Fix64>.ToDecimal(Fix64 value, Conversion mode) => (decimal)value._scaledValue / ScalingFactor;
             double IConvert<Fix64>.ToDouble(Fix64 value, Conversion mode) => (double)value._scaledValue / ScalingFactor;
             float IConvert<Fix64>.ToSingle(Fix64 value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
-            int IConvert<Fix64>.ToInt32(Fix64 value, Conversion mode) => NumericConvert.ToInt32(value._scaledValue / ScalingFactor, mode);
+            int IConvert<Fix64>.ToInt32(Fix64 value, Conversion mode) => ConvertN.ToInt32(value._scaledValue / ScalingFactor, mode);
             long IConvert<Fix64>.ToInt64(Fix64 value, Conversion mode) => value._scaledValue / ScalingFactor;
-            sbyte IConvertExtended<Fix64>.ToSByte(Fix64 value, Conversion mode) => NumericConvert.ToSByte(value._scaledValue / ScalingFactor, mode);
-            short IConvert<Fix64>.ToInt16(Fix64 value, Conversion mode) => NumericConvert.ToInt16(value._scaledValue / ScalingFactor, mode);
+            sbyte IConvertExtended<Fix64>.ToSByte(Fix64 value, Conversion mode) => ConvertN.ToSByte(value._scaledValue / ScalingFactor, mode);
+            short IConvert<Fix64>.ToInt16(Fix64 value, Conversion mode) => ConvertN.ToInt16(value._scaledValue / ScalingFactor, mode);
             string IConvert<Fix64>.ToString(Fix64 value) => value.ToString();
-            uint IConvertExtended<Fix64>.ToUInt32(Fix64 value, Conversion mode) => NumericConvert.ToUInt32(value._scaledValue / ScalingFactor, mode);
-            ulong IConvertExtended<Fix64>.ToUInt64(Fix64 value, Conversion mode) => NumericConvert.ToUInt64(value._scaledValue / ScalingFactor, mode);
-            ushort IConvertExtended<Fix64>.ToUInt16(Fix64 value, Conversion mode) => NumericConvert.ToUInt16(value._scaledValue / ScalingFactor, mode);
+            uint IConvertExtended<Fix64>.ToUInt32(Fix64 value, Conversion mode) => ConvertN.ToUInt32(value._scaledValue / ScalingFactor, mode);
+            ulong IConvertExtended<Fix64>.ToUInt64(Fix64 value, Conversion mode) => ConvertN.ToUInt64(value._scaledValue / ScalingFactor, mode);
+            ushort IConvertExtended<Fix64>.ToUInt16(Fix64 value, Conversion mode) => ConvertN.ToUInt16(value._scaledValue / ScalingFactor, mode);
 
             Fix64 IConvert<Fix64>.ToNumeric(bool value) => value ? ScalingFactor : 0;
-            Fix64 IConvert<Fix64>.ToNumeric(byte value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvert<Fix64>.ToNumeric(byte value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
             Fix64 IConvert<Fix64>.ToNumeric(decimal value, Conversion mode) => (Fix64)value;
             Fix64 IConvert<Fix64>.ToNumeric(double value, Conversion mode) => (Fix64)value;
             Fix64 IConvert<Fix64>.ToNumeric(float value, Conversion mode) => value;
-            Fix64 IConvert<Fix64>.ToNumeric(int value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvert<Fix64>.ToNumeric(int value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
             Fix64 IConvert<Fix64>.ToNumeric(long value, Conversion mode) => (Fix64)value;
-            Fix64 IConvertExtended<Fix64>.ToValue(sbyte value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
-            Fix64 IConvert<Fix64>.ToNumeric(short value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvertExtended<Fix64>.ToValue(sbyte value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
+            Fix64 IConvert<Fix64>.ToNumeric(short value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
             Fix64 IConvert<Fix64>.ToNumeric(string value) => (Fix64)Convert.ToInt64(value);
-            Fix64 IConvertExtended<Fix64>.ToNumeric(uint value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
-            Fix64 IConvertExtended<Fix64>.ToNumeric(ulong value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
-            Fix64 IConvertExtended<Fix64>.ToNumeric(ushort value, Conversion mode) => (Fix64)NumericConvert.ToInt64(value, mode);
+            Fix64 IConvertExtended<Fix64>.ToNumeric(uint value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
+            Fix64 IConvertExtended<Fix64>.ToNumeric(ulong value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
+            Fix64 IConvertExtended<Fix64>.ToNumeric(ushort value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
 
-            Fix64 IStringParser<Fix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            Fix64 IStringConvert<Fix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
         }
     }

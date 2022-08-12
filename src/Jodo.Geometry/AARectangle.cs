@@ -71,9 +71,9 @@ namespace Jodo.Geometry
     public readonly struct AARectangle<TNumeric> :
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<AARectangle<TNumeric>>>,
+            IProvider<IBitConvert<AARectangle<TNumeric>>>,
             IProvider<IRandom<AARectangle<TNumeric>>>,
-            IProvider<IStringParser<AARectangle<TNumeric>>>,
+            IProvider<IStringConvert<AARectangle<TNumeric>>>,
             ITwoDimensional<AARectangle<TNumeric>, TNumeric>,
             IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2<TNumeric>>,
             ISerializable
@@ -177,14 +177,14 @@ namespace Jodo.Geometry
         AARectangle<TNumeric> ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetBounds() => this;
         Vector2<TNumeric>[] ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
 
-        IBitConverter<AARectangle<TNumeric>> IProvider<IBitConverter<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBitConvert<AARectangle<TNumeric>> IProvider<IBitConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IRandom<AARectangle<TNumeric>> IProvider<IRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringParser<AARectangle<TNumeric>> IProvider<IStringParser<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringConvert<AARectangle<TNumeric>> IProvider<IStringConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<AARectangle<TNumeric>>,
+           IBitConvert<AARectangle<TNumeric>>,
            IRandom<AARectangle<TNumeric>>,
-           IStringParser<AARectangle<TNumeric>>
+           IStringConvert<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -216,26 +216,26 @@ namespace Jodo.Geometry
                 return AARectangle.Between(point1, point2);
             }
 
-            AARectangle<TNumeric> IStringParser<AARectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            AARectangle<TNumeric> IStringConvert<AARectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
                 string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
                 if (parts.Length == 4)
                     return new AARectangle<TNumeric>(
-                        StringParser.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
-                        StringParser.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
-                        StringParser.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
-                        StringParser.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider));
+                        StringConvert.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                        StringConvert.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
+                        StringConvert.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
+                        StringConvert.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider));
                 else throw new FormatException();
             }
 
-            AARectangle<TNumeric> IBitConverter<AARectangle<TNumeric>>.Read(IReader<byte> stream)
+            AARectangle<TNumeric> IBitConvert<AARectangle<TNumeric>>.Read(IReader<byte> stream)
             {
                 return new AARectangle<TNumeric>(
                     BitConvert.Read<Vector2<TNumeric>>(stream),
                     BitConvert.Read<Vector2<TNumeric>>(stream));
             }
 
-            void IBitConverter<AARectangle<TNumeric>>.Write(AARectangle<TNumeric> value, IWriter<byte> stream)
+            void IBitConvert<AARectangle<TNumeric>>.Write(AARectangle<TNumeric> value, IWriter<byte> stream)
             {
                 BitConvert.Write(stream, value.Origin);
                 BitConvert.Write(stream, value.Dimensions);

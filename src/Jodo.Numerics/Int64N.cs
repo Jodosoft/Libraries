@@ -146,22 +146,22 @@ namespace Jodo.Numerics
         Int64N INumeric<Int64N>.RightShift(int count) => this >> count;
         Int64N INumeric<Int64N>.Subtract(Int64N value) => this - value;
 
-        IBitConverter<Int64N> IProvider<IBitConverter<Int64N>>.GetInstance() => Utilities.Instance;
+        IBitConvert<Int64N> IProvider<IBitConvert<Int64N>>.GetInstance() => Utilities.Instance;
         IConvert<Int64N> IProvider<IConvert<Int64N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Int64N> IProvider<IConvertExtended<Int64N>>.GetInstance() => Utilities.Instance;
         IMath<Int64N> IProvider<IMath<Int64N>>.GetInstance() => Utilities.Instance;
         INumericStatic<Int64N> IProvider<INumericStatic<Int64N>>.GetInstance() => Utilities.Instance;
         IRandom<Int64N> IProvider<IRandom<Int64N>>.GetInstance() => Utilities.Instance;
-        IStringParser<Int64N> IProvider<IStringParser<Int64N>>.GetInstance() => Utilities.Instance;
+        IStringConvert<Int64N> IProvider<IStringConvert<Int64N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<Int64N>,
+            IBitConvert<Int64N>,
             IConvert<Int64N>,
             IConvertExtended<Int64N>,
             IMath<Int64N>,
             INumericStatic<Int64N>,
             IRandom<Int64N>,
-            IStringParser<Int64N>
+            IStringConvert<Int64N>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -227,41 +227,41 @@ namespace Jodo.Numerics
             Int64N IMath<Int64N>.Tau { get; } = 6L;
             Int64N IMath<Int64N>.Truncate(Int64N x) => x;
 
-            Int64N IBitConverter<Int64N>.Read(IReader<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)), 0);
-            void IBitConverter<Int64N>.Write(Int64N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            Int64N IBitConvert<Int64N>.Read(IReader<byte> stream) => BitConverter.ToInt64(stream.Read(sizeof(long)), 0);
+            void IBitConvert<Int64N>.Write(Int64N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             Int64N IRandom<Int64N>.Next(Random random) => random.NextInt64();
             Int64N IRandom<Int64N>.Next(Random random, Int64N bound1, Int64N bound2) => random.NextInt64(bound1._value, bound2._value);
 
             bool IConvert<Int64N>.ToBoolean(Int64N value) => Convert.ToBoolean(value._value);
-            byte IConvert<Int64N>.ToByte(Int64N value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
-            decimal IConvert<Int64N>.ToDecimal(Int64N value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode);
-            double IConvert<Int64N>.ToDouble(Int64N value, Conversion mode) => NumericConvert.ToDouble(value._value, mode);
-            float IConvert<Int64N>.ToSingle(Int64N value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
-            int IConvert<Int64N>.ToInt32(Int64N value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
+            byte IConvert<Int64N>.ToByte(Int64N value, Conversion mode) => ConvertN.ToByte(value._value, mode);
+            decimal IConvert<Int64N>.ToDecimal(Int64N value, Conversion mode) => ConvertN.ToDecimal(value._value, mode);
+            double IConvert<Int64N>.ToDouble(Int64N value, Conversion mode) => ConvertN.ToDouble(value._value, mode);
+            float IConvert<Int64N>.ToSingle(Int64N value, Conversion mode) => ConvertN.ToSingle(value._value, mode);
+            int IConvert<Int64N>.ToInt32(Int64N value, Conversion mode) => ConvertN.ToInt32(value._value, mode);
             long IConvert<Int64N>.ToInt64(Int64N value, Conversion mode) => value._value;
-            sbyte IConvertExtended<Int64N>.ToSByte(Int64N value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
-            short IConvert<Int64N>.ToInt16(Int64N value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
+            sbyte IConvertExtended<Int64N>.ToSByte(Int64N value, Conversion mode) => ConvertN.ToSByte(value._value, mode);
+            short IConvert<Int64N>.ToInt16(Int64N value, Conversion mode) => ConvertN.ToInt16(value._value, mode);
             string IConvert<Int64N>.ToString(Int64N value) => Convert.ToString(value._value);
-            uint IConvertExtended<Int64N>.ToUInt32(Int64N value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
-            ulong IConvertExtended<Int64N>.ToUInt64(Int64N value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
-            ushort IConvertExtended<Int64N>.ToUInt16(Int64N value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            uint IConvertExtended<Int64N>.ToUInt32(Int64N value, Conversion mode) => ConvertN.ToUInt32(value._value, mode);
+            ulong IConvertExtended<Int64N>.ToUInt64(Int64N value, Conversion mode) => ConvertN.ToUInt64(value._value, mode);
+            ushort IConvertExtended<Int64N>.ToUInt16(Int64N value, Conversion mode) => ConvertN.ToUInt16(value._value, mode);
 
             Int64N IConvert<Int64N>.ToNumeric(bool value) => Convert.ToInt64(value);
-            Int64N IConvert<Int64N>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToInt64(value, mode);
-            Int64N IConvert<Int64N>.ToNumeric(decimal value, Conversion mode) => NumericConvert.ToInt64(value, mode);
-            Int64N IConvert<Int64N>.ToNumeric(double value, Conversion mode) => NumericConvert.ToInt64(value, mode);
-            Int64N IConvert<Int64N>.ToNumeric(float value, Conversion mode) => NumericConvert.ToInt64(value, mode);
-            Int64N IConvert<Int64N>.ToNumeric(int value, Conversion mode) => NumericConvert.ToInt64(value, mode);
+            Int64N IConvert<Int64N>.ToNumeric(byte value, Conversion mode) => ConvertN.ToInt64(value, mode);
+            Int64N IConvert<Int64N>.ToNumeric(decimal value, Conversion mode) => ConvertN.ToInt64(value, mode);
+            Int64N IConvert<Int64N>.ToNumeric(double value, Conversion mode) => ConvertN.ToInt64(value, mode);
+            Int64N IConvert<Int64N>.ToNumeric(float value, Conversion mode) => ConvertN.ToInt64(value, mode);
+            Int64N IConvert<Int64N>.ToNumeric(int value, Conversion mode) => ConvertN.ToInt64(value, mode);
             Int64N IConvert<Int64N>.ToNumeric(long value, Conversion mode) => value;
-            Int64N IConvertExtended<Int64N>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToInt64(value, mode);
-            Int64N IConvert<Int64N>.ToNumeric(short value, Conversion mode) => NumericConvert.ToInt64(value, mode);
+            Int64N IConvertExtended<Int64N>.ToValue(sbyte value, Conversion mode) => ConvertN.ToInt64(value, mode);
+            Int64N IConvert<Int64N>.ToNumeric(short value, Conversion mode) => ConvertN.ToInt64(value, mode);
             Int64N IConvert<Int64N>.ToNumeric(string value) => Convert.ToInt64(value);
-            Int64N IConvertExtended<Int64N>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToInt64(value, mode);
-            Int64N IConvertExtended<Int64N>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt64(value, mode);
-            Int64N IConvertExtended<Int64N>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt64(value, mode);
+            Int64N IConvertExtended<Int64N>.ToNumeric(uint value, Conversion mode) => ConvertN.ToInt64(value, mode);
+            Int64N IConvertExtended<Int64N>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToInt64(value, mode);
+            Int64N IConvertExtended<Int64N>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToInt64(value, mode);
 
-            Int64N IStringParser<Int64N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            Int64N IStringConvert<Int64N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }

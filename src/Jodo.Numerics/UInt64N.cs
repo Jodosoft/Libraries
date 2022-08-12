@@ -145,22 +145,22 @@ namespace Jodo.Numerics
         UInt64N INumeric<UInt64N>.RightShift(int count) => this >> count;
         UInt64N INumeric<UInt64N>.Subtract(UInt64N value) => this - value;
 
-        IBitConverter<UInt64N> IProvider<IBitConverter<UInt64N>>.GetInstance() => Utilities.Instance;
+        IBitConvert<UInt64N> IProvider<IBitConvert<UInt64N>>.GetInstance() => Utilities.Instance;
         IConvert<UInt64N> IProvider<IConvert<UInt64N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt64N> IProvider<IConvertExtended<UInt64N>>.GetInstance() => Utilities.Instance;
         IMath<UInt64N> IProvider<IMath<UInt64N>>.GetInstance() => Utilities.Instance;
         INumericStatic<UInt64N> IProvider<INumericStatic<UInt64N>>.GetInstance() => Utilities.Instance;
         IRandom<UInt64N> IProvider<IRandom<UInt64N>>.GetInstance() => Utilities.Instance;
-        IStringParser<UInt64N> IProvider<IStringParser<UInt64N>>.GetInstance() => Utilities.Instance;
+        IStringConvert<UInt64N> IProvider<IStringConvert<UInt64N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<UInt64N>,
+            IBitConvert<UInt64N>,
             IConvert<UInt64N>,
             IConvertExtended<UInt64N>,
             IMath<UInt64N>,
             INumericStatic<UInt64N>,
             IRandom<UInt64N>,
-            IStringParser<UInt64N>
+            IStringConvert<UInt64N>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -226,41 +226,41 @@ namespace Jodo.Numerics
             UInt64N IMath<UInt64N>.Tau { get; } = (UInt64N)6;
             UInt64N IMath<UInt64N>.Truncate(UInt64N x) => x;
 
-            UInt64N IBitConverter<UInt64N>.Read(IReader<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
-            void IBitConverter<UInt64N>.Write(UInt64N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            UInt64N IBitConvert<UInt64N>.Read(IReader<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
+            void IBitConvert<UInt64N>.Write(UInt64N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             UInt64N IRandom<UInt64N>.Next(Random random) => random.NextUInt64();
             UInt64N IRandom<UInt64N>.Next(Random random, UInt64N bound1, UInt64N bound2) => random.NextUInt64(bound1._value, bound2._value);
 
             bool IConvert<UInt64N>.ToBoolean(UInt64N value) => Convert.ToBoolean(value._value);
-            byte IConvert<UInt64N>.ToByte(UInt64N value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
-            decimal IConvert<UInt64N>.ToDecimal(UInt64N value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode);
-            double IConvert<UInt64N>.ToDouble(UInt64N value, Conversion mode) => NumericConvert.ToDouble(value._value, mode);
-            float IConvert<UInt64N>.ToSingle(UInt64N value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
-            int IConvert<UInt64N>.ToInt32(UInt64N value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
-            long IConvert<UInt64N>.ToInt64(UInt64N value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
-            sbyte IConvertExtended<UInt64N>.ToSByte(UInt64N value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
-            short IConvert<UInt64N>.ToInt16(UInt64N value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
+            byte IConvert<UInt64N>.ToByte(UInt64N value, Conversion mode) => ConvertN.ToByte(value._value, mode);
+            decimal IConvert<UInt64N>.ToDecimal(UInt64N value, Conversion mode) => ConvertN.ToDecimal(value._value, mode);
+            double IConvert<UInt64N>.ToDouble(UInt64N value, Conversion mode) => ConvertN.ToDouble(value._value, mode);
+            float IConvert<UInt64N>.ToSingle(UInt64N value, Conversion mode) => ConvertN.ToSingle(value._value, mode);
+            int IConvert<UInt64N>.ToInt32(UInt64N value, Conversion mode) => ConvertN.ToInt32(value._value, mode);
+            long IConvert<UInt64N>.ToInt64(UInt64N value, Conversion mode) => ConvertN.ToInt64(value._value, mode);
+            sbyte IConvertExtended<UInt64N>.ToSByte(UInt64N value, Conversion mode) => ConvertN.ToSByte(value._value, mode);
+            short IConvert<UInt64N>.ToInt16(UInt64N value, Conversion mode) => ConvertN.ToInt16(value._value, mode);
             string IConvert<UInt64N>.ToString(UInt64N value) => Convert.ToString(value._value);
-            uint IConvertExtended<UInt64N>.ToUInt32(UInt64N value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
+            uint IConvertExtended<UInt64N>.ToUInt32(UInt64N value, Conversion mode) => ConvertN.ToUInt32(value._value, mode);
             ulong IConvertExtended<UInt64N>.ToUInt64(UInt64N value, Conversion mode) => value._value;
-            ushort IConvertExtended<UInt64N>.ToUInt16(UInt64N value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            ushort IConvertExtended<UInt64N>.ToUInt16(UInt64N value, Conversion mode) => ConvertN.ToUInt16(value._value, mode);
 
             UInt64N IConvert<UInt64N>.ToNumeric(bool value) => Convert.ToUInt64(value);
-            UInt64N IConvert<UInt64N>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvert<UInt64N>.ToNumeric(decimal value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvert<UInt64N>.ToNumeric(double value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvert<UInt64N>.ToNumeric(float value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvert<UInt64N>.ToNumeric(int value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvert<UInt64N>.ToNumeric(long value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvertExtended<UInt64N>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
-            UInt64N IConvert<UInt64N>.ToNumeric(short value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            UInt64N IConvert<UInt64N>.ToNumeric(byte value, Conversion mode) => ConvertN.ToUInt64(value, mode);
+            UInt64N IConvert<UInt64N>.ToNumeric(decimal value, Conversion mode) => ConvertN.ToUInt64(value, mode);
+            UInt64N IConvert<UInt64N>.ToNumeric(double value, Conversion mode) => ConvertN.ToUInt64(value, mode);
+            UInt64N IConvert<UInt64N>.ToNumeric(float value, Conversion mode) => ConvertN.ToUInt64(value, mode);
+            UInt64N IConvert<UInt64N>.ToNumeric(int value, Conversion mode) => ConvertN.ToUInt64(value, mode);
+            UInt64N IConvert<UInt64N>.ToNumeric(long value, Conversion mode) => ConvertN.ToUInt64(value, mode);
+            UInt64N IConvertExtended<UInt64N>.ToValue(sbyte value, Conversion mode) => ConvertN.ToUInt64(value, mode);
+            UInt64N IConvert<UInt64N>.ToNumeric(short value, Conversion mode) => ConvertN.ToUInt64(value, mode);
             UInt64N IConvert<UInt64N>.ToNumeric(string value) => Convert.ToUInt64(value);
-            UInt64N IConvertExtended<UInt64N>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            UInt64N IConvertExtended<UInt64N>.ToNumeric(uint value, Conversion mode) => ConvertN.ToUInt64(value, mode);
             UInt64N IConvertExtended<UInt64N>.ToNumeric(ulong value, Conversion mode) => value;
-            UInt64N IConvertExtended<UInt64N>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToUInt64(value, mode);
+            UInt64N IConvertExtended<UInt64N>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToUInt64(value, mode);
 
-            UInt64N IStringParser<UInt64N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            UInt64N IStringConvert<UInt64N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }

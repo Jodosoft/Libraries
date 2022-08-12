@@ -18,27 +18,28 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics.Tests;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.CheckedNumerics.Tests
 {
     public static class DoubleCTests
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<DoubleC> { }
-        public sealed class CastTests : CastTests<DoubleC> { }
-        public sealed class CheckedNumeric : CheckedNumericTests<DoubleC> { }
-        public sealed class ConvertTests : ConvertTests<DoubleC> { }
-        public sealed class MathFloatingPoint : MathTestsBase.FloatingPoint<DoubleC> { }
-        public sealed class MathGeneral : MathTestsBase.General<DoubleC> { }
-        public sealed class MathReal : MathTestsBase.Real<DoubleC> { }
-        public sealed class MathSigned : MathTestsBase.SingedOnly<DoubleC> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<DoubleC> { }
-        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<DoubleC> { }
-        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<DoubleC> { }
-        public sealed class NumericReal : NumericTestsBase.Real<DoubleC> { }
-        public sealed class NumericSigned : NumericTestsBase.SignedOnly<DoubleC> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<DoubleC> { }
-        public sealed class ParserGeneral : StringParserTestsBase.General<DoubleC> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<DoubleC> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<DoubleC> { }
+        public sealed class BitConvertTests : BitConvertTestBase<DoubleC> { }
+        public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DoubleC> { }
+        public sealed class CheckedNumericTests : CheckedNumericTestBase<DoubleC> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<DoubleC> { }
+        public sealed class NumericCastTests : NumericCastTestBase<DoubleC> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<DoubleC> { }
+        public sealed class NumericFloatingPointTests : NumericFloatingPointTestBase<DoubleC> { }
+        public sealed class NumericMathTests : NumericMathTestBase<DoubleC> { }
+        public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<DoubleC> { }
+        public sealed class NumericNonNaNTests : NumericNonNaNTestBase<DoubleC> { }
+        public sealed class NumericRealTests : NumericRealTestBase<DoubleC> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<DoubleC> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<DoubleC> { }
+        public sealed class NumericTests : NumericTestBase<DoubleC> { }
+        public sealed class ObjectTests : ObjectTestBase<DoubleC> { }
+        public sealed class RandomTests : RandomTestBase<DoubleC> { }
+        public sealed class SerializableTests : SerializableTestBase<DoubleC> { }
     }
 }

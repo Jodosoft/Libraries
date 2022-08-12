@@ -18,28 +18,29 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics.Tests;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.CheckedNumerics.Tests
 {
     public static class SByteCTests
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<SByteC> { }
-        public sealed class CastTests : CastTests<SByteC> { }
-        public sealed class CheckedNumeric : CheckedNumericTests<SByteC> { }
-        public sealed class ConvertTests : ConvertTests<SByteC> { }
-        public sealed class MathGeneral : MathTestsBase.General<SByteC> { }
-        public sealed class MathIntegral : MathTestsBase.Integral<SByteC> { }
-        public sealed class MathSigned : MathTestsBase.SingedOnly<SByteC> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<SByteC> { }
-        public sealed class NumericIntegral : NumericTestsBase.Integral<SByteC> { }
-        public sealed class NumericNoFloatingPoint : NumericTestsBase.NoFloatingPoint<SByteC> { }
-        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<SByteC> { }
-        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<SByteC> { }
-        public sealed class NumericSigned : NumericTestsBase.SignedOnly<SByteC> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<SByteC> { }
-        public sealed class ParserGeneral : StringParserTestsBase.General<SByteC> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<SByteC> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<SByteC> { }
-        public sealed class StringParserIntegral : StringParserTestsBase.Integral<SByteC> { }
+        public sealed class BitConvertTests : BitConvertTestBase<SByteC> { }
+        public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<SByteC> { }
+        public sealed class CheckedNumericTests : CheckedNumericTestBase<SByteC> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<SByteC> { }
+        public sealed class NumericCastTests : NumericCastTestBase<SByteC> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<SByteC> { }
+        public sealed class NumericIntegralTests : NumericIntegralTestBase<SByteC> { }
+        public sealed class NumericMathTests : NumericMathTestBase<SByteC> { }
+        public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<SByteC> { }
+        public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<SByteC> { }
+        public sealed class NumericNonNaNTests : NumericNonNaNTestBase<SByteC> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<SByteC> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<SByteC> { }
+        public sealed class NumericTests : NumericTestBase<SByteC> { }
+        public sealed class ObjectTests : ObjectTestBase<SByteC> { }
+        public sealed class RandomTests : RandomTestBase<SByteC> { }
+        public sealed class SerializableTests : SerializableTestBase<SByteC> { }
+        public sealed class StringConvertTests : StringConvertTestBase<SByteC> { }
     }
 }

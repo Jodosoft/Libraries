@@ -17,66 +17,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using FluentAssertions;
-using Jodo.Primitives;
-using Jodo.Testing;
-using NUnit.Framework;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.Numerics.Tests
 {
     public static class Vector3Tests
     {
-        public sealed class FixedPointBitConverter : Primitives.Tests.BitConvertTestsBase<Vector3<Fix64>> { }
-        public sealed class FixedPointGeneralTests : GeneralTests<Fix64> { }
-        public sealed class FixedPointObjectTests : Primitives.Tests.ObjectTestsBase<Vector3<Fix64>> { }
-        public sealed class FixedPointSerializableTests : Primitives.Tests.SerializableTestsBase<Vector3<Fix64>> { }
-
-        public sealed class FloatingPointBitConverter : Primitives.Tests.BitConvertTestsBase<Vector3<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : GeneralTests<SingleN> { }
-        public sealed class FloatingPointObjectTests : Primitives.Tests.ObjectTestsBase<Vector3<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : Primitives.Tests.SerializableTestsBase<Vector3<SingleN>> { }
-
-        public sealed class UnsignedIntegralBitConverter : Primitives.Tests.BitConvertTestsBase<Vector3<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : GeneralTests<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : Primitives.Tests.ObjectTestsBase<Vector3<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : Primitives.Tests.SerializableTestsBase<Vector3<ByteN>> { }
-        public sealed class UnsignedIntegralStringParser : Primitives.Tests.StringParserTestsBase<Vector3<ByteN>> { }
-
-        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
-        {
-            [Test, Repeat(RandomVariations)]
-            public void Ctor_RandomValues_CorrectResult()
-            {
-                //arrange
-                TNumeric x = Random.NextNumeric<TNumeric>();
-                TNumeric y = Random.NextNumeric<TNumeric>();
-                TNumeric z = Random.NextNumeric<TNumeric>();
-
-                //act
-                Vector3<TNumeric> result = new Vector3<TNumeric>(x, y, z);
-
-                //assert
-                result.X.Should().Be(x);
-                result.Y.Should().Be(y);
-                result.Z.Should().Be(z);
-            }
-
-            [Test, Repeat(RandomVariations)]
-            public void Random_WithinBounds_CorrectResult()
-            {
-                //arrange
-                Vector3<TNumeric> bound1 = Random.NextRandomizable<Vector3<TNumeric>>();
-                Vector3<TNumeric> bound2 = Random.NextRandomizable<Vector3<TNumeric>>();
-
-                //act
-                Vector3<TNumeric> result = Random.NextRandomizable(bound1, bound2);
-
-                //assert
-                result.X.Should().BeInRange(MathN.Min(bound1.X, bound2.X), MathN.Max(bound1.X, bound2.X));
-                result.Y.Should().BeInRange(MathN.Min(bound1.Y, bound2.Y), MathN.Max(bound1.Y, bound2.Y));
-                result.Z.Should().BeInRange(MathN.Min(bound1.Z, bound2.Z), MathN.Max(bound1.Z, bound2.Z));
-            }
-        }
+        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Vector3<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Vector3<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector3<Fix64>> { }
+        public sealed class FixedPointVector3Tests : Vector3TestBase<Fix64> { }
+        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Vector3<SingleN>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Vector3<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector3<SingleN>> { }
+        public sealed class FloatingPointVector3Tests : Vector3TestBase<SingleN> { }
+        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Vector3<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector3<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector3<ByteN>> { }
+        public sealed class UnsignedIntegralStringConvertTestBaseTests : StringConvertTestBase<Vector3<ByteN>> { }
+        public sealed class UnsignedIntegralVector3Tests : Vector3TestBase<ByteN> { }
     }
 }

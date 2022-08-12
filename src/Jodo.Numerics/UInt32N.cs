@@ -145,22 +145,22 @@ namespace Jodo.Numerics
         UInt32N INumeric<UInt32N>.RightShift(int count) => this >> count;
         UInt32N INumeric<UInt32N>.Subtract(UInt32N value) => this - value;
 
-        IBitConverter<UInt32N> IProvider<IBitConverter<UInt32N>>.GetInstance() => Utilities.Instance;
+        IBitConvert<UInt32N> IProvider<IBitConvert<UInt32N>>.GetInstance() => Utilities.Instance;
         IConvert<UInt32N> IProvider<IConvert<UInt32N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt32N> IProvider<IConvertExtended<UInt32N>>.GetInstance() => Utilities.Instance;
         IMath<UInt32N> IProvider<IMath<UInt32N>>.GetInstance() => Utilities.Instance;
         INumericStatic<UInt32N> IProvider<INumericStatic<UInt32N>>.GetInstance() => Utilities.Instance;
         IRandom<UInt32N> IProvider<IRandom<UInt32N>>.GetInstance() => Utilities.Instance;
-        IStringParser<UInt32N> IProvider<IStringParser<UInt32N>>.GetInstance() => Utilities.Instance;
+        IStringConvert<UInt32N> IProvider<IStringConvert<UInt32N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<UInt32N>,
+            IBitConvert<UInt32N>,
             IConvert<UInt32N>,
             IConvertExtended<UInt32N>,
             IMath<UInt32N>,
             INumericStatic<UInt32N>,
             IRandom<UInt32N>,
-            IStringParser<UInt32N>
+            IStringConvert<UInt32N>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -226,41 +226,41 @@ namespace Jodo.Numerics
             UInt32N IMath<UInt32N>.Tau { get; } = (uint)6;
             UInt32N IMath<UInt32N>.Truncate(UInt32N x) => x;
 
-            UInt32N IBitConverter<UInt32N>.Read(IReader<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)), 0);
-            void IBitConverter<UInt32N>.Write(UInt32N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            UInt32N IBitConvert<UInt32N>.Read(IReader<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)), 0);
+            void IBitConvert<UInt32N>.Write(UInt32N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             UInt32N IRandom<UInt32N>.Next(Random random) => random.NextUInt32();
             UInt32N IRandom<UInt32N>.Next(Random random, UInt32N bound1, UInt32N bound2) => random.NextUInt32(bound1._value, bound2._value);
 
             bool IConvert<UInt32N>.ToBoolean(UInt32N value) => Convert.ToBoolean(value._value);
-            byte IConvert<UInt32N>.ToByte(UInt32N value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
-            decimal IConvert<UInt32N>.ToDecimal(UInt32N value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode);
-            double IConvert<UInt32N>.ToDouble(UInt32N value, Conversion mode) => NumericConvert.ToDouble(value._value, mode);
-            float IConvert<UInt32N>.ToSingle(UInt32N value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
-            int IConvert<UInt32N>.ToInt32(UInt32N value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
-            long IConvert<UInt32N>.ToInt64(UInt32N value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
-            sbyte IConvertExtended<UInt32N>.ToSByte(UInt32N value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
-            short IConvert<UInt32N>.ToInt16(UInt32N value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
+            byte IConvert<UInt32N>.ToByte(UInt32N value, Conversion mode) => ConvertN.ToByte(value._value, mode);
+            decimal IConvert<UInt32N>.ToDecimal(UInt32N value, Conversion mode) => ConvertN.ToDecimal(value._value, mode);
+            double IConvert<UInt32N>.ToDouble(UInt32N value, Conversion mode) => ConvertN.ToDouble(value._value, mode);
+            float IConvert<UInt32N>.ToSingle(UInt32N value, Conversion mode) => ConvertN.ToSingle(value._value, mode);
+            int IConvert<UInt32N>.ToInt32(UInt32N value, Conversion mode) => ConvertN.ToInt32(value._value, mode);
+            long IConvert<UInt32N>.ToInt64(UInt32N value, Conversion mode) => ConvertN.ToInt64(value._value, mode);
+            sbyte IConvertExtended<UInt32N>.ToSByte(UInt32N value, Conversion mode) => ConvertN.ToSByte(value._value, mode);
+            short IConvert<UInt32N>.ToInt16(UInt32N value, Conversion mode) => ConvertN.ToInt16(value._value, mode);
             string IConvert<UInt32N>.ToString(UInt32N value) => Convert.ToString(value._value);
-            uint IConvertExtended<UInt32N>.ToUInt32(UInt32N value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
-            ulong IConvertExtended<UInt32N>.ToUInt64(UInt32N value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
-            ushort IConvertExtended<UInt32N>.ToUInt16(UInt32N value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            uint IConvertExtended<UInt32N>.ToUInt32(UInt32N value, Conversion mode) => ConvertN.ToUInt32(value._value, mode);
+            ulong IConvertExtended<UInt32N>.ToUInt64(UInt32N value, Conversion mode) => ConvertN.ToUInt64(value._value, mode);
+            ushort IConvertExtended<UInt32N>.ToUInt16(UInt32N value, Conversion mode) => ConvertN.ToUInt16(value._value, mode);
 
             UInt32N IConvert<UInt32N>.ToNumeric(bool value) => Convert.ToUInt32(value);
-            UInt32N IConvert<UInt32N>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvert<UInt32N>.ToNumeric(decimal value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvert<UInt32N>.ToNumeric(double value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvert<UInt32N>.ToNumeric(float value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvert<UInt32N>.ToNumeric(int value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvert<UInt32N>.ToNumeric(long value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvertExtended<UInt32N>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvert<UInt32N>.ToNumeric(short value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
+            UInt32N IConvert<UInt32N>.ToNumeric(byte value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvert<UInt32N>.ToNumeric(decimal value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvert<UInt32N>.ToNumeric(double value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvert<UInt32N>.ToNumeric(float value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvert<UInt32N>.ToNumeric(int value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvert<UInt32N>.ToNumeric(long value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvertExtended<UInt32N>.ToValue(sbyte value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvert<UInt32N>.ToNumeric(short value, Conversion mode) => ConvertN.ToUInt32(value, mode);
             UInt32N IConvert<UInt32N>.ToNumeric(string value) => Convert.ToUInt32(value);
-            UInt32N IConvertExtended<UInt32N>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvertExtended<UInt32N>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
-            UInt32N IConvertExtended<UInt32N>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToUInt32(value, mode);
+            UInt32N IConvertExtended<UInt32N>.ToNumeric(uint value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvertExtended<UInt32N>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToUInt32(value, mode);
+            UInt32N IConvertExtended<UInt32N>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToUInt32(value, mode);
 
-            UInt32N IStringParser<UInt32N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            UInt32N IStringConvert<UInt32N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }

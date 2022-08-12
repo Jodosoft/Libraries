@@ -17,32 +17,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System.Diagnostics.CodeAnalysis;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 
 namespace Jodo.Numerics.Tests
 {
-    [SuppressMessage("Style", "IDE0001:Simplify Names", Justification = "To make easily repeatable test fixture.")]
     public sealed class DoubleNTests : GlobalFixtureBase
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<DoubleN> { }
-        public sealed class CastTests : CastTests<DoubleN> { }
-        public sealed class ConvertTests : ConvertTests<DoubleN> { }
-        public sealed class MathErrorGeneral : MathErrorTests.General<DoubleN> { }
-        public sealed class MathErrorNaN : MathErrorTests.NaN<DoubleN> { }
-        public sealed class MathTestsFloatingPoint : MathTestsBase.FloatingPoint<DoubleN> { }
-        public sealed class MathTestsGeneral : MathTestsBase.General<DoubleN> { }
-        public sealed class MathTestsReal : MathTestsBase.Real<DoubleN> { }
-        public sealed class MathTestsSigned : MathTestsBase.SingedOnly<DoubleN> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<DoubleN> { }
-        public sealed class NumericNaN : NumericTestsBase.NaN<DoubleN> { }
-        public sealed class NumericReal : NumericTestsBase.Real<DoubleN> { }
-        public sealed class NumericSigned : NumericTestsBase.SignedOnly<DoubleN> { }
-        public sealed class NumericWrapperTests : NumericWrapperTestsBase.General<DoubleN, double> { }
-        public sealed class ObjectTests : ObjectTestsBase<DoubleN> { }
-        public sealed class RandomTests : RandomTestsBase<DoubleN> { }
-        public sealed class SerializableTests : SerializableTestsBase<DoubleN> { }
-        public sealed class StringParserTests : StringParserTestsBase.General<DoubleN> { }
+        public sealed class BitConvertTests : BitConvertTestBase<DoubleN> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<DoubleN> { }
+        public sealed class NumericCastTests : NumericCastTestBase<DoubleN> { }
+        public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<DoubleN> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<DoubleN> { }
+        public sealed class NumericFloatingPointTests : NumericFloatingPointTestBase<DoubleN> { }
+        public sealed class NumericInfinityTests : NumericInfinityTestBase<DoubleN> { }
+        public sealed class NumericMathErrorNaNTests : NumericMathErrorNaNTestBase<DoubleN> { }
+        public sealed class NumericMathTests : NumericMathTestBase<DoubleN> { }
+        public sealed class NumericNaNTests : NumericNaNTestBase<DoubleN> { }
+        public sealed class NumericRealTests : NumericRealTestBase<DoubleN> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<DoubleN> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<DoubleN> { }
+        public sealed class NumericTests : NumericTestBase<DoubleN> { }
+        public sealed class NumericWrapperTests : NumericWrapperTestBase<DoubleN, double> { }
+        public sealed class ObjectTests : ObjectTestBase<DoubleN> { }
+        public sealed class RandomTests : RandomTestBase<DoubleN> { }
+        public sealed class SerializableTests : SerializableTestBase<DoubleN> { }
     }
 }

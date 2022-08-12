@@ -156,22 +156,22 @@ namespace Jodo.Numerics
         SingleN INumeric<SingleN>.RightShift(int count) => this >> count;
         SingleN INumeric<SingleN>.Subtract(SingleN value) => this - value;
 
-        IBitConverter<SingleN> IProvider<IBitConverter<SingleN>>.GetInstance() => Utilities.Instance;
+        IBitConvert<SingleN> IProvider<IBitConvert<SingleN>>.GetInstance() => Utilities.Instance;
         IConvert<SingleN> IProvider<IConvert<SingleN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SingleN> IProvider<IConvertExtended<SingleN>>.GetInstance() => Utilities.Instance;
         IMath<SingleN> IProvider<IMath<SingleN>>.GetInstance() => Utilities.Instance;
         INumericStatic<SingleN> IProvider<INumericStatic<SingleN>>.GetInstance() => Utilities.Instance;
         IRandom<SingleN> IProvider<IRandom<SingleN>>.GetInstance() => Utilities.Instance;
-        IStringParser<SingleN> IProvider<IStringParser<SingleN>>.GetInstance() => Utilities.Instance;
+        IStringConvert<SingleN> IProvider<IStringConvert<SingleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<SingleN>,
+            IBitConvert<SingleN>,
             IConvert<SingleN>,
             IConvertExtended<SingleN>,
             IMath<SingleN>,
             INumericStatic<SingleN>,
             IRandom<SingleN>,
-            IStringParser<SingleN>
+            IStringConvert<SingleN>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -237,41 +237,41 @@ namespace Jodo.Numerics
             SingleN IMath<SingleN>.Tau { get; } = MathF.PI * 2;
             SingleN IMath<SingleN>.Truncate(SingleN x) => MathF.Truncate(x._value);
 
-            SingleN IBitConverter<SingleN>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
-            void IBitConverter<SingleN>.Write(SingleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            SingleN IBitConvert<SingleN>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
+            void IBitConvert<SingleN>.Write(SingleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             SingleN IRandom<SingleN>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
             SingleN IRandom<SingleN>.Next(Random random, SingleN bound1, SingleN bound2) => random.NextSingle(bound1._value, bound2._value);
 
             bool IConvert<SingleN>.ToBoolean(SingleN value) => Convert.ToBoolean(value._value);
-            byte IConvert<SingleN>.ToByte(SingleN value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
-            decimal IConvert<SingleN>.ToDecimal(SingleN value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode);
-            double IConvert<SingleN>.ToDouble(SingleN value, Conversion mode) => NumericConvert.ToDouble(value._value, mode);
-            float IConvert<SingleN>.ToSingle(SingleN value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
-            int IConvert<SingleN>.ToInt32(SingleN value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
-            long IConvert<SingleN>.ToInt64(SingleN value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
-            sbyte IConvertExtended<SingleN>.ToSByte(SingleN value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
-            short IConvert<SingleN>.ToInt16(SingleN value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
+            byte IConvert<SingleN>.ToByte(SingleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);
+            decimal IConvert<SingleN>.ToDecimal(SingleN value, Conversion mode) => ConvertN.ToDecimal(value._value, mode);
+            double IConvert<SingleN>.ToDouble(SingleN value, Conversion mode) => ConvertN.ToDouble(value._value, mode);
+            float IConvert<SingleN>.ToSingle(SingleN value, Conversion mode) => ConvertN.ToSingle(value._value, mode);
+            int IConvert<SingleN>.ToInt32(SingleN value, Conversion mode) => ConvertN.ToInt32(value._value, mode);
+            long IConvert<SingleN>.ToInt64(SingleN value, Conversion mode) => ConvertN.ToInt64(value._value, mode);
+            sbyte IConvertExtended<SingleN>.ToSByte(SingleN value, Conversion mode) => ConvertN.ToSByte(value._value, mode);
+            short IConvert<SingleN>.ToInt16(SingleN value, Conversion mode) => ConvertN.ToInt16(value._value, mode);
             string IConvert<SingleN>.ToString(SingleN value) => Convert.ToString(value._value);
-            uint IConvertExtended<SingleN>.ToUInt32(SingleN value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
-            ulong IConvertExtended<SingleN>.ToUInt64(SingleN value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
-            ushort IConvertExtended<SingleN>.ToUInt16(SingleN value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            uint IConvertExtended<SingleN>.ToUInt32(SingleN value, Conversion mode) => ConvertN.ToUInt32(value._value, mode);
+            ulong IConvertExtended<SingleN>.ToUInt64(SingleN value, Conversion mode) => ConvertN.ToUInt64(value._value, mode);
+            ushort IConvertExtended<SingleN>.ToUInt16(SingleN value, Conversion mode) => ConvertN.ToUInt16(value._value, mode);
 
             SingleN IConvert<SingleN>.ToNumeric(bool value) => Convert.ToSingle(value);
-            SingleN IConvert<SingleN>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvert<SingleN>.ToNumeric(float value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvert<SingleN>.ToNumeric(double value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvert<SingleN>.ToNumeric(decimal value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvert<SingleN>.ToNumeric(int value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvert<SingleN>.ToNumeric(long value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvertExtended<SingleN>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvert<SingleN>.ToNumeric(short value, Conversion mode) => NumericConvert.ToSingle(value, mode);
+            SingleN IConvert<SingleN>.ToNumeric(byte value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvert<SingleN>.ToNumeric(float value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvert<SingleN>.ToNumeric(double value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvert<SingleN>.ToNumeric(decimal value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvert<SingleN>.ToNumeric(int value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvert<SingleN>.ToNumeric(long value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvertExtended<SingleN>.ToValue(sbyte value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvert<SingleN>.ToNumeric(short value, Conversion mode) => ConvertN.ToSingle(value, mode);
             SingleN IConvert<SingleN>.ToNumeric(string value) => Convert.ToSingle(value);
-            SingleN IConvertExtended<SingleN>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvertExtended<SingleN>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToSingle(value, mode);
-            SingleN IConvertExtended<SingleN>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToSingle(value, mode);
+            SingleN IConvertExtended<SingleN>.ToNumeric(uint value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvertExtended<SingleN>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToSingle(value, mode);
+            SingleN IConvertExtended<SingleN>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToSingle(value, mode);
 
-            SingleN IStringParser<SingleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            SingleN IStringConvert<SingleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
         }
     }

@@ -17,30 +17,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Primitives.Tests;
+
 namespace Jodo.Numerics.Tests
 {
     public static class Int32NTests
     {
-        public sealed class BitConvertTests : BitConvertTestsBase<Int32N> { }
-        public sealed class CastTests : CastTests<Int32N> { }
-        public sealed class ConvertTests : ConvertTests<Int32N> { }
-        public sealed class MathErrorGeneral : MathErrorTests.General<Int32N> { }
-        public sealed class MathErrorSignedIntegral : MathErrorTests.SignedIntegral<Int32N> { }
-        public sealed class MathGeneral : MathTestsBase.General<Int32N> { }
-        public sealed class MathIntegral : MathTestsBase.Integral<Int32N> { }
-        public sealed class MathSigned : MathTestsBase.SingedOnly<Int32N> { }
-        public sealed class NumericGeneral : NumericTestsBase.General<Int32N> { }
-        public sealed class NumericIntegral : NumericTestsBase.Integral<Int32N> { }
-        public sealed class NumericNoFloatingPoint : NumericTestsBase.NoFloatingPoint<Int32N> { }
-        public sealed class NumericNoInfinity : NumericTestsBase.NoInfinity<Int32N> { }
-        public sealed class NumericNoNaN : NumericTestsBase.NoNaN<Int32N> { }
-        public sealed class NumericSigned : NumericTestsBase.SignedOnly<Int32N> { }
-        public sealed class NumericWrapperIntegralOnlyTests : NumericWrapperTestsBase.IntegralOnly<Int32N, int> { }
-        public sealed class NumericWrapperTests : NumericWrapperTestsBase.General<Int32N, int> { }
-        public sealed class ObjectTests : Primitives.Tests.ObjectTestsBase<Int32N> { }
-        public sealed class ParserGeneral : StringParserTestsBase.General<Int32N> { }
-        public sealed class RandomTests : Primitives.Tests.RandomTestsBase<Int32N> { }
-        public sealed class SerializableTests : Primitives.Tests.SerializableTestsBase<Int32N> { }
-        public sealed class StringParserIntegral : StringParserTestsBase.Integral<Int32N> { }
+        public sealed class BitConvertTests : BitConvertTestBase<Int32N> { }
+        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<Int32N> { }
+        public sealed class NumericCastTests : NumericCastTestBase<Int32N> { }
+        public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<Int32N> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<Int32N> { }
+        public sealed class NumericIntegralTests : NumericIntegralTestBase<Int32N> { }
+        public sealed class NumericMathTests : NumericMathTestBase<Int32N> { }
+        public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<Int32N> { }
+        public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<Int32N> { }
+        public sealed class NumericNonNaNTests : NumericNonNaNTestBase<Int32N> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<Int32N> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Int32N> { }
+        public sealed class NumericTests : NumericTestBase<Int32N> { }
+        public sealed class NumericWrapperIntegralTests : NumericWrapperIntegralTestBase<Int32N, int> { }
+        public sealed class NumericWrapperTests : NumericWrapperTestBase<Int32N, int> { }
+        public sealed class ObjectTests : ObjectTestBase<Int32N> { }
+        public sealed class RandomTests : RandomTestBase<Int32N> { }
+        public sealed class SerializableTests : SerializableTestBase<Int32N> { }
+        public sealed class StringConvertTests : StringConvertTestBase<Int32N> { }
     }
 }

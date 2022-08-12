@@ -25,7 +25,6 @@ namespace Jodo.Testing
 {
     public static class Same
     {
-
         [AssertionMethod]
         public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> subject, params Func<TResult>[] subjects)
         {
@@ -73,6 +72,32 @@ namespace Jodo.Testing
         public static void Outcome<TResult>(TResult expected, Func<TResult> subject)
         {
             subject.Should().NotThrow().Which.Should().Be(expected);
+        }
+
+        [AssertionMethod]
+        public static void Result<TResult>(Func<TResult> expected, Func<TResult> subject, params Func<TResult>[] subjects)
+        {
+            Result(expected, subject);
+            if (subjects != null)
+            {
+                foreach (Func<TResult> s in subjects)
+                {
+                    Result(expected, s);
+                }
+            }
+        }
+
+        [AssertionMethod]
+        public static void Result<TResult>(Func<TResult> expected, Func<TResult> subject)
+        {
+            TResult expectedResult = expected();
+            TResult actualResult = subject.Should().NotThrow().Subject;
+
+            if (!(expectedResult.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol &&
+                actualResult.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol))
+            {
+                actualResult.Should().Be(actualResult);
+            }
         }
     }
 }

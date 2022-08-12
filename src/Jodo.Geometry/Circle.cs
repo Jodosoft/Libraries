@@ -32,9 +32,9 @@ namespace Jodo.Geometry
     public readonly struct Circle<TNumeric> :
             IEquatable<Circle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Circle<TNumeric>>>,
+            IProvider<IBitConvert<Circle<TNumeric>>>,
             IProvider<IRandom<Circle<TNumeric>>>,
-            IProvider<IStringParser<Circle<TNumeric>>>,
+            IProvider<IStringConvert<Circle<TNumeric>>>,
             ITwoDimensional<Circle<TNumeric>, TNumeric>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -110,14 +110,14 @@ namespace Jodo.Geometry
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
 
         Vector2<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
-        IBitConverter<Circle<TNumeric>> IProvider<IBitConverter<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBitConvert<Circle<TNumeric>> IProvider<IBitConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IRandom<Circle<TNumeric>> IProvider<IRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Circle<TNumeric>> IProvider<IStringParser<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringConvert<Circle<TNumeric>> IProvider<IStringConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConverter<Circle<TNumeric>>,
+           IBitConvert<Circle<TNumeric>>,
            IRandom<Circle<TNumeric>>,
-           IStringParser<Circle<TNumeric>>
+           IStringConvert<Circle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -156,23 +156,23 @@ namespace Jodo.Geometry
                 return new Circle<TNumeric>(center, radius);
             }
 
-            Circle<TNumeric> IStringParser<Circle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            Circle<TNumeric> IStringConvert<Circle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
             {
                 string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
                 if (parts.Length == 3)
                     return new Circle<TNumeric>(
-                        StringParser.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
-                        StringParser.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
-                        StringParser.Parse<TNumeric>(parts[2].Replace("R:", string.Empty).Trim(), style, provider));
+                        StringConvert.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                        StringConvert.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
+                        StringConvert.Parse<TNumeric>(parts[2].Replace("R:", string.Empty).Trim(), style, provider));
                 else throw new FormatException();
             }
 
-            Circle<TNumeric> IBitConverter<Circle<TNumeric>>.Read(IReader<byte> stream)
+            Circle<TNumeric> IBitConvert<Circle<TNumeric>>.Read(IReader<byte> stream)
             {
                 return new Circle<TNumeric>(BitConvert.Read<Vector2<TNumeric>>(stream), BitConvert.Read<TNumeric>(stream));
             }
 
-            void IBitConverter<Circle<TNumeric>>.Write(Circle<TNumeric> value, IWriter<byte> stream)
+            void IBitConvert<Circle<TNumeric>>.Write(Circle<TNumeric> value, IWriter<byte> stream)
             {
                 BitConvert.Write(stream, value.Center);
                 BitConvert.Write(stream, value.Radius);

@@ -66,23 +66,23 @@ namespace Jodo.CheckedNumerics
         public static Int16C Parse(string s, NumberStyles style) => short.Parse(s, style);
         public static Int16C Parse(string s, NumberStyles style, IFormatProvider? provider) => short.Parse(s, style, provider);
 
-        [CLSCompliant(false)] public static explicit operator Int16C(uint value) => new Int16C(NumericConvert.ToInt16(value, Conversion.CastClamp));
-        [CLSCompliant(false)] public static explicit operator Int16C(ulong value) => new Int16C(NumericConvert.ToInt16(value, Conversion.CastClamp));
-        [CLSCompliant(false)] public static explicit operator Int16C(ushort value) => new Int16C(NumericConvert.ToInt16(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator Int16C(uint value) => new Int16C(ConvertN.ToInt16(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator Int16C(ulong value) => new Int16C(ConvertN.ToInt16(value, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator Int16C(ushort value) => new Int16C(ConvertN.ToInt16(value, Conversion.CastClamp));
         [CLSCompliant(false)] public static implicit operator Int16C(sbyte value) => new Int16C(value);
-        public static explicit operator Int16C(decimal value) => new Int16C(NumericConvert.ToInt16(value, Conversion.CastClamp));
-        public static explicit operator Int16C(double value) => new Int16C(NumericConvert.ToInt16(value, Conversion.CastClamp));
-        public static explicit operator Int16C(float value) => new Int16C(NumericConvert.ToInt16(value, Conversion.CastClamp));
-        public static explicit operator Int16C(int value) => new Int16C(NumericConvert.ToInt16(value, Conversion.CastClamp));
-        public static explicit operator Int16C(long value) => new Int16C(NumericConvert.ToInt16(value, Conversion.CastClamp));
+        public static explicit operator Int16C(decimal value) => new Int16C(ConvertN.ToInt16(value, Conversion.CastClamp));
+        public static explicit operator Int16C(double value) => new Int16C(ConvertN.ToInt16(value, Conversion.CastClamp));
+        public static explicit operator Int16C(float value) => new Int16C(ConvertN.ToInt16(value, Conversion.CastClamp));
+        public static explicit operator Int16C(int value) => new Int16C(ConvertN.ToInt16(value, Conversion.CastClamp));
+        public static explicit operator Int16C(long value) => new Int16C(ConvertN.ToInt16(value, Conversion.CastClamp));
         public static implicit operator Int16C(byte value) => new Int16C(value);
         public static implicit operator Int16C(short value) => new Int16C(value);
 
-        [CLSCompliant(false)] public static explicit operator sbyte(Int16C value) => NumericConvert.ToSByte(value._value, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator uint(Int16C value) => NumericConvert.ToUInt16(value._value, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator ulong(Int16C value) => NumericConvert.ToUInt64(value._value, Conversion.CastClamp);
-        [CLSCompliant(false)] public static explicit operator ushort(Int16C value) => NumericConvert.ToUInt16(value._value, Conversion.CastClamp);
-        public static explicit operator byte(Int16C value) => NumericConvert.ToByte(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator sbyte(Int16C value) => ConvertN.ToSByte(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator uint(Int16C value) => ConvertN.ToUInt16(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ulong(Int16C value) => ConvertN.ToUInt64(value._value, Conversion.CastClamp);
+        [CLSCompliant(false)] public static explicit operator ushort(Int16C value) => ConvertN.ToUInt16(value._value, Conversion.CastClamp);
+        public static explicit operator byte(Int16C value) => ConvertN.ToByte(value._value, Conversion.CastClamp);
         public static implicit operator decimal(Int16C value) => value._value;
         public static implicit operator double(Int16C value) => value._value;
         public static implicit operator float(Int16C value) => value._value;
@@ -96,37 +96,37 @@ namespace Jodo.CheckedNumerics
         public static bool operator ==(Int16C left, Int16C right) => left._value == right._value;
         public static bool operator >(Int16C left, Int16C right) => left._value > right._value;
         public static bool operator >=(Int16C left, Int16C right) => left._value >= right._value;
-        public static Int16C operator %(Int16C left, Int16C right) => CheckedArithmetic.Remainder(left._value, right._value);
+        public static Int16C operator %(Int16C left, Int16C right) => CheckedMath.Remainder(left._value, right._value);
         public static Int16C operator &(Int16C left, Int16C right) => (short)(left._value & right._value);
-        public static Int16C operator -(Int16C left, Int16C right) => CheckedArithmetic.Subtract(left._value, right._value);
-        public static Int16C operator --(Int16C value) => CheckedArithmetic.Subtract(value._value, (short)1);
+        public static Int16C operator -(Int16C left, Int16C right) => CheckedMath.Subtract(left._value, right._value);
+        public static Int16C operator --(Int16C value) => CheckedMath.Subtract(value._value, (short)1);
         public static Int16C operator -(Int16C value) => (short)-value._value;
-        public static Int16C operator *(Int16C left, Int16C right) => CheckedArithmetic.Multiply(left._value, right._value);
-        public static Int16C operator /(Int16C left, Int16C right) => CheckedArithmetic.Divide(left._value, right._value);
+        public static Int16C operator *(Int16C left, Int16C right) => CheckedMath.Multiply(left._value, right._value);
+        public static Int16C operator /(Int16C left, Int16C right) => CheckedMath.Divide(left._value, right._value);
         public static Int16C operator ^(Int16C left, Int16C right) => (short)(left._value ^ right._value);
         public static Int16C operator |(Int16C left, Int16C right) => (short)(left._value | right._value);
         public static Int16C operator ~(Int16C value) => (short)~value._value;
-        public static Int16C operator +(Int16C left, Int16C right) => CheckedArithmetic.Add(left._value, right._value);
+        public static Int16C operator +(Int16C left, Int16C right) => CheckedMath.Add(left._value, right._value);
         public static Int16C operator +(Int16C value) => value;
-        public static Int16C operator ++(Int16C value) => CheckedArithmetic.Add(value._value, (short)1);
+        public static Int16C operator ++(Int16C value) => CheckedMath.Add(value._value, (short)1);
         public static Int16C operator <<(Int16C left, int right) => (short)(left._value << right);
         public static Int16C operator >>(Int16C left, int right) => (short)(left._value >> right);
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
-        bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvertible)_value).ToBoolean(provider);
-        char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)_value).ToChar(provider);
-        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertible)_value).ToSByte(provider);
-        byte IConvertible.ToByte(IFormatProvider provider) => ((IConvertible)_value).ToByte(provider);
-        short IConvertible.ToInt16(IFormatProvider provider) => ((IConvertible)_value).ToInt16(provider);
-        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertible)_value).ToUInt16(provider);
-        int IConvertible.ToInt32(IFormatProvider provider) => ((IConvertible)_value).ToInt32(provider);
-        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertible)_value).ToUInt32(provider);
-        long IConvertible.ToInt64(IFormatProvider provider) => ((IConvertible)_value).ToInt64(provider);
-        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertible)_value).ToUInt64(provider);
-        float IConvertible.ToSingle(IFormatProvider provider) => ((IConvertible)_value).ToSingle(provider);
-        double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
-        decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
-        DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
+        bool IConvertible.ToBoolean(IFormatProvider provider) => Convert.ToBoolean(_value, provider);
+        byte IConvertible.ToByte(IFormatProvider provider) => ConvertN.ToByte(_value, Conversion.Clamp);
+        char IConvertible.ToChar(IFormatProvider provider) => Convert.ToChar(_value, provider);
+        DateTime IConvertible.ToDateTime(IFormatProvider provider) => Convert.ToDateTime(provider);
+        decimal IConvertible.ToDecimal(IFormatProvider provider) => ConvertN.ToDecimal(_value, Conversion.Clamp);
+        double IConvertible.ToDouble(IFormatProvider provider) => ConvertN.ToDouble(_value, Conversion.Clamp);
+        float IConvertible.ToSingle(IFormatProvider provider) => ConvertN.ToSingle(_value, Conversion.Clamp);
+        int IConvertible.ToInt32(IFormatProvider provider) => ConvertN.ToInt32(_value, Conversion.Clamp);
+        long IConvertible.ToInt64(IFormatProvider provider) => ConvertN.ToInt64(_value, Conversion.Clamp);
+        sbyte IConvertible.ToSByte(IFormatProvider provider) => ConvertN.ToSByte(_value, Conversion.Clamp);
+        short IConvertible.ToInt16(IFormatProvider provider) => _value;
+        uint IConvertible.ToUInt32(IFormatProvider provider) => ConvertN.ToUInt32(_value, Conversion.Clamp);
+        ulong IConvertible.ToUInt64(IFormatProvider provider) => ConvertN.ToUInt64(_value, Conversion.Clamp);
+        ushort IConvertible.ToUInt16(IFormatProvider provider) => ConvertN.ToUInt16(_value, Conversion.Clamp);
         object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
 
         bool INumeric<Int16C>.IsGreaterThan(Int16C value) => this > value;
@@ -147,22 +147,22 @@ namespace Jodo.CheckedNumerics
         Int16C INumeric<Int16C>.RightShift(int count) => this >> count;
         Int16C INumeric<Int16C>.Subtract(Int16C value) => this - value;
 
-        IBitConverter<Int16C> IProvider<IBitConverter<Int16C>>.GetInstance() => Utilities.Instance;
+        IBitConvert<Int16C> IProvider<IBitConvert<Int16C>>.GetInstance() => Utilities.Instance;
         IConvert<Int16C> IProvider<IConvert<Int16C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Int16C> IProvider<IConvertExtended<Int16C>>.GetInstance() => Utilities.Instance;
         IMath<Int16C> IProvider<IMath<Int16C>>.GetInstance() => Utilities.Instance;
         INumericStatic<Int16C> IProvider<INumericStatic<Int16C>>.GetInstance() => Utilities.Instance;
         IRandom<Int16C> IProvider<IRandom<Int16C>>.GetInstance() => Utilities.Instance;
-        IStringParser<Int16C> IProvider<IStringParser<Int16C>>.GetInstance() => Utilities.Instance;
+        IStringConvert<Int16C> IProvider<IStringConvert<Int16C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<Int16C>,
+            IBitConvert<Int16C>,
             IConvert<Int16C>,
             IConvertExtended<Int16C>,
             IMath<Int16C>,
             INumericStatic<Int16C>,
             IRandom<Int16C>,
-            IStringParser<Int16C>
+            IStringConvert<Int16C>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -202,7 +202,7 @@ namespace Jodo.CheckedNumerics
             Int16C IMath<Int16C>.Clamp(Int16C x, Int16C bound1, Int16C bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             Int16C IMath<Int16C>.Cos(Int16C x) => (Int16C)Math.Cos(x._value);
             Int16C IMath<Int16C>.Cosh(Int16C x) => (Int16C)Math.Cosh(x._value);
-            Int16C IMath<Int16C>.DegreesToRadians(Int16C x) => (Int16C)CheckedArithmetic.Multiply(x, NumericUtilities.RadiansPerDegree);
+            Int16C IMath<Int16C>.DegreesToRadians(Int16C x) => (Int16C)CheckedMath.Multiply(x, NumericUtilities.RadiansPerDegree);
             Int16C IMath<Int16C>.E { get; } = (short)2;
             Int16C IMath<Int16C>.Exp(Int16C x) => (Int16C)Math.Exp(x._value);
             Int16C IMath<Int16C>.Floor(Int16C x) => x;
@@ -213,8 +213,8 @@ namespace Jodo.CheckedNumerics
             Int16C IMath<Int16C>.Max(Int16C x, Int16C y) => Math.Max(x._value, y._value);
             Int16C IMath<Int16C>.Min(Int16C x, Int16C y) => Math.Min(x._value, y._value);
             Int16C IMath<Int16C>.PI { get; } = (short)3;
-            Int16C IMath<Int16C>.Pow(Int16C x, Int16C y) => CheckedArithmetic.Pow(x._value, y._value);
-            Int16C IMath<Int16C>.RadiansToDegrees(Int16C x) => (Int16C)CheckedArithmetic.Multiply(x, NumericUtilities.DegreesPerRadian);
+            Int16C IMath<Int16C>.Pow(Int16C x, Int16C y) => CheckedMath.Pow(x._value, y._value);
+            Int16C IMath<Int16C>.RadiansToDegrees(Int16C x) => (Int16C)CheckedMath.Multiply(x, NumericUtilities.DegreesPerRadian);
             Int16C IMath<Int16C>.Round(Int16C x) => x;
             Int16C IMath<Int16C>.Round(Int16C x, int digits) => x;
             Int16C IMath<Int16C>.Round(Int16C x, int digits, MidpointRounding mode) => x;
@@ -228,41 +228,41 @@ namespace Jodo.CheckedNumerics
             Int16C IMath<Int16C>.Truncate(Int16C x) => x;
             int IMath<Int16C>.Sign(Int16C x) => Math.Sign(x._value);
 
-            Int16C IBitConverter<Int16C>.Read(IReader<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)), 0);
-            void IBitConverter<Int16C>.Write(Int16C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            Int16C IBitConvert<Int16C>.Read(IReader<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)), 0);
+            void IBitConvert<Int16C>.Write(Int16C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             Int16C IRandom<Int16C>.Next(Random random) => random.NextInt16();
             Int16C IRandom<Int16C>.Next(Random random, Int16C bound1, Int16C bound2) => random.NextInt16(bound1._value, bound2._value);
 
             bool IConvert<Int16C>.ToBoolean(Int16C value) => value._value != 0;
-            byte IConvert<Int16C>.ToByte(Int16C value, Conversion mode) => NumericConvert.ToByte(value._value, mode.Clamped());
-            decimal IConvert<Int16C>.ToDecimal(Int16C value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode.Clamped());
-            double IConvert<Int16C>.ToDouble(Int16C value, Conversion mode) => NumericConvert.ToDouble(value._value, mode.Clamped());
-            float IConvert<Int16C>.ToSingle(Int16C value, Conversion mode) => NumericConvert.ToSingle(value._value, mode.Clamped());
-            int IConvert<Int16C>.ToInt32(Int16C value, Conversion mode) => NumericConvert.ToInt32(value._value, mode.Clamped());
-            long IConvert<Int16C>.ToInt64(Int16C value, Conversion mode) => NumericConvert.ToInt64(value._value, mode.Clamped());
-            sbyte IConvertExtended<Int16C>.ToSByte(Int16C value, Conversion mode) => NumericConvert.ToSByte(value._value, mode.Clamped());
+            byte IConvert<Int16C>.ToByte(Int16C value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
+            decimal IConvert<Int16C>.ToDecimal(Int16C value, Conversion mode) => ConvertN.ToDecimal(value._value, mode.Clamped());
+            double IConvert<Int16C>.ToDouble(Int16C value, Conversion mode) => ConvertN.ToDouble(value._value, mode.Clamped());
+            float IConvert<Int16C>.ToSingle(Int16C value, Conversion mode) => ConvertN.ToSingle(value._value, mode.Clamped());
+            int IConvert<Int16C>.ToInt32(Int16C value, Conversion mode) => ConvertN.ToInt32(value._value, mode.Clamped());
+            long IConvert<Int16C>.ToInt64(Int16C value, Conversion mode) => ConvertN.ToInt64(value._value, mode.Clamped());
+            sbyte IConvertExtended<Int16C>.ToSByte(Int16C value, Conversion mode) => ConvertN.ToSByte(value._value, mode.Clamped());
             short IConvert<Int16C>.ToInt16(Int16C value, Conversion mode) => value._value;
             string IConvert<Int16C>.ToString(Int16C value) => Convert.ToString(value._value);
-            uint IConvertExtended<Int16C>.ToUInt32(Int16C value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode.Clamped());
-            ulong IConvertExtended<Int16C>.ToUInt64(Int16C value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode.Clamped());
-            ushort IConvertExtended<Int16C>.ToUInt16(Int16C value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode.Clamped());
+            uint IConvertExtended<Int16C>.ToUInt32(Int16C value, Conversion mode) => ConvertN.ToUInt32(value._value, mode.Clamped());
+            ulong IConvertExtended<Int16C>.ToUInt64(Int16C value, Conversion mode) => ConvertN.ToUInt64(value._value, mode.Clamped());
+            ushort IConvertExtended<Int16C>.ToUInt16(Int16C value, Conversion mode) => ConvertN.ToUInt16(value._value, mode.Clamped());
 
             Int16C IConvert<Int16C>.ToNumeric(bool value) => value ? (short)1 : (short)0;
-            Int16C IConvert<Int16C>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvert<Int16C>.ToNumeric(decimal value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvert<Int16C>.ToNumeric(double value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvert<Int16C>.ToNumeric(float value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvert<Int16C>.ToNumeric(int value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvert<Int16C>.ToNumeric(long value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvertExtended<Int16C>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
+            Int16C IConvert<Int16C>.ToNumeric(byte value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
+            Int16C IConvert<Int16C>.ToNumeric(decimal value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
+            Int16C IConvert<Int16C>.ToNumeric(double value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
+            Int16C IConvert<Int16C>.ToNumeric(float value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
+            Int16C IConvert<Int16C>.ToNumeric(int value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
+            Int16C IConvert<Int16C>.ToNumeric(long value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
+            Int16C IConvertExtended<Int16C>.ToValue(sbyte value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
             Int16C IConvert<Int16C>.ToNumeric(short value, Conversion mode) => value;
             Int16C IConvert<Int16C>.ToNumeric(string value) => Convert.ToInt16(value);
-            Int16C IConvertExtended<Int16C>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvertExtended<Int16C>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
-            Int16C IConvertExtended<Int16C>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToInt16(value, mode.Clamped());
+            Int16C IConvertExtended<Int16C>.ToNumeric(uint value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
+            Int16C IConvertExtended<Int16C>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
+            Int16C IConvertExtended<Int16C>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToInt16(value, mode.Clamped());
 
-            Int16C IStringParser<Int16C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            Int16C IStringConvert<Int16C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
         }
     }

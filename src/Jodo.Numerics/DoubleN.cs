@@ -156,22 +156,22 @@ namespace Jodo.Numerics
         DoubleN INumeric<DoubleN>.RightShift(int count) => this >> count;
         DoubleN INumeric<DoubleN>.Subtract(DoubleN value) => this - value;
 
-        IBitConverter<DoubleN> IProvider<IBitConverter<DoubleN>>.GetInstance() => Utilities.Instance;
+        IBitConvert<DoubleN> IProvider<IBitConvert<DoubleN>>.GetInstance() => Utilities.Instance;
         IConvert<DoubleN> IProvider<IConvert<DoubleN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DoubleN> IProvider<IConvertExtended<DoubleN>>.GetInstance() => Utilities.Instance;
         IMath<DoubleN> IProvider<IMath<DoubleN>>.GetInstance() => Utilities.Instance;
         INumericStatic<DoubleN> IProvider<INumericStatic<DoubleN>>.GetInstance() => Utilities.Instance;
         IRandom<DoubleN> IProvider<IRandom<DoubleN>>.GetInstance() => Utilities.Instance;
-        IStringParser<DoubleN> IProvider<IStringParser<DoubleN>>.GetInstance() => Utilities.Instance;
+        IStringConvert<DoubleN> IProvider<IStringConvert<DoubleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<DoubleN>,
+            IBitConvert<DoubleN>,
             IConvert<DoubleN>,
             IConvertExtended<DoubleN>,
             IMath<DoubleN>,
             INumericStatic<DoubleN>,
             IRandom<DoubleN>,
-            IStringParser<DoubleN>
+            IStringConvert<DoubleN>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -237,41 +237,41 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Tau { get; } = Math.PI * 2d;
             DoubleN IMath<DoubleN>.Truncate(DoubleN x) => Math.Truncate(x._value);
 
-            DoubleN IBitConverter<DoubleN>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
-            void IBitConverter<DoubleN>.Write(DoubleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            DoubleN IBitConvert<DoubleN>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
+            void IBitConvert<DoubleN>.Write(DoubleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             DoubleN IRandom<DoubleN>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);
             DoubleN IRandom<DoubleN>.Next(Random random, DoubleN bound1, DoubleN bound2) => random.NextDouble(bound1._value, bound2._value);
 
             bool IConvert<DoubleN>.ToBoolean(DoubleN value) => Convert.ToBoolean(value._value);
-            byte IConvert<DoubleN>.ToByte(DoubleN value, Conversion mode) => NumericConvert.ToByte(value._value, mode);
-            decimal IConvert<DoubleN>.ToDecimal(DoubleN value, Conversion mode) => NumericConvert.ToDecimal(value._value, mode);
+            byte IConvert<DoubleN>.ToByte(DoubleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);
+            decimal IConvert<DoubleN>.ToDecimal(DoubleN value, Conversion mode) => ConvertN.ToDecimal(value._value, mode);
             double IConvert<DoubleN>.ToDouble(DoubleN value, Conversion mode) => value._value;
-            float IConvert<DoubleN>.ToSingle(DoubleN value, Conversion mode) => NumericConvert.ToSingle(value._value, mode);
-            int IConvert<DoubleN>.ToInt32(DoubleN value, Conversion mode) => NumericConvert.ToInt32(value._value, mode);
-            long IConvert<DoubleN>.ToInt64(DoubleN value, Conversion mode) => NumericConvert.ToInt64(value._value, mode);
-            sbyte IConvertExtended<DoubleN>.ToSByte(DoubleN value, Conversion mode) => NumericConvert.ToSByte(value._value, mode);
-            short IConvert<DoubleN>.ToInt16(DoubleN value, Conversion mode) => NumericConvert.ToInt16(value._value, mode);
+            float IConvert<DoubleN>.ToSingle(DoubleN value, Conversion mode) => ConvertN.ToSingle(value._value, mode);
+            int IConvert<DoubleN>.ToInt32(DoubleN value, Conversion mode) => ConvertN.ToInt32(value._value, mode);
+            long IConvert<DoubleN>.ToInt64(DoubleN value, Conversion mode) => ConvertN.ToInt64(value._value, mode);
+            sbyte IConvertExtended<DoubleN>.ToSByte(DoubleN value, Conversion mode) => ConvertN.ToSByte(value._value, mode);
+            short IConvert<DoubleN>.ToInt16(DoubleN value, Conversion mode) => ConvertN.ToInt16(value._value, mode);
             string IConvert<DoubleN>.ToString(DoubleN value) => Convert.ToString(value._value);
-            uint IConvertExtended<DoubleN>.ToUInt32(DoubleN value, Conversion mode) => NumericConvert.ToUInt32(value._value, mode);
-            ulong IConvertExtended<DoubleN>.ToUInt64(DoubleN value, Conversion mode) => NumericConvert.ToUInt64(value._value, mode);
-            ushort IConvertExtended<DoubleN>.ToUInt16(DoubleN value, Conversion mode) => NumericConvert.ToUInt16(value._value, mode);
+            uint IConvertExtended<DoubleN>.ToUInt32(DoubleN value, Conversion mode) => ConvertN.ToUInt32(value._value, mode);
+            ulong IConvertExtended<DoubleN>.ToUInt64(DoubleN value, Conversion mode) => ConvertN.ToUInt64(value._value, mode);
+            ushort IConvertExtended<DoubleN>.ToUInt16(DoubleN value, Conversion mode) => ConvertN.ToUInt16(value._value, mode);
 
             DoubleN IConvert<DoubleN>.ToNumeric(bool value) => Convert.ToDouble(value);
-            DoubleN IConvert<DoubleN>.ToNumeric(byte value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvert<DoubleN>.ToNumeric(decimal value, Conversion mode) => NumericConvert.ToDouble(value, mode);
+            DoubleN IConvert<DoubleN>.ToNumeric(byte value, Conversion mode) => ConvertN.ToDouble(value, mode);
+            DoubleN IConvert<DoubleN>.ToNumeric(decimal value, Conversion mode) => ConvertN.ToDouble(value, mode);
             DoubleN IConvert<DoubleN>.ToNumeric(double value, Conversion mode) => value;
-            DoubleN IConvert<DoubleN>.ToNumeric(float value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvert<DoubleN>.ToNumeric(int value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvert<DoubleN>.ToNumeric(long value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvertExtended<DoubleN>.ToValue(sbyte value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvert<DoubleN>.ToNumeric(short value, Conversion mode) => NumericConvert.ToDouble(value, mode);
+            DoubleN IConvert<DoubleN>.ToNumeric(float value, Conversion mode) => ConvertN.ToDouble(value, mode);
+            DoubleN IConvert<DoubleN>.ToNumeric(int value, Conversion mode) => ConvertN.ToDouble(value, mode);
+            DoubleN IConvert<DoubleN>.ToNumeric(long value, Conversion mode) => ConvertN.ToDouble(value, mode);
+            DoubleN IConvertExtended<DoubleN>.ToValue(sbyte value, Conversion mode) => ConvertN.ToDouble(value, mode);
+            DoubleN IConvert<DoubleN>.ToNumeric(short value, Conversion mode) => ConvertN.ToDouble(value, mode);
             DoubleN IConvert<DoubleN>.ToNumeric(string value) => Convert.ToDouble(value);
-            DoubleN IConvertExtended<DoubleN>.ToNumeric(uint value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvertExtended<DoubleN>.ToNumeric(ulong value, Conversion mode) => NumericConvert.ToDouble(value, mode);
-            DoubleN IConvertExtended<DoubleN>.ToNumeric(ushort value, Conversion mode) => NumericConvert.ToDouble(value, mode);
+            DoubleN IConvertExtended<DoubleN>.ToNumeric(uint value, Conversion mode) => ConvertN.ToDouble(value, mode);
+            DoubleN IConvertExtended<DoubleN>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToDouble(value, mode);
+            DoubleN IConvertExtended<DoubleN>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToDouble(value, mode);
 
-            DoubleN IStringParser<DoubleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            DoubleN IStringConvert<DoubleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
         }
     }

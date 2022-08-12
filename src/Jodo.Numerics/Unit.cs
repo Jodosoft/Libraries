@@ -45,9 +45,9 @@ namespace Jodo.Numerics
             IComparable<Unit<TNumeric>>,
             IEquatable<Unit<TNumeric>>,
             IFormattable,
-            IProvider<IBitConverter<Unit<TNumeric>>>,
+            IProvider<IBitConvert<Unit<TNumeric>>>,
             IProvider<IRandom<Unit<TNumeric>>>,
-            IProvider<IStringParser<Unit<TNumeric>>>,
+            IProvider<IStringConvert<Unit<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -116,25 +116,25 @@ namespace Jodo.Numerics
         public static TNumeric operator /(TNumeric left, Unit<TNumeric> right) => left.Divide(right.Value);
         public static TNumeric operator +(TNumeric left, Unit<TNumeric> right) => left.Add(right.Value);
 
-        IBitConverter<Unit<TNumeric>> IProvider<IBitConverter<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBitConvert<Unit<TNumeric>> IProvider<IBitConvert<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
         IRandom<Unit<TNumeric>> IProvider<IRandom<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringParser<Unit<TNumeric>> IProvider<IStringParser<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IStringConvert<Unit<TNumeric>> IProvider<IStringConvert<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConverter<Unit<TNumeric>>,
+            IBitConvert<Unit<TNumeric>>,
             IRandom<Unit<TNumeric>>,
-            IStringParser<Unit<TNumeric>>
+            IStringConvert<Unit<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
             Unit<TNumeric> IRandom<Unit<TNumeric>>.Next(Random random) => new Unit<TNumeric>(random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>()));
             Unit<TNumeric> IRandom<Unit<TNumeric>>.Next(Random random, Unit<TNumeric> bound1, Unit<TNumeric> bound2) => new Unit<TNumeric>(random.NextNumeric(bound1.Value, bound2.Value));
 
-            Unit<TNumeric> IStringParser<Unit<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
-                => new Unit<TNumeric>(StringParser.Parse<TNumeric>(s, style, provider));
+            Unit<TNumeric> IStringConvert<Unit<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+                => new Unit<TNumeric>(StringConvert.Parse<TNumeric>(s, style, provider));
 
-            Unit<TNumeric> IBitConverter<Unit<TNumeric>>.Read(IReader<byte> stream) => new Unit<TNumeric>(BitConvert.Read<TNumeric>(stream));
-            void IBitConverter<Unit<TNumeric>>.Write(Unit<TNumeric> value, IWriter<byte> stream) => BitConvert.Write(stream, value.Value);
+            Unit<TNumeric> IBitConvert<Unit<TNumeric>>.Read(IReader<byte> stream) => new Unit<TNumeric>(BitConvert.Read<TNumeric>(stream));
+            void IBitConvert<Unit<TNumeric>>.Write(Unit<TNumeric> value, IWriter<byte> stream) => BitConvert.Write(stream, value.Value);
         }
     }
 }

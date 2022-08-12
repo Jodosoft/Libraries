@@ -17,15 +17,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Numerics;
-using Jodo.Testing;
-
 namespace Jodo.Geometry.Tests
 {
     public static class TriangleTests
     {
-        public abstract class GeneralTests<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
-        {
-        }
     }
 }
