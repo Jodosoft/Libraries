@@ -166,7 +166,7 @@ namespace Jodo.CheckedNumerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvert<UFix64C>)Utilities.Instance).ToDouble(this, Conversion.Clamp);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvert<UFix64C>)Utilities.Instance).ToDecimal(this, Conversion.Clamp);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)((IConvert<UFix64C>)Utilities.Instance).ToDouble(this, Conversion.Clamp)).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)((IConvert<UFix64C>)Utilities.Instance).ToDouble(this, Conversion.Clamp)).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<UFix64C>.IsGreaterThan(UFix64C value) => this > value;
         bool INumeric<UFix64C>.IsGreaterThanOrEqualTo(UFix64C value) => this >= value;

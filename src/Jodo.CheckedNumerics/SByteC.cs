@@ -127,7 +127,7 @@ namespace Jodo.CheckedNumerics
         uint IConvertible.ToUInt32(IFormatProvider provider) => ConvertN.ToUInt32(_value, Conversion.Clamp);
         ulong IConvertible.ToUInt64(IFormatProvider provider) => ConvertN.ToUInt64(_value, Conversion.Clamp);
         ushort IConvertible.ToUInt16(IFormatProvider provider) => ConvertN.ToUInt16(_value, Conversion.Clamp);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<SByteC>.IsGreaterThan(SByteC value) => this > value;
         bool INumeric<SByteC>.IsGreaterThanOrEqualTo(SByteC value) => this >= value;
