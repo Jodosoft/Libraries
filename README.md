@@ -25,27 +25,13 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     <th>Description</th>
   </tr>
   <tr>
-    <td>Design goals</td>
+    <td>Activity</td>
     <td>
-      <p>The Jodo packages are intedend to provide simple, intuitive and reliable utilities to complement the SDK.</p>
+      <p>The Jodo packages are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
       </p>
-    </td>
-  </tr>
-  <tr>
-    <td>Maintainability</td>
-    <td>
-      <p>
-        This project adheres to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET design guidelines</a> for ease of use, consistency and maintainability.
-      </p>
-      <p>
-        <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used to in maximum-severity mode to highlight issues.
-      </p>
-      <p>
-        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
-        <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a></p>
     </td>
   </tr>
   <tr>
@@ -59,6 +45,20 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     </td>
   </tr>
   <tr>
+    <td>Maintainability</td>
+    <td>
+      <p>
+        This project adheres to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET design guidelines</a> for ease of use, consistency and maintainability.</p>
+        <p>
+        <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used with maximum severity to ensure the code base stays conformant. Rules are only suppressed in exceptional circumstances, and suppression tags always include a justification message.
+      </p>
+      <p>Static analysis tools such as <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a> and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a> are used to further ensure that the code remains maintainable.
+      <p>
+        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
+        <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a></p>
+    </td>
+  </tr>
+  <tr>
     <td>Compatibility</td>
     <td>     
       <p>
@@ -67,8 +67,8 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
       </p>
       <p>Publically exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a> wherever possible.</p>
       <p>
-        <img alt="Target net461" src="https://img.shields.io/badge/target-.NET%20Framework%204.6-005784?logo=dotnet&style=flat-square&color=005784&no-cache">
-        <img alt="Target netstandard2.0" src="https://img.shields.io/badge/target-.NET%20Standard%202.0-005784?logo=dotnet&style=flat-square&color=005784&no-cache">
+        <img alt="Target net461" src="https://img.shields.io/badge/target-.NET%20Framework%204.6-005784?logo=dotnet&style=flat-square&color=005784">
+        <img alt="Target netstandard2.0" src="https://img.shields.io/badge/target-.NET%20Standard%202.0-005784?logo=dotnet&style=flat-square&color=005784">
       </p>
     </td>
   </tr>
@@ -78,17 +78,18 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
       <p>Community contributions are always welcome at https://github.com/JosephJShort/Jodo (the home of this repository). Contributors are requested to adhere to the <a href="CODE-OF-CONDUCT.md">code of conduct</a>.</p>
       <p>This work is licensed under the <a href="LICENSE.md">MIT License</a>.</p>
       <p>
-        <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github&no-cache"></a>
-        <a href="https://github.com/JosephJShort/Jodo/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+        <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github"></a>
+        <a href="https://github.com/JosephJShort/Jodo/stargazers"><img alt="GitHub issues" src="https://img.shields.io/github/stars/JosephJShort/Jodo?logo=github&style=flat-square&color=005784&no-cache"></a>
       </p>
     </td>
   </tr>
   <tr>
-    <td>Releases</td>
+    <td>Availability</td>
     <td>
       <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for instructions see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
       <p>Binaries are available on GitHub.com at https://github.com/JosephJShort/Jodo/releases</p>
       <p>The project can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> and the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
+      <p><a href="https://semver.org/">Semantic Versioning</a> is adhered to, so that version numbers convey the presence of breaking changes.</p>
       <p>
         <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
         <a href="[https://www.nuget.org/packages?q=Jodo.](https://github.com/JosephJShort/Jodo/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/JosephJShort/Jodo?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
@@ -96,9 +97,12 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     </td>
   </tr>
   <tr>
-    <td>Documentation</td>
+    <td>Usability</td>
     <td>
       <p>API documentation is available at https://jodo.dev, though it is mostly auto-generated for the time being. Please see the sections below for more detail on each package.</p>
+      <p>
+        <a href="https://jodo.dev"><img alt="Documentation" src="https://img.shields.io/badge/documentation-passing-005784?style=flat-square&color=005784"></a>
+      </p>
     </td>
   </tr>
 </table>
