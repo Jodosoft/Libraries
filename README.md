@@ -46,7 +46,7 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     <td>Reliability</td>
     <td>
       <p>Unit tests, benchmarks, and continuous integration tools are used to ensure the packages are fit for purpose.</p>
-      <p>The target code coverage percentage for this project is 90%, though it is considered equally important to over-cover code with boundary conditions and edge-cases, and error scenarios.</p>
+      <p>The target code coverage percentage for this project is 90%, though it is considered equally important to re-cover code to assert on boundary conditions, edge-cases, and error scenarios.</p>
       <p>Click on the shields below to see the latest test results and coverage.</p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
