@@ -2,22 +2,30 @@
 <h1 align="center">The Jodo Libraries</h1>
 
 <p align="center">
-  <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&no-cache"></a>
-  <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&no-cache"></a>
+  <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github&no-cache"></a>
+  <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
 </p>
 
 <h2>Contents</h2>
 
 1. [Introduction](#introduction)
-3. [Jodo.Numerics](#jodonumerics)
-4. [Jodo.CheckedNumerics](#jodocheckednumerics)
-5. [Jodo.Geometry](#jodogeometry)
-6. [Jodo.Collections](#jodocollections)
-7. [Jodo.Primitives](#jodoprimitives)
+    1. [Principals](#principals)
+1. [Jodo.Numerics](#jodonumerics)
+    1. [Extended random numbers](#extended-random-numbers)
+    1. [Generic number types](#generic-number-types)
+    1. [Fixed-point arithmetic](#fixed-point-arithmetic)
+    1. [Other features](#other-features)
+    1. [Performance considerations](#performance-considerations)
+1. [Jodo.CheckedNumerics](#jodocheckednumerics)
+1. [Jodo.Geometry](#jodogeometry)
+1. [Jodo.Collections](#jodocollections)
+1. [Jodo.Primitives](#jodoprimitives)
 
 <h2>Introduction</h2>
 
 Welcome to The Jodo Libraries: a collection of .NET extensions written in C# covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
+
+<h3>Principals</h3>
 
 <table>
   <tr>
@@ -37,7 +45,9 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
   <tr>
     <td>Reliability</td>
     <td>
-      <p>Unit tests, benchmarks, and continuous integration are used to ensure a high level of quality. Click on the shields below to see the latest results.</p>
+      <p>Unit tests, benchmarks, and continuous integration tools are used to ensure the packages are fit for purpose.</p>
+      <p>The target code coverage percentage for this project is 90%, though it is considered equally important to over-cover code with boundary conditions and edge-cases, and error scenarios.</p>
+      <p>Click on the shields below to see the latest test results and coverage.</p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
@@ -48,9 +58,9 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     <td>Maintainability</td>
     <td>
       <p>
-        This project adheres to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET design guidelines</a> for ease of use, consistency and maintainability.</p>
+        This project adheres to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">Framework Design Guidelines</a> to ensure ease of use and consistency with the .NET API.</p>
         <p>
-        <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used with maximum severity to ensure the code base stays conformant. Rules are only suppressed in exceptional circumstances, and suppression tags always include a justification message.
+        <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used with maximum rule-severity to ensure the code base stays conformant. Rules are only suppressed in exceptional circumstances, and suppression tags always include a justification message.
       </p>
       <p>Static analysis tools such as <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a> and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a> are used to further ensure that the code remains maintainable.
       <p>
@@ -65,7 +75,7 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
         .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
         Additional targets like .NET Standard 2.1 (<code>netstandard2.1</code>) are used for supporting newer language features like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
-      <p>Publically exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a> wherever possible.</p>
+      <p>Publically exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a> wherever possible, and language-agnostic naming conventions are used.</p>
       <p>
         <img alt="Target net461" src="https://img.shields.io/badge/target-.NET%20Framework%204.6-005784?logo=dotnet&style=flat-square&color=005784">
         <img alt="Target netstandard2.0" src="https://img.shields.io/badge/target-.NET%20Standard%202.0-005784?logo=dotnet&style=flat-square&color=005784">
@@ -75,7 +85,7 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
   <tr>
     <td>Community</td>
     <td>
-      <p>Community contributions are always welcome at https://github.com/JosephJShort/Jodo (the home of this repository). Contributors are requested to adhere to the <a href="CODE-OF-CONDUCT.md">code of conduct</a>.</p>
+      <p>Community contributions are welcome at https://github.com/JosephJShort/Jodo (the home of this repository). Contributors are requested to adhere to the <a href="CODE-OF-CONDUCT.md">code of conduct</a>.</p>
       <p>This work is licensed under the <a href="LICENSE.md">MIT License</a>.</p>
       <p>
         <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github"></a>
@@ -88,8 +98,8 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     <td>
       <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for instructions see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
       <p>Binaries are available on GitHub.com at https://github.com/JosephJShort/Jodo/releases</p>
-      <p>The project can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> and the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
       <p><a href="https://semver.org/">Semantic Versioning</a> is adhered to, so that version numbers convey the presence of breaking changes.</p>
+      <p>Alternatively the project can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> with the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
       <p>
         <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
         <a href="[https://www.nuget.org/packages?q=Jodo.](https://github.com/JosephJShort/Jodo/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/JosephJShort/Jodo?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
@@ -109,7 +119,22 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
 
 <h2>Jodo.Numerics</h2>
 
-Provides the <a href="#inumericn">INumeric&lt;N&gt;</a> interface and utilities for creating custom numeric types.
+Provides extended number types and operations.
+
+### Extended random numbers
+
+Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">Random</a> are provided that allow for inclusive upper bounds and bounds specified in any order. A full range of values are supported, even on floating-point types, for example:
+
+```csharp
+using Jodo.Numerics;
+
+var value = Random.NextDouble(double.MinValue, double.MaxValue);
+```
+### Generic number types
+
+The <a href="#inumericn">INumeric&lt;N&gt;</a> interface allows for number types to be used in a generic context.
+
+Utilities class, such as `MathN` and `ConvertN` provide a f
 
 <a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided with <a href="#operators">full operator support</a> and <a href="#stringformatting">commonly used interfaces</a>. Static classes such as <a href="#mathn">MathN</a> and structs such as <a href="#vector3n">Vector3&lt;N&gt;</a> support generic usage of numeric types.
 
@@ -126,8 +151,6 @@ Console.WriteLine(value2.ToString("X")); // output: 6B0
 Console.WriteLine(value3); // output: System.Byte[]
 Console.WriteLine(value4); // output: <101, -202>
 ```
-
-### Types
 
 <table>
   <tr>
@@ -172,33 +195,6 @@ Console.WriteLine(BitConverter.ToString(res2)); // output: 00-10-4A-0F-00-00-00-
   </tr>
   <tr />
   <tr>
-    <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;N&gt;</td>
-    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2&lt;N&gt;</td>
-    <td>A collection of two numeric values, <code>X</code> and <code>Y</code> with extensive interface and operator support.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3&lt;N&gt;</td>
-    <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code> with extensive interface and operator support.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>Fix64</code>,<br /><code>UFix64</code></td>
-    <td><p><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 decimal digits of precision, represented internally by 64-bit integers.</p>
-      <p>Supports a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned).</p>
-      <p>Useful when a constant level of precision is required, <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">regardless of magnitude</a>. The following code sample demonstrates this:</p>
-      <pre lang="csharp"><code>var floatingPoint = 1000000 + MathF.PI;
-var fixedPoint = 1000000 + Math&lt;fix64&gt;.PI;
-Console.WriteLine(floatingPoint); // output: 1000003.1
-Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
-    </td>
-  </tr>
-  <tr />
-  <tr>
     <td id="wrappers"><sub><em>readonly struct</em></sub><br />
       <code>ByteN</code>, <code>SByteN</code>,<br />
       <code>Int16N</code>, <code>UInt16N</code>,<br />
@@ -208,15 +204,6 @@ Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
       <code>DecimalN</code>
     </td>
     <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, allowing them to be used in a generic context .</td>
-  </tr>
-</table>
-
-### Other features
-
-<table>
-  <tr>
-    <th>Feature</th>
-    <th>Description</th>
   </tr>
   <tr />
   <tr>
@@ -267,6 +254,55 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 <tr>
 <td>Commonly-used abstractions</td> <td>All the provided numeric types implement <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable">System.IComparable</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1">System.IComparable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iconvertible">System.IConvertible</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">System.IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">System.ISerializable</a>. They also override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
 </tr>
+</table>
+
+### Fixed-point arithmetic
+
+<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided with <a href="#operators">full operator support</a> and <a href="#stringformatting">commonly used interfaces</a>. Static classes such as <a href="#mathn">MathN</a> and structs such as <a href="#vector3n">Vector3&lt;N&gt;</a> support generic usage of numeric types.
+
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr />
+  <tr>
+    <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>Fix64</code>,<br /><code>UFix64</code></td>
+    <td><p><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 decimal digits of precision, represented internally by 64-bit integers.</p>
+      <p>Supports a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned).</p>
+      <p>Useful when a constant level of precision is required, <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">regardless of magnitude</a>. The following code sample demonstrates this:</p>
+      <pre lang="csharp"><code>var floatingPoint = 1000000 + MathF.PI;
+var fixedPoint = 1000000 + Math&lt;fix64&gt;.PI;
+Console.WriteLine(floatingPoint); // output: 1000003.1
+Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
+    </td>
+  </tr>
+  <tr />
+</table>
+
+### Other features
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr />
+  <tr>
+    <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;N&gt;</td>
+    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
+  </tr>
+  <tr />
+  <tr>
+    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2&lt;N&gt;</td>
+    <td>A collection of two numeric values, <code>X</code> and <code>Y</code>, with extensive interface and operator support.</td>
+  </tr>
+  <tr />
+  <tr>
+    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3&lt;N&gt;</td>
+    <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code>, with extensive interface and operator support.</td>
+  </tr>
 </table>
 
 ### Performance considerations
