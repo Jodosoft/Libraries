@@ -127,34 +127,19 @@ Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system
 
 ```csharp
 using Jodo.Numerics;
+using System;
 
-var value = Random.NextDouble(double.MinValue, double.MaxValue);
+var value = new Random().NextDouble(double.MinValue, double.MaxValue);
 ```
 ### Generic number types
 
 The <a href="#inumericn">INumeric&lt;N&gt;</a> interface allows for number types to be used in a generic context.
 
-Utilities class, such as `MathN` and `ConvertN` provide a f
-
-<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided with <a href="#operators">full operator support</a> and <a href="#stringformatting">commonly used interfaces</a>. Static classes such as <a href="#mathn">MathN</a> and structs such as <a href="#vector3n">Vector3&lt;N&gt;</a> support generic usage of numeric types.
-
-The following code sample demonstrates how to use these types:
-
-```csharp
-var value1 = MathN.Log10(99999 * (Fix64)3.444);
-var value2 = (Int32N)107 << 4;
-var value3 = BitConverterN.GetBytes(value1);
-var value4 = new Vector2<Fix64>(101, -202);
-
-Console.WriteLine(value1); // output: 5.537058
-Console.WriteLine(value2.ToString("X")); // output: 6B0
-Console.WriteLine(value3); // output: System.Byte[]
-Console.WriteLine(value4); // output: <101, -202>
-```
+Overloaded operators, commonly-used interfaces, and utility class such as `MathN` and `ConvertN` allow for these types to be used seemlessly in place of the built-in number types.
 
 <table>
   <tr>
-    <th>Type</th>
+    <th>Feature</th>
     <th>Description</th>
   </tr>
   <tr />
@@ -258,8 +243,12 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 ### Fixed-point arithmetic
 
-<a href="#inumericn">Fixed-point implementations</a> and <a href="#wrappers">wrappers for the built-in numeric types</a> are provided with <a href="#operators">full operator support</a> and <a href="#stringformatting">commonly used interfaces</a>. Static classes such as <a href="#mathn">MathN</a> and structs such as <a href="#vector3n">Vector3&lt;N&gt;</a> support generic usage of numeric types.
+Compared to floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers provide a constant level of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have lower maximum magnitude than floating-point numbers of the same size.
 
+ <pre lang="csharp"><code>var floatingPoint = 1000000 + MathF.PI;
+var fixedPoint = 1000000 + MathN.PI&lt;Fix64&gt;();
+Console.WriteLine(floatingPoint); // output: 1000003.1
+Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
 
 <table>
   <tr>
@@ -271,11 +260,6 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
     <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>Fix64</code>,<br /><code>UFix64</code></td>
     <td><p><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 decimal digits of precision, represented internally by 64-bit integers.</p>
       <p>Supports a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned).</p>
-      <p>Useful when a constant level of precision is required, <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">regardless of magnitude</a>. The following code sample demonstrates this:</p>
-      <pre lang="csharp"><code>var floatingPoint = 1000000 + MathF.PI;
-var fixedPoint = 1000000 + Math&lt;fix64&gt;.PI;
-Console.WriteLine(floatingPoint); // output: 1000003.1
-Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
     </td>
   </tr>
   <tr />
