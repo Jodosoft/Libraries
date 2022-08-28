@@ -9,7 +9,6 @@
 <h2>Contents</h2>
 
 1. [Introduction](#introduction)
-    1. [Principals](#principals)
 1. [Jodo.Numerics](#jodonumerics)
     1. [Extended random numbers](#extended-random-numbers)
     1. [Generic number types](#generic-number-types)
@@ -23,9 +22,9 @@
 
 <h2>Introduction</h2>
 
-Welcome to The Jodo Libraries: a collection of .NET extensions written in C# covering numerics, geometry and data structures. Please see the table below for the general principals of this project, and the following sections for a summary of each package.
+Welcome to The Jodo Libraries: a collection of .NET extensions written in C# covering numerics, geometry and data structures.
 
-<h3>Principals</h3>
+Please see the table below for a summary of the goals and principals of this project.
 
 <table>
   <tr>
@@ -94,7 +93,7 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     </td>
   </tr>
   <tr>
-    <td>Availability</td>
+    <td>Releases</td>
     <td>
       <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for installation instructions see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
       <p>Binaries are available on GitHub.com at <a href="https://github.com/JosephJShort/Jodo/releases">https://github.com/JosephJShort/Jodo/releases</a>.</p>
@@ -107,12 +106,25 @@ Welcome to The Jodo Libraries: a collection of .NET extensions written in C# cov
     </td>
   </tr>
   <tr>
-    <td>Usability</td>
+    <td>Documentation</td>
     <td>
       <p>Work-in-progress API documentation is available at https://jodo.dev. Please see the sections below for more detail on each package.</p>
       <p>
         <a href="https://jodo.dev"><img alt="Documentation" src="https://img.shields.io/badge/documentation-passing-005784?style=flat-square&color=005784"></a>
       </p>
+    </td>
+  </tr>
+  <tr>
+    <td>Other design goals</td>
+    <td>
+      <dl>
+        <dt>Basic</dt>
+        <dd>The packages provide simple value types, data structures and algorithms. As a rule of thumb, nothing within the packages will be complex enough to require configuration or dependency injection.</dd>
+        <dt>Stand-alone</dt>
+        <dd>The packages depend only on the .NET SDK (no 3rd party DLLs/NuGet packages).</dd>
+        <dt>Clash-free</dt>
+        <dd>Types within the packages will not share names with commonly-used system types, or types within popular NuGet packages.</dd>
+      </dl>
     </td>
   </tr>
 </table>
