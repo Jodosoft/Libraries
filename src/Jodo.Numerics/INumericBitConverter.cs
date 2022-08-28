@@ -17,9 +17,11 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-namespace Jodo.Primitives
+using Jodo.Primitives;
+
+namespace Jodo.Numerics
 {
-    public interface IBitConvert<T>
+    public interface INumericBitConverter<T>
     {
         T Read(IReader<byte> stream);
 

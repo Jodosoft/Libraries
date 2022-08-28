@@ -147,7 +147,7 @@ namespace Jodo.CheckedNumerics
         DecimalC INumeric<DecimalC>.RightShift(int count) => this >> count;
         DecimalC INumeric<DecimalC>.Subtract(DecimalC value) => this - value;
 
-        IBitConvert<DecimalC> IProvider<IBitConvert<DecimalC>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<DecimalC> IProvider<INumericBitConverter<DecimalC>>.GetInstance() => Utilities.Instance;
         IConvert<DecimalC> IProvider<IConvert<DecimalC>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DecimalC> IProvider<IConvertExtended<DecimalC>>.GetInstance() => Utilities.Instance;
         IMath<DecimalC> IProvider<IMath<DecimalC>>.GetInstance() => Utilities.Instance;
@@ -156,7 +156,7 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<DecimalC> IProvider<IVariantRandom<DecimalC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<DecimalC>,
+            INumericBitConverter<DecimalC>,
             IConvert<DecimalC>,
             IConvertExtended<DecimalC>,
             IMath<DecimalC>,
@@ -228,7 +228,7 @@ namespace Jodo.CheckedNumerics
             DecimalC IMath<DecimalC>.Truncate(DecimalC x) => decimal.Truncate(x._value);
             int IMath<DecimalC>.Sign(DecimalC x) => Math.Sign(x._value);
 
-            DecimalC IBitConvert<DecimalC>.Read(IReader<byte> stream)
+            DecimalC INumericBitConverter<DecimalC>.Read(IReader<byte> stream)
             {
                 int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
                 int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
@@ -241,7 +241,7 @@ namespace Jodo.CheckedNumerics
                 return new decimal(part0, part1, part2, sign, scale);
             }
 
-            void IBitConvert<DecimalC>.Write(DecimalC value, IWriter<byte> stream)
+            void INumericBitConverter<DecimalC>.Write(DecimalC value, IWriter<byte> stream)
             {
                 int[]? parts = decimal.GetBits(value);
                 stream.Write(BitConverter.GetBytes(parts[0]));

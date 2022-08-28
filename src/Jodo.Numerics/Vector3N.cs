@@ -32,7 +32,7 @@ namespace Jodo.Numerics
     public readonly struct Vector3N<TNumeric> :
             IEquatable<Vector3N<TNumeric>>,
             IFormattable,
-            IProvider<IBitConvert<Vector3N<TNumeric>>>,
+            IProvider<INumericBitConverter<Vector3N<TNumeric>>>,
                         IProvider<IVariantRandom<Vector3N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -104,11 +104,11 @@ namespace Jodo.Numerics
         public static implicit operator (TNumeric, TNumeric, TNumeric)(Vector3N<TNumeric> value) => (value.X, value.Y, value.Z);
 #endif
 
-        IBitConvert<Vector3N<TNumeric>> IProvider<IBitConvert<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<Vector3N<TNumeric>> IProvider<INumericBitConverter<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector3N<TNumeric>> IProvider<IVariantRandom<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConvert<Vector3N<TNumeric>>,
+           INumericBitConverter<Vector3N<TNumeric>>,
            IVariantRandom<Vector3N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -121,19 +121,19 @@ namespace Jodo.Numerics
                     random.NextVariant<TNumeric>(scenarios));
             }
 
-            Vector3N<TNumeric> IBitConvert<Vector3N<TNumeric>>.Read(IReader<byte> stream)
+            Vector3N<TNumeric> INumericBitConverter<Vector3N<TNumeric>>.Read(IReader<byte> stream)
             {
                 return new Vector3N<TNumeric>(
-                    BitConvert.Read<TNumeric>(stream),
-                    BitConvert.Read<TNumeric>(stream),
-                    BitConvert.Read<TNumeric>(stream));
+                    BitConverterN.Read<TNumeric>(stream),
+                    BitConverterN.Read<TNumeric>(stream),
+                    BitConverterN.Read<TNumeric>(stream));
             }
 
-            void IBitConvert<Vector3N<TNumeric>>.Write(Vector3N<TNumeric> value, IWriter<byte> stream)
+            void INumericBitConverter<Vector3N<TNumeric>>.Write(Vector3N<TNumeric> value, IWriter<byte> stream)
             {
-                BitConvert.Write(stream, value.X);
-                BitConvert.Write(stream, value.Y);
-                BitConvert.Write(stream, value.Z);
+                BitConverterN.Write(stream, value.X);
+                BitConverterN.Write(stream, value.Y);
+                BitConverterN.Write(stream, value.Z);
             }
         }
     }

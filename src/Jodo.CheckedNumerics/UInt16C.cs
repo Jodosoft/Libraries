@@ -147,7 +147,7 @@ namespace Jodo.CheckedNumerics
         UInt16C INumeric<UInt16C>.RightShift(int count) => this >> count;
         UInt16C INumeric<UInt16C>.Subtract(UInt16C value) => this - value;
 
-        IBitConvert<UInt16C> IProvider<IBitConvert<UInt16C>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<UInt16C> IProvider<INumericBitConverter<UInt16C>>.GetInstance() => Utilities.Instance;
         IConvert<UInt16C> IProvider<IConvert<UInt16C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt16C> IProvider<IConvertExtended<UInt16C>>.GetInstance() => Utilities.Instance;
         IMath<UInt16C> IProvider<IMath<UInt16C>>.GetInstance() => Utilities.Instance;
@@ -156,7 +156,7 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<UInt16C> IProvider<IVariantRandom<UInt16C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<UInt16C>,
+            INumericBitConverter<UInt16C>,
             IConvert<UInt16C>,
             IConvertExtended<UInt16C>,
             IMath<UInt16C>,
@@ -228,8 +228,8 @@ namespace Jodo.CheckedNumerics
             UInt16C IMath<UInt16C>.Tau { get; } = 6;
             UInt16C IMath<UInt16C>.Truncate(UInt16C x) => x;
 
-            UInt16C IBitConvert<UInt16C>.Read(IReader<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)), 0);
-            void IBitConvert<UInt16C>.Write(UInt16C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            UInt16C INumericBitConverter<UInt16C>.Read(IReader<byte> stream) => BitConverter.ToUInt16(stream.Read(sizeof(ushort)), 0);
+            void INumericBitConverter<UInt16C>.Write(UInt16C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             bool IConvert<UInt16C>.ToBoolean(UInt16C value) => value._value != 0;
             byte IConvert<UInt16C>.ToByte(UInt16C value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());

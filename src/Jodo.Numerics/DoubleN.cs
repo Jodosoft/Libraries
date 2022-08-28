@@ -156,7 +156,7 @@ namespace Jodo.Numerics
         DoubleN INumeric<DoubleN>.RightShift(int count) => this >> count;
         DoubleN INumeric<DoubleN>.Subtract(DoubleN value) => this - value;
 
-        IBitConvert<DoubleN> IProvider<IBitConvert<DoubleN>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<DoubleN> IProvider<INumericBitConverter<DoubleN>>.GetInstance() => Utilities.Instance;
         IConvert<DoubleN> IProvider<IConvert<DoubleN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DoubleN> IProvider<IConvertExtended<DoubleN>>.GetInstance() => Utilities.Instance;
         IMath<DoubleN> IProvider<IMath<DoubleN>>.GetInstance() => Utilities.Instance;
@@ -165,7 +165,7 @@ namespace Jodo.Numerics
         IVariantRandom<DoubleN> IProvider<IVariantRandom<DoubleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<DoubleN>,
+            INumericBitConverter<DoubleN>,
             IConvert<DoubleN>,
             IConvertExtended<DoubleN>,
             IMath<DoubleN>,
@@ -237,8 +237,8 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Tau { get; } = Math.PI * 2d;
             DoubleN IMath<DoubleN>.Truncate(DoubleN x) => Math.Truncate(x._value);
 
-            DoubleN IBitConvert<DoubleN>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
-            void IBitConvert<DoubleN>.Write(DoubleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            DoubleN INumericBitConverter<DoubleN>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
+            void INumericBitConverter<DoubleN>.Write(DoubleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             bool IConvert<DoubleN>.ToBoolean(DoubleN value) => Convert.ToBoolean(value._value);
             byte IConvert<DoubleN>.ToByte(DoubleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

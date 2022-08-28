@@ -46,7 +46,7 @@ namespace Jodo.Geometry
     public readonly struct Circle<TNumeric> :
             IEquatable<Circle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConvert<Circle<TNumeric>>>,
+            IProvider<INumericBitConverter<Circle<TNumeric>>>,
                         IProvider<IVariantRandom<Circle<TNumeric>>>,
             ITwoDimensional<Circle<TNumeric>, TNumeric>,
             ISerializable
@@ -121,11 +121,11 @@ namespace Jodo.Geometry
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
 
         Vector2N<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
-        IBitConvert<Circle<TNumeric>> IProvider<IBitConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<Circle<TNumeric>> IProvider<INumericBitConverter<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Circle<TNumeric>> IProvider<IVariantRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConvert<Circle<TNumeric>>,
+           INumericBitConverter<Circle<TNumeric>>,
            IVariantRandom<Circle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -137,15 +137,15 @@ namespace Jodo.Geometry
                     random.NextVariant<TNumeric>(scenarios));
             }
 
-            Circle<TNumeric> IBitConvert<Circle<TNumeric>>.Read(IReader<byte> stream)
+            Circle<TNumeric> INumericBitConverter<Circle<TNumeric>>.Read(IReader<byte> stream)
             {
-                return new Circle<TNumeric>(BitConvert.Read<Vector2N<TNumeric>>(stream), BitConvert.Read<TNumeric>(stream));
+                return new Circle<TNumeric>(BitConverterN.Read<Vector2N<TNumeric>>(stream), BitConverterN.Read<TNumeric>(stream));
             }
 
-            void IBitConvert<Circle<TNumeric>>.Write(Circle<TNumeric> value, IWriter<byte> stream)
+            void INumericBitConverter<Circle<TNumeric>>.Write(Circle<TNumeric> value, IWriter<byte> stream)
             {
-                BitConvert.Write(stream, value.Center);
-                BitConvert.Write(stream, value.Radius);
+                BitConverterN.Write(stream, value.Center);
+                BitConverterN.Write(stream, value.Radius);
             }
         }
     }

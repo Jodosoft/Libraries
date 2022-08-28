@@ -49,12 +49,12 @@ namespace Jodo.CheckedNumerics.Tests
         public void IsFinite_RandomValue_AlwaysTrue()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
             for (int i = 0; i < 12; i++)
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = BitConvert.FromBytes<DecimalC>(bytes);
+            DecimalC input = BitConverterN.FromBytes<DecimalC>(bytes);
 
             //act
             bool result = Numeric.IsFinite(input);
@@ -67,12 +67,12 @@ namespace Jodo.CheckedNumerics.Tests
         public void IsInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
             for (int i = 0; i < 12; i++)
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = BitConvert.FromBytes<DecimalC>(bytes);
+            DecimalC input = BitConverterN.FromBytes<DecimalC>(bytes);
 
             //act
             bool result = Numeric.IsInfinity(input);
@@ -85,12 +85,12 @@ namespace Jodo.CheckedNumerics.Tests
         public void IsPositiveInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
             for (int i = 0; i < 12; i++)
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = BitConvert.FromBytes<DecimalC>(bytes);
+            DecimalC input = BitConverterN.FromBytes<DecimalC>(bytes);
 
             //act
             bool result = Numeric.IsPositiveInfinity(input);
@@ -103,12 +103,12 @@ namespace Jodo.CheckedNumerics.Tests
         public void IsNegativeInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
             for (int i = 0; i < 12; i++)
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = BitConvert.FromBytes<DecimalC>(bytes);
+            DecimalC input = BitConverterN.FromBytes<DecimalC>(bytes);
 
             //act
             bool result = Numeric.IsNegativeInfinity(input);
@@ -121,7 +121,7 @@ namespace Jodo.CheckedNumerics.Tests
         public void IsNaN_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
             for (int i = 0; i < 12; i++)
             {
                 bytes[i] = Random.NextByte();

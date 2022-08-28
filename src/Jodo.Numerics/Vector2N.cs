@@ -32,7 +32,7 @@ namespace Jodo.Numerics
     public readonly struct Vector2N<TNumeric> :
             IEquatable<Vector2N<TNumeric>>,
             IFormattable,
-            IProvider<IBitConvert<Vector2N<TNumeric>>>,
+            IProvider<INumericBitConverter<Vector2N<TNumeric>>>,
                         IProvider<IVariantRandom<Vector2N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -98,11 +98,11 @@ namespace Jodo.Numerics
         public static bool operator ==(Vector2N<TNumeric> left, Vector2N<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Vector2N<TNumeric> left, Vector2N<TNumeric> right) => !(left == right);
 
-        IBitConvert<Vector2N<TNumeric>> IProvider<IBitConvert<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<Vector2N<TNumeric>> IProvider<INumericBitConverter<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector2N<TNumeric>> IProvider<IVariantRandom<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConvert<Vector2N<TNumeric>>,
+           INumericBitConverter<Vector2N<TNumeric>>,
            IVariantRandom<Vector2N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -114,15 +114,15 @@ namespace Jodo.Numerics
                     random.NextVariant<TNumeric>(scenarios));
             }
 
-            Vector2N<TNumeric> IBitConvert<Vector2N<TNumeric>>.Read(IReader<byte> stream)
+            Vector2N<TNumeric> INumericBitConverter<Vector2N<TNumeric>>.Read(IReader<byte> stream)
             {
-                return new Vector2N<TNumeric>(BitConvert.Read<TNumeric>(stream), BitConvert.Read<TNumeric>(stream));
+                return new Vector2N<TNumeric>(BitConverterN.Read<TNumeric>(stream), BitConverterN.Read<TNumeric>(stream));
             }
 
-            void IBitConvert<Vector2N<TNumeric>>.Write(Vector2N<TNumeric> value, IWriter<byte> stream)
+            void INumericBitConverter<Vector2N<TNumeric>>.Write(Vector2N<TNumeric> value, IWriter<byte> stream)
             {
-                BitConvert.Write(stream, value.X);
-                BitConvert.Write(stream, value.Y);
+                BitConverterN.Write(stream, value.X);
+                BitConverterN.Write(stream, value.Y);
             }
         }
     }

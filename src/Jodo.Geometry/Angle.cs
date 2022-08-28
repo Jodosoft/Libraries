@@ -76,7 +76,7 @@ namespace Jodo.Geometry
             IComparable<Angle<TNumeric>>,
             IEquatable<Angle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConvert<Angle<TNumeric>>>,
+            IProvider<INumericBitConverter<Angle<TNumeric>>>,
                         IProvider<IVariantRandom<Angle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -160,20 +160,20 @@ namespace Jodo.Geometry
         public static Angle<TNumeric> operator /(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Divide(right.Degrees));
         public static Angle<TNumeric> operator +(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Add(right.Degrees));
 
-        IBitConvert<Angle<TNumeric>> IProvider<IBitConvert<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<Angle<TNumeric>> IProvider<INumericBitConverter<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Angle<TNumeric>> IProvider<IVariantRandom<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<Angle<TNumeric>>,
+            INumericBitConverter<Angle<TNumeric>>,
             IVariantRandom<Angle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Angle<TNumeric> IBitConvert<Angle<TNumeric>>.Read(IReader<byte> stream)
-                => new Angle<TNumeric>(BitConvert.Read<TNumeric>(stream));
+            Angle<TNumeric> INumericBitConverter<Angle<TNumeric>>.Read(IReader<byte> stream)
+                => new Angle<TNumeric>(BitConverterN.Read<TNumeric>(stream));
 
-            void IBitConvert<Angle<TNumeric>>.Write(Angle<TNumeric> value, IWriter<byte> stream)
-                => BitConvert.Write(stream, value.Degrees);
+            void INumericBitConverter<Angle<TNumeric>>.Write(Angle<TNumeric> value, IWriter<byte> stream)
+                => BitConverterN.Write(stream, value.Degrees);
 
             Angle<TNumeric> IVariantRandom<Angle<TNumeric>>.Next(Random random, Scenarios scenarios)
                 => new Angle<TNumeric>(random.NextVariant<TNumeric>(scenarios));

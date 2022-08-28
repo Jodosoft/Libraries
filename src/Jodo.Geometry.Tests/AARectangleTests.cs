@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
+using Jodo.Numerics.Tests;
 using Jodo.Primitives.Tests;
 
 namespace Jodo.Geometry.Tests

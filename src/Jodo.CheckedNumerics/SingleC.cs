@@ -165,7 +165,7 @@ namespace Jodo.CheckedNumerics
         SingleC INumeric<SingleC>.RightShift(int count) => this >> count;
         SingleC INumeric<SingleC>.Subtract(SingleC value) => this - value;
 
-        IBitConvert<SingleC> IProvider<IBitConvert<SingleC>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<SingleC> IProvider<INumericBitConverter<SingleC>>.GetInstance() => Utilities.Instance;
         IConvert<SingleC> IProvider<IConvert<SingleC>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SingleC> IProvider<IConvertExtended<SingleC>>.GetInstance() => Utilities.Instance;
         IMath<SingleC> IProvider<IMath<SingleC>>.GetInstance() => Utilities.Instance;
@@ -174,7 +174,7 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<SingleC> IProvider<IVariantRandom<SingleC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<SingleC>,
+            INumericBitConverter<SingleC>,
             IConvert<SingleC>,
             IConvertExtended<SingleC>,
             IMath<SingleC>,
@@ -246,8 +246,8 @@ namespace Jodo.CheckedNumerics
             SingleC IMath<SingleC>.Truncate(SingleC x) => MathF.Truncate(x._value);
             int IMath<SingleC>.Sign(SingleC x) => Math.Sign(x._value);
 
-            SingleC IBitConvert<SingleC>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
-            void IBitConvert<SingleC>.Write(SingleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            SingleC INumericBitConverter<SingleC>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
+            void INumericBitConverter<SingleC>.Write(SingleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             bool IConvert<SingleC>.ToBoolean(SingleC value) => value._value != 0;
             byte IConvert<SingleC>.ToByte(SingleC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());

@@ -18,36 +18,35 @@
 // IN THE SOFTWARE.
 
 using System.Collections.Generic;
+using Jodo.Numerics.Internals;
+using Jodo.Primitives;
 
-namespace Jodo.Primitives
+namespace Jodo.Numerics
 {
-    public static class BitConvert
+    public static class StreamExtensions
     {
-        public static byte[] GetBytes<T>(T value) where T : struct, IProvider<IBitConvert<T>>
+        public static T Read<T>(this IReader<byte> stream) where T : struct, IProvider<INumericBitConverter<T>>
         {
-            List<byte>? list = new List<byte>();
-            Provider<T, IBitConvert<T>>.Default.Write(value, list.AsWriteOnlyStream());
-            return list.ToArray();
+            return BitConverterN.Read<T>(stream);
         }
 
-        public static T FromBytes<T>(byte[] bytes) where T : struct, IProvider<IBitConvert<T>>
+        public static void Write<T>(this IWriter<byte> stream, T value) where T : struct, IProvider<INumericBitConverter<T>>
         {
-            return Provider<T, IBitConvert<T>>.Default.Read(bytes.AsReadOnlyStream());
+            BitConverterN.Write(stream, value);
         }
 
-        public static T FromBytes<T>(IReadOnlyList<byte> bytes) where T : struct, IProvider<IBitConvert<T>>
+        public static void Write<T>(this IWriter<T> stream, T[] values)
         {
-            return Provider<T, IBitConvert<T>>.Default.Read(bytes.AsReadOnlyStream());
+            foreach (T value in values)
+            {
+                stream.Write(value);
+            }
         }
 
-        public static T Read<T>(IReader<byte> stream) where T : struct, IProvider<IBitConvert<T>>
-        {
-            return Provider<T, IBitConvert<T>>.Default.Read(stream);
-        }
+        public static IWriter<T> AsWriteOnlyStream<T>(this ICollection<T> collection)
+           => new StreamWrappers.CollectionWriteOnly<T>(collection);
 
-        public static void Write<T>(IWriter<byte> stream, T value) where T : struct, IProvider<IBitConvert<T>>
-        {
-            Provider<T, IBitConvert<T>>.Default.Write(value, stream);
-        }
+        public static IReader<T> AsReadOnlyStream<T>(this IReadOnlyList<T> collection)
+            => new StreamWrappers.ListReadOnly<T>(collection);
     }
 }

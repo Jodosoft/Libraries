@@ -34,7 +34,7 @@ namespace Jodo.Numerics.Tests
             TNumeric input = Random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>(), Generation.Extended);
 
             //act
-            TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));
+            TNumeric result = BitConverterN.FromBytes<TNumeric>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -47,7 +47,7 @@ namespace Jodo.Numerics.Tests
             TNumeric input = Numeric.MaxValue<TNumeric>();
 
             //act
-            TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));
+            TNumeric result = BitConverterN.FromBytes<TNumeric>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -60,7 +60,7 @@ namespace Jodo.Numerics.Tests
             TNumeric input = Numeric.MinValue<TNumeric>();
 
             //act
-            TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));
+            TNumeric result = BitConverterN.FromBytes<TNumeric>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().Be(input);
@@ -73,7 +73,7 @@ namespace Jodo.Numerics.Tests
             TNumeric input = Numeric.Epsilon<TNumeric>();
 
             //act
-            TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));
+            TNumeric result = BitConverterN.FromBytes<TNumeric>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().Be(input);

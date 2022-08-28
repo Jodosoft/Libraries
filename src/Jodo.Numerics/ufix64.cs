@@ -185,7 +185,7 @@ namespace Jodo.Numerics
         UFix64 INumeric<UFix64>.RightShift(int count) => this >> count;
         UFix64 INumeric<UFix64>.Subtract(UFix64 value) => this - value;
 
-        IBitConvert<UFix64> IProvider<IBitConvert<UFix64>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<UFix64> IProvider<INumericBitConverter<UFix64>>.GetInstance() => Utilities.Instance;
         IConvert<UFix64> IProvider<IConvert<UFix64>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UFix64> IProvider<IConvertExtended<UFix64>>.GetInstance() => Utilities.Instance;
         IMath<UFix64> IProvider<IMath<UFix64>>.GetInstance() => Utilities.Instance;
@@ -194,7 +194,7 @@ namespace Jodo.Numerics
         IVariantRandom<UFix64> IProvider<IVariantRandom<UFix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<UFix64>,
+            INumericBitConverter<UFix64>,
             IConvert<UFix64>,
             IConvertExtended<UFix64>,
             IMath<UFix64>,
@@ -266,8 +266,8 @@ namespace Jodo.Numerics
             UFix64 IMath<UFix64>.Tau { get; } = (UFix64)(Math.PI * 2d);
             UFix64 IMath<UFix64>.Truncate(UFix64 x) => new UFix64(x._scaledValue / ScalingFactor * ScalingFactor);
 
-            UFix64 IBitConvert<UFix64>.Read(IReader<byte> stream) => new UFix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
-            void IBitConvert<UFix64>.Write(UFix64 value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            UFix64 INumericBitConverter<UFix64>.Read(IReader<byte> stream) => new UFix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
+            void INumericBitConverter<UFix64>.Write(UFix64 value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             bool IConvert<UFix64>.ToBoolean(UFix64 value) => value._scaledValue != 0;
             byte IConvert<UFix64>.ToByte(UFix64 value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode);

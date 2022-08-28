@@ -186,7 +186,7 @@ namespace Jodo.CheckedNumerics
         Fix64C INumeric<Fix64C>.RightShift(int count) => this >> count;
         Fix64C INumeric<Fix64C>.Subtract(Fix64C value) => this - value;
 
-        IBitConvert<Fix64C> IProvider<IBitConvert<Fix64C>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<Fix64C> IProvider<INumericBitConverter<Fix64C>>.GetInstance() => Utilities.Instance;
         IConvert<Fix64C> IProvider<IConvert<Fix64C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Fix64C> IProvider<IConvertExtended<Fix64C>>.GetInstance() => Utilities.Instance;
         IMath<Fix64C> IProvider<IMath<Fix64C>>.GetInstance() => Utilities.Instance;
@@ -195,7 +195,7 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<Fix64C> IProvider<IVariantRandom<Fix64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<Fix64C>,
+            INumericBitConverter<Fix64C>,
             IConvert<Fix64C>,
             IConvertExtended<Fix64C>,
             IMath<Fix64C>,
@@ -267,8 +267,8 @@ namespace Jodo.CheckedNumerics
             Fix64C IMath<Fix64C>.Truncate(Fix64C x) => new Fix64C(x._scaledValue / ScalingFactor * ScalingFactor);
             int IMath<Fix64C>.Sign(Fix64C x) => Math.Sign(x._scaledValue);
 
-            Fix64C IBitConvert<Fix64C>.Read(IReader<byte> stream) => new Fix64C(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
-            void IBitConvert<Fix64C>.Write(Fix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            Fix64C INumericBitConverter<Fix64C>.Read(IReader<byte> stream) => new Fix64C(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
+            void INumericBitConverter<Fix64C>.Write(Fix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             bool IConvert<Fix64C>.ToBoolean(Fix64C value) => value._scaledValue != 0;
             byte IConvert<Fix64C>.ToByte(Fix64C value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());

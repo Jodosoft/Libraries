@@ -34,7 +34,7 @@ namespace Jodo.Numerics
             IComparable<TSelf>,
             IEquatable<TSelf>,
             IFormattable,
-            IProvider<IBitConvert<TSelf>>,
+            IProvider<INumericBitConverter<TSelf>>,
             IProvider<IConvert<TSelf>>,
             IProvider<IMath<TSelf>>,
             IProvider<INumericRandom<TSelf>>,

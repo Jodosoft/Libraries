@@ -146,7 +146,7 @@ namespace Jodo.Numerics
         SByteN INumeric<SByteN>.RightShift(int count) => this >> count;
         SByteN INumeric<SByteN>.Subtract(SByteN value) => this - value;
 
-        IBitConvert<SByteN> IProvider<IBitConvert<SByteN>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<SByteN> IProvider<INumericBitConverter<SByteN>>.GetInstance() => Utilities.Instance;
         IConvert<SByteN> IProvider<IConvert<SByteN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SByteN> IProvider<IConvertExtended<SByteN>>.GetInstance() => Utilities.Instance;
         IMath<SByteN> IProvider<IMath<SByteN>>.GetInstance() => Utilities.Instance;
@@ -155,7 +155,7 @@ namespace Jodo.Numerics
         IVariantRandom<SByteN> IProvider<IVariantRandom<SByteN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<SByteN>,
+            INumericBitConverter<SByteN>,
             IConvert<SByteN>,
             IConvertExtended<SByteN>,
             IMath<SByteN>,
@@ -227,8 +227,8 @@ namespace Jodo.Numerics
             SByteN IMath<SByteN>.Tau { get; } = 6;
             SByteN IMath<SByteN>.Truncate(SByteN x) => x;
 
-            SByteN IBitConvert<SByteN>.Read(IReader<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
-            void IBitConvert<SByteN>.Write(SByteN value, IWriter<byte> stream) => stream.Write((byte)value._value);
+            SByteN INumericBitConverter<SByteN>.Read(IReader<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
+            void INumericBitConverter<SByteN>.Write(SByteN value, IWriter<byte> stream) => stream.Write((byte)value._value);
 
             bool IConvert<SByteN>.ToBoolean(SByteN value) => Convert.ToBoolean(value._value);
             byte IConvert<SByteN>.ToByte(SByteN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

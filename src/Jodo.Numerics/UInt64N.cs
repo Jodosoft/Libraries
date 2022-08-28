@@ -145,7 +145,7 @@ namespace Jodo.Numerics
         UInt64N INumeric<UInt64N>.RightShift(int count) => this >> count;
         UInt64N INumeric<UInt64N>.Subtract(UInt64N value) => this - value;
 
-        IBitConvert<UInt64N> IProvider<IBitConvert<UInt64N>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<UInt64N> IProvider<INumericBitConverter<UInt64N>>.GetInstance() => Utilities.Instance;
         IConvert<UInt64N> IProvider<IConvert<UInt64N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt64N> IProvider<IConvertExtended<UInt64N>>.GetInstance() => Utilities.Instance;
         IMath<UInt64N> IProvider<IMath<UInt64N>>.GetInstance() => Utilities.Instance;
@@ -154,7 +154,7 @@ namespace Jodo.Numerics
         IVariantRandom<UInt64N> IProvider<IVariantRandom<UInt64N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<UInt64N>,
+            INumericBitConverter<UInt64N>,
             IConvert<UInt64N>,
             IConvertExtended<UInt64N>,
             IMath<UInt64N>,
@@ -226,8 +226,8 @@ namespace Jodo.Numerics
             UInt64N IMath<UInt64N>.Tau { get; } = (UInt64N)6;
             UInt64N IMath<UInt64N>.Truncate(UInt64N x) => x;
 
-            UInt64N IBitConvert<UInt64N>.Read(IReader<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
-            void IBitConvert<UInt64N>.Write(UInt64N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            UInt64N INumericBitConverter<UInt64N>.Read(IReader<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
+            void INumericBitConverter<UInt64N>.Write(UInt64N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             bool IConvert<UInt64N>.ToBoolean(UInt64N value) => Convert.ToBoolean(value._value);
             byte IConvert<UInt64N>.ToByte(UInt64N value, Conversion mode) => ConvertN.ToByte(value._value, mode);

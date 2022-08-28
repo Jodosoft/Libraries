@@ -40,7 +40,7 @@ namespace Jodo.Geometry
     public readonly struct Triangle<TNumeric> :
             IEquatable<Triangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConvert<Triangle<TNumeric>>>,
+            IProvider<INumericBitConverter<Triangle<TNumeric>>>,
                         IProvider<IVariantRandom<Triangle<TNumeric>>>,
             ITwoDimensional<Triangle<TNumeric>, TNumeric>,
             ISerializable
@@ -121,11 +121,11 @@ namespace Jodo.Geometry
 #endif
 
         Vector2N<TNumeric>[] ITwoDimensional<Triangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
-        IBitConvert<Triangle<TNumeric>> IProvider<IBitConvert<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<Triangle<TNumeric>> IProvider<INumericBitConverter<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConvert<Triangle<TNumeric>>,
+           INumericBitConverter<Triangle<TNumeric>>,
            IVariantRandom<Triangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -138,12 +138,12 @@ namespace Jodo.Geometry
                    random.NextVariant<Vector2N<TNumeric>>(scenarios));
             }
 
-            Triangle<TNumeric> IBitConvert<Triangle<TNumeric>>.Read(IReader<byte> stream)
+            Triangle<TNumeric> INumericBitConverter<Triangle<TNumeric>>.Read(IReader<byte> stream)
             {
                 throw new NotImplementedException();
             }
 
-            void IBitConvert<Triangle<TNumeric>>.Write(Triangle<TNumeric> value, IWriter<byte> stream)
+            void INumericBitConverter<Triangle<TNumeric>>.Write(Triangle<TNumeric> value, IWriter<byte> stream)
             {
                 throw new NotImplementedException();
             }

@@ -156,7 +156,7 @@ namespace Jodo.Numerics
         SingleN INumeric<SingleN>.RightShift(int count) => this >> count;
         SingleN INumeric<SingleN>.Subtract(SingleN value) => this - value;
 
-        IBitConvert<SingleN> IProvider<IBitConvert<SingleN>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<SingleN> IProvider<INumericBitConverter<SingleN>>.GetInstance() => Utilities.Instance;
         IConvert<SingleN> IProvider<IConvert<SingleN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SingleN> IProvider<IConvertExtended<SingleN>>.GetInstance() => Utilities.Instance;
         IMath<SingleN> IProvider<IMath<SingleN>>.GetInstance() => Utilities.Instance;
@@ -165,7 +165,7 @@ namespace Jodo.Numerics
         IVariantRandom<SingleN> IProvider<IVariantRandom<SingleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<SingleN>,
+            INumericBitConverter<SingleN>,
             IConvert<SingleN>,
             IConvertExtended<SingleN>,
             IMath<SingleN>,
@@ -237,8 +237,8 @@ namespace Jodo.Numerics
             SingleN IMath<SingleN>.Tau { get; } = MathF.PI * 2;
             SingleN IMath<SingleN>.Truncate(SingleN x) => MathF.Truncate(x._value);
 
-            SingleN IBitConvert<SingleN>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
-            void IBitConvert<SingleN>.Write(SingleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            SingleN INumericBitConverter<SingleN>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
+            void INumericBitConverter<SingleN>.Write(SingleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
 
             bool IConvert<SingleN>.ToBoolean(SingleN value) => Convert.ToBoolean(value._value);
             byte IConvert<SingleN>.ToByte(SingleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

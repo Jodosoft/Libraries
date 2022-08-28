@@ -146,7 +146,7 @@ namespace Jodo.Numerics
         DecimalN INumeric<DecimalN>.RightShift(int count) => this >> count;
         DecimalN INumeric<DecimalN>.Subtract(DecimalN value) => this - value;
 
-        IBitConvert<DecimalN> IProvider<IBitConvert<DecimalN>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<DecimalN> IProvider<INumericBitConverter<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvert<DecimalN> IProvider<IConvert<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DecimalN> IProvider<IConvertExtended<DecimalN>>.GetInstance() => Utilities.Instance;
         IMath<DecimalN> IProvider<IMath<DecimalN>>.GetInstance() => Utilities.Instance;
@@ -155,7 +155,7 @@ namespace Jodo.Numerics
         IVariantRandom<DecimalN> IProvider<IVariantRandom<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<DecimalN>,
+            INumericBitConverter<DecimalN>,
             IConvert<DecimalN>,
             IConvertExtended<DecimalN>,
             IMath<DecimalN>,
@@ -227,7 +227,7 @@ namespace Jodo.Numerics
             DecimalN IMath<DecimalN>.Tau { get; } = (DecimalN)Math.PI * 2m;
             DecimalN IMath<DecimalN>.Truncate(DecimalN x) => decimal.Truncate(x);
 
-            DecimalN IBitConvert<DecimalN>.Read(IReader<byte> stream)
+            DecimalN INumericBitConverter<DecimalN>.Read(IReader<byte> stream)
             {
                 int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
                 int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
@@ -240,7 +240,7 @@ namespace Jodo.Numerics
                 return new decimal(part0, part1, part2, sign, scale);
             }
 
-            void IBitConvert<DecimalN>.Write(DecimalN value, IWriter<byte> stream)
+            void INumericBitConverter<DecimalN>.Write(DecimalN value, IWriter<byte> stream)
             {
                 int[]? parts = decimal.GetBits(value);
                 stream.Write(BitConverter.GetBytes(parts[0]));

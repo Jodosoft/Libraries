@@ -34,9 +34,9 @@ namespace Jodo.Numerics.Tests
         public void IsFinite_RandomValue_AlwaysTrue()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<TNumeric>(default);
+            byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConvert.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
 
             //act
             bool result = Numeric.IsFinite(input);
@@ -49,9 +49,9 @@ namespace Jodo.Numerics.Tests
         public void IsInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<TNumeric>(default);
+            byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConvert.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
 
             //act
             bool result = Numeric.IsInfinity(input);
@@ -64,9 +64,9 @@ namespace Jodo.Numerics.Tests
         public void IsPositiveInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<TNumeric>(default);
+            byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConvert.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
 
             //act
             bool result = Numeric.IsPositiveInfinity(input);
@@ -79,9 +79,9 @@ namespace Jodo.Numerics.Tests
         public void IsNegativeInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<TNumeric>(default);
+            byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConvert.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
 
             //act
             bool result = Numeric.IsNegativeInfinity(input);

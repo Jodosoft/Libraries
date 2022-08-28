@@ -19,8 +19,9 @@
 
 using System;
 using System.Collections.Generic;
+using Jodo.Primitives;
 
-namespace Jodo.Primitives.Internals
+namespace Jodo.Numerics.Internals
 {
     internal static class StreamWrappers
     {

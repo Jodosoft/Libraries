@@ -55,7 +55,7 @@ namespace Jodo.Numerics.Tests
         {
             var value1 = MathN.Log10(99999 * (Fix64)3.444);
             var value2 = (Int32N)107 << 4;
-            var value3 = BitConvert.GetBytes(value1);
+            var value3 = BitConverterN.GetBytes(value1);
             var value4 = new Vector2N<Fix64>(101, -202);
 
             Console.WriteLine(value1); // output: 5.537058
@@ -154,7 +154,7 @@ namespace Jodo.Numerics.Tests
         public void BitConverterN_Examples()
         {
             byte[] res1 = BitConverter.GetBytes((ulong)1234567890);
-            byte[] res2 = BitConvert.GetBytes((UFix64)256.512);
+            byte[] res2 = BitConverterN.GetBytes((UFix64)256.512);
 
             Console.WriteLine(BitConverter.ToString(res1)); // output: D2-02-96-49-00-00-00-00
             Console.WriteLine(BitConverter.ToString(res2)); // output: 00-10-4A-0F-00-00-00-00

@@ -83,7 +83,7 @@ namespace Jodo.Geometry
     public readonly struct AARectangle<TNumeric> :
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitConvert<AARectangle<TNumeric>>>,
+            IProvider<INumericBitConverter<AARectangle<TNumeric>>>,
                         IProvider<IVariantRandom<AARectangle<TNumeric>>>,
             ITwoDimensional<AARectangle<TNumeric>, TNumeric>,
             IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2N<TNumeric>>,
@@ -186,11 +186,11 @@ namespace Jodo.Geometry
         AARectangle<TNumeric> ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetBounds() => this;
         Vector2N<TNumeric>[] ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
 
-        IBitConvert<AARectangle<TNumeric>> IProvider<IBitConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<AARectangle<TNumeric>> IProvider<INumericBitConverter<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<AARectangle<TNumeric>> IProvider<IVariantRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitConvert<AARectangle<TNumeric>>,
+           INumericBitConverter<AARectangle<TNumeric>>,
            IVariantRandom<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -202,17 +202,17 @@ namespace Jodo.Geometry
                     random.NextVariant<Vector2N<TNumeric>>(scenarios));
             }
 
-            AARectangle<TNumeric> IBitConvert<AARectangle<TNumeric>>.Read(IReader<byte> stream)
+            AARectangle<TNumeric> INumericBitConverter<AARectangle<TNumeric>>.Read(IReader<byte> stream)
             {
                 return new AARectangle<TNumeric>(
-                    BitConvert.Read<Vector2N<TNumeric>>(stream),
-                    BitConvert.Read<Vector2N<TNumeric>>(stream));
+                    BitConverterN.Read<Vector2N<TNumeric>>(stream),
+                    BitConverterN.Read<Vector2N<TNumeric>>(stream));
             }
 
-            void IBitConvert<AARectangle<TNumeric>>.Write(AARectangle<TNumeric> value, IWriter<byte> stream)
+            void INumericBitConverter<AARectangle<TNumeric>>.Write(AARectangle<TNumeric> value, IWriter<byte> stream)
             {
-                BitConvert.Write(stream, value.Origin);
-                BitConvert.Write(stream, value.Dimensions);
+                BitConverterN.Write(stream, value.Origin);
+                BitConverterN.Write(stream, value.Dimensions);
             }
         }
     }

@@ -34,9 +34,9 @@ namespace Jodo.Numerics.Tests
         public void IsNaN_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConvert.GetBytes<TNumeric>(default);
+            byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConvert.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
 
             //act
             bool result = Numeric.IsNaN(input);

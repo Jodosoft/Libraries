@@ -186,7 +186,7 @@ namespace Jodo.CheckedNumerics
         UFix64C INumeric<UFix64C>.RightShift(int count) => this >> count;
         UFix64C INumeric<UFix64C>.Subtract(UFix64C value) => this - value;
 
-        IBitConvert<UFix64C> IProvider<IBitConvert<UFix64C>>.GetInstance() => Utilities.Instance;
+        INumericBitConverter<UFix64C> IProvider<INumericBitConverter<UFix64C>>.GetInstance() => Utilities.Instance;
         IConvert<UFix64C> IProvider<IConvert<UFix64C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UFix64C> IProvider<IConvertExtended<UFix64C>>.GetInstance() => Utilities.Instance;
         IMath<UFix64C> IProvider<IMath<UFix64C>>.GetInstance() => Utilities.Instance;
@@ -195,7 +195,7 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<UFix64C> IProvider<IVariantRandom<UFix64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitConvert<UFix64C>,
+            INumericBitConverter<UFix64C>,
             IConvert<UFix64C>,
             IConvertExtended<UFix64C>,
             IMath<UFix64C>,
@@ -267,8 +267,8 @@ namespace Jodo.CheckedNumerics
             UFix64C IMath<UFix64C>.Tau { get; } = (UFix64C)(Math.PI * 2d);
             UFix64C IMath<UFix64C>.Truncate(UFix64C x) => new UFix64C(x._scaledValue / ScalingFactor * ScalingFactor);
 
-            UFix64C IBitConvert<UFix64C>.Read(IReader<byte> stream) => new UFix64C(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
-            void IBitConvert<UFix64C>.Write(UFix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            UFix64C INumericBitConverter<UFix64C>.Read(IReader<byte> stream) => new UFix64C(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
+            void INumericBitConverter<UFix64C>.Write(UFix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
 
             bool IConvert<UFix64C>.ToBoolean(UFix64C value) => value._scaledValue != 0;
             byte IConvert<UFix64C>.ToByte(UFix64C value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());

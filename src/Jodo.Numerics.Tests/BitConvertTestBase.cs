@@ -21,12 +21,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
-namespace Jodo.Primitives.Tests
+namespace Jodo.Numerics.Tests
 {
-    public abstract class BitConvertTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IBitConvert<T>>, IProvider<IVariantRandom<T>>
+    public abstract class BitConvertTestBase<T> : GlobalFixtureBase where T : struct, IProvider<INumericBitConverter<T>>, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomValue_ReturnsBytes()
@@ -35,7 +36,7 @@ namespace Jodo.Primitives.Tests
             T input = Random.NextVariant<T>(Scenarios.NonError);
 
             //act
-            byte[] result = BitConvert.GetBytes(input);
+            byte[] result = BitConverterN.GetBytes(input);
 
             //assert
             result.Length.Should().BeGreaterThan(0);
@@ -48,7 +49,7 @@ namespace Jodo.Primitives.Tests
             T input = Random.NextVariant<T>(Scenarios.NonError);
 
             //act
-            T result = BitConvert.FromBytes<T>(BitConvert.GetBytes(input));
+            T result = BitConverterN.FromBytes<T>(BitConverterN.GetBytes(input));
 
             //assert
             result.Should().BeEquivalentTo(input);
@@ -65,8 +66,8 @@ namespace Jodo.Primitives.Tests
             IReader<byte> reader = buffer.AsReadOnlyStream();
 
             //act
-            for (int i = 0; i < input.Length; i++) BitConvert.Write(writer, input[i]);
-            for (int i = 0; i < input.Length; i++) results[i] = BitConvert.Read<T>(reader);
+            for (int i = 0; i < input.Length; i++) BitConverterN.Write(writer, input[i]);
+            for (int i = 0; i < input.Length; i++) results[i] = BitConverterN.Read<T>(reader);
 
             //assert
             results.Should().BeEquivalentTo(input);
@@ -78,7 +79,7 @@ namespace Jodo.Primitives.Tests
             //arrange
 
             //act
-            Action action = new Action(() => BitConvert.FromBytes<T>(Array.Empty<byte>()));
+            Action action = new Action(() => BitConverterN.FromBytes<T>(Array.Empty<byte>()));
 
             //assert
             action.Should().Throw<ArgumentException>();
