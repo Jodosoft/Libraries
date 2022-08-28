@@ -288,7 +288,7 @@ namespace Jodo.Numerics
         public static float NextSingle(this Random random, Generation mode) => mode switch
         {
             Generation.Default => (float)random.NextDouble(),
-            Generation.Extended => random.NextSingleExtended(float.MinValue, float.MaxValue),
+            Generation.Extended => random.NextSingleExtended(),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 

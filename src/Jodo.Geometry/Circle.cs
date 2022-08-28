@@ -27,20 +27,31 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Geometry
 {
+    public static class Circle
+    {
+        public static Circle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            string[] parts = StringUtilities.ParseVectorParts(s.Trim());
+            if (parts.Length == 3)
+                return new Circle<TNumeric>(
+                    Numeric.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[2].Replace("R:", string.Empty).Trim(), style, provider));
+            else throw new FormatException();
+        }
+    }
+
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Circle<TNumeric> :
             IEquatable<Circle<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Circle<TNumeric>>>,
-            IProvider<IStringConvert<Circle<TNumeric>>>,
-            IProvider<IVariantRandom<Circle<TNumeric>>>,
+                        IProvider<IVariantRandom<Circle<TNumeric>>>,
             ITwoDimensional<Circle<TNumeric>, TNumeric>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
-        private const string Symbol = "○";
-
         public readonly Vector2<TNumeric> Center;
         public readonly TNumeric Radius;
 
@@ -103,20 +114,18 @@ namespace Jodo.Geometry
         public bool Equals(Circle<TNumeric> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
         public override bool Equals(object? obj) => obj is Circle<TNumeric> circle && Equals(circle);
         public override int GetHashCode() => HashCode.Combine(Center, Radius);
-        public override string ToString() => $"{Symbol}<X:{Center.X}, Y:{Center.Y}, R:{Radius}>";
-        public string ToString(string format, IFormatProvider formatProvider) => $"{Symbol}<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, R:{Radius.ToString(format, formatProvider)}>";
+        public override string ToString() => $"<X:{Center.X}, Y:{Center.Y}, R:{Radius}>";
+        public string ToString(string format, IFormatProvider formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, R:{Radius.ToString(format, formatProvider)}>";
 
         public static bool operator ==(Circle<TNumeric> left, Circle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
 
         Vector2<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
         IBitConvert<Circle<TNumeric>> IProvider<IBitConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringConvert<Circle<TNumeric>> IProvider<IStringConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Circle<TNumeric>> IProvider<IVariantRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<Circle<TNumeric>>,
-           IStringConvert<Circle<TNumeric>>,
            IVariantRandom<Circle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -126,17 +135,6 @@ namespace Jodo.Geometry
                 return new Circle<TNumeric>(
                     random.NextVariant<Vector2<TNumeric>>(scenarios),
                     random.NextVariant<TNumeric>(scenarios));
-            }
-
-            Circle<TNumeric> IStringConvert<Circle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
-            {
-                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
-                if (parts.Length == 3)
-                    return new Circle<TNumeric>(
-                        StringConvert.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
-                        StringConvert.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
-                        StringConvert.Parse<TNumeric>(parts[2].Replace("R:", string.Empty).Trim(), style, provider));
-                else throw new FormatException();
             }
 
             Circle<TNumeric> IBitConvert<Circle<TNumeric>>.Read(IReader<byte> stream)

@@ -153,7 +153,6 @@ namespace Jodo.CheckedNumerics
         IMath<SByteC> IProvider<IMath<SByteC>>.GetInstance() => Utilities.Instance;
         INumericRandom<SByteC> IProvider<INumericRandom<SByteC>>.GetInstance() => Utilities.Instance;
         INumericStatic<SByteC> IProvider<INumericStatic<SByteC>>.GetInstance() => Utilities.Instance;
-        IStringConvert<SByteC> IProvider<IStringConvert<SByteC>>.GetInstance() => Utilities.Instance;
         IVariantRandom<SByteC> IProvider<IVariantRandom<SByteC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
@@ -163,7 +162,6 @@ namespace Jodo.CheckedNumerics
             IMath<SByteC>,
             INumericRandom<SByteC>,
             INumericStatic<SByteC>,
-            IStringConvert<SByteC>,
             IVariantRandom<SByteC>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -261,7 +259,7 @@ namespace Jodo.CheckedNumerics
             SByteC IConvertExtended<SByteC>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToSByte(value, mode.Clamped());
             SByteC IConvertExtended<SByteC>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToSByte(value, mode.Clamped());
 
-            SByteC IStringConvert<SByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            SByteC INumericStatic<SByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
             SByteC INumericRandom<SByteC>.Next(Random random) => random.NextSByte();

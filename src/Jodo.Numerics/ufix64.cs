@@ -191,7 +191,6 @@ namespace Jodo.Numerics
         IMath<UFix64> IProvider<IMath<UFix64>>.GetInstance() => Utilities.Instance;
         INumericStatic<UFix64> IProvider<INumericStatic<UFix64>>.GetInstance() => Utilities.Instance;
         INumericRandom<UFix64> IProvider<INumericRandom<UFix64>>.GetInstance() => Utilities.Instance;
-        IStringConvert<UFix64> IProvider<IStringConvert<UFix64>>.GetInstance() => Utilities.Instance;
         IVariantRandom<UFix64> IProvider<IVariantRandom<UFix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
@@ -201,7 +200,6 @@ namespace Jodo.Numerics
             IMath<UFix64>,
             INumericStatic<UFix64>,
             INumericRandom<UFix64>,
-            IStringConvert<UFix64>,
             IVariantRandom<UFix64>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -299,7 +297,7 @@ namespace Jodo.Numerics
             UFix64 IConvertExtended<UFix64>.ToNumeric(ulong value, Conversion mode) => (UFix64)value;
             UFix64 IConvertExtended<UFix64>.ToNumeric(ushort value, Conversion mode) => (UFix64)ConvertN.ToUInt64(value, mode);
 
-            UFix64 IStringConvert<UFix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            UFix64 INumericStatic<UFix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
 
             UFix64 INumericRandom<UFix64>.Next(Random random) => new UFix64(random.NextUInt64());

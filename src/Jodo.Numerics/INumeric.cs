@@ -39,8 +39,7 @@ namespace Jodo.Numerics
             IProvider<IMath<TSelf>>,
             IProvider<INumericRandom<TSelf>>,
             IProvider<INumericStatic<TSelf>>,
-            IProvider<IStringConvert<TSelf>>,
-            IProvider<IVariantRandom<TSelf>>,
+                        IProvider<IVariantRandom<TSelf>>,
             ISerializable
         where TSelf : struct, INumeric<TSelf>
     {

@@ -24,7 +24,7 @@ namespace Jodo.Primitives
     [Flags]
     public enum Scenarios : byte
     {
-        Unspecified = 0,
+        None = 0,
         Defaults = 1,
         LowMagnitude = 2,
         AnyMagnitude = 4,

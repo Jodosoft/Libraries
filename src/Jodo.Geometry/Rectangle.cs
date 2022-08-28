@@ -30,41 +30,71 @@ namespace Jodo.Geometry
 {
     public static class Rectangle
     {
-        public static Rectangle<TNumeric> FromCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(center, dimensions, angle);
-        public static Rectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetTopRight(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<TNumeric> FromBottomRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<TNumeric> FromRightCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<TNumeric> FromTopLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<TNumeric> FromTopCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions, default), dimensions, angle);
-        public static Rectangle<TNumeric> FromTopRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Rectangle<TNumeric>(GetBottomLeft(bottomLeft, dimensions, default), dimensions, angle);
+        public static Rectangle<TNumeric> FromCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(center, dimensions, angle);
 
-        internal static Vector2<TNumeric> GetBottomCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X, center.Y.Add(dimensions.Y.Divide(Numeric.Two<TNumeric>()))).RotateAround(center, angle);
-        internal static Vector2<TNumeric> GetBottomLeft<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => (center - (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
-        internal static Vector2<TNumeric> GetBottomRight<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X.Add(dimensions.X.Halved()), center.Y.Subtract(dimensions.Y.Halved())).RotateAround(center, angle);
-        internal static Vector2<TNumeric> GetLeftCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X.Subtract(dimensions.X.Halved()), center.Y).RotateAround(center, angle);
-        internal static Vector2<TNumeric> GetRightCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X.Add(dimensions.X.Halved()), center.Y).RotateAround(center, angle);
-        internal static Vector2<TNumeric> GetTopCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X, center.Y.Add(dimensions.Y.Halved())).RotateAround(center, angle);
-        internal static Vector2<TNumeric> GetTopLeft<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => new Vector2<TNumeric>(center.X.Subtract(dimensions.X.Halved()), center.Y.Add(dimensions.Y.Halved())).RotateAround(center, angle);
-        internal static Vector2<TNumeric> GetTopRight<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle)
-        where TNumeric : struct, INumeric<TNumeric> => (center + (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
+        public static Rectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(GetTopRight(bottomLeft, dimensions, default), dimensions, angle);
+
+        public static Rectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions, default), dimensions, angle);
+
+        public static Rectangle<TNumeric> FromBottomRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions, default), dimensions, angle);
+
+        public static Rectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions, default), dimensions, angle);
+
+        public static Rectangle<TNumeric> FromRightCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions, default), dimensions, angle);
+
+        public static Rectangle<TNumeric> FromTopLeft<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions, default), dimensions, angle);
+
+        public static Rectangle<TNumeric> FromTopCenter<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions, default), dimensions, angle);
+
+        public static Rectangle<TNumeric> FromTopRight<TNumeric>(Vector2<TNumeric> bottomLeft, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Rectangle<TNumeric>(GetBottomLeft(bottomLeft, dimensions, default), dimensions, angle);
+
+        public static Rectangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            string[] parts = StringUtilities.ParseVectorParts(s.Trim());
+            if (parts.Length == 5)
+                return new Rectangle<TNumeric>(
+                    new Vector2<TNumeric>(
+                        Numeric.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                        Numeric.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider)),
+                    new Vector2<TNumeric>(
+                        Numeric.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
+                        Numeric.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider)),
+                    new Angle<TNumeric>(Angle.Parse<TNumeric>(parts[4].Replace("A:", string.Empty).Trim(), style, provider)));
+            else throw new FormatException();
+        }
+
+        internal static Vector2<TNumeric> GetBottomCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(center.X, center.Y.Add(dimensions.Y.Divide(Numeric.Two<TNumeric>()))).RotateAround(center, angle);
+
+        internal static Vector2<TNumeric> GetBottomLeft<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => (center - (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
+
+        internal static Vector2<TNumeric> GetBottomRight<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(center.X.Add(dimensions.X.Halved()), center.Y.Subtract(dimensions.Y.Halved())).RotateAround(center, angle);
+
+        internal static Vector2<TNumeric> GetLeftCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(center.X.Subtract(dimensions.X.Halved()), center.Y).RotateAround(center, angle);
+
+        internal static Vector2<TNumeric> GetRightCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(center.X.Add(dimensions.X.Halved()), center.Y).RotateAround(center, angle);
+
+        internal static Vector2<TNumeric> GetTopCenter<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(center.X, center.Y.Add(dimensions.Y.Halved())).RotateAround(center, angle);
+
+        internal static Vector2<TNumeric> GetTopLeft<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2<TNumeric>(center.X.Subtract(dimensions.X.Halved()), center.Y.Add(dimensions.Y.Halved())).RotateAround(center, angle);
+
+        internal static Vector2<TNumeric> GetTopRight<TNumeric>(Vector2<TNumeric> center, Vector2<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => (center + (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
     }
 
     [Serializable]
@@ -73,15 +103,12 @@ namespace Jodo.Geometry
             IEquatable<Rectangle<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Rectangle<TNumeric>>>,
-            IProvider<IStringConvert<Rectangle<TNumeric>>>,
-            IProvider<IVariantRandom<Rectangle<TNumeric>>>,
+                        IProvider<IVariantRandom<Rectangle<TNumeric>>>,
             ITwoDimensional<Rectangle<TNumeric>, TNumeric>,
             IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2<TNumeric>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
-        private const string Symbol = "□";
-
         public readonly Vector2<TNumeric> Origin;
         public readonly Vector2<TNumeric> Dimensions;
         public readonly Angle<TNumeric> Angle;
@@ -171,8 +198,8 @@ namespace Jodo.Geometry
         }
 
         public override int GetHashCode() => HashCode.Combine(Origin, Dimensions, Angle);
-        public override string ToString() => $"{Symbol}<X:{Origin.X}, Y:{Origin.Y}, W:{Dimensions.X}, H:{Dimensions.Y}, A:{Angle}>";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}<X:{Origin.X.ToString(format, formatProvider)}, Y:{Origin.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}, A:{Angle.ToString(format, formatProvider)}>";
+        public override string ToString() => $"<X:{Origin.X}, Y:{Origin.Y}, W:{Dimensions.X}, H:{Dimensions.Y}, A:{Angle}>";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"<X:{Origin.X.ToString(format, formatProvider)}, Y:{Origin.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}, A:{Angle.ToString(format, formatProvider)}>";
 
         public AARectangle<TNumeric> GetBounds()
         {
@@ -196,12 +223,10 @@ namespace Jodo.Geometry
         Vector2<TNumeric> ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetCenter() => Origin;
 
         IBitConvert<Rectangle<TNumeric>> IProvider<IBitConvert<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringConvert<Rectangle<TNumeric>> IProvider<IStringConvert<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Rectangle<TNumeric>> IProvider<IVariantRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<Rectangle<TNumeric>>,
-           IStringConvert<Rectangle<TNumeric>>,
            IVariantRandom<Rectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -212,21 +237,6 @@ namespace Jodo.Geometry
                     random.NextVariant<Vector2<TNumeric>>(scenarios),
                     random.NextVariant<Vector2<TNumeric>>(scenarios),
                     random.NextVariant<Angle<TNumeric>>(scenarios));
-            }
-
-            Rectangle<TNumeric> IStringConvert<Rectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
-            {
-                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
-                if (parts.Length == 5)
-                    return new Rectangle<TNumeric>(
-                        new Vector2<TNumeric>(
-                            StringConvert.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
-                            StringConvert.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider)),
-                        new Vector2<TNumeric>(
-                            StringConvert.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
-                            StringConvert.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider)),
-                        new Angle<TNumeric>(StringConvert.Parse<Angle<TNumeric>>(parts[4].Replace("A:", string.Empty).Trim(), style, provider)));
-                else throw new FormatException();
             }
 
             Rectangle<TNumeric> IBitConvert<Rectangle<TNumeric>>.Read(IReader<byte> stream)

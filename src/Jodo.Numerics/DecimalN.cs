@@ -152,7 +152,6 @@ namespace Jodo.Numerics
         IMath<DecimalN> IProvider<IMath<DecimalN>>.GetInstance() => Utilities.Instance;
         INumericRandom<DecimalN> IProvider<INumericRandom<DecimalN>>.GetInstance() => Utilities.Instance;
         INumericStatic<DecimalN> IProvider<INumericStatic<DecimalN>>.GetInstance() => Utilities.Instance;
-        IStringConvert<DecimalN> IProvider<IStringConvert<DecimalN>>.GetInstance() => Utilities.Instance;
         IVariantRandom<DecimalN> IProvider<IVariantRandom<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
@@ -162,7 +161,6 @@ namespace Jodo.Numerics
             IMath<DecimalN>,
             INumericRandom<DecimalN>,
             INumericStatic<DecimalN>,
-            IStringConvert<DecimalN>,
             IVariantRandom<DecimalN>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -279,7 +277,7 @@ namespace Jodo.Numerics
             DecimalN IConvertExtended<DecimalN>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToDecimal(value, mode);
             DecimalN IConvertExtended<DecimalN>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToDecimal(value, mode);
 
-            DecimalN IStringConvert<DecimalN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            DecimalN INumericStatic<DecimalN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
 
             DecimalN INumericRandom<DecimalN>.Next(Random random) => random.NextDecimal();

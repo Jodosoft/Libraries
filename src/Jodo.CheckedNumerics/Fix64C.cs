@@ -192,7 +192,6 @@ namespace Jodo.CheckedNumerics
         IMath<Fix64C> IProvider<IMath<Fix64C>>.GetInstance() => Utilities.Instance;
         INumericRandom<Fix64C> IProvider<INumericRandom<Fix64C>>.GetInstance() => Utilities.Instance;
         INumericStatic<Fix64C> IProvider<INumericStatic<Fix64C>>.GetInstance() => Utilities.Instance;
-        IStringConvert<Fix64C> IProvider<IStringConvert<Fix64C>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Fix64C> IProvider<IVariantRandom<Fix64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
@@ -202,7 +201,6 @@ namespace Jodo.CheckedNumerics
             IMath<Fix64C>,
             INumericRandom<Fix64C>,
             INumericStatic<Fix64C>,
-            IStringConvert<Fix64C>,
             IVariantRandom<Fix64C>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -300,7 +298,7 @@ namespace Jodo.CheckedNumerics
             Fix64C IConvertExtended<Fix64C>.ToNumeric(ulong value, Conversion mode) => (Fix64C)ConvertN.ToInt64(value, mode.Clamped());
             Fix64C IConvertExtended<Fix64C>.ToNumeric(ushort value, Conversion mode) => (Fix64C)ConvertN.ToInt64(value, mode.Clamped());
 
-            Fix64C IStringConvert<Fix64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            Fix64C INumericStatic<Fix64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
 
             Fix64C INumericRandom<Fix64C>.Next(Random random) => new Fix64C(random.NextInt64());

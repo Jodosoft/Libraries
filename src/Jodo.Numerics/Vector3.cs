@@ -27,14 +27,165 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Numerics
 {
+    public static class Vector3
+    {
+        public static Vector3<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            string[] parts = StringUtilities.ParseVectorParts(s.Trim());
+            if (parts.Length != 3) throw new FormatException();
+            return new Vector3<TNumeric>(
+                Numeric.Parse<TNumeric>(parts[0], style, provider),
+                Numeric.Parse<TNumeric>(parts[1], style, provider),
+                Numeric.Parse<TNumeric>(parts[2], style, provider));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Abs<TNumeric>(Vector3<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector3<TNumeric>(
+                MathN.Abs(value.X),
+                MathN.Abs(value.Y),
+                MathN.Abs(value.Z)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Add<TNumeric>(Vector3<TNumeric> left, Vector3<TNumeric> right) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return left + right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Clamp<TNumeric>(Vector3<TNumeric> value1, Vector3<TNumeric> min, Vector3<TNumeric> max) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return Min(Max(value1, min), max);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Cross<TNumeric>(Vector3<TNumeric> vector1, Vector3<TNumeric> vector2) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector3<TNumeric>(
+                vector1.Y.Multiply(vector2.Z).Subtract(vector1.Z.Multiply(vector2.Y)),
+                vector1.Z.Multiply(vector2.X).Subtract(vector1.X.Multiply(vector2.Z)),
+                vector1.X.Multiply(vector2.Y).Subtract(vector1.Y.Multiply(vector2.X))
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric Distance<TNumeric>(Vector3<TNumeric> value1, Vector3<TNumeric> value2) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return MathN.Sqrt(DistanceSquared(value1, value2));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric DistanceSquared<TNumeric>(Vector3<TNumeric> value1, Vector3<TNumeric> value2) where TNumeric : struct, INumeric<TNumeric>
+        {
+            Vector3<TNumeric> difference = value1 - value2;
+            return Dot(difference, difference);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Divide<TNumeric>(Vector3<TNumeric> left, Vector3<TNumeric> right) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return left / right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Divide<TNumeric>(Vector3<TNumeric> left, TNumeric divisor) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return left / divisor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric Dot<TNumeric>(Vector3<TNumeric> vector1, Vector3<TNumeric> vector2) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return vector1.X.Multiply(vector2.X)
+                 .Add(vector1.Y.Multiply(vector2.Y))
+                 .Add(vector1.Z.Multiply(vector2.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Lerp<TNumeric>(Vector3<TNumeric> value1, Vector3<TNumeric> value2, TNumeric amount) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return (value1 * Numeric.One<TNumeric>().Subtract(amount)) + (value2 * amount);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Max<TNumeric>(Vector3<TNumeric> value1, Vector3<TNumeric> value2) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector3<TNumeric>(
+                MathN.Max(value1.X, value2.X),
+                MathN.Max(value1.Y, value2.Y),
+                MathN.Max(value1.Z, value2.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Min<TNumeric>(Vector3<TNumeric> value1, Vector3<TNumeric> value2) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector3<TNumeric>(
+                MathN.Min(value1.X, value2.X),
+                MathN.Min(value1.Y, value2.Y),
+                MathN.Min(value1.Z, value2.Z));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Multiply<TNumeric>(Vector3<TNumeric> left, Vector3<TNumeric> right) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Multiply<TNumeric>(Vector3<TNumeric> left, TNumeric right) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Multiply<TNumeric>(TNumeric left, Vector3<TNumeric> right) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return left * right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Negate<TNumeric>(Vector3<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return -value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Normalize<TNumeric>(Vector3<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return value / value.Length();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Reflect<TNumeric>(Vector3<TNumeric> vector, Vector3<TNumeric> normal) where TNumeric : struct, INumeric<TNumeric>
+        {
+            TNumeric dot = Dot(vector, normal);
+            return vector - (dot.Doubled() * normal);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> SquareRoot<TNumeric>(Vector3<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector3<TNumeric>(
+                MathN.Sqrt(value.X),
+                MathN.Sqrt(value.Y),
+                MathN.Sqrt(value.Z)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3<TNumeric> Subtract<TNumeric>(Vector3<TNumeric> left, Vector3<TNumeric> right) where TNumeric : struct, INumeric<TNumeric> => left - right;
+    }
+
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Vector3<TNumeric> :
             IEquatable<Vector3<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Vector3<TNumeric>>>,
-            IProvider<IStringConvert<Vector3<TNumeric>>>,
-            IProvider<IVariantRandom<Vector3<TNumeric>>>,
+                        IProvider<IVariantRandom<Vector3<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -71,7 +222,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly TNumeric LengthSquared()
         {
-            return VectorN.Dot(this, this);
+            return Vector3.Dot(this, this);
         }
 
         public bool Equals(Vector3<TNumeric> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
@@ -106,12 +257,10 @@ namespace Jodo.Numerics
 #endif
 
         IBitConvert<Vector3<TNumeric>> IProvider<IBitConvert<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringConvert<Vector3<TNumeric>> IProvider<IStringConvert<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector3<TNumeric>> IProvider<IVariantRandom<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<Vector3<TNumeric>>,
-           IStringConvert<Vector3<TNumeric>>,
            IVariantRandom<Vector3<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -122,16 +271,6 @@ namespace Jodo.Numerics
                     random.NextVariant<TNumeric>(scenarios),
                     random.NextVariant<TNumeric>(scenarios),
                     random.NextVariant<TNumeric>(scenarios));
-            }
-
-            Vector3<TNumeric> IStringConvert<Vector3<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
-            {
-                string[] parts = StringUtilities.ParseVectorParts(s);
-                if (parts.Length != 3) throw new FormatException();
-                return new Vector3<TNumeric>(
-                    StringConvert.Parse<TNumeric>(parts[0], style, provider),
-                    StringConvert.Parse<TNumeric>(parts[1], style, provider),
-                    StringConvert.Parse<TNumeric>(parts[2], style, provider));
             }
 
             Vector3<TNumeric> IBitConvert<Vector3<TNumeric>>.Read(IReader<byte> stream)

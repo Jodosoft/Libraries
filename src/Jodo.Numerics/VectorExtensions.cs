@@ -38,7 +38,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric LengthSquared<TNumeric>(this Vector2<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return VectorN.Dot(value, value);
+            return Vector2.Dot(value, value);
         }
     }
 }

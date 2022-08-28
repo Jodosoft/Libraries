@@ -20,7 +20,6 @@
 using System;
 using System.Globalization;
 using FluentAssertions;
-using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -35,7 +34,7 @@ namespace Jodo.Numerics.Tests
             TNumeric input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
 
             //act
-            TNumeric result = StringConvert.Parse<TNumeric>(input.ToString());
+            TNumeric result = Numeric.Parse<TNumeric>(input.ToString());
 
             //assert
             result.Should().Be(input);
@@ -49,7 +48,7 @@ namespace Jodo.Numerics.Tests
             string format = "G17";
 
             //act
-            TNumeric result = StringConvert.Parse<TNumeric>(input.ToString(format));
+            TNumeric result = Numeric.Parse<TNumeric>(input.ToString(format));
 
             //assert
             result.Should().Be(input);
@@ -63,7 +62,7 @@ namespace Jodo.Numerics.Tests
             string format = "G17";
 
             //act
-            TNumeric result = StringConvert.Parse<TNumeric>(input.ToString(format, NumberFormatInfo.InvariantInfo));
+            TNumeric result = Numeric.Parse<TNumeric>(input.ToString(format, NumberFormatInfo.InvariantInfo));
 
             //assert
             result.Should().Be(input);
@@ -79,7 +78,7 @@ namespace Jodo.Numerics.Tests
             NumberStyles numberStyles = NumberStyles.Any;
 
             //act
-            TNumeric result = StringConvert.Parse<TNumeric>(input.ToString(format, provider), numberStyles, provider);
+            TNumeric result = Numeric.Parse<TNumeric>(input.ToString(format, provider), numberStyles, provider);
 
             //assert
             result.Should().Be(input);

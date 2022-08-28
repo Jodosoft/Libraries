@@ -152,7 +152,6 @@ namespace Jodo.Numerics
         IMath<SByteN> IProvider<IMath<SByteN>>.GetInstance() => Utilities.Instance;
         INumericRandom<SByteN> IProvider<INumericRandom<SByteN>>.GetInstance() => Utilities.Instance;
         INumericStatic<SByteN> IProvider<INumericStatic<SByteN>>.GetInstance() => Utilities.Instance;
-        IStringConvert<SByteN> IProvider<IStringConvert<SByteN>>.GetInstance() => Utilities.Instance;
         IVariantRandom<SByteN> IProvider<IVariantRandom<SByteN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
@@ -162,7 +161,6 @@ namespace Jodo.Numerics
             IMath<SByteN>,
             INumericRandom<SByteN>,
             INumericStatic<SByteN>,
-            IStringConvert<SByteN>,
             IVariantRandom<SByteN>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -260,7 +258,7 @@ namespace Jodo.Numerics
             SByteN IConvertExtended<SByteN>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToSByte(value, mode);
             SByteN IConvertExtended<SByteN>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToSByte(value, mode);
 
-            SByteN IStringConvert<SByteN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            SByteN INumericStatic<SByteN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
             SByteN INumericRandom<SByteN>.Next(Random random) => random.NextSByte();

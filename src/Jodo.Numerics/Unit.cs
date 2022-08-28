@@ -36,6 +36,9 @@ namespace Jodo.Numerics
 
         public static Unit<TNumeric> MinValue<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
             => new Unit<TNumeric>(Numeric.MinUnit<TNumeric>());
+
+        public static Unit<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+            => new Unit<TNumeric>(Numeric.Parse<TNumeric>(s, style, provider));
     }
 
     [Serializable]
@@ -46,8 +49,7 @@ namespace Jodo.Numerics
             IEquatable<Unit<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Unit<TNumeric>>>,
-            IProvider<IStringConvert<Unit<TNumeric>>>,
-            IProvider<IVariantRandom<Unit<TNumeric>>>,
+                        IProvider<IVariantRandom<Unit<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -117,21 +119,16 @@ namespace Jodo.Numerics
         public static TNumeric operator +(TNumeric left, Unit<TNumeric> right) => left.Add(right.Value);
 
         IBitConvert<Unit<TNumeric>> IProvider<IBitConvert<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringConvert<Unit<TNumeric>> IProvider<IStringConvert<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Unit<TNumeric>> IProvider<IVariantRandom<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<Unit<TNumeric>>,
-            IStringConvert<Unit<TNumeric>>,
             IVariantRandom<Unit<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
             Unit<TNumeric> IVariantRandom<Unit<TNumeric>>.Next(Random random, Scenarios scenarios)
                 => new Unit<TNumeric>(random.NextVariant<TNumeric>(scenarios));
-
-            Unit<TNumeric> IStringConvert<Unit<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
-                => new Unit<TNumeric>(StringConvert.Parse<TNumeric>(s, style, provider));
 
             Unit<TNumeric> IBitConvert<Unit<TNumeric>>.Read(IReader<byte> stream) => new Unit<TNumeric>(BitConvert.Read<TNumeric>(stream));
             void IBitConvert<Unit<TNumeric>>.Write(Unit<TNumeric> value, IWriter<byte> stream) => BitConvert.Write(stream, value.Value);

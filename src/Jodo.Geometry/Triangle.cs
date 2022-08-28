@@ -27,14 +27,21 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Geometry
 {
+    public static class Triangle
+    {
+        public static Triangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Triangle<TNumeric> :
             IEquatable<Triangle<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Triangle<TNumeric>>>,
-            IProvider<IStringConvert<Triangle<TNumeric>>>,
-            IProvider<IVariantRandom<Triangle<TNumeric>>>,
+                        IProvider<IVariantRandom<Triangle<TNumeric>>>,
             ITwoDimensional<Triangle<TNumeric>, TNumeric>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -115,12 +122,10 @@ namespace Jodo.Geometry
 
         Vector2<TNumeric>[] ITwoDimensional<Triangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
         IBitConvert<Triangle<TNumeric>> IProvider<IBitConvert<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringConvert<Triangle<TNumeric>> IProvider<IStringConvert<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<Triangle<TNumeric>>,
-           IStringConvert<Triangle<TNumeric>>,
            IVariantRandom<Triangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -131,11 +136,6 @@ namespace Jodo.Geometry
                    random.NextVariant<Vector2<TNumeric>>(scenarios),
                    random.NextVariant<Vector2<TNumeric>>(scenarios),
                    random.NextVariant<Vector2<TNumeric>>(scenarios));
-            }
-
-            Triangle<TNumeric> IStringConvert<Triangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
-            {
-                throw new NotImplementedException();
             }
 
             Triangle<TNumeric> IBitConvert<Triangle<TNumeric>>.Read(IReader<byte> stream)

@@ -23,7 +23,7 @@ using Jodo.Primitives;
 
 namespace Jodo.Numerics
 {
-    public class NumericVariant
+    public static class NumericVariant
     {
         public static TNumeric Generate<TNumeric>(Random random, Scenarios scenarios) where TNumeric : struct, INumeric<TNumeric>
         {

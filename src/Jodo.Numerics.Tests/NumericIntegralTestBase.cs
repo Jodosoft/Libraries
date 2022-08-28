@@ -182,10 +182,23 @@ namespace Jodo.Numerics.Tests
             string hexString = input.ToString("X");
 
             //act
-            TNumeric result = StringConvert.Parse<TNumeric>(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
+            TNumeric result = Numeric.Parse<TNumeric>(hexString, NumberStyles.HexNumber, NumberFormatInfo.InvariantInfo);
 
             //assert
             result.Should().Be(ConvertN.ToNumeric<TNumeric>(input));
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Parse_RandomValue_RoundTrip()
+        {
+            //arrange
+            TNumeric input = Random.NextVariant<TNumeric>(Scenarios.All);
+
+            //act
+            TNumeric result = Numeric.Parse<TNumeric>(input.ToString());
+
+            //assert
+            result.Should().Be(input);
         }
     }
 }

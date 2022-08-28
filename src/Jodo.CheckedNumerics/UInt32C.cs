@@ -153,7 +153,6 @@ namespace Jodo.CheckedNumerics
         IMath<UInt32C> IProvider<IMath<UInt32C>>.GetInstance() => Utilities.Instance;
         INumericRandom<UInt32C> IProvider<INumericRandom<UInt32C>>.GetInstance() => Utilities.Instance;
         INumericStatic<UInt32C> IProvider<INumericStatic<UInt32C>>.GetInstance() => Utilities.Instance;
-        IStringConvert<UInt32C> IProvider<IStringConvert<UInt32C>>.GetInstance() => Utilities.Instance;
         IVariantRandom<UInt32C> IProvider<IVariantRandom<UInt32C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
@@ -163,7 +162,6 @@ namespace Jodo.CheckedNumerics
             IMath<UInt32C>,
             INumericRandom<UInt32C>,
             INumericStatic<UInt32C>,
-            IStringConvert<UInt32C>,
             IVariantRandom<UInt32C>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -261,7 +259,7 @@ namespace Jodo.CheckedNumerics
             UInt32C IConvertExtended<UInt32C>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToUInt32(value, mode.Clamped());
             UInt32C IConvertExtended<UInt32C>.ToNumeric(ushort value, Conversion mode) => ConvertN.ToUInt32(value, mode.Clamped());
 
-            UInt32C IStringConvert<UInt32C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            UInt32C INumericStatic<UInt32C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
             UInt32C INumericRandom<UInt32C>.Next(Random random) => random.NextUInt32();

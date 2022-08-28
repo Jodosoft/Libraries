@@ -64,6 +64,18 @@ namespace Jodo.Geometry
 
         internal static Vector2<TNumeric> GetTopRight<TNumeric>(Vector2<TNumeric> origin, Vector2<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
              => origin + dimensions;
+
+        public static AARectangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            string[] parts = StringUtilities.ParseVectorParts(s.Trim());
+            if (parts.Length == 4)
+                return new AARectangle<TNumeric>(
+                    Numeric.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider));
+            else throw new FormatException();
+        }
     }
 
     [Serializable]
@@ -72,15 +84,12 @@ namespace Jodo.Geometry
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<AARectangle<TNumeric>>>,
-            IProvider<IStringConvert<AARectangle<TNumeric>>>,
-            IProvider<IVariantRandom<AARectangle<TNumeric>>>,
+                        IProvider<IVariantRandom<AARectangle<TNumeric>>>,
             ITwoDimensional<AARectangle<TNumeric>, TNumeric>,
             IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2<TNumeric>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
-        private const string Symbol = "□";
-
         public readonly Vector2<TNumeric> Origin;
         public readonly Vector2<TNumeric> Dimensions;
         public TNumeric Height => Dimensions.Y;
@@ -160,8 +169,8 @@ namespace Jodo.Geometry
         public bool Equals(AARectangle<TNumeric> other) => Origin.Equals(other.Origin) && Dimensions.Equals(other.Dimensions);
         public override bool Equals(object? obj) => obj is AARectangle<TNumeric> fix && Equals(fix);
         public override int GetHashCode() => HashCode.Combine(Origin, Dimensions);
-        public override string ToString() => $"{Symbol}<X:{Origin.X}, Y:{Origin.Y}, W:{Dimensions.X}, H:{Dimensions.Y}>";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}<X:{Origin.X.ToString(format, formatProvider)}, Y:{Origin.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}>";
+        public override string ToString() => $"<X:{Origin.X}, Y:{Origin.Y}, W:{Dimensions.X}, H:{Dimensions.Y}>";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"<X:{Origin.X.ToString(format, formatProvider)}, Y:{Origin.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}>";
 
         public static bool operator ==(AARectangle<TNumeric> left, AARectangle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(AARectangle<TNumeric> left, AARectangle<TNumeric> right) => !(left == right);
@@ -178,12 +187,10 @@ namespace Jodo.Geometry
         Vector2<TNumeric>[] ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
 
         IBitConvert<AARectangle<TNumeric>> IProvider<IBitConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IStringConvert<AARectangle<TNumeric>> IProvider<IStringConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<AARectangle<TNumeric>> IProvider<IVariantRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<AARectangle<TNumeric>>,
-           IStringConvert<AARectangle<TNumeric>>,
            IVariantRandom<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -193,18 +200,6 @@ namespace Jodo.Geometry
                 return new AARectangle<TNumeric>(
                     random.NextVariant<Vector2<TNumeric>>(scenarios),
                     random.NextVariant<Vector2<TNumeric>>(scenarios));
-            }
-
-            AARectangle<TNumeric> IStringConvert<AARectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
-            {
-                string[] parts = StringUtilities.ParseVectorParts(s.Replace(Symbol, string.Empty).Trim());
-                if (parts.Length == 4)
-                    return new AARectangle<TNumeric>(
-                        StringConvert.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
-                        StringConvert.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
-                        StringConvert.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
-                        StringConvert.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider));
-                else throw new FormatException();
             }
 
             AARectangle<TNumeric> IBitConvert<AARectangle<TNumeric>>.Read(IReader<byte> stream)

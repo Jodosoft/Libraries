@@ -19,6 +19,7 @@
 
 using System;
 using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -58,7 +59,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             int seed = Random.Next();
-            TNumeric maxValue = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric maxValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
             Random random1 = new Random(seed);
             Random random2 = new Random(seed);
             Random random3 = new Random(seed);
@@ -80,8 +81,8 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             int seed = Random.Next();
-            TNumeric minValue = Random.NextNumeric<TNumeric>(Generation.Extended);
-            TNumeric maxValue = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric minValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
+            TNumeric maxValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
             Random random1 = new Random(seed);
             Random random2 = new Random(seed);
 
@@ -104,8 +105,8 @@ namespace Jodo.Numerics.Tests
             TNumeric maxValue;
             do
             {
-                minValue = Random.NextNumeric<TNumeric>(Generation.Extended);
-                maxValue = Random.NextNumeric<TNumeric>(Generation.Extended);
+                minValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
+                maxValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
             } while (minValue.IsLessThanOrEqualTo(maxValue));
 
             //act
@@ -141,8 +142,8 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             int seed = Random.Next();
-            TNumeric minValue = Random.NextNumeric<TNumeric>(Generation.Extended);
-            TNumeric maxValue = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric minValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
+            TNumeric maxValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
             Random random1 = new Random(seed);
             Random random2 = new Random(seed);
 
@@ -155,6 +156,42 @@ namespace Jodo.Numerics.Tests
                    () => random2.NextNumeric(maxValue, minValue, Generation.Extended));
             }
             AssertSame.Result(random1.Next, random2.Next); // same sample count
+        }
+
+        [Test]
+        public void NextNumeric_InvalidMode1_Throws()
+        {
+            //arrange
+            Generation mode;
+            do
+            {
+                mode = (Generation)Random.NextByte();
+            } while (Enum.IsDefined(typeof(Generation), mode));
+
+            //act
+            Action action = new Action(() => Random.NextNumeric<TNumeric>(mode));
+
+            //assert
+            action.Should().Throw<ArgumentException>();
+        }
+
+        [Test]
+        public void NextNumeric_InvalidMode2_Throws()
+        {
+            //arrange
+            TNumeric minValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
+            TNumeric maxValue = Random.NextVariant<TNumeric>(Scenarios.NonError);
+            Generation mode;
+            do
+            {
+                mode = (Generation)Random.NextByte();
+            } while (Enum.IsDefined(typeof(Generation), mode));
+
+            //act
+            Action action = new Action(() => Random.NextNumeric(minValue, maxValue, mode));
+
+            //assert
+            action.Should().Throw<ArgumentException>();
         }
     }
 }

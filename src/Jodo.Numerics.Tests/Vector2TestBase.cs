@@ -52,7 +52,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => input1.X.Multiply(input2.X).Add(input1.Y.Multiply(input2.Y)),
-                () => VectorN.Dot(input1, input2));
+                () => Vector2.Dot(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -66,7 +66,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Multiply(input2.X), input1.Y.Multiply(input2.Y)),
-                () => VectorN.Multiply(input1, input2));
+                () => Vector2.Multiply(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -80,7 +80,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Multiply(input2), input1.Y.Multiply(input2)),
-                () => VectorN.Multiply(input1, input2));
+                () => Vector2.Multiply(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -94,7 +94,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.Multiply(input2.X), input1.Multiply(input2.Y)),
-                () => VectorN.Multiply(input1, input2));
+                () => Vector2.Multiply(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -108,7 +108,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Add(input2.X), input1.Y.Add(input2.Y)),
-                () => VectorN.Add(input1, input2));
+                () => Vector2.Add(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -122,7 +122,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Subtract(input2.X), input1.Y.Subtract(input2.Y)),
-                () => VectorN.Subtract(input1, input2));
+                () => Vector2.Subtract(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -136,7 +136,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Divide(input2.X), input1.Y.Divide(input2.Y)),
-                () => VectorN.Divide(input1, input2));
+                () => Vector2.Divide(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -150,7 +150,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Divide(input2), input1.Y.Divide(input2)),
-                () => VectorN.Divide(input1, input2));
+                () => Vector2.Divide(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -163,7 +163,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(MathN.Sqrt(input.X), MathN.Sqrt(input.Y)),
-                () => VectorN.SquareRoot(input));
+                () => Vector2.SquareRoot(input));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -176,7 +176,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input.X.Negative(), input.Y.Negative()),
-                () => VectorN.Negate(input));
+                () => Vector2.Negate(input));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -190,7 +190,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(MathN.Max(input1.X, input2.X), MathN.Max(input1.Y, input2.Y)),
-                () => VectorN.Max(input1, input2));
+                () => Vector2.Max(input1, input2));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -204,7 +204,7 @@ namespace Jodo.Numerics.Tests
             //assert
             AssertSame.Outcome(
                 () => new Vector2<TNumeric>(MathN.Min(input1.X, input2.X), MathN.Min(input1.Y, input2.Y)),
-                () => VectorN.Min(input1, input2));
+                () => Vector2.Min(input1, input2));
         }
     }
 }

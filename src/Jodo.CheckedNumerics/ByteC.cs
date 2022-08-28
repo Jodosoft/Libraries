@@ -153,7 +153,6 @@ namespace Jodo.CheckedNumerics
         IMath<ByteC> IProvider<IMath<ByteC>>.GetInstance() => Utilities.Instance;
         INumericRandom<ByteC> IProvider<INumericRandom<ByteC>>.GetInstance() => Utilities.Instance;
         INumericStatic<ByteC> IProvider<INumericStatic<ByteC>>.GetInstance() => Utilities.Instance;
-        IStringConvert<ByteC> IProvider<IStringConvert<ByteC>>.GetInstance() => Utilities.Instance;
         IVariantRandom<ByteC> IProvider<IVariantRandom<ByteC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
@@ -163,7 +162,6 @@ namespace Jodo.CheckedNumerics
             IMath<ByteC>,
             INumericRandom<ByteC>,
             INumericStatic<ByteC>,
-            IStringConvert<ByteC>,
             IVariantRandom<ByteC>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -261,7 +259,7 @@ namespace Jodo.CheckedNumerics
             ByteC IConvertExtended<ByteC>.ToNumeric(ulong value, Conversion mode) => ConvertN.ToByte(value, mode.Clamped());
             ByteC IConvertExtended<ByteC>.ToNumeric(ushort value, Conversion mode) => value;
 
-            ByteC IStringConvert<ByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
+            ByteC INumericStatic<ByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
             ByteC INumericRandom<ByteC>.Next(Random random) => random.NextByte();

@@ -44,7 +44,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             //act
-            SingleN result = VectorN.Dot(
+            SingleN result = Vector2.Dot(
                 new Vector2<SingleN>(2, -4), new Vector2<SingleN>(-8, 104));
 
             //assert
