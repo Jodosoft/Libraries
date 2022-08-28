@@ -46,8 +46,8 @@ namespace Jodo.Numerics.Tests
         public void LogicalAnd_RandomValues_DoesntThrow()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             Func<TNumeric> action = new Func<TNumeric>(() => left.LogicalAnd(right));
@@ -60,8 +60,8 @@ namespace Jodo.Numerics.Tests
         public void LogicalOr_RandomValues_DoesntThrow()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             Func<TNumeric> action = new Func<TNumeric>(() => left.LogicalOr(right));
@@ -74,8 +74,8 @@ namespace Jodo.Numerics.Tests
         public void LogicalExclusiveOr_RandomValues_DoesntThrow()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             Func<TNumeric> action = new Func<TNumeric>(() => left.LogicalExclusiveOr(right));
@@ -88,7 +88,7 @@ namespace Jodo.Numerics.Tests
         public void BitwiseComplement_RandomValue_DoesntThrow()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             Func<TNumeric> action = new Func<TNumeric>(() => left.BitwiseComplement());
@@ -101,7 +101,7 @@ namespace Jodo.Numerics.Tests
         public void LeftShift_RandomValues_DoesntThrow()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             int right = Random.NextInt32(0, 2);
 
             //act
@@ -115,7 +115,7 @@ namespace Jodo.Numerics.Tests
         public void RightShift_RandomValue_DoesntThrow()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             int right = Random.NextInt32(0, 2);
 
             //act

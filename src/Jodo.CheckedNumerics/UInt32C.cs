@@ -151,18 +151,20 @@ namespace Jodo.CheckedNumerics
         IConvert<UInt32C> IProvider<IConvert<UInt32C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt32C> IProvider<IConvertExtended<UInt32C>>.GetInstance() => Utilities.Instance;
         IMath<UInt32C> IProvider<IMath<UInt32C>>.GetInstance() => Utilities.Instance;
+        INumericRandom<UInt32C> IProvider<INumericRandom<UInt32C>>.GetInstance() => Utilities.Instance;
         INumericStatic<UInt32C> IProvider<INumericStatic<UInt32C>>.GetInstance() => Utilities.Instance;
-        IRandom<UInt32C> IProvider<IRandom<UInt32C>>.GetInstance() => Utilities.Instance;
         IStringConvert<UInt32C> IProvider<IStringConvert<UInt32C>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<UInt32C> IProvider<IVariantRandom<UInt32C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<UInt32C>,
             IConvert<UInt32C>,
             IConvertExtended<UInt32C>,
             IMath<UInt32C>,
+            INumericRandom<UInt32C>,
             INumericStatic<UInt32C>,
-            IRandom<UInt32C>,
-            IStringConvert<UInt32C>
+            IStringConvert<UInt32C>,
+            IVariantRandom<UInt32C>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -203,7 +205,7 @@ namespace Jodo.CheckedNumerics
             UInt32C IMath<UInt32C>.Clamp(UInt32C x, UInt32C bound1, UInt32C bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             UInt32C IMath<UInt32C>.Cos(UInt32C x) => (UInt32C)Math.Cos(x._value);
             UInt32C IMath<UInt32C>.Cosh(UInt32C x) => (UInt32C)Math.Cosh(x._value);
-            UInt32C IMath<UInt32C>.DegreesToRadians(UInt32C x) => (UInt32C)CheckedMath.Multiply(x, NumericUtilities.RadiansPerDegree);
+            UInt32C IMath<UInt32C>.DegreesToRadians(UInt32C x) => (UInt32C)CheckedMath.Multiply(x, BitOperations.RadiansPerDegree);
             UInt32C IMath<UInt32C>.E { get; } = 2;
             UInt32C IMath<UInt32C>.Exp(UInt32C x) => (UInt32C)Math.Exp(x._value);
             UInt32C IMath<UInt32C>.Floor(UInt32C x) => x;
@@ -215,7 +217,7 @@ namespace Jodo.CheckedNumerics
             UInt32C IMath<UInt32C>.Min(UInt32C x, UInt32C y) => Math.Min(x._value, y._value);
             UInt32C IMath<UInt32C>.PI { get; } = 3;
             UInt32C IMath<UInt32C>.Pow(UInt32C x, UInt32C y) => CheckedMath.Pow(x._value, y._value);
-            UInt32C IMath<UInt32C>.RadiansToDegrees(UInt32C x) => (UInt32C)CheckedMath.Multiply(x, NumericUtilities.DegreesPerRadian);
+            UInt32C IMath<UInt32C>.RadiansToDegrees(UInt32C x) => (UInt32C)CheckedMath.Multiply(x, BitOperations.DegreesPerRadian);
             UInt32C IMath<UInt32C>.Round(UInt32C x) => x;
             UInt32C IMath<UInt32C>.Round(UInt32C x, int digits) => x;
             UInt32C IMath<UInt32C>.Round(UInt32C x, int digits, MidpointRounding mode) => x;
@@ -230,9 +232,6 @@ namespace Jodo.CheckedNumerics
 
             UInt32C IBitConvert<UInt32C>.Read(IReader<byte> stream) => BitConverter.ToUInt32(stream.Read(sizeof(uint)), 0);
             void IBitConvert<UInt32C>.Write(UInt32C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
-
-            UInt32C IRandom<UInt32C>.Next(Random random) => random.NextUInt32();
-            UInt32C IRandom<UInt32C>.Next(Random random, UInt32C bound1, UInt32C bound2) => random.NextUInt32(bound1._value, bound2._value);
 
             bool IConvert<UInt32C>.ToBoolean(UInt32C value) => value._value != 0;
             byte IConvert<UInt32C>.ToByte(UInt32C value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
@@ -264,6 +263,14 @@ namespace Jodo.CheckedNumerics
 
             UInt32C IStringConvert<UInt32C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
+
+            UInt32C INumericRandom<UInt32C>.Next(Random random) => random.NextUInt32();
+            UInt32C INumericRandom<UInt32C>.Next(Random random, UInt32C maxValue) => random.NextUInt32(maxValue);
+            UInt32C INumericRandom<UInt32C>.Next(Random random, UInt32C minValue, UInt32C maxValue) => random.NextUInt32(minValue, maxValue);
+            UInt32C INumericRandom<UInt32C>.Next(Random random, Generation mode) => random.NextUInt32(mode);
+            UInt32C INumericRandom<UInt32C>.Next(Random random, UInt32C minValue, UInt32C maxValue, Generation mode) => random.NextUInt32(minValue, maxValue, mode);
+
+            UInt32C IVariantRandom<UInt32C>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<UInt32C>(random, scenarios);
         }
     }
 }

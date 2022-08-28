@@ -149,18 +149,20 @@ namespace Jodo.Numerics
         IConvert<UInt64N> IProvider<IConvert<UInt64N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt64N> IProvider<IConvertExtended<UInt64N>>.GetInstance() => Utilities.Instance;
         IMath<UInt64N> IProvider<IMath<UInt64N>>.GetInstance() => Utilities.Instance;
+        INumericRandom<UInt64N> IProvider<INumericRandom<UInt64N>>.GetInstance() => Utilities.Instance;
         INumericStatic<UInt64N> IProvider<INumericStatic<UInt64N>>.GetInstance() => Utilities.Instance;
-        IRandom<UInt64N> IProvider<IRandom<UInt64N>>.GetInstance() => Utilities.Instance;
         IStringConvert<UInt64N> IProvider<IStringConvert<UInt64N>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<UInt64N> IProvider<IVariantRandom<UInt64N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<UInt64N>,
             IConvert<UInt64N>,
             IConvertExtended<UInt64N>,
             IMath<UInt64N>,
+            INumericRandom<UInt64N>,
             INumericStatic<UInt64N>,
-            IRandom<UInt64N>,
-            IStringConvert<UInt64N>
+            IStringConvert<UInt64N>,
+            IVariantRandom<UInt64N>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -201,7 +203,7 @@ namespace Jodo.Numerics
             UInt64N IMath<UInt64N>.Clamp(UInt64N x, UInt64N bound1, UInt64N bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             UInt64N IMath<UInt64N>.Cos(UInt64N x) => (UInt64N)Math.Cos(x);
             UInt64N IMath<UInt64N>.Cosh(UInt64N x) => (UInt64N)Math.Cosh(x);
-            UInt64N IMath<UInt64N>.DegreesToRadians(UInt64N x) => (UInt64N)(x * NumericUtilities.RadiansPerDegree);
+            UInt64N IMath<UInt64N>.DegreesToRadians(UInt64N x) => (UInt64N)(x * BitOperations.RadiansPerDegree);
             UInt64N IMath<UInt64N>.E { get; } = (UInt64N)2;
             UInt64N IMath<UInt64N>.Exp(UInt64N x) => (UInt64N)Math.Exp(x);
             UInt64N IMath<UInt64N>.Floor(UInt64N x) => x;
@@ -213,7 +215,7 @@ namespace Jodo.Numerics
             UInt64N IMath<UInt64N>.Min(UInt64N x, UInt64N y) => Math.Min(x, y);
             UInt64N IMath<UInt64N>.PI { get; } = (UInt64N)3;
             UInt64N IMath<UInt64N>.Pow(UInt64N x, UInt64N y) => y == 1 ? x : (UInt64N)Math.Pow(x, y);
-            UInt64N IMath<UInt64N>.RadiansToDegrees(UInt64N x) => (UInt64N)(x * NumericUtilities.DegreesPerRadian);
+            UInt64N IMath<UInt64N>.RadiansToDegrees(UInt64N x) => (UInt64N)(x * BitOperations.DegreesPerRadian);
             UInt64N IMath<UInt64N>.Round(UInt64N x) => x;
             UInt64N IMath<UInt64N>.Round(UInt64N x, int digits) => x;
             UInt64N IMath<UInt64N>.Round(UInt64N x, int digits, MidpointRounding mode) => x;
@@ -228,9 +230,6 @@ namespace Jodo.Numerics
 
             UInt64N IBitConvert<UInt64N>.Read(IReader<byte> stream) => BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0);
             void IBitConvert<UInt64N>.Write(UInt64N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
-
-            UInt64N IRandom<UInt64N>.Next(Random random) => random.NextUInt64();
-            UInt64N IRandom<UInt64N>.Next(Random random, UInt64N bound1, UInt64N bound2) => random.NextUInt64(bound1._value, bound2._value);
 
             bool IConvert<UInt64N>.ToBoolean(UInt64N value) => Convert.ToBoolean(value._value);
             byte IConvert<UInt64N>.ToByte(UInt64N value, Conversion mode) => ConvertN.ToByte(value._value, mode);
@@ -262,6 +261,14 @@ namespace Jodo.Numerics
 
             UInt64N IStringConvert<UInt64N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
+
+            UInt64N INumericRandom<UInt64N>.Next(Random random) => random.NextUInt64();
+            UInt64N INumericRandom<UInt64N>.Next(Random random, UInt64N maxValue) => random.NextUInt64(maxValue);
+            UInt64N INumericRandom<UInt64N>.Next(Random random, UInt64N minValue, UInt64N maxValue) => random.NextUInt64(minValue, maxValue);
+            UInt64N INumericRandom<UInt64N>.Next(Random random, Generation mode) => random.NextUInt64(mode);
+            UInt64N INumericRandom<UInt64N>.Next(Random random, UInt64N minValue, UInt64N maxValue, Generation mode) => random.NextUInt64(minValue, maxValue, mode);
+
+            UInt64N IVariantRandom<UInt64N>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<UInt64N>(random, scenarios);
         }
     }
 }

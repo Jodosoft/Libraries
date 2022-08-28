@@ -72,8 +72,8 @@ namespace Jodo.Geometry
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<AARectangle<TNumeric>>>,
-            IProvider<IRandom<AARectangle<TNumeric>>>,
             IProvider<IStringConvert<AARectangle<TNumeric>>>,
+            IProvider<IVariantRandom<AARectangle<TNumeric>>>,
             ITwoDimensional<AARectangle<TNumeric>, TNumeric>,
             IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2<TNumeric>>,
             ISerializable
@@ -178,42 +178,21 @@ namespace Jodo.Geometry
         Vector2<TNumeric>[] ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
 
         IBitConvert<AARectangle<TNumeric>> IProvider<IBitConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IRandom<AARectangle<TNumeric>> IProvider<IRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IStringConvert<AARectangle<TNumeric>> IProvider<IStringConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<AARectangle<TNumeric>> IProvider<IVariantRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<AARectangle<TNumeric>>,
-           IRandom<AARectangle<TNumeric>>,
-           IStringConvert<AARectangle<TNumeric>>
+           IStringConvert<AARectangle<TNumeric>>,
+           IVariantRandom<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            AARectangle<TNumeric> IRandom<AARectangle<TNumeric>>.Next(Random random)
+            AARectangle<TNumeric> IVariantRandom<AARectangle<TNumeric>>.Next(Random random, Scenarios scenarios)
             {
-                do
-                {
-                    try
-                    {
-                        return checked(AARectangle.Between(
-                            random.NextVector2<TNumeric>(),
-                            random.NextVector2<TNumeric>()));
-                    }
-                    catch (OverflowException)
-                    {
-                        // Try again
-                    }
-                } while (true);
-            }
-
-            AARectangle<TNumeric> IRandom<AARectangle<TNumeric>>.Next(Random random, AARectangle<TNumeric> bound1, AARectangle<TNumeric> bound2)
-            {
-                TNumeric xMin = MathN.Min(bound1.GetBottomLeft().X, bound2.GetBottomLeft().X);
-                TNumeric xMax = MathN.Max(bound1.GetTopRight().X, bound2.GetTopRight().X);
-                TNumeric yMin = MathN.Min(bound1.GetBottomLeft().Y, bound2.GetBottomLeft().Y);
-                TNumeric yMax = MathN.Max(bound1.GetTopRight().Y, bound2.GetTopRight().Y);
-                Vector2<TNumeric> point1 = new Vector2<TNumeric>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
-                Vector2<TNumeric> point2 = new Vector2<TNumeric>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
-                return AARectangle.Between(point1, point2);
+                return new AARectangle<TNumeric>(
+                    random.NextVariant<Vector2<TNumeric>>(scenarios),
+                    random.NextVariant<Vector2<TNumeric>>(scenarios));
             }
 
             AARectangle<TNumeric> IStringConvert<AARectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)

@@ -107,20 +107,20 @@ namespace Jodo.CheckedNumerics
         public static bool operator >(SingleC left, SingleC right) => left._value > right._value;
         public static bool operator >=(SingleC left, SingleC right) => left._value >= right._value;
         public static SingleC operator %(SingleC left, SingleC right) => CheckedMath.Remainder(left._value, right._value);
-        public static SingleC operator &(SingleC left, SingleC right) => NumericUtilities.LogicalAnd(left._value, right._value);
+        public static SingleC operator &(SingleC left, SingleC right) => BitOperations.LogicalAnd(left._value, right._value);
         public static SingleC operator -(SingleC left, SingleC right) => CheckedMath.Subtract(left._value, right._value);
         public static SingleC operator --(SingleC value) => value - 1;
         public static SingleC operator -(SingleC value) => -value._value;
         public static SingleC operator *(SingleC left, SingleC right) => CheckedMath.Multiply(left._value, right._value);
         public static SingleC operator /(SingleC left, SingleC right) => CheckedMath.Divide(left._value, right._value);
-        public static SingleC operator ^(SingleC left, SingleC right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static SingleC operator |(SingleC left, SingleC right) => NumericUtilities.LogicalOr(left._value, right._value);
-        public static SingleC operator ~(SingleC left) => NumericUtilities.BitwiseComplement(left._value);
+        public static SingleC operator ^(SingleC left, SingleC right) => BitOperations.LogicalExclusiveOr(left._value, right._value);
+        public static SingleC operator |(SingleC left, SingleC right) => BitOperations.LogicalOr(left._value, right._value);
+        public static SingleC operator ~(SingleC left) => BitOperations.BitwiseComplement(left._value);
         public static SingleC operator +(SingleC left, SingleC right) => CheckedMath.Add(left._value, right._value);
         public static SingleC operator +(SingleC value) => value;
         public static SingleC operator ++(SingleC value) => value + 1;
-        public static SingleC operator <<(SingleC left, int right) => NumericUtilities.LeftShift(left._value, right);
-        public static SingleC operator >>(SingleC left, int right) => NumericUtilities.RightShift(left._value, right);
+        public static SingleC operator <<(SingleC left, int right) => BitOperations.LeftShift(left._value, right);
+        public static SingleC operator >>(SingleC left, int right) => BitOperations.RightShift(left._value, right);
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
         bool IConvertible.ToBoolean(IFormatProvider provider) => Convert.ToBoolean(_value, provider);
@@ -169,18 +169,20 @@ namespace Jodo.CheckedNumerics
         IConvert<SingleC> IProvider<IConvert<SingleC>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SingleC> IProvider<IConvertExtended<SingleC>>.GetInstance() => Utilities.Instance;
         IMath<SingleC> IProvider<IMath<SingleC>>.GetInstance() => Utilities.Instance;
+        INumericRandom<SingleC> IProvider<INumericRandom<SingleC>>.GetInstance() => Utilities.Instance;
         INumericStatic<SingleC> IProvider<INumericStatic<SingleC>>.GetInstance() => Utilities.Instance;
-        IRandom<SingleC> IProvider<IRandom<SingleC>>.GetInstance() => Utilities.Instance;
         IStringConvert<SingleC> IProvider<IStringConvert<SingleC>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<SingleC> IProvider<IVariantRandom<SingleC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<SingleC>,
             IConvert<SingleC>,
             IConvertExtended<SingleC>,
             IMath<SingleC>,
+            INumericRandom<SingleC>,
             INumericStatic<SingleC>,
-            IRandom<SingleC>,
-            IStringConvert<SingleC>
+            IStringConvert<SingleC>,
+            IVariantRandom<SingleC>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -220,7 +222,7 @@ namespace Jodo.CheckedNumerics
             SingleC IMath<SingleC>.Clamp(SingleC x, SingleC bound1, SingleC bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             SingleC IMath<SingleC>.Cos(SingleC x) => MathF.Cos(x._value);
             SingleC IMath<SingleC>.Cosh(SingleC x) => MathF.Cosh(x._value);
-            SingleC IMath<SingleC>.DegreesToRadians(SingleC x) => x._value * NumericUtilities.RadiansPerDegreeF;
+            SingleC IMath<SingleC>.DegreesToRadians(SingleC x) => x._value * BitOperations.RadiansPerDegreeF;
             SingleC IMath<SingleC>.E { get; } = MathF.E;
             SingleC IMath<SingleC>.Exp(SingleC x) => MathF.Exp(x._value);
             SingleC IMath<SingleC>.Floor(SingleC x) => MathF.Floor(x._value);
@@ -232,7 +234,7 @@ namespace Jodo.CheckedNumerics
             SingleC IMath<SingleC>.Min(SingleC x, SingleC y) => MathF.Min(x._value, y._value);
             SingleC IMath<SingleC>.PI { get; } = MathF.PI;
             SingleC IMath<SingleC>.Pow(SingleC x, SingleC y) => MathF.Pow(x._value, y._value);
-            SingleC IMath<SingleC>.RadiansToDegrees(SingleC x) => x._value * NumericUtilities.DegreesPerRadianF;
+            SingleC IMath<SingleC>.RadiansToDegrees(SingleC x) => x._value * BitOperations.DegreesPerRadianF;
             SingleC IMath<SingleC>.Round(SingleC x) => MathF.Round(x._value);
             SingleC IMath<SingleC>.Round(SingleC x, int digits) => MathF.Round(x._value, digits);
             SingleC IMath<SingleC>.Round(SingleC x, int digits, MidpointRounding mode) => MathF.Round(x._value, digits, mode);
@@ -248,9 +250,6 @@ namespace Jodo.CheckedNumerics
 
             SingleC IBitConvert<SingleC>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
             void IBitConvert<SingleC>.Write(SingleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
-
-            SingleC IRandom<SingleC>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
-            SingleC IRandom<SingleC>.Next(Random random, SingleC bound1, SingleC bound2) => random.NextSingle(bound1._value, bound2._value);
 
             bool IConvert<SingleC>.ToBoolean(SingleC value) => value._value != 0;
             byte IConvert<SingleC>.ToByte(SingleC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
@@ -282,6 +281,14 @@ namespace Jodo.CheckedNumerics
 
             SingleC IStringConvert<SingleC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
+
+            SingleC INumericRandom<SingleC>.Next(Random random) => random.NextSingle();
+            SingleC INumericRandom<SingleC>.Next(Random random, SingleC maxValue) => random.NextSingle(maxValue);
+            SingleC INumericRandom<SingleC>.Next(Random random, SingleC minValue, SingleC maxValue) => random.NextSingle(minValue, maxValue);
+            SingleC INumericRandom<SingleC>.Next(Random random, Generation mode) => random.NextSingle(mode);
+            SingleC INumericRandom<SingleC>.Next(Random random, SingleC minValue, SingleC maxValue, Generation mode) => random.NextSingle(minValue, maxValue, mode);
+
+            SingleC IVariantRandom<SingleC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<SingleC>(random, scenarios);
         }
     }
 }

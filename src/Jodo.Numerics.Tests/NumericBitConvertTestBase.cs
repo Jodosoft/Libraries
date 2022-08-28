@@ -20,17 +20,18 @@
 using System;
 using FluentAssertions;
 using Jodo.Primitives;
+using Jodo.Testing;
 using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public abstract class NumericBitConvertTestBase<TNumeric> : Primitives.Tests.BitConvertTestBase<TNumeric> where TNumeric : struct, INumeric<TNumeric>
+    public abstract class NumericBitConvertTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomSmallValue_SameAsOriginal()
         {
             //arrange
-            TNumeric input = Random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>());
+            TNumeric input = Random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>(), Generation.Extended);
 
             //act
             TNumeric result = BitConvert.FromBytes<TNumeric>(BitConvert.GetBytes(input));

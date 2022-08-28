@@ -63,7 +63,7 @@ namespace Jodo.Numerics.Tests
         public void Abs_Positive_SameValue()
         {
             //arrange
-            TNumeric input = Random.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>());
+            TNumeric input = Random.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended);
 
             //act
             TNumeric result = MathN.Abs(input);
@@ -264,7 +264,7 @@ namespace Jodo.Numerics.Tests
         public void Atan_RandomValue_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>());
+            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>(Generation.Extended));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Atan(randomValue), Conversion.Cast);
 
@@ -309,8 +309,8 @@ namespace Jodo.Numerics.Tests
         public void Atan2_RandomValues_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue1 = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>());
-            double randomValue2 = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>());
+            double randomValue1 = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>(Generation.Extended));
+            double randomValue2 = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>(Generation.Extended));
             TNumeric input1 = ConvertN.ToNumeric<TNumeric>(randomValue1, Conversion.Cast);
             TNumeric input2 = ConvertN.ToNumeric<TNumeric>(randomValue2, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Atan2(randomValue1, randomValue2), Conversion.Cast);
@@ -364,7 +364,7 @@ namespace Jodo.Numerics.Tests
         public void Cbrt_RandomValue_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>());
+            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>(Generation.Extended));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Cbrt(randomValue), Conversion.Cast);
 
@@ -485,9 +485,9 @@ namespace Jodo.Numerics.Tests
         public void Clamp_RandomValues_ReturnsValueWithinBounds()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
-            TNumeric bound1 = Random.NextNumeric<TNumeric>();
-            TNumeric bound2 = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric bound1 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric bound2 = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             TNumeric result = MathN.Clamp(input, bound1, bound2);
@@ -501,9 +501,9 @@ namespace Jodo.Numerics.Tests
         public void Clamp_RandomValuesWithinBounds_ReturnsSameValue()
         {
             //arrange
-            TNumeric bound1 = Random.NextNumeric<TNumeric>();
-            TNumeric bound2 = Random.NextNumeric<TNumeric>();
-            TNumeric input = Random.NextNumeric(bound1, bound2);
+            TNumeric bound1 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric bound2 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric input = Random.NextNumeric(bound1, bound2, Generation.Extended);
 
             //act
             TNumeric result = MathN.Clamp(input, bound1, bound2);
@@ -516,7 +516,7 @@ namespace Jodo.Numerics.Tests
         public void Cos_RandomValue_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>());
+            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>(Generation.Extended));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Cos(randomValue), Conversion.Cast);
 
@@ -726,7 +726,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             double randomValue;
-            do { randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.One<TNumeric>(), Numeric.MaxValue<TNumeric>())); }
+            do { randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.One<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended)); }
             while (!DoubleCompat.IsFinite(Math.Log(randomValue)));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Log(randomValue), Conversion.Cast);
@@ -776,8 +776,8 @@ namespace Jodo.Numerics.Tests
             double randomValue2;
             do
             {
-                randomValue1 = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>()));
-                randomValue2 = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.One<TNumeric>(), Numeric.MaxValue<TNumeric>()));
+                randomValue1 = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended));
+                randomValue2 = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.One<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended));
             } while (randomValue1 <= 0 || randomValue2 <= 1);
             TNumeric input1 = ConvertN.ToNumeric<TNumeric>(randomValue1, Conversion.Cast);
             TNumeric input2 = ConvertN.ToNumeric<TNumeric>(randomValue2, Conversion.Cast);
@@ -794,7 +794,7 @@ namespace Jodo.Numerics.Tests
         public void Log10_RandomValue_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.One<TNumeric>(), Numeric.MaxValue<TNumeric>()));
+            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.One<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Log10(randomValue), Conversion.Cast);
 
@@ -839,8 +839,8 @@ namespace Jodo.Numerics.Tests
         public void Max_RandomValues_LargestValue()
         {
             //arrange
-            TNumeric input1 = Random.NextNumeric<TNumeric>();
-            TNumeric input2 = Random.NextNumeric<TNumeric>();
+            TNumeric input1 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric input2 = Random.NextNumeric<TNumeric>(Generation.Extended);
             TNumeric expected = input1.IsGreaterThan(input2) ? input1 : input2;
 
             //act
@@ -854,8 +854,8 @@ namespace Jodo.Numerics.Tests
         public void Min_RandomValues_SmallestValue()
         {
             //arrange
-            TNumeric input1 = Random.NextNumeric<TNumeric>();
-            TNumeric input2 = Random.NextNumeric<TNumeric>();
+            TNumeric input1 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric input2 = Random.NextNumeric<TNumeric>(Generation.Extended);
             TNumeric expected = input1.IsLessThan(input2) ? input1 : input2;
 
             //act
@@ -891,7 +891,7 @@ namespace Jodo.Numerics.Tests
         public void Pow_RandomValueByZero_One()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             TNumeric result = MathN.Pow(input, Numeric.Zero<TNumeric>());
@@ -904,7 +904,7 @@ namespace Jodo.Numerics.Tests
         public void Pow_RandomValueByOne_SameValue()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             TNumeric result = MathN.Pow(input, Numeric.One<TNumeric>());
@@ -932,9 +932,7 @@ namespace Jodo.Numerics.Tests
         public void Sign_RandomPositiveValue_ReturnsOne()
         {
             //arrange
-            TNumeric input;
-            do { input = Random.NextNumeric<TNumeric>(); }
-            while (input.IsLessThanOrEqualTo(Numeric.Zero<TNumeric>()));
+            TNumeric input = Random.NextNumeric(Numeric.Epsilon<TNumeric>(), Numeric.MaxValue<TNumeric>());
 
             //act
             int result = MathN.Sign(input);
@@ -1032,7 +1030,7 @@ namespace Jodo.Numerics.Tests
         public void Sqrt_RandomValue_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>()));
+            double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Sqrt(randomValue), Conversion.Cast);
 

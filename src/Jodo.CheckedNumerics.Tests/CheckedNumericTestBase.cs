@@ -115,7 +115,7 @@ namespace Jodo.CheckedNumerics.Tests
         public void Divide_ByZero_ReturnsMaxValue()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             TNumeric right = Numeric.Zero<TNumeric>();
 
             //act
@@ -129,7 +129,7 @@ namespace Jodo.CheckedNumerics.Tests
         public void Remainder_ByZero_ReturnsZero()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             TNumeric right = Numeric.Zero<TNumeric>();
 
             //act

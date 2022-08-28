@@ -190,8 +190,9 @@ namespace Jodo.Numerics
         IConvertExtended<Fix64> IProvider<IConvertExtended<Fix64>>.GetInstance() => Utilities.Instance;
         IMath<Fix64> IProvider<IMath<Fix64>>.GetInstance() => Utilities.Instance;
         INumericStatic<Fix64> IProvider<INumericStatic<Fix64>>.GetInstance() => Utilities.Instance;
-        IRandom<Fix64> IProvider<IRandom<Fix64>>.GetInstance() => Utilities.Instance;
+        INumericRandom<Fix64> IProvider<INumericRandom<Fix64>>.GetInstance() => Utilities.Instance;
         IStringConvert<Fix64> IProvider<IStringConvert<Fix64>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<Fix64> IProvider<IVariantRandom<Fix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<Fix64>,
@@ -199,8 +200,9 @@ namespace Jodo.Numerics
             IConvertExtended<Fix64>,
             IMath<Fix64>,
             INumericStatic<Fix64>,
-            IRandom<Fix64>,
-            IStringConvert<Fix64>
+            INumericRandom<Fix64>,
+            IStringConvert<Fix64>,
+            IVariantRandom<Fix64>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -240,7 +242,7 @@ namespace Jodo.Numerics
             Fix64 IMath<Fix64>.Clamp(Fix64 x, Fix64 bound1, Fix64 bound2) => new Fix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             Fix64 IMath<Fix64>.Cos(Fix64 x) => (Fix64)Math.Cos((double)x);
             Fix64 IMath<Fix64>.Cosh(Fix64 x) => (Fix64)Math.Cosh((double)x);
-            Fix64 IMath<Fix64>.DegreesToRadians(Fix64 x) => (Fix64)((double)x * NumericUtilities.RadiansPerDegree);
+            Fix64 IMath<Fix64>.DegreesToRadians(Fix64 x) => (Fix64)((double)x * BitOperations.RadiansPerDegree);
             Fix64 IMath<Fix64>.E { get; } = (Fix64)Math.E;
             Fix64 IMath<Fix64>.Exp(Fix64 x) => (Fix64)Math.Exp((double)x);
             Fix64 IMath<Fix64>.Floor(Fix64 x) => new Fix64(ScaledMath.Floor(x._scaledValue, ScalingFactor));
@@ -252,7 +254,7 @@ namespace Jodo.Numerics
             Fix64 IMath<Fix64>.Min(Fix64 x, Fix64 y) => new Fix64(Math.Min(x._scaledValue, y._scaledValue));
             Fix64 IMath<Fix64>.PI { get; } = (Fix64)Math.PI;
             Fix64 IMath<Fix64>.Pow(Fix64 x, Fix64 y) => y == 1 ? x : (Fix64)Math.Pow((double)x, (double)y);
-            Fix64 IMath<Fix64>.RadiansToDegrees(Fix64 x) => (Fix64)((double)x * NumericUtilities.DegreesPerRadian);
+            Fix64 IMath<Fix64>.RadiansToDegrees(Fix64 x) => (Fix64)((double)x * BitOperations.DegreesPerRadian);
             Fix64 IMath<Fix64>.Round(Fix64 x) => Round(x, 0, MidpointRounding.ToEven);
             Fix64 IMath<Fix64>.Round(Fix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             Fix64 IMath<Fix64>.Round(Fix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);
@@ -268,9 +270,6 @@ namespace Jodo.Numerics
 
             Fix64 IBitConvert<Fix64>.Read(IReader<byte> stream) => new Fix64(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
             void IBitConvert<Fix64>.Write(Fix64 value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
-
-            Fix64 IRandom<Fix64>.Next(Random random) => new Fix64(random.NextInt64());
-            Fix64 IRandom<Fix64>.Next(Random random, Fix64 bound1, Fix64 bound2) => new Fix64(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<Fix64>.ToBoolean(Fix64 value) => value._scaledValue != 0;
             byte IConvert<Fix64>.ToByte(Fix64 value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode);
@@ -302,6 +301,14 @@ namespace Jodo.Numerics
 
             Fix64 IStringConvert<Fix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
+
+            Fix64 INumericRandom<Fix64>.Next(Random random) => new Fix64(random.NextInt64());
+            Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 maxValue) => new Fix64(random.NextInt64(maxValue._scaledValue));
+            Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 minValue, Fix64 maxValue) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue));
+            Fix64 INumericRandom<Fix64>.Next(Random random, Generation mode) => new Fix64(random.NextInt64(mode));
+            Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 minValue, Fix64 maxValue, Generation mode) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
+
+            Fix64 IVariantRandom<Fix64>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<Fix64>(random, scenarios);
         }
     }
 }

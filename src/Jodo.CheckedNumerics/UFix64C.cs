@@ -190,18 +190,20 @@ namespace Jodo.CheckedNumerics
         IConvert<UFix64C> IProvider<IConvert<UFix64C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UFix64C> IProvider<IConvertExtended<UFix64C>>.GetInstance() => Utilities.Instance;
         IMath<UFix64C> IProvider<IMath<UFix64C>>.GetInstance() => Utilities.Instance;
+        INumericRandom<UFix64C> IProvider<INumericRandom<UFix64C>>.GetInstance() => Utilities.Instance;
         INumericStatic<UFix64C> IProvider<INumericStatic<UFix64C>>.GetInstance() => Utilities.Instance;
-        IRandom<UFix64C> IProvider<IRandom<UFix64C>>.GetInstance() => Utilities.Instance;
         IStringConvert<UFix64C> IProvider<IStringConvert<UFix64C>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<UFix64C> IProvider<IVariantRandom<UFix64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<UFix64C>,
             IConvert<UFix64C>,
             IConvertExtended<UFix64C>,
             IMath<UFix64C>,
+            INumericRandom<UFix64C>,
             INumericStatic<UFix64C>,
-            IRandom<UFix64C>,
-            IStringConvert<UFix64C>
+            IStringConvert<UFix64C>,
+            IVariantRandom<UFix64C>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -242,7 +244,7 @@ namespace Jodo.CheckedNumerics
             UFix64C IMath<UFix64C>.Clamp(UFix64C x, UFix64C bound1, UFix64C bound2) => new UFix64C(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             UFix64C IMath<UFix64C>.Cos(UFix64C x) => (UFix64C)Math.Cos((double)x);
             UFix64C IMath<UFix64C>.Cosh(UFix64C x) => (UFix64C)Math.Cosh((double)x);
-            UFix64C IMath<UFix64C>.DegreesToRadians(UFix64C x) => (UFix64C)CheckedMath.Multiply((double)x, NumericUtilities.RadiansPerDegree);
+            UFix64C IMath<UFix64C>.DegreesToRadians(UFix64C x) => (UFix64C)CheckedMath.Multiply((double)x, BitOperations.RadiansPerDegree);
             UFix64C IMath<UFix64C>.E { get; } = (UFix64C)Math.E;
             UFix64C IMath<UFix64C>.Exp(UFix64C x) => (UFix64C)Math.Exp((double)x);
             UFix64C IMath<UFix64C>.Floor(UFix64C x) => new UFix64C(ScaledMath.Floor(x._scaledValue, ScalingFactor));
@@ -254,7 +256,7 @@ namespace Jodo.CheckedNumerics
             UFix64C IMath<UFix64C>.Min(UFix64C x, UFix64C y) => new UFix64C(Math.Min(x._scaledValue, y._scaledValue));
             UFix64C IMath<UFix64C>.PI { get; } = (UFix64C)Math.PI;
             UFix64C IMath<UFix64C>.Pow(UFix64C x, UFix64C y) => y == 1 ? x : (UFix64C)Math.Pow((double)x, (double)y);
-            UFix64C IMath<UFix64C>.RadiansToDegrees(UFix64C x) => (UFix64C)CheckedMath.Multiply((double)x, NumericUtilities.DegreesPerRadian);
+            UFix64C IMath<UFix64C>.RadiansToDegrees(UFix64C x) => (UFix64C)CheckedMath.Multiply((double)x, BitOperations.DegreesPerRadian);
             UFix64C IMath<UFix64C>.Round(UFix64C x) => Round(x, 0, MidpointRounding.ToEven);
             UFix64C IMath<UFix64C>.Round(UFix64C x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             UFix64C IMath<UFix64C>.Round(UFix64C x, int digits, MidpointRounding mode) => Round(x, digits, mode);
@@ -269,9 +271,6 @@ namespace Jodo.CheckedNumerics
 
             UFix64C IBitConvert<UFix64C>.Read(IReader<byte> stream) => new UFix64C(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
             void IBitConvert<UFix64C>.Write(UFix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
-
-            UFix64C IRandom<UFix64C>.Next(Random random) => new UFix64C(random.NextUInt64());
-            UFix64C IRandom<UFix64C>.Next(Random random, UFix64C bound1, UFix64C bound2) => new UFix64C(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<UFix64C>.ToBoolean(UFix64C value) => value._scaledValue != 0;
             byte IConvert<UFix64C>.ToByte(UFix64C value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());
@@ -303,6 +302,14 @@ namespace Jodo.CheckedNumerics
 
             UFix64C IStringConvert<UFix64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
+
+            UFix64C INumericRandom<UFix64C>.Next(Random random) => new UFix64C(random.NextUInt64());
+            UFix64C INumericRandom<UFix64C>.Next(Random random, UFix64C maxValue) => new UFix64C(random.NextUInt64(maxValue._scaledValue));
+            UFix64C INumericRandom<UFix64C>.Next(Random random, UFix64C minValue, UFix64C maxValue) => new UFix64C(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue));
+            UFix64C INumericRandom<UFix64C>.Next(Random random, Generation mode) => new UFix64C(random.NextUInt64(mode));
+            UFix64C INumericRandom<UFix64C>.Next(Random random, UFix64C minValue, UFix64C maxValue, Generation mode) => new UFix64C(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue, mode));
+
+            UFix64C IVariantRandom<UFix64C>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<UFix64C>(random, scenarios);
         }
     }
 }

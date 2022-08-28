@@ -28,7 +28,7 @@ namespace Jodo.Numerics.Tests
             TNumeric result;
             do
             {
-                result = random.NextNumeric<TNumeric>();
+                result = random.NextNumeric<TNumeric>(Generation.Extended);
             } while (
                 (bounds.HasFlag(TestBounds.Positive) && result.IsLessThanOrEqualTo(Numeric.Zero<TNumeric>())) ||
                 (bounds.HasFlag(TestBounds.HighMagnitude) && MathN.Abs(result).IsLessThan(Numeric.Ten<TNumeric>())));

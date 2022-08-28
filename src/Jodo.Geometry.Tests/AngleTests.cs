@@ -36,6 +36,5 @@ namespace Jodo.Geometry.Tests
         public sealed class UnsignedIntegralGeneralTests : AngleTestBase<ByteN> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Angle<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralStringConvertTests : StringConvertTestBase<Angle<ByteN>> { }
     }
 }

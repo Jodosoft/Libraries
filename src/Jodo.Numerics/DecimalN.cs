@@ -96,20 +96,20 @@ namespace Jodo.Numerics
         public static bool operator >(DecimalN left, DecimalN right) => left._value > right._value;
         public static bool operator >=(DecimalN left, DecimalN right) => left._value >= right._value;
         public static DecimalN operator %(DecimalN left, DecimalN right) => left._value % right._value;
-        public static DecimalN operator &(DecimalN left, DecimalN right) => NumericUtilities.LogicalAnd(left._value, right._value);
+        public static DecimalN operator &(DecimalN left, DecimalN right) => BitOperations.LogicalAnd(left._value, right._value);
         public static DecimalN operator -(DecimalN left, DecimalN right) => left._value - right._value;
         public static DecimalN operator --(DecimalN value) => value._value - 1;
         public static DecimalN operator -(DecimalN value) => -value._value;
         public static DecimalN operator *(DecimalN left, DecimalN right) => left._value * right._value;
         public static DecimalN operator /(DecimalN left, DecimalN right) => left._value / right._value;
-        public static DecimalN operator ^(DecimalN left, DecimalN right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static DecimalN operator |(DecimalN left, DecimalN right) => NumericUtilities.LogicalOr(left._value, right._value);
-        public static DecimalN operator ~(DecimalN left) => NumericUtilities.BitwiseComplement(left._value);
+        public static DecimalN operator ^(DecimalN left, DecimalN right) => BitOperations.LogicalExclusiveOr(left._value, right._value);
+        public static DecimalN operator |(DecimalN left, DecimalN right) => BitOperations.LogicalOr(left._value, right._value);
+        public static DecimalN operator ~(DecimalN left) => BitOperations.BitwiseComplement(left._value);
         public static DecimalN operator +(DecimalN left, DecimalN right) => left._value + right._value;
         public static DecimalN operator +(DecimalN value) => value;
         public static DecimalN operator ++(DecimalN value) => value._value + 1;
-        public static DecimalN operator <<(DecimalN left, int right) => NumericUtilities.LeftShift(left._value, right);
-        public static DecimalN operator >>(DecimalN left, int right) => NumericUtilities.RightShift(left._value, right);
+        public static DecimalN operator <<(DecimalN left, int right) => BitOperations.LeftShift(left._value, right);
+        public static DecimalN operator >>(DecimalN left, int right) => BitOperations.RightShift(left._value, right);
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
         bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvertible)_value).ToBoolean(provider);
@@ -150,18 +150,20 @@ namespace Jodo.Numerics
         IConvert<DecimalN> IProvider<IConvert<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DecimalN> IProvider<IConvertExtended<DecimalN>>.GetInstance() => Utilities.Instance;
         IMath<DecimalN> IProvider<IMath<DecimalN>>.GetInstance() => Utilities.Instance;
+        INumericRandom<DecimalN> IProvider<INumericRandom<DecimalN>>.GetInstance() => Utilities.Instance;
         INumericStatic<DecimalN> IProvider<INumericStatic<DecimalN>>.GetInstance() => Utilities.Instance;
-        IRandom<DecimalN> IProvider<IRandom<DecimalN>>.GetInstance() => Utilities.Instance;
         IStringConvert<DecimalN> IProvider<IStringConvert<DecimalN>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<DecimalN> IProvider<IVariantRandom<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<DecimalN>,
             IConvert<DecimalN>,
             IConvertExtended<DecimalN>,
             IMath<DecimalN>,
+            INumericRandom<DecimalN>,
             INumericStatic<DecimalN>,
-            IRandom<DecimalN>,
-            IStringConvert<DecimalN>
+            IStringConvert<DecimalN>,
+            IVariantRandom<DecimalN>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -202,7 +204,7 @@ namespace Jodo.Numerics
             DecimalN IMath<DecimalN>.Clamp(DecimalN x, DecimalN bound1, DecimalN bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             DecimalN IMath<DecimalN>.Cos(DecimalN x) => (DecimalN)Math.Cos((double)x);
             DecimalN IMath<DecimalN>.Cosh(DecimalN x) => (DecimalN)Math.Cosh((double)x);
-            DecimalN IMath<DecimalN>.DegreesToRadians(DecimalN degrees) => degrees * NumericUtilities.RadiansPerDegreeM;
+            DecimalN IMath<DecimalN>.DegreesToRadians(DecimalN degrees) => degrees * BitOperations.RadiansPerDegreeM;
             DecimalN IMath<DecimalN>.E { get; } = (DecimalN)Math.E;
             DecimalN IMath<DecimalN>.Exp(DecimalN x) => (DecimalN)Math.Exp((double)x);
             DecimalN IMath<DecimalN>.Floor(DecimalN x) => decimal.Floor(x);
@@ -214,7 +216,7 @@ namespace Jodo.Numerics
             DecimalN IMath<DecimalN>.Min(DecimalN x, DecimalN y) => Math.Min(x, y);
             DecimalN IMath<DecimalN>.PI { get; } = (DecimalN)Math.PI;
             DecimalN IMath<DecimalN>.Pow(DecimalN x, DecimalN y) => y == 1 ? x : (DecimalN)Math.Pow((double)x, (double)y);
-            DecimalN IMath<DecimalN>.RadiansToDegrees(DecimalN radians) => radians * NumericUtilities.DegreesPerRadianM;
+            DecimalN IMath<DecimalN>.RadiansToDegrees(DecimalN radians) => radians * BitOperations.DegreesPerRadianM;
             DecimalN IMath<DecimalN>.Round(DecimalN x) => decimal.Round(x);
             DecimalN IMath<DecimalN>.Round(DecimalN x, int digits) => decimal.Round(x, digits);
             DecimalN IMath<DecimalN>.Round(DecimalN x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);
@@ -249,9 +251,6 @@ namespace Jodo.Numerics
                 stream.Write(BitConverter.GetBytes(parts[3]));
             }
 
-            DecimalN IRandom<DecimalN>.Next(Random random) => random.NextDecimal();
-            DecimalN IRandom<DecimalN>.Next(Random random, DecimalN bound1, DecimalN bound2) => random.NextDecimal(bound1._value, bound2._value);
-
             bool IConvert<DecimalN>.ToBoolean(DecimalN value) => Convert.ToBoolean(value._value);
             byte IConvert<DecimalN>.ToByte(DecimalN value, Conversion mode) => ConvertN.ToByte(value._value, mode);
             decimal IConvert<DecimalN>.ToDecimal(DecimalN value, Conversion mode) => value;
@@ -282,6 +281,14 @@ namespace Jodo.Numerics
 
             DecimalN IStringConvert<DecimalN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
+
+            DecimalN INumericRandom<DecimalN>.Next(Random random) => random.NextDecimal();
+            DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN maxValue) => random.NextDecimal(maxValue);
+            DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN minValue, DecimalN maxValue) => random.NextDecimal(minValue, maxValue);
+            DecimalN INumericRandom<DecimalN>.Next(Random random, Generation mode) => random.NextDecimal(mode);
+            DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN minValue, DecimalN maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
+
+            DecimalN IVariantRandom<DecimalN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DecimalN>(random, scenarios);
         }
     }
 }

@@ -190,8 +190,9 @@ namespace Jodo.Numerics
         IConvertExtended<UFix64> IProvider<IConvertExtended<UFix64>>.GetInstance() => Utilities.Instance;
         IMath<UFix64> IProvider<IMath<UFix64>>.GetInstance() => Utilities.Instance;
         INumericStatic<UFix64> IProvider<INumericStatic<UFix64>>.GetInstance() => Utilities.Instance;
-        IRandom<UFix64> IProvider<IRandom<UFix64>>.GetInstance() => Utilities.Instance;
+        INumericRandom<UFix64> IProvider<INumericRandom<UFix64>>.GetInstance() => Utilities.Instance;
         IStringConvert<UFix64> IProvider<IStringConvert<UFix64>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<UFix64> IProvider<IVariantRandom<UFix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<UFix64>,
@@ -199,8 +200,9 @@ namespace Jodo.Numerics
             IConvertExtended<UFix64>,
             IMath<UFix64>,
             INumericStatic<UFix64>,
-            IRandom<UFix64>,
-            IStringConvert<UFix64>
+            INumericRandom<UFix64>,
+            IStringConvert<UFix64>,
+            IVariantRandom<UFix64>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -241,7 +243,7 @@ namespace Jodo.Numerics
             UFix64 IMath<UFix64>.Clamp(UFix64 x, UFix64 bound1, UFix64 bound2) => new UFix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             UFix64 IMath<UFix64>.Cos(UFix64 x) => (UFix64)Math.Cos((double)x);
             UFix64 IMath<UFix64>.Cosh(UFix64 x) => (UFix64)Math.Cosh((double)x);
-            UFix64 IMath<UFix64>.DegreesToRadians(UFix64 x) => (UFix64)((double)x * NumericUtilities.RadiansPerDegree);
+            UFix64 IMath<UFix64>.DegreesToRadians(UFix64 x) => (UFix64)((double)x * BitOperations.RadiansPerDegree);
             UFix64 IMath<UFix64>.E { get; } = (UFix64)Math.E;
             UFix64 IMath<UFix64>.Exp(UFix64 x) => (UFix64)Math.Exp((double)x);
             UFix64 IMath<UFix64>.Floor(UFix64 x) => new UFix64(ScaledMath.Floor(x._scaledValue, ScalingFactor));
@@ -253,7 +255,7 @@ namespace Jodo.Numerics
             UFix64 IMath<UFix64>.Min(UFix64 x, UFix64 y) => new UFix64(Math.Min(x._scaledValue, y._scaledValue));
             UFix64 IMath<UFix64>.PI { get; } = (UFix64)Math.PI;
             UFix64 IMath<UFix64>.Pow(UFix64 x, UFix64 y) => y == 1 ? x : (UFix64)Math.Pow((double)x, (double)y);
-            UFix64 IMath<UFix64>.RadiansToDegrees(UFix64 x) => (UFix64)((double)x * NumericUtilities.DegreesPerRadian);
+            UFix64 IMath<UFix64>.RadiansToDegrees(UFix64 x) => (UFix64)((double)x * BitOperations.DegreesPerRadian);
             UFix64 IMath<UFix64>.Round(UFix64 x) => Round(x, 0, MidpointRounding.ToEven);
             UFix64 IMath<UFix64>.Round(UFix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             UFix64 IMath<UFix64>.Round(UFix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);
@@ -268,9 +270,6 @@ namespace Jodo.Numerics
 
             UFix64 IBitConvert<UFix64>.Read(IReader<byte> stream) => new UFix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
             void IBitConvert<UFix64>.Write(UFix64 value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
-
-            UFix64 IRandom<UFix64>.Next(Random random) => new UFix64(random.NextUInt64());
-            UFix64 IRandom<UFix64>.Next(Random random, UFix64 bound1, UFix64 bound2) => new UFix64(random.NextUInt64(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<UFix64>.ToBoolean(UFix64 value) => value._scaledValue != 0;
             byte IConvert<UFix64>.ToByte(UFix64 value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode);
@@ -302,6 +301,14 @@ namespace Jodo.Numerics
 
             UFix64 IStringConvert<UFix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
+
+            UFix64 INumericRandom<UFix64>.Next(Random random) => new UFix64(random.NextUInt64());
+            UFix64 INumericRandom<UFix64>.Next(Random random, UFix64 maxValue) => new UFix64(random.NextUInt64(maxValue._scaledValue));
+            UFix64 INumericRandom<UFix64>.Next(Random random, UFix64 minValue, UFix64 maxValue) => new UFix64(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue));
+            UFix64 INumericRandom<UFix64>.Next(Random random, Generation mode) => new UFix64(random.NextUInt64(mode));
+            UFix64 INumericRandom<UFix64>.Next(Random random, UFix64 minValue, UFix64 maxValue, Generation mode) => new UFix64(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue, mode));
+
+            UFix64 IVariantRandom<UFix64>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<UFix64>(random, scenarios);
         }
     }
 }

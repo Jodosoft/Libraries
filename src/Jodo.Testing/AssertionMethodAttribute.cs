@@ -21,6 +21,10 @@ using System;
 
 namespace Jodo.Testing
 {
+    /// <summary>
+    /// This attribute marks methods used to make assertions. This is used in static analysis
+    /// when validating that test methods contain assertions.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class AssertionMethodAttribute : Attribute { }
 }

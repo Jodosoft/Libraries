@@ -396,7 +396,7 @@ namespace Jodo.Numerics.Tests
         public void CompareTo1_NullNullable_Returns1()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
             TNumeric? other = null;
 
             //act
@@ -410,7 +410,7 @@ namespace Jodo.Numerics.Tests
         public void CompareTo1_DifferentType_Returns1()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             int result = input.CompareTo(this);
@@ -423,7 +423,7 @@ namespace Jodo.Numerics.Tests
         public void GetHashCode_SameValue_SameResult()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             int result1 = input.GetHashCode();
@@ -471,12 +471,12 @@ namespace Jodo.Numerics.Tests
         public void AdditionMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left + right,
 #endif
@@ -488,11 +488,11 @@ namespace Jodo.Numerics.Tests
         public void BitwiseComplementMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => ~left,
 #endif
@@ -504,12 +504,12 @@ namespace Jodo.Numerics.Tests
         public void DivisionMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left / right,
 #endif
@@ -521,12 +521,12 @@ namespace Jodo.Numerics.Tests
         public void EqualityMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => left.Equals(right),
                 () => left.Equals((object)right),
                 () => left.CompareTo(right) == 0,
@@ -538,12 +538,12 @@ namespace Jodo.Numerics.Tests
         public void GreaterThanMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left > right,
 #endif
@@ -557,12 +557,12 @@ namespace Jodo.Numerics.Tests
         public void GreaterThanOrEqualMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left >= right,
 #endif
@@ -576,12 +576,12 @@ namespace Jodo.Numerics.Tests
         public void InequalityMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => !left.Equals(right),
                 () => !left.Equals((object)right),
                 () => left.CompareTo(right) != 0,
@@ -593,12 +593,12 @@ namespace Jodo.Numerics.Tests
         public void LeftShiftMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             int right = Random.Next(-1, 65);
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left << right,
 #endif
@@ -610,12 +610,12 @@ namespace Jodo.Numerics.Tests
         public void LessThanMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left < right,
 #endif
@@ -629,12 +629,12 @@ namespace Jodo.Numerics.Tests
         public void LessThanOrEqualMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left <= right,
 #endif
@@ -648,12 +648,12 @@ namespace Jodo.Numerics.Tests
         public void LogicalAndMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left & right,
 #endif
@@ -665,12 +665,12 @@ namespace Jodo.Numerics.Tests
         public void LogicalExclusiveOrMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left ^ right,
 #endif
@@ -682,12 +682,12 @@ namespace Jodo.Numerics.Tests
         public void LogicalOrMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left | right,
 #endif
@@ -699,12 +699,12 @@ namespace Jodo.Numerics.Tests
         public void MultiplicationMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left * right,
 #endif
@@ -716,12 +716,12 @@ namespace Jodo.Numerics.Tests
         public void RemainderMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left % right,
 #endif
@@ -733,12 +733,12 @@ namespace Jodo.Numerics.Tests
         public void RightShiftMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             int right = Random.Next(-1, 65);
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left >> right,
 #endif
@@ -750,12 +750,12 @@ namespace Jodo.Numerics.Tests
         public void SubtractionMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
-            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>());
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric right = Random.Choose(left, Random.NextNumeric<TNumeric>(Generation.Extended));
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => left - right,
 #endif
@@ -767,11 +767,11 @@ namespace Jodo.Numerics.Tests
         public void UnaryPlusMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => +left,
 #endif

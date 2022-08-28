@@ -18,19 +18,17 @@
 // IN THE SOFTWARE.
 
 using System;
-using Jodo.Testing;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Jodo.Numerics.Tests
+namespace Jodo.Numerics
 {
-    public class AssemblyFixtureBase : GlobalFixtureBase
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Consistency with System.Random.Next")]
+    public interface INumericRandom<TNumeric>
     {
-        public static Vector2<TNumeric> GenerateVector2<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-        {
-            TNumeric minOrigin = Numeric.IsSigned<TNumeric>() ? ConvertN.ToNumeric<TNumeric>(-10) : Numeric.Zero<TNumeric>();
-            TNumeric maxOrigin = ConvertN.ToNumeric<TNumeric>(10);
-            return new Vector2<TNumeric>(
-                Random.NextNumeric(minOrigin, maxOrigin),
-                Random.NextNumeric(minOrigin, maxOrigin));
-        }
+        TNumeric Next(Random random);
+        TNumeric Next(Random random, TNumeric maxValue);
+        TNumeric Next(Random random, TNumeric minValue, TNumeric maxValue);
+        TNumeric Next(Random random, Generation mode);
+        TNumeric Next(Random random, TNumeric minValue, TNumeric maxValue, Generation mode);
     }
 }

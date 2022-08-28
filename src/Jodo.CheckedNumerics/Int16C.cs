@@ -151,18 +151,20 @@ namespace Jodo.CheckedNumerics
         IConvert<Int16C> IProvider<IConvert<Int16C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Int16C> IProvider<IConvertExtended<Int16C>>.GetInstance() => Utilities.Instance;
         IMath<Int16C> IProvider<IMath<Int16C>>.GetInstance() => Utilities.Instance;
+        INumericRandom<Int16C> IProvider<INumericRandom<Int16C>>.GetInstance() => Utilities.Instance;
         INumericStatic<Int16C> IProvider<INumericStatic<Int16C>>.GetInstance() => Utilities.Instance;
-        IRandom<Int16C> IProvider<IRandom<Int16C>>.GetInstance() => Utilities.Instance;
         IStringConvert<Int16C> IProvider<IStringConvert<Int16C>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<Int16C> IProvider<IVariantRandom<Int16C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<Int16C>,
             IConvert<Int16C>,
             IConvertExtended<Int16C>,
             IMath<Int16C>,
+            INumericRandom<Int16C>,
             INumericStatic<Int16C>,
-            IRandom<Int16C>,
-            IStringConvert<Int16C>
+            IStringConvert<Int16C>,
+            IVariantRandom<Int16C>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -202,7 +204,7 @@ namespace Jodo.CheckedNumerics
             Int16C IMath<Int16C>.Clamp(Int16C x, Int16C bound1, Int16C bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             Int16C IMath<Int16C>.Cos(Int16C x) => (Int16C)Math.Cos(x._value);
             Int16C IMath<Int16C>.Cosh(Int16C x) => (Int16C)Math.Cosh(x._value);
-            Int16C IMath<Int16C>.DegreesToRadians(Int16C x) => (Int16C)CheckedMath.Multiply(x, NumericUtilities.RadiansPerDegree);
+            Int16C IMath<Int16C>.DegreesToRadians(Int16C x) => (Int16C)CheckedMath.Multiply(x, BitOperations.RadiansPerDegree);
             Int16C IMath<Int16C>.E { get; } = (short)2;
             Int16C IMath<Int16C>.Exp(Int16C x) => (Int16C)Math.Exp(x._value);
             Int16C IMath<Int16C>.Floor(Int16C x) => x;
@@ -214,7 +216,7 @@ namespace Jodo.CheckedNumerics
             Int16C IMath<Int16C>.Min(Int16C x, Int16C y) => Math.Min(x._value, y._value);
             Int16C IMath<Int16C>.PI { get; } = (short)3;
             Int16C IMath<Int16C>.Pow(Int16C x, Int16C y) => CheckedMath.Pow(x._value, y._value);
-            Int16C IMath<Int16C>.RadiansToDegrees(Int16C x) => (Int16C)CheckedMath.Multiply(x, NumericUtilities.DegreesPerRadian);
+            Int16C IMath<Int16C>.RadiansToDegrees(Int16C x) => (Int16C)CheckedMath.Multiply(x, BitOperations.DegreesPerRadian);
             Int16C IMath<Int16C>.Round(Int16C x) => x;
             Int16C IMath<Int16C>.Round(Int16C x, int digits) => x;
             Int16C IMath<Int16C>.Round(Int16C x, int digits, MidpointRounding mode) => x;
@@ -230,9 +232,6 @@ namespace Jodo.CheckedNumerics
 
             Int16C IBitConvert<Int16C>.Read(IReader<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)), 0);
             void IBitConvert<Int16C>.Write(Int16C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
-
-            Int16C IRandom<Int16C>.Next(Random random) => random.NextInt16();
-            Int16C IRandom<Int16C>.Next(Random random, Int16C bound1, Int16C bound2) => random.NextInt16(bound1._value, bound2._value);
 
             bool IConvert<Int16C>.ToBoolean(Int16C value) => value._value != 0;
             byte IConvert<Int16C>.ToByte(Int16C value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
@@ -264,6 +263,14 @@ namespace Jodo.CheckedNumerics
 
             Int16C IStringConvert<Int16C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
+
+            Int16C INumericRandom<Int16C>.Next(Random random) => random.NextInt16();
+            Int16C INumericRandom<Int16C>.Next(Random random, Int16C maxValue) => random.NextInt16(maxValue);
+            Int16C INumericRandom<Int16C>.Next(Random random, Int16C minValue, Int16C maxValue) => random.NextInt16(minValue, maxValue);
+            Int16C INumericRandom<Int16C>.Next(Random random, Generation mode) => random.NextInt16(mode);
+            Int16C INumericRandom<Int16C>.Next(Random random, Int16C minValue, Int16C maxValue, Generation mode) => random.NextInt16(minValue, maxValue, mode);
+
+            Int16C IVariantRandom<Int16C>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<Int16C>(random, scenarios);
         }
     }
 }

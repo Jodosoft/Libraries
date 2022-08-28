@@ -25,7 +25,7 @@ namespace Jodo.Testing
 {
     public static class TestLocal
     {
-        public static T GetOrAdd<T>(string key, Func<T> factory)
+        public static T GetOrAdd<T>(Func<T> factory)
         {
             IPropertyBag propertyBag = TestExecutionContext.CurrentContext?.CurrentTest?.Properties;
             if (propertyBag == null)
@@ -33,6 +33,7 @@ namespace Jodo.Testing
                 throw new InvalidOperationException("Test context not found.");
             }
 
+            string key = $"{nameof(TestLocal)}+{typeof(T).Name}";
             if (!propertyBag.ContainsKey(key))
             {
                 propertyBag.Set(key, factory());

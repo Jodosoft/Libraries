@@ -18,18 +18,13 @@
 // IN THE SOFTWARE.
 
 using System;
-using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-using NUnit.Framework.Internal.Commands;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Jodo.Testing
+namespace Jodo.Primitives
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public sealed partial class NotApplicableAttribute : PropertyAttribute, IWrapTestMethod
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Consistency with System.Random.Next")]
+    public interface IVariantRandom<out T>
     {
-        public string Reason { get; set; }
-
-        public TestCommand Wrap(TestCommand command)
-            => new NotApplicableTestCommand(command, Reason);
+        T Next(Random random, Scenarios scenarios);
     }
 }

@@ -97,20 +97,20 @@ namespace Jodo.CheckedNumerics
         public static bool operator >(DecimalC left, DecimalC right) => left._value > right._value;
         public static bool operator >=(DecimalC left, DecimalC right) => left._value >= right._value;
         public static DecimalC operator %(DecimalC left, DecimalC right) => CheckedMath.Remainder(left._value, right._value);
-        public static DecimalC operator &(DecimalC left, DecimalC right) => NumericUtilities.LogicalAnd(left._value, right._value);
+        public static DecimalC operator &(DecimalC left, DecimalC right) => BitOperations.LogicalAnd(left._value, right._value);
         public static DecimalC operator -(DecimalC left, DecimalC right) => CheckedMath.Subtract(left._value, right._value);
         public static DecimalC operator --(DecimalC value) => value - 1;
         public static DecimalC operator -(DecimalC value) => -value._value;
         public static DecimalC operator *(DecimalC left, DecimalC right) => CheckedMath.Multiply(left._value, right._value);
         public static DecimalC operator /(DecimalC left, DecimalC right) => CheckedMath.Divide(left._value, right._value);
-        public static DecimalC operator ^(DecimalC left, DecimalC right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static DecimalC operator |(DecimalC left, DecimalC right) => NumericUtilities.LogicalOr(left._value, right._value);
-        public static DecimalC operator ~(DecimalC left) => NumericUtilities.BitwiseComplement(left._value);
+        public static DecimalC operator ^(DecimalC left, DecimalC right) => BitOperations.LogicalExclusiveOr(left._value, right._value);
+        public static DecimalC operator |(DecimalC left, DecimalC right) => BitOperations.LogicalOr(left._value, right._value);
+        public static DecimalC operator ~(DecimalC left) => BitOperations.BitwiseComplement(left._value);
         public static DecimalC operator +(DecimalC left, DecimalC right) => CheckedMath.Add(left._value, right._value);
         public static DecimalC operator +(DecimalC value) => value;
         public static DecimalC operator ++(DecimalC value) => value + 1;
-        public static DecimalC operator <<(DecimalC left, int right) => NumericUtilities.LeftShift(left._value, right);
-        public static DecimalC operator >>(DecimalC left, int right) => NumericUtilities.RightShift(left._value, right);
+        public static DecimalC operator <<(DecimalC left, int right) => BitOperations.LeftShift(left._value, right);
+        public static DecimalC operator >>(DecimalC left, int right) => BitOperations.RightShift(left._value, right);
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
         bool IConvertible.ToBoolean(IFormatProvider provider) => Convert.ToBoolean(_value, provider);
@@ -151,18 +151,20 @@ namespace Jodo.CheckedNumerics
         IConvert<DecimalC> IProvider<IConvert<DecimalC>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DecimalC> IProvider<IConvertExtended<DecimalC>>.GetInstance() => Utilities.Instance;
         IMath<DecimalC> IProvider<IMath<DecimalC>>.GetInstance() => Utilities.Instance;
+        INumericRandom<DecimalC> IProvider<INumericRandom<DecimalC>>.GetInstance() => Utilities.Instance;
         INumericStatic<DecimalC> IProvider<INumericStatic<DecimalC>>.GetInstance() => Utilities.Instance;
-        IRandom<DecimalC> IProvider<IRandom<DecimalC>>.GetInstance() => Utilities.Instance;
         IStringConvert<DecimalC> IProvider<IStringConvert<DecimalC>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<DecimalC> IProvider<IVariantRandom<DecimalC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<DecimalC>,
             IConvert<DecimalC>,
             IConvertExtended<DecimalC>,
             IMath<DecimalC>,
+            INumericRandom<DecimalC>,
             INumericStatic<DecimalC>,
-            IRandom<DecimalC>,
-            IStringConvert<DecimalC>
+            IStringConvert<DecimalC>,
+            IVariantRandom<DecimalC>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -202,7 +204,7 @@ namespace Jodo.CheckedNumerics
             DecimalC IMath<DecimalC>.Clamp(DecimalC x, DecimalC bound1, DecimalC bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             DecimalC IMath<DecimalC>.Cos(DecimalC x) => ConvertN.ToDecimal(Math.Cos(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
             DecimalC IMath<DecimalC>.Cosh(DecimalC x) => ConvertN.ToDecimal(Math.Cosh(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
-            DecimalC IMath<DecimalC>.DegreesToRadians(DecimalC degrees) => degrees * NumericUtilities.RadiansPerDegreeM;
+            DecimalC IMath<DecimalC>.DegreesToRadians(DecimalC degrees) => degrees * BitOperations.RadiansPerDegreeM;
             DecimalC IMath<DecimalC>.E { get; } = (decimal)Math.E;
             DecimalC IMath<DecimalC>.Exp(DecimalC x) => ConvertN.ToDecimal(Math.Exp(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
             DecimalC IMath<DecimalC>.Floor(DecimalC x) => decimal.Floor(x._value);
@@ -214,7 +216,7 @@ namespace Jodo.CheckedNumerics
             DecimalC IMath<DecimalC>.Min(DecimalC x, DecimalC y) => Math.Min(x._value, y._value);
             DecimalC IMath<DecimalC>.PI { get; } = (decimal)Math.PI;
             DecimalC IMath<DecimalC>.Pow(DecimalC x, DecimalC y) => y == 1 ? x : (DecimalC)ConvertN.ToDecimal(Math.Pow(ConvertN.ToDouble(x._value, Conversion.CastClamp), ConvertN.ToDouble(y._value, Conversion.CastClamp)), Conversion.CastClamp);
-            DecimalC IMath<DecimalC>.RadiansToDegrees(DecimalC radians) => radians * NumericUtilities.DegreesPerRadianM;
+            DecimalC IMath<DecimalC>.RadiansToDegrees(DecimalC radians) => radians * BitOperations.DegreesPerRadianM;
             DecimalC IMath<DecimalC>.Round(DecimalC x) => decimal.Round(x);
             DecimalC IMath<DecimalC>.Round(DecimalC x, int digits) => decimal.Round(x, digits);
             DecimalC IMath<DecimalC>.Round(DecimalC x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);
@@ -250,9 +252,6 @@ namespace Jodo.CheckedNumerics
                 stream.Write(BitConverter.GetBytes(parts[3]));
             }
 
-            DecimalC IRandom<DecimalC>.Next(Random random) => random.NextDecimal(decimal.MinValue, decimal.MaxValue);
-            DecimalC IRandom<DecimalC>.Next(Random random, DecimalC bound1, DecimalC bound2) => random.NextDecimal(bound1._value, bound2._value);
-
             bool IConvert<DecimalC>.ToBoolean(DecimalC value) => value._value != 0m;
             byte IConvert<DecimalC>.ToByte(DecimalC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
             decimal IConvert<DecimalC>.ToDecimal(DecimalC value, Conversion mode) => value._value;
@@ -283,6 +282,14 @@ namespace Jodo.CheckedNumerics
 
             DecimalC IStringConvert<DecimalC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
+
+            DecimalC INumericRandom<DecimalC>.Next(Random random) => random.NextDecimal();
+            DecimalC INumericRandom<DecimalC>.Next(Random random, DecimalC maxValue) => random.NextDecimal(maxValue);
+            DecimalC INumericRandom<DecimalC>.Next(Random random, DecimalC minValue, DecimalC maxValue) => random.NextDecimal(minValue, maxValue);
+            DecimalC INumericRandom<DecimalC>.Next(Random random, Generation mode) => random.NextDecimal(mode);
+            DecimalC INumericRandom<DecimalC>.Next(Random random, DecimalC minValue, DecimalC maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
+
+            DecimalC IVariantRandom<DecimalC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DecimalC>(random, scenarios);
         }
     }
 }

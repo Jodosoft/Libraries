@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
 using System.Diagnostics;
 using System.Linq;
 using FluentAssertions;
@@ -26,13 +25,13 @@ using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
-    public abstract class ObjectTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IRandom<T>>
+    public abstract class ObjectTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
         public void Equals_Null_ReturnsFalse()
         {
             //arrange
-            T input = Random.NextRandomizable<T>();
+            T input = Random.NextVariant<T>(Scenarios.NonError);
 
             //act
             bool result = input.Equals(null);
@@ -45,7 +44,7 @@ namespace Jodo.Primitives.Tests
         public void Equals_DifferentType_ReturnsFalse()
         {
             //arrange
-            T input = Random.NextRandomizable<T>();
+            T input = Random.NextVariant<T>(Scenarios.NonError);
 
             //act
             bool result = input.Equals(new Stopwatch());
@@ -58,7 +57,7 @@ namespace Jodo.Primitives.Tests
         public void Equals_Itself_ReturnsTrue()
         {
             //arrange
-            T input = Random.NextRandomizable<T>();
+            T input = Random.NextVariant<T>(Scenarios.NonError);
 
             //act
             bool result = input.Equals(input);
@@ -71,8 +70,8 @@ namespace Jodo.Primitives.Tests
         public void Equals_Other_ReverseIsSame()
         {
             //arrange
-            T input1 = Random.NextRandomizable<T>();
-            T input2 = Random.NextRandomizable<T>();
+            T input1 = Random.NextVariant<T>(Scenarios.NonError);
+            T input2 = Random.NextVariant<T>(Scenarios.NonError);
 
             //act
             bool result1 = input1.Equals(input2);
@@ -86,7 +85,7 @@ namespace Jodo.Primitives.Tests
         public void GetHashCode_SameObject_ReturnsSameValue()
         {
             //arrange
-            T input = Random.NextRandomizable<T>();
+            T input = Random.NextVariant<T>(Scenarios.NonError);
             int[] results = new int[100];
 
             //act
@@ -108,7 +107,7 @@ namespace Jodo.Primitives.Tests
             //act
             for (int i = 0; i < results.Length; i++)
             {
-                T input = Random.NextRandomizable<T>();
+                T input = Random.NextVariant<T>(Scenarios.NonError);
 
                 results[i] = input.GetHashCode();
             }
@@ -121,7 +120,7 @@ namespace Jodo.Primitives.Tests
         public void ToString_MultipleInvocations_ReturnsSameValue()
         {
             //arrange
-            T input = Random.NextRandomizable<T>();
+            T input = Random.NextVariant<T>(Scenarios.NonError);
             string[] results = new string[100];
 
             //act
@@ -143,7 +142,7 @@ namespace Jodo.Primitives.Tests
             //act
             for (int i = 0; i < results.Length; i++)
             {
-                T input = Random.NextRandomizable<T>();
+                T input = Random.NextVariant<T>(Scenarios.NonError);
 
                 results[i] = input.ToString();
             }
@@ -156,8 +155,8 @@ namespace Jodo.Primitives.Tests
         public void GetHashCode_WhenEqualsTrue_ReturnsSameValue()
         {
             //arrange
-            T input1 = Random.NextRandomizable<T>();
-            T input2 = Random.NextRandomizable<T>();
+            T input1 = Random.NextVariant<T>(Scenarios.NonError);
+            T input2 = Random.NextVariant<T>(Scenarios.NonError);
 
             if (input1.Equals(input2))
             {

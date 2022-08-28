@@ -31,7 +31,7 @@ namespace Jodo.Geometry.Tests
         public void Degrees_FromDegrees_SameAsOriginal()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             TNumeric result = Angle.FromDegrees(input).Degrees;

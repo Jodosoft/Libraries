@@ -33,8 +33,8 @@ namespace Jodo.Geometry
             IEquatable<Circle<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Circle<TNumeric>>>,
-            IProvider<IRandom<Circle<TNumeric>>>,
             IProvider<IStringConvert<Circle<TNumeric>>>,
+            IProvider<IVariantRandom<Circle<TNumeric>>>,
             ITwoDimensional<Circle<TNumeric>, TNumeric>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -83,7 +83,7 @@ namespace Jodo.Geometry
             {
                 double degrees = i * 360d / circumferenceDivisor;
 
-                double radians = degrees * NumericUtilities.RadiansPerDegree;
+                double radians = degrees * BitOperations.RadiansPerDegree;
 
                 results[i + 1] = new Vector2<TNumeric>(
                     ConvertN.ToNumeric<TNumeric>(centerX + (radius * Math.Cos(radians))),
@@ -111,49 +111,21 @@ namespace Jodo.Geometry
 
         Vector2<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
         IBitConvert<Circle<TNumeric>> IProvider<IBitConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IRandom<Circle<TNumeric>> IProvider<IRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IStringConvert<Circle<TNumeric>> IProvider<IStringConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<Circle<TNumeric>> IProvider<IVariantRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<Circle<TNumeric>>,
-           IRandom<Circle<TNumeric>>,
-           IStringConvert<Circle<TNumeric>>
+           IStringConvert<Circle<TNumeric>>,
+           IVariantRandom<Circle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Circle<TNumeric> IRandom<Circle<TNumeric>>.Next(Random random)
+            Circle<TNumeric> IVariantRandom<Circle<TNumeric>>.Next(Random random, Scenarios scenarios)
             {
-                do
-                {
-                    Circle<TNumeric> result = new Circle<TNumeric>(random.NextVector2<TNumeric>(), random.NextNumeric<TNumeric>());
-                    try
-                    {
-                        if (checked(result.GetBounds() != default))
-                        {
-                            return result;
-                        }
-                    }
-                    catch (OverflowException)
-                    {
-                        // Try again
-                    }
-                } while (true);
-            }
-
-            Circle<TNumeric> IRandom<Circle<TNumeric>>.Next(Random random, Circle<TNumeric> bound1, Circle<TNumeric> bound2)
-            {
-                TNumeric xMin = MathN.Min(bound1.Center.X.Subtract(bound1.Radius), bound2.Center.X.Subtract(bound2.Radius));
-                TNumeric xMax = MathN.Max(bound1.Center.X.Add(bound1.Radius), bound2.Center.X.Add(bound2.Radius));
-                TNumeric yMin = MathN.Min(bound1.Center.Y.Subtract(bound1.Radius), bound2.Center.Y.Subtract(bound2.Radius));
-                TNumeric yMax = MathN.Max(bound1.Center.Y.Add(bound1.Radius), bound2.Center.Y.Add(bound2.Radius));
-
-                Vector2<TNumeric> center = new Vector2<TNumeric>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
-
-                TNumeric xMaxRadius = MathN.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
-                TNumeric yMaxRadius = MathN.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
-                TNumeric radius = random.NextNumeric(Numeric.Zero<TNumeric>(), MathN.Min(xMaxRadius, yMaxRadius));
-
-                return new Circle<TNumeric>(center, radius);
+                return new Circle<TNumeric>(
+                    random.NextVariant<Vector2<TNumeric>>(scenarios),
+                    random.NextVariant<TNumeric>(scenarios));
             }
 
             Circle<TNumeric> IStringConvert<Circle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)

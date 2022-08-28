@@ -18,32 +18,20 @@
 // IN THE SOFTWARE.
 
 using System;
-using Jodo.Numerics;
-using Jodo.Testing;
-using NUnit.Framework;
 
-namespace Jodo.Geometry.Tests
+namespace Jodo.Primitives
 {
-    public class AssemblyFixtureBase : GlobalFixtureBase
+    [Flags]
+    public enum Scenarios : byte
     {
-        [SetUp]
-        public void AssemblySetUp()
-        {
-        }
+        Unspecified = 0,
+        Defaults = 1,
+        LowMagnitude = 2,
+        AnyMagnitude = 4,
+        Extremes = 8,
+        Errors = 16,
 
-        public static AARectangle<TNumeric> GenerateAARectangle<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-        {
-            TNumeric minOrigin = Numeric.IsSigned<TNumeric>() ? ConvertN.ToNumeric<TNumeric>(-10) : Numeric.Zero<TNumeric>();
-            TNumeric maxOrigin = ConvertN.ToNumeric<TNumeric>(10);
-            TNumeric minDimension = Numeric.IsSigned<TNumeric>() ? ConvertN.ToNumeric<TNumeric>(-10) : Numeric.Zero<TNumeric>();
-            TNumeric maxDimension = ConvertN.ToNumeric<TNumeric>(10);
-            return new AARectangle<TNumeric>(
-                new Vector2<TNumeric>(
-                    Random.NextNumeric(minOrigin, maxOrigin),
-                    Random.NextNumeric(minOrigin, maxOrigin)),
-                new Vector2<TNumeric>(
-                    Random.NextNumeric(minDimension, maxDimension),
-                    Random.NextNumeric(minDimension, maxDimension)));
-        }
+        All = Defaults | LowMagnitude | AnyMagnitude | Extremes | Errors,
+        NonError = Defaults | LowMagnitude | AnyMagnitude | Extremes,
     }
 }

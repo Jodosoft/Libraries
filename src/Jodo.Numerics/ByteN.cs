@@ -149,9 +149,10 @@ namespace Jodo.Numerics
         IConvert<ByteN> IProvider<IConvert<ByteN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<ByteN> IProvider<IConvertExtended<ByteN>>.GetInstance() => Utilities.Instance;
         IMath<ByteN> IProvider<IMath<ByteN>>.GetInstance() => Utilities.Instance;
+        INumericRandom<ByteN> IProvider<INumericRandom<ByteN>>.GetInstance() => Utilities.Instance;
         INumericStatic<ByteN> IProvider<INumericStatic<ByteN>>.GetInstance() => Utilities.Instance;
-        IRandom<ByteN> IProvider<IRandom<ByteN>>.GetInstance() => Utilities.Instance;
         IStringConvert<ByteN> IProvider<IStringConvert<ByteN>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<ByteN> IProvider<IVariantRandom<ByteN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<ByteN>,
@@ -159,8 +160,9 @@ namespace Jodo.Numerics
             IConvertExtended<ByteN>,
             IMath<ByteN>,
             INumericStatic<ByteN>,
-            IRandom<ByteN>,
-            IStringConvert<ByteN>
+            INumericRandom<ByteN>,
+            IStringConvert<ByteN>,
+            IVariantRandom<ByteN>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -201,7 +203,7 @@ namespace Jodo.Numerics
             ByteN IMath<ByteN>.Clamp(ByteN x, ByteN bound1, ByteN bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             ByteN IMath<ByteN>.Cos(ByteN x) => (byte)Math.Cos(x._value);
             ByteN IMath<ByteN>.Cosh(ByteN x) => (byte)Math.Cosh(x._value);
-            ByteN IMath<ByteN>.DegreesToRadians(ByteN x) => (byte)(x * NumericUtilities.RadiansPerDegree);
+            ByteN IMath<ByteN>.DegreesToRadians(ByteN x) => (byte)(x * BitOperations.RadiansPerDegree);
             ByteN IMath<ByteN>.E { get; } = 2;
             ByteN IMath<ByteN>.Exp(ByteN x) => (byte)Math.Exp(x._value);
             ByteN IMath<ByteN>.Floor(ByteN x) => x;
@@ -213,7 +215,7 @@ namespace Jodo.Numerics
             ByteN IMath<ByteN>.Min(ByteN x, ByteN y) => Math.Min(x._value, y._value);
             ByteN IMath<ByteN>.PI { get; } = 3;
             ByteN IMath<ByteN>.Pow(ByteN x, ByteN y) => (byte)Math.Pow(x._value, y._value);
-            ByteN IMath<ByteN>.RadiansToDegrees(ByteN x) => (byte)(x * NumericUtilities.DegreesPerRadian);
+            ByteN IMath<ByteN>.RadiansToDegrees(ByteN x) => (byte)(x * BitOperations.DegreesPerRadian);
             ByteN IMath<ByteN>.Round(ByteN x) => x;
             ByteN IMath<ByteN>.Round(ByteN x, int digits) => x;
             ByteN IMath<ByteN>.Round(ByteN x, int digits, MidpointRounding mode) => x;
@@ -228,9 +230,6 @@ namespace Jodo.Numerics
 
             ByteN IBitConvert<ByteN>.Read(IReader<byte> stream) => stream.Read(1)[0];
             void IBitConvert<ByteN>.Write(ByteN value, IWriter<byte> stream) => stream.Write(value._value);
-
-            ByteN IRandom<ByteN>.Next(Random random) => random.NextByte();
-            ByteN IRandom<ByteN>.Next(Random random, ByteN bound1, ByteN bound2) => random.NextByte(bound1._value, bound2._value);
 
             bool IConvert<ByteN>.ToBoolean(ByteN value) => Convert.ToBoolean(value._value);
             byte IConvert<ByteN>.ToByte(ByteN value, Conversion mode) => ConvertN.ToByte(value._value, mode);
@@ -262,6 +261,14 @@ namespace Jodo.Numerics
 
             ByteN IStringConvert<ByteN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
+
+            ByteN INumericRandom<ByteN>.Next(Random random) => random.NextByte();
+            ByteN INumericRandom<ByteN>.Next(Random random, ByteN maxValue) => random.NextByte(maxValue);
+            ByteN INumericRandom<ByteN>.Next(Random random, ByteN minValue, ByteN maxValue) => random.NextByte(minValue, maxValue);
+            ByteN INumericRandom<ByteN>.Next(Random random, Generation mode) => random.NextByte(mode);
+            ByteN INumericRandom<ByteN>.Next(Random random, ByteN minValue, ByteN maxValue, Generation mode) => random.NextByte(minValue, maxValue, mode);
+
+            ByteN IVariantRandom<ByteN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<ByteN>(random, scenarios);
         }
     }
 }

@@ -36,6 +36,5 @@ namespace Jodo.Geometry.Tests
         public sealed class UnsignedIntegralBitConverter : BitConvertTestBase<AARectangle<ByteN>> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AARectangle<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AARectangle<ByteN>> { }
-        public sealed class UnsignedIntegralStringConvertTests : StringConvertTestBase<AARectangle<ByteN>> { }
     }
 }

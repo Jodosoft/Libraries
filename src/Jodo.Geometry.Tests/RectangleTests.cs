@@ -36,6 +36,5 @@ namespace Jodo.Geometry.Tests
         public sealed class SerializableFixedPointTests : SerializableTestBase<Rectangle<Fix64>> { }
         public sealed class SerializableFloatingPointTests : SerializableTestBase<Rectangle<SingleN>> { }
         public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<Rectangle<ByteN>> { }
-        public sealed class StringConvertUnsignedIntegralTests : StringConvertTestBase<Rectangle<ByteN>> { }
     }
 }

@@ -33,12 +33,11 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<SByteN> { }
         public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<SByteN> { }
         public sealed class NumericNonNaNTests : NumericNonNaNTestBase<SByteN> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<SByteN> { }
         public sealed class NumericSignedTests : NumericSignedTestBase<SByteN> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<SByteN> { }
         public sealed class NumericTests : NumericTestBase<SByteN> { }
         public sealed class ObjectTests : ObjectTestBase<SByteN> { }
-        public sealed class RandomTests : RandomTestBase<SByteN> { }
         public sealed class SerializableTests : SerializableTestBase<SByteN> { }
-        public sealed class StringConvertTests : StringConvertTestBase<SByteN> { }
     }
 }

@@ -18,21 +18,20 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
-using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public abstract class Vector2TestBase<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class Vector2TestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
 
         [Test, Repeat(RandomVariations)]
         public void Ctor_RandomValues_CorrectResult()
         {
             //arrange
-            TNumeric x = Random.NextNumeric<TNumeric>();
-            TNumeric y = Random.NextNumeric<TNumeric>();
+            TNumeric x = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric y = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             Vector2<TNumeric> result = new Vector2<TNumeric>(x, y);
@@ -40,21 +39,6 @@ namespace Jodo.Numerics.Tests
             //assert
             result.X.Should().Be(x);
             result.Y.Should().Be(y);
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void Random_WithinBounds_CorrectResult()
-        {
-            //arrange
-            Vector2<TNumeric> bound1 = Random.NextRandomizable<Vector2<TNumeric>>();
-            Vector2<TNumeric> bound2 = Random.NextRandomizable<Vector2<TNumeric>>();
-
-            //act
-            Vector2<TNumeric> result = Random.NextRandomizable(bound1, bound2);
-
-            //assert
-            result.X.Should().BeInRange(MathN.Min(bound1.X, bound2.X), MathN.Max(bound1.X, bound2.X));
-            result.Y.Should().BeInRange(MathN.Min(bound1.Y, bound2.Y), MathN.Max(bound1.Y, bound2.Y));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -66,7 +50,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => input1.X.Multiply(input2.X).Add(input1.Y.Multiply(input2.Y)),
                 () => VectorN.Dot(input1, input2));
         }
@@ -80,7 +64,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Multiply(input2.X), input1.Y.Multiply(input2.Y)),
                 () => VectorN.Multiply(input1, input2));
         }
@@ -90,11 +74,11 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Vector2<TNumeric> input1 = Random.NextVector2<TNumeric>();
-            TNumeric input2 = Random.NextNumeric<TNumeric>();
+            TNumeric input2 = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Multiply(input2), input1.Y.Multiply(input2)),
                 () => VectorN.Multiply(input1, input2));
         }
@@ -103,12 +87,12 @@ namespace Jodo.Numerics.Tests
         public void Multiply3_RandomValues_CorrectResult()
         {
             //arrange
-            TNumeric input1 = Random.NextNumeric<TNumeric>();
+            TNumeric input1 = Random.NextNumeric<TNumeric>(Generation.Extended);
             Vector2<TNumeric> input2 = Random.NextVector2<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.Multiply(input2.X), input1.Multiply(input2.Y)),
                 () => VectorN.Multiply(input1, input2));
         }
@@ -122,7 +106,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Add(input2.X), input1.Y.Add(input2.Y)),
                 () => VectorN.Add(input1, input2));
         }
@@ -136,7 +120,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Subtract(input2.X), input1.Y.Subtract(input2.Y)),
                 () => VectorN.Subtract(input1, input2));
         }
@@ -150,7 +134,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Divide(input2.X), input1.Y.Divide(input2.Y)),
                 () => VectorN.Divide(input1, input2));
         }
@@ -164,7 +148,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input1.X.Divide(input2), input1.Y.Divide(input2)),
                 () => VectorN.Divide(input1, input2));
         }
@@ -177,7 +161,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(MathN.Sqrt(input.X), MathN.Sqrt(input.Y)),
                 () => VectorN.SquareRoot(input));
         }
@@ -190,7 +174,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(input.X.Negative(), input.Y.Negative()),
                 () => VectorN.Negate(input));
         }
@@ -204,7 +188,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(MathN.Max(input1.X, input2.X), MathN.Max(input1.Y, input2.Y)),
                 () => VectorN.Max(input1, input2));
         }
@@ -218,7 +202,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => new Vector2<TNumeric>(MathN.Min(input1.X, input2.X), MathN.Min(input1.Y, input2.Y)),
                 () => VectorN.Min(input1, input2));
         }

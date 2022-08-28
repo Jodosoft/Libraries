@@ -33,8 +33,8 @@ namespace Jodo.Geometry
             IEquatable<Triangle<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Triangle<TNumeric>>>,
-            IProvider<IRandom<Triangle<TNumeric>>>,
             IProvider<IStringConvert<Triangle<TNumeric>>>,
+            IProvider<IVariantRandom<Triangle<TNumeric>>>,
             ITwoDimensional<Triangle<TNumeric>, TNumeric>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -115,24 +115,22 @@ namespace Jodo.Geometry
 
         Vector2<TNumeric>[] ITwoDimensional<Triangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
         IBitConvert<Triangle<TNumeric>> IProvider<IBitConvert<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IRandom<Triangle<TNumeric>> IProvider<IRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IStringConvert<Triangle<TNumeric>> IProvider<IStringConvert<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<Triangle<TNumeric>>,
-           IRandom<Triangle<TNumeric>>,
-           IStringConvert<Triangle<TNumeric>>
+           IStringConvert<Triangle<TNumeric>>,
+           IVariantRandom<Triangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Triangle<TNumeric> IRandom<Triangle<TNumeric>>.Next(Random random)
+            Triangle<TNumeric> IVariantRandom<Triangle<TNumeric>>.Next(Random random, Scenarios scenarios)
             {
-                throw new NotImplementedException();
-            }
-
-            Triangle<TNumeric> IRandom<Triangle<TNumeric>>.Next(Random random, Triangle<TNumeric> bound1, Triangle<TNumeric> bound2)
-            {
-                throw new NotImplementedException();
+                return new Triangle<TNumeric>(
+                   random.NextVariant<Vector2<TNumeric>>(scenarios),
+                   random.NextVariant<Vector2<TNumeric>>(scenarios),
+                   random.NextVariant<Vector2<TNumeric>>(scenarios));
             }
 
             Triangle<TNumeric> IStringConvert<Triangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)

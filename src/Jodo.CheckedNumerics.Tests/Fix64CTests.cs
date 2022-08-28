@@ -34,12 +34,12 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<Fix64C> { }
         public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<Fix64C> { }
         public sealed class NumericNonNaNTests : NumericNonNaNTestBase<Fix64C> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64C> { }
         public sealed class NumericRealTests : NumericRealTestBase<Fix64C> { }
         public sealed class NumericSignedTests : NumericSignedTestBase<Fix64C> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Fix64C> { }
         public sealed class NumericTests : NumericTestBase<Fix64C> { }
         public sealed class ObjectTests : ObjectTestBase<Fix64C> { }
-        public sealed class RandomTests : RandomTestBase<Fix64C> { }
         public sealed class SerializableTests : SerializableTestBase<Fix64C> { }
     }
 }

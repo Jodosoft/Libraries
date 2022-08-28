@@ -45,7 +45,9 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = MathN.Truncate(Random.NextNumeric(
-                ConvertN.ToNumeric<TNumeric>(byte.MinValue, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(byte.MaxValue, Conversion.Clamp)));
+                ConvertN.ToNumeric<TNumeric>(byte.MinValue, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(byte.MaxValue, Conversion.Clamp),
+                Generation.Extended));
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToByte(input));
@@ -58,7 +60,10 @@ namespace Jodo.Numerics.Tests
         public void ToDecimal_SmallValueRoundTrip_SameValue()
         {
             //arrange
-            TNumeric input = MathN.Round(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(-10M, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(10M, Conversion.Clamp)), 2);
+            TNumeric input = MathN.Round(Random.NextNumeric(
+                ConvertN.ToNumeric<TNumeric>(-10M, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(10M, Conversion.Clamp),
+                Generation.Extended), 2);
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToDecimal(input));
@@ -71,7 +76,10 @@ namespace Jodo.Numerics.Tests
         public void ToDouble_SmallValueRoundTrip_SameValue()
         {
             //arrange
-            TNumeric input = MathN.Round(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(-10.0, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(10.0, Conversion.Clamp)), 2);
+            TNumeric input = MathN.Round(Random.NextNumeric(
+                ConvertN.ToNumeric<TNumeric>(-10.0, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(10.0, Conversion.Clamp),
+                Generation.Extended), 2);
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToDouble(input));
@@ -85,7 +93,9 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = MathN.Truncate(Random.NextNumeric(
-                ConvertN.ToNumeric<TNumeric>(short.MinValue, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(short.MaxValue, Conversion.Clamp)));
+                ConvertN.ToNumeric<TNumeric>(short.MinValue, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(short.MaxValue, Conversion.Clamp),
+                Generation.Extended));
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToInt16(input));
@@ -99,7 +109,9 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = MathN.Truncate(Random.NextNumeric(
-                ConvertN.ToNumeric<TNumeric>(int.MinValue, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(int.MaxValue, Conversion.Clamp)));
+                ConvertN.ToNumeric<TNumeric>(int.MinValue, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(int.MaxValue, Conversion.Clamp),
+                Generation.Extended));
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToInt32(input));
@@ -113,7 +125,9 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = MathN.Truncate(Random.NextNumeric(
-                ConvertN.ToNumeric<TNumeric>(long.MinValue, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(long.MaxValue, Conversion.Clamp)));
+                ConvertN.ToNumeric<TNumeric>(long.MinValue, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(long.MaxValue, Conversion.Clamp),
+                Generation.Extended));
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToInt64(input));
@@ -127,7 +141,9 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = MathN.Truncate(Random.NextNumeric(
-                ConvertN.ToNumeric<TNumeric>(sbyte.MinValue, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(sbyte.MaxValue, Conversion.Clamp)));
+                ConvertN.ToNumeric<TNumeric>(sbyte.MinValue, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(sbyte.MaxValue, Conversion.Clamp),
+                Generation.Extended));
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToSByte(input, Conversion.Cast));
@@ -140,7 +156,10 @@ namespace Jodo.Numerics.Tests
         public void ToSingle_SmallValueRoundTrip_SameValue()
         {
             //arrange
-            TNumeric input = MathN.Round(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(-10f, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(10f, Conversion.Clamp)), 2);
+            TNumeric input = MathN.Round(Random.NextNumeric(
+                ConvertN.ToNumeric<TNumeric>(-10f, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(10f, Conversion.Clamp),
+                Generation.Extended), 2);
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToSingle(input));
@@ -154,7 +173,9 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = MathN.Truncate(Random.NextNumeric(
-                ConvertN.ToNumeric<TNumeric>(ushort.MinValue, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(ushort.MaxValue, Conversion.Clamp)));
+                ConvertN.ToNumeric<TNumeric>(ushort.MinValue, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(ushort.MaxValue, Conversion.Clamp),
+                Generation.Extended));
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToUInt16(input));
@@ -168,7 +189,9 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = MathN.Truncate(Random.NextNumeric(
-                ConvertN.ToNumeric<TNumeric>(uint.MinValue, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(uint.MaxValue, Conversion.Clamp)));
+                ConvertN.ToNumeric<TNumeric>(uint.MinValue, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(uint.MaxValue, Conversion.Clamp),
+                Generation.Extended));
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToUInt32(input));
@@ -182,7 +205,9 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = MathN.Truncate(Random.NextNumeric(
-                ConvertN.ToNumeric<TNumeric>(ulong.MinValue, Conversion.Clamp), ConvertN.ToNumeric<TNumeric>(ulong.MaxValue, Conversion.Clamp)));
+                ConvertN.ToNumeric<TNumeric>(ulong.MinValue, Conversion.Clamp),
+                ConvertN.ToNumeric<TNumeric>(ulong.MaxValue, Conversion.Clamp),
+                Generation.Extended));
 
             //act
             TNumeric result = ConvertN.ToNumeric<TNumeric>(ConvertN.ToUInt64(input));
@@ -195,7 +220,7 @@ namespace Jodo.Numerics.Tests
         public void ToString1_Random_SameAsObjectToString()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             string result = ConvertN.ToString(input);
@@ -223,11 +248,11 @@ namespace Jodo.Numerics.Tests
         public void ToByteMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(
+            AssertSame.Outcome(
                 () => ((IConvertible)value).ToByte(null),
                 () => ConvertN.ToByte(value));
         }

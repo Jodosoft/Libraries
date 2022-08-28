@@ -26,13 +26,13 @@ using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
-    public abstract class BitConvertTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IBitConvert<T>>, IProvider<IRandom<T>>
+    public abstract class BitConvertTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IBitConvert<T>>, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
         public void GetBytes_RandomValue_ReturnsBytes()
         {
             //arrange
-            T input = Random.NextRandomizable<T>();
+            T input = Random.NextVariant<T>(Scenarios.NonError);
 
             //act
             byte[] result = BitConvert.GetBytes(input);
@@ -45,7 +45,7 @@ namespace Jodo.Primitives.Tests
         public void GetBytes_RoundTrip_SameAsOriginal()
         {
             //arrange
-            T input = Random.NextRandomizable<T>();
+            T input = Random.NextVariant<T>(Scenarios.NonError);
 
             //act
             T result = BitConvert.FromBytes<T>(BitConvert.GetBytes(input));
@@ -58,7 +58,7 @@ namespace Jodo.Primitives.Tests
         public void GetBytes_RoundTripMultiple_SameAsOriginal()
         {
             //arrange
-            T[] input = Enumerable.Range(0, 10).Select(_ => Random.NextRandomizable<T>()).ToArray();
+            T[] input = Enumerable.Range(0, 10).Select(_ => Random.NextVariant<T>(Scenarios.NonError)).ToArray();
             T[] results = new T[input.Length];
             List<byte> buffer = new List<byte>();
             IWriter<byte> writer = buffer.AsWriteOnlyStream();

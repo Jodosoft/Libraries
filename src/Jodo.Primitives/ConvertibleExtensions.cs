@@ -18,50 +18,56 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Primitives
 {
     [CLSCompliant(false)]
     public static class ConvertibleExtensions
     {
-        private static readonly Type Boolean = typeof(bool);
-        private static readonly Type Char = typeof(char);
-        private static readonly Type SByte = typeof(sbyte);
-        private static readonly Type Byte = typeof(byte);
-        private static readonly Type Int16 = typeof(short);
-        private static readonly Type UInt16 = typeof(ushort);
-        private static readonly Type Int32 = typeof(int);
-        private static readonly Type UInt32 = typeof(uint);
-        private static readonly Type Int64 = typeof(long);
-        private static readonly Type UInt64 = typeof(ulong);
-        private static readonly Type Single = typeof(float);
-        private static readonly Type Double = typeof(double);
-        private static readonly Type Decimal = typeof(decimal);
-        private static readonly Type DateTime = typeof(DateTime);
-        private static readonly Type String = typeof(string);
-        private static readonly Type Object = typeof(object);
-        private static readonly Type Enum = typeof(Enum);
+        private static readonly Type BooleanType = typeof(bool);
+        private static readonly Type CharType = typeof(char);
+        private static readonly Type SByteType = typeof(sbyte);
+        private static readonly Type ByteType = typeof(byte);
+        private static readonly Type Int16Type = typeof(short);
+        private static readonly Type UInt16Type = typeof(ushort);
+        private static readonly Type Int32Type = typeof(int);
+        private static readonly Type UInt32Type = typeof(uint);
+        private static readonly Type Int64Type = typeof(long);
+        private static readonly Type UInt64Type = typeof(ulong);
+        private static readonly Type SingleType = typeof(float);
+        private static readonly Type DoubleType = typeof(double);
+        private static readonly Type DecimalType = typeof(decimal);
+        private static readonly Type DateTimeType = typeof(DateTime);
+        private static readonly Type StringType = typeof(string);
+        private static readonly Type ObjectType = typeof(object);
+        private static readonly Type EnumType = typeof(Enum);
 
+        [SuppressMessage("csharpsquid", "S3776:Cognitive Complexity of methods should not be too high", Justification = "Branchy but simple.")]
         public static object ToTypeDefault(this IConvertible value, Type targetType, IFormatProvider? provider)
         {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
+
             if (ReferenceEquals(value.GetType(), targetType)) return value;
-            if (ReferenceEquals(targetType, Boolean)) return value.ToBoolean(provider);
-            if (ReferenceEquals(targetType, Char)) return value.ToChar(provider);
-            if (ReferenceEquals(targetType, SByte)) return value.ToSByte(provider);
-            if (ReferenceEquals(targetType, Byte)) return value.ToByte(provider);
-            if (ReferenceEquals(targetType, Int16)) return value.ToInt16(provider);
-            if (ReferenceEquals(targetType, UInt16)) return value.ToUInt16(provider);
-            if (ReferenceEquals(targetType, Int32)) return value.ToInt32(provider);
-            if (ReferenceEquals(targetType, UInt32)) return value.ToUInt32(provider);
-            if (ReferenceEquals(targetType, Int64)) return value.ToInt64(provider);
-            if (ReferenceEquals(targetType, UInt64)) return value.ToUInt64(provider);
-            if (ReferenceEquals(targetType, Single)) return value.ToSingle(provider);
-            if (ReferenceEquals(targetType, Double)) return value.ToDouble(provider);
-            if (ReferenceEquals(targetType, Decimal)) return value.ToDecimal(provider);
-            if (ReferenceEquals(targetType, DateTime)) return value.ToDateTime(provider);
-            if (ReferenceEquals(targetType, String)) return value.ToString(provider);
-            if (ReferenceEquals(targetType, Object)) return value;
-            if (ReferenceEquals(targetType, Enum)) return (Enum)value;
+
+            if (ReferenceEquals(targetType, BooleanType)) return value.ToBoolean(provider);
+            if (ReferenceEquals(targetType, CharType)) return value.ToChar(provider);
+            if (ReferenceEquals(targetType, SByteType)) return value.ToSByte(provider);
+            if (ReferenceEquals(targetType, ByteType)) return value.ToByte(provider);
+            if (ReferenceEquals(targetType, Int16Type)) return value.ToInt16(provider);
+            if (ReferenceEquals(targetType, UInt16Type)) return value.ToUInt16(provider);
+            if (ReferenceEquals(targetType, Int32Type)) return value.ToInt32(provider);
+            if (ReferenceEquals(targetType, UInt32Type)) return value.ToUInt32(provider);
+            if (ReferenceEquals(targetType, Int64Type)) return value.ToInt64(provider);
+            if (ReferenceEquals(targetType, UInt64Type)) return value.ToUInt64(provider);
+            if (ReferenceEquals(targetType, SingleType)) return value.ToSingle(provider);
+            if (ReferenceEquals(targetType, DoubleType)) return value.ToDouble(provider);
+            if (ReferenceEquals(targetType, DecimalType)) return value.ToDecimal(provider);
+            if (ReferenceEquals(targetType, DateTimeType)) return value.ToDateTime(provider);
+            if (ReferenceEquals(targetType, StringType)) return value.ToString(provider);
+            if (ReferenceEquals(targetType, ObjectType)) return value;
+            if (ReferenceEquals(targetType, EnumType)) return (Enum)value;
 
             throw new InvalidCastException($"Invalid cast from '{value.GetType().FullName}' to '{targetType.FullName}'.");
         }

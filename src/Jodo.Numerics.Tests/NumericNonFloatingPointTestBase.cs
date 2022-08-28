@@ -33,7 +33,7 @@ namespace Jodo.Numerics.Tests
         public void IsNormal_RandomValue_AlwaysFalse()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             bool result = Numeric.IsNormal(input);
@@ -46,7 +46,7 @@ namespace Jodo.Numerics.Tests
         public void IsSubnormal_RandomIntegral_AlwaysFalse()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             bool result = Numeric.IsSubnormal(input);

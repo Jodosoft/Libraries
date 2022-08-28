@@ -69,7 +69,7 @@ namespace Jodo.Numerics.Tests
         public void Ctor_ValueGreaterThanMaxUnit_ReturnsMaxUnit()
         {
             //arrange
-            TNumeric input = Random.NextNumeric(Numeric.MaxUnit<TNumeric>(), Numeric.MaxValue<TNumeric>());
+            TNumeric input = Random.NextNumeric(Numeric.MaxUnit<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended);
 
             //act
             Unit<TNumeric> result = new Unit<TNumeric>(input);
@@ -82,7 +82,7 @@ namespace Jodo.Numerics.Tests
         public void Ctor_ValueGreaterThanMaxUnit_ReturnsMinUnit()
         {
             //arrange
-            TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>(), Numeric.MinUnit<TNumeric>());
+            TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>(), Numeric.MinUnit<TNumeric>(), Generation.Extended);
 
             //act
             Unit<TNumeric> result = new Unit<TNumeric>(input);
@@ -100,7 +100,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.CompareTo(right.Value), () => left.CompareTo(right));
+            AssertSame.Outcome(() => left.Value.CompareTo(right.Value), () => left.CompareTo(right));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -112,7 +112,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.CompareTo((object)right.Value), () => left.CompareTo((object)right));
+            AssertSame.Outcome(() => left.Value.CompareTo((object)right.Value), () => left.CompareTo((object)right));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -123,7 +123,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.ToString(), () => left.ToString());
+            AssertSame.Outcome(() => left.Value.ToString(), () => left.ToString());
         }
 
         [Test, Repeat(RandomVariations)]
@@ -134,7 +134,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.GetHashCode(), () => left.GetHashCode());
+            AssertSame.Outcome(() => left.Value.GetHashCode(), () => left.GetHashCode());
         }
 
         [Test, Repeat(RandomVariations)]
@@ -146,7 +146,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Equals(right.Value), () => left == right);
+            AssertSame.Outcome(() => left.Value.Equals(right.Value), () => left == right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -158,7 +158,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Equals(right.Value), () => left.Equals(right));
+            AssertSame.Outcome(() => left.Value.Equals(right.Value), () => left.Equals(right));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -170,7 +170,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => !left.Value.Equals(right.Value), () => left != right);
+            AssertSame.Outcome(() => !left.Value.Equals(right.Value), () => left != right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -182,7 +182,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Add(right.Value), () => left + right);
+            AssertSame.Outcome(() => left.Value.Add(right.Value), () => left + right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -190,23 +190,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Add(right), () => left + right);
+            AssertSame.Outcome(() => left.Value.Add(right), () => left + right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void Add3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.Add(right.Value), () => left + right);
+            AssertSame.Outcome(() => left.Add(right.Value), () => left + right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -218,7 +218,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Divide(right.Value), () => left / right);
+            AssertSame.Outcome(() => left.Value.Divide(right.Value), () => left / right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -226,23 +226,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Divide(right), () => left / right);
+            AssertSame.Outcome(() => left.Value.Divide(right), () => left / right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void Divide3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.Divide(right.Value), () => left / right);
+            AssertSame.Outcome(() => left.Divide(right.Value), () => left / right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -254,7 +254,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.IsGreaterThan(right.Value), () => left > right);
+            AssertSame.Outcome(() => left.Value.IsGreaterThan(right.Value), () => left > right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -262,23 +262,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.IsGreaterThan(right), () => left > right);
+            AssertSame.Outcome(() => left.Value.IsGreaterThan(right), () => left > right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void GreaterThan3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.IsGreaterThan(right.Value), () => left > right);
+            AssertSame.Outcome(() => left.IsGreaterThan(right.Value), () => left > right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -290,7 +290,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.IsGreaterThanOrEqualTo(right.Value), () => left >= right);
+            AssertSame.Outcome(() => left.Value.IsGreaterThanOrEqualTo(right.Value), () => left >= right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -298,23 +298,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.IsGreaterThanOrEqualTo(right), () => left >= right);
+            AssertSame.Outcome(() => left.Value.IsGreaterThanOrEqualTo(right), () => left >= right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void GreaterThanOrEqualTo3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.IsGreaterThanOrEqualTo(right.Value), () => left >= right);
+            AssertSame.Outcome(() => left.IsGreaterThanOrEqualTo(right.Value), () => left >= right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -326,7 +326,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.IsLessThan(right.Value), () => left < right);
+            AssertSame.Outcome(() => left.Value.IsLessThan(right.Value), () => left < right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -334,23 +334,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.IsLessThan(right), () => left < right);
+            AssertSame.Outcome(() => left.Value.IsLessThan(right), () => left < right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void IsLessThan3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.IsLessThan(right), () => left < right);
+            AssertSame.Outcome(() => left.IsLessThan(right), () => left < right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -362,7 +362,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.IsLessThanOrEqualTo(right.Value), () => left <= right);
+            AssertSame.Outcome(() => left.Value.IsLessThanOrEqualTo(right.Value), () => left <= right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -370,23 +370,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.IsLessThanOrEqualTo(right), () => left <= right);
+            AssertSame.Outcome(() => left.Value.IsLessThanOrEqualTo(right), () => left <= right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void IsLessThanOrEqualTo3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.IsLessThanOrEqualTo(right.Value), () => left <= right);
+            AssertSame.Outcome(() => left.IsLessThanOrEqualTo(right.Value), () => left <= right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -398,7 +398,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Multiply(right.Value), () => left * right);
+            AssertSame.Outcome(() => left.Value.Multiply(right.Value), () => left * right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -406,23 +406,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Multiply(right), () => left * right);
+            AssertSame.Outcome(() => left.Value.Multiply(right), () => left * right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void Multiply3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.Multiply(right.Value), () => left * right);
+            AssertSame.Outcome(() => left.Multiply(right.Value), () => left * right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -433,7 +433,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Negative(), () => -left);
+            AssertSame.Outcome(() => left.Value.Negative(), () => -left);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -444,7 +444,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Positive(), () => +left);
+            AssertSame.Outcome(() => left.Value.Positive(), () => +left);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -456,7 +456,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Remainder(right.Value), () => left % right);
+            AssertSame.Outcome(() => left.Value.Remainder(right.Value), () => left % right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -464,23 +464,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Remainder(right), () => left % right);
+            AssertSame.Outcome(() => left.Value.Remainder(right), () => left % right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void Remainder3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.Remainder(right.Value), () => left % right);
+            AssertSame.Outcome(() => left.Remainder(right.Value), () => left % right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -492,7 +492,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Subtract(right.Value), () => left - right);
+            AssertSame.Outcome(() => left.Value.Subtract(right.Value), () => left - right);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -500,23 +500,23 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            TNumeric right = Random.NextNumeric<TNumeric>();
+            TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Outcome(() => left.Value.Subtract(right), () => left - right);
+            AssertSame.Outcome(() => left.Value.Subtract(right), () => left - right);
         }
 
         [Test, Repeat(RandomVariations)]
         public void Subtract3_RandomValues_SameAsNumeric()
         {
             //arrange
-            TNumeric left = Random.NextNumeric<TNumeric>();
+            TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
             Unit<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
-            Same.Outcome(() => left.Subtract(right.Value), () => left - right);
+            AssertSame.Outcome(() => left.Subtract(right.Value), () => left - right);
         }
     }
 }

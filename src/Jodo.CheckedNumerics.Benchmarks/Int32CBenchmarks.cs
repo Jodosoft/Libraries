@@ -20,7 +20,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Jodo.Benchmarking;
-using Jodo.Primitives;
+using Jodo.Numerics;
 
 namespace Jodo.CheckedNumerics.Benchmarks
 {

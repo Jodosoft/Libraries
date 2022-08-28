@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
 using FluentAssertions;
 using Jodo.Numerics;
 using Jodo.Primitives;
@@ -27,14 +26,14 @@ using NUnit.Framework;
 namespace Jodo.Geometry.Tests
 {
     public abstract class TwoDimensionalTestBase<T, TNumeric> : GlobalFixtureBase
-        where T : struct, ITwoDimensional<T, TNumeric>, IProvider<IRandom<T>>
+        where T : struct, ITwoDimensional<T, TNumeric>, IProvider<IVariantRandom<T>>
         where TNumeric : struct, INumeric<TNumeric>
     {
         [Test, Repeat(RandomVariations)]
         public void Translate_ByZero_SameAsOriginal()
         {
             //arrange
-            T sut = Random.NextRandomizable<T>();
+            T sut = Random.NextVariant<T>(Scenarios.LowMagnitude);
 
             //act
             T result = sut.Translate(default);

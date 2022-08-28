@@ -19,7 +19,6 @@
 
 using System;
 using FluentAssertions;
-using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -31,9 +30,9 @@ namespace Jodo.Numerics.Tests
         public void Ctor_RandomValues_CorrectResult()
         {
             //arrange
-            TNumeric x = Random.NextNumeric<TNumeric>();
-            TNumeric y = Random.NextNumeric<TNumeric>();
-            TNumeric z = Random.NextNumeric<TNumeric>();
+            TNumeric x = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric y = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric z = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             Vector3<TNumeric> result = new Vector3<TNumeric>(x, y, z);
@@ -42,22 +41,6 @@ namespace Jodo.Numerics.Tests
             result.X.Should().Be(x);
             result.Y.Should().Be(y);
             result.Z.Should().Be(z);
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void Random_WithinBounds_CorrectResult()
-        {
-            //arrange
-            Vector3<TNumeric> bound1 = Random.NextRandomizable<Vector3<TNumeric>>();
-            Vector3<TNumeric> bound2 = Random.NextRandomizable<Vector3<TNumeric>>();
-
-            //act
-            Vector3<TNumeric> result = Random.NextRandomizable(bound1, bound2);
-
-            //assert
-            result.X.Should().BeInRange(MathN.Min(bound1.X, bound2.X), MathN.Max(bound1.X, bound2.X));
-            result.Y.Should().BeInRange(MathN.Min(bound1.Y, bound2.Y), MathN.Max(bound1.Y, bound2.Y));
-            result.Z.Should().BeInRange(MathN.Min(bound1.Z, bound2.Z), MathN.Max(bound1.Z, bound2.Z));
         }
     }
 }

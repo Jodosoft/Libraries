@@ -36,6 +36,5 @@ namespace Jodo.Geometry.Tests
         public sealed class UnsignedIntegralGeneralTests : CircleTestBase<ByteN> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Circle<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralStringConvertTests : StringConvertTestBase<Circle<ByteN>> { }
     }
 }

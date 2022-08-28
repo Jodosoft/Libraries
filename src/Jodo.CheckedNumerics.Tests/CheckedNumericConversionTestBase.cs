@@ -31,11 +31,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToByteCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<byte>(value),
                 () => ConvertN.ToByte(value, Conversion.CastClamp));
         }
@@ -44,11 +44,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToByteConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToByte(null),
                 () => (byte)((IConvertible)value).ToType(typeof(byte), null),
                 () => ConvertN.ToByte(value),
@@ -59,11 +59,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromByteCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            byte value = Random.NextByteExtreme();
+            byte value = Random.NextVariant<ByteN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -72,11 +72,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromByteConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            byte value = Random.NextByteExtreme();
+            byte value = Random.NextVariant<ByteN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -85,11 +85,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToSByteCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<sbyte>(value),
                 () => ConvertN.ToSByte(value, Conversion.CastClamp));
         }
@@ -98,11 +98,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToSByteConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToSByte(null),
                 () => (sbyte)((IConvertible)value).ToType(typeof(sbyte), null),
                 () => ConvertN.ToSByte(value),
@@ -113,11 +113,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromSByteCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            sbyte value = Random.NextSByteExtreme();
+            sbyte value = Random.NextVariant<SByteN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -126,11 +126,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromSByteConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            sbyte value = Random.NextSByteExtreme();
+            sbyte value = Random.NextVariant<SByteN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -139,11 +139,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToInt16CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<short>(value),
                 () => ConvertN.ToInt16(value, Conversion.CastClamp));
         }
@@ -152,11 +152,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToInt16ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToInt16(null),
                 () => (short)((IConvertible)value).ToType(typeof(short), null),
                 () => ConvertN.ToInt16(value),
@@ -167,11 +167,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromInt16CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            short value = Random.NextInt16Extreme();
+            short value = Random.NextVariant<Int16N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -180,11 +180,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromInt16ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            short value = Random.NextInt16Extreme();
+            short value = Random.NextVariant<Int16N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -193,11 +193,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToUInt16CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<ushort>(value),
                 () => ConvertN.ToUInt16(value, Conversion.CastClamp));
         }
@@ -206,11 +206,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToUInt16ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToUInt16(null),
                 () => (ushort)((IConvertible)value).ToType(typeof(ushort), null),
                 () => ConvertN.ToUInt16(value),
@@ -221,11 +221,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromUInt16CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            ushort value = Random.NextUInt16Extreme();
+            ushort value = Random.NextVariant<UInt16N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -234,11 +234,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromUInt16ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            ushort value = Random.NextUInt16Extreme();
+            ushort value = Random.NextVariant<UInt16N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -247,11 +247,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToInt32CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<int>(value),
                 () => ConvertN.ToInt32(value, Conversion.CastClamp));
         }
@@ -260,11 +260,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToInt32ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToInt32(null),
                 () => (int)((IConvertible)value).ToType(typeof(int), null),
                 () => ConvertN.ToInt32(value),
@@ -275,11 +275,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromInt32CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            int value = Random.NextInt32Extreme();
+            int value = Random.NextVariant<Int32N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -288,11 +288,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromInt32ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            int value = Random.NextInt32Extreme();
+            int value = Random.NextVariant<Int32N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -301,11 +301,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToUInt32CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<uint>(value),
                 () => ConvertN.ToUInt32(value, Conversion.CastClamp));
         }
@@ -314,11 +314,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToUInt32ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToUInt32(null),
                 () => (uint)((IConvertible)value).ToType(typeof(uint), null),
                 () => ConvertN.ToUInt32(value),
@@ -329,11 +329,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromUInt32CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            uint value = Random.NextUInt32Extreme();
+            uint value = Random.NextVariant<UInt32N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -342,11 +342,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromUInt32ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            uint value = Random.NextUInt32Extreme();
+            uint value = Random.NextVariant<UInt32N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -355,11 +355,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToInt64CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<long>(value),
                 () => ConvertN.ToInt64(value, Conversion.CastClamp));
         }
@@ -368,11 +368,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToInt64ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToInt64(null),
                 () => (long)((IConvertible)value).ToType(typeof(long), null),
                 () => ConvertN.ToInt64(value),
@@ -383,11 +383,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromInt64CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            long value = Random.NextInt64Extreme();
+            long value = Random.NextVariant<Int64N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -396,11 +396,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromInt64ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            long value = Random.NextInt64Extreme();
+            long value = Random.NextVariant<Int64N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -409,11 +409,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToUInt64CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<ulong>(value),
                 () => ConvertN.ToUInt64(value, Conversion.CastClamp));
         }
@@ -422,11 +422,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToUInt64ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToUInt64(null),
                 () => (ulong)((IConvertible)value).ToType(typeof(ulong), null),
                 () => ConvertN.ToUInt64(value),
@@ -437,11 +437,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromUInt64CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            ulong value = Random.NextUInt64Extreme();
+            ulong value = Random.NextVariant<UInt64N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -450,11 +450,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromUInt64ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            ulong value = Random.NextUInt64Extreme();
+            ulong value = Random.NextVariant<UInt64N>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -463,11 +463,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToSingleCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<float>(value),
                 () => ConvertN.ToSingle(value, Conversion.CastClamp));
         }
@@ -476,11 +476,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToSingleConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToSingle(null),
                 () => (float)((IConvertible)value).ToType(typeof(float), null),
                 () => ConvertN.ToSingle(value),
@@ -491,11 +491,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromSingleCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            float value = Random.NextSingleExtreme();
+            float value = Random.NextVariant<SingleN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -504,11 +504,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromSingleConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            float value = Random.NextSingleExtreme();
+            float value = Random.NextVariant<SingleN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -517,11 +517,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToDoubleCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<double>(value),
                 () => ConvertN.ToDouble(value, Conversion.CastClamp));
         }
@@ -530,11 +530,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToDoubleConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToDouble(null),
                 () => (double)((IConvertible)value).ToType(typeof(double), null),
                 () => ConvertN.ToDouble(value),
@@ -545,11 +545,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromDoubleCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            double value = Random.NextDoubleExtreme();
+            double value = Random.NextVariant<DoubleN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -558,11 +558,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromDoubleConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            double value = Random.NextDoubleExtreme();
+            double value = Random.NextVariant<DoubleN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }
@@ -571,11 +571,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToDecimalCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<decimal>(value),
                 () => ConvertN.ToDecimal(value, Conversion.CastClamp));
         }
@@ -584,11 +584,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void ToDecimalConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            TNumeric value = Random.NextNumeric<TNumeric>();
+            TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ((IConvertible)value).ToDecimal(null),
                 () => (decimal)((IConvertible)value).ToType(typeof(decimal), null),
                 () => ConvertN.ToDecimal(value),
@@ -599,11 +599,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromDecimalCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            decimal value = Random.NextDecimalExtreme();
+            decimal value = Random.NextVariant<DecimalN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => DynamicInvoke.ConversionOperator<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.CastClamp));
         }
@@ -612,11 +612,11 @@ namespace Jodo.CheckedNumerics.Tests
         public void FromDecimalConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            decimal value = Random.NextDecimalExtreme();
+            decimal value = Random.NextVariant<DecimalN>(Scenarios.All);
 
             //act
             //assert
-            Same.Result(
+            AssertSame.Result(
                 () => ConvertN.ToNumeric<TNumeric>(value),
                 () => ConvertN.ToNumeric<TNumeric>(value, Conversion.Clamp));
         }

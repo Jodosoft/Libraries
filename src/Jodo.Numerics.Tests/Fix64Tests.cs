@@ -37,7 +37,7 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Fix64> { }
         public sealed class NumericTests : NumericTestBase<Fix64> { }
         public sealed class ObjectTests : ObjectTestBase<Fix64> { }
-        public sealed class RandomTests : RandomTestBase<Fix64> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64> { }
         public sealed class SerializableTests : SerializableTestBase<Fix64> { }
     }
 }

@@ -32,11 +32,11 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericConvertTests : NumericConvertTestBase<SingleC> { }
         public sealed class NumericFloatingPointTests : NumericFloatingPointTestBase<SingleC> { }
         public sealed class NumericMathTests : NumericMathTestBase<SingleC> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<SingleC> { }
         public sealed class NumericSignedTests : NumericSignedTestBase<SingleC> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<SingleC> { }
         public sealed class NumericTests : NumericTestBase<SingleC> { }
         public sealed class ObjectTests : ObjectTestBase<SingleC> { }
-        public sealed class RandomTests : RandomTestBase<SingleC> { }
         public sealed class SerializableTests : SerializableTestBase<SingleC> { }
     }
 }

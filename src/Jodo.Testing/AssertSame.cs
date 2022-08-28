@@ -20,11 +20,16 @@
 using System;
 using System.Globalization;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace Jodo.Testing
 {
-    public static class Same
+    public static class AssertSame
     {
+        /// <summary>
+        /// Executes the specified functions and verifies that they either return equal results or
+        /// throw the same type of exception.
+        /// </summary>
         [AssertionMethod]
         public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> subject, params Func<TResult>[] subjects)
         {
@@ -38,42 +43,39 @@ namespace Jodo.Testing
             }
         }
 
+        /// <summary>
+        /// Executes the specified functions and verifies that they either return equal results or
+        /// throw the same type of exception.
+        /// </summary>
         [AssertionMethod]
         public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> subject)
         {
-            object expectedResult = null;
-            Exception expectedException = null;
+            TResult expectedResult;
             try
             {
                 expectedResult = expected();
-            }
-            catch (Exception exception)
-            {
-                expectedException = exception;
-            }
 
-            if (expectedException == null)
-            {
                 TResult actualResult = subject.Should().NotThrow().Subject;
 
-                if (!(expectedResult.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol &&
-                    actualResult.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol))
+                if (!BothNaN(expectedResult, actualResult))
                 {
                     actualResult.Should().Be(actualResult);
                 }
             }
-            else
+            catch (AssertionException)
             {
-                subject.Should().Throw<Exception>($"expected threw \"{expectedException.Message}\"").Which.Should().BeOfType(expectedException.GetType());
+                throw;
+            }
+            catch (Exception exception)
+            {
+                subject.Should().Throw<Exception>($"expected threw \"{exception.Message}\"")
+                    .Which.Should().BeOfType(exception.GetType());
             }
         }
 
-        [AssertionMethod]
-        public static void Outcome<TResult>(TResult expected, Func<TResult> subject)
-        {
-            subject.Should().NotThrow().Which.Should().Be(expected);
-        }
-
+        /// <summary>
+        /// Executes the specified functions and verifies that they return equal results.
+        /// </summary>
         [AssertionMethod]
         public static void Result<TResult>(Func<TResult> expected, Func<TResult> subject, params Func<TResult>[] subjects)
         {
@@ -87,17 +89,28 @@ namespace Jodo.Testing
             }
         }
 
+        /// <summary>
+        /// Executes the specified functions and verifies that they return equal results.
+        /// </summary>
         [AssertionMethod]
         public static void Result<TResult>(Func<TResult> expected, Func<TResult> subject)
         {
             TResult expectedResult = expected();
             TResult actualResult = subject.Should().NotThrow().Subject;
 
-            if (!(expectedResult.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol &&
-                actualResult.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol))
+            if (!BothNaN(expectedResult, actualResult))
             {
                 actualResult.Should().Be(actualResult);
             }
+        }
+
+        private static bool BothNaN<T>(T value1, T value2)
+        {
+            bool bothNaN =
+                typeof(T).IsValueType &&
+                value1.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol &&
+                value2.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol;
+            return bothNaN;
         }
     }
 }

@@ -115,12 +115,12 @@ namespace Jodo.CheckedNumerics
         public static DoubleC operator +(DoubleC left, DoubleC right) => CheckedMath.Add(left._value, right._value);
         public static DoubleC operator +(DoubleC value) => value;
         public static DoubleC operator ++(DoubleC value) => value + 1;
-        public static DoubleC operator &(DoubleC left, DoubleC right) => NumericUtilities.LogicalAnd(left._value, right._value);
-        public static DoubleC operator |(DoubleC left, DoubleC right) => NumericUtilities.LogicalOr(left._value, right._value);
-        public static DoubleC operator ^(DoubleC left, DoubleC right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static DoubleC operator ~(DoubleC left) => NumericUtilities.BitwiseComplement(left._value);
-        public static DoubleC operator >>(DoubleC left, int right) => NumericUtilities.RightShift(left._value, right);
-        public static DoubleC operator <<(DoubleC left, int right) => NumericUtilities.LeftShift(left._value, right);
+        public static DoubleC operator &(DoubleC left, DoubleC right) => BitOperations.LogicalAnd(left._value, right._value);
+        public static DoubleC operator |(DoubleC left, DoubleC right) => BitOperations.LogicalOr(left._value, right._value);
+        public static DoubleC operator ^(DoubleC left, DoubleC right) => BitOperations.LogicalExclusiveOr(left._value, right._value);
+        public static DoubleC operator ~(DoubleC left) => BitOperations.BitwiseComplement(left._value);
+        public static DoubleC operator >>(DoubleC left, int right) => BitOperations.RightShift(left._value, right);
+        public static DoubleC operator <<(DoubleC left, int right) => BitOperations.LeftShift(left._value, right);
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
         bool IConvertible.ToBoolean(IFormatProvider provider) => Convert.ToBoolean(_value, provider);
@@ -169,18 +169,20 @@ namespace Jodo.CheckedNumerics
         IConvert<DoubleC> IProvider<IConvert<DoubleC>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DoubleC> IProvider<IConvertExtended<DoubleC>>.GetInstance() => Utilities.Instance;
         IMath<DoubleC> IProvider<IMath<DoubleC>>.GetInstance() => Utilities.Instance;
+        INumericRandom<DoubleC> IProvider<INumericRandom<DoubleC>>.GetInstance() => Utilities.Instance;
         INumericStatic<DoubleC> IProvider<INumericStatic<DoubleC>>.GetInstance() => Utilities.Instance;
-        IRandom<DoubleC> IProvider<IRandom<DoubleC>>.GetInstance() => Utilities.Instance;
         IStringConvert<DoubleC> IProvider<IStringConvert<DoubleC>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<DoubleC> IProvider<IVariantRandom<DoubleC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<DoubleC>,
             IConvert<DoubleC>,
             IConvertExtended<DoubleC>,
             IMath<DoubleC>,
+            INumericRandom<DoubleC>,
             INumericStatic<DoubleC>,
-            IRandom<DoubleC>,
-            IStringConvert<DoubleC>
+            IStringConvert<DoubleC>,
+            IVariantRandom<DoubleC>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -220,7 +222,7 @@ namespace Jodo.CheckedNumerics
             DoubleC IMath<DoubleC>.Clamp(DoubleC x, DoubleC bound1, DoubleC bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             DoubleC IMath<DoubleC>.Cos(DoubleC x) => Math.Cos(x._value);
             DoubleC IMath<DoubleC>.Cosh(DoubleC x) => Math.Cosh(x._value);
-            DoubleC IMath<DoubleC>.DegreesToRadians(DoubleC degrees) => degrees * NumericUtilities.RadiansPerDegree;
+            DoubleC IMath<DoubleC>.DegreesToRadians(DoubleC degrees) => degrees * BitOperations.RadiansPerDegree;
             DoubleC IMath<DoubleC>.E { get; } = Math.E;
             DoubleC IMath<DoubleC>.Exp(DoubleC x) => Math.Exp(x._value);
             DoubleC IMath<DoubleC>.Floor(DoubleC x) => Math.Floor(x._value);
@@ -232,7 +234,7 @@ namespace Jodo.CheckedNumerics
             DoubleC IMath<DoubleC>.Min(DoubleC x, DoubleC y) => Math.Min(x._value, y._value);
             DoubleC IMath<DoubleC>.PI { get; } = Math.PI;
             DoubleC IMath<DoubleC>.Pow(DoubleC x, DoubleC y) => Math.Pow(x._value, y._value);
-            DoubleC IMath<DoubleC>.RadiansToDegrees(DoubleC radians) => radians * NumericUtilities.DegreesPerRadian;
+            DoubleC IMath<DoubleC>.RadiansToDegrees(DoubleC radians) => radians * BitOperations.DegreesPerRadian;
             DoubleC IMath<DoubleC>.Round(DoubleC x) => Math.Round(x._value);
             DoubleC IMath<DoubleC>.Round(DoubleC x, int digits) => Math.Round(x._value, digits);
             DoubleC IMath<DoubleC>.Round(DoubleC x, int digits, MidpointRounding mode) => Math.Round(x._value, digits, mode);
@@ -248,9 +250,6 @@ namespace Jodo.CheckedNumerics
 
             DoubleC IBitConvert<DoubleC>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
             void IBitConvert<DoubleC>.Write(DoubleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
-
-            DoubleC IRandom<DoubleC>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);
-            DoubleC IRandom<DoubleC>.Next(Random random, DoubleC bound1, DoubleC bound2) => random.NextDouble(bound1._value, bound2._value);
 
             bool IConvert<DoubleC>.ToBoolean(DoubleC value) => value._value != 0;
             byte IConvert<DoubleC>.ToByte(DoubleC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
@@ -282,6 +281,14 @@ namespace Jodo.CheckedNumerics
 
             DoubleC IStringConvert<DoubleC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
+
+            DoubleC INumericRandom<DoubleC>.Next(Random random) => random.NextDouble();
+            DoubleC INumericRandom<DoubleC>.Next(Random random, DoubleC maxValue) => random.NextDouble(maxValue);
+            DoubleC INumericRandom<DoubleC>.Next(Random random, DoubleC minValue, DoubleC maxValue) => random.NextDouble(minValue, maxValue);
+            DoubleC INumericRandom<DoubleC>.Next(Random random, Generation mode) => random.NextDouble(mode);
+            DoubleC INumericRandom<DoubleC>.Next(Random random, DoubleC minValue, DoubleC maxValue, Generation mode) => random.NextDouble(minValue, maxValue, mode);
+
+            DoubleC IVariantRandom<DoubleC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DoubleC>(random, scenarios);
         }
     }
 }

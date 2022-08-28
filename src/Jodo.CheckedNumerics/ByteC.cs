@@ -82,13 +82,13 @@ namespace Jodo.CheckedNumerics
         [CLSCompliant(false)] public static implicit operator uint(ByteC value) => value._value;
         [CLSCompliant(false)] public static implicit operator ulong(ByteC value) => value._value;
         [CLSCompliant(false)] public static implicit operator ushort(ByteC value) => value._value;
-        public static explicit operator byte(ByteC value) => ConvertN.ToByte(value._value, Conversion.CastClamp);
-        public static explicit operator int(ByteC value) => ConvertN.ToInt32(value._value, Conversion.CastClamp);
-        public static explicit operator short(ByteC value) => ConvertN.ToInt16(value._value, Conversion.CastClamp);
+        public static implicit operator byte(ByteC value) => value._value;
         public static implicit operator decimal(ByteC value) => value._value;
         public static implicit operator double(ByteC value) => value._value;
         public static implicit operator float(ByteC value) => value._value;
+        public static implicit operator int(ByteC value) => value._value;
         public static implicit operator long(ByteC value) => value._value;
+        public static implicit operator short(ByteC value) => value._value;
 
         public static bool operator !=(ByteC left, ByteC right) => left._value != right._value;
         public static bool operator <(ByteC left, ByteC right) => left._value < right._value;
@@ -151,18 +151,20 @@ namespace Jodo.CheckedNumerics
         IConvert<ByteC> IProvider<IConvert<ByteC>>.GetInstance() => Utilities.Instance;
         IConvertExtended<ByteC> IProvider<IConvertExtended<ByteC>>.GetInstance() => Utilities.Instance;
         IMath<ByteC> IProvider<IMath<ByteC>>.GetInstance() => Utilities.Instance;
+        INumericRandom<ByteC> IProvider<INumericRandom<ByteC>>.GetInstance() => Utilities.Instance;
         INumericStatic<ByteC> IProvider<INumericStatic<ByteC>>.GetInstance() => Utilities.Instance;
-        IRandom<ByteC> IProvider<IRandom<ByteC>>.GetInstance() => Utilities.Instance;
         IStringConvert<ByteC> IProvider<IStringConvert<ByteC>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<ByteC> IProvider<IVariantRandom<ByteC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<ByteC>,
             IConvert<ByteC>,
             IConvertExtended<ByteC>,
             IMath<ByteC>,
+            INumericRandom<ByteC>,
             INumericStatic<ByteC>,
-            IRandom<ByteC>,
-            IStringConvert<ByteC>
+            IStringConvert<ByteC>,
+            IVariantRandom<ByteC>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -202,7 +204,7 @@ namespace Jodo.CheckedNumerics
             ByteC IMath<ByteC>.Clamp(ByteC x, ByteC bound1, ByteC bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             ByteC IMath<ByteC>.Cos(ByteC x) => ConvertN.ToByte(Math.Cos(x._value), Conversion.CastClamp);
             ByteC IMath<ByteC>.Cosh(ByteC x) => ConvertN.ToByte(Math.Cosh(x._value), Conversion.CastClamp);
-            ByteC IMath<ByteC>.DegreesToRadians(ByteC x) => ConvertN.ToByte(CheckedMath.Multiply(x, NumericUtilities.RadiansPerDegree), Conversion.CastClamp);
+            ByteC IMath<ByteC>.DegreesToRadians(ByteC x) => ConvertN.ToByte(CheckedMath.Multiply(x, BitOperations.RadiansPerDegree), Conversion.CastClamp);
             ByteC IMath<ByteC>.E { get; } = 2;
             ByteC IMath<ByteC>.Exp(ByteC x) => ConvertN.ToByte(Math.Exp(x._value), Conversion.CastClamp);
             ByteC IMath<ByteC>.Floor(ByteC x) => x;
@@ -214,7 +216,7 @@ namespace Jodo.CheckedNumerics
             ByteC IMath<ByteC>.Min(ByteC x, ByteC y) => Math.Min(x._value, y._value);
             ByteC IMath<ByteC>.PI { get; } = 3;
             ByteC IMath<ByteC>.Pow(ByteC x, ByteC y) => CheckedMath.Pow(x._value, y._value);
-            ByteC IMath<ByteC>.RadiansToDegrees(ByteC x) => ConvertN.ToByte(CheckedMath.Multiply(x, NumericUtilities.DegreesPerRadian), Conversion.CastClamp);
+            ByteC IMath<ByteC>.RadiansToDegrees(ByteC x) => ConvertN.ToByte(CheckedMath.Multiply(x, BitOperations.DegreesPerRadian), Conversion.CastClamp);
             ByteC IMath<ByteC>.Round(ByteC x) => x;
             ByteC IMath<ByteC>.Round(ByteC x, int digits) => x;
             ByteC IMath<ByteC>.Round(ByteC x, int digits, MidpointRounding mode) => x;
@@ -230,9 +232,6 @@ namespace Jodo.CheckedNumerics
 
             ByteC IBitConvert<ByteC>.Read(IReader<byte> stream) => stream.Read(1)[0];
             void IBitConvert<ByteC>.Write(ByteC value, IWriter<byte> stream) => stream.Write(value._value);
-
-            ByteC IRandom<ByteC>.Next(Random random) => random.NextByte();
-            ByteC IRandom<ByteC>.Next(Random random, ByteC bound1, ByteC bound2) => random.NextByte(bound1._value, bound2._value);
 
             bool IConvert<ByteC>.ToBoolean(ByteC value) => value._value != 0;
             byte IConvert<ByteC>.ToByte(ByteC value, Conversion mode) => value._value;
@@ -264,6 +263,14 @@ namespace Jodo.CheckedNumerics
 
             ByteC IStringConvert<ByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
+
+            ByteC INumericRandom<ByteC>.Next(Random random) => random.NextByte();
+            ByteC INumericRandom<ByteC>.Next(Random random, ByteC maxValue) => random.NextByte(maxValue);
+            ByteC INumericRandom<ByteC>.Next(Random random, ByteC minValue, ByteC maxValue) => random.NextByte(minValue, maxValue);
+            ByteC INumericRandom<ByteC>.Next(Random random, Generation mode) => random.NextByte(mode);
+            ByteC INumericRandom<ByteC>.Next(Random random, ByteC minValue, ByteC maxValue, Generation mode) => random.NextByte(minValue, maxValue, mode);
+
+            ByteC IVariantRandom<ByteC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<ByteC>(random, scenarios);
         }
     }
 }

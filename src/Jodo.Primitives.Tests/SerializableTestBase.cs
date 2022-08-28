@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -27,32 +26,30 @@ using NUnit.Framework;
 
 namespace Jodo.Primitives.Tests
 {
-    public abstract class SerializableTestBase<T> : GlobalFixtureBase where T : struct, ISerializable, IProvider<IRandom<T>>
+    public abstract class SerializableTestBase<T> : GlobalFixtureBase where T : struct, ISerializable, IProvider<IVariantRandom<T>>
     {
-#pragma warning disable IDE0079 // Remove unnecessary suppression - Justification: Warning below not raised in all target frameworks
-#pragma warning disable SYSLIB0011 // Type or member is obsolete - Justification: For test
-
         [Test, Repeat(RandomVariations)]
         public void Serialize_RoundTrip_SameAsOriginal()
         {
             //arrange
-            T input = Random.NextRandomizable<T>();
+            T input = Random.NextVariant<T>(Scenarios.NonError);
             BinaryFormatter formatter = new BinaryFormatter();
 
             //act
             T result;
             using (MemoryStream stream = new MemoryStream())
             {
+#pragma warning disable IDE0079 // Remove unnecessary suppression - Justification: Warning below not raised in all target frameworks
+#pragma warning disable SYSLIB0011 // Type or member is obsolete - Justification: For test
                 formatter.Serialize(stream, input);
                 stream.Position = 0;
                 result = (T)formatter.Deserialize(stream);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
+#pragma warning restore IDE0079 // Remove unnecessary suppression
             }
 
             //assert
             result.Should().Be(input);
         }
-
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-#pragma warning restore IDE0079 // Remove unnecessary suppression
     }
 }

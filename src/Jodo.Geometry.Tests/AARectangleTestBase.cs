@@ -17,20 +17,21 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
 using FluentAssertions;
 using Jodo.Numerics;
+using Jodo.Primitives;
+using Jodo.Testing;
 using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public abstract class AARectangleTestBase<TNumeric> : AssemblyFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class AARectangleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [Test]
         public void GetArea_RandomValues_CorrectResult()
         {
             //arrange
-            AARectangle<TNumeric> subject = GenerateAARectangle<TNumeric>();
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
             TNumeric expected = MathN.Abs(subject.Dimensions.X.Multiply(subject.Dimensions.Y));
 
             //act
@@ -44,7 +45,7 @@ namespace Jodo.Geometry.Tests
         public void GetLeft_RandomValues_CorrectResult()
         {
             //arrange
-            AARectangle<TNumeric> subject = Random.NextAARectangle<TNumeric>();
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
             TNumeric expected = subject.Origin.X;
 
             //act

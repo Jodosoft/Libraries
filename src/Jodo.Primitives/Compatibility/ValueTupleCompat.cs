@@ -21,6 +21,19 @@ namespace Jodo.Primitives.Compatibility
 {
     public static class ValueTupleCompat
     {
+        public static void Swap<T>(ref T value1, ref T value2)
+        {
+#if NETSTANDARD2_0_OR_GREATER
+            (value2, value1) = (value1, value2);
+#else
+#pragma warning disable IDE0180 // Use tuple to swap values
+            T temp = value1;
+#pragma warning restore IDE0180 // Use tuple to swap values
+            value1 = value2;
+            value2 = temp;
+#endif
+        }
+
         public static void Swap<T>(bool swap, ref T value1, ref T value2)
         {
             if (swap)

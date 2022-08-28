@@ -106,20 +106,20 @@ namespace Jodo.Numerics
         public static bool operator >(SingleN left, SingleN right) => left._value > right._value;
         public static bool operator >=(SingleN left, SingleN right) => left._value >= right._value;
         public static SingleN operator %(SingleN left, SingleN right) => left._value % right._value;
-        public static SingleN operator &(SingleN left, SingleN right) => NumericUtilities.LogicalAnd(left._value, right._value);
+        public static SingleN operator &(SingleN left, SingleN right) => BitOperations.LogicalAnd(left._value, right._value);
         public static SingleN operator -(SingleN left, SingleN right) => left._value - right._value;
         public static SingleN operator --(SingleN value) => value._value - 1;
         public static SingleN operator -(SingleN value) => -value._value;
         public static SingleN operator *(SingleN left, SingleN right) => left._value * right._value;
         public static SingleN operator /(SingleN left, SingleN right) => left._value / right._value;
-        public static SingleN operator ^(SingleN left, SingleN right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static SingleN operator |(SingleN left, SingleN right) => NumericUtilities.LogicalOr(left._value, right._value);
-        public static SingleN operator ~(SingleN left) => NumericUtilities.BitwiseComplement(left._value);
+        public static SingleN operator ^(SingleN left, SingleN right) => BitOperations.LogicalExclusiveOr(left._value, right._value);
+        public static SingleN operator |(SingleN left, SingleN right) => BitOperations.LogicalOr(left._value, right._value);
+        public static SingleN operator ~(SingleN left) => BitOperations.BitwiseComplement(left._value);
         public static SingleN operator +(SingleN left, SingleN right) => left._value + right._value;
         public static SingleN operator +(SingleN value) => value;
         public static SingleN operator ++(SingleN value) => value._value + 1;
-        public static SingleN operator <<(SingleN left, int right) => NumericUtilities.LeftShift(left._value, right);
-        public static SingleN operator >>(SingleN left, int right) => NumericUtilities.RightShift(left._value, right);
+        public static SingleN operator <<(SingleN left, int right) => BitOperations.LeftShift(left._value, right);
+        public static SingleN operator >>(SingleN left, int right) => BitOperations.RightShift(left._value, right);
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
         bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvertible)_value).ToBoolean(provider);
@@ -161,8 +161,9 @@ namespace Jodo.Numerics
         IConvertExtended<SingleN> IProvider<IConvertExtended<SingleN>>.GetInstance() => Utilities.Instance;
         IMath<SingleN> IProvider<IMath<SingleN>>.GetInstance() => Utilities.Instance;
         INumericStatic<SingleN> IProvider<INumericStatic<SingleN>>.GetInstance() => Utilities.Instance;
-        IRandom<SingleN> IProvider<IRandom<SingleN>>.GetInstance() => Utilities.Instance;
+        INumericRandom<SingleN> IProvider<INumericRandom<SingleN>>.GetInstance() => Utilities.Instance;
         IStringConvert<SingleN> IProvider<IStringConvert<SingleN>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<SingleN> IProvider<IVariantRandom<SingleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<SingleN>,
@@ -170,8 +171,9 @@ namespace Jodo.Numerics
             IConvertExtended<SingleN>,
             IMath<SingleN>,
             INumericStatic<SingleN>,
-            IRandom<SingleN>,
-            IStringConvert<SingleN>
+            INumericRandom<SingleN>,
+            IStringConvert<SingleN>,
+            IVariantRandom<SingleN>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -212,7 +214,7 @@ namespace Jodo.Numerics
             SingleN IMath<SingleN>.Clamp(SingleN x, SingleN bound1, SingleN bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             SingleN IMath<SingleN>.Cos(SingleN x) => MathF.Cos(x._value);
             SingleN IMath<SingleN>.Cosh(SingleN x) => MathF.Cosh(x._value);
-            SingleN IMath<SingleN>.DegreesToRadians(SingleN x) => x * NumericUtilities.RadiansPerDegreeF;
+            SingleN IMath<SingleN>.DegreesToRadians(SingleN x) => x * BitOperations.RadiansPerDegreeF;
             SingleN IMath<SingleN>.E { get; } = MathF.E;
             SingleN IMath<SingleN>.Exp(SingleN x) => MathF.Exp(x._value);
             SingleN IMath<SingleN>.Floor(SingleN x) => MathF.Floor(x._value);
@@ -224,7 +226,7 @@ namespace Jodo.Numerics
             SingleN IMath<SingleN>.Min(SingleN x, SingleN y) => MathF.Min(x._value, y._value);
             SingleN IMath<SingleN>.PI { get; } = MathF.PI;
             SingleN IMath<SingleN>.Pow(SingleN x, SingleN y) => MathF.Pow(x._value, y._value);
-            SingleN IMath<SingleN>.RadiansToDegrees(SingleN x) => x * NumericUtilities.DegreesPerRadianF;
+            SingleN IMath<SingleN>.RadiansToDegrees(SingleN x) => x * BitOperations.DegreesPerRadianF;
             SingleN IMath<SingleN>.Round(SingleN x) => MathF.Round(x);
             SingleN IMath<SingleN>.Round(SingleN x, int digits) => MathF.Round(x, digits);
             SingleN IMath<SingleN>.Round(SingleN x, int digits, MidpointRounding mode) => MathF.Round(x, digits, mode);
@@ -239,9 +241,6 @@ namespace Jodo.Numerics
 
             SingleN IBitConvert<SingleN>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
             void IBitConvert<SingleN>.Write(SingleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
-
-            SingleN IRandom<SingleN>.Next(Random random) => random.NextSingle(float.MinValue, float.MaxValue);
-            SingleN IRandom<SingleN>.Next(Random random, SingleN bound1, SingleN bound2) => random.NextSingle(bound1._value, bound2._value);
 
             bool IConvert<SingleN>.ToBoolean(SingleN value) => Convert.ToBoolean(value._value);
             byte IConvert<SingleN>.ToByte(SingleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);
@@ -273,6 +272,14 @@ namespace Jodo.Numerics
 
             SingleN IStringConvert<SingleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
+
+            SingleN INumericRandom<SingleN>.Next(Random random) => random.NextSingle();
+            SingleN INumericRandom<SingleN>.Next(Random random, SingleN maxValue) => random.NextSingle(maxValue);
+            SingleN INumericRandom<SingleN>.Next(Random random, SingleN minValue, SingleN maxValue) => random.NextSingle(minValue, maxValue);
+            SingleN INumericRandom<SingleN>.Next(Random random, Generation mode) => random.NextSingle(mode);
+            SingleN INumericRandom<SingleN>.Next(Random random, SingleN minValue, SingleN maxValue, Generation mode) => random.NextSingle(minValue, maxValue, mode);
+
+            SingleN IVariantRandom<SingleN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<SingleN>(random, scenarios);
         }
     }
 }

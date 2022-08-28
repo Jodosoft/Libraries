@@ -33,8 +33,8 @@ namespace Jodo.Numerics
             IEquatable<Vector3<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Vector3<TNumeric>>>,
-            IProvider<IRandom<Vector3<TNumeric>>>,
             IProvider<IStringConvert<Vector3<TNumeric>>>,
+            IProvider<IVariantRandom<Vector3<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -106,30 +106,22 @@ namespace Jodo.Numerics
 #endif
 
         IBitConvert<Vector3<TNumeric>> IProvider<IBitConvert<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IRandom<Vector3<TNumeric>> IProvider<IRandom<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
         IStringConvert<Vector3<TNumeric>> IProvider<IStringConvert<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<Vector3<TNumeric>> IProvider<IVariantRandom<Vector3<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<Vector3<TNumeric>>,
-           IRandom<Vector3<TNumeric>>,
-           IStringConvert<Vector3<TNumeric>>
+           IStringConvert<Vector3<TNumeric>>,
+           IVariantRandom<Vector3<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Vector3<TNumeric> IRandom<Vector3<TNumeric>>.Next(Random random)
+            Vector3<TNumeric> IVariantRandom<Vector3<TNumeric>>.Next(Random random, Scenarios scenarios)
             {
                 return new Vector3<TNumeric>(
-                    random.NextNumeric<TNumeric>(),
-                    random.NextNumeric<TNumeric>(),
-                    random.NextNumeric<TNumeric>());
-            }
-
-            Vector3<TNumeric> IRandom<Vector3<TNumeric>>.Next(Random random, Vector3<TNumeric> bound1, Vector3<TNumeric> bound2)
-            {
-                return new Vector3<TNumeric>(
-                    random.NextNumeric(bound1.X, bound2.X),
-                    random.NextNumeric(bound1.Y, bound2.Y),
-                    random.NextNumeric(bound1.Z, bound2.Z));
+                    random.NextVariant<TNumeric>(scenarios),
+                    random.NextVariant<TNumeric>(scenarios),
+                    random.NextVariant<TNumeric>(scenarios));
             }
 
             Vector3<TNumeric> IStringConvert<Vector3<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)

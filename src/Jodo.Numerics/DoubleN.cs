@@ -106,20 +106,20 @@ namespace Jodo.Numerics
         public static bool operator >(DoubleN left, DoubleN right) => left._value > right._value;
         public static bool operator >=(DoubleN left, DoubleN right) => left._value >= right._value;
         public static DoubleN operator %(DoubleN left, DoubleN right) => left._value % right._value;
-        public static DoubleN operator &(DoubleN left, DoubleN right) => NumericUtilities.LogicalAnd(left._value, right._value);
+        public static DoubleN operator &(DoubleN left, DoubleN right) => BitOperations.LogicalAnd(left._value, right._value);
         public static DoubleN operator -(DoubleN left, DoubleN right) => left._value - right._value;
         public static DoubleN operator --(DoubleN value) => value._value - 1;
         public static DoubleN operator -(DoubleN value) => -value._value;
         public static DoubleN operator *(DoubleN left, DoubleN right) => left._value * right._value;
         public static DoubleN operator /(DoubleN left, DoubleN right) => left._value / right._value;
-        public static DoubleN operator ^(DoubleN left, DoubleN right) => NumericUtilities.LogicalExclusiveOr(left._value, right._value);
-        public static DoubleN operator |(DoubleN left, DoubleN right) => NumericUtilities.LogicalOr(left._value, right._value);
-        public static DoubleN operator ~(DoubleN left) => NumericUtilities.BitwiseComplement(left._value);
+        public static DoubleN operator ^(DoubleN left, DoubleN right) => BitOperations.LogicalExclusiveOr(left._value, right._value);
+        public static DoubleN operator |(DoubleN left, DoubleN right) => BitOperations.LogicalOr(left._value, right._value);
+        public static DoubleN operator ~(DoubleN left) => BitOperations.BitwiseComplement(left._value);
         public static DoubleN operator +(DoubleN left, DoubleN right) => left._value + right._value;
         public static DoubleN operator +(DoubleN value) => value;
         public static DoubleN operator ++(DoubleN value) => value._value + 1;
-        public static DoubleN operator <<(DoubleN left, int right) => NumericUtilities.LeftShift(left._value, right);
-        public static DoubleN operator >>(DoubleN left, int right) => NumericUtilities.RightShift(left._value, right);
+        public static DoubleN operator <<(DoubleN left, int right) => BitOperations.LeftShift(left._value, right);
+        public static DoubleN operator >>(DoubleN left, int right) => BitOperations.RightShift(left._value, right);
 
         TypeCode IConvertible.GetTypeCode() => _value.GetTypeCode();
         bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvertible)_value).ToBoolean(provider);
@@ -160,18 +160,20 @@ namespace Jodo.Numerics
         IConvert<DoubleN> IProvider<IConvert<DoubleN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DoubleN> IProvider<IConvertExtended<DoubleN>>.GetInstance() => Utilities.Instance;
         IMath<DoubleN> IProvider<IMath<DoubleN>>.GetInstance() => Utilities.Instance;
+        INumericRandom<DoubleN> IProvider<INumericRandom<DoubleN>>.GetInstance() => Utilities.Instance;
         INumericStatic<DoubleN> IProvider<INumericStatic<DoubleN>>.GetInstance() => Utilities.Instance;
-        IRandom<DoubleN> IProvider<IRandom<DoubleN>>.GetInstance() => Utilities.Instance;
         IStringConvert<DoubleN> IProvider<IStringConvert<DoubleN>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<DoubleN> IProvider<IVariantRandom<DoubleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<DoubleN>,
             IConvert<DoubleN>,
             IConvertExtended<DoubleN>,
             IMath<DoubleN>,
+            INumericRandom<DoubleN>,
             INumericStatic<DoubleN>,
-            IRandom<DoubleN>,
-            IStringConvert<DoubleN>
+            IStringConvert<DoubleN>,
+            IVariantRandom<DoubleN>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -212,7 +214,7 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Clamp(DoubleN x, DoubleN bound1, DoubleN bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             DoubleN IMath<DoubleN>.Cos(DoubleN x) => Math.Cos(x._value);
             DoubleN IMath<DoubleN>.Cosh(DoubleN x) => Math.Cosh(x._value);
-            DoubleN IMath<DoubleN>.DegreesToRadians(DoubleN x) => x * NumericUtilities.RadiansPerDegree;
+            DoubleN IMath<DoubleN>.DegreesToRadians(DoubleN x) => x * BitOperations.RadiansPerDegree;
             DoubleN IMath<DoubleN>.E { get; } = Math.E;
             DoubleN IMath<DoubleN>.Exp(DoubleN x) => Math.Exp(x._value);
             DoubleN IMath<DoubleN>.Floor(DoubleN x) => Math.Floor(x._value);
@@ -224,7 +226,7 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Min(DoubleN x, DoubleN y) => Math.Min(x._value, y._value);
             DoubleN IMath<DoubleN>.PI { get; } = Math.PI;
             DoubleN IMath<DoubleN>.Pow(DoubleN x, DoubleN y) => Math.Pow(x._value, y._value);
-            DoubleN IMath<DoubleN>.RadiansToDegrees(DoubleN x) => x * NumericUtilities.DegreesPerRadian;
+            DoubleN IMath<DoubleN>.RadiansToDegrees(DoubleN x) => x * BitOperations.DegreesPerRadian;
             DoubleN IMath<DoubleN>.Round(DoubleN x) => Math.Round(x._value);
             DoubleN IMath<DoubleN>.Round(DoubleN x, int digits) => Math.Round(x._value, digits);
             DoubleN IMath<DoubleN>.Round(DoubleN x, int digits, MidpointRounding mode) => Math.Round(x._value, digits, mode);
@@ -239,9 +241,6 @@ namespace Jodo.Numerics
 
             DoubleN IBitConvert<DoubleN>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
             void IBitConvert<DoubleN>.Write(DoubleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
-
-            DoubleN IRandom<DoubleN>.Next(Random random) => random.NextDouble(double.MinValue, double.MaxValue);
-            DoubleN IRandom<DoubleN>.Next(Random random, DoubleN bound1, DoubleN bound2) => random.NextDouble(bound1._value, bound2._value);
 
             bool IConvert<DoubleN>.ToBoolean(DoubleN value) => Convert.ToBoolean(value._value);
             byte IConvert<DoubleN>.ToByte(DoubleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);
@@ -273,6 +272,14 @@ namespace Jodo.Numerics
 
             DoubleN IStringConvert<DoubleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
+
+            DoubleN INumericRandom<DoubleN>.Next(Random random) => random.NextDouble();
+            DoubleN INumericRandom<DoubleN>.Next(Random random, DoubleN maxValue) => random.NextDouble(maxValue);
+            DoubleN INumericRandom<DoubleN>.Next(Random random, DoubleN minValue, DoubleN maxValue) => random.NextDouble(minValue, maxValue);
+            DoubleN INumericRandom<DoubleN>.Next(Random random, Generation mode) => random.NextDouble(mode);
+            DoubleN INumericRandom<DoubleN>.Next(Random random, DoubleN minValue, DoubleN maxValue, Generation mode) => random.NextDouble(minValue, maxValue, mode);
+
+            DoubleN IVariantRandom<DoubleN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DoubleN>(random, scenarios);
         }
     }
 }

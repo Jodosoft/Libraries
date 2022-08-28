@@ -37,12 +37,12 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericCastTests : NumericCastTestBase<DecimalC> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<DecimalC> { }
         public sealed class NumericMathTests : NumericMathTestBase<DecimalC> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<DecimalC> { }
         public sealed class NumericRealTests : NumericRealTestBase<DecimalC> { }
         public sealed class NumericSignedTests : NumericSignedTestBase<DecimalC> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<DecimalC> { }
         public sealed class NumericTests : NumericTestBase<DecimalC> { }
         public sealed class ObjectTests : ObjectTestBase<DecimalC> { }
-        public sealed class RandomTests : RandomTestBase<DecimalC> { }
         public sealed class SerializableTests : SerializableTestBase<DecimalC> { }
 
         [Test, Repeat(RandomVariations)]
@@ -126,7 +126,7 @@ namespace Jodo.CheckedNumerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = Random.NextNumeric<DecimalC>();
+            DecimalC input = Random.NextNumeric<DecimalC>(Generation.Extended);
 
             //act
             bool result = Numeric.IsNaN(input);

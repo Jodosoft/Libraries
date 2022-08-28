@@ -34,7 +34,6 @@ namespace Jodo.Numerics.Tests
         public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Vector3<ByteN>> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector3<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector3<ByteN>> { }
-        public sealed class UnsignedIntegralStringConvertTestBaseTests : StringConvertTestBase<Vector3<ByteN>> { }
         public sealed class UnsignedIntegralVector3Tests : Vector3TestBase<ByteN> { }
     }
 }

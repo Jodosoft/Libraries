@@ -19,6 +19,7 @@
 
 using Jodo.Numerics.Tests;
 using Jodo.Primitives.Tests;
+using Jodo.Testing;
 
 namespace Jodo.CheckedNumerics.Tests
 {
@@ -35,12 +36,11 @@ namespace Jodo.CheckedNumerics.Tests
         public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<Int16C> { }
         public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<Int16C> { }
         public sealed class NumericNonNaNTests : NumericNonNaNTestBase<Int16C> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<Int16C> { }
         public sealed class NumericSignedTests : NumericSignedTestBase<Int16C> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Int16C> { }
         public sealed class NumericTests : NumericTestBase<Int16C> { }
         public sealed class ObjectTests : ObjectTestBase<Int16C> { }
-        public sealed class RandomTests : RandomTestBase<Int16C> { }
         public sealed class SerializableTests : SerializableTestBase<Int16C> { }
-        public sealed class StringConvertTests : StringConvertTestBase<Int16C> { }
     }
 }

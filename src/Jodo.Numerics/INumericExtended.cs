@@ -29,7 +29,7 @@ namespace Jodo.Numerics
     /// </summary>
     /// <typeparam name="TSelf">The type that implements <see cref="INumericExtended{TNumeric}"/></typeparam>
     [CLSCompliant(false)]
-    [SuppressMessage("csharpsquid", "S3444:Interfaces should not simply inherit from base interfaces with colliding members", Justification = "By design.")]
+    [SuppressMessage("csharpsquid", "S3444:Interfaces should not simply inherit from base interfaces with colliding members", Justification = "By design - IProvider instances are accessed via static classes")]
     public interface INumericExtended<TSelf> :
             INumeric<TSelf>,
             IConvertible,

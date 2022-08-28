@@ -98,8 +98,8 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void RandomValueGeneration()
         {
-            DoubleN var1 = Random.NextNumeric<DoubleN>();
-            DoubleN var2 = Random.NextNumeric<DoubleN>(100, 120);
+            DoubleN var1 = Random.NextNumeric<DoubleN>(Generation.Extended);
+            DoubleN var2 = Random.NextNumeric<DoubleN>(100, 120, Generation.Extended);
 
             Console.WriteLine(var1); // output: -7.405808417991177E+115 (example)
             Console.WriteLine(var2); // output: 102.85086051826445 (example)

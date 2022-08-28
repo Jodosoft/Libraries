@@ -47,7 +47,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input;
-            do { input = Random.NextNumeric<TNumeric>(); }
+            do { input = Random.NextNumeric<TNumeric>(Generation.Extended); }
             while (input.IsGreaterThanOrEqualTo(Numeric.MinUnit<TNumeric>()) && input.IsLessThanOrEqualTo(Numeric.MaxUnit<TNumeric>()));
 
             //act

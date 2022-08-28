@@ -190,18 +190,20 @@ namespace Jodo.CheckedNumerics
         IConvert<Fix64C> IProvider<IConvert<Fix64C>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Fix64C> IProvider<IConvertExtended<Fix64C>>.GetInstance() => Utilities.Instance;
         IMath<Fix64C> IProvider<IMath<Fix64C>>.GetInstance() => Utilities.Instance;
+        INumericRandom<Fix64C> IProvider<INumericRandom<Fix64C>>.GetInstance() => Utilities.Instance;
         INumericStatic<Fix64C> IProvider<INumericStatic<Fix64C>>.GetInstance() => Utilities.Instance;
-        IRandom<Fix64C> IProvider<IRandom<Fix64C>>.GetInstance() => Utilities.Instance;
         IStringConvert<Fix64C> IProvider<IStringConvert<Fix64C>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<Fix64C> IProvider<IVariantRandom<Fix64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<Fix64C>,
             IConvert<Fix64C>,
             IConvertExtended<Fix64C>,
             IMath<Fix64C>,
+            INumericRandom<Fix64C>,
             INumericStatic<Fix64C>,
-            IRandom<Fix64C>,
-            IStringConvert<Fix64C>
+            IStringConvert<Fix64C>,
+            IVariantRandom<Fix64C>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -241,7 +243,7 @@ namespace Jodo.CheckedNumerics
             Fix64C IMath<Fix64C>.Clamp(Fix64C x, Fix64C bound1, Fix64C bound2) => new Fix64C(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             Fix64C IMath<Fix64C>.Cos(Fix64C x) => (Fix64C)Math.Cos((double)x);
             Fix64C IMath<Fix64C>.Cosh(Fix64C x) => (Fix64C)Math.Cosh((double)x);
-            Fix64C IMath<Fix64C>.DegreesToRadians(Fix64C x) => (Fix64C)CheckedMath.Multiply((double)x, NumericUtilities.RadiansPerDegree);
+            Fix64C IMath<Fix64C>.DegreesToRadians(Fix64C x) => (Fix64C)CheckedMath.Multiply((double)x, BitOperations.RadiansPerDegree);
             Fix64C IMath<Fix64C>.E { get; } = (Fix64C)Math.E;
             Fix64C IMath<Fix64C>.Exp(Fix64C x) => (Fix64C)Math.Exp((double)x);
             Fix64C IMath<Fix64C>.Floor(Fix64C x) => new Fix64C(ScaledMath.Floor(x._scaledValue, ScalingFactor));
@@ -253,7 +255,7 @@ namespace Jodo.CheckedNumerics
             Fix64C IMath<Fix64C>.Min(Fix64C x, Fix64C y) => new Fix64C(Math.Min(x._scaledValue, y._scaledValue));
             Fix64C IMath<Fix64C>.PI { get; } = (Fix64C)Math.PI;
             Fix64C IMath<Fix64C>.Pow(Fix64C x, Fix64C y) => y == 1 ? x : (Fix64C)Math.Pow((double)x, (double)y);
-            Fix64C IMath<Fix64C>.RadiansToDegrees(Fix64C x) => (Fix64C)CheckedMath.Multiply((double)x, NumericUtilities.DegreesPerRadian);
+            Fix64C IMath<Fix64C>.RadiansToDegrees(Fix64C x) => (Fix64C)CheckedMath.Multiply((double)x, BitOperations.DegreesPerRadian);
             Fix64C IMath<Fix64C>.Round(Fix64C x) => Round(x, 0, MidpointRounding.ToEven);
             Fix64C IMath<Fix64C>.Round(Fix64C x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             Fix64C IMath<Fix64C>.Round(Fix64C x, int digits, MidpointRounding mode) => Round(x, digits, mode);
@@ -269,9 +271,6 @@ namespace Jodo.CheckedNumerics
 
             Fix64C IBitConvert<Fix64C>.Read(IReader<byte> stream) => new Fix64C(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
             void IBitConvert<Fix64C>.Write(Fix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
-
-            Fix64C IRandom<Fix64C>.Next(Random random) => new Fix64C(random.NextInt64());
-            Fix64C IRandom<Fix64C>.Next(Random random, Fix64C bound1, Fix64C bound2) => new Fix64C(random.NextInt64(bound1._scaledValue, bound2._scaledValue));
 
             bool IConvert<Fix64C>.ToBoolean(Fix64C value) => value._scaledValue != 0;
             byte IConvert<Fix64C>.ToByte(Fix64C value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());
@@ -303,6 +302,14 @@ namespace Jodo.CheckedNumerics
 
             Fix64C IStringConvert<Fix64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
+
+            Fix64C INumericRandom<Fix64C>.Next(Random random) => new Fix64C(random.NextInt64());
+            Fix64C INumericRandom<Fix64C>.Next(Random random, Fix64C maxValue) => new Fix64C(random.NextInt64(maxValue._scaledValue));
+            Fix64C INumericRandom<Fix64C>.Next(Random random, Fix64C minValue, Fix64C maxValue) => new Fix64C(random.NextInt64(minValue._scaledValue, maxValue._scaledValue));
+            Fix64C INumericRandom<Fix64C>.Next(Random random, Generation mode) => new Fix64C(random.NextInt64(mode));
+            Fix64C INumericRandom<Fix64C>.Next(Random random, Fix64C minValue, Fix64C maxValue, Generation mode) => new Fix64C(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
+
+            Fix64C IVariantRandom<Fix64C>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<Fix64C>(random, scenarios);
         }
     }
 }

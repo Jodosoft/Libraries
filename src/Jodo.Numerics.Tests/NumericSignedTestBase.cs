@@ -19,7 +19,6 @@
 
 using System;
 using FluentAssertions;
-using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -60,7 +59,7 @@ namespace Jodo.Numerics.Tests
         public void IsNegative_RandomValue_ReturnsCorrectResult()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
             bool expected = input.IsLessThan(Numeric.Zero<TNumeric>());
 
             //act
@@ -74,7 +73,7 @@ namespace Jodo.Numerics.Tests
         public void Abs_Negative_PositiveEquivalent()
         {
             //arrange
-            TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>().Add(Numeric.MaxUnit<TNumeric>()), Numeric.MinUnit<TNumeric>());
+            TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>().Add(Numeric.MaxUnit<TNumeric>()), Numeric.MinUnit<TNumeric>(), Generation.Extended);
             TNumeric expected = Numeric.MinUnit<TNumeric>().Multiply(input);
 
             //act
@@ -89,7 +88,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input;
-            do { input = Random.NextNumeric<TNumeric>(); }
+            do { input = Random.NextNumeric<TNumeric>(Generation.Extended); }
             while (input.IsGreaterThanOrEqualTo(Numeric.Zero<TNumeric>()));
 
             //act

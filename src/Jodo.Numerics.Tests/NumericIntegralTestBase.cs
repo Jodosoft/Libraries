@@ -122,7 +122,7 @@ namespace Jodo.Numerics.Tests
         public void Round1_RandomIntegral_SameValue()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             TNumeric result = MathN.Round(input);
@@ -135,7 +135,7 @@ namespace Jodo.Numerics.Tests
         public void Round2_RandomIntegral_SameValue()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
             int digits = Random.NextInt32(0, 10);
 
             //act
@@ -149,7 +149,7 @@ namespace Jodo.Numerics.Tests
         public void Round3_RandomIntegral_SameValue()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
@@ -163,7 +163,7 @@ namespace Jodo.Numerics.Tests
         public void Round4_RandomIntegral_SameValue()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
             int digits = Random.NextInt32(0, 10);
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 

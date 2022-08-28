@@ -45,7 +45,7 @@ namespace Jodo.Numerics.Tests
         public void IsNegative_RandomValue_AlwaysFalse()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             bool result = Numeric.IsNegative(input);
@@ -58,7 +58,7 @@ namespace Jodo.Numerics.Tests
         public void Abs_Unsigned_SameValue()
         {
             //arrange
-            TNumeric input = Random.NextNumeric<TNumeric>();
+            TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
             TNumeric result = MathN.Abs(input);

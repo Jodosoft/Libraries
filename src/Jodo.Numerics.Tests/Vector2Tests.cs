@@ -19,11 +19,12 @@
 
 using FluentAssertions;
 using Jodo.Primitives.Tests;
+using Jodo.Testing;
 using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public class Vector2Tests : AssemblyFixtureBase
+    public class Vector2Tests : GlobalFixtureBase
     {
         public sealed class FixedPointBitConvertTests : BitConvertTestBase<Vector2<Fix64>> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<Vector2<Fix64>> { }
@@ -36,7 +37,6 @@ namespace Jodo.Numerics.Tests
         public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Vector2<ByteN>> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector2<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector2<ByteN>> { }
-        public sealed class UnsignedIntegralStringConvertTestBaseTests : StringConvertTestBase<Vector2<ByteN>> { }
         public sealed class UnsignedIntegralVector2Tests : Vector2TestBase<ByteN> { }
 
         [Test]

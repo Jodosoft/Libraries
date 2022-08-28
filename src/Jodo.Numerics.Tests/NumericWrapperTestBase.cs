@@ -30,8 +30,8 @@ namespace Jodo.Numerics.Tests
         public void AdditionOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             TUnderlying underlying()
@@ -43,14 +43,14 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void DecrementOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
 
             //act
             TUnderlying underlying()
@@ -61,15 +61,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(left)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void DivisionOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             TUnderlying underlying()
@@ -81,15 +81,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void EqualityOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             bool underlying()
@@ -100,15 +100,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void GreaterThanOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             bool underlying()
@@ -119,15 +119,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void GreaterThanOrEqualOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             bool underlying()
@@ -138,14 +138,14 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void IncrementOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
 
             //act
             TUnderlying underlying()
@@ -156,15 +156,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(left)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void InequalityOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             bool underlying()
@@ -175,15 +175,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void LessThanOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             bool underlying()
@@ -194,15 +194,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void LessThanOrEqualOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             bool underlying()
@@ -213,15 +213,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void MultiplicationOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             TUnderlying underlying()
@@ -233,15 +233,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void RemainderOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             TUnderlying underlying()
@@ -253,15 +253,15 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void SubtractionOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
-            TUnderlying right = Random.Choose(left, Random.NextExtreme<TUnderlying>());
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TUnderlying right = Random.Choose(left, DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>()));
 
             //act
             TUnderlying underlying()
@@ -273,14 +273,14 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(right)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void UnaryMinusOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
 
             //act
             TUnderlying underlying()
@@ -291,14 +291,14 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(left)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
 
         [Test, Repeat(RandomVariations)]
         public void UnaryPlusOperator_RandomValues_SameAsUnderlying()
         {
             //arrange
-            TUnderlying left = Random.NextExtreme<TUnderlying>();
+            TUnderlying left = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
 
             //act
             TUnderlying underlying()
@@ -309,7 +309,7 @@ namespace Jodo.Numerics.Tests
                         DynamicInvoke.ConversionOperator<TNumeric>(left)));
 
             //assert
-            Same.Outcome(underlying, numeric);
+            AssertSame.Outcome(underlying, numeric);
         }
     }
 }

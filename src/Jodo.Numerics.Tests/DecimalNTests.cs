@@ -34,13 +34,13 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<DecimalN> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<DecimalN> { }
         public sealed class NumericMathTests : NumericMathTestBase<DecimalN> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<DecimalN> { }
         public sealed class NumericRealTests : NumericRealTestBase<DecimalN> { }
         public sealed class NumericSignedTests : NumericSignedTestBase<DecimalN> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<DecimalN> { }
         public sealed class NumericTests : NumericTestBase<DecimalN> { }
         public sealed class NumericWrapperTests : NumericWrapperTestBase<DecimalN, decimal> { }
         public sealed class ObjectTests : ObjectTestBase<DecimalN> { }
-        public sealed class RandomTests : RandomTestBase<DecimalN> { }
         public sealed class SerializableTests : SerializableTestBase<DecimalN> { }
 
         [Test, Repeat(RandomVariations)]
@@ -124,7 +124,7 @@ namespace Jodo.Numerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalN input = Random.NextNumeric<DecimalN>();
+            DecimalN input = Random.NextNumeric<DecimalN>(Generation.Extended);
 
             //act
             bool result = Numeric.IsNaN(input);

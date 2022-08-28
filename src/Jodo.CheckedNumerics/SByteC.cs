@@ -151,18 +151,20 @@ namespace Jodo.CheckedNumerics
         IConvert<SByteC> IProvider<IConvert<SByteC>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SByteC> IProvider<IConvertExtended<SByteC>>.GetInstance() => Utilities.Instance;
         IMath<SByteC> IProvider<IMath<SByteC>>.GetInstance() => Utilities.Instance;
+        INumericRandom<SByteC> IProvider<INumericRandom<SByteC>>.GetInstance() => Utilities.Instance;
         INumericStatic<SByteC> IProvider<INumericStatic<SByteC>>.GetInstance() => Utilities.Instance;
-        IRandom<SByteC> IProvider<IRandom<SByteC>>.GetInstance() => Utilities.Instance;
         IStringConvert<SByteC> IProvider<IStringConvert<SByteC>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<SByteC> IProvider<IVariantRandom<SByteC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<SByteC>,
             IConvert<SByteC>,
             IConvertExtended<SByteC>,
             IMath<SByteC>,
+            INumericRandom<SByteC>,
             INumericStatic<SByteC>,
-            IRandom<SByteC>,
-            IStringConvert<SByteC>
+            IStringConvert<SByteC>,
+            IVariantRandom<SByteC>
         {
             public static readonly Utilities Instance = new Utilities();
 
@@ -202,7 +204,7 @@ namespace Jodo.CheckedNumerics
             SByteC IMath<SByteC>.Clamp(SByteC x, SByteC bound1, SByteC bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             SByteC IMath<SByteC>.Cos(SByteC x) => (SByteC)Math.Cos(x._value);
             SByteC IMath<SByteC>.Cosh(SByteC x) => (SByteC)Math.Cosh(x._value);
-            SByteC IMath<SByteC>.DegreesToRadians(SByteC x) => (SByteC)CheckedMath.Multiply(x, NumericUtilities.RadiansPerDegree);
+            SByteC IMath<SByteC>.DegreesToRadians(SByteC x) => (SByteC)CheckedMath.Multiply(x, BitOperations.RadiansPerDegree);
             SByteC IMath<SByteC>.E { get; } = 2;
             SByteC IMath<SByteC>.Exp(SByteC x) => (SByteC)Math.Exp(x._value);
             SByteC IMath<SByteC>.Floor(SByteC x) => x;
@@ -214,7 +216,7 @@ namespace Jodo.CheckedNumerics
             SByteC IMath<SByteC>.Min(SByteC x, SByteC y) => Math.Min(x._value, y._value);
             SByteC IMath<SByteC>.PI { get; } = 3;
             SByteC IMath<SByteC>.Pow(SByteC x, SByteC y) => CheckedMath.Pow(x._value, y._value);
-            SByteC IMath<SByteC>.RadiansToDegrees(SByteC x) => (SByteC)CheckedMath.Multiply(x, NumericUtilities.DegreesPerRadian);
+            SByteC IMath<SByteC>.RadiansToDegrees(SByteC x) => (SByteC)CheckedMath.Multiply(x, BitOperations.DegreesPerRadian);
             SByteC IMath<SByteC>.Round(SByteC x) => x;
             SByteC IMath<SByteC>.Round(SByteC x, int digits) => x;
             SByteC IMath<SByteC>.Round(SByteC x, int digits, MidpointRounding mode) => x;
@@ -230,9 +232,6 @@ namespace Jodo.CheckedNumerics
 
             SByteC IBitConvert<SByteC>.Read(IReader<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
             void IBitConvert<SByteC>.Write(SByteC value, IWriter<byte> stream) => stream.Write((byte)value._value);
-
-            SByteC IRandom<SByteC>.Next(Random random) => random.NextSByte();
-            SByteC IRandom<SByteC>.Next(Random random, SByteC bound1, SByteC bound2) => random.NextSByte(bound1._value, bound2._value);
 
             bool IConvert<SByteC>.ToBoolean(SByteC value) => value._value != 0;
             byte IConvert<SByteC>.ToByte(SByteC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
@@ -264,6 +263,14 @@ namespace Jodo.CheckedNumerics
 
             SByteC IStringConvert<SByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
+
+            SByteC INumericRandom<SByteC>.Next(Random random) => random.NextSByte();
+            SByteC INumericRandom<SByteC>.Next(Random random, SByteC maxValue) => random.NextSByte(maxValue);
+            SByteC INumericRandom<SByteC>.Next(Random random, SByteC minValue, SByteC maxValue) => random.NextSByte(minValue, maxValue);
+            SByteC INumericRandom<SByteC>.Next(Random random, Generation mode) => random.NextSByte(mode);
+            SByteC INumericRandom<SByteC>.Next(Random random, SByteC minValue, SByteC maxValue, Generation mode) => random.NextSByte(minValue, maxValue, mode);
+
+            SByteC IVariantRandom<SByteC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<SByteC>(random, scenarios);
         }
     }
 }

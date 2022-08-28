@@ -46,8 +46,8 @@ namespace Jodo.Numerics
             IEquatable<Unit<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Unit<TNumeric>>>,
-            IProvider<IRandom<Unit<TNumeric>>>,
             IProvider<IStringConvert<Unit<TNumeric>>>,
+            IProvider<IVariantRandom<Unit<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -117,18 +117,18 @@ namespace Jodo.Numerics
         public static TNumeric operator +(TNumeric left, Unit<TNumeric> right) => left.Add(right.Value);
 
         IBitConvert<Unit<TNumeric>> IProvider<IBitConvert<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IRandom<Unit<TNumeric>> IProvider<IRandom<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
         IStringConvert<Unit<TNumeric>> IProvider<IStringConvert<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<Unit<TNumeric>> IProvider<IVariantRandom<Unit<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
             IBitConvert<Unit<TNumeric>>,
-            IRandom<Unit<TNumeric>>,
-            IStringConvert<Unit<TNumeric>>
+            IStringConvert<Unit<TNumeric>>,
+            IVariantRandom<Unit<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Unit<TNumeric> IRandom<Unit<TNumeric>>.Next(Random random) => new Unit<TNumeric>(random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>()));
-            Unit<TNumeric> IRandom<Unit<TNumeric>>.Next(Random random, Unit<TNumeric> bound1, Unit<TNumeric> bound2) => new Unit<TNumeric>(random.NextNumeric(bound1.Value, bound2.Value));
+            Unit<TNumeric> IVariantRandom<Unit<TNumeric>>.Next(Random random, Scenarios scenarios)
+                => new Unit<TNumeric>(random.NextVariant<TNumeric>(scenarios));
 
             Unit<TNumeric> IStringConvert<Unit<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => new Unit<TNumeric>(StringConvert.Parse<TNumeric>(s, style, provider));

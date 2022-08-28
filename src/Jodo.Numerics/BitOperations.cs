@@ -22,7 +22,7 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Numerics
 {
-    public static class NumericUtilities
+    public static class BitOperations
     {
         public const float DegreesPerRadianF = 180f / MathF.PI;
         public const float RadiansPerDegreeF = MathF.PI / 180;

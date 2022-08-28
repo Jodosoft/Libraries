@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using System;
-using AutoFixture;
 using NUnit.Framework;
 
 namespace Jodo.Testing
@@ -33,7 +32,6 @@ namespace Jodo.Testing
         public const int RandomVariations = 64;
 #endif
 
-        public static Random Random => TestLocal.GetOrAdd("JodoRandom", () => new Random());
-        public static Fixture Fixture => TestLocal.GetOrAdd("JodoFixture", () => new Fixture());
+        public static Random Random => TestLocal.GetOrAdd(() => new Random());
     }
 }

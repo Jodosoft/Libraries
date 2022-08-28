@@ -23,21 +23,17 @@ namespace Jodo.Numerics.Tests
 {
     public static class UnitTests
     {
-        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Unit<Fix64>> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Unit<Fix64>> { }
-        public sealed class FixedPointRandomTests : RandomTestBase<Unit<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Unit<Fix64>> { }
-        public sealed class FixedPointUnitTests : UnitTestBase<Fix64> { }
-        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Unit<SingleN>> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Unit<SingleN>> { }
-        public sealed class FloatingPointRandomTests : RandomTestBase<Unit<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Unit<SingleN>> { }
-        public sealed class FloatingPointUnitTests : UnitTestBase<SingleN> { }
-        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralRandomTests : RandomTestBase<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralStringConvertTests : StringConvertTestBase<Unit<ByteN>> { }
         public sealed class UnsignedIntegralUnitTests : UnitTestBase<ByteN> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Unit<ByteN>> { }
+        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Unit<ByteN>> { }
+        public sealed class FloatingPointUnitTests : UnitTestBase<SingleN> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Unit<SingleN>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Unit<SingleN>> { }
+        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Unit<SingleN>> { }
+        public sealed class FixedPointUnitTests : UnitTestBase<Fix64> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Unit<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Unit<Fix64>> { }
+        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Unit<Fix64>> { }
     }
 }

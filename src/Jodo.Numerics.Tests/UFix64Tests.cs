@@ -32,12 +32,12 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<UFix64> { }
         public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<UFix64> { }
         public sealed class NumericNonNaNTests : NumericNonNaNTestBase<UFix64> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<UFix64> { }
         public sealed class NumericRealTests : NumericRealTestBase<UFix64> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<UFix64> { }
         public sealed class NumericTests : NumericTestBase<UFix64> { }
         public sealed class NumericUnsignedTests : NumericUnsignedTestBase<UFix64> { }
         public sealed class ObjectTests : ObjectTestBase<UFix64> { }
-        public sealed class RandomTests : RandomTestBase<UFix64> { }
         public sealed class SerializableTests : SerializableTestBase<UFix64> { }
     }
 }

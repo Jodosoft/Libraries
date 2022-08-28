@@ -73,8 +73,8 @@ namespace Jodo.Geometry
             IEquatable<Rectangle<TNumeric>>,
             IFormattable,
             IProvider<IBitConvert<Rectangle<TNumeric>>>,
-            IProvider<IRandom<Rectangle<TNumeric>>>,
             IProvider<IStringConvert<Rectangle<TNumeric>>>,
+            IProvider<IVariantRandom<Rectangle<TNumeric>>>,
             ITwoDimensional<Rectangle<TNumeric>, TNumeric>,
             IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2<TNumeric>>,
             ISerializable
@@ -196,58 +196,22 @@ namespace Jodo.Geometry
         Vector2<TNumeric> ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetCenter() => Origin;
 
         IBitConvert<Rectangle<TNumeric>> IProvider<IBitConvert<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IRandom<Rectangle<TNumeric>> IProvider<IRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IStringConvert<Rectangle<TNumeric>> IProvider<IStringConvert<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<Rectangle<TNumeric>> IProvider<IVariantRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
            IBitConvert<Rectangle<TNumeric>>,
-           IRandom<Rectangle<TNumeric>>,
-           IStringConvert<Rectangle<TNumeric>>
+           IStringConvert<Rectangle<TNumeric>>,
+           IVariantRandom<Rectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Rectangle<TNumeric> IRandom<Rectangle<TNumeric>>.Next(Random random)
+            Rectangle<TNumeric> IVariantRandom<Rectangle<TNumeric>>.Next(Random random, Scenarios scenarios)
             {
-                do
-                {
-                    try
-                    {
-                        checked
-                        {
-                            Rectangle<TNumeric> result = AARectangle.Between(
-                                random.NextVector2<TNumeric>(),
-                                random.NextVector2<TNumeric>()).Rotate(random.NextAngle<TNumeric>());
-                            if (result.GetBounds() != default)
-                            {
-                                return result;
-                            }
-                        }
-                    }
-                    catch (OverflowException)
-                    {
-                        // Try again
-                    }
-                } while (true);
-            }
-
-            Rectangle<TNumeric> IRandom<Rectangle<TNumeric>>.Next(Random random, Rectangle<TNumeric> bound1, Rectangle<TNumeric> bound2)
-            {
-                AARectangle<TNumeric> bound1Bounds = bound1.GetBounds();
-                AARectangle<TNumeric> bound2Bounds = bound2.GetBounds();
-                TNumeric xMin = MathN.Min(bound1Bounds.GetBottomLeft().X, bound2Bounds.GetBottomLeft().X);
-                TNumeric xMax = MathN.Max(bound1Bounds.GetTopRight().X, bound2Bounds.GetTopRight().X);
-                TNumeric yMin = MathN.Min(bound1Bounds.GetBottomLeft().Y, bound2Bounds.GetBottomLeft().Y);
-                TNumeric yMax = MathN.Max(bound1Bounds.GetTopRight().Y, bound2Bounds.GetTopRight().Y);
-
-                Vector2<TNumeric> center = new Vector2<TNumeric>(random.NextNumeric(xMin, xMax), random.NextNumeric(yMin, yMax));
-
-                TNumeric xMaxRadius = MathN.Min(xMax.Subtract(center.X), center.X.Subtract(xMin));
-                TNumeric yMaxRadius = MathN.Min(yMax.Subtract(center.Y), center.Y.Subtract(yMin));
-
-                Angle<TNumeric> angle = random.NextAngle<TNumeric>();
-                Vector2<TNumeric> dimensions = new Vector2<TNumeric>(xMaxRadius.Doubled(), yMaxRadius.Doubled());
-
-                return new Rectangle<TNumeric>(center, dimensions, angle);
+                return new Rectangle<TNumeric>(
+                    random.NextVariant<Vector2<TNumeric>>(scenarios),
+                    random.NextVariant<Vector2<TNumeric>>(scenarios),
+                    random.NextVariant<Angle<TNumeric>>(scenarios));
             }
 
             Rectangle<TNumeric> IStringConvert<Rectangle<TNumeric>>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
