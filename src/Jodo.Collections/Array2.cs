@@ -49,7 +49,7 @@ namespace Jodo.Collections
             LengthY = lengthY;
         }
 
-#if NETSTANDARD2_1
+#if HAS_SPANS
         public ReadOnlySpan<T> AsSpan() => _array.AsSpan();
         public ReadOnlyMemory<T> AsMemory() => _array.AsMemory();
 #endif

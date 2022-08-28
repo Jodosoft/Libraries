@@ -56,7 +56,7 @@ namespace Jodo.Numerics.Tests
             var value1 = MathN.Log10(99999 * (Fix64)3.444);
             var value2 = (Int32N)107 << 4;
             var value3 = BitConvert.GetBytes(value1);
-            var value4 = new Vector2<Fix64>(101, -202);
+            var value4 = new Vector2N<Fix64>(101, -202);
 
             Console.WriteLine(value1); // output: 5.537058
             Console.WriteLine(value2.ToString("X")); // output: 6B0

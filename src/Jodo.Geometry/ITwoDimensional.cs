@@ -25,11 +25,11 @@ namespace Jodo.Geometry
     {
         AARectangle<TNumeric> GetBounds();
         bool Contains(T other);
-        bool Contains(Vector2<TNumeric> point);
+        bool Contains(Vector2N<TNumeric> point);
         bool IntersectsWith(T other);
         TNumeric GetArea();
-        Vector2<TNumeric>[] GetVertices(int circumferenceDivisor);
-        Vector2<TNumeric> GetCenter();
-        T Translate(Vector2<TNumeric> delta);
+        Vector2N<TNumeric>[] GetVertices(int circumferenceDivisor);
+        Vector2N<TNumeric> GetCenter();
+        T Translate(Vector2N<TNumeric> delta);
     }
 }

@@ -121,11 +121,15 @@
   <!-- Constants -->
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
-    <DefineConstants>HAS_DEFAULT_INTERFACE_METHODS;$(AdditionalConstants)</DefineConstants>
+    <DefineConstants>HAS_EXTENDED_MIDPOINT_ROUNDING;HAS_VALUE_TUPLES;HAS_SPANS;HAS_DEFAULT_INTERFACE_METHODS;$(AdditionalConstants)</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.1'">
-    <DefineConstants>HAS_DEFAULT_INTERFACE_METHODS;$(AdditionalConstants)</DefineConstants>
+    <DefineConstants>HAS_VALUE_TUPLES;HAS_SPANS;HAS_DEFAULT_INTERFACE_METHODS;$(AdditionalConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <DefineConstants>HAS_VALUE_TUPLES;$(AdditionalConstants)</DefineConstants>
   </PropertyGroup>
 
 </Project>

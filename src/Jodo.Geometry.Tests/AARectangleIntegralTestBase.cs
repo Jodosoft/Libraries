@@ -34,16 +34,16 @@ namespace Jodo.Geometry.Tests
         {
             //arrange
             AARectangle<TNumeric> subject = AARectangle.FromCenter(
-                new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
-                new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
-            Vector2<TNumeric>[] expected = new Vector2<TNumeric>[] {
-                     new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
-                     new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.Zero<TNumeric>()),
-                     new Vector2<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()),
-                     new Vector2<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.One<TNumeric>()) };
+                new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
+                new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
+            Vector2N<TNumeric>[] expected = new Vector2N<TNumeric>[] {
+                     new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
+                     new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.Zero<TNumeric>()),
+                     new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()),
+                     new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.One<TNumeric>()) };
 
             //act
-            Vector2<TNumeric>[] results = subject.GetVertices();
+            Vector2N<TNumeric>[] results = subject.GetVertices();
 
             //assert
             results.Should().BeEquivalentTo(expected);

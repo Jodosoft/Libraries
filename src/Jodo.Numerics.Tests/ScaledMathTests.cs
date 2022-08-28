@@ -28,7 +28,7 @@ namespace Jodo.Numerics.Tests
 {
     public sealed class ScaledMathTests : GlobalFixtureBase
     {
-#if NETCOREAPP3_0_OR_GREATER
+#if HAS_EXTENDED_MIDPOINT_ROUNDING
         [TestCase((long)4, MidpointRounding.ToEven, (long)0)]
         [TestCase((long)4, MidpointRounding.AwayFromZero, (long)0)]
         [TestCase((long)5, MidpointRounding.ToEven, (long)0)]
@@ -138,7 +138,7 @@ namespace Jodo.Numerics.Tests
             result.Should().Be(0);
         }
 
-#if NETCOREAPP3_0_OR_GREATER
+#if HAS_EXTENDED_MIDPOINT_ROUNDING
         [TestCase((ulong)4, MidpointRounding.ToZero, (ulong)0)]
         [TestCase((ulong)4, MidpointRounding.ToNegativeInfinity, (ulong)0)]
         [TestCase((ulong)4, MidpointRounding.ToPositiveInfinity, (ulong)10)]

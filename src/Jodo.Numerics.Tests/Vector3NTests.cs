@@ -21,19 +21,19 @@ using Jodo.Primitives.Tests;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class Vector3Tests
+    public static class Vector3NTests
     {
-        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Vector3<Fix64>> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Vector3<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector3<Fix64>> { }
-        public sealed class FixedPointVector3Tests : Vector3TestBase<Fix64> { }
-        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Vector3<SingleN>> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Vector3<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector3<SingleN>> { }
-        public sealed class FloatingPointVector3Tests : Vector3TestBase<SingleN> { }
-        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Vector3<ByteN>> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector3<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector3<ByteN>> { }
-        public sealed class UnsignedIntegralVector3Tests : Vector3TestBase<ByteN> { }
+        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Vector3N<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Vector3N<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector3N<Fix64>> { }
+        public sealed class FixedPointVector3Tests : Vector3NTestBase<Fix64> { }
+        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Vector3N<SingleN>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Vector3N<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector3N<SingleN>> { }
+        public sealed class FloatingPointVector3Tests : Vector3NTestBase<SingleN> { }
+        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Vector3N<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector3N<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector3N<ByteN>> { }
+        public sealed class UnsignedIntegralVector3Tests : Vector3NTestBase<ByteN> { }
     }
 }

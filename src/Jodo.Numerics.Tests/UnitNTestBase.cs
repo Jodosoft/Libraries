@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public abstract class UnitTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class UnitNTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [Test]
         public void Zero_ValueEqualToNumericZero()
@@ -33,7 +33,7 @@ namespace Jodo.Numerics.Tests
             TNumeric expected = Numeric.Zero<TNumeric>();
 
             //act
-            TNumeric result = Unit.Zero<TNumeric>();
+            TNumeric result = UnitN.Zero<TNumeric>();
 
             //assert
             result.Should().Be(expected);
@@ -46,7 +46,7 @@ namespace Jodo.Numerics.Tests
             TNumeric expected = Numeric.MaxUnit<TNumeric>();
 
             //act
-            TNumeric result = Unit.MaxValue<TNumeric>();
+            TNumeric result = UnitN.MaxValue<TNumeric>();
 
             //assert
             result.Should().Be(expected);
@@ -59,7 +59,7 @@ namespace Jodo.Numerics.Tests
             TNumeric expected = Numeric.MinUnit<TNumeric>();
 
             //act
-            TNumeric result = Unit.MinValue<TNumeric>();
+            TNumeric result = UnitN.MinValue<TNumeric>();
 
             //assert
             result.Should().Be(expected);
@@ -72,7 +72,7 @@ namespace Jodo.Numerics.Tests
             TNumeric input = Random.NextNumeric(Numeric.MaxUnit<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended);
 
             //act
-            Unit<TNumeric> result = new Unit<TNumeric>(input);
+            UnitN<TNumeric> result = new UnitN<TNumeric>(input);
 
             //assert
             result.Value.Should().Be(Numeric.MaxUnit<TNumeric>());
@@ -85,7 +85,7 @@ namespace Jodo.Numerics.Tests
             TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>(), Numeric.MinUnit<TNumeric>(), Generation.Extended);
 
             //act
-            Unit<TNumeric> result = new Unit<TNumeric>(input);
+            UnitN<TNumeric> result = new UnitN<TNumeric>(input);
 
             //assert
             result.Value.Should().Be(Numeric.MinUnit<TNumeric>());
@@ -95,8 +95,8 @@ namespace Jodo.Numerics.Tests
         public void CompareTo1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -107,8 +107,8 @@ namespace Jodo.Numerics.Tests
         public void CompareTo2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -119,7 +119,7 @@ namespace Jodo.Numerics.Tests
         public void ToString_RandomValue_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -130,7 +130,7 @@ namespace Jodo.Numerics.Tests
         public void GetHashCode_RandomValue_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -141,8 +141,8 @@ namespace Jodo.Numerics.Tests
         public void Equals1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -153,8 +153,8 @@ namespace Jodo.Numerics.Tests
         public void Equals2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -165,8 +165,8 @@ namespace Jodo.Numerics.Tests
         public void NotEquals_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -177,8 +177,8 @@ namespace Jodo.Numerics.Tests
         public void Add1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -189,7 +189,7 @@ namespace Jodo.Numerics.Tests
         public void Add2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -202,7 +202,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -213,8 +213,8 @@ namespace Jodo.Numerics.Tests
         public void Divide1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -225,7 +225,7 @@ namespace Jodo.Numerics.Tests
         public void Divide2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -238,7 +238,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -249,8 +249,8 @@ namespace Jodo.Numerics.Tests
         public void GreaterThan1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -261,7 +261,7 @@ namespace Jodo.Numerics.Tests
         public void GreaterThan2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -274,7 +274,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -285,8 +285,8 @@ namespace Jodo.Numerics.Tests
         public void GreaterThanOrEqualTo1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -297,7 +297,7 @@ namespace Jodo.Numerics.Tests
         public void GreaterThanOrEqualTo2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -310,7 +310,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -321,8 +321,8 @@ namespace Jodo.Numerics.Tests
         public void IsLessThan1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -333,7 +333,7 @@ namespace Jodo.Numerics.Tests
         public void IsLessThan2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -346,7 +346,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -357,8 +357,8 @@ namespace Jodo.Numerics.Tests
         public void IsLessThanOrEqualTo1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -369,7 +369,7 @@ namespace Jodo.Numerics.Tests
         public void IsLessThanOrEqualTo2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -382,7 +382,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -393,8 +393,8 @@ namespace Jodo.Numerics.Tests
         public void Multiply1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -405,7 +405,7 @@ namespace Jodo.Numerics.Tests
         public void Multiply2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -418,7 +418,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -429,7 +429,7 @@ namespace Jodo.Numerics.Tests
         public void Negative_RandomValue_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -440,7 +440,7 @@ namespace Jodo.Numerics.Tests
         public void Positive_RandomValue_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -451,8 +451,8 @@ namespace Jodo.Numerics.Tests
         public void Remainder1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -463,7 +463,7 @@ namespace Jodo.Numerics.Tests
         public void Remainder2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -476,7 +476,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -487,8 +487,8 @@ namespace Jodo.Numerics.Tests
         public void Subtract1_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert
@@ -499,7 +499,7 @@ namespace Jodo.Numerics.Tests
         public void Subtract2_RandomValues_SameAsNumeric()
         {
             //arrange
-            Unit<TNumeric> left = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> left = Random.NextUnit<TNumeric>();
             TNumeric right = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
@@ -512,7 +512,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
-            Unit<TNumeric> right = Random.NextUnit<TNumeric>();
+            UnitN<TNumeric> right = Random.NextUnit<TNumeric>();
 
             //act
             //assert

@@ -17,30 +17,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using FluentAssertions;
-using Jodo.Testing;
-using NUnit.Framework;
+using Jodo.Primitives.Tests;
 
 namespace Jodo.Numerics.Tests
 {
-    public abstract class Vector3TestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public static class UnitNTest
     {
-        [Test, Repeat(RandomVariations)]
-        public void Ctor_RandomValues_CorrectResult()
-        {
-            //arrange
-            TNumeric x = Random.NextNumeric<TNumeric>(Generation.Extended);
-            TNumeric y = Random.NextNumeric<TNumeric>(Generation.Extended);
-            TNumeric z = Random.NextNumeric<TNumeric>(Generation.Extended);
-
-            //act
-            Vector3<TNumeric> result = new Vector3<TNumeric>(x, y, z);
-
-            //assert
-            result.X.Should().Be(x);
-            result.Y.Should().Be(y);
-            result.Z.Should().Be(z);
-        }
+        public sealed class UnsignedIntegralUnitTests : UnitNTestBase<ByteN> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<UnitN<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<UnitN<ByteN>> { }
+        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<UnitN<ByteN>> { }
+        public sealed class FloatingPointUnitTests : UnitNTestBase<SingleN> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<UnitN<SingleN>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<UnitN<SingleN>> { }
+        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<UnitN<SingleN>> { }
+        public sealed class FixedPointUnitTests : UnitNTestBase<Fix64> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<UnitN<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<UnitN<Fix64>> { }
+        public sealed class FixedPointBitConvertTests : BitConvertTestBase<UnitN<Fix64>> { }
     }
 }

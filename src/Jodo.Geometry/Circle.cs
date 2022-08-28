@@ -52,13 +52,13 @@ namespace Jodo.Geometry
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
-        public readonly Vector2<TNumeric> Center;
+        public readonly Vector2N<TNumeric> Center;
         public readonly TNumeric Radius;
 
         public TNumeric GetDiameter() => Numeric.Two<TNumeric>().Multiply(Radius);
         public TNumeric GetCircumeference() => Numeric.Two<TNumeric>().Multiply(MathN.PI<TNumeric>()).Multiply(Radius);
 
-        public Circle(Vector2<TNumeric> center, TNumeric radius)
+        public Circle(Vector2N<TNumeric> center, TNumeric radius)
         {
             Center = center;
             Radius = radius;
@@ -66,29 +66,29 @@ namespace Jodo.Geometry
 
         public Circle(TNumeric centerX, TNumeric centerY, TNumeric radius)
         {
-            Center = new Vector2<TNumeric>(centerX, centerY);
+            Center = new Vector2N<TNumeric>(centerX, centerY);
             Radius = radius;
         }
 
         private Circle(SerializationInfo info, StreamingContext context)
         {
-            Center = (Vector2<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2<TNumeric>));
+            Center = (Vector2N<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2N<TNumeric>));
             Radius = (TNumeric)info.GetValue(nameof(Radius), typeof(TNumeric));
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Center), Center, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(Center), Center, typeof(Vector2N<TNumeric>));
             info.AddValue(nameof(Radius), Radius, typeof(TNumeric));
         }
 
-        public Vector2<TNumeric>[] GetVertices(int circumferenceDivisor)
+        public Vector2N<TNumeric>[] GetVertices(int circumferenceDivisor)
         {
             double centerX = ConvertN.ToDouble(Center.X);
             double centerY = ConvertN.ToDouble(Center.Y);
             double radius = ConvertN.ToDouble(Radius);
 
-            Vector2<TNumeric>[]? results = new Vector2<TNumeric>[circumferenceDivisor + 1];
+            Vector2N<TNumeric>[]? results = new Vector2N<TNumeric>[circumferenceDivisor + 1];
             results[0] = Center;
             for (int i = 0; i < circumferenceDivisor; i++)
             {
@@ -96,7 +96,7 @@ namespace Jodo.Geometry
 
                 double radians = degrees * BitOperations.RadiansPerDegree;
 
-                results[i + 1] = new Vector2<TNumeric>(
+                results[i + 1] = new Vector2N<TNumeric>(
                     ConvertN.ToNumeric<TNumeric>(centerX + (radius * Math.Cos(radians))),
                     ConvertN.ToNumeric<TNumeric>(centerY + (radius * Math.Sin(radians))));
             }
@@ -105,10 +105,10 @@ namespace Jodo.Geometry
 
         public TNumeric GetArea() => MathN.PI<TNumeric>().Multiply(MathN.Pow(Radius, Numeric.Two<TNumeric>()));
         public bool Contains(Circle<TNumeric> other) => Radius.IsGreaterThanOrEqualTo(other.Radius) && Center.DistanceFrom(other.Center).IsLessThanOrEqualTo(Radius.Subtract(other.Radius));
-        public bool Contains(Vector2<TNumeric> point) => point.DistanceFrom(Center).IsLessThan(Radius);
-        public Circle<TNumeric> Translate(Vector2<TNumeric> delta) => new Circle<TNumeric>(Center.Translate(delta), Radius);
-        public Circle<TNumeric> Translate(TNumeric deltaX, TNumeric deltaY) => new Circle<TNumeric>(Center.Translate(new Vector2<TNumeric>(deltaX, deltaY)), Radius);
-        public AARectangle<TNumeric> GetBounds() => AARectangle.FromCenter(Center, new Vector2<TNumeric>(GetDiameter(), GetDiameter()));
+        public bool Contains(Vector2N<TNumeric> point) => point.DistanceFrom(Center).IsLessThan(Radius);
+        public Circle<TNumeric> Translate(Vector2N<TNumeric> delta) => new Circle<TNumeric>(Center.Translate(delta), Radius);
+        public Circle<TNumeric> Translate(TNumeric deltaX, TNumeric deltaY) => new Circle<TNumeric>(Center.Translate(new Vector2N<TNumeric>(deltaX, deltaY)), Radius);
+        public AARectangle<TNumeric> GetBounds() => AARectangle.FromCenter(Center, new Vector2N<TNumeric>(GetDiameter(), GetDiameter()));
         public bool IntersectsWith(Circle<TNumeric> other) => Center.DistanceFrom(other.Center).IsLessThan(Radius.Add(other.Radius));
 
         public bool Equals(Circle<TNumeric> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
@@ -120,7 +120,7 @@ namespace Jodo.Geometry
         public static bool operator ==(Circle<TNumeric> left, Circle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
 
-        Vector2<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
+        Vector2N<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
         IBitConvert<Circle<TNumeric>> IProvider<IBitConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Circle<TNumeric>> IProvider<IVariantRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
@@ -133,13 +133,13 @@ namespace Jodo.Geometry
             Circle<TNumeric> IVariantRandom<Circle<TNumeric>>.Next(Random random, Scenarios scenarios)
             {
                 return new Circle<TNumeric>(
-                    random.NextVariant<Vector2<TNumeric>>(scenarios),
+                    random.NextVariant<Vector2N<TNumeric>>(scenarios),
                     random.NextVariant<TNumeric>(scenarios));
             }
 
             Circle<TNumeric> IBitConvert<Circle<TNumeric>>.Read(IReader<byte> stream)
             {
-                return new Circle<TNumeric>(BitConvert.Read<Vector2<TNumeric>>(stream), BitConvert.Read<TNumeric>(stream));
+                return new Circle<TNumeric>(BitConvert.Read<Vector2N<TNumeric>>(stream), BitConvert.Read<TNumeric>(stream));
             }
 
             void IBitConvert<Circle<TNumeric>>.Write(Circle<TNumeric> value, IWriter<byte> stream)

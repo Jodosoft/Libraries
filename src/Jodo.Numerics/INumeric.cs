@@ -64,7 +64,7 @@ namespace Jodo.Numerics
         string ToString(string format);
         string ToString(IFormatProvider formatProvider);
 
-#if NETSTANDARD2_1
+#if HAS_DEFAULT_INTERFACE_METHODS
         public static bool operator <(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsLessThan((TSelf)right);
         public static bool operator <=(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsLessThanOrEqualTo((TSelf)right);
         public static bool operator >(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsGreaterThan((TSelf)right);

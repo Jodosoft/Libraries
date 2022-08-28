@@ -52,21 +52,21 @@ namespace Jodo.Numerics
         public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric minValue, TNumeric maxValue, Generation mode) where TNumeric : struct, INumeric<TNumeric>
             => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, minValue, maxValue, mode);
 
-        public static Unit<TNumeric> NextUnit<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+        public static UnitN<TNumeric> NextUnit<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Unit<TNumeric>(random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>(), Generation.Extended));
+            return new UnitN<TNumeric>(random.NextNumeric(Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>(), Generation.Extended));
         }
 
-        public static Vector2<TNumeric> NextVector2<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+        public static Vector2N<TNumeric> NextVector2<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2<TNumeric>(
+            return new Vector2N<TNumeric>(
                 random.NextNumeric<TNumeric>(Generation.Extended),
                 random.NextNumeric<TNumeric>(Generation.Extended));
         }
 
-        public static Vector3<TNumeric> NextVector3<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
+        public static Vector3N<TNumeric> NextVector3<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector3<TNumeric>(
+            return new Vector3N<TNumeric>(
                 random.NextNumeric<TNumeric>(Generation.Extended),
                 random.NextNumeric<TNumeric>(Generation.Extended),
                 random.NextNumeric<TNumeric>(Generation.Extended));

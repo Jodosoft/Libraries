@@ -17,23 +17,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Primitives.Tests;
+using System;
+using FluentAssertions;
+using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class UnitTests
+    public abstract class Vector3NTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        public sealed class UnsignedIntegralUnitTests : UnitTestBase<ByteN> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Unit<ByteN>> { }
-        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Unit<ByteN>> { }
-        public sealed class FloatingPointUnitTests : UnitTestBase<SingleN> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Unit<SingleN>> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Unit<SingleN>> { }
-        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Unit<SingleN>> { }
-        public sealed class FixedPointUnitTests : UnitTestBase<Fix64> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Unit<Fix64>> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Unit<Fix64>> { }
-        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Unit<Fix64>> { }
+        [Test, Repeat(RandomVariations)]
+        public void Ctor_RandomValues_CorrectResult()
+        {
+            //arrange
+            TNumeric x = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric y = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric z = Random.NextNumeric<TNumeric>(Generation.Extended);
+
+            //act
+            Vector3N<TNumeric> result = new Vector3N<TNumeric>(x, y, z);
+
+            //assert
+            result.X.Should().Be(x);
+            result.Y.Should().Be(y);
+            result.Z.Should().Be(z);
+        }
     }
 }

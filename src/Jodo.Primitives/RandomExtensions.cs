@@ -43,7 +43,7 @@ namespace Jodo.Primitives
             return list[random.Next(list.Count)];
         }
 
-#if NETSTANDARD2_1
+#if HAS_SPANS
         public static T NextElement<T>(this Random random, Span<T> span)
             => span[random.Next(0, span.Length)];
 

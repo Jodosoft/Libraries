@@ -48,11 +48,11 @@ namespace Jodo.Geometry
     {
         private const string Symbol = "△";
 
-        public readonly Vector2<TNumeric> A;
-        public readonly Vector2<TNumeric> B;
-        public readonly Vector2<TNumeric> C;
+        public readonly Vector2N<TNumeric> A;
+        public readonly Vector2N<TNumeric> B;
+        public readonly Vector2N<TNumeric> C;
 
-        public Triangle(Vector2<TNumeric> a, Vector2<TNumeric> b, Vector2<TNumeric> c)
+        public Triangle(Vector2N<TNumeric> a, Vector2N<TNumeric> b, Vector2N<TNumeric> c)
         {
             A = a;
             B = b;
@@ -60,16 +60,16 @@ namespace Jodo.Geometry
         }
 
         private Triangle(SerializationInfo info, StreamingContext context) : this(
-            (Vector2<TNumeric>)info.GetValue(nameof(A), typeof(Vector2<TNumeric>)),
-            (Vector2<TNumeric>)info.GetValue(nameof(B), typeof(Vector2<TNumeric>)),
-            (Vector2<TNumeric>)info.GetValue(nameof(C), typeof(Vector2<TNumeric>)))
+            (Vector2N<TNumeric>)info.GetValue(nameof(A), typeof(Vector2N<TNumeric>)),
+            (Vector2N<TNumeric>)info.GetValue(nameof(B), typeof(Vector2N<TNumeric>)),
+            (Vector2N<TNumeric>)info.GetValue(nameof(C), typeof(Vector2N<TNumeric>)))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(A), A, typeof(Vector2<TNumeric>));
-            info.AddValue(nameof(B), B, typeof(Vector2<TNumeric>));
-            info.AddValue(nameof(C), C, typeof(Vector2<TNumeric>));
+            info.AddValue(nameof(A), A, typeof(Vector2N<TNumeric>));
+            info.AddValue(nameof(B), B, typeof(Vector2N<TNumeric>));
+            info.AddValue(nameof(C), C, typeof(Vector2N<TNumeric>));
         }
 
         public AARectangle<TNumeric> GetBounds()
@@ -82,27 +82,27 @@ namespace Jodo.Geometry
             throw new NotImplementedException();
         }
 
-        public Vector2<TNumeric>[] GetVertices()
+        public Vector2N<TNumeric>[] GetVertices()
         {
             throw new NotImplementedException();
         }
 
-        public Vector2<TNumeric> GetCenter()
+        public Vector2N<TNumeric> GetCenter()
         {
             throw new NotImplementedException();
         }
 
-        public Triangle<TNumeric> Translate(Vector2<TNumeric> delta) => new Triangle<TNumeric>(A + delta, B + delta, C + delta);
+        public Triangle<TNumeric> Translate(Vector2N<TNumeric> delta) => new Triangle<TNumeric>(A + delta, B + delta, C + delta);
 
-        public bool Contains(Vector2<TNumeric> point) => throw new NotImplementedException();
-        public bool Contains(TNumeric pointX, TNumeric pointY) => Contains(new Vector2<TNumeric>(pointX, pointY));
+        public bool Contains(Vector2N<TNumeric> point) => throw new NotImplementedException();
+        public bool Contains(TNumeric pointX, TNumeric pointY) => Contains(new Vector2N<TNumeric>(pointX, pointY));
 
         public bool Contains(Triangle<TNumeric> other) => throw new NotImplementedException();
         public bool IntersectsWith(Triangle<TNumeric> other) => throw new NotImplementedException();
 
         public Triangle<TNumeric> Rotate90() => throw new NotImplementedException();
         public Rectangle<TNumeric> Rotate(Angle<TNumeric> angle) => throw new NotImplementedException();
-        public Rectangle<TNumeric> RotateAround(Vector2<TNumeric> pivot, Angle<TNumeric> angle) => throw new NotImplementedException();
+        public Rectangle<TNumeric> RotateAround(Vector2N<TNumeric> pivot, Angle<TNumeric> angle) => throw new NotImplementedException();
 
         public Triangle<TResult> Convert<TResult>(Func<TNumeric, TResult> converter) where TResult : struct, INumeric<TResult>
             => new Triangle<TResult>(A.Convert(converter), B.Convert(converter), C.Convert(converter));
@@ -115,12 +115,12 @@ namespace Jodo.Geometry
         public static bool operator ==(Triangle<TNumeric> left, Triangle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Triangle<TNumeric> left, Triangle<TNumeric> right) => !(left == right);
 
-#if NETSTANDARD2_0_OR_GREATER
-        public static implicit operator Triangle<TNumeric>((Vector2<TNumeric>, Vector2<TNumeric>, Vector2<TNumeric>) value) => new Triangle<TNumeric>(value.Item1, value.Item2, value.Item3);
-        public static implicit operator (Vector2<TNumeric>, Vector2<TNumeric>, Vector2<TNumeric>)(Triangle<TNumeric> value) => (value.A, value.B, value.C);
+#if HAS_VALUE_TUPLES
+        public static implicit operator Triangle<TNumeric>((Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>) value) => new Triangle<TNumeric>(value.Item1, value.Item2, value.Item3);
+        public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>)(Triangle<TNumeric> value) => (value.A, value.B, value.C);
 #endif
 
-        Vector2<TNumeric>[] ITwoDimensional<Triangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
+        Vector2N<TNumeric>[] ITwoDimensional<Triangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
         IBitConvert<Triangle<TNumeric>> IProvider<IBitConvert<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
@@ -133,9 +133,9 @@ namespace Jodo.Geometry
             Triangle<TNumeric> IVariantRandom<Triangle<TNumeric>>.Next(Random random, Scenarios scenarios)
             {
                 return new Triangle<TNumeric>(
-                   random.NextVariant<Vector2<TNumeric>>(scenarios),
-                   random.NextVariant<Vector2<TNumeric>>(scenarios),
-                   random.NextVariant<Vector2<TNumeric>>(scenarios));
+                   random.NextVariant<Vector2N<TNumeric>>(scenarios),
+                   random.NextVariant<Vector2N<TNumeric>>(scenarios),
+                   random.NextVariant<Vector2N<TNumeric>>(scenarios));
             }
 
             Triangle<TNumeric> IBitConvert<Triangle<TNumeric>>.Read(IReader<byte> stream)

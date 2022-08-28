@@ -50,16 +50,16 @@ namespace Jodo.Numerics.Tests
             return result;
         }
 
-        public static Vector2<TNumeric> NextVector2<TNumeric>(this Random random, TestBounds bounds) where TNumeric : struct, INumeric<TNumeric>
+        public static Vector2N<TNumeric> NextVector2<TNumeric>(this Random random, TestBounds bounds) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2<TNumeric>(
+            return new Vector2N<TNumeric>(
                 random.NextNumeric<TNumeric>(bounds),
                 random.NextNumeric<TNumeric>(bounds));
         }
 
-        public static Vector3<TNumeric> NextVector3<TNumeric>(this Random random, TestBounds bounds) where TNumeric : struct, INumeric<TNumeric>
+        public static Vector3N<TNumeric> NextVector3<TNumeric>(this Random random, TestBounds bounds) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector3<TNumeric>(
+            return new Vector3N<TNumeric>(
                 random.NextNumeric<TNumeric>(bounds),
                 random.NextNumeric<TNumeric>(bounds),
                 random.NextNumeric<TNumeric>(bounds));

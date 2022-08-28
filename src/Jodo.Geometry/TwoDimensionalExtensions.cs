@@ -26,6 +26,6 @@ namespace Jodo.Geometry
         public static T Translate<T, TNumeric>(this T value, TNumeric deltaX, TNumeric deltaY)
                 where T : struct, ITwoDimensional<T, TNumeric>
                 where TNumeric : struct, INumeric<TNumeric>
-            => value.Translate(new Vector2<TNumeric>(deltaX, deltaY));
+            => value.Translate(new Vector2N<TNumeric>(deltaX, deltaY));
     }
 }

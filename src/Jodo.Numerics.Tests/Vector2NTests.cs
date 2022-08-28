@@ -24,28 +24,28 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public class Vector2Tests : GlobalFixtureBase
+    public class Vector2NTests : GlobalFixtureBase
     {
-        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Vector2<Fix64>> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Vector2<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector2<Fix64>> { }
-        public sealed class FixedPointVector2Tests : Vector2TestBase<Fix64> { }
-        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Vector2<SingleN>> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Vector2<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector2<SingleN>> { }
-        public sealed class FloatingPointVector2Tests : Vector2TestBase<SingleN> { }
-        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Vector2<ByteN>> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector2<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector2<ByteN>> { }
-        public sealed class UnsignedIntegralVector2Tests : Vector2TestBase<ByteN> { }
+        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Vector2N<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Vector2N<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector2N<Fix64>> { }
+        public sealed class FixedPointVector2Tests : Vector2NTestBase<Fix64> { }
+        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Vector2N<SingleN>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Vector2N<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector2N<SingleN>> { }
+        public sealed class FloatingPointVector2Tests : Vector2NTestBase<SingleN> { }
+        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Vector2N<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector2N<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector2N<ByteN>> { }
+        public sealed class UnsignedIntegralVector2Tests : Vector2NTestBase<ByteN> { }
 
         [Test]
         public void Dot_WorkedExample_CorrectResult()
         {
             //arrange
             //act
-            SingleN result = Vector2.Dot(
-                new Vector2<SingleN>(2, -4), new Vector2<SingleN>(-8, 104));
+            SingleN result = Vector2N.Dot(
+                new Vector2N<SingleN>(2, -4), new Vector2N<SingleN>(-8, 104));
 
             //assert
             result.Should().Be(-432);
