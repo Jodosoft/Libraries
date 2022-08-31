@@ -17,14 +17,52 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Primitives;
+using System;
 
 namespace Jodo.Numerics
 {
-    public interface INumericBitConverter<T>
+    /// <summary>
+    /// Converts numeric values to arrays of bytes, and an array of bytes to numeric values.
+    /// </summary>
+    /// <typeparam name="TNumeric">The type of numeric value to convert.</typeparam>
+    /// <seealso cref="INumeric{TSelf}"/>
+    /// <seealso cref="BitConverter"/>
+    public interface INumericBitConverter<TNumeric> where TNumeric : struct, INumeric<TNumeric>
     {
-        T Read(IReader<byte> stream);
+        /// <summary>
+        /// Returns the number of bytes that will be used to <see cref="ToNumeric(byte[], int)"/>
+        /// to form a numeric value, which is also the length of byte arrays returned by
+        /// <see cref="GetBytes(TNumeric)"/>.
+        /// 
+        /// Note: this not the same as the number of bytes consumed in memory by a numeric value.
+        /// </summary>
+        /// <returns>The number of bytes used to convert a <typeparamref name="TNumeric"/> value.</returns>
+        int ConvertedSize { get; }
 
-        void Write(T value, IWriter<byte> stream);
+        /// <summary>
+        /// Returns a numeric value converted from bytes at a specified position in a byte array.
+        /// The number of bytes can be obtained from the <see cref="ConvertedSize"/> method.
+        /// </summary>
+        /// <param name="value">An array of bytes.</param>
+        /// <param name="startIndex">The starting position within value.</param>
+        /// <returns>A numeric value formed by bytes beginning at <paramref name="startIndex"/>.</returns>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="startIndex"/> is greater than or equal to the length of <paramref name="value"/>
+        ///     plus one, minus the number returned by <see cref="ConvertedSize"/>, and is less than or equal
+        ///     to the length of <paramref name="value"/> minus 1.
+        /// </exception>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="startIndex"/> is less than zero or greater than the length of
+        ///     <paramref name="value"/> minus 1.
+        /// </exception>
+        TNumeric ToNumeric(byte[] value, int startIndex);
+
+        /// <summary>
+        /// Returns the specified numeric value as an array of bytes.
+        /// </summary>
+        /// <param name="value">The number to convert.</param>
+        /// <returns>An array of bytes with length determined by <see cref="ConvertedSize"/>.</returns>
+        byte[] GetBytes(TNumeric value);
     }
 }

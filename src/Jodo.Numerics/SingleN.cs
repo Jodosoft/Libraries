@@ -165,12 +165,12 @@ namespace Jodo.Numerics
         IVariantRandom<SingleN> IProvider<IVariantRandom<SingleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<SingleN>,
             IConvert<SingleN>,
             IConvertExtended<SingleN>,
             IMath<SingleN>,
-            INumericStatic<SingleN>,
+            INumericBitConverter<SingleN>,
             INumericRandom<SingleN>,
+            INumericStatic<SingleN>,
             IVariantRandom<SingleN>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -237,8 +237,9 @@ namespace Jodo.Numerics
             SingleN IMath<SingleN>.Tau { get; } = MathF.PI * 2;
             SingleN IMath<SingleN>.Truncate(SingleN x) => MathF.Truncate(x._value);
 
-            SingleN INumericBitConverter<SingleN>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
-            void INumericBitConverter<SingleN>.Write(SingleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<SingleN>.ConvertedSize => sizeof(float);
+            SingleN INumericBitConverter<SingleN>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToSingle(value, startIndex);
+            byte[] INumericBitConverter<SingleN>.GetBytes(SingleN value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<SingleN>.ToBoolean(SingleN value) => Convert.ToBoolean(value._value);
             byte IConvert<SingleN>.ToByte(SingleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

@@ -23,8 +23,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class SingleNTests
     {
-        public sealed class BitConvertTests : BitConvertTestBase<SingleN> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<SingleN> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<SingleN> { }
         public sealed class NumericCastTests : NumericCastTestBase<SingleN> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<SingleN> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<SingleN> { }

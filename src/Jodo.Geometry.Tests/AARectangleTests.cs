@@ -18,24 +18,20 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Numerics.Tests;
 using Jodo.Primitives.Tests;
 
 namespace Jodo.Geometry.Tests
 {
     public static class AARectangleTests
     {
-        public sealed class FixedPointAARectangleIntegralTests : AARectangleTestBase<Fix64> { }
-        public sealed class FixedPointBitConverter : BitConvertTestBase<AARectangle<Fix64>> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<AARectangle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<AARectangle<Fix64>> { }
-        public sealed class FloatingPointAARectangleIntegralTests : AARectangleTestBase<SingleN> { }
-        public sealed class FloatingPointBitConverter : BitConvertTestBase<AARectangle<SingleN>> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<AARectangle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<AARectangle<SingleN>> { }
-        public sealed class UnsignedIntegralAARectangleIntegralTests : AARectangleIntegralTestBase<ByteN> { }
-        public sealed class UnsignedIntegralBitConverter : BitConvertTestBase<AARectangle<ByteN>> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AARectangle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AARectangle<ByteN>> { }
+        public sealed class AARectangleIntegralFixedPointTests : AARectangleTestBase<Fix64> { }
+        public sealed class AARectangleIntegralFloatingPointTests : AARectangleTestBase<SingleN> { }
+        public sealed class AARectangleIntegralUnsignedIntegralTests : AARectangleIntegralTestBase<ByteN> { }
+        public sealed class ObjectFixedPointTests : ObjectTestBase<AARectangle<Fix64>> { }
+        public sealed class ObjectFloatingPointTests : ObjectTestBase<AARectangle<SingleN>> { }
+        public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<AARectangle<ByteN>> { }
+        public sealed class SerializableFixedPointTests : SerializableTestBase<AARectangle<Fix64>> { }
+        public sealed class SerializableFloatingPointTests : SerializableTestBase<AARectangle<SingleN>> { }
+        public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<AARectangle<ByteN>> { }
     }
 }

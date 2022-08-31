@@ -19,16 +19,14 @@
 
 using Jodo.Numerics.Tests;
 using Jodo.Primitives.Tests;
-using Jodo.Testing;
 
 namespace Jodo.CheckedNumerics.Tests
 {
     public static class Int16CTests
     {
-        public sealed class BitConvertTests : BitConvertTestBase<Int16C> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<Int16C> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<Int16C> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<Int16C> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Int16C> { }
         public sealed class NumericCastTests : NumericCastTestBase<Int16C> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<Int16C> { }
         public sealed class NumericIntegralTests : NumericIntegralTestBase<Int16C> { }

@@ -27,64 +27,12 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Geometry
 {
-
-    public static class AARectangle
-    {
-        public static AARectangle<TNumeric> Between<TNumeric>(Vector2N<TNumeric> point1, Vector2N<TNumeric> point2) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(point1, point2 - point1);
-        public static AARectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
-        public static AARectangle<TNumeric> FromBottomRight<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(center, dimensions);
-        public static AARectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromRightCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromTopCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromTopLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions), dimensions);
-        public static AARectangle<TNumeric> FromTopRight<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
-
-        internal static Vector2N<TNumeric> GetCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => origin + dimensions.Halved();
-
-        internal static Vector2N<TNumeric> GetBottomCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y);
-
-        internal static Vector2N<TNumeric> GetBottomRight<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(origin.X.Add(dimensions.X), origin.Y);
-
-        internal static Vector2N<TNumeric> GetLeftCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(origin.X, origin.Y.Add(dimensions.Y.Halved()));
-
-        internal static Vector2N<TNumeric> GetRightCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => new Vector2N<TNumeric>(origin.X.Add(dimensions.X), origin.Y.Add(dimensions.Y.Halved()));
-
-        internal static Vector2N<TNumeric> GetTopCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => new Vector2N<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y.Add(dimensions.Y));
-
-        internal static Vector2N<TNumeric> GetTopLeft<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => new Vector2N<TNumeric>(origin.X, origin.Y.Add(dimensions.Y));
-
-        internal static Vector2N<TNumeric> GetTopRight<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
-             => origin + dimensions;
-
-        public static AARectangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
-        {
-            string[] parts = StringUtilities.ParseVectorParts(s.Trim());
-            if (parts.Length == 4)
-                return new AARectangle<TNumeric>(
-                    Numeric.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
-                    Numeric.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
-                    Numeric.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
-                    Numeric.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider));
-            else throw new FormatException();
-        }
-    }
-
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct AARectangle<TNumeric> :
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
-            IProvider<INumericBitConverter<AARectangle<TNumeric>>>,
-                        IProvider<IVariantRandom<AARectangle<TNumeric>>>,
+            IProvider<IVariantRandom<AARectangle<TNumeric>>>,
             ITwoDimensional<AARectangle<TNumeric>, TNumeric>,
             IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2N<TNumeric>>,
             ISerializable
@@ -186,11 +134,9 @@ namespace Jodo.Geometry
         AARectangle<TNumeric> ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetBounds() => this;
         Vector2N<TNumeric>[] ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
 
-        INumericBitConverter<AARectangle<TNumeric>> IProvider<INumericBitConverter<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<AARectangle<TNumeric>> IProvider<IVariantRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           INumericBitConverter<AARectangle<TNumeric>>,
            IVariantRandom<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -201,19 +147,56 @@ namespace Jodo.Geometry
                     random.NextVariant<Vector2N<TNumeric>>(scenarios),
                     random.NextVariant<Vector2N<TNumeric>>(scenarios));
             }
+        }
+    }
 
-            AARectangle<TNumeric> INumericBitConverter<AARectangle<TNumeric>>.Read(IReader<byte> stream)
-            {
+    public static class AARectangle
+    {
+        public static AARectangle<TNumeric> Between<TNumeric>(Vector2N<TNumeric> point1, Vector2N<TNumeric> point2) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(point1, point2 - point1);
+        public static AARectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
+        public static AARectangle<TNumeric> FromBottomRight<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(center, dimensions);
+        public static AARectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromRightCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions), dimensions);
+        public static AARectangle<TNumeric> FromTopRight<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric> => new AARectangle<TNumeric>(bottomLeft, dimensions);
+
+        internal static Vector2N<TNumeric> GetCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => origin + dimensions.Halved();
+
+        internal static Vector2N<TNumeric> GetBottomCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y);
+
+        internal static Vector2N<TNumeric> GetBottomRight<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X.Add(dimensions.X), origin.Y);
+
+        internal static Vector2N<TNumeric> GetLeftCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X, origin.Y.Add(dimensions.Y.Halved()));
+
+        internal static Vector2N<TNumeric> GetRightCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2N<TNumeric>(origin.X.Add(dimensions.X), origin.Y.Add(dimensions.Y.Halved()));
+
+        internal static Vector2N<TNumeric> GetTopCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2N<TNumeric>(origin.X.Add(dimensions.X.Halved()), origin.Y.Add(dimensions.Y));
+
+        internal static Vector2N<TNumeric> GetTopLeft<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => new Vector2N<TNumeric>(origin.X, origin.Y.Add(dimensions.Y));
+
+        internal static Vector2N<TNumeric> GetTopRight<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+             => origin + dimensions;
+
+        public static AARectangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            string[] parts = StringUtilities.ParseVectorParts(s.Trim());
+            if (parts.Length == 4)
                 return new AARectangle<TNumeric>(
-                    BitConverterN.Read<Vector2N<TNumeric>>(stream),
-                    BitConverterN.Read<Vector2N<TNumeric>>(stream));
-            }
-
-            void INumericBitConverter<AARectangle<TNumeric>>.Write(AARectangle<TNumeric> value, IWriter<byte> stream)
-            {
-                BitConverterN.Write(stream, value.Origin);
-                BitConverterN.Write(stream, value.Dimensions);
-            }
+                    Numeric.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider));
+            else throw new FormatException();
         }
     }
 }

@@ -21,7 +21,6 @@ using System;
 using FluentAssertions;
 using Jodo.Numerics;
 using Jodo.Numerics.Tests;
-using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using NUnit.Framework;
@@ -30,10 +29,9 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public sealed class DecimalCTests : GlobalFixtureBase
     {
-        public sealed class BitConvertTests : BitConvertTestBase<DecimalC> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DecimalC> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<DecimalC> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<DecimalC> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<DecimalC> { }
         public sealed class NumericCastTests : NumericCastTestBase<DecimalC> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<DecimalC> { }
         public sealed class NumericMathTests : NumericMathTestBase<DecimalC> { }
@@ -54,7 +52,7 @@ namespace Jodo.CheckedNumerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = BitConverterN.FromBytes<DecimalC>(bytes);
+            DecimalC input = BitConverterN.ToNumeric<DecimalC>(bytes, 0);
 
             //act
             bool result = Numeric.IsFinite(input);
@@ -72,7 +70,7 @@ namespace Jodo.CheckedNumerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = BitConverterN.FromBytes<DecimalC>(bytes);
+            DecimalC input = BitConverterN.ToNumeric<DecimalC>(bytes, 0);
 
             //act
             bool result = Numeric.IsInfinity(input);
@@ -90,7 +88,7 @@ namespace Jodo.CheckedNumerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = BitConverterN.FromBytes<DecimalC>(bytes);
+            DecimalC input = BitConverterN.ToNumeric<DecimalC>(bytes, 0);
 
             //act
             bool result = Numeric.IsPositiveInfinity(input);
@@ -108,7 +106,7 @@ namespace Jodo.CheckedNumerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalC input = BitConverterN.FromBytes<DecimalC>(bytes);
+            DecimalC input = BitConverterN.ToNumeric<DecimalC>(bytes, 0);
 
             //act
             bool result = Numeric.IsNegativeInfinity(input);

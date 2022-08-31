@@ -156,10 +156,10 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<SByteC> IProvider<IVariantRandom<SByteC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<SByteC>,
             IConvert<SByteC>,
             IConvertExtended<SByteC>,
             IMath<SByteC>,
+            INumericBitConverter<SByteC>,
             INumericRandom<SByteC>,
             INumericStatic<SByteC>,
             IVariantRandom<SByteC>
@@ -228,8 +228,9 @@ namespace Jodo.CheckedNumerics
             SByteC IMath<SByteC>.Truncate(SByteC x) => x;
             int IMath<SByteC>.Sign(SByteC x) => Math.Sign(x._value);
 
-            SByteC INumericBitConverter<SByteC>.Read(IReader<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
-            void INumericBitConverter<SByteC>.Write(SByteC value, IWriter<byte> stream) => stream.Write((byte)value._value);
+            int INumericBitConverter<SByteC>.ConvertedSize => sizeof(sbyte);
+            SByteC INumericBitConverter<SByteC>.ToNumeric(byte[] value, int startIndex) => BitOperations.ToSByte(value, startIndex);
+            byte[] INumericBitConverter<SByteC>.GetBytes(SByteC value) => new byte[] { (byte)value._value };
 
             bool IConvert<SByteC>.ToBoolean(SByteC value) => value._value != 0;
             byte IConvert<SByteC>.ToByte(SByteC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());

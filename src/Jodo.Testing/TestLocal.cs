@@ -32,7 +32,6 @@ namespace Jodo.Testing
             {
                 throw new InvalidOperationException("Test context not found.");
             }
-
             string key = $"{nameof(TestLocal)}+{typeof(T).Name}";
             if (!propertyBag.ContainsKey(key))
             {

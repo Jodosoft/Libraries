@@ -36,7 +36,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.ToNumeric<TNumeric>(bytes, 0);
 
             //act
             bool result = Numeric.IsFinite(input);
@@ -51,7 +51,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.ToNumeric<TNumeric>(bytes, 0);
 
             //act
             bool result = Numeric.IsInfinity(input);
@@ -66,7 +66,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.ToNumeric<TNumeric>(bytes, 0);
 
             //act
             bool result = Numeric.IsPositiveInfinity(input);
@@ -81,7 +81,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.ToNumeric<TNumeric>(bytes, 0);
 
             //act
             bool result = Numeric.IsNegativeInfinity(input);

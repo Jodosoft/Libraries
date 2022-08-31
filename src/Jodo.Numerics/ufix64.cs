@@ -194,12 +194,12 @@ namespace Jodo.Numerics
         IVariantRandom<UFix64> IProvider<IVariantRandom<UFix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<UFix64>,
             IConvert<UFix64>,
             IConvertExtended<UFix64>,
             IMath<UFix64>,
-            INumericStatic<UFix64>,
+            INumericBitConverter<UFix64>,
             INumericRandom<UFix64>,
+            INumericStatic<UFix64>,
             IVariantRandom<UFix64>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -266,8 +266,9 @@ namespace Jodo.Numerics
             UFix64 IMath<UFix64>.Tau { get; } = (UFix64)(Math.PI * 2d);
             UFix64 IMath<UFix64>.Truncate(UFix64 x) => new UFix64(x._scaledValue / ScalingFactor * ScalingFactor);
 
-            UFix64 INumericBitConverter<UFix64>.Read(IReader<byte> stream) => new UFix64(BitConverter.ToUInt64(stream.Read(sizeof(ulong)), 0));
-            void INumericBitConverter<UFix64>.Write(UFix64 value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            int INumericBitConverter<UFix64>.ConvertedSize => sizeof(ulong);
+            UFix64 INumericBitConverter<UFix64>.ToNumeric(byte[] value, int startIndex) => new UFix64(BitConverter.ToUInt64(value, startIndex));
+            byte[] INumericBitConverter<UFix64>.GetBytes(UFix64 value) => BitConverter.GetBytes(value._scaledValue);
 
             bool IConvert<UFix64>.ToBoolean(UFix64 value) => value._scaledValue != 0;
             byte IConvert<UFix64>.ToByte(UFix64 value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode);

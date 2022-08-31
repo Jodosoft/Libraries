@@ -24,10 +24,9 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class UFix64CTests
     {
-        public sealed class BitConvertTests : BitConvertTestBase<UFix64C> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<UFix64C> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<UFix64C> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<UFix64C> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<UFix64C> { }
         public sealed class NumericCastTests : NumericCastTestBase<UFix64C> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<UFix64C> { }
         public sealed class NumericMathTests : NumericMathTestBase<UFix64C> { }

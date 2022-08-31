@@ -174,10 +174,10 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<DoubleC> IProvider<IVariantRandom<DoubleC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<DoubleC>,
             IConvert<DoubleC>,
             IConvertExtended<DoubleC>,
             IMath<DoubleC>,
+            INumericBitConverter<DoubleC>,
             INumericRandom<DoubleC>,
             INumericStatic<DoubleC>,
             IVariantRandom<DoubleC>
@@ -246,8 +246,9 @@ namespace Jodo.CheckedNumerics
             DoubleC IMath<DoubleC>.Truncate(DoubleC x) => Math.Truncate(x._value);
             int IMath<DoubleC>.Sign(DoubleC x) => Math.Sign(x._value);
 
-            DoubleC INumericBitConverter<DoubleC>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
-            void INumericBitConverter<DoubleC>.Write(DoubleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<DoubleC>.ConvertedSize => sizeof(double);
+            DoubleC INumericBitConverter<DoubleC>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToDouble(value, startIndex);
+            byte[] INumericBitConverter<DoubleC>.GetBytes(DoubleC value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<DoubleC>.ToBoolean(DoubleC value) => value._value != 0;
             byte IConvert<DoubleC>.ToByte(DoubleC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());

@@ -23,8 +23,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class UInt32NTests
     {
-        public sealed class BitConvertTests : BitConvertTestBase<UInt32N> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<UInt32N> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<UInt32N> { }
         public sealed class NumericCastTests : NumericCastTestBase<UInt32N> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<UInt32N> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<UInt32N> { }

@@ -24,10 +24,9 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class SingleCTests
     {
-        public sealed class BitConvertTests : BitConvertTestBase<SingleC> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<SingleC> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<SingleC> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<SingleC> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<SingleC> { }
         public sealed class NumericCastTests : NumericCastTestBase<SingleC> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<SingleC> { }
         public sealed class NumericFloatingPointTests : NumericFloatingPointTestBase<SingleC> { }

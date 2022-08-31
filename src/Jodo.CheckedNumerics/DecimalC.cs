@@ -156,10 +156,10 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<DecimalC> IProvider<IVariantRandom<DecimalC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<DecimalC>,
             IConvert<DecimalC>,
             IConvertExtended<DecimalC>,
             IMath<DecimalC>,
+            INumericBitConverter<DecimalC>,
             INumericRandom<DecimalC>,
             INumericStatic<DecimalC>,
             IVariantRandom<DecimalC>
@@ -228,27 +228,9 @@ namespace Jodo.CheckedNumerics
             DecimalC IMath<DecimalC>.Truncate(DecimalC x) => decimal.Truncate(x._value);
             int IMath<DecimalC>.Sign(DecimalC x) => Math.Sign(x._value);
 
-            DecimalC INumericBitConverter<DecimalC>.Read(IReader<byte> stream)
-            {
-                int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part2 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part3 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-
-                bool sign = (part3 & 0x80000000) != 0;
-                byte scale = (byte)((part3 >> 16) & 0x7F);
-
-                return new decimal(part0, part1, part2, sign, scale);
-            }
-
-            void INumericBitConverter<DecimalC>.Write(DecimalC value, IWriter<byte> stream)
-            {
-                int[]? parts = decimal.GetBits(value);
-                stream.Write(BitConverter.GetBytes(parts[0]));
-                stream.Write(BitConverter.GetBytes(parts[1]));
-                stream.Write(BitConverter.GetBytes(parts[2]));
-                stream.Write(BitConverter.GetBytes(parts[3]));
-            }
+            int INumericBitConverter<DecimalC>.ConvertedSize => sizeof(decimal);
+            DecimalC INumericBitConverter<DecimalC>.ToNumeric(byte[] value, int startIndex) => BitOperations.ToDecimal(value, startIndex);
+            byte[] INumericBitConverter<DecimalC>.GetBytes(DecimalC value) => BitOperations.GetBytes(value._value);
 
             bool IConvert<DecimalC>.ToBoolean(DecimalC value) => value._value != 0m;
             byte IConvert<DecimalC>.ToByte(DecimalC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());

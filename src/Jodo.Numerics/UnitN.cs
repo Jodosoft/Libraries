@@ -32,8 +32,7 @@ namespace Jodo.Numerics
             IComparable<UnitN<TNumeric>>,
             IEquatable<UnitN<TNumeric>>,
             IFormattable,
-            IProvider<INumericBitConverter<UnitN<TNumeric>>>,
-                        IProvider<IVariantRandom<UnitN<TNumeric>>>,
+            IProvider<IVariantRandom<UnitN<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -102,20 +101,15 @@ namespace Jodo.Numerics
         public static TNumeric operator /(TNumeric left, UnitN<TNumeric> right) => left.Divide(right.Value);
         public static TNumeric operator +(TNumeric left, UnitN<TNumeric> right) => left.Add(right.Value);
 
-        INumericBitConverter<UnitN<TNumeric>> IProvider<INumericBitConverter<UnitN<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<UnitN<TNumeric>> IProvider<IVariantRandom<UnitN<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<UnitN<TNumeric>>,
             IVariantRandom<UnitN<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
             UnitN<TNumeric> IVariantRandom<UnitN<TNumeric>>.Next(Random random, Scenarios scenarios)
                 => new UnitN<TNumeric>(random.NextVariant<TNumeric>(scenarios));
-
-            UnitN<TNumeric> INumericBitConverter<UnitN<TNumeric>>.Read(IReader<byte> stream) => new UnitN<TNumeric>(BitConverterN.Read<TNumeric>(stream));
-            void INumericBitConverter<UnitN<TNumeric>>.Write(UnitN<TNumeric> value, IWriter<byte> stream) => BitConverterN.Write(stream, value.Value);
         }
     }
 

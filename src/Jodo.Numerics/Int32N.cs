@@ -155,10 +155,10 @@ namespace Jodo.Numerics
         IVariantRandom<Int32N> IProvider<IVariantRandom<Int32N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<Int32N>,
             IConvert<Int32N>,
             IConvertExtended<Int32N>,
             IMath<Int32N>,
+            INumericBitConverter<Int32N>,
             INumericRandom<Int32N>,
             INumericStatic<Int32N>,
             IVariantRandom<Int32N>
@@ -227,8 +227,9 @@ namespace Jodo.Numerics
             Int32N IMath<Int32N>.Tau { get; } = 6;
             Int32N IMath<Int32N>.Truncate(Int32N x) => x;
 
-            Int32N INumericBitConverter<Int32N>.Read(IReader<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-            void INumericBitConverter<Int32N>.Write(Int32N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<Int32N>.ConvertedSize => sizeof(int);
+            Int32N INumericBitConverter<Int32N>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToInt32(value, startIndex);
+            byte[] INumericBitConverter<Int32N>.GetBytes(Int32N value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<Int32N>.ToBoolean(Int32N value) => Convert.ToBoolean(value._value);
             byte IConvert<Int32N>.ToByte(Int32N value, Conversion mode) => ConvertN.ToByte(value._value, mode);

@@ -28,8 +28,7 @@ namespace Jodo.Numerics.Tests
 {
     public sealed class DecimalNTests : GlobalFixtureBase
     {
-        public sealed class BitConvertTests : BitConvertTestBase<DecimalN> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<DecimalN> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<DecimalN> { }
         public sealed class NumericCastTests : NumericCastTestBase<DecimalN> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<DecimalN> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<DecimalN> { }
@@ -52,7 +51,7 @@ namespace Jodo.Numerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalN input = BitConverterN.FromBytes<DecimalN>(bytes);
+            DecimalN input = BitConverterN.ToNumeric<DecimalN>(bytes, 0);
 
             //act
             bool result = Numeric.IsFinite(input);
@@ -70,7 +69,7 @@ namespace Jodo.Numerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalN input = BitConverterN.FromBytes<DecimalN>(bytes);
+            DecimalN input = BitConverterN.ToNumeric<DecimalN>(bytes, 0);
 
             //act
             bool result = Numeric.IsInfinity(input);
@@ -88,7 +87,7 @@ namespace Jodo.Numerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalN input = BitConverterN.FromBytes<DecimalN>(bytes);
+            DecimalN input = BitConverterN.ToNumeric<DecimalN>(bytes, 0);
 
             //act
             bool result = Numeric.IsPositiveInfinity(input);
@@ -106,7 +105,7 @@ namespace Jodo.Numerics.Tests
             {
                 bytes[i] = Random.NextByte();
             }
-            DecimalN input = BitConverterN.FromBytes<DecimalN>(bytes);
+            DecimalN input = BitConverterN.ToNumeric<DecimalN>(bytes, 0);
 
             //act
             bool result = Numeric.IsNegativeInfinity(input);

@@ -18,24 +18,20 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Numerics.Tests;
 using Jodo.Primitives.Tests;
 
 namespace Jodo.Geometry.Tests
 {
     public static class AngleTests
     {
-        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Angle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : AngleTestBase<Fix64> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Angle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Angle<Fix64>> { }
-        public sealed class FloatingPointBitConvertTests : BitConvertTestBase<Angle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : AngleTestBase<SingleN> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Angle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Angle<SingleN>> { }
-        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : AngleTestBase<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Angle<ByteN>> { }
+        public sealed class GeneralFixedPointTests : AngleTestBase<Fix64> { }
+        public sealed class GeneralFloatingPointTests : AngleTestBase<SingleN> { }
+        public sealed class GeneralUnsignedIntegralTests : AngleTestBase<ByteN> { }
+        public sealed class ObjectFixedPointTests : ObjectTestBase<Angle<Fix64>> { }
+        public sealed class ObjectFloatingPointTests : ObjectTestBase<Angle<SingleN>> { }
+        public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<Angle<ByteN>> { }
+        public sealed class SerializableFixedPointTests : SerializableTestBase<Angle<Fix64>> { }
+        public sealed class SerializableFloatingPointTests : SerializableTestBase<Angle<SingleN>> { }
+        public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<Angle<ByteN>> { }
     }
 }

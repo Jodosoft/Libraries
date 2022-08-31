@@ -174,10 +174,10 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<SingleC> IProvider<IVariantRandom<SingleC>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<SingleC>,
             IConvert<SingleC>,
             IConvertExtended<SingleC>,
             IMath<SingleC>,
+            INumericBitConverter<SingleC>,
             INumericRandom<SingleC>,
             INumericStatic<SingleC>,
             IVariantRandom<SingleC>
@@ -246,8 +246,9 @@ namespace Jodo.CheckedNumerics
             SingleC IMath<SingleC>.Truncate(SingleC x) => MathF.Truncate(x._value);
             int IMath<SingleC>.Sign(SingleC x) => Math.Sign(x._value);
 
-            SingleC INumericBitConverter<SingleC>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
-            void INumericBitConverter<SingleC>.Write(SingleC value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<SingleC>.ConvertedSize => sizeof(float);
+            SingleC INumericBitConverter<SingleC>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToSingle(value, startIndex);
+            byte[] INumericBitConverter<SingleC>.GetBytes(SingleC value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<SingleC>.ToBoolean(SingleC value) => value._value != 0;
             byte IConvert<SingleC>.ToByte(SingleC value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());

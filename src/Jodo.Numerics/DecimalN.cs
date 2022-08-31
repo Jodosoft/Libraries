@@ -155,10 +155,10 @@ namespace Jodo.Numerics
         IVariantRandom<DecimalN> IProvider<IVariantRandom<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<DecimalN>,
             IConvert<DecimalN>,
             IConvertExtended<DecimalN>,
             IMath<DecimalN>,
+            INumericBitConverter<DecimalN>,
             INumericRandom<DecimalN>,
             INumericStatic<DecimalN>,
             IVariantRandom<DecimalN>
@@ -227,27 +227,9 @@ namespace Jodo.Numerics
             DecimalN IMath<DecimalN>.Tau { get; } = (DecimalN)Math.PI * 2m;
             DecimalN IMath<DecimalN>.Truncate(DecimalN x) => decimal.Truncate(x);
 
-            DecimalN INumericBitConverter<DecimalN>.Read(IReader<byte> stream)
-            {
-                int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part2 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part3 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-
-                bool sign = (part3 & 0x80000000) != 0;
-                byte scale = (byte)((part3 >> 16) & 0x7F);
-
-                return new decimal(part0, part1, part2, sign, scale);
-            }
-
-            void INumericBitConverter<DecimalN>.Write(DecimalN value, IWriter<byte> stream)
-            {
-                int[]? parts = decimal.GetBits(value);
-                stream.Write(BitConverter.GetBytes(parts[0]));
-                stream.Write(BitConverter.GetBytes(parts[1]));
-                stream.Write(BitConverter.GetBytes(parts[2]));
-                stream.Write(BitConverter.GetBytes(parts[3]));
-            }
+            int INumericBitConverter<DecimalN>.ConvertedSize => sizeof(decimal);
+            DecimalN INumericBitConverter<DecimalN>.ToNumeric(byte[] value, int startIndex) => BitOperations.ToDecimal(value, startIndex);
+            byte[] INumericBitConverter<DecimalN>.GetBytes(DecimalN value) => BitOperations.GetBytes(value._value);
 
             bool IConvert<DecimalN>.ToBoolean(DecimalN value) => Convert.ToBoolean(value._value);
             byte IConvert<DecimalN>.ToByte(DecimalN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

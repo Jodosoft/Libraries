@@ -156,10 +156,10 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<Int16C> IProvider<IVariantRandom<Int16C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<Int16C>,
             IConvert<Int16C>,
             IConvertExtended<Int16C>,
             IMath<Int16C>,
+            INumericBitConverter<Int16C>,
             INumericRandom<Int16C>,
             INumericStatic<Int16C>,
             IVariantRandom<Int16C>
@@ -228,8 +228,9 @@ namespace Jodo.CheckedNumerics
             Int16C IMath<Int16C>.Truncate(Int16C x) => x;
             int IMath<Int16C>.Sign(Int16C x) => Math.Sign(x._value);
 
-            Int16C INumericBitConverter<Int16C>.Read(IReader<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)), 0);
-            void INumericBitConverter<Int16C>.Write(Int16C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<Int16C>.ConvertedSize => sizeof(short);
+            Int16C INumericBitConverter<Int16C>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToInt16(value, startIndex);
+            byte[] INumericBitConverter<Int16C>.GetBytes(Int16C value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<Int16C>.ToBoolean(Int16C value) => value._value != 0;
             byte IConvert<Int16C>.ToByte(Int16C value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());

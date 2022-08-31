@@ -23,8 +23,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class UFix64Tests
     {
-        public sealed class BitConvertTests : BitConvertTestBase<UFix64> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<UFix64> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<UFix64> { }
         public sealed class NumericCastTests : NumericCastTestBase<UFix64> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<UFix64> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<UFix64> { }

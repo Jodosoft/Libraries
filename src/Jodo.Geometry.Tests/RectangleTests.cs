@@ -25,9 +25,6 @@ namespace Jodo.Geometry.Tests
 {
     public static class RectangleTests
     {
-        public sealed class BitConvertFixedPointTests : BitConvertTestBase<Rectangle<Fix64>> { }
-        public sealed class BitConvertFloatingPointTests : BitConvertTestBase<Rectangle<SingleN>> { }
-        public sealed class BitConvertUnsignedIntegralTests : BitConvertTestBase<Rectangle<ByteN>> { }
         public sealed class ObjectFixedPointTests : ObjectTestBase<Rectangle<Fix64>> { }
         public sealed class ObjectFloatingPointTests : ObjectTestBase<Rectangle<SingleN>> { }
         public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<Rectangle<ByteN>> { }

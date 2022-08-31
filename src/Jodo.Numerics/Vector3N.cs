@@ -32,8 +32,7 @@ namespace Jodo.Numerics
     public readonly struct Vector3N<TNumeric> :
             IEquatable<Vector3N<TNumeric>>,
             IFormattable,
-            IProvider<INumericBitConverter<Vector3N<TNumeric>>>,
-                        IProvider<IVariantRandom<Vector3N<TNumeric>>>,
+            IProvider<IVariantRandom<Vector3N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -104,11 +103,9 @@ namespace Jodo.Numerics
         public static implicit operator (TNumeric, TNumeric, TNumeric)(Vector3N<TNumeric> value) => (value.X, value.Y, value.Z);
 #endif
 
-        INumericBitConverter<Vector3N<TNumeric>> IProvider<INumericBitConverter<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector3N<TNumeric>> IProvider<IVariantRandom<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           INumericBitConverter<Vector3N<TNumeric>>,
            IVariantRandom<Vector3N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -119,21 +116,6 @@ namespace Jodo.Numerics
                     random.NextVariant<TNumeric>(scenarios),
                     random.NextVariant<TNumeric>(scenarios),
                     random.NextVariant<TNumeric>(scenarios));
-            }
-
-            Vector3N<TNumeric> INumericBitConverter<Vector3N<TNumeric>>.Read(IReader<byte> stream)
-            {
-                return new Vector3N<TNumeric>(
-                    BitConverterN.Read<TNumeric>(stream),
-                    BitConverterN.Read<TNumeric>(stream),
-                    BitConverterN.Read<TNumeric>(stream));
-            }
-
-            void INumericBitConverter<Vector3N<TNumeric>>.Write(Vector3N<TNumeric> value, IWriter<byte> stream)
-            {
-                BitConverterN.Write(stream, value.X);
-                BitConverterN.Write(stream, value.Y);
-                BitConverterN.Write(stream, value.Z);
             }
         }
     }

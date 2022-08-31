@@ -195,10 +195,10 @@ namespace Jodo.CheckedNumerics
         IVariantRandom<Fix64C> IProvider<IVariantRandom<Fix64C>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<Fix64C>,
             IConvert<Fix64C>,
             IConvertExtended<Fix64C>,
             IMath<Fix64C>,
+            INumericBitConverter<Fix64C>,
             INumericRandom<Fix64C>,
             INumericStatic<Fix64C>,
             IVariantRandom<Fix64C>
@@ -267,8 +267,9 @@ namespace Jodo.CheckedNumerics
             Fix64C IMath<Fix64C>.Truncate(Fix64C x) => new Fix64C(x._scaledValue / ScalingFactor * ScalingFactor);
             int IMath<Fix64C>.Sign(Fix64C x) => Math.Sign(x._scaledValue);
 
-            Fix64C INumericBitConverter<Fix64C>.Read(IReader<byte> stream) => new Fix64C(BitConverter.ToInt64(stream.Read(sizeof(long)), 0));
-            void INumericBitConverter<Fix64C>.Write(Fix64C value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._scaledValue));
+            int INumericBitConverter<Fix64C>.ConvertedSize => sizeof(long);
+            Fix64C INumericBitConverter<Fix64C>.ToNumeric(byte[] value, int startIndex) => new Fix64C(BitConverter.ToInt64(value, startIndex));
+            byte[] INumericBitConverter<Fix64C>.GetBytes(Fix64C value) => BitConverter.GetBytes(value._scaledValue);
 
             bool IConvert<Fix64C>.ToBoolean(Fix64C value) => value._scaledValue != 0;
             byte IConvert<Fix64C>.ToByte(Fix64C value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());

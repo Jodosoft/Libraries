@@ -24,10 +24,9 @@ namespace Jodo.CheckedNumerics.Tests
 {
     public static class Fix64CTests
     {
-        public sealed class BitConvertTests : BitConvertTestBase<Fix64C> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<Fix64C> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<Fix64C> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<Fix64C> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Fix64C> { }
         public sealed class NumericCastTests : NumericCastTestBase<Fix64C> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<Fix64C> { }
         public sealed class NumericMathTests : NumericMathTestBase<Fix64C> { }
