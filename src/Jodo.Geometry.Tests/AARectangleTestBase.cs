@@ -28,6 +28,22 @@ namespace Jodo.Geometry.Tests
     public abstract class AARectangleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [Test]
+        public void EqualsMethods_RandomValues_SameOutcome()
+        {
+            //arrange
+            AARectangle<TNumeric> input1 = Random.NextVariant<AARectangle<TNumeric>>();
+            AARectangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<AARectangle<TNumeric>>());
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => input1.Equals(input2),
+                () => input1.Equals((object)input2),
+                () => input1 == input2,
+                () => !(input1 != input2));
+        }
+
+        [Test]
         public void GetArea_RandomValues_CorrectResult()
         {
             //arrange
@@ -53,6 +69,47 @@ namespace Jodo.Geometry.Tests
 
             //assert
             result.Should().Be(expected);
+        }
+
+        [Test]
+        public void Translate_RandomValue_SameAsAddingToOrigin()
+        {
+            //arrange
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> delta = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => subject.Translate(delta).Origin,
+                () => subject.Origin + delta);
+        }
+
+        [Test]
+        public void Translate_RandomValue_DimensionsAreUnchanged()
+        {
+            //arrange
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => subject.Translate(Random.NextVariant<Vector2N<TNumeric>>()).Dimensions,
+                () => subject.Dimensions);
+        }
+
+        [Test]
+        public void Rotate_RandomValue_SameAsConstructingRectangle()
+        {
+            //arrange
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
+            Angle<TNumeric> angle = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => subject.Rotate(angle),
+                () => new Rectangle<TNumeric>(subject.Origin, subject.Dimensions, angle));
         }
     }
 }

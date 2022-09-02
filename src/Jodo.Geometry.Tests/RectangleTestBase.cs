@@ -18,11 +18,110 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
+using Jodo.Primitives;
 using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
     public abstract class RectangleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
+        [Test]
+        public void EqualsMethods_RandomValues_SameOutcome()
+        {
+            //arrange
+            Rectangle<TNumeric> input1 = Random.NextVariant<Rectangle<TNumeric>>();
+            Rectangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<Rectangle<TNumeric>>());
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => input1.Equals(input2),
+                () => input1.Equals((object)input2),
+                () => input1 == input2,
+                () => !(input1 != input2));
+        }
+
+        [Test]
+        public void Width_RandomValue_SameAsDimensionsX()
+        {
+            //arrange
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.AnyMagnitude);
+            TNumeric expected = subject.Dimensions.X;
+
+            //act
+            TNumeric result = subject.Width;
+
+            //assert
+            AssertSame.Result(() => expected, () => result);
+        }
+
+        [Test]
+        public void Height_RandomValue_SameAsDimensionsY()
+        {
+            //arrange
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.AnyMagnitude);
+            TNumeric expected = subject.Dimensions.Y;
+
+            //act
+            TNumeric result = subject.Height;
+
+            //assert
+            AssertSame.Result(() => expected, () => result);
+        }
+
+        [Test]
+        public void Area_RandomValue_SameAsWidthTimesHeight()
+        {
+            //arrange
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
+            TNumeric expected = subject.Width.Multiply(subject.Height);
+
+            //act
+            TNumeric result = subject.GetArea();
+
+            //assert
+            AssertSame.Result(() => expected, () => result);
+        }
+
+        [Test]
+        public void Translate_RandomValue_SameAsAddingToOrigin()
+        {
+            //arrange
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> delta = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => subject.Translate(delta).Origin,
+                () => subject.Origin + delta);
+        }
+
+        [Test]
+        public void Translate_RandomValue_DimensionsAreUnchanged()
+        {
+            //arrange
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => subject.Translate(Random.NextVariant<Vector2N<TNumeric>>()).Dimensions,
+                () => subject.Dimensions);
+        }
+
+        [Test]
+        public void Translate_RandomValue_AngleIsUnchanged()
+        {
+            //arrange
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => subject.Translate(Random.NextVariant<Vector2N<TNumeric>>()).Angle,
+                () => subject.Angle);
+        }
     }
 }

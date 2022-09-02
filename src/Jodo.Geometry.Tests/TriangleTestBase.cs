@@ -18,20 +18,28 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Primitives.Tests;
+using Jodo.Primitives;
+using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public static class TriangleTests
+    public abstract class TriangleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        public sealed class GeneralFixedPointTests : TriangleTestBase<Fix64> { }
-        public sealed class GeneralFloatingPointTests : TriangleTestBase<SingleN> { }
-        public sealed class GeneralUnsignedIntegralTests : TriangleTestBase<ByteN> { }
-        public sealed class ObjectFixedPointTests : ObjectTestBase<Triangle<Fix64>> { }
-        public sealed class ObjectFloatingPointTests : ObjectTestBase<Triangle<SingleN>> { }
-        public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<Triangle<ByteN>> { }
-        public sealed class SerializableFixedPointTests : SerializableTestBase<Triangle<Fix64>> { }
-        public sealed class SerializableFloatingPointTests : SerializableTestBase<Triangle<SingleN>> { }
-        public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<Triangle<ByteN>> { }
+        [Test]
+        public void EqualsMethods_RandomValues_SameOutcome()
+        {
+            //arrange
+            Triangle<TNumeric> input1 = Random.NextVariant<Triangle<TNumeric>>();
+            Triangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<Triangle<TNumeric>>());
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => input1.Equals(input2),
+                () => input1.Equals((object)input2),
+                () => input1 == input2,
+                () => !(input1 != input2));
+        }
     }
 }

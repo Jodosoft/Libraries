@@ -39,14 +39,6 @@ namespace Jodo.Geometry
     {
         public readonly TNumeric Degrees;
 
-        public TNumeric GetRadians() => MathN.DegreesToRadians(Degrees);
-        public TNumeric Cos() => MathN.Cos(GetRadians());
-        public TNumeric Cosh() => MathN.Cosh(GetRadians());
-        public TNumeric Sinh() => MathN.Sinh(GetRadians());
-        public TNumeric Tanh() => MathN.Tanh(GetRadians());
-        public TNumeric Sin() => MathN.Sin(GetRadians());
-        public TNumeric Tan() => MathN.Tan(GetRadians());
-
         public Angle(TNumeric degrees)
         {
             Degrees = degrees;
@@ -74,9 +66,6 @@ namespace Jodo.Geometry
         public override int GetHashCode() => Degrees.GetHashCode();
         public override string ToString() => $"{Degrees}°";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"{Degrees.ToString(format, formatProvider)}°";
-
-        public static implicit operator TNumeric(Angle<TNumeric> unit) => unit.Degrees;
-        public static explicit operator Angle<TNumeric>(TNumeric value) => new Angle<TNumeric>(value);
 
         public static bool operator !=(Angle<TNumeric> left, Angle<TNumeric> right) => !left.Equals(right);
         public static bool operator <(Angle<TNumeric> left, Angle<TNumeric> right) => left.Degrees.IsLessThan(right.Degrees);

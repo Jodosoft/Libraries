@@ -209,7 +209,7 @@ namespace Jodo.Geometry
                     new Vector2N<TNumeric>(
                         Numeric.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
                         Numeric.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider)),
-                    new Angle<TNumeric>(Angle.Parse<TNumeric>(parts[4].Replace("A:", string.Empty).Trim(), style, provider)));
+                    Angle.Parse<TNumeric>(parts[4].Replace("A:", string.Empty).Trim(), style, provider));
             else throw new FormatException();
         }
 
