@@ -81,30 +81,6 @@ namespace Jodo.Geometry
         public static Angle<TNumeric> operator +(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Add(right.Degrees));
         public static Angle<TNumeric> operator +(Angle<TNumeric> value) => new Angle<TNumeric>(value.Degrees);
 
-        public static bool operator !=(Angle<TNumeric> left, TNumeric right) => !left.Degrees.Equals(right);
-        public static bool operator <(Angle<TNumeric> left, TNumeric right) => left.Degrees.IsLessThan(right);
-        public static bool operator <=(Angle<TNumeric> left, TNumeric right) => left.Degrees.IsLessThanOrEqualTo(right);
-        public static bool operator ==(Angle<TNumeric> left, TNumeric right) => left.Degrees.Equals(right);
-        public static bool operator >(Angle<TNumeric> left, TNumeric right) => left.Degrees.IsGreaterThan(right);
-        public static bool operator >=(Angle<TNumeric> left, TNumeric right) => left.Degrees.IsGreaterThanOrEqualTo(right);
-        public static Angle<TNumeric> operator %(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Remainder(right));
-        public static Angle<TNumeric> operator -(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Subtract(right));
-        public static Angle<TNumeric> operator *(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Multiply(right));
-        public static Angle<TNumeric> operator /(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Divide(right));
-        public static Angle<TNumeric> operator +(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Add(right));
-
-        public static bool operator !=(TNumeric left, Angle<TNumeric> right) => !left.Equals(right.Degrees);
-        public static bool operator <(TNumeric left, Angle<TNumeric> right) => left.IsLessThan(right.Degrees);
-        public static bool operator <=(TNumeric left, Angle<TNumeric> right) => left.IsLessThanOrEqualTo(right.Degrees);
-        public static bool operator ==(TNumeric left, Angle<TNumeric> right) => left.Equals(right.Degrees);
-        public static bool operator >(TNumeric left, Angle<TNumeric> right) => left.IsGreaterThan(right.Degrees);
-        public static bool operator >=(TNumeric left, Angle<TNumeric> right) => left.IsGreaterThanOrEqualTo(right.Degrees);
-        public static Angle<TNumeric> operator %(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Remainder(right.Degrees));
-        public static Angle<TNumeric> operator -(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Subtract(right.Degrees));
-        public static Angle<TNumeric> operator *(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Multiply(right.Degrees));
-        public static Angle<TNumeric> operator /(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Divide(right.Degrees));
-        public static Angle<TNumeric> operator +(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Add(right.Degrees));
-
         IVariantRandom<Angle<TNumeric>> IProvider<IVariantRandom<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
