@@ -288,7 +288,7 @@ namespace Jodo.Numerics
         public static float NextSingle(this Random random, Generation mode) => mode switch
         {
             Generation.Default => (float)random.NextDouble(),
-            Generation.Extended => random.NextSingleExtended(),
+            Generation.Extended => random.NextSingleExtended(float.MinValue, float.MaxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
@@ -384,6 +384,7 @@ namespace Jodo.Numerics
             if (bound1 != int.MinValue) return random.Next(bound1 - 1, bound2) + 1;
 
             byte[] bytes = new byte[4];
+
             random.NextBytes(bytes);
             return BitConverter.ToInt32(bytes, 0);
         }
@@ -515,25 +516,7 @@ namespace Jodo.Numerics
 
             if (minValue == maxValue) return minValue;
 
-            int bound1Bits = BitConverterCompat.SingleToInt32Bits(minValue);
-            int bound2Bits = BitConverterCompat.SingleToInt32Bits(maxValue);
-
-            int resultBitValue = random.Next(
-                bound1Bits < 0 ? int.MinValue - bound1Bits : bound1Bits,
-                bound2Bits < 0 ? int.MinValue - bound2Bits : bound2Bits);
-
-            float result = BitConverterCompat.Int32BitsToSingle(resultBitValue < 0 ? int.MinValue - resultBitValue : resultBitValue);
-
-            return result;
-        }
-
-        private static float NextSingleExtended(this Random random)
-        {
-            int resultBitValue = random.Next(int.MinValue + NegativeOffsetSingle, 2139095040);
-
-            float result = BitConverterCompat.Int32BitsToSingle(resultBitValue < 0 ? resultBitValue - NegativeOffsetSingle : resultBitValue);
-
-            return result;
+            return minValue + ((float)random.NextDouble() * (maxValue - minValue));
         }
 
         private static float NextSingleExtended(this Random random, float bound1, float bound2)
@@ -565,16 +548,7 @@ namespace Jodo.Numerics
 
             if (minValue == maxValue) return minValue;
 
-            long bound1Bits = BitConverterCompat.DoubleToInt64Bits(minValue);
-            long bound2Bits = BitConverterCompat.DoubleToInt64Bits(maxValue);
-
-            long resultBitValue = random.NextInt64(
-                bound1Bits < 0 ? long.MinValue - bound1Bits : bound1Bits,
-                bound2Bits < 0 ? long.MinValue - bound2Bits : bound2Bits);
-
-            double result = BitConverterCompat.Int64BitsToDouble(resultBitValue < 0 ? long.MinValue - resultBitValue : resultBitValue);
-
-            return result;
+            return minValue + (random.NextDouble() * (maxValue - minValue));
         }
 
         private static double NextDoubleExtended(this Random random, double bound1, double bound2)
@@ -603,29 +577,9 @@ namespace Jodo.Numerics
         {
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
 
-            decimal difference;
-            try
-            {
-                checked { difference = maxValue - minValue; }
+            if (minValue == maxValue) return minValue;
 
-                decimal scalar = (decimal)(random.Next() / (1.0 * (int.MaxValue - 1)));
-                decimal result = minValue + (difference * scalar);
-                return result;
-            }
-            catch (OverflowException)
-            {
-                decimal result;
-                do
-                {
-                    result = new decimal(
-                        random.NextInt32(),
-                        random.NextInt32(),
-                        random.NextInt32(),
-                        random.NextBoolean(),
-                        random.NextByte(28));
-                } while (result < minValue || result > maxValue);
-                return result;
-            }
+            return minValue + ((decimal)random.NextDouble() * (maxValue - minValue));
         }
 
         private static decimal NextDecimalExtended(this Random random, decimal minValue, decimal maxValue)

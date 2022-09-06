@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-  </PropertyGroup>
+  <Import Project="..\Benchmarks.props" />
   <ItemGroup>
     <ProjectReference Include="..\Jodo.Primitives\Jodo.Primitives.csproj" />
   </ItemGroup>

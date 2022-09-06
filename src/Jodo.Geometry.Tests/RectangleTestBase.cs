@@ -26,7 +26,7 @@ namespace Jodo.Geometry.Tests
 {
     public abstract class RectangleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange
@@ -42,7 +42,7 @@ namespace Jodo.Geometry.Tests
                 () => !(input1 != input2));
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Width_RandomValue_SameAsDimensionsX()
         {
             //arrange
@@ -56,7 +56,7 @@ namespace Jodo.Geometry.Tests
             AssertSame.Result(() => expected, () => result);
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Height_RandomValue_SameAsDimensionsY()
         {
             //arrange
@@ -70,7 +70,7 @@ namespace Jodo.Geometry.Tests
             AssertSame.Result(() => expected, () => result);
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Area_RandomValue_SameAsWidthTimesHeight()
         {
             //arrange
@@ -84,7 +84,7 @@ namespace Jodo.Geometry.Tests
             AssertSame.Result(() => expected, () => result);
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Translate_RandomValue_SameAsAddingToOrigin()
         {
             //arrange
@@ -98,7 +98,7 @@ namespace Jodo.Geometry.Tests
                 () => subject.Origin + delta);
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Translate_RandomValue_DimensionsAreUnchanged()
         {
             //arrange
@@ -111,7 +111,7 @@ namespace Jodo.Geometry.Tests
                 () => subject.Dimensions);
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Translate_RandomValue_AngleIsUnchanged()
         {
             //arrange

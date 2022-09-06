@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -31,6 +32,7 @@ namespace Jodo.Numerics
     /// </summary>
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
+    [StructLayout(LayoutKind.Sequential)]
     public readonly struct ByteN : INumericExtended<ByteN>
     {
         public static readonly ByteN MaxValue = new ByteN(byte.MaxValue);
@@ -125,7 +127,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<ByteN>.IsGreaterThan(ByteN value) => this > value;
         bool INumeric<ByteN>.IsGreaterThanOrEqualTo(ByteN value) => this >= value;
@@ -201,7 +203,6 @@ namespace Jodo.Numerics
             ByteN IMath<ByteN>.Clamp(ByteN x, ByteN bound1, ByteN bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             ByteN IMath<ByteN>.Cos(ByteN x) => (byte)Math.Cos(x._value);
             ByteN IMath<ByteN>.Cosh(ByteN x) => (byte)Math.Cosh(x._value);
-            ByteN IMath<ByteN>.DegreesToRadians(ByteN x) => (byte)(x * BitOperations.RadiansPerDegree);
             ByteN IMath<ByteN>.E { get; } = 2;
             ByteN IMath<ByteN>.Exp(ByteN x) => (byte)Math.Exp(x._value);
             ByteN IMath<ByteN>.Floor(ByteN x) => x;
@@ -213,7 +214,6 @@ namespace Jodo.Numerics
             ByteN IMath<ByteN>.Min(ByteN x, ByteN y) => Math.Min(x._value, y._value);
             ByteN IMath<ByteN>.PI { get; } = 3;
             ByteN IMath<ByteN>.Pow(ByteN x, ByteN y) => (byte)Math.Pow(x._value, y._value);
-            ByteN IMath<ByteN>.RadiansToDegrees(ByteN x) => (byte)(x * BitOperations.DegreesPerRadian);
             ByteN IMath<ByteN>.Round(ByteN x) => x;
             ByteN IMath<ByteN>.Round(ByteN x, int digits) => x;
             ByteN IMath<ByteN>.Round(ByteN x, int digits, MidpointRounding mode) => x;

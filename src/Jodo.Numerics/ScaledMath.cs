@@ -237,6 +237,27 @@ namespace Jodo.Numerics
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, $"Unknown value of {nameof(MidpointRounding)}"),
         };
 
+        public static double ToDouble(long scaledValue, long scalingFactor)
+        {
+            long integral = scaledValue / scalingFactor;
+            long mantissa = scaledValue % scalingFactor;
+
+            double result = (double)mantissa / scalingFactor;
+            result += integral;
+            return result;
+        }
+
+        [CLSCompliant(false)]
+        public static double ToDouble(ulong scaledValue, ulong scalingFactor)
+        {
+            ulong integral = scaledValue / scalingFactor;
+            ulong mantissa = scaledValue % scalingFactor;
+
+            double result = (double)mantissa / scalingFactor;
+            result += integral;
+            return result;
+        }
+
         private static long RoundToEven(long value)
         {
             long remainder = value % 10;

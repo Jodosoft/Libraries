@@ -60,11 +60,6 @@ namespace Jodo.Numerics
         public Vector2N<TOther> Convert<TOther>(Func<TNumeric, TOther> convert) where TOther : struct, INumeric<TOther>
             => new Vector2N<TOther>(convert(X), convert(Y));
 
-        public Vector2N<TNumeric> Halved() => new Vector2N<TNumeric>(X.Halved(), Y.Halved());
-        public Vector2N<TNumeric> Doubled() => new Vector2N<TNumeric>(X.Doubled(), Y.Doubled());
-        public Vector2N<TNumeric> AddX(TNumeric x) => new Vector2N<TNumeric>(X.Add(x), Y);
-        public Vector2N<TNumeric> AddY(TNumeric y) => new Vector2N<TNumeric>(X, Y.Add(y));
-
         public bool Equals(Vector2N<TNumeric> other) => X.Equals(other.X) && Y.Equals(other.Y);
         public override bool Equals(object? obj) => obj is Vector2N<TNumeric> vector && Equals(vector);
         public override int GetHashCode() => HashCode.Combine(X, Y);
@@ -231,7 +226,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> Reflect<TNumeric>(Vector2N<TNumeric> vector, Vector2N<TNumeric> normal) where TNumeric : struct, INumeric<TNumeric>
         {
-            return vector - (Dot(vector, normal).Doubled() * normal);
+            return vector - (Dot(vector, normal).Double() * normal);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

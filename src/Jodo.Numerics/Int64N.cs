@@ -126,7 +126,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<Int64N>.IsGreaterThan(Int64N value) => this > value;
         bool INumeric<Int64N>.IsGreaterThanOrEqualTo(Int64N value) => this >= value;
@@ -202,7 +202,6 @@ namespace Jodo.Numerics
             Int64N IMath<Int64N>.Clamp(Int64N x, Int64N bound1, Int64N bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             Int64N IMath<Int64N>.Cos(Int64N x) => (Int64N)Math.Cos(x);
             Int64N IMath<Int64N>.Cosh(Int64N x) => (Int64N)Math.Cosh(x);
-            Int64N IMath<Int64N>.DegreesToRadians(Int64N x) => (Int64N)(x * BitOperations.RadiansPerDegree);
             Int64N IMath<Int64N>.E { get; } = 2L;
             Int64N IMath<Int64N>.Exp(Int64N x) => (Int64N)Math.Exp(x);
             Int64N IMath<Int64N>.Floor(Int64N x) => x;
@@ -214,7 +213,6 @@ namespace Jodo.Numerics
             Int64N IMath<Int64N>.Min(Int64N x, Int64N y) => Math.Min(x, y);
             Int64N IMath<Int64N>.PI { get; } = 3L;
             Int64N IMath<Int64N>.Pow(Int64N x, Int64N y) => y == 1 ? x : (Int64N)Math.Pow(x, y);
-            Int64N IMath<Int64N>.RadiansToDegrees(Int64N x) => (Int64N)(x * BitOperations.DegreesPerRadian);
             Int64N IMath<Int64N>.Round(Int64N x) => x;
             Int64N IMath<Int64N>.Round(Int64N x, int digits) => x;
             Int64N IMath<Int64N>.Round(Int64N x, int digits, MidpointRounding mode) => x;

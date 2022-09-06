@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using System;
-using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Numerics
 {
@@ -26,15 +25,6 @@ namespace Jodo.Numerics
     {
         private const string IndexOutOfRange = "Index was out of range. Must be non-negative and less than the size of the collection.";
         private const string NotLongEnough = "Destination array is not long enough to copy all the items in the collection. Check array index and length.";
-
-        public const float DegreesPerRadianF = 180f / MathF.PI;
-        public const float RadiansPerDegreeF = MathF.PI / 180;
-
-        public const double DegreesPerRadian = 180d / Math.PI;
-        public const double RadiansPerDegree = Math.PI / 180d;
-
-        public const decimal DegreesPerRadianM = 180m / (decimal)Math.PI;
-        public const decimal RadiansPerDegreeM = (decimal)Math.PI / 180m;
 
         public static float BitwiseComplement(float left)
         {

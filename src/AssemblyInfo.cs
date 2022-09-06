@@ -24,8 +24,6 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Geometry.Benchmarks")]
 [assembly: InternalsVisibleTo("Jodo.Geometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.CheckedNumerics.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
 [assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
 [assembly: InternalsVisibleTo("Jodo.Numerics.Benchmarks")]

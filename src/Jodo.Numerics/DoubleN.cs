@@ -136,7 +136,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<DoubleN>.IsGreaterThan(DoubleN value) => this > value;
         bool INumeric<DoubleN>.IsGreaterThanOrEqualTo(DoubleN value) => this >= value;
@@ -212,7 +212,6 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Clamp(DoubleN x, DoubleN bound1, DoubleN bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             DoubleN IMath<DoubleN>.Cos(DoubleN x) => Math.Cos(x._value);
             DoubleN IMath<DoubleN>.Cosh(DoubleN x) => Math.Cosh(x._value);
-            DoubleN IMath<DoubleN>.DegreesToRadians(DoubleN x) => x * BitOperations.RadiansPerDegree;
             DoubleN IMath<DoubleN>.E { get; } = Math.E;
             DoubleN IMath<DoubleN>.Exp(DoubleN x) => Math.Exp(x._value);
             DoubleN IMath<DoubleN>.Floor(DoubleN x) => Math.Floor(x._value);
@@ -224,7 +223,6 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Min(DoubleN x, DoubleN y) => Math.Min(x._value, y._value);
             DoubleN IMath<DoubleN>.PI { get; } = Math.PI;
             DoubleN IMath<DoubleN>.Pow(DoubleN x, DoubleN y) => Math.Pow(x._value, y._value);
-            DoubleN IMath<DoubleN>.RadiansToDegrees(DoubleN x) => x * BitOperations.DegreesPerRadian;
             DoubleN IMath<DoubleN>.Round(DoubleN x) => Math.Round(x._value);
             DoubleN IMath<DoubleN>.Round(DoubleN x, int digits) => Math.Round(x._value, digits);
             DoubleN IMath<DoubleN>.Round(DoubleN x, int digits, MidpointRounding mode) => Math.Round(x._value, digits, mode);

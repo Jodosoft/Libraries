@@ -578,21 +578,6 @@ namespace Jodo.Numerics.Tests
             result.Should().BeApproximately(expected);
         }
 
-        [Test]
-        public void DegreesToRadians_SmallValue_CorrectResult()
-        {
-            //arrange
-            int smallValue = 90;
-            TNumeric input = ConvertN.ToNumeric<TNumeric>(smallValue, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(1.5708, Conversion.Cast);
-
-            //act
-            TNumeric result = MathN.DegreesToRadians(input);
-
-            //assert
-            result.Should().BeApproximately(expected);
-        }
-
         [Test, Repeat(RandomVariations)]
         public void Exp_Random_EquivalentToSystemMath()
         {
@@ -911,21 +896,6 @@ namespace Jodo.Numerics.Tests
 
             //assert
             result.Should().Be(input);
-        }
-
-        [Test]
-        public void RadiansToDegrees_SmallValue_CorrectResult()
-        {
-            //arrange
-            int smallValue = 2;
-            TNumeric input = ConvertN.ToNumeric<TNumeric>(smallValue, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(114.592, Conversion.Cast);
-
-            //act
-            TNumeric result = MathN.RadiansToDegrees(input);
-
-            //assert
-            result.Should().BeApproximately(expected);
         }
 
         [Test, Repeat(RandomVariations)]

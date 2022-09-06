@@ -125,7 +125,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<UInt32N>.IsGreaterThan(UInt32N value) => this > value;
         bool INumeric<UInt32N>.IsGreaterThanOrEqualTo(UInt32N value) => this >= value;
@@ -201,7 +201,6 @@ namespace Jodo.Numerics
             UInt32N IMath<UInt32N>.Clamp(UInt32N x, UInt32N bound1, UInt32N bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             UInt32N IMath<UInt32N>.Cos(UInt32N x) => (uint)Math.Cos(x._value);
             UInt32N IMath<UInt32N>.Cosh(UInt32N x) => (uint)Math.Cosh(x._value);
-            UInt32N IMath<UInt32N>.DegreesToRadians(UInt32N x) => (uint)(x * BitOperations.RadiansPerDegree);
             UInt32N IMath<UInt32N>.E { get; } = (uint)2;
             UInt32N IMath<UInt32N>.Exp(UInt32N x) => (uint)Math.Exp(x._value);
             UInt32N IMath<UInt32N>.Floor(UInt32N x) => x;
@@ -213,7 +212,6 @@ namespace Jodo.Numerics
             UInt32N IMath<UInt32N>.Min(UInt32N x, UInt32N y) => Math.Min(x._value, y._value);
             UInt32N IMath<UInt32N>.PI { get; } = (uint)3;
             UInt32N IMath<UInt32N>.Pow(UInt32N x, UInt32N y) => (uint)Math.Pow(x._value, y._value);
-            UInt32N IMath<UInt32N>.RadiansToDegrees(UInt32N x) => (uint)(x * BitOperations.DegreesPerRadian);
             UInt32N IMath<UInt32N>.Round(UInt32N x) => x;
             UInt32N IMath<UInt32N>.Round(UInt32N x, int digits) => x;
             UInt32N IMath<UInt32N>.Round(UInt32N x, int digits, MidpointRounding mode) => x;

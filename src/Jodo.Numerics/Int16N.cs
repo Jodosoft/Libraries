@@ -126,7 +126,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<Int16N>.IsGreaterThan(Int16N value) => this > value;
         bool INumeric<Int16N>.IsGreaterThanOrEqualTo(Int16N value) => this >= value;
@@ -202,7 +202,6 @@ namespace Jodo.Numerics
             Int16N IMath<Int16N>.Clamp(Int16N x, Int16N bound1, Int16N bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             Int16N IMath<Int16N>.Cos(Int16N x) => (short)Math.Cos(x._value);
             Int16N IMath<Int16N>.Cosh(Int16N x) => (short)Math.Cosh(x._value);
-            Int16N IMath<Int16N>.DegreesToRadians(Int16N x) => (short)(x * BitOperations.RadiansPerDegree);
             Int16N IMath<Int16N>.E { get; } = (short)2;
             Int16N IMath<Int16N>.Exp(Int16N x) => (short)Math.Exp(x._value);
             Int16N IMath<Int16N>.Floor(Int16N x) => x;
@@ -214,7 +213,6 @@ namespace Jodo.Numerics
             Int16N IMath<Int16N>.Min(Int16N x, Int16N y) => Math.Min(x._value, y._value);
             Int16N IMath<Int16N>.PI { get; } = (short)3;
             Int16N IMath<Int16N>.Pow(Int16N x, Int16N y) => (short)Math.Pow(x._value, y._value);
-            Int16N IMath<Int16N>.RadiansToDegrees(Int16N x) => (short)(x * BitOperations.DegreesPerRadian);
             Int16N IMath<Int16N>.Round(Int16N x) => x;
             Int16N IMath<Int16N>.Round(Int16N x, int digits) => x;
             Int16N IMath<Int16N>.Round(Int16N x, int digits, MidpointRounding mode) => x;

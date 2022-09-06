@@ -95,17 +95,21 @@ namespace Jodo.Geometry
 
     public static class Angle
     {
+        public static TNumeric RadiansToDegrees<TNumeric>(TNumeric radians) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return radians.Multiply(ConvertN.ToNumeric<TNumeric>(Math.PI / 180d));
+        }
+
+        public static TNumeric DegreesToRadians<TNumeric>(TNumeric degrees) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return degrees.Multiply(ConvertN.ToNumeric<TNumeric>(180d / Math.PI));
+        }
+
         public static Angle<TNumeric> FromDegrees<TNumeric>(TNumeric degrees) where TNumeric : struct, INumeric<TNumeric>
             => new Angle<TNumeric>(degrees);
 
-        public static Angle<TNumeric> FromDegrees<TNumeric>(byte degrees) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(ConvertN.ToNumeric<TNumeric>(degrees));
-
         public static Angle<TNumeric> FromRadians<TNumeric>(TNumeric radians) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(MathN.RadiansToDegrees(radians));
-
-        public static Angle<TNumeric> FromRadians<TNumeric>(byte radians) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(MathN.RadiansToDegrees(ConvertN.ToNumeric<TNumeric>(radians)));
+            => new Angle<TNumeric>(RadiansToDegrees(radians));
 
         public static Angle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
         {

@@ -35,7 +35,6 @@ namespace Jodo.Geometry
             IFormattable,
             IProvider<IVariantRandom<Rectangle<TNumeric>>>,
             ITwoDimensional<Rectangle<TNumeric>, TNumeric>,
-            IRotatable<Rectangle<TNumeric>, Angle<TNumeric>, Vector2N<TNumeric>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -147,7 +146,7 @@ namespace Jodo.Geometry
 
         public static bool operator ==(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => !(left == right);
-        public static implicit operator Rectangle<TNumeric>(AARectangle<TNumeric> value) => new Rectangle<TNumeric>(value.Origin, value.Dimensions, default);
+        public static implicit operator Rectangle<TNumeric>(AARectangle<TNumeric> value) => new Rectangle<TNumeric>(value.Center, value.Dimensions, default);
 
         Vector2N<TNumeric>[] ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
         Vector2N<TNumeric> ITwoDimensional<Rectangle<TNumeric>, TNumeric>.GetCenter() => Origin;
@@ -213,28 +212,28 @@ namespace Jodo.Geometry
             else throw new FormatException();
         }
 
-        internal static Vector2N<TNumeric> GetBottomCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X, center.Y.Add(dimensions.Y.Divide(Numeric.Two<TNumeric>()))).RotateAround(center, angle);
+        internal static Vector2N<TNumeric> GetBottomCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X, origin.Y.Add(dimensions.Y.Divide(Numeric.Two<TNumeric>()))).RotateAround(origin, angle);
 
-        internal static Vector2N<TNumeric> GetBottomLeft<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => (center - (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
+        internal static Vector2N<TNumeric> GetBottomLeft<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => (origin - (dimensions / Numeric.Two<TNumeric>())).RotateAround(origin, angle);
 
-        internal static Vector2N<TNumeric> GetBottomRight<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X.Add(dimensions.X.Halved()), center.Y.Subtract(dimensions.Y.Halved())).RotateAround(center, angle);
+        internal static Vector2N<TNumeric> GetBottomRight<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X.Add(dimensions.X.Half()), origin.Y.Subtract(dimensions.Y.Half())).RotateAround(origin, angle);
 
-        internal static Vector2N<TNumeric> GetLeftCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X.Subtract(dimensions.X.Halved()), center.Y).RotateAround(center, angle);
+        internal static Vector2N<TNumeric> GetLeftCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X.Subtract(dimensions.X.Half()), origin.Y).RotateAround(origin, angle);
 
-        internal static Vector2N<TNumeric> GetRightCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X.Add(dimensions.X.Halved()), center.Y).RotateAround(center, angle);
+        internal static Vector2N<TNumeric> GetRightCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X.Add(dimensions.X.Half()), origin.Y).RotateAround(origin, angle);
 
-        internal static Vector2N<TNumeric> GetTopCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X, center.Y.Add(dimensions.Y.Halved())).RotateAround(center, angle);
+        internal static Vector2N<TNumeric> GetTopCenter<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X, origin.Y.Add(dimensions.Y.Half())).RotateAround(origin, angle);
 
-        internal static Vector2N<TNumeric> GetTopLeft<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X.Subtract(dimensions.X.Halved()), center.Y.Add(dimensions.Y.Halved())).RotateAround(center, angle);
+        internal static Vector2N<TNumeric> GetTopLeft<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => new Vector2N<TNumeric>(origin.X.Subtract(dimensions.X.Half()), origin.Y.Add(dimensions.Y.Half())).RotateAround(origin, angle);
 
-        internal static Vector2N<TNumeric> GetTopRight<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => (center + (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
+        internal static Vector2N<TNumeric> GetTopRight<TNumeric>(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => (origin + (dimensions / Numeric.Two<TNumeric>())).RotateAround(origin, angle);
     }
 }

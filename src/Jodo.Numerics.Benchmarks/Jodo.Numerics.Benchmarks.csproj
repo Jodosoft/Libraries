@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-  </PropertyGroup>
+  <Import Project="..\Benchmarks.props" />
   <ItemGroup>
     <ProjectReference Include="..\Jodo.Numerics\Jodo.Numerics.csproj" />
   </ItemGroup>

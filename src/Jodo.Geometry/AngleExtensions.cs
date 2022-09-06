@@ -24,7 +24,7 @@ namespace Jodo.Geometry
     public static class AngleExtensions
     {
         public static TNumeric GetRadians<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => MathN.DegreesToRadians(angle.Degrees);
+            => Angle.DegreesToRadians(angle.Degrees);
 
         public static TNumeric Cos<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Cos(angle.GetRadians());

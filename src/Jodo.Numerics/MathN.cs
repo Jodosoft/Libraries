@@ -24,11 +24,15 @@ using Jodo.Primitives;
 
 namespace Jodo.Numerics
 {
+    /// <summary>
+    /// Provides static methods for trigonometric, logarithmic, and other common mathematical functions for
+    /// implementations of <see cref="INumeric{TSelf}"/>
+    /// </summary>
     public static class MathN
     {
         /// <summary>
-        ///     Represents the natural logarithmic base, specified by the constant, e.
-        ///     If <typeparamref name="TNumeric"/> is integral, this value is rounded to 2.
+        /// Represents the natural logarithmic base, specified by the constant, e.
+        /// If <typeparamref name="TNumeric"/> is integral, this value is rounded to 2.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric E<TNumeric>() where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.E;
@@ -110,19 +114,6 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Acos<TNumeric>(TNumeric n) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Acos(n);
 
-        //
-        // Summary:
-        //     Returns the angle whose hyperbolic cosine is the specified number.
-        //
-        // Parameters:
-        //   d:
-        //     A number representing a hyperbolic cosine, where d must be greater than or equal
-        //     to 1, but less than or equal to System.Double.PositiveInfinity.
-        //
-        // Returns:
-        //     An angle, θ, measured in radians, such that 0 ≤ θ ≤ ∞. -or- System.Double.NaN
-        //     if d < 1 or d equals System.Double.NaN.
-
         /// <summary>
         ///     Returns the angle whose hyperbolic cosine is the specified number.
         /// </summary>
@@ -177,10 +168,6 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric DegreesToRadians<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.DegreesToRadians(x);
-
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Exp<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Exp(x);
 
         [DebuggerStepThrough]
@@ -214,10 +201,6 @@ namespace Jodo.Numerics
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Pow<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Pow(x, y);
-
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric RadiansToDegrees<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.RadiansToDegrees(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

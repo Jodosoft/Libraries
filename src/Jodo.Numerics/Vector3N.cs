@@ -255,7 +255,7 @@ namespace Jodo.Numerics
         public static Vector3N<TNumeric> Reflect<TNumeric>(Vector3N<TNumeric> vector, Vector3N<TNumeric> normal) where TNumeric : struct, INumeric<TNumeric>
         {
             TNumeric dot = Dot(vector, normal);
-            return vector - (dot.Doubled() * normal);
+            return vector - (dot.Double() * normal);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

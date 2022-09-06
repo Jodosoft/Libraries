@@ -1,9 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Jodo.CheckedNumerics\Jodo.CheckedNumerics.csproj" />
-    <ProjectReference Include="..\Jodo.Numerics.Tests\Jodo.Numerics.Tests.csproj" />
-    <ProjectReference Include="..\Jodo.Testing\Jodo.Testing.csproj" />
-  </ItemGroup>
-</Project>

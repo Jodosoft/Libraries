@@ -79,7 +79,7 @@ namespace Jodo.Geometry
             {
                 double degrees = i * 360d / circumferenceDivisor;
 
-                double radians = degrees * BitOperations.RadiansPerDegree;
+                double radians = degrees * (180d / Math.PI);
 
                 results[i + 1] = new Vector2N<TNumeric>(
                     ConvertN.ToNumeric<TNumeric>(centerX + (radius * Math.Cos(radians))),

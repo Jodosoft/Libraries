@@ -94,16 +94,6 @@ namespace Jodo.Numerics
             }
         }
 
-        private static double ToDouble(UFix64 value)
-        {
-            ulong integral = value._scaledValue / ScalingFactor;
-            ulong mantissa = value._scaledValue % ScalingFactor;
-
-            double result = (double)mantissa / ScalingFactor;
-            result += integral;
-            return result;
-        }
-
         [CLSCompliant(false)] public static explicit operator UFix64(sbyte value) => new UFix64((ulong)value * ScalingFactor);
         [CLSCompliant(false)] public static explicit operator UFix64(ulong value) => new UFix64(value * ScalingFactor);
         [CLSCompliant(false)] public static implicit operator UFix64(uint value) => new UFix64(value * ScalingFactor);
@@ -122,7 +112,7 @@ namespace Jodo.Numerics
         [CLSCompliant(false)] public static explicit operator ushort(UFix64 value) => (ushort)(value._scaledValue / ScalingFactor);
         public static explicit operator byte(UFix64 value) => (byte)(value._scaledValue / ScalingFactor);
         public static explicit operator decimal(UFix64 value) => (decimal)value._scaledValue / ScalingFactor;
-        public static explicit operator double(UFix64 value) => ToDouble(value);
+        public static explicit operator double(UFix64 value) => ScaledMath.ToDouble(value._scaledValue, ScalingFactor);
         public static explicit operator float(UFix64 value) => (float)value._scaledValue / ScalingFactor;
         public static explicit operator int(UFix64 value) => (int)(value._scaledValue / ScalingFactor);
         public static explicit operator long(UFix64 value) => (long)(value._scaledValue / ScalingFactor);
@@ -165,7 +155,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToDecimal(this, Conversion.Default);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<UFix64>.IsGreaterThan(UFix64 value) => this > value;
         bool INumeric<UFix64>.IsGreaterThanOrEqualTo(UFix64 value) => this >= value;
@@ -241,7 +231,6 @@ namespace Jodo.Numerics
             UFix64 IMath<UFix64>.Clamp(UFix64 x, UFix64 bound1, UFix64 bound2) => new UFix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             UFix64 IMath<UFix64>.Cos(UFix64 x) => (UFix64)Math.Cos((double)x);
             UFix64 IMath<UFix64>.Cosh(UFix64 x) => (UFix64)Math.Cosh((double)x);
-            UFix64 IMath<UFix64>.DegreesToRadians(UFix64 x) => (UFix64)((double)x * BitOperations.RadiansPerDegree);
             UFix64 IMath<UFix64>.E { get; } = (UFix64)Math.E;
             UFix64 IMath<UFix64>.Exp(UFix64 x) => (UFix64)Math.Exp((double)x);
             UFix64 IMath<UFix64>.Floor(UFix64 x) => new UFix64(ScaledMath.Floor(x._scaledValue, ScalingFactor));
@@ -253,7 +242,6 @@ namespace Jodo.Numerics
             UFix64 IMath<UFix64>.Min(UFix64 x, UFix64 y) => new UFix64(Math.Min(x._scaledValue, y._scaledValue));
             UFix64 IMath<UFix64>.PI { get; } = (UFix64)Math.PI;
             UFix64 IMath<UFix64>.Pow(UFix64 x, UFix64 y) => y == 1 ? x : (UFix64)Math.Pow((double)x, (double)y);
-            UFix64 IMath<UFix64>.RadiansToDegrees(UFix64 x) => (UFix64)((double)x * BitOperations.DegreesPerRadian);
             UFix64 IMath<UFix64>.Round(UFix64 x) => Round(x, 0, MidpointRounding.ToEven);
             UFix64 IMath<UFix64>.Round(UFix64 x, int digits) => Round(x, digits, MidpointRounding.ToEven);
             UFix64 IMath<UFix64>.Round(UFix64 x, int digits, MidpointRounding mode) => Round(x, digits, mode);
@@ -273,7 +261,7 @@ namespace Jodo.Numerics
             bool IConvert<UFix64>.ToBoolean(UFix64 value) => value._scaledValue != 0;
             byte IConvert<UFix64>.ToByte(UFix64 value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode);
             decimal IConvert<UFix64>.ToDecimal(UFix64 value, Conversion mode) => (decimal)value._scaledValue / ScalingFactor;
-            double IConvert<UFix64>.ToDouble(UFix64 value, Conversion mode) => (double)value._scaledValue / ScalingFactor;
+            double IConvert<UFix64>.ToDouble(UFix64 value, Conversion mode) => ScaledMath.ToDouble(value._scaledValue, ScalingFactor);
             float IConvert<UFix64>.ToSingle(UFix64 value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
             int IConvert<UFix64>.ToInt32(UFix64 value, Conversion mode) => ConvertN.ToInt32(value._scaledValue / ScalingFactor, mode);
             long IConvert<UFix64>.ToInt64(UFix64 value, Conversion mode) => ConvertN.ToInt64(value._scaledValue / ScalingFactor, mode);
@@ -301,10 +289,10 @@ namespace Jodo.Numerics
             UFix64 INumericStatic<UFix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
 
-            UFix64 INumericRandom<UFix64>.Next(Random random) => new UFix64(random.NextUInt64());
+            UFix64 INumericRandom<UFix64>.Next(Random random) => new UFix64(random.NextUInt64(ScalingFactor));
             UFix64 INumericRandom<UFix64>.Next(Random random, UFix64 maxValue) => new UFix64(random.NextUInt64(maxValue._scaledValue));
             UFix64 INumericRandom<UFix64>.Next(Random random, UFix64 minValue, UFix64 maxValue) => new UFix64(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue));
-            UFix64 INumericRandom<UFix64>.Next(Random random, Generation mode) => new UFix64(random.NextUInt64(mode));
+            UFix64 INumericRandom<UFix64>.Next(Random random, Generation mode) => new UFix64(random.NextUInt64(0, mode == Generation.Extended ? ulong.MaxValue : ScalingFactor, mode));
             UFix64 INumericRandom<UFix64>.Next(Random random, UFix64 minValue, UFix64 maxValue, Generation mode) => new UFix64(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
             UFix64 IVariantRandom<UFix64>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<UFix64>(random, scenarios);

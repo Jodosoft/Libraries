@@ -87,9 +87,7 @@ namespace Jodo.Numerics.Tests
         public void Sign_RandomNegativeValue_ReturnsNegativeOne()
         {
             //arrange
-            TNumeric input;
-            do { input = Random.NextNumeric<TNumeric>(Generation.Extended); }
-            while (input.IsGreaterThanOrEqualTo(Numeric.Zero<TNumeric>()));
+            TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>(), Numeric.Zero<TNumeric>(), Generation.Extended);
 
             //act
             int result = MathN.Sign(input);

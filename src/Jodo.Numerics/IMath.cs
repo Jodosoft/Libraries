@@ -41,7 +41,6 @@ namespace Jodo.Numerics
         TNumeric Clamp(TNumeric x, TNumeric bound1, TNumeric bound2);
         TNumeric Cos(TNumeric x);
         TNumeric Cosh(TNumeric x);
-        TNumeric DegreesToRadians(TNumeric degrees);
         TNumeric Exp(TNumeric x);
         TNumeric Floor(TNumeric x);
         TNumeric IEEERemainder(TNumeric x, TNumeric y);
@@ -51,7 +50,6 @@ namespace Jodo.Numerics
         TNumeric Max(TNumeric x, TNumeric y);
         TNumeric Min(TNumeric x, TNumeric y);
         TNumeric Pow(TNumeric x, TNumeric y);
-        TNumeric RadiansToDegrees(TNumeric radians);
         TNumeric Round(TNumeric x);
         TNumeric Round(TNumeric x, int digits);
         TNumeric Round(TNumeric x, int digits, MidpointRounding mode);

@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jodo.Benchmarking\Jodo.Benchmarking.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Jodo.Benchmarking\Program.cs" Link="Program.cs" />
+    <Compile Include="..\TestAssemblyInfo.cs" Link="Properties\TestAssemblyInfo.cs" />
+  </ItemGroup>
+</Project>

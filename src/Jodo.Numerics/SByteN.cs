@@ -126,7 +126,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<SByteN>.IsGreaterThan(SByteN value) => this > value;
         bool INumeric<SByteN>.IsGreaterThanOrEqualTo(SByteN value) => this >= value;
@@ -202,7 +202,6 @@ namespace Jodo.Numerics
             SByteN IMath<SByteN>.Clamp(SByteN x, SByteN bound1, SByteN bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             SByteN IMath<SByteN>.Cos(SByteN x) => (sbyte)Math.Cos(x._value);
             SByteN IMath<SByteN>.Cosh(SByteN x) => (sbyte)Math.Cosh(x._value);
-            SByteN IMath<SByteN>.DegreesToRadians(SByteN x) => (sbyte)(x * BitOperations.RadiansPerDegree);
             SByteN IMath<SByteN>.E { get; } = 2;
             SByteN IMath<SByteN>.Exp(SByteN x) => (sbyte)Math.Exp(x._value);
             SByteN IMath<SByteN>.Floor(SByteN x) => x;
@@ -214,7 +213,6 @@ namespace Jodo.Numerics
             SByteN IMath<SByteN>.Min(SByteN x, SByteN y) => Math.Min(x._value, y._value);
             SByteN IMath<SByteN>.PI { get; } = 3;
             SByteN IMath<SByteN>.Pow(SByteN x, SByteN y) => (sbyte)Math.Pow(x._value, y._value);
-            SByteN IMath<SByteN>.RadiansToDegrees(SByteN x) => (sbyte)(x * BitOperations.DegreesPerRadian);
             SByteN IMath<SByteN>.Round(SByteN x) => x;
             SByteN IMath<SByteN>.Round(SByteN x, int digits) => x;
             SByteN IMath<SByteN>.Round(SByteN x, int digits, MidpointRounding mode) => x;

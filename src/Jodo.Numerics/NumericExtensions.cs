@@ -17,23 +17,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
 namespace Jodo.Numerics
 {
     public static class NumericExtensions
     {
-        public static TNumeric Doubled<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Appropriate use according to the documentation of CA1720.")]
+        public static TNumeric Double<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
         {
             return n.Multiply(Numeric.Two<TNumeric>());
         }
 
-        public static TNumeric Halved<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric Half<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
         {
             return n.Divide(Numeric.Two<TNumeric>());
         }
 
-        public static TNumeric Squared<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric Square<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
         {
             return n.Multiply(n);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric Cube<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return n.Multiply(n).Multiply(n);
         }
     }
 }

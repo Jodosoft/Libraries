@@ -136,7 +136,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<SingleN>.IsGreaterThan(SingleN value) => this > value;
         bool INumeric<SingleN>.IsGreaterThanOrEqualTo(SingleN value) => this >= value;
@@ -212,7 +212,6 @@ namespace Jodo.Numerics
             SingleN IMath<SingleN>.Clamp(SingleN x, SingleN bound1, SingleN bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
             SingleN IMath<SingleN>.Cos(SingleN x) => MathF.Cos(x._value);
             SingleN IMath<SingleN>.Cosh(SingleN x) => MathF.Cosh(x._value);
-            SingleN IMath<SingleN>.DegreesToRadians(SingleN x) => x * BitOperations.RadiansPerDegreeF;
             SingleN IMath<SingleN>.E { get; } = MathF.E;
             SingleN IMath<SingleN>.Exp(SingleN x) => MathF.Exp(x._value);
             SingleN IMath<SingleN>.Floor(SingleN x) => MathF.Floor(x._value);
@@ -224,7 +223,6 @@ namespace Jodo.Numerics
             SingleN IMath<SingleN>.Min(SingleN x, SingleN y) => MathF.Min(x._value, y._value);
             SingleN IMath<SingleN>.PI { get; } = MathF.PI;
             SingleN IMath<SingleN>.Pow(SingleN x, SingleN y) => MathF.Pow(x._value, y._value);
-            SingleN IMath<SingleN>.RadiansToDegrees(SingleN x) => x * BitOperations.DegreesPerRadianF;
             SingleN IMath<SingleN>.Round(SingleN x) => MathF.Round(x);
             SingleN IMath<SingleN>.Round(SingleN x, int digits) => MathF.Round(x, digits);
             SingleN IMath<SingleN>.Round(SingleN x, int digits, MidpointRounding mode) => MathF.Round(x, digits, mode);

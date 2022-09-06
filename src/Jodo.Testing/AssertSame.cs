@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using FluentAssertions;
 using NUnit.Framework;
@@ -27,80 +28,76 @@ namespace Jodo.Testing
     public static class AssertSame
     {
         /// <summary>
-        /// Executes the specified functions and verifies that they either return equal results or
-        /// throw the same type of exception.
+        /// Executes the specified functions exactly once and asserts that they all returned equal results
+        /// (using <see cref="object.Equals(object)"/>) or all threw the same type of exception.
         /// </summary>
         [AssertionMethod]
-        public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> subject, params Func<TResult>[] subjects)
+        public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> actual, params Func<TResult>[] actuals)
         {
-            Outcome(expected, subject);
-            if (subjects != null)
+            (TResult Result, Exception Exception) expectedOutcome = GetOutcome(expected);
+
+            List<(TResult Result, Exception Exception)> subjectOutcomes = new List<(TResult Result, Exception Exception)>
             {
-                foreach (Func<TResult> s in subjects)
+                GetOutcome(actual)
+            };
+            if (actuals != null)
+            {
+                foreach (Func<TResult> s in actuals)
                 {
-                    Outcome(expected, s);
+                    subjectOutcomes.Add(GetOutcome(s));
+                }
+            }
+
+            foreach ((TResult Result, Exception Exception) subjectOutcome in subjectOutcomes)
+            {
+                VerifyOutcomes(expectedOutcome, subjectOutcome);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the specified values are equal (using <see cref="object.Equals(object)"/>).
+        /// </summary>
+        [AssertionMethod]
+        public static void Value<TResult>(TResult expectedValue, TResult actualValue, params TResult[] actualValues)
+        {
+            if (!BothNaN(expectedValue, actualValue))
+            {
+                actualValue.Should().Be(expectedValue);
+            }
+            foreach (TResult subjectResult in actualValues)
+            {
+                if (!BothNaN(expectedValue, subjectResult))
+                {
+                    subjectResult.Should().Be(expectedValue);
                 }
             }
         }
 
         /// <summary>
-        /// Executes the specified functions and verifies that they either return equal results or
-        /// throw the same type of exception.
+        /// Executes the specified functions exactly once and asserts that they all returned equal results
+        /// (using <see cref="object.Equals(object)"/>).
         /// </summary>
         [AssertionMethod]
-        public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> subject)
+        public static void Result<TResult>(Func<TResult> expected, Func<TResult> actual, params Func<TResult>[] actuals)
         {
-            TResult expectedResult;
-            try
+            TResult expectedResult = expected.Should().NotThrow().Subject;
+            List<TResult> subjectResults = new List<TResult>()
             {
-                expectedResult = expected();
-
-                TResult actualResult = subject.Should().NotThrow().Subject;
-
-                if (!BothNaN(expectedResult, actualResult))
+                actual.Should().NotThrow().Subject
+            };
+            if (actuals != null)
+            {
+                foreach (Func<TResult> s in actuals)
                 {
-                    actualResult.Should().Be(actualResult);
+                    subjectResults.Add(s.Should().NotThrow().Subject);
                 }
             }
-            catch (AssertionException)
+            foreach (TResult subjectResult in subjectResults)
             {
-                throw;
-            }
-            catch (Exception exception)
-            {
-                subject.Should().Throw<Exception>($"expected threw \"{exception.Message}\"")
-                    .Which.Should().BeOfType(exception.GetType());
-            }
-        }
-
-        /// <summary>
-        /// Executes the specified functions and verifies that they return equal results.
-        /// </summary>
-        [AssertionMethod]
-        public static void Result<TResult>(Func<TResult> expected, Func<TResult> subject, params Func<TResult>[] subjects)
-        {
-            Result(expected, subject);
-            if (subjects != null)
-            {
-                foreach (Func<TResult> s in subjects)
+                if (!BothNaN(expectedResult, subjectResult))
                 {
-                    Result(expected, s);
+                    subjectResult.Should().Be(expectedResult);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Executes the specified functions and verifies that they return equal results.
-        /// </summary>
-        [AssertionMethod]
-        public static void Result<TResult>(Func<TResult> expected, Func<TResult> subject)
-        {
-            TResult expectedResult = expected();
-            TResult actualResult = subject.Should().NotThrow().Subject;
-
-            if (!BothNaN(expectedResult, actualResult))
-            {
-                actualResult.Should().Be(actualResult);
             }
         }
 
@@ -111,6 +108,46 @@ namespace Jodo.Testing
                 value1.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol &&
                 value2.ToString() == CultureInfo.CurrentCulture.NumberFormat.NaNSymbol;
             return bothNaN;
+        }
+
+        private static (TResult Result, Exception Exception) GetOutcome<TResult>(Func<TResult> function)
+        {
+            try
+            {
+                return (function(), null);
+            }
+            catch (Exception exception)
+            {
+                return (default, exception);
+            }
+        }
+
+        private static void VerifyOutcomes<TResult>((TResult Result, Exception Exception) outcome1, (TResult Result, Exception Exception) outcome2)
+        {
+            Exception expectedException = outcome1.Exception ?? outcome2.Exception;
+
+            if (expectedException != null)
+            {
+                if (outcome1.Exception == null || outcome2.Exception == null)
+                {
+                    Assert.Fail("Expected a <{0}> to be thrown but no exception was thrown.", expectedException.GetType().Name);
+                }
+
+                if (outcome1.Exception.GetType() != expectedException.GetType())
+                {
+                    Assert.Fail("Expected a <{0}> to be thrown but found <{1}>", expectedException.GetType().Name, outcome1.Exception.GetType().Name);
+                }
+
+                if (outcome2.Exception.GetType() != expectedException.GetType())
+                {
+                    Assert.Fail("Expected a <{0}> to be thrown but found <{1}>", expectedException.GetType().Name, outcome2.Exception.GetType().Name);
+                }
+            }
+
+            if (!BothNaN(outcome1.Result, outcome2.Result))
+            {
+                outcome1.Result.Should().Be(outcome2.Result);
+            }
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Jodo.Geometry
             => MathN.Sqrt(vector.GetLengthSquared());
 
         public static TNumeric DistanceFrom<TNumeric>(this Vector2N<TNumeric> vector, Vector2N<TNumeric> point) where TNumeric : struct, INumeric<TNumeric>
-            => MathN.Sqrt(vector.X.Subtract(point.X).Squared().Add(vector.Y.Subtract(point.Y).Squared()));
+            => MathN.Sqrt(vector.X.Subtract(point.X).Square().Add(vector.Y.Subtract(point.Y).Square()));
 
         public static Vector2N<TNumeric> Translate<TNumeric>(this Vector2N<TNumeric> vector, Vector2N<TNumeric> delta) where TNumeric : struct, INumeric<TNumeric>
            => new Vector2N<TNumeric>(vector.X.Add(delta.X), vector.Y.Add(delta.Y));
