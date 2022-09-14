@@ -86,7 +86,7 @@ namespace Jodo.Numerics.Tests
             Int32N var1 = (Int32N)1024;
             Fix64 var2 = (Fix64)99.54322f;
 
-            Console.WriteLine($"{var1:N}"); // output: 1,024.00
+            Console.WriteLine($"{var1:N2}"); // output: 1,024.00
             Console.WriteLine($"{var1:X}"); // output: 400
             Console.WriteLine($"{var2:E}"); // output: 9.954322E+001
             Console.WriteLine($"{var2:000.000}"); // output: 099.543
