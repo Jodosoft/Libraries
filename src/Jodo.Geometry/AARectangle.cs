@@ -40,7 +40,6 @@ namespace Jodo.Geometry
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
             IProvider<IVariantRandom<AARectangle<TNumeric>>>,
-            ITwoDimensional<AARectangle<TNumeric>, TNumeric>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -74,8 +73,6 @@ namespace Jodo.Geometry
         }
 
         public TNumeric GetArea() => MathN.Abs(Dimensions.X.Multiply(Dimensions.Y));
-
-        public Vector2N<TNumeric>[] GetVertices() => new[] { this.GetBottomLeft(), this.GetBottomRight(), this.GetTopRight(), this.GetTopLeft() };
 
         public AARectangle<TNumeric> Translate(Vector2N<TNumeric> delta) => new AARectangle<TNumeric>(Center + delta, Dimensions);
 
@@ -113,10 +110,6 @@ namespace Jodo.Geometry
         public static implicit operator AARectangle<TNumeric>((TNumeric, TNumeric, TNumeric, TNumeric) value) => new AARectangle<TNumeric>((value.Item1, value.Item2), (value.Item3, value.Item4));
         public static implicit operator (TNumeric, TNumeric, TNumeric, TNumeric)(AARectangle<TNumeric> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
 #endif
-
-        Vector2N<TNumeric> ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetCenter() => Center;
-        AARectangle<TNumeric> ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetBounds() => this;
-        Vector2N<TNumeric>[] ITwoDimensional<AARectangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
 
         IVariantRandom<AARectangle<TNumeric>> IProvider<IVariantRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 

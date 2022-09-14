@@ -263,7 +263,7 @@ namespace Jodo.Numerics.Clamped
             DecimalC INumericRandom<DecimalC>.Next(Random random) => random.NextDecimal(1);
             DecimalC INumericRandom<DecimalC>.Next(Random random, DecimalC maxValue) => random.NextDecimal(maxValue);
             DecimalC INumericRandom<DecimalC>.Next(Random random, DecimalC minValue, DecimalC maxValue) => random.NextDecimal(minValue, maxValue);
-            DecimalC INumericRandom<DecimalC>.Next(Random random, Generation mode) => random.NextDecimal(0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
+            DecimalC INumericRandom<DecimalC>.Next(Random random, Generation mode) => random.NextDecimal(mode == Generation.Extended ? decimal.MinValue : 0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
             DecimalC INumericRandom<DecimalC>.Next(Random random, DecimalC minValue, DecimalC maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
 
             DecimalC IVariantRandom<DecimalC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DecimalC>(random, scenarios);

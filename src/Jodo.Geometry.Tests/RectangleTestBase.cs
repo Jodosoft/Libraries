@@ -75,7 +75,7 @@ namespace Jodo.Geometry.Tests
         {
             //arrange
             Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
-            TNumeric expected = subject.Width.Multiply(subject.Height);
+            TNumeric expected = MathN.Abs(subject.Width.Multiply(subject.Height));
 
             //act
             TNumeric result = subject.GetArea();
@@ -94,8 +94,8 @@ namespace Jodo.Geometry.Tests
             //act
             //assert
             AssertSame.Outcome(
-                () => subject.Translate(delta).Origin,
-                () => subject.Origin + delta);
+                () => subject.Translate(delta).Center,
+                () => subject.Center + delta);
         }
 
         [Test, Repeat(RandomVariations)]

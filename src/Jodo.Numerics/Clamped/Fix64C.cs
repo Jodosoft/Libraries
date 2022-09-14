@@ -94,13 +94,13 @@ namespace Jodo.Numerics.Clamped
             }
         }
 
-        [CLSCompliant(false)] public static explicit operator Fix64C(ulong value) => new Fix64C(ConvertN.ToInt64(value * ScalingFactor, Conversion.CastClamp));
+        [CLSCompliant(false)] public static explicit operator Fix64C(ulong value) => new Fix64C(ConvertN.ToInt64(ClampedMath.Multiply(value, ScalingFactor), Conversion.CastClamp));
         [CLSCompliant(false)] public static implicit operator Fix64C(sbyte value) => new Fix64C(value * ScalingFactor);
         [CLSCompliant(false)] public static implicit operator Fix64C(uint value) => new Fix64C(value * ScalingFactor);
         [CLSCompliant(false)] public static implicit operator Fix64C(ushort value) => new Fix64C(value * ScalingFactor);
         public static explicit operator Fix64C(decimal value) => new Fix64C(ConvertN.ToInt64(ClampedMath.Multiply(value, ScalingFactor), Conversion.CastClamp));
         public static explicit operator Fix64C(double value) => FromDouble(value);
-        public static explicit operator Fix64C(long value) => new Fix64C(value * ScalingFactor);
+        public static explicit operator Fix64C(long value) => new Fix64C(ClampedMath.Multiply(value, ScalingFactor));
         public static implicit operator Fix64C(byte value) => new Fix64C(value * ScalingFactor);
         public static implicit operator Fix64C(float value) => new Fix64C(ConvertN.ToInt64(value * ScalingFactor, Conversion.CastClamp));
         public static implicit operator Fix64C(int value) => new Fix64C(value * ScalingFactor);
@@ -261,7 +261,7 @@ namespace Jodo.Numerics.Clamped
             bool IConvert<Fix64C>.ToBoolean(Fix64C value) => value._scaledValue != 0;
             byte IConvert<Fix64C>.ToByte(Fix64C value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode.Clamped());
             decimal IConvert<Fix64C>.ToDecimal(Fix64C value, Conversion mode) => (decimal)value._scaledValue / ScalingFactor;
-            double IConvert<Fix64C>.ToDouble(Fix64C value, Conversion mode) => (double)value._scaledValue / ScalingFactor;
+            double IConvert<Fix64C>.ToDouble(Fix64C value, Conversion mode) => ScaledMath.ToDouble(value._scaledValue, ScalingFactor);
             float IConvert<Fix64C>.ToSingle(Fix64C value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
             int IConvert<Fix64C>.ToInt32(Fix64C value, Conversion mode) => ConvertN.ToInt32(value._scaledValue / ScalingFactor, mode.Clamped());
             long IConvert<Fix64C>.ToInt64(Fix64C value, Conversion mode) => value._scaledValue / ScalingFactor;
@@ -292,7 +292,7 @@ namespace Jodo.Numerics.Clamped
             Fix64C INumericRandom<Fix64C>.Next(Random random) => new Fix64C(random.NextInt64(ScalingFactor));
             Fix64C INumericRandom<Fix64C>.Next(Random random, Fix64C maxValue) => new Fix64C(random.NextInt64(maxValue._scaledValue));
             Fix64C INumericRandom<Fix64C>.Next(Random random, Fix64C minValue, Fix64C maxValue) => new Fix64C(random.NextInt64(minValue._scaledValue, maxValue._scaledValue));
-            Fix64C INumericRandom<Fix64C>.Next(Random random, Generation mode) => new Fix64C(random.NextInt64(0, mode == Generation.Extended ? long.MaxValue : ScalingFactor, mode));
+            Fix64C INumericRandom<Fix64C>.Next(Random random, Generation mode) => new Fix64C(random.NextInt64(mode == Generation.Extended ? long.MinValue : 0, mode == Generation.Extended ? long.MaxValue : ScalingFactor, mode));
             Fix64C INumericRandom<Fix64C>.Next(Random random, Fix64C minValue, Fix64C maxValue, Generation mode) => new Fix64C(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
             Fix64C IVariantRandom<Fix64C>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<Fix64C>(random, scenarios);

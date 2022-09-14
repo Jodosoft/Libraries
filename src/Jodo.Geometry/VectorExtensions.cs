@@ -25,6 +25,8 @@ namespace Jodo.Geometry
     {
         public static Vector2N<TNumeric> RotateAround<TNumeric>(this Vector2N<TNumeric> vector, Vector2N<TNumeric> pivot, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
         {
+            if (angle == Angle.Zero<TNumeric>()) return vector;
+
             Angle<TNumeric> newAngle = -angle;
             Vector2N<TNumeric> difference = vector - pivot;
             return pivot + new Vector2N<TNumeric>(

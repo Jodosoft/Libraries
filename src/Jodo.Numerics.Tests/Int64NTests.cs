@@ -18,11 +18,13 @@
 // IN THE SOFTWARE.
 
 using Jodo.Testing;
+using Jodo.Testing.NewtonsoftJson;
 
 namespace Jodo.Numerics.Tests
 {
     public static class Int64NTests
     {
+        public sealed class JsonConvertTests : JsonConvertTestBase<Int64N> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Int64N> { }
         public sealed class NumericCastTests : NumericCastTestBase<Int64N> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<Int64N> { }

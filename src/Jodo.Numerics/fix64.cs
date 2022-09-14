@@ -292,7 +292,7 @@ namespace Jodo.Numerics
             Fix64 INumericRandom<Fix64>.Next(Random random) => new Fix64(random.NextInt64(ScalingFactor));
             Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 maxValue) => new Fix64(random.NextInt64(maxValue._scaledValue));
             Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 minValue, Fix64 maxValue) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue));
-            Fix64 INumericRandom<Fix64>.Next(Random random, Generation mode) => new Fix64(random.NextInt64(0, mode == Generation.Extended ? long.MaxValue : ScalingFactor, mode));
+            Fix64 INumericRandom<Fix64>.Next(Random random, Generation mode) => new Fix64(random.NextInt64(mode == Generation.Extended ? long.MinValue : 0, mode == Generation.Extended ? long.MaxValue : ScalingFactor, mode));
             Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 minValue, Fix64 maxValue, Generation mode) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
             Fix64 IVariantRandom<Fix64>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<Fix64>(random, scenarios);

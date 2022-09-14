@@ -39,13 +39,13 @@ namespace Jodo.Geometry
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric GetRight<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return value.Center.X.Add(value.Width.Half());
+            return value.GetLeft().Add(value.Width);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric GetTop<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return value.Center.Y.Add(value.Height.Half());
+            return value.GetBottom().Add(value.Height);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

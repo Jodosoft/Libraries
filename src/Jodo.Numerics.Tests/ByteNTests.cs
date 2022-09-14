@@ -40,6 +40,5 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericUnsignedTests : NumericUnsignedTestBase<ByteN> { }
         public sealed class ObjectTests : ObjectTestBase<ByteN> { }
         public sealed class SerializableTests : SerializableTestBase<ByteN> { }
-        public sealed class XmlSerializationTests : XmlSerializationTestBase<ByteN> { }
     }
 }

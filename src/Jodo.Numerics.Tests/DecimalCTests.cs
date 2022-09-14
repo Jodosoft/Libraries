@@ -20,8 +20,8 @@
 using System;
 using FluentAssertions;
 using Jodo.Numerics.Clamped;
-using Jodo.Primitives.Tests;
 using Jodo.Testing;
+using Jodo.Testing.NewtonsoftJson;
 using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
@@ -30,6 +30,7 @@ namespace Jodo.Numerics.Tests
     {
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DecimalC> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<DecimalC> { }
+        public sealed class JsonConvertTests : JsonConvertTestBase<DecimalC> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<DecimalC> { }
         public sealed class NumericCastTests : NumericCastTestBase<DecimalC> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<DecimalC> { }

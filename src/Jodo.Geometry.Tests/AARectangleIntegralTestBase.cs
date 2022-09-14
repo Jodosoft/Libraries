@@ -30,23 +30,20 @@ namespace Jodo.Geometry.Tests
         public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>());
 
         [Test, Repeat(RandomVariations)]
-        public void GetVertices_UnitSquare_CorrectResult()
+        public void FromBottomLeft_UnitSquare_CorrectVertices()
         {
             //arrange
-            AARectangle<TNumeric> subject = AARectangle.FromCenter(
+            AARectangle<TNumeric> subject = AARectangle.FromBottomLeft(
                 new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
                 new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
-            Vector2N<TNumeric>[] expected = new Vector2N<TNumeric>[] {
-                     new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
-                     new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.Zero<TNumeric>()),
-                     new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()),
-                     new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.One<TNumeric>()) };
 
             //act
-            Vector2N<TNumeric>[] results = subject.GetVertices();
+            Vector2N<TNumeric> bottomLeftResult = subject.GetBottomLeft();
+            Vector2N<TNumeric> topRightResult = subject.GetTopRight();
 
             //assert
-            results.Should().BeEquivalentTo(expected);
+            bottomLeftResult.Should().Be(new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()));
+            topRightResult.Should().Be(new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
         }
     }
 }

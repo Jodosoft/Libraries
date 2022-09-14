@@ -33,7 +33,10 @@ namespace Jodo.Numerics
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Int32N : INumericExtended<Int32N>
     {
+        /// <inheritdoc cref="int.MaxValue" />
         public static readonly Int32N MaxValue = new Int32N(int.MaxValue);
+
+        /// <inheritdoc cref="int.MinValue" />
         public static readonly Int32N MinValue = new Int32N(int.MinValue);
 
         private readonly int _value;

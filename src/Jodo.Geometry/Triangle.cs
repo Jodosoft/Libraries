@@ -33,7 +33,6 @@ namespace Jodo.Geometry
             IEquatable<Triangle<TNumeric>>,
             IFormattable,
             IProvider<IVariantRandom<Triangle<TNumeric>>>,
-            ITwoDimensional<Triangle<TNumeric>, TNumeric>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -108,8 +107,6 @@ namespace Jodo.Geometry
         public static implicit operator Triangle<TNumeric>((Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>) value) => new Triangle<TNumeric>(value.Item1, value.Item2, value.Item3);
         public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>)(Triangle<TNumeric> value) => (value.A, value.B, value.C);
 #endif
-
-        Vector2N<TNumeric>[] ITwoDimensional<Triangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
 
         IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 

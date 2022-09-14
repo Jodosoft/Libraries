@@ -31,8 +31,8 @@ namespace Jodo.Geometry.Tests
         public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange
-            AARectangle<TNumeric> input1 = Random.NextVariant<AARectangle<TNumeric>>();
-            AARectangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<AARectangle<TNumeric>>());
+            AARectangle<TNumeric> input1 = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
+            AARectangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude));
 
             //act
             //assert
@@ -52,20 +52,6 @@ namespace Jodo.Geometry.Tests
 
             //act
             TNumeric result = subject.GetArea();
-
-            //assert
-            result.Should().Be(expected);
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void GetLeft_RandomValues_CorrectResult()
-        {
-            //arrange
-            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
-            TNumeric expected = subject.Center.X;
-
-            //act
-            TNumeric result = subject.GetLeft();
 
             //assert
             result.Should().Be(expected);
@@ -94,7 +80,7 @@ namespace Jodo.Geometry.Tests
             //act
             //assert
             AssertSame.Result(
-                () => subject.Translate(Random.NextVariant<Vector2N<TNumeric>>()).Dimensions,
+                () => subject.Translate(Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude)).Dimensions,
                 () => subject.Dimensions);
         }
 
@@ -123,7 +109,7 @@ namespace Jodo.Geometry.Tests
             //assert
             AssertSame.Result(
                 () => new AARectangle<TNumeric>(origin, dimensions).GetTop(),
-                () => origin.Y.Add(dimensions.Y));
+                () => origin.Y.Add(dimensions.Y.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -137,7 +123,7 @@ namespace Jodo.Geometry.Tests
             //assert
             AssertSame.Result(
                 () => new AARectangle<TNumeric>(origin, dimensions).GetBottom(),
-                () => origin.Y);
+                () => origin.Y.Subtract(dimensions.Y.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -151,7 +137,7 @@ namespace Jodo.Geometry.Tests
             //assert
             AssertSame.Result(
                 () => new AARectangle<TNumeric>(origin, dimensions).GetLeft(),
-                () => origin.X);
+                () => origin.X.Subtract(dimensions.X.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -165,147 +151,143 @@ namespace Jodo.Geometry.Tests
             //assert
             AssertSame.Result(
                 () => new AARectangle<TNumeric>(origin, dimensions).GetRight(),
-                () => origin.X.Add(dimensions.X));
+                () => origin.X.Add(dimensions.X.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void BottomLeftMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
             Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
 
             //act
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).Center,
-                () => new Rectangle<TNumeric>(origin, dimensions, default).Origin,
-                () => new AARectangle<TNumeric>(origin, dimensions).GetBottomLeft(),
-                () => new Rectangle<TNumeric>(origin, dimensions, default).GetBottomLeft(),
-                () => AARectangle.FromBottomLeft(origin, dimensions).Center,
-                () => Rectangle.FromBottomLeft(origin, dimensions, default).Origin,
-                () => AARectangle.FromBottomLeft(origin, dimensions).GetBottomLeft(),
-                () => Rectangle.FromBottomLeft(origin, dimensions, default).GetBottomLeft(),
-                () => origin);
+            AssertSame.Outcome(
+                () => new AARectangle<TNumeric>(center, dimensions).GetBottomLeft(),
+                () => new Rectangle<TNumeric>(center, dimensions, default).GetBottomLeft(),
+                () => AARectangle.FromBottomLeft(center.Subtract(dimensions.Half()), dimensions).GetBottomLeft(),
+                () => Rectangle.FromBottomLeft(center.Subtract(dimensions.Half()), dimensions, default).GetBottomLeft(),
+                () => center.Subtract(dimensions.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void BottomCenterMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
             Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
 
             //act
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetBottomCenter(),
-                () => new Rectangle<TNumeric>(origin, dimensions, default).GetBottomCenter(),
-                () => AARectangle.FromBottomCenter(origin, dimensions).Center.AddX(dimensions.X.Half()),
-                () => Rectangle.FromBottomCenter(origin, dimensions, default).Origin.AddX(dimensions.X.Half()),
-                () => origin.AddX(dimensions.X.Half()));
+            AssertSame.Outcome(
+                () => new AARectangle<TNumeric>(center, dimensions).GetBottomCenter(),
+                () => new Rectangle<TNumeric>(center, dimensions, default).GetBottomCenter(),
+                () => AARectangle.FromBottomCenter(center.SubtractY(dimensions.Y.Half()), dimensions).GetBottomCenter(),
+                () => Rectangle.FromBottomCenter(center.SubtractY(dimensions.Y.Half()), dimensions, default).GetBottomCenter(),
+                () => center.SubtractY(dimensions.Y.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void BottomRightMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
             Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
 
             //act
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetBottomRight(),
-                () => new Rectangle<TNumeric>(origin, dimensions, default).GetBottomRight(),
-                () => AARectangle.FromBottomRight(origin, dimensions).Center.AddX(dimensions.X),
-                () => Rectangle.FromBottomRight(origin, dimensions, default).Origin.AddX(dimensions.X),
-                () => origin.AddX(dimensions.X));
+            AssertSame.Outcome(
+                () => new AARectangle<TNumeric>(center, dimensions).GetBottomRight(),
+                () => new Rectangle<TNumeric>(center, dimensions, default).GetBottomRight(),
+                () => AARectangle.FromBottomRight(center.SubtractY(dimensions.Y.Half()).AddX(dimensions.X.Half()), dimensions).GetBottomRight(),
+                () => Rectangle.FromBottomRight(center.SubtractY(dimensions.Y.Half()).AddX(dimensions.X.Half()), dimensions, default).GetBottomRight(),
+                () => center.SubtractY(dimensions.Y.Half()).AddX(dimensions.X.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void RightCenterMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
             Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
 
             //act
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetRightCenter(),
-                () => new Rectangle<TNumeric>(origin, dimensions, default).GetRightCenter(),
-                () => AARectangle.FromRightCenter(origin, dimensions).Center + new Vector2N<TNumeric>(dimensions.X, dimensions.Y.Half()),
-                () => Rectangle.FromRightCenter(origin, dimensions, default).Origin + new Vector2N<TNumeric>(dimensions.X, dimensions.Y.Half()),
-                () => origin + new Vector2N<TNumeric>(dimensions.X, dimensions.Y.Half()));
+            AssertSame.Outcome(
+                () => new AARectangle<TNumeric>(center, dimensions).GetRightCenter(),
+                () => new Rectangle<TNumeric>(center, dimensions, default).GetRightCenter(),
+                () => AARectangle.FromRightCenter(center.AddX(dimensions.X.Half()), dimensions).GetRightCenter(),
+                () => Rectangle.FromRightCenter(center.AddX(dimensions.X.Half()), dimensions, default).GetRightCenter(),
+                () => center.AddX(dimensions.X.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void TopRightMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
             Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
 
             //act
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetTopRight(),
-                () => new Rectangle<TNumeric>(origin, dimensions, default).GetTopRight(),
-                () => AARectangle.FromTopRight(origin, dimensions).Center + dimensions,
-                () => Rectangle.FromTopRight(origin, dimensions, default).Origin + dimensions,
-                () => origin + dimensions);
+            AssertSame.Outcome(
+                () => new AARectangle<TNumeric>(center, dimensions).GetTopRight(),
+                () => new Rectangle<TNumeric>(center, dimensions, default).GetTopRight(),
+                () => AARectangle.FromTopRight(center.Add(dimensions.Half()), dimensions).GetTopRight(),
+                () => Rectangle.FromTopRight(center.Add(dimensions.Half()), dimensions, default).GetTopRight(),
+                () => center.Add(dimensions.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void TopCenterMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
             Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
 
             //act
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetTopCenter(),
-                () => new Rectangle<TNumeric>(origin, dimensions, default).GetTopCenter(),
-                () => AARectangle.FromTopCenter(origin, dimensions).Center + new Vector2N<TNumeric>(dimensions.X.Half(), dimensions.Y),
-                () => Rectangle.FromTopCenter(origin, dimensions, default).Origin + new Vector2N<TNumeric>(dimensions.X.Half(), dimensions.Y),
-                () => origin + new Vector2N<TNumeric>(dimensions.X.Half(), dimensions.Y));
+            AssertSame.Outcome(
+                () => new AARectangle<TNumeric>(center, dimensions).GetTopCenter(),
+                () => new Rectangle<TNumeric>(center, dimensions, default).GetTopCenter(),
+                () => AARectangle.FromTopCenter(center.AddY(dimensions.Y.Half()), dimensions).GetTopCenter(),
+                () => Rectangle.FromTopCenter(center.AddY(dimensions.Y.Half()), dimensions, default).GetTopCenter(),
+                () => center.AddY(dimensions.Y.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void TopLeftMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
             Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
 
             //act
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetTopLeft(),
-                () => new Rectangle<TNumeric>(origin, dimensions, default).GetTopLeft(),
-                () => AARectangle.FromTopLeft(origin, dimensions).Center.AddY(dimensions.Y),
-                () => Rectangle.FromTopLeft(origin, dimensions, default).Origin.AddY(dimensions.Y),
-                () => origin.AddY(dimensions.Y));
+            AssertSame.Outcome(
+                () => new AARectangle<TNumeric>(center, dimensions).GetTopLeft(),
+                () => new Rectangle<TNumeric>(center, dimensions, default).GetTopLeft(),
+                () => AARectangle.FromTopLeft(center.SubtractX(dimensions.X.Half()).AddY(dimensions.Y.Half()), dimensions).GetTopLeft(),
+                () => Rectangle.FromTopLeft(center.SubtractX(dimensions.X.Half()).AddY(dimensions.Y.Half()), dimensions, default).GetTopLeft(),
+                () => center.SubtractX(dimensions.X.Half()).AddY(dimensions.Y.Half()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void LeftCenterMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
             Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
 
             //act
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetLeftCenter(),
-                () => new Rectangle<TNumeric>(origin, dimensions, default).GetLeftCenter(),
-                () => AARectangle.FromLeftCenter(origin, dimensions).Center.AddY(dimensions.Y.Half()),
-                () => Rectangle.FromLeftCenter(origin, dimensions, default).Origin.AddY(dimensions.Y.Half()),
-                () => origin.AddY(dimensions.Y.Half()));
+            AssertSame.Outcome(
+                () => new AARectangle<TNumeric>(center, dimensions).GetLeftCenter(),
+                () => new Rectangle<TNumeric>(center, dimensions, default).GetLeftCenter(),
+                () => AARectangle.FromLeftCenter(center.SubtractX(dimensions.X.Half()), dimensions).GetLeftCenter(),
+                () => Rectangle.FromLeftCenter(center.SubtractX(dimensions.X.Half()), dimensions, default).GetLeftCenter(),
+                () => center.SubtractX(dimensions.X.Half()));
         }
     }
 }

@@ -19,6 +19,7 @@
 
 using Jodo.Numerics.Clamped;
 using Jodo.Testing;
+using Jodo.Testing.NewtonsoftJson;
 
 namespace Jodo.Numerics.Tests
 {
@@ -26,6 +27,7 @@ namespace Jodo.Numerics.Tests
     {
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<Fix64C> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<Fix64C> { }
+        public sealed class JsonConvertTests : JsonConvertTestBase<Fix64C> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Fix64C> { }
         public sealed class NumericCastTests : NumericCastTestBase<Fix64C> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<Fix64C> { }

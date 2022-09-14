@@ -33,8 +33,7 @@ namespace Jodo.Geometry
             IEquatable<Circle<TNumeric>>,
             IFormattable,
             IProvider<IVariantRandom<Circle<TNumeric>>>,
-            ISerializable,
-            ITwoDimensional<Circle<TNumeric>, TNumeric>
+            ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
         public readonly Vector2N<TNumeric> Center;
@@ -104,8 +103,6 @@ namespace Jodo.Geometry
 
         public static bool operator ==(Circle<TNumeric> left, Circle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
-
-        Vector2N<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
 
         IVariantRandom<Circle<TNumeric>> IProvider<IVariantRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 

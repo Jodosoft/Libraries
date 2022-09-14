@@ -19,15 +19,15 @@
 
 using System;
 using FluentAssertions;
-using Jodo.Primitives;
-using Jodo.Primitives.Tests;
 using Jodo.Testing;
+using Jodo.Testing.NewtonsoftJson;
 using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
     public sealed class DecimalNTests : GlobalFixtureBase
     {
+        public sealed class JsonConvertTests : JsonConvertTestBase<DecimalN> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<DecimalN> { }
         public sealed class NumericCastTests : NumericCastTestBase<DecimalN> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<DecimalN> { }

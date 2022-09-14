@@ -263,7 +263,7 @@ namespace Jodo.Numerics
             DecimalN INumericRandom<DecimalN>.Next(Random random) => random.NextDecimal(1);
             DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN maxValue) => random.NextDecimal(maxValue);
             DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN minValue, DecimalN maxValue) => random.NextDecimal(minValue, maxValue);
-            DecimalN INumericRandom<DecimalN>.Next(Random random, Generation mode) => random.NextDecimal(0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
+            DecimalN INumericRandom<DecimalN>.Next(Random random, Generation mode) => random.NextDecimal(mode == Generation.Extended ? decimal.MinValue : 0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
             DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN minValue, DecimalN maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
 
             DecimalN IVariantRandom<DecimalN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DecimalN>(random, scenarios);

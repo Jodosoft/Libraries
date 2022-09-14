@@ -175,24 +175,24 @@ namespace Jodo.Numerics
         };
 
         public static int NextInt32(this Random random)
-            => random.Next();
+            => random.Next(0, int.MaxValue); // Use the same overload of Next for consistency
 
         public static int NextInt32(this Random random, int maxValue)
-            => random.Next(maxValue);
+            => random.Next(0, maxValue); // Use the same overload of Next for consistency
 
         public static int NextInt32(this Random random, int minValue, int maxValue)
-            => random.Next(minValue, maxValue);
+            => random.Next(minValue, maxValue); // Use the same overload of Next for consistency
 
         public static int NextInt32(this Random random, Generation mode) => mode switch
         {
-            Generation.Default => random.NextInt32(),
+            Generation.Default => random.Next(0, int.MaxValue), // Use the same overload of Next for consistency
             Generation.Extended => random.NextInt32Extended(int.MinValue, int.MaxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
         public static int NextInt32(this Random random, int minValue, int maxValue, Generation mode) => mode switch
         {
-            Generation.Default => random.NextInt32(minValue, maxValue),
+            Generation.Default => random.Next(minValue, maxValue), // Use the same overload of Next for consistency
             Generation.Extended => random.NextInt32Extended(minValue, maxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };

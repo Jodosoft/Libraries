@@ -28,23 +28,10 @@ namespace Jodo.Testing.NewtonsoftJson
     public abstract class JsonConvertTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
-        public void SerializeObject_RandomVariant_ContainsStringRepresentation()
+        public void SerializeObject_RandomVariantFromJson_CanRoundTrip()
         {
             //arrange
-            T input = Random.NextVariant<T>();
-
-            //act
-            string result = JsonConvert.SerializeObject(input);
-
-            //assert
-            result.Should().Contain(input.ToString());
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void SerializeObject_RandomVariant_CanRoundTrip()
-        {
-            //arrange
-            T input = Random.NextVariant<T>();
+            T input = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Scenarios.LowMagnitude)));
 
             //act
             T result = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(input));
@@ -54,13 +41,13 @@ namespace Jodo.Testing.NewtonsoftJson
         }
 
         [Test, Repeat(RandomVariations)]
-        public void SerializeObjectInList_RandomVariants_CanRoundTrip()
+        public void SerializeObjectInList_RandomVariantsFromJson_CanRoundTrip()
         {
             //arrange
             T[] inputs = new T[] {
-                Random.NextVariant<T>(),
-                Random.NextVariant<T>(),
-                Random.NextVariant<T>()
+                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Scenarios.LowMagnitude))),
+                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Scenarios.LowMagnitude))),
+                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Scenarios.LowMagnitude)))
             };
 
             //act
