@@ -26,9 +26,9 @@ namespace Jodo.Numerics.Tests
 {
     public class Vector2NTests : GlobalFixtureBase
     {
-        public sealed class FixedPointObjectTests : ObjectTestBase<Vector2N<Fix64Temp>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector2N<Fix64Temp>> { }
-        public sealed class FixedPointVector2Tests : Vector2NTestBase<Fix64Temp> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Vector2N<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector2N<Fix64>> { }
+        public sealed class FixedPointVector2Tests : Vector2NTestBase<Fix64> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<Vector2N<SingleN>> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector2N<SingleN>> { }
         public sealed class FloatingPointVector2Tests : Vector2NTestBase<SingleN> { }

@@ -24,13 +24,13 @@ namespace Jodo.Geometry.Tests
 {
     public static class CircleTests
     {
-        public sealed class GeneralFixedPointTests : CircleTestBase<Fix64Temp> { }
+        public sealed class GeneralFixedPointTests : CircleTestBase<Fix64> { }
         public sealed class GeneralFloatingPointTests : CircleTestBase<SingleN> { }
         public sealed class GeneralUnsignedIntegralTests : CircleTestBase<ByteN> { }
-        public sealed class ObjectFixedPointTests : ObjectTestBase<Circle<Fix64Temp>> { }
+        public sealed class ObjectFixedPointTests : ObjectTestBase<Circle<Fix64>> { }
         public sealed class ObjectFloatingPointTests : ObjectTestBase<Circle<SingleN>> { }
         public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<Circle<ByteN>> { }
-        public sealed class SerializableFixedPointTests : SerializableTestBase<Circle<Fix64Temp>> { }
+        public sealed class SerializableFixedPointTests : SerializableTestBase<Circle<Fix64>> { }
         public sealed class SerializableFloatingPointTests : SerializableTestBase<Circle<SingleN>> { }
         public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<Circle<ByteN>> { }
     }

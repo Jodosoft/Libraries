@@ -53,10 +53,10 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void NumericsSummary()
         {
-            var value1 = MathN.Log10(99999 * (Fix64Temp)3.444);
+            var value1 = MathN.Log10(99999 * (Fix64)3.444);
             var value2 = (Int32N)107 << 4;
             var value3 = BitConverterN.GetBytes(value1);
-            var value4 = new Vector2N<Fix64Temp>(101, -202);
+            var value4 = new Vector2N<Fix64>(101, -202);
 
             Console.WriteLine(value1); // output: 5.537058
             Console.WriteLine(value2.ToString("X")); // output: 6B0
@@ -71,7 +71,7 @@ namespace Jodo.Numerics.Tests
         public void FixedPointArithmetic_LargeValues_NoLossOfPrecision()
         {
             float floatingPoint = 1000000 + MathF.PI;
-            Fix64Temp fixedPoint = 1000000 + MathN.PI<Fix64Temp>();
+            Fix64 fixedPoint = 1000000 + MathN.PI<Fix64>();
 
             Console.WriteLine(floatingPoint); // output: 1000003.1
             Console.WriteLine(fixedPoint); // output: 1000003.141592
@@ -84,7 +84,7 @@ namespace Jodo.Numerics.Tests
         public void StringFormatting()
         {
             Int32N var1 = (Int32N)1024;
-            Fix64Temp var2 = (Fix64Temp)99.54322f;
+            Fix64 var2 = (Fix64)99.54322f;
 
             Console.WriteLine($"{var1:N2}"); // output: 1,024.00
             Console.WriteLine($"{var1:X}"); // output: 400
@@ -125,9 +125,9 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void FixedPointArithmetic()
         {
-            Fix64Temp third = 1 / 3f;
-            Fix64Temp pi = MathN.PI<Fix64Temp>();
-            Fix64Temp tooSmall = (Fix64Temp)0.0000001;
+            Fix64 third = 1 / 3f;
+            Fix64 pi = MathN.PI<Fix64>();
+            Fix64 tooSmall = (Fix64)0.0000001;
 
             Console.WriteLine(third); // output: 0.333333
             Console.WriteLine(pi); // output: 3.141592
@@ -141,7 +141,7 @@ namespace Jodo.Numerics.Tests
         public void MathN_Examples()
         {
             float res1 = MathF.Log10(1000 * MathF.PI);
-            Fix64Temp res2 = MathN.Log10(1000 * MathN.PI<Fix64Temp>());
+            Fix64 res2 = MathN.Log10(1000 * MathN.PI<Fix64>());
 
             Console.WriteLine(res1); // output: 3.49715
             Console.WriteLine(res2); // output: 3.497149

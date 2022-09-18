@@ -29,8 +29,8 @@ namespace Jodo.Numerics.Tests
         public sealed class FloatingPointUnitTests : UnitNTestBase<SingleN> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<UnitN<SingleN>> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<UnitN<SingleN>> { }
-        public sealed class FixedPointUnitTests : UnitNTestBase<Fix64Temp> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<UnitN<Fix64Temp>> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<UnitN<Fix64Temp>> { }
+        public sealed class FixedPointUnitTests : UnitNTestBase<Fix64> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<UnitN<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<UnitN<Fix64>> { }
     }
 }

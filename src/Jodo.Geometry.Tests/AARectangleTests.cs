@@ -24,13 +24,13 @@ namespace Jodo.Geometry.Tests
 {
     public static class AARectangleTests
     {
-        public sealed class AARectangleIntegralFixedPointTests : AARectangleTestBase<Fix64Temp> { }
+        public sealed class AARectangleIntegralFixedPointTests : AARectangleTestBase<Fix64> { }
         public sealed class AARectangleIntegralFloatingPointTests : AARectangleTestBase<SingleN> { }
         public sealed class AARectangleIntegralUnsignedIntegralTests : AARectangleIntegralTestBase<ByteN> { }
-        public sealed class ObjectFixedPointTests : ObjectTestBase<AARectangle<Fix64Temp>> { }
+        public sealed class ObjectFixedPointTests : ObjectTestBase<AARectangle<Fix64>> { }
         public sealed class ObjectFloatingPointTests : ObjectTestBase<AARectangle<SingleN>> { }
         public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<AARectangle<ByteN>> { }
-        public sealed class SerializableFixedPointTests : SerializableTestBase<AARectangle<Fix64Temp>> { }
+        public sealed class SerializableFixedPointTests : SerializableTestBase<AARectangle<Fix64>> { }
         public sealed class SerializableFloatingPointTests : SerializableTestBase<AARectangle<SingleN>> { }
         public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<AARectangle<ByteN>> { }
     }
