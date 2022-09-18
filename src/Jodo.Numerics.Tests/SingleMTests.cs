@@ -23,21 +23,21 @@ using Jodo.Testing.NewtonsoftJson;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class SingleCTests
+    public static class SingleMTests
     {
-        public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<SingleC> { }
-        public sealed class CheckedNumericTests : CheckedNumericTestBase<SingleC> { }
-        public sealed class JsonConvertTests : JsonConvertTestBase<SingleC> { }
-        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<SingleC> { }
-        public sealed class NumericCastTests : NumericCastTestBase<SingleC> { }
-        public sealed class NumericConvertTests : NumericConvertTestBase<SingleC> { }
-        public sealed class NumericFloatingPointTests : NumericFloatingPointTestBase<SingleC> { }
-        public sealed class NumericMathTests : NumericMathTestBase<SingleC> { }
-        public sealed class NumericRandomTestBase : NumericRandomTestBase<SingleC> { }
-        public sealed class NumericSignedTests : NumericSignedTestBase<SingleC> { }
-        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<SingleC> { }
-        public sealed class NumericTests : NumericTestBase<SingleC> { }
-        public sealed class ObjectTests : ObjectTestBase<SingleC> { }
-        public sealed class SerializableTests : SerializableTestBase<SingleC> { }
+        public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<SingleM> { }
+        public sealed class CheckedNumericTests : CheckedNumericTestBase<SingleM> { }
+        public sealed class JsonConvertTests : JsonConvertTestBase<SingleM> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<SingleM> { }
+        public sealed class NumericCastTests : NumericCastTestBase<SingleM> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<SingleM> { }
+        public sealed class NumericFloatingPointTests : NumericFloatingPointTestBase<SingleM> { }
+        public sealed class NumericMathTests : NumericMathTestBase<SingleM> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<SingleM> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<SingleM> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<SingleM> { }
+        public sealed class NumericTests : NumericTestBase<SingleM> { }
+        public sealed class ObjectTests : ObjectTestBase<SingleM> { }
+        public sealed class SerializableTests : SerializableTestBase<SingleM> { }
     }
 }

@@ -26,31 +26,31 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public sealed class DecimalCTests : GlobalFixtureBase
+    public sealed class DecimalMTests : GlobalFixtureBase
     {
-        public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DecimalC> { }
-        public sealed class CheckedNumericTests : CheckedNumericTestBase<DecimalC> { }
-        public sealed class JsonConvertTests : JsonConvertTestBase<DecimalC> { }
-        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<DecimalC> { }
-        public sealed class NumericCastTests : NumericCastTestBase<DecimalC> { }
-        public sealed class NumericConvertTests : NumericConvertTestBase<DecimalC> { }
-        public sealed class NumericMathTests : NumericMathTestBase<DecimalC> { }
-        public sealed class NumericRandomTestBase : NumericRandomTestBase<DecimalC> { }
-        public sealed class NumericRealTests : NumericRealTestBase<DecimalC> { }
-        public sealed class NumericSignedTests : NumericSignedTestBase<DecimalC> { }
-        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<DecimalC> { }
-        public sealed class NumericTests : NumericTestBase<DecimalC> { }
-        public sealed class ObjectTests : ObjectTestBase<DecimalC> { }
-        public sealed class SerializableTests : SerializableTestBase<DecimalC> { }
+        public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DecimalM> { }
+        public sealed class CheckedNumericTests : CheckedNumericTestBase<DecimalM> { }
+        public sealed class JsonConvertTests : JsonConvertTestBase<DecimalM> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<DecimalM> { }
+        public sealed class NumericCastTests : NumericCastTestBase<DecimalM> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<DecimalM> { }
+        public sealed class NumericMathTests : NumericMathTestBase<DecimalM> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<DecimalM> { }
+        public sealed class NumericRealTests : NumericRealTestBase<DecimalM> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<DecimalM> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<DecimalM> { }
+        public sealed class NumericTests : NumericTestBase<DecimalM> { }
+        public sealed class ObjectTests : ObjectTestBase<DecimalM> { }
+        public sealed class SerializableTests : SerializableTestBase<DecimalM> { }
 
         [Test, Repeat(RandomVariations)]
         public void IsFinite_RandomValue_AlwaysTrue()
         {
             //arrange
-            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalM>(default);
             for (int i = 0; i < 12; i++)
                 bytes[i] = Random.NextByte();
-            DecimalC input = BitConverterN.ToNumeric<DecimalC>(bytes, 0);
+            DecimalM input = BitConverterN.ToNumeric<DecimalM>(bytes, 0);
 
             //act
             bool result = Numeric.IsFinite(input);
@@ -63,10 +63,10 @@ namespace Jodo.Numerics.Tests
         public void IsInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalM>(default);
             for (int i = 0; i < 12; i++)
                 bytes[i] = Random.NextByte();
-            DecimalC input = BitConverterN.ToNumeric<DecimalC>(bytes, 0);
+            DecimalM input = BitConverterN.ToNumeric<DecimalM>(bytes, 0);
 
             //act
             bool result = Numeric.IsInfinity(input);
@@ -79,10 +79,10 @@ namespace Jodo.Numerics.Tests
         public void IsPositiveInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalM>(default);
             for (int i = 0; i < 12; i++)
                 bytes[i] = Random.NextByte();
-            DecimalC input = BitConverterN.ToNumeric<DecimalC>(bytes, 0);
+            DecimalM input = BitConverterN.ToNumeric<DecimalM>(bytes, 0);
 
             //act
             bool result = Numeric.IsPositiveInfinity(input);
@@ -95,10 +95,10 @@ namespace Jodo.Numerics.Tests
         public void IsNegativeInfinity_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalM>(default);
             for (int i = 0; i < 12; i++)
                 bytes[i] = Random.NextByte();
-            DecimalC input = BitConverterN.ToNumeric<DecimalC>(bytes, 0);
+            DecimalM input = BitConverterN.ToNumeric<DecimalM>(bytes, 0);
 
             //act
             bool result = Numeric.IsNegativeInfinity(input);
@@ -111,10 +111,10 @@ namespace Jodo.Numerics.Tests
         public void IsNaN_RandomValue_AlwaysFalse()
         {
             //arrange
-            byte[] bytes = BitConverterN.GetBytes<DecimalC>(default);
+            byte[] bytes = BitConverterN.GetBytes<DecimalM>(default);
             for (int i = 0; i < 12; i++)
                 bytes[i] = Random.NextByte();
-            DecimalC input = Random.NextNumeric<DecimalC>(Generation.Extended);
+            DecimalM input = Random.NextNumeric<DecimalM>(Generation.Extended);
 
             //act
             bool result = Numeric.IsNaN(input);
