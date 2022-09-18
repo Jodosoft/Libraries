@@ -18,34 +18,25 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Collections.Concurrent;
-using System.Linq;
 
 namespace Jodo.Primitives
 {
-    public static class TypeExtensions
+    public static class FuncExtensions
     {
-        private static readonly ConcurrentDictionary<Type, string> DisplayNamesByType
-            = new ConcurrentDictionary<Type, string>();
-
-        public static string GetDisplayName(this Type type)
+        public static bool Try<TResult>(this Func<TResult> function, out TResult result)
         {
-            return DisplayNamesByType.GetOrAdd(type, CreateDisplayName);
-        }
-
-        private static string CreateDisplayName(Type type)
-        {
-            if (type.IsGenericType)
+            try
             {
-                string? parameterNames = type
-                    .GetGenericArguments()
-                    .Select(x => CreateDisplayName(x))
-                    .Aggregate((x, y) => $"{x}, {y}");
-
-                string? name = type.Name.Substring(0, type.Name.IndexOf('`'));
-                return $"{name}<{parameterNames}>";
+                result = function();
+                return true;
             }
-            return type.Name;
+            catch
+            {
+#nullable disable
+                result = default;
+#nullable restore
+                return false;
+            }
         }
     }
 }

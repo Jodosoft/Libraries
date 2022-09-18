@@ -56,10 +56,10 @@ namespace Jodo.Numerics.Clamped
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out ByteC result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out ByteC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out ByteC result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out ByteC result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out ByteC result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out ByteC result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out ByteC result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out ByteC result) => FuncExtensions.Try(() => Parse(s), out result);
         public static ByteC Parse(string s) => byte.Parse(s);
         public static ByteC Parse(string s, IFormatProvider? provider) => byte.Parse(s, provider);
         public static ByteC Parse(string s, NumberStyles style) => byte.Parse(s, style);
@@ -260,13 +260,13 @@ namespace Jodo.Numerics.Clamped
             ByteC INumericStatic<ByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
-            ByteC INumericRandom<ByteC>.Next(Random random) => random.NextByte();
-            ByteC INumericRandom<ByteC>.Next(Random random, ByteC maxValue) => random.NextByte(maxValue);
-            ByteC INumericRandom<ByteC>.Next(Random random, ByteC minValue, ByteC maxValue) => random.NextByte(minValue, maxValue);
-            ByteC INumericRandom<ByteC>.Next(Random random, Generation mode) => random.NextByte(mode);
-            ByteC INumericRandom<ByteC>.Next(Random random, ByteC minValue, ByteC maxValue, Generation mode) => random.NextByte(minValue, maxValue, mode);
+            ByteC INumericRandom<ByteC>.Generate(Random random) => random.NextByte();
+            ByteC INumericRandom<ByteC>.Generate(Random random, ByteC maxValue) => random.NextByte(maxValue);
+            ByteC INumericRandom<ByteC>.Generate(Random random, ByteC minValue, ByteC maxValue) => random.NextByte(minValue, maxValue);
+            ByteC INumericRandom<ByteC>.Generate(Random random, Generation mode) => random.NextByte(mode);
+            ByteC INumericRandom<ByteC>.Generate(Random random, ByteC minValue, ByteC maxValue, Generation mode) => random.NextByte(minValue, maxValue, mode);
 
-            ByteC IVariantRandom<ByteC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<ByteC>(random, scenarios);
+            ByteC IVariantRandom<ByteC>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<ByteC>(random, scenarios);
         }
     }
 }

@@ -32,8 +32,8 @@ namespace Jodo.Geometry.Tests
         public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange
-            AARectangle<TNumeric> input1 = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
-            AARectangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude));
+            AARectangle<TNumeric> input1 = Random.NextVariant<AARectangle<TNumeric>>(Variants.LowMagnitude);
+            AARectangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<AARectangle<TNumeric>>(Variants.LowMagnitude));
 
             //act
             //assert
@@ -48,7 +48,7 @@ namespace Jodo.Geometry.Tests
         public void GetArea_RandomValues_CorrectResult()
         {
             //arrange
-            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Variants.LowMagnitude);
             TNumeric expected = MathN.Abs(subject.Dimensions.X.Multiply(subject.Dimensions.Y));
 
             //act
@@ -62,8 +62,8 @@ namespace Jodo.Geometry.Tests
         public void Translate_RandomValue_SameAsAddingToOrigin()
         {
             //arrange
-            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> delta = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> delta = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -76,12 +76,12 @@ namespace Jodo.Geometry.Tests
         public void Translate_RandomValue_DimensionsAreUnchanged()
         {
             //arrange
-            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
             AssertSame.Result(
-                () => subject.Translate(Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude)).Dimensions,
+                () => subject.Translate(Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude)).Dimensions,
                 () => subject.Dimensions);
         }
 
@@ -89,8 +89,8 @@ namespace Jodo.Geometry.Tests
         public void Rotate_RandomValue_SameAsConstructingRectangle()
         {
             //arrange
-            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Scenarios.LowMagnitude);
-            Angle<TNumeric> angle = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Variants.LowMagnitude);
+            Angle<TNumeric> angle = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -103,8 +103,8 @@ namespace Jodo.Geometry.Tests
         public void TopMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -117,8 +117,8 @@ namespace Jodo.Geometry.Tests
         public void BottomMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -131,8 +131,8 @@ namespace Jodo.Geometry.Tests
         public void LeftMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -145,8 +145,8 @@ namespace Jodo.Geometry.Tests
         public void RightMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -159,8 +159,8 @@ namespace Jodo.Geometry.Tests
         public void BottomLeftMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
             Vector2N<TNumeric> expected = center.Subtract(dimensions.Half());
 
             //act
@@ -180,8 +180,8 @@ namespace Jodo.Geometry.Tests
         public void BottomCenterMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
             Vector2N<TNumeric> expected = center.SubtractY(dimensions.Y.Half());
             //act
             Func<Vector2N<TNumeric>>[] actions = new[] {
@@ -200,8 +200,8 @@ namespace Jodo.Geometry.Tests
         public void BottomRightMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
             Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
                 center.X.Subtract(dimensions.X.Half()).Add(dimensions.X),
                 center.Y.Subtract(dimensions.Y.Half()));
@@ -223,8 +223,8 @@ namespace Jodo.Geometry.Tests
         public void RightCenterMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
             Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
                 center.X.Subtract(dimensions.X.Half()).Add(dimensions.X),
                 center.Y);
@@ -246,8 +246,8 @@ namespace Jodo.Geometry.Tests
         public void TopRightMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
             Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
                 center.X.Subtract(dimensions.X.Half()).Add(dimensions.X),
                 center.Y.Subtract(dimensions.Y.Half()).Add(dimensions.Y));
@@ -269,8 +269,8 @@ namespace Jodo.Geometry.Tests
         public void TopCenterMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
             Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
                 center.X,
                 center.Y.Subtract(dimensions.Y.Half()).Add(dimensions.Y));
@@ -292,8 +292,8 @@ namespace Jodo.Geometry.Tests
         public void TopLeftMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
             Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
                 center.X.Subtract(dimensions.X.Half()),
                 center.Y.Subtract(dimensions.Y.Half()).Add(dimensions.Y));
@@ -315,8 +315,8 @@ namespace Jodo.Geometry.Tests
         public void LeftCenterMethods_RandomValue_SameResult()
         {
             //arrange
-            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
             Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
                 center.X.Subtract(dimensions.X.Half()),
                 center.Y);

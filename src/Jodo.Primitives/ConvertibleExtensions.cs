@@ -22,6 +22,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Primitives
 {
+    /// <summary>
+    ///     Provides extension methods for <see cref="IConvertible"/>.
+    /// </summary>
     [CLSCompliant(false)]
     public static class ConvertibleExtensions
     {
@@ -43,6 +46,22 @@ namespace Jodo.Primitives
         private static readonly Type ObjectType = typeof(object);
         private static readonly Type EnumType = typeof(Enum);
 
+        /// <summary>
+        ///     Converts the value of this instance to an <see cref="object"/> of the specified
+        ///     <see cref="Type"/> by calling one of the named conversions from <see cref="IConvertible"/>,
+        ///     such as <see cref="IConvertible.ToChar(IFormatProvider)"/> or 
+        ///     <see cref="IConvertible.ToDouble(IFormatProvider)"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="IConvertible"/> to convert.</param>
+        /// <param name="targetType">The <see cref="Type"/> to which the value of this instance is converted.</param>
+        /// <param name="provider"> An <see cref="IFormatProvider"/> interface implementation that supplies culture-specific formatting information.</param>
+        /// <returns>An <see cref="object"/> instance of type conversionType whose value is equivalent to the value of this instance.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="value"/> or <paramref name="targetType"/> are null.</exception>
+        /// <exception cref="InvalidCastException">If the value cannot be converted using a method from <see cref="IConvertible"/>.</exception>
+        /// <remarks>
+        ///     This method does not call <see cref="IConvertible.ToType(Type, IFormatProvider)"/> so that it can be used
+        ///     as a default implementation for that method.
+        /// </remarks>
         [SuppressMessage("csharpsquid", "S3776:Cognitive Complexity of methods should not be too high", Justification = "Branchy but simple.")]
         public static object ToTypeDefault(this IConvertible value, Type targetType, IFormatProvider? provider)
         {
@@ -50,7 +69,6 @@ namespace Jodo.Primitives
             if (targetType == null) throw new ArgumentNullException(nameof(targetType));
 
             if (ReferenceEquals(value.GetType(), targetType)) return value;
-
             if (ReferenceEquals(targetType, BooleanType)) return value.ToBoolean(provider);
             if (ReferenceEquals(targetType, CharType)) return value.ToChar(provider);
             if (ReferenceEquals(targetType, SByteType)) return value.ToSByte(provider);
@@ -68,6 +86,9 @@ namespace Jodo.Primitives
             if (ReferenceEquals(targetType, StringType)) return value.ToString(provider);
             if (ReferenceEquals(targetType, ObjectType)) return value;
             if (ReferenceEquals(targetType, EnumType)) return (Enum)value;
+
+            // This method is intended to be a default implementation for ToType(...),
+            // so do not call ToType(...) in this method.
 
             throw new InvalidCastException($"Invalid cast from '{value.GetType().FullName}' to '{targetType.FullName}'.");
         }

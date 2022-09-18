@@ -46,7 +46,7 @@ namespace Jodo.Geometry.Tests
         public void Width_RandomValue_SameAsDimensionsX()
         {
             //arrange
-            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.AnyMagnitude);
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Variants.AnyMagnitude);
             TNumeric expected = subject.Dimensions.X;
 
             //act
@@ -60,7 +60,7 @@ namespace Jodo.Geometry.Tests
         public void Height_RandomValue_SameAsDimensionsY()
         {
             //arrange
-            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.AnyMagnitude);
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Variants.AnyMagnitude);
             TNumeric expected = subject.Dimensions.Y;
 
             //act
@@ -74,7 +74,7 @@ namespace Jodo.Geometry.Tests
         public void Area_RandomValue_SameAsWidthTimesHeight()
         {
             //arrange
-            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Variants.LowMagnitude);
             TNumeric expected = MathN.Abs(subject.Width.Multiply(subject.Height));
 
             //act
@@ -88,8 +88,8 @@ namespace Jodo.Geometry.Tests
         public void Translate_RandomValue_SameAsAddingToOrigin()
         {
             //arrange
-            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
-            Vector2N<TNumeric> delta = Random.NextVariant<Vector2N<TNumeric>>(Scenarios.LowMagnitude);
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> delta = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -102,7 +102,7 @@ namespace Jodo.Geometry.Tests
         public void Translate_RandomValue_DimensionsAreUnchanged()
         {
             //arrange
-            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -115,7 +115,7 @@ namespace Jodo.Geometry.Tests
         public void Translate_RandomValue_AngleIsUnchanged()
         {
             //arrange
-            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Scenarios.LowMagnitude);
+            Rectangle<TNumeric> subject = Random.NextVariant<Rectangle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert

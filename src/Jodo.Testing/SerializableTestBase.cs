@@ -36,7 +36,7 @@ namespace Jodo.Testing
         public void Serialize_RoundTrip_SameAsOriginal()
         {
             //arrange
-            T input = Random.NextVariant<T>(Scenarios.NonError);
+            T input = Random.NextVariant<T>(Variants.NonError);
             BinaryFormatter formatter = new BinaryFormatter();
 
             //act

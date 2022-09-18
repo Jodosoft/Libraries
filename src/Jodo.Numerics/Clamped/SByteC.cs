@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -57,10 +56,10 @@ namespace Jodo.Numerics.Clamped
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out SByteC result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SByteC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out SByteC result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out SByteC result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out SByteC result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SByteC result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out SByteC result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out SByteC result) => FuncExtensions.Try(() => Parse(s), out result);
         public static SByteC Parse(string s) => sbyte.Parse(s);
         public static SByteC Parse(string s, IFormatProvider? provider) => sbyte.Parse(s, provider);
         public static SByteC Parse(string s, NumberStyles style) => sbyte.Parse(s, style);
@@ -261,13 +260,13 @@ namespace Jodo.Numerics.Clamped
             SByteC INumericStatic<SByteC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
-            SByteC INumericRandom<SByteC>.Next(Random random) => random.NextSByte();
-            SByteC INumericRandom<SByteC>.Next(Random random, SByteC maxValue) => random.NextSByte(maxValue);
-            SByteC INumericRandom<SByteC>.Next(Random random, SByteC minValue, SByteC maxValue) => random.NextSByte(minValue, maxValue);
-            SByteC INumericRandom<SByteC>.Next(Random random, Generation mode) => random.NextSByte(mode);
-            SByteC INumericRandom<SByteC>.Next(Random random, SByteC minValue, SByteC maxValue, Generation mode) => random.NextSByte(minValue, maxValue, mode);
+            SByteC INumericRandom<SByteC>.Generate(Random random) => random.NextSByte();
+            SByteC INumericRandom<SByteC>.Generate(Random random, SByteC maxValue) => random.NextSByte(maxValue);
+            SByteC INumericRandom<SByteC>.Generate(Random random, SByteC minValue, SByteC maxValue) => random.NextSByte(minValue, maxValue);
+            SByteC INumericRandom<SByteC>.Generate(Random random, Generation mode) => random.NextSByte(mode);
+            SByteC INumericRandom<SByteC>.Generate(Random random, SByteC minValue, SByteC maxValue, Generation mode) => random.NextSByte(minValue, maxValue, mode);
 
-            SByteC IVariantRandom<SByteC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<SByteC>(random, scenarios);
+            SByteC IVariantRandom<SByteC>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<SByteC>(random, scenarios);
         }
     }
 }

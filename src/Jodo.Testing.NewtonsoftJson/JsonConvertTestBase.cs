@@ -31,7 +31,7 @@ namespace Jodo.Testing.NewtonsoftJson
         public void SerializeObject_RandomVariantFromJson_CanRoundTrip()
         {
             //arrange
-            T input = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Scenarios.LowMagnitude)));
+            T input = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Variants.LowMagnitude)));
 
             //act
             T result = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(input));
@@ -45,9 +45,9 @@ namespace Jodo.Testing.NewtonsoftJson
         {
             //arrange
             T[] inputs = new T[] {
-                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Scenarios.LowMagnitude))),
-                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Scenarios.LowMagnitude))),
-                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Scenarios.LowMagnitude)))
+                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Variants.LowMagnitude))),
+                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Variants.LowMagnitude))),
+                JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(Random.NextVariant<T>(Variants.LowMagnitude)))
             };
 
             //act

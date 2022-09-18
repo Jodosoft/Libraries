@@ -75,7 +75,7 @@ namespace Jodo.Testing
 
             for (int i = 1; i < outcomes.Count; i++)
             {
-                VerifyOutcomes(outcomes[0], outcomes[i]);
+                VerifyOutcomes(outcomes[0], outcomes[i], i);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Jodo.Testing
 
             for (int i = 1; i < results.Count; i++)
             {
-                VerifyResults(results[0], results[i]);
+                VerifyResults(results[0], results[i], i);
             }
         }
 
@@ -157,36 +157,39 @@ namespace Jodo.Testing
             }
         }
 
-        private static void VerifyOutcomes<TResult>((TResult Result, Exception Exception) outcome1, (TResult Result, Exception Exception) outcome2)
+        private static void VerifyOutcomes<TResult>((TResult Result, Exception Exception) outcome1, (TResult Result, Exception Exception) outcome2, int position)
         {
-            Exception expectedException = outcome1.Exception ?? outcome2.Exception;
+            Exception expectedException = outcome1.Exception;
 
             if (expectedException != null)
             {
                 if (outcome1.Exception == null || outcome2.Exception == null)
                 {
-                    Assert.Fail("Expected a <{0}> to be thrown but no exception was thrown.", expectedException.GetType().Name);
+                    Assert.Fail("Expected a <{0}> to be thrown by function at position <{1}>, but no exception was thrown.",
+                        expectedException.GetType().Name, position);
                 }
 
                 if (outcome1.Exception.GetType() != expectedException.GetType())
                 {
-                    Assert.Fail("Expected a <{0}> to be thrown but found <{1}>", expectedException.GetType().Name, outcome1.Exception.GetType().Name);
+                    Assert.Fail("Expected a <{0}> to be thrown by function at position <{1}> but found <{2}>",
+                        expectedException.GetType().Name, position, outcome1.Exception.GetType().Name);
                 }
 
                 if (outcome2.Exception.GetType() != expectedException.GetType())
                 {
-                    Assert.Fail("Expected a <{0}> to be thrown but found <{1}>", expectedException.GetType().Name, outcome2.Exception.GetType().Name);
+                    Assert.Fail("Expected a <{0}> to be thrown by function at position <{1}> but found <{2}>",
+                        expectedException.GetType().Name, position, outcome2.Exception.GetType().Name);
                 }
             }
 
-            VerifyResults(outcome1.Result, outcome2.Result);
+            VerifyResults(outcome1.Result, outcome2.Result, position);
         }
 
-        private static void VerifyResults<TResult>(TResult value1, TResult value2)
+        private static void VerifyResults<TResult>(TResult value1, TResult value2, int position)
         {
             if (!BothNaN(value1, value2))
             {
-                value2.Should().Be(value1);
+                value2.Should().Be(value1, "the value returned by function at position <{0}> should match the value returned by the other functions", position);
             }
         }
 

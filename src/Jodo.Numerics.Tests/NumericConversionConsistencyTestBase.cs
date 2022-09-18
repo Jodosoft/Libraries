@@ -58,7 +58,7 @@ namespace Jodo.Numerics.Tests
         public void FromByteCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            byte value = Random.NextVariant<ByteN>(Scenarios.All);
+            byte value = Random.NextVariant<ByteN>(Variants.All);
 
             //act
             //assert
@@ -71,7 +71,7 @@ namespace Jodo.Numerics.Tests
         public void FromByteConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            byte value = Random.NextVariant<ByteN>(Scenarios.All);
+            byte value = Random.NextVariant<ByteN>(Variants.All);
 
             //act
             //assert
@@ -112,7 +112,7 @@ namespace Jodo.Numerics.Tests
         public void FromSByteCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            sbyte value = Random.NextVariant<SByteN>(Scenarios.All);
+            sbyte value = Random.NextVariant<SByteN>(Variants.All);
 
             //act
             //assert
@@ -125,7 +125,7 @@ namespace Jodo.Numerics.Tests
         public void FromSByteConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            sbyte value = Random.NextVariant<SByteN>(Scenarios.All);
+            sbyte value = Random.NextVariant<SByteN>(Variants.All);
 
             //act
             //assert
@@ -166,7 +166,7 @@ namespace Jodo.Numerics.Tests
         public void FromInt16CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            short value = Random.NextVariant<Int16N>(Scenarios.All);
+            short value = Random.NextVariant<Int16N>(Variants.All);
 
             //act
             //assert
@@ -179,7 +179,7 @@ namespace Jodo.Numerics.Tests
         public void FromInt16ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            short value = Random.NextVariant<Int16N>(Scenarios.All);
+            short value = Random.NextVariant<Int16N>(Variants.All);
 
             //act
             //assert
@@ -220,7 +220,7 @@ namespace Jodo.Numerics.Tests
         public void FromUInt16CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            ushort value = Random.NextVariant<UInt16N>(Scenarios.All);
+            ushort value = Random.NextVariant<UInt16N>(Variants.All);
 
             //act
             //assert
@@ -233,7 +233,7 @@ namespace Jodo.Numerics.Tests
         public void FromUInt16ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            ushort value = Random.NextVariant<UInt16N>(Scenarios.All);
+            ushort value = Random.NextVariant<UInt16N>(Variants.All);
 
             //act
             //assert
@@ -274,7 +274,7 @@ namespace Jodo.Numerics.Tests
         public void FromInt32CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            int value = Random.NextVariant<Int32N>(Scenarios.All);
+            int value = Random.NextVariant<Int32N>(Variants.All);
 
             //act
             //assert
@@ -287,7 +287,7 @@ namespace Jodo.Numerics.Tests
         public void FromInt32ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            int value = Random.NextVariant<Int32N>(Scenarios.All);
+            int value = Random.NextVariant<Int32N>(Variants.All);
 
             //act
             //assert
@@ -328,7 +328,7 @@ namespace Jodo.Numerics.Tests
         public void FromUInt32CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            uint value = Random.NextVariant<UInt32N>(Scenarios.All);
+            uint value = Random.NextVariant<UInt32N>(Variants.All);
 
             //act
             //assert
@@ -341,7 +341,7 @@ namespace Jodo.Numerics.Tests
         public void FromUInt32ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            uint value = Random.NextVariant<UInt32N>(Scenarios.All);
+            uint value = Random.NextVariant<UInt32N>(Variants.All);
 
             //act
             //assert
@@ -382,7 +382,7 @@ namespace Jodo.Numerics.Tests
         public void FromInt64CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            long value = Random.NextVariant<Int64N>(Scenarios.All);
+            long value = Random.NextVariant<Int64N>(Variants.All);
 
             //act
             //assert
@@ -395,7 +395,7 @@ namespace Jodo.Numerics.Tests
         public void FromInt64ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            long value = Random.NextVariant<Int64N>(Scenarios.All);
+            long value = Random.NextVariant<Int64N>(Variants.All);
 
             //act
             //assert
@@ -436,7 +436,7 @@ namespace Jodo.Numerics.Tests
         public void FromUInt64CastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            ulong value = Random.NextVariant<UInt64N>(Scenarios.All);
+            ulong value = Random.NextVariant<UInt64N>(Variants.All);
 
             //act
             //assert
@@ -449,7 +449,7 @@ namespace Jodo.Numerics.Tests
         public void FromUInt64ConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            ulong value = Random.NextVariant<UInt64N>(Scenarios.All);
+            ulong value = Random.NextVariant<UInt64N>(Variants.All);
 
             //act
             //assert
@@ -490,7 +490,7 @@ namespace Jodo.Numerics.Tests
         public void FromSingleCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            float value = Random.NextVariant<SingleN>(Scenarios.All);
+            float value = Random.NextVariant<SingleN>(Variants.All);
 
             //act
             //assert
@@ -503,7 +503,7 @@ namespace Jodo.Numerics.Tests
         public void FromSingleConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            float value = Random.NextVariant<SingleN>(Scenarios.All);
+            float value = Random.NextVariant<SingleN>(Variants.All);
 
             //act
             //assert
@@ -544,7 +544,7 @@ namespace Jodo.Numerics.Tests
         public void FromDoubleCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            double value = Random.NextVariant<DoubleN>(Scenarios.All);
+            double value = Random.NextVariant<DoubleN>(Variants.All);
 
             //act
             //assert
@@ -557,7 +557,7 @@ namespace Jodo.Numerics.Tests
         public void FromDoubleConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            double value = Random.NextVariant<DoubleN>(Scenarios.All);
+            double value = Random.NextVariant<DoubleN>(Variants.All);
 
             //act
             //assert
@@ -598,7 +598,7 @@ namespace Jodo.Numerics.Tests
         public void FromDecimalCastMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            decimal value = Random.NextVariant<DecimalN>(Scenarios.All);
+            decimal value = Random.NextVariant<DecimalN>(Variants.All);
 
             //act
             //assert
@@ -611,7 +611,7 @@ namespace Jodo.Numerics.Tests
         public void FromDecimalConvertMethods_RandomValues_ConsistentResults()
         {
             //arrange
-            decimal value = Random.NextVariant<DecimalN>(Scenarios.All);
+            decimal value = Random.NextVariant<DecimalN>(Variants.All);
 
             //act
             //assert

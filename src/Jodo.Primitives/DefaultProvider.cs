@@ -17,21 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-
 namespace Jodo.Primitives
 {
-    [Flags]
-    public enum Scenarios : byte
+    public static class DefaultProvider<TProvider, T> where TProvider : struct, IProvider<T>
     {
-        None = 0,
-        Defaults = 1,
-        LowMagnitude = 2,
-        AnyMagnitude = 4,
-        Extremes = 8,
-        Errors = 16,
-
-        All = Defaults | LowMagnitude | AnyMagnitude | Extremes | Errors,
-        NonError = Defaults | LowMagnitude | AnyMagnitude | Extremes,
+        public static readonly T Instance = default(TProvider).GetInstance();
     }
 }

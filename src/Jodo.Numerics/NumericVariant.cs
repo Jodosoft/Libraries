@@ -25,26 +25,26 @@ namespace Jodo.Numerics
 {
     public static class NumericVariant
     {
-        public static TNumeric Generate<TNumeric>(Random random, Scenarios scenarios) where TNumeric : struct, INumeric<TNumeric>
+        public static TNumeric Generate<TNumeric>(Random random, Variants scenarios) where TNumeric : struct, INumeric<TNumeric>
         {
             List<Func<TNumeric>> factories = new List<Func<TNumeric>>();
 
-            if (scenarios.HasFlag(Scenarios.Defaults))
+            if (scenarios.HasFlag(Variants.Defaults))
                 factories.Add(() => default);
 
-            if (scenarios.HasFlag(Scenarios.LowMagnitude))
+            if (scenarios.HasFlag(Variants.LowMagnitude))
                 factories.Add(() => GenerateLowMagnitude<TNumeric>(random));
 
-            if (scenarios.HasFlag(Scenarios.AnyMagnitude))
+            if (scenarios.HasFlag(Variants.AnyMagnitude))
                 factories.Add(() => random.NextNumeric<TNumeric>(Generation.Extended));
 
-            if (scenarios.HasFlag(Scenarios.Extremes))
+            if (scenarios.HasFlag(Variants.Boundaries))
             {
                 factories.Add(() => Numeric.MaxValue<TNumeric>());
                 factories.Add(() => Numeric.MinValue<TNumeric>());
             }
 
-            if (scenarios.HasFlag(Scenarios.Errors))
+            if (scenarios.HasFlag(Variants.Errors))
             {
                 if (Numeric.HasNaN<TNumeric>()) factories.Add(() => ConvertN.ToNumeric<TNumeric>(double.NaN, Conversion.Cast));
 

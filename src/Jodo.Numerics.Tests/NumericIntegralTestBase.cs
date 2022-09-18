@@ -192,7 +192,7 @@ namespace Jodo.Numerics.Tests
         public void Parse_RandomValue_RoundTrip()
         {
             //arrange
-            TNumeric input = Random.NextVariant<TNumeric>(Scenarios.All);
+            TNumeric input = Random.NextVariant<TNumeric>(Variants.All);
 
             //act
             TNumeric result = Numeric.Parse<TNumeric>(input.ToString());

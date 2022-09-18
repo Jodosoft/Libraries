@@ -31,125 +31,125 @@ namespace Jodo.Numerics
     {
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool ToBoolean<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToBoolean(value);
+        public static bool ToBoolean<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToBoolean(value);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string ToString<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToString(value);
+        public static string ToString<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToString(value);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(bool value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value);
+        public static TNumeric ToNumeric<TNumeric>(bool value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(byte value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(byte value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(byte value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(byte value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(decimal value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(decimal value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(decimal value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(decimal value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(double value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(double value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(double value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(double value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(float value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(float value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(float value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(float value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(int value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(int value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(int value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(int value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(long value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(long value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(long value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(long value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(short value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(short value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(short value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(short value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(string value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToNumeric(value);
-
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [CLSCompliant(false)]
-        public static TNumeric ToNumeric<TNumeric>(sbyte value) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToValue(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(string value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToNumeric(value);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static TNumeric ToNumeric<TNumeric>(sbyte value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToValue(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(sbyte value) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToValue(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static TNumeric ToNumeric<TNumeric>(uint value) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(sbyte value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToValue(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static TNumeric ToNumeric<TNumeric>(uint value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(uint value) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static TNumeric ToNumeric<TNumeric>(ulong value) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(uint value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static TNumeric ToNumeric<TNumeric>(ulong value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(ulong value) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static TNumeric ToNumeric<TNumeric>(ushort value) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToNumeric(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(ulong value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static TNumeric ToNumeric<TNumeric>(ushort value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToNumeric(value, mode);
+        public static TNumeric ToNumeric<TNumeric>(ushort value) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToNumeric(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static sbyte ToSByte<TNumeric>(TNumeric value) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToSByte(value, Conversion.Default);
+        public static TNumeric ToNumeric<TNumeric>(ushort value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToNumeric(value, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static sbyte ToSByte<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToSByte(value, mode);
+        public static sbyte ToSByte<TNumeric>(TNumeric value) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToSByte(value, Conversion.Default);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [CLSCompliant(false)]
+        public static sbyte ToSByte<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToSByte(value, mode);
 
         [CLSCompliant(false)]
         public static sbyte ToSByte(ushort value, Conversion mode) => mode switch
@@ -254,12 +254,12 @@ namespace Jodo.Numerics
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static ushort ToUInt16<TNumeric>(TNumeric value) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToUInt16(value, Conversion.Default);
+        public static ushort ToUInt16<TNumeric>(TNumeric value) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToUInt16(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static ushort ToUInt16<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToUInt16(value, mode);
+        public static ushort ToUInt16<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToUInt16(value, mode);
 
         [CLSCompliant(false)]
         public static ushort ToUInt16(sbyte value, Conversion mode) => mode switch
@@ -357,12 +357,12 @@ namespace Jodo.Numerics
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static uint ToUInt32<TNumeric>(TNumeric value) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToUInt32(value, Conversion.Default);
+        public static uint ToUInt32<TNumeric>(TNumeric value) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToUInt32(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static uint ToUInt32<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToUInt32(value, mode);
+        public static uint ToUInt32<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToUInt32(value, mode);
 
         [CLSCompliant(false)]
         public static uint ToUInt32(sbyte value, Conversion mode) => mode switch
@@ -453,12 +453,12 @@ namespace Jodo.Numerics
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static ulong ToUInt64<TNumeric>(TNumeric value) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToUInt64(value, Conversion.Default);
+        public static ulong ToUInt64<TNumeric>(TNumeric value) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToUInt64(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
-        public static ulong ToUInt64<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => Provider<TNumeric, IConvertExtended<TNumeric>>.Default.ToUInt64(value, mode);
+        public static ulong ToUInt64<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumericExtended<TNumeric> => DefaultProvider<TNumeric, IConvertExtended<TNumeric>>.Instance.ToUInt64(value, mode);
 
         [CLSCompliant(false)]
         public static ulong ToUInt64(sbyte value, Conversion mode) => mode switch
@@ -541,11 +541,11 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte ToByte<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToByte(value, Conversion.Default);
+        public static byte ToByte<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToByte(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte ToByte<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToByte(value, mode);
+        public static byte ToByte<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToByte(value, mode);
 
         [CLSCompliant(false)]
         public static byte ToByte(sbyte value, Conversion mode) => mode switch
@@ -643,11 +643,11 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short ToInt16<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToInt16(value, Conversion.Default);
+        public static short ToInt16<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToInt16(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short ToInt16<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToInt16(value, mode);
+        public static short ToInt16<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToInt16(value, mode);
 
         [CLSCompliant(false)]
         public static short ToInt16(sbyte value, Conversion _) => value;
@@ -731,11 +731,11 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ToInt32<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToInt32(value, Conversion.Default);
+        public static int ToInt32<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToInt32(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ToInt32<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToInt32(value, mode);
+        public static int ToInt32<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToInt32(value, mode);
 
         [CLSCompliant(false)]
         public static int ToInt32(sbyte value, Conversion _) => value;
@@ -805,11 +805,11 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToInt64<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToInt64(value, Conversion.Default);
+        public static long ToInt64<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToInt64(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToInt64<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToInt64(value, mode);
+        public static long ToInt64<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToInt64(value, mode);
 
         [CLSCompliant(false)]
         public static long ToInt64(sbyte value, Conversion _) => value;
@@ -865,11 +865,11 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ToSingle<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToSingle(value, Conversion.Default);
+        public static float ToSingle<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToSingle(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ToSingle<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToSingle(value, mode);
+        public static float ToSingle<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToSingle(value, mode);
 
         [CLSCompliant(false)]
         public static float ToSingle(sbyte value, Conversion _) => value;
@@ -911,11 +911,11 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ToDouble<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToDouble(value, Conversion.Default);
+        public static double ToDouble<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToDouble(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ToDouble<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToDouble(value, mode);
+        public static double ToDouble<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToDouble(value, mode);
 
         [CLSCompliant(false)]
         public static double ToDouble(sbyte value, Conversion _) => value;
@@ -957,11 +957,11 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static decimal ToDecimal<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToDecimal(value, Conversion.Default);
+        public static decimal ToDecimal<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToDecimal(value, Conversion.Default);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static decimal ToDecimal<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IConvert<TNumeric>>.Default.ToDecimal(value, mode);
+        public static decimal ToDecimal<TNumeric>(TNumeric value, Conversion mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IConvert<TNumeric>>.Instance.ToDecimal(value, mode);
 
         [CLSCompliant(false)]
         public static decimal ToDecimal(sbyte value, Conversion _) => value;

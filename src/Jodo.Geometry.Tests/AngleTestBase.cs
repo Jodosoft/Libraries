@@ -155,8 +155,8 @@ namespace Jodo.Geometry.Tests
         public void GreaterThanMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.NonError);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Scenarios.NonError);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
+            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
 
             //act
             //assert
@@ -171,8 +171,8 @@ namespace Jodo.Geometry.Tests
         public void GreaterThanOrEqualToMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.NonError);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Scenarios.NonError);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
+            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
 
             //act
             //assert
@@ -187,8 +187,8 @@ namespace Jodo.Geometry.Tests
         public void LessThanMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.NonError);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Scenarios.NonError);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
+            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
 
             //act
             //assert
@@ -203,8 +203,8 @@ namespace Jodo.Geometry.Tests
         public void LessThanOrEqualToMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.NonError);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Scenarios.NonError);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
+            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
 
             //act
             //assert
@@ -219,8 +219,8 @@ namespace Jodo.Geometry.Tests
         public void AdditionMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
+            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -233,8 +233,8 @@ namespace Jodo.Geometry.Tests
         public void SubtractionMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
+            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -247,7 +247,7 @@ namespace Jodo.Geometry.Tests
         public void DivisionMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
             Angle<TNumeric> input2 = Angle.FromDegrees(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(1), ConvertN.ToNumeric<TNumeric>(10), Generation.Extended));
 
             //act
@@ -261,8 +261,8 @@ namespace Jodo.Geometry.Tests
         public void MultiplicationMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
+            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -275,7 +275,7 @@ namespace Jodo.Geometry.Tests
         public void RemainderMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
             Angle<TNumeric> input2 = Angle.FromDegrees(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(1), ConvertN.ToNumeric<TNumeric>(10), Generation.Extended));
 
             //act
@@ -289,7 +289,7 @@ namespace Jodo.Geometry.Tests
         public void UnaryPlusMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+            Angle<TNumeric> input = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -302,7 +302,7 @@ namespace Jodo.Geometry.Tests
         public void UnaryMinusMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input = Random.NextVariant<Angle<TNumeric>>(Scenarios.LowMagnitude);
+            Angle<TNumeric> input = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
@@ -315,7 +315,7 @@ namespace Jodo.Geometry.Tests
         public void FromRadians_RandomValue_SameAsMathN()
         {
             //arrange
-            TNumeric radians = Random.NextVariant<TNumeric>(Scenarios.LowMagnitude);
+            TNumeric radians = Random.NextVariant<TNumeric>(Variants.LowMagnitude);
 
             //act
             //assert

@@ -64,17 +64,18 @@ namespace Jodo.Primitives
             return (TEnum)values.GetValue(random.Next(0, values.Length));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool NextBoolean(this Random random)
             => random.Next(0, 2) == 1;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T NextVariant<T>(this Random random) where T : struct, IProvider<IVariantRandom<T>>
-            => Provider<T, IVariantRandom<T>>.Default.Next(random, Scenarios.All);
+            => DefaultProvider<T, IVariantRandom<T>>.Instance.Generate(random, Variants.All);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T NextVariant<T>(this Random random, Scenarios scenarios) where T : struct, IProvider<IVariantRandom<T>>
-            => Provider<T, IVariantRandom<T>>.Default.Next(random, scenarios);
+        public static T NextVariant<T>(this Random random, Variants scenarios) where T : struct, IProvider<IVariantRandom<T>>
+            => DefaultProvider<T, IVariantRandom<T>>.Instance.Generate(random, scenarios);
     }
 }

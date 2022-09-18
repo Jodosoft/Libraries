@@ -18,17 +18,15 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Numerics
 {
-    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Consistency with System.Random.Next")]
     public interface INumericRandom<TNumeric>
     {
-        TNumeric Next(Random random);
-        TNumeric Next(Random random, TNumeric maxValue);
-        TNumeric Next(Random random, TNumeric minValue, TNumeric maxValue);
-        TNumeric Next(Random random, Generation mode);
-        TNumeric Next(Random random, TNumeric minValue, TNumeric maxValue, Generation mode);
+        TNumeric Generate(Random random);
+        TNumeric Generate(Random random, TNumeric maxValue);
+        TNumeric Generate(Random random, TNumeric minValue, TNumeric maxValue);
+        TNumeric Generate(Random random, Generation mode);
+        TNumeric Generate(Random random, TNumeric minValue, TNumeric maxValue, Generation mode);
     }
 }

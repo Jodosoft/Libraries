@@ -21,22 +21,17 @@ using System;
 
 namespace Jodo.Primitives
 {
-    public static class TryHelper
+    [Flags]
+    public enum Variants : byte
     {
-        public static bool Run<TResult>(Func<TResult> function, out TResult result)
-        {
-            try
-            {
-                result = function();
-                return true;
-            }
-            catch (Exception)
-            {
-#nullable disable
-                result = default;
-#nullable restore
-                return false;
-            }
-        }
+        None = 0,
+        Defaults = 1,
+        LowMagnitude = 2,
+        AnyMagnitude = 4,
+        Boundaries = 8,
+        Errors = 16,
+
+        All = Defaults | LowMagnitude | AnyMagnitude | Boundaries | Errors,
+        NonError = Defaults | LowMagnitude | AnyMagnitude | Boundaries,
     }
 }

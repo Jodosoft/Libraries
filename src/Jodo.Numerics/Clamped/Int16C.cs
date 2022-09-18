@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -57,10 +56,10 @@ namespace Jodo.Numerics.Clamped
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out Int16C result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Int16C result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out Int16C result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out Int16C result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out Int16C result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Int16C result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out Int16C result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out Int16C result) => FuncExtensions.Try(() => Parse(s), out result);
         public static Int16C Parse(string s) => short.Parse(s);
         public static Int16C Parse(string s, IFormatProvider? provider) => short.Parse(s, provider);
         public static Int16C Parse(string s, NumberStyles style) => short.Parse(s, style);
@@ -261,13 +260,13 @@ namespace Jodo.Numerics.Clamped
             Int16C INumericStatic<Int16C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
-            Int16C INumericRandom<Int16C>.Next(Random random) => random.NextInt16();
-            Int16C INumericRandom<Int16C>.Next(Random random, Int16C maxValue) => random.NextInt16(maxValue);
-            Int16C INumericRandom<Int16C>.Next(Random random, Int16C minValue, Int16C maxValue) => random.NextInt16(minValue, maxValue);
-            Int16C INumericRandom<Int16C>.Next(Random random, Generation mode) => random.NextInt16(mode);
-            Int16C INumericRandom<Int16C>.Next(Random random, Int16C minValue, Int16C maxValue, Generation mode) => random.NextInt16(minValue, maxValue, mode);
+            Int16C INumericRandom<Int16C>.Generate(Random random) => random.NextInt16();
+            Int16C INumericRandom<Int16C>.Generate(Random random, Int16C maxValue) => random.NextInt16(maxValue);
+            Int16C INumericRandom<Int16C>.Generate(Random random, Int16C minValue, Int16C maxValue) => random.NextInt16(minValue, maxValue);
+            Int16C INumericRandom<Int16C>.Generate(Random random, Generation mode) => random.NextInt16(mode);
+            Int16C INumericRandom<Int16C>.Generate(Random random, Int16C minValue, Int16C maxValue, Generation mode) => random.NextInt16(minValue, maxValue, mode);
 
-            Int16C IVariantRandom<Int16C>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<Int16C>(random, scenarios);
+            Int16C IVariantRandom<Int16C>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<Int16C>(random, scenarios);
         }
     }
 }

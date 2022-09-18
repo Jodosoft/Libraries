@@ -66,10 +66,10 @@ namespace Jodo.Numerics.Clamped
 
         public static bool IsNormal(DoubleC d) => DoubleShim.IsNormal(d._value);
         public static bool IsSubnormal(DoubleC d) => DoubleShim.IsSubnormal(d._value);
-        public static bool TryParse(string s, IFormatProvider? provider, out DoubleC result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out DoubleC result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out DoubleC result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out DoubleC result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleC result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out DoubleC result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out DoubleC result) => FuncExtensions.Try(() => Parse(s), out result);
         public static DoubleC Parse(string s) => double.Parse(s);
         public static DoubleC Parse(string s, IFormatProvider? provider) => double.Parse(s, provider);
         public static DoubleC Parse(string s, NumberStyles style) => double.Parse(s, style);
@@ -278,13 +278,13 @@ namespace Jodo.Numerics.Clamped
             DoubleC INumericStatic<DoubleC>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
 
-            DoubleC INumericRandom<DoubleC>.Next(Random random) => random.NextDouble();
-            DoubleC INumericRandom<DoubleC>.Next(Random random, DoubleC maxValue) => random.NextDouble(maxValue);
-            DoubleC INumericRandom<DoubleC>.Next(Random random, DoubleC minValue, DoubleC maxValue) => random.NextDouble(minValue, maxValue);
-            DoubleC INumericRandom<DoubleC>.Next(Random random, Generation mode) => random.NextDouble(mode);
-            DoubleC INumericRandom<DoubleC>.Next(Random random, DoubleC minValue, DoubleC maxValue, Generation mode) => random.NextDouble(minValue, maxValue, mode);
+            DoubleC INumericRandom<DoubleC>.Generate(Random random) => random.NextDouble();
+            DoubleC INumericRandom<DoubleC>.Generate(Random random, DoubleC maxValue) => random.NextDouble(maxValue);
+            DoubleC INumericRandom<DoubleC>.Generate(Random random, DoubleC minValue, DoubleC maxValue) => random.NextDouble(minValue, maxValue);
+            DoubleC INumericRandom<DoubleC>.Generate(Random random, Generation mode) => random.NextDouble(mode);
+            DoubleC INumericRandom<DoubleC>.Generate(Random random, DoubleC minValue, DoubleC maxValue, Generation mode) => random.NextDouble(minValue, maxValue, mode);
 
-            DoubleC IVariantRandom<DoubleC>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DoubleC>(random, scenarios);
+            DoubleC IVariantRandom<DoubleC>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<DoubleC>(random, scenarios);
         }
     }
 }

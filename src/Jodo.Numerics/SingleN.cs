@@ -66,10 +66,10 @@ namespace Jodo.Numerics
         public static bool IsPositiveInfinity(SingleN f) => float.IsPositiveInfinity(f);
         public static bool IsSubnormal(SingleN f) => SingleShim.IsSubnormal(f);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out SingleN result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SingleN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out SingleN result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out SingleN result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out SingleN result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SingleN result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out SingleN result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out SingleN result) => FuncExtensions.Try(() => Parse(s), out result);
         public static SingleN Parse(string s) => float.Parse(s);
         public static SingleN Parse(string s, IFormatProvider? provider) => float.Parse(s, provider);
         public static SingleN Parse(string s, NumberStyles style) => float.Parse(s, style);
@@ -270,13 +270,13 @@ namespace Jodo.Numerics
             SingleN INumericStatic<SingleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
 
-            SingleN INumericRandom<SingleN>.Next(Random random) => random.NextSingle();
-            SingleN INumericRandom<SingleN>.Next(Random random, SingleN maxValue) => random.NextSingle(maxValue);
-            SingleN INumericRandom<SingleN>.Next(Random random, SingleN minValue, SingleN maxValue) => random.NextSingle(minValue, maxValue);
-            SingleN INumericRandom<SingleN>.Next(Random random, Generation mode) => random.NextSingle(mode);
-            SingleN INumericRandom<SingleN>.Next(Random random, SingleN minValue, SingleN maxValue, Generation mode) => random.NextSingle(minValue, maxValue, mode);
+            SingleN INumericRandom<SingleN>.Generate(Random random) => random.NextSingle();
+            SingleN INumericRandom<SingleN>.Generate(Random random, SingleN maxValue) => random.NextSingle(maxValue);
+            SingleN INumericRandom<SingleN>.Generate(Random random, SingleN minValue, SingleN maxValue) => random.NextSingle(minValue, maxValue);
+            SingleN INumericRandom<SingleN>.Generate(Random random, Generation mode) => random.NextSingle(mode);
+            SingleN INumericRandom<SingleN>.Generate(Random random, SingleN minValue, SingleN maxValue, Generation mode) => random.NextSingle(minValue, maxValue, mode);
 
-            SingleN IVariantRandom<SingleN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<SingleN>(random, scenarios);
+            SingleN IVariantRandom<SingleN>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<SingleN>(random, scenarios);
         }
     }
 }

@@ -1,1 +1,1 @@
-﻿Provides low-level structs and utilities used throughout the Jodo packages.
+﻿Provides miscellaneous utilities used by the Jodo packages.

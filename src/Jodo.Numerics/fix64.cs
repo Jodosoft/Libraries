@@ -60,10 +60,10 @@ namespace Jodo.Numerics
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out Fix64 result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Fix64 result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out Fix64 result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out Fix64 result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out Fix64 result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Fix64 result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out Fix64 result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out Fix64 result) => FuncExtensions.Try(() => Parse(s), out result);
         public static Fix64 Parse(string s) => new Fix64(ScaledMath.Parse(s, ScalingFactor, null, null));
         public static Fix64 Parse(string s, IFormatProvider? provider) => new Fix64(ScaledMath.Parse(s, ScalingFactor, null, provider));
         public static Fix64 Parse(string s, NumberStyles style) => (Fix64)double.Parse(s, style);
@@ -289,13 +289,13 @@ namespace Jodo.Numerics
             Fix64 INumericStatic<Fix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
 
-            Fix64 INumericRandom<Fix64>.Next(Random random) => new Fix64(random.NextInt64(ScalingFactor));
-            Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 maxValue) => new Fix64(random.NextInt64(maxValue._scaledValue));
-            Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 minValue, Fix64 maxValue) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue));
-            Fix64 INumericRandom<Fix64>.Next(Random random, Generation mode) => new Fix64(random.NextInt64(mode == Generation.Extended ? long.MinValue : 0, mode == Generation.Extended ? long.MaxValue : ScalingFactor, mode));
-            Fix64 INumericRandom<Fix64>.Next(Random random, Fix64 minValue, Fix64 maxValue, Generation mode) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
+            Fix64 INumericRandom<Fix64>.Generate(Random random) => new Fix64(random.NextInt64(ScalingFactor));
+            Fix64 INumericRandom<Fix64>.Generate(Random random, Fix64 maxValue) => new Fix64(random.NextInt64(maxValue._scaledValue));
+            Fix64 INumericRandom<Fix64>.Generate(Random random, Fix64 minValue, Fix64 maxValue) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue));
+            Fix64 INumericRandom<Fix64>.Generate(Random random, Generation mode) => new Fix64(random.NextInt64(mode == Generation.Extended ? long.MinValue : 0, mode == Generation.Extended ? long.MaxValue : ScalingFactor, mode));
+            Fix64 INumericRandom<Fix64>.Generate(Random random, Fix64 minValue, Fix64 maxValue, Generation mode) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
-            Fix64 IVariantRandom<Fix64>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<Fix64>(random, scenarios);
+            Fix64 IVariantRandom<Fix64>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<Fix64>(random, scenarios);
         }
     }
 }

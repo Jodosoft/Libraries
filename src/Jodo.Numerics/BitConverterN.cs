@@ -36,7 +36,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric ToNumeric<TNumeric>(byte[] value, int startIndex) where TNumeric : struct, INumeric<TNumeric>
         {
-            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.ToNumeric(value, startIndex);
+            return DefaultProvider<TNumeric, INumericBitConverter<TNumeric>>.Instance.ToNumeric(value, startIndex);
         }
 
         /// <inheritdoc cref="INumericBitConverter{TNumeric}.GetBytes(TNumeric)"/>
@@ -44,7 +44,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte[] GetBytes<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.GetBytes(value);
+            return DefaultProvider<TNumeric, INumericBitConverter<TNumeric>>.Instance.GetBytes(value);
         }
 
         /// <inheritdoc cref="INumericBitConverter{TNumeric}.ConvertedSize"/>
@@ -52,7 +52,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ConvertedSize<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
         {
-            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.ConvertedSize;
+            return DefaultProvider<TNumeric, INumericBitConverter<TNumeric>>.Instance.ConvertedSize;
         }
     }
 }

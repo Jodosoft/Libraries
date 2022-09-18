@@ -60,10 +60,10 @@ namespace Jodo.Numerics.Clamped
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out UFix64C result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64C result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out UFix64C result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out UFix64C result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out UFix64C result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64C result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out UFix64C result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out UFix64C result) => FuncExtensions.Try(() => Parse(s), out result);
         public static UFix64C Parse(string s) => new UFix64C(ScaledMath.Parse(s, ScalingFactor, null, null));
         public static UFix64C Parse(string s, IFormatProvider? provider) => (UFix64C)double.Parse(s, provider);
         public static UFix64C Parse(string s, NumberStyles style) => (UFix64C)double.Parse(s, style);
@@ -289,13 +289,13 @@ namespace Jodo.Numerics.Clamped
             UFix64C INumericStatic<UFix64C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
 
-            UFix64C INumericRandom<UFix64C>.Next(Random random) => new UFix64C(random.NextUInt64(ScalingFactor));
-            UFix64C INumericRandom<UFix64C>.Next(Random random, UFix64C maxValue) => new UFix64C(random.NextUInt64(maxValue._scaledValue));
-            UFix64C INumericRandom<UFix64C>.Next(Random random, UFix64C minValue, UFix64C maxValue) => new UFix64C(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue));
-            UFix64C INumericRandom<UFix64C>.Next(Random random, Generation mode) => new UFix64C(random.NextUInt64(0, mode == Generation.Extended ? ulong.MaxValue : ScalingFactor, mode));
-            UFix64C INumericRandom<UFix64C>.Next(Random random, UFix64C minValue, UFix64C maxValue, Generation mode) => new UFix64C(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue, mode));
+            UFix64C INumericRandom<UFix64C>.Generate(Random random) => new UFix64C(random.NextUInt64(ScalingFactor));
+            UFix64C INumericRandom<UFix64C>.Generate(Random random, UFix64C maxValue) => new UFix64C(random.NextUInt64(maxValue._scaledValue));
+            UFix64C INumericRandom<UFix64C>.Generate(Random random, UFix64C minValue, UFix64C maxValue) => new UFix64C(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue));
+            UFix64C INumericRandom<UFix64C>.Generate(Random random, Generation mode) => new UFix64C(random.NextUInt64(0, mode == Generation.Extended ? ulong.MaxValue : ScalingFactor, mode));
+            UFix64C INumericRandom<UFix64C>.Generate(Random random, UFix64C minValue, UFix64C maxValue, Generation mode) => new UFix64C(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
-            UFix64C IVariantRandom<UFix64C>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<UFix64C>(random, scenarios);
+            UFix64C IVariantRandom<UFix64C>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UFix64C>(random, scenarios);
         }
     }
 }

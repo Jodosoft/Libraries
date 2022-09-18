@@ -33,7 +33,7 @@ namespace Jodo.Numerics.Tests
         public void RoundTrip_RandomVariant_SameAsOriginal()
         {
             //arrange
-            TNumeric input = Random.NextVariant<TNumeric>(Scenarios.All);
+            TNumeric input = Random.NextVariant<TNumeric>(Variants.All);
 
             //act
             TNumeric result = BitConverterN.ToNumeric<TNumeric>(BitConverterN.GetBytes(input), 0);
@@ -73,7 +73,7 @@ namespace Jodo.Numerics.Tests
         public void GetBytes_RandomVariant_ReturnsCorrectNumberOfBytes()
         {
             //arrange
-            TNumeric input = Random.NextVariant<TNumeric>(Scenarios.NonError);
+            TNumeric input = Random.NextVariant<TNumeric>(Variants.NonError);
             int expected = BitConverterN.ConvertedSize<TNumeric>();
 
             //act

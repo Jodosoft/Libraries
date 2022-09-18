@@ -33,23 +33,23 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         public static TNumeric NextNumeric<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random);
+            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Generate(random);
 
         [DebuggerStepThrough]
         public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric maxValue) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, maxValue);
+            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Generate(random, maxValue);
 
         [DebuggerStepThrough]
         public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric minValue, TNumeric maxValue) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, minValue, maxValue);
+            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Generate(random, minValue, maxValue);
 
         [DebuggerStepThrough]
         public static TNumeric NextNumeric<TNumeric>(this Random random, Generation mode) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, mode);
+            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Generate(random, mode);
 
         [DebuggerStepThrough]
         public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric minValue, TNumeric maxValue, Generation mode) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, minValue, maxValue, mode);
+            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Generate(random, minValue, maxValue, mode);
 
         public static UnitN<TNumeric> NextUnit<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
         {

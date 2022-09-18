@@ -56,10 +56,10 @@ namespace Jodo.Numerics.Clamped
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out UInt16C result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UInt16C result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out UInt16C result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out UInt16C result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out UInt16C result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UInt16C result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out UInt16C result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out UInt16C result) => FuncExtensions.Try(() => Parse(s), out result);
         public static UInt16C Parse(string s) => ushort.Parse(s);
         public static UInt16C Parse(string s, IFormatProvider? provider) => ushort.Parse(s, provider);
         public static UInt16C Parse(string s, NumberStyles style) => ushort.Parse(s, style);
@@ -260,13 +260,13 @@ namespace Jodo.Numerics.Clamped
             UInt16C INumericStatic<UInt16C>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
-            UInt16C INumericRandom<UInt16C>.Next(Random random) => random.NextUInt16();
-            UInt16C INumericRandom<UInt16C>.Next(Random random, UInt16C maxValue) => random.NextUInt16(maxValue);
-            UInt16C INumericRandom<UInt16C>.Next(Random random, UInt16C minValue, UInt16C maxValue) => random.NextUInt16(minValue, maxValue);
-            UInt16C INumericRandom<UInt16C>.Next(Random random, Generation mode) => random.NextUInt16(mode);
-            UInt16C INumericRandom<UInt16C>.Next(Random random, UInt16C minValue, UInt16C maxValue, Generation mode) => random.NextUInt16(minValue, maxValue, mode);
+            UInt16C INumericRandom<UInt16C>.Generate(Random random) => random.NextUInt16();
+            UInt16C INumericRandom<UInt16C>.Generate(Random random, UInt16C maxValue) => random.NextUInt16(maxValue);
+            UInt16C INumericRandom<UInt16C>.Generate(Random random, UInt16C minValue, UInt16C maxValue) => random.NextUInt16(minValue, maxValue);
+            UInt16C INumericRandom<UInt16C>.Generate(Random random, Generation mode) => random.NextUInt16(mode);
+            UInt16C INumericRandom<UInt16C>.Generate(Random random, UInt16C minValue, UInt16C maxValue, Generation mode) => random.NextUInt16(minValue, maxValue, mode);
 
-            UInt16C IVariantRandom<UInt16C>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<UInt16C>(random, scenarios);
+            UInt16C IVariantRandom<UInt16C>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UInt16C>(random, scenarios);
         }
     }
 }
