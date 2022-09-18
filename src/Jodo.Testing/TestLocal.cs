@@ -23,6 +23,9 @@ using NUnit.Framework.Internal;
 
 namespace Jodo.Testing
 {
+    /// <summary>
+    /// Provides test-local storage of data.
+    /// </summary>
     public static class TestLocal
     {
         public static T GetOrAdd<T>(Func<T> factory)

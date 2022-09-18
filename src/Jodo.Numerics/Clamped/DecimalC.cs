@@ -190,13 +190,13 @@ namespace Jodo.Numerics.Clamped
 
             DecimalC IMath<DecimalC>.Abs(DecimalC value) => Math.Abs(value._value);
             DecimalC IMath<DecimalC>.Acos(DecimalC x) => ConvertN.ToDecimal(Math.Acos(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
-            DecimalC IMath<DecimalC>.Acosh(DecimalC x) => ConvertN.ToDecimal(MathCompat.Acosh(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
+            DecimalC IMath<DecimalC>.Acosh(DecimalC x) => ConvertN.ToDecimal(MathShim.Acosh(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
             DecimalC IMath<DecimalC>.Asin(DecimalC x) => ConvertN.ToDecimal(Math.Asin(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
-            DecimalC IMath<DecimalC>.Asinh(DecimalC x) => ConvertN.ToDecimal(MathCompat.Asinh(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
+            DecimalC IMath<DecimalC>.Asinh(DecimalC x) => ConvertN.ToDecimal(MathShim.Asinh(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
             DecimalC IMath<DecimalC>.Atan(DecimalC x) => ConvertN.ToDecimal(Math.Atan(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
             DecimalC IMath<DecimalC>.Atan2(DecimalC x, DecimalC y) => ConvertN.ToDecimal(Math.Atan2(ConvertN.ToDouble(x._value, Conversion.CastClamp), ConvertN.ToDouble(y._value, Conversion.CastClamp)), Conversion.CastClamp);
-            DecimalC IMath<DecimalC>.Atanh(DecimalC x) => ConvertN.ToDecimal(MathCompat.Atanh(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
-            DecimalC IMath<DecimalC>.Cbrt(DecimalC x) => ConvertN.ToDecimal(MathCompat.Cbrt(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
+            DecimalC IMath<DecimalC>.Atanh(DecimalC x) => ConvertN.ToDecimal(MathShim.Atanh(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
+            DecimalC IMath<DecimalC>.Cbrt(DecimalC x) => ConvertN.ToDecimal(MathShim.Cbrt(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);
             DecimalC IMath<DecimalC>.Ceiling(DecimalC x) => decimal.Ceiling(x._value);
             DecimalC IMath<DecimalC>.Clamp(DecimalC x, DecimalC bound1, DecimalC bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             DecimalC IMath<DecimalC>.Cos(DecimalC x) => ConvertN.ToDecimal(Math.Cos(ConvertN.ToDouble(x._value, Conversion.CastClamp)), Conversion.CastClamp);

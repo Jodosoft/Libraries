@@ -28,7 +28,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    [SuppressMessage("Style", "IDE0004:Cast is redundant")]
+    [SuppressMessage("Style", "IDE0004:Cast is redundant", Justification = "Necessary to be explicit in these tests.")]
     public class ConvertNTests : GlobalFixtureBase
     {
         private static MethodInfo[] GetMethodsWithConversionParameter()

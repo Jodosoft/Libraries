@@ -190,13 +190,13 @@ namespace Jodo.Numerics.Clamped
 
             ByteC IMath<ByteC>.Abs(ByteC value) => value;
             ByteC IMath<ByteC>.Acos(ByteC x) => ConvertN.ToByte(Math.Acos(x._value), Conversion.CastClamp);
-            ByteC IMath<ByteC>.Acosh(ByteC x) => ConvertN.ToByte(MathCompat.Acosh(x._value), Conversion.CastClamp);
+            ByteC IMath<ByteC>.Acosh(ByteC x) => ConvertN.ToByte(MathShim.Acosh(x._value), Conversion.CastClamp);
             ByteC IMath<ByteC>.Asin(ByteC x) => ConvertN.ToByte(Math.Asin(x._value), Conversion.CastClamp);
-            ByteC IMath<ByteC>.Asinh(ByteC x) => ConvertN.ToByte(MathCompat.Asinh(x._value), Conversion.CastClamp);
+            ByteC IMath<ByteC>.Asinh(ByteC x) => ConvertN.ToByte(MathShim.Asinh(x._value), Conversion.CastClamp);
             ByteC IMath<ByteC>.Atan(ByteC x) => ConvertN.ToByte(Math.Atan(x._value), Conversion.CastClamp);
             ByteC IMath<ByteC>.Atan2(ByteC x, ByteC y) => ConvertN.ToByte(Math.Atan2(x._value, y._value), Conversion.CastClamp);
-            ByteC IMath<ByteC>.Atanh(ByteC x) => ConvertN.ToByte(MathCompat.Atanh(x._value), Conversion.CastClamp);
-            ByteC IMath<ByteC>.Cbrt(ByteC x) => ConvertN.ToByte(MathCompat.Cbrt(x._value), Conversion.CastClamp);
+            ByteC IMath<ByteC>.Atanh(ByteC x) => ConvertN.ToByte(MathShim.Atanh(x._value), Conversion.CastClamp);
+            ByteC IMath<ByteC>.Cbrt(ByteC x) => ConvertN.ToByte(MathShim.Cbrt(x._value), Conversion.CastClamp);
             ByteC IMath<ByteC>.Ceiling(ByteC x) => x;
             ByteC IMath<ByteC>.Clamp(ByteC x, ByteC bound1, ByteC bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             ByteC IMath<ByteC>.Cos(ByteC x) => ConvertN.ToByte(Math.Cos(x._value), Conversion.CastClamp);

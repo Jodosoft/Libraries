@@ -21,49 +21,37 @@ using System.Runtime.CompilerServices;
 
 namespace Jodo.Primitives.Compatibility
 {
-    public static class DoubleCompat
+    public static class ValueTupleShim
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsFinite(double d)
+        public static void Swap<T>(ref T value1, ref T value2)
         {
-#if NETSTANDARD2_1
-            return double.IsFinite(d);
+#if NETSTANDARD2_0_OR_GREATER
+            (value2, value1) = (value1, value2);
 #else
-            long bits = BitConverterCompat.DoubleToInt64Bits(d);
-            return (bits & 0x7FFFFFFFFFFFFFFF) < 0x7FF0000000000000;
+#pragma warning disable IDE0180 // Use tuple to swap values
+            T temp = value1;
+#pragma warning restore IDE0180 // Use tuple to swap values
+            value1 = value2;
+            value2 = temp;
 #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe bool IsNegative(double d)
+        public static void Swap<T>(bool swap, ref T value1, ref T value2)
         {
-#if NETSTANDARD2_1
-            return double.IsNegative(d);
+            if (swap)
+            {
+#if NETSTANDARD2_0_OR_GREATER
+                (value2, value1) = (value1, value2);
 #else
-            return BitConverterCompat.DoubleToInt64Bits(d) < 0;
+#pragma warning disable IDE0180 // Use tuple to swap values
+                T temp = value1;
+#pragma warning restore IDE0180 // Use tuple to swap values
+                value1 = value2;
+                value2 = temp;
 #endif
-        }
-
-        public static unsafe bool IsNormal(double d)
-        {
-#if NETSTANDARD2_1
-            return double.IsNormal(d);
-#else
-            long bits = BitConverterCompat.DoubleToInt64Bits(d);
-            bits &= 0x7FFFFFFFFFFFFFFF;
-            return bits < 0x7FF0000000000000 && bits != 0 && (bits & 0x7FF0000000000000) != 0;
-#endif
-        }
-
-        public static unsafe bool IsSubnormal(double d)
-        {
-#if NETSTANDARD2_1
-            return double.IsSubnormal(d);
-#else
-            long bits = BitConverterCompat.DoubleToInt64Bits(d);
-            bits &= 0x7FFFFFFFFFFFFFFF;
-            return bits < 0x7FF0000000000000 && bits != 0 && (bits & 0x7FF0000000000000) == 0;
-#endif
+            }
         }
     }
 }

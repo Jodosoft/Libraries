@@ -219,13 +219,13 @@ namespace Jodo.Numerics
 
             Fix64 IMath<Fix64>.Abs(Fix64 value) => value._scaledValue < 0 ? -value : value;
             Fix64 IMath<Fix64>.Acos(Fix64 x) => (Fix64)Math.Acos((double)x);
-            Fix64 IMath<Fix64>.Acosh(Fix64 x) => (Fix64)MathCompat.Acosh((double)x);
+            Fix64 IMath<Fix64>.Acosh(Fix64 x) => (Fix64)MathShim.Acosh((double)x);
             Fix64 IMath<Fix64>.Asin(Fix64 x) => (Fix64)Math.Asin((double)x);
-            Fix64 IMath<Fix64>.Asinh(Fix64 x) => (Fix64)MathCompat.Asinh((double)x);
+            Fix64 IMath<Fix64>.Asinh(Fix64 x) => (Fix64)MathShim.Asinh((double)x);
             Fix64 IMath<Fix64>.Atan(Fix64 x) => (Fix64)Math.Atan((double)x);
             Fix64 IMath<Fix64>.Atan2(Fix64 x, Fix64 y) => (Fix64)Math.Atan2((double)x, (double)y);
-            Fix64 IMath<Fix64>.Atanh(Fix64 x) => (Fix64)MathCompat.Atanh((double)x);
-            Fix64 IMath<Fix64>.Cbrt(Fix64 x) => (Fix64)MathCompat.Cbrt((double)x);
+            Fix64 IMath<Fix64>.Atanh(Fix64 x) => (Fix64)MathShim.Atanh((double)x);
+            Fix64 IMath<Fix64>.Cbrt(Fix64 x) => (Fix64)MathShim.Cbrt((double)x);
             Fix64 IMath<Fix64>.Ceiling(Fix64 x) => new Fix64(ScaledMath.Ceiling(x._scaledValue, ScalingFactor));
             Fix64 IMath<Fix64>.Clamp(Fix64 x, Fix64 bound1, Fix64 bound2) => new Fix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             Fix64 IMath<Fix64>.Cos(Fix64 x) => (Fix64)Math.Cos((double)x);

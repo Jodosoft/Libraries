@@ -62,7 +62,7 @@ namespace Jodo.Numerics
 
         public bool Equals(Vector2N<TNumeric> other) => X.Equals(other.X) && Y.Equals(other.Y);
         public override bool Equals(object? obj) => obj is Vector2N<TNumeric> vector && Equals(vector);
-        public override int GetHashCode() => HashCode.Combine(X, Y);
+        public override int GetHashCode() => HashCodeShim.Combine(X, Y);
         public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
         public string ToString(string? format) => ToString(format, CultureInfo.CurrentCulture);
 

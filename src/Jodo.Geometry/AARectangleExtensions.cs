@@ -27,73 +27,73 @@ namespace Jodo.Geometry
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric GetBottom<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return value.Center.Y.Subtract(value.Height.Half());
+            return AARectangle.GetBottom(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric GetLeft<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return value.Center.X.Subtract(value.Width.Half());
+            return AARectangle.GetLeft(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric GetRight<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return value.GetLeft().Add(value.Width);
+            return AARectangle.GetRight(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric GetTop<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return value.GetBottom().Add(value.Height);
+            return AARectangle.GetTop(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomCenter<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.Center.X, value.GetBottom());
+            return AARectangle.GetBottomCenter(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomLeft<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetLeft(), value.GetBottom());
+            return AARectangle.GetBottomLeft(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomRight<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetRight(), value.GetBottom());
+            return AARectangle.GetBottomRight(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetLeftCenter<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetLeft(), value.Center.Y);
+            return AARectangle.GetLeftCenter(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetRightCenter<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetRight(), value.Center.Y);
+            return AARectangle.GetRightCenter(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopCenter<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.Center.X, value.GetTop());
+            return AARectangle.GetTopCenter(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopLeft<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetLeft(), value.GetTop());
+            return AARectangle.GetTopLeft(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopRight<TNumeric>(this AARectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetRight(), value.GetTop());
+            return AARectangle.GetTopRight(value.Center, value.Dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

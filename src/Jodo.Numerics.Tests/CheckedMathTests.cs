@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Jodo.Numerics.Clamped;
 using Jodo.Testing;
@@ -26,7 +25,6 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    [SuppressMessage("Style", "IDE0004:Cast is redundant")]
     public class CheckedMathTests : GlobalFixtureBase
     {
         [Test] public void ByteAdd_SmokeTest_CorrectResult() => ClampedMath.Add((byte)12, (byte)12).Should().Be(24);

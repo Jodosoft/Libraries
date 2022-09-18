@@ -26,6 +26,10 @@ using NUnit.Framework;
 
 namespace Jodo.Testing
 {
+    /// <summary>
+    /// Provides common test methods for structs that implement <see cref="ISerializable"/>.
+    /// </summary>
+    /// <typeparam name="T">The type that implements <see cref="ISerializable"/>.</typeparam>
     public abstract class SerializableTestBase<T> : GlobalFixtureBase where T : struct, ISerializable, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]

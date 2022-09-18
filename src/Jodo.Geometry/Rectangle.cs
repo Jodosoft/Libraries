@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Jodo.Numerics;
 using Jodo.Primitives;
@@ -116,7 +117,7 @@ namespace Jodo.Geometry
             return obj is Rectangle<TNumeric> rectangle && Equals(rectangle);
         }
 
-        public override int GetHashCode() => HashCode.Combine(Center, Dimensions, Angle);
+        public override int GetHashCode() => HashCodeShim.Combine(Center, Dimensions, Angle);
         public override string ToString() => $"<X:{Center.X}, Y:{Center.Y}, W:{Dimensions.X}, H:{Dimensions.Y}, A:{Angle}>";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}, A:{Angle.ToString(format, formatProvider)}>";
 
@@ -157,32 +158,59 @@ namespace Jodo.Geometry
 
     public static class Rectangle
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle<TNumeric> FromCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(center, dimensions, angle);
+        {
+            return new Rectangle<TNumeric>(center, dimensions, angle);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(GetTopRight(bottomLeft, dimensions, default), dimensions, angle);
+        {
+            return new Rectangle<TNumeric>(GetCenterFromBottomLeft(bottomLeft, dimensions, angle), dimensions, angle);
+        }
 
-        public static Rectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(GetTopCenter(bottomLeft, dimensions, default), dimensions, angle);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2N<TNumeric> bottomCenter, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Rectangle<TNumeric>(GetCenterFromBottomCenter(bottomCenter, dimensions, angle), dimensions, angle);
+        }
 
-        public static Rectangle<TNumeric> FromBottomRight<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(GetTopLeft(bottomLeft, dimensions, default), dimensions, angle);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle<TNumeric> FromBottomRight<TNumeric>(Vector2N<TNumeric> bottomRight, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Rectangle<TNumeric>(GetCenterFromBottomRight(bottomRight, dimensions, angle), dimensions, angle);
+        }
 
-        public static Rectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(GetRightCenter(bottomLeft, dimensions, default), dimensions, angle);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2N<TNumeric> leftCenter, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Rectangle<TNumeric>(GetCenterFromLeftCenter(leftCenter, dimensions, angle), dimensions, angle);
+        }
 
-        public static Rectangle<TNumeric> FromRightCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(GetLeftCenter(bottomLeft, dimensions, default), dimensions, angle);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle<TNumeric> FromRightCenter<TNumeric>(Vector2N<TNumeric> rightCenter, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Rectangle<TNumeric>(GetCenterFromRightCenter(rightCenter, dimensions, angle), dimensions, angle);
+        }
 
-        public static Rectangle<TNumeric> FromTopLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(GetBottomRight(bottomLeft, dimensions, default), dimensions, angle);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle<TNumeric> FromTopLeft<TNumeric>(Vector2N<TNumeric> topLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Rectangle<TNumeric>(GetCenterFromTopLeft(topLeft, dimensions, angle), dimensions, angle);
+        }
 
-        public static Rectangle<TNumeric> FromTopCenter<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(GetBottomCenter(bottomLeft, dimensions, default), dimensions, angle);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle<TNumeric> FromTopCenter<TNumeric>(Vector2N<TNumeric> topCenter, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Rectangle<TNumeric>(GetCenterFromTopCenter(topCenter, dimensions, angle), dimensions, angle);
+        }
 
-        public static Rectangle<TNumeric> FromTopRight<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Rectangle<TNumeric>(GetBottomLeft(bottomLeft, dimensions, default), dimensions, angle);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle<TNumeric> FromTopRight<TNumeric>(Vector2N<TNumeric> topRight, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Rectangle<TNumeric>(GetCenterFromTopRight(topRight, dimensions, angle), dimensions, angle);
+        }
 
         public static Rectangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
         {
@@ -199,28 +227,100 @@ namespace Jodo.Geometry
             else throw new FormatException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector2N<TNumeric> GetBottomCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X, center.Y.Subtract(dimensions.Y.Half())).RotateAround(center, angle);
+        {
+            return AARectangle.GetBottomCenter(center, dimensions).RotateAround(center, angle);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector2N<TNumeric> GetBottomLeft<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => (center - (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
+        {
+            return AARectangle.GetBottomLeft(center, dimensions).RotateAround(center, angle);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector2N<TNumeric> GetBottomRight<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X.Add(dimensions.X.Half()), center.Y.Subtract(dimensions.Y.Half())).RotateAround(center, angle);
+        {
+            return AARectangle.GetBottomRight(center, dimensions).RotateAround(center, angle);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector2N<TNumeric> GetLeftCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X.Subtract(dimensions.X.Half()), center.Y).RotateAround(center, angle);
+        {
+            return AARectangle.GetLeftCenter(center, dimensions).RotateAround(center, angle);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector2N<TNumeric> GetRightCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X.Add(dimensions.X.Half()), center.Y).RotateAround(center, angle);
+        {
+            return AARectangle.GetRightCenter(center, dimensions).RotateAround(center, angle);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector2N<TNumeric> GetTopCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X, center.Y.Add(dimensions.Y.Half())).RotateAround(center, angle);
+        {
+            return AARectangle.GetTopCenter(center, dimensions).RotateAround(center, angle);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector2N<TNumeric> GetTopLeft<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => new Vector2N<TNumeric>(center.X.Subtract(dimensions.X.Half()), center.Y.Add(dimensions.Y.Half())).RotateAround(center, angle);
+        {
+            return AARectangle.GetTopLeft(center, dimensions).RotateAround(center, angle);
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Vector2N<TNumeric> GetTopRight<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => (center + (dimensions / Numeric.Two<TNumeric>())).RotateAround(center, angle);
+        {
+            return AARectangle.GetTopRight(center, dimensions).RotateAround(center, angle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromBottomCenter<TNumeric>(Vector2N<TNumeric> bottomCenter, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return AARectangle.GetCenterFromBottomCenter(bottomCenter, dimensions).RotateAround(bottomCenter, angle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromBottomLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return AARectangle.GetCenterFromBottomLeft(bottomLeft, dimensions).RotateAround(bottomLeft, angle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromBottomRight<TNumeric>(Vector2N<TNumeric> bottomRight, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return AARectangle.GetCenterFromBottomRight(bottomRight, dimensions).RotateAround(bottomRight, angle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromLeftCenter<TNumeric>(Vector2N<TNumeric> leftCenter, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return AARectangle.GetCenterFromLeftCenter(leftCenter, dimensions).RotateAround(leftCenter, angle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromRightCenter<TNumeric>(Vector2N<TNumeric> rightCenter, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return AARectangle.GetCenterFromRightCenter(rightCenter, dimensions).RotateAround(rightCenter, angle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromTopCenter<TNumeric>(Vector2N<TNumeric> topCenter, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return AARectangle.GetCenterFromTopCenter(topCenter, dimensions).RotateAround(topCenter, angle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromTopLeft<TNumeric>(Vector2N<TNumeric> topLeft, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return AARectangle.GetCenterFromTopLeft(topLeft, dimensions).RotateAround(topLeft, angle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromTopRight<TNumeric>(Vector2N<TNumeric> topRight, Vector2N<TNumeric> dimensions, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return AARectangle.GetCenterFromTopRight(topRight, dimensions).RotateAround(topRight, angle);
+        }
     }
 }

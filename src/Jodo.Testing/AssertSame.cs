@@ -20,37 +20,62 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 
 namespace Jodo.Testing
 {
+    /// <summary>
+    /// Provides assertion methods for verifying that sets of operations return the same value or throw the same exception.
+    /// </summary>
     public static class AssertSame
     {
         /// <summary>
-        /// Executes the specified functions exactly once and asserts that they all returned equal results
-        /// (using <see cref="object.Equals(object)"/>) or all threw the same type of exception.
+        /// Executes all of the specified functions exactly once and asserts that they returned equal results
+        /// (using <see cref="object.Equals(object)"/>) or that they threw the same type of exception.
         /// </summary>
+        /// <typeparam name="TResult">The type of value returned by the specified functions.</typeparam>
+        /// <param name="expected">A function that will be executed, and the outcome verified.</param>
+        /// <param name="actual">Another function that will be executed, the outcome verified.</param>
+        /// <param name="actuals">Further functions that will be executed, their outcomes verified.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="expected"/> or <paramref name="actual"/> are null.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="actuals"/> contains null elements.</exception>
         [AssertionMethod]
         public static void Outcome<TResult>(Func<TResult> expected, Func<TResult> actual, params Func<TResult>[] actuals)
         {
-            (TResult Result, Exception Exception) expectedOutcome = GetOutcome(expected);
+            Outcome(ValidateArguments(expected, actual, actuals));
+        }
 
-            List<(TResult Result, Exception Exception)> subjectOutcomes = new List<(TResult Result, Exception Exception)>
+        /// <summary>
+        /// Executes all of the specified functions exactly once and asserts that they returned equal results
+        /// (using <see cref="object.Equals(object)"/>) or that they threw the same type of exception.
+        /// </summary>
+        /// <typeparam name="TResult">The type of value returned by the specified functions.</typeparam>
+        /// <param name="functions">Functions that will be executed, their outcomes verified.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="functions"/> is null.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="functions"/> contains less than 2 elements or any null elements.</exception>
+        [AssertionMethod]
+        public static void Outcome<TResult>(IEnumerable<Func<TResult>> functions)
+        {
+            if (functions == null) throw new ArgumentNullException(nameof(functions));
+
+            Func<TResult>[] functionsArray = functions.ToArray();
+
+            if (functionsArray.Length < 2) throw new ArgumentException("Must provide at least 2 functions for comparison", nameof(functions));
+
+            List<(TResult Result, Exception Exception)> outcomes = new List<(TResult Result, Exception Exception)>();
+
+            foreach (Func<TResult> function in functionsArray)
             {
-                GetOutcome(actual)
-            };
-            if (actuals != null)
-            {
-                foreach (Func<TResult> s in actuals)
-                {
-                    subjectOutcomes.Add(GetOutcome(s));
-                }
+                if (function == null) throw new ArgumentException("Must not contain null elements", nameof(functions));
+
+                outcomes.Add(GetOutcome(function));
             }
 
-            foreach ((TResult Result, Exception Exception) subjectOutcome in subjectOutcomes)
+            for (int i = 1; i < outcomes.Count; i++)
             {
-                VerifyOutcomes(expectedOutcome, subjectOutcome);
+                VerifyOutcomes(outcomes[0], outcomes[i]);
             }
         }
 
@@ -80,24 +105,34 @@ namespace Jodo.Testing
         [AssertionMethod]
         public static void Result<TResult>(Func<TResult> expected, Func<TResult> actual, params Func<TResult>[] actuals)
         {
-            TResult expectedResult = expected.Should().NotThrow().Subject;
-            List<TResult> subjectResults = new List<TResult>()
+            Result(ValidateArguments(expected, actual, actuals));
+        }
+
+        /// <summary>
+        /// Executes the specified functions exactly once and asserts that they all returned equal results
+        /// (using <see cref="object.Equals(object)"/>).
+        /// </summary>
+        [AssertionMethod]
+        public static void Result<TResult>(IEnumerable<Func<TResult>> functions)
+        {
+            if (functions == null) throw new ArgumentNullException(nameof(functions));
+
+            Func<TResult>[] functionsArray = functions.ToArray();
+
+            if (functionsArray.Length < 2) throw new ArgumentException("Must provide at least 2 functions for comparison", nameof(functions));
+
+            List<TResult> results = new List<TResult>();
+
+            foreach (Func<TResult> function in functionsArray)
             {
-                actual.Should().NotThrow().Subject
-            };
-            if (actuals != null)
-            {
-                foreach (Func<TResult> s in actuals)
-                {
-                    subjectResults.Add(s.Should().NotThrow().Subject);
-                }
+                if (function == null) throw new ArgumentException("Must not contain null elements", nameof(functions));
+
+                results.Add(function.Should().NotThrow().Subject);
             }
-            foreach (TResult subjectResult in subjectResults)
+
+            for (int i = 1; i < results.Count; i++)
             {
-                if (!BothNaN(expectedResult, subjectResult))
-                {
-                    subjectResult.Should().Be(expectedResult);
-                }
+                VerifyResults(results[0], results[i]);
             }
         }
 
@@ -144,10 +179,33 @@ namespace Jodo.Testing
                 }
             }
 
-            if (!BothNaN(outcome1.Result, outcome2.Result))
+            VerifyResults(outcome1.Result, outcome2.Result);
+        }
+
+        private static void VerifyResults<TResult>(TResult value1, TResult value2)
+        {
+            if (!BothNaN(value1, value2))
             {
-                outcome1.Result.Should().Be(outcome2.Result);
+                value2.Should().Be(value1);
             }
+        }
+
+        private static List<Func<TResult>> ValidateArguments<TResult>(Func<TResult> expected, Func<TResult> actual, Func<TResult>[] actuals)
+        {
+            if (expected == null) throw new ArgumentNullException(nameof(expected));
+            if (actual == null) throw new ArgumentNullException(nameof(actual));
+
+            List<Func<TResult>> functions = new List<Func<TResult>> { expected, actual };
+            if (actuals != null)
+            {
+                foreach (Func<TResult> a in actuals)
+                {
+                    if (a == null) throw new ArgumentException("Must not contain null elements", nameof(actuals));
+                    functions.Add(a);
+                }
+            }
+
+            return functions;
         }
     }
 }

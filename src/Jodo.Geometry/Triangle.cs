@@ -96,7 +96,7 @@ namespace Jodo.Geometry
             => new Triangle<TResult>(A.Convert(converter), B.Convert(converter), C.Convert(converter));
         public bool Equals(Triangle<TNumeric> other) => A.Equals(other.A) && B.Equals(other.B) && C.Equals(other.C);
         public override bool Equals(object? obj) => obj is Triangle<TNumeric> fix && Equals(fix);
-        public override int GetHashCode() => HashCode.Combine(A, B, C);
+        public override int GetHashCode() => HashCodeShim.Combine(A, B, C);
         public override string ToString() => $"({A}, {B}, {C})";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"({A}, {B}, {C})";
 

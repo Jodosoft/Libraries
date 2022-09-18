@@ -191,13 +191,13 @@ namespace Jodo.Numerics
             int IMath<DecimalN>.Sign(DecimalN x) => Math.Sign(x);
             DecimalN IMath<DecimalN>.Abs(DecimalN value) => Math.Abs(value);
             DecimalN IMath<DecimalN>.Acos(DecimalN x) => (DecimalN)Math.Acos((double)x);
-            DecimalN IMath<DecimalN>.Acosh(DecimalN x) => (DecimalN)MathCompat.Acosh((double)x);
+            DecimalN IMath<DecimalN>.Acosh(DecimalN x) => (DecimalN)MathShim.Acosh((double)x);
             DecimalN IMath<DecimalN>.Asin(DecimalN x) => (DecimalN)Math.Asin((double)x);
-            DecimalN IMath<DecimalN>.Asinh(DecimalN x) => (DecimalN)MathCompat.Asinh((double)x);
+            DecimalN IMath<DecimalN>.Asinh(DecimalN x) => (DecimalN)MathShim.Asinh((double)x);
             DecimalN IMath<DecimalN>.Atan(DecimalN x) => (DecimalN)Math.Atan((double)x);
             DecimalN IMath<DecimalN>.Atan2(DecimalN x, DecimalN y) => (DecimalN)Math.Atan2((double)x, (double)y);
-            DecimalN IMath<DecimalN>.Atanh(DecimalN x) => (DecimalN)MathCompat.Atanh((double)x);
-            DecimalN IMath<DecimalN>.Cbrt(DecimalN x) => (DecimalN)MathCompat.Cbrt((double)x);
+            DecimalN IMath<DecimalN>.Atanh(DecimalN x) => (DecimalN)MathShim.Atanh((double)x);
+            DecimalN IMath<DecimalN>.Cbrt(DecimalN x) => (DecimalN)MathShim.Cbrt((double)x);
             DecimalN IMath<DecimalN>.Ceiling(DecimalN x) => decimal.Ceiling(x);
             DecimalN IMath<DecimalN>.Clamp(DecimalN x, DecimalN bound1, DecimalN bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             DecimalN IMath<DecimalN>.Cos(DecimalN x) => (DecimalN)Math.Cos((double)x);

@@ -220,13 +220,13 @@ namespace Jodo.Numerics.Clamped
             int IMath<UFix64C>.Sign(UFix64C x) => x._scaledValue == 0 ? 0 : 1;
             UFix64C IMath<UFix64C>.Abs(UFix64C value) => value;
             UFix64C IMath<UFix64C>.Acos(UFix64C x) => (UFix64C)Math.Acos((double)x);
-            UFix64C IMath<UFix64C>.Acosh(UFix64C x) => (UFix64C)MathCompat.Acosh((double)x);
+            UFix64C IMath<UFix64C>.Acosh(UFix64C x) => (UFix64C)MathShim.Acosh((double)x);
             UFix64C IMath<UFix64C>.Asin(UFix64C x) => (UFix64C)Math.Asin((double)x);
-            UFix64C IMath<UFix64C>.Asinh(UFix64C x) => (UFix64C)MathCompat.Asinh((double)x);
+            UFix64C IMath<UFix64C>.Asinh(UFix64C x) => (UFix64C)MathShim.Asinh((double)x);
             UFix64C IMath<UFix64C>.Atan(UFix64C x) => (UFix64C)Math.Atan((double)x);
             UFix64C IMath<UFix64C>.Atan2(UFix64C x, UFix64C y) => (UFix64C)Math.Atan2((double)x, (double)y);
-            UFix64C IMath<UFix64C>.Atanh(UFix64C x) => (UFix64C)MathCompat.Atanh((double)x);
-            UFix64C IMath<UFix64C>.Cbrt(UFix64C x) => (UFix64C)MathCompat.Cbrt((double)x);
+            UFix64C IMath<UFix64C>.Atanh(UFix64C x) => (UFix64C)MathShim.Atanh((double)x);
+            UFix64C IMath<UFix64C>.Cbrt(UFix64C x) => (UFix64C)MathShim.Cbrt((double)x);
             UFix64C IMath<UFix64C>.Ceiling(UFix64C x) => new UFix64C(ScaledMath.Ceiling(x._scaledValue, ScalingFactor));
             UFix64C IMath<UFix64C>.Clamp(UFix64C x, UFix64C bound1, UFix64C bound2) => new UFix64C(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             UFix64C IMath<UFix64C>.Cos(UFix64C x) => (UFix64C)Math.Cos((double)x);

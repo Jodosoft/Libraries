@@ -22,7 +22,7 @@ using System.Runtime.CompilerServices;
 
 namespace Jodo.Primitives.Compatibility
 {
-    public static class MathCompat
+    public static class MathShim
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Acosh(double d)
@@ -45,7 +45,7 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1
             return Math.Asinh(d);
 #else
-            if (!DoubleCompat.IsFinite(d) || (d > -3E-09 && d < 3E-09)) return d;
+            if (!DoubleShim.IsFinite(d) || (d > -3E-09 && d < 3E-09)) return d;
 
             double r = d < 0 ? -d : d;
 
@@ -62,7 +62,7 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1
             return Math.Atanh(d);
 #else
-            if (!DoubleCompat.IsFinite(d) || (d > -3E-09 && d < 3E-09)) return d;
+            if (!DoubleShim.IsFinite(d) || (d > -3E-09 && d < 3E-09)) return d;
             if (d < -1) return double.NegativeInfinity;
             if (d > 1) return double.PositiveInfinity;
 

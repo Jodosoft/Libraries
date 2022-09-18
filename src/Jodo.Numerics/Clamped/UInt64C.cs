@@ -192,13 +192,13 @@ namespace Jodo.Numerics.Clamped
             int IMath<UInt64C>.Sign(UInt64C x) => x._value == 0 ? 0 : 1;
             UInt64C IMath<UInt64C>.Abs(UInt64C value) => value;
             UInt64C IMath<UInt64C>.Acos(UInt64C x) => (UInt64C)Math.Acos(x._value);
-            UInt64C IMath<UInt64C>.Acosh(UInt64C x) => (UInt64C)MathCompat.Acosh(x._value);
+            UInt64C IMath<UInt64C>.Acosh(UInt64C x) => (UInt64C)MathShim.Acosh(x._value);
             UInt64C IMath<UInt64C>.Asin(UInt64C x) => (UInt64C)Math.Asin(x._value);
-            UInt64C IMath<UInt64C>.Asinh(UInt64C x) => (UInt64C)MathCompat.Asinh(x._value);
+            UInt64C IMath<UInt64C>.Asinh(UInt64C x) => (UInt64C)MathShim.Asinh(x._value);
             UInt64C IMath<UInt64C>.Atan(UInt64C x) => (UInt64C)Math.Atan(x._value);
             UInt64C IMath<UInt64C>.Atan2(UInt64C x, UInt64C y) => (UInt64C)Math.Atan2(x._value, y._value);
-            UInt64C IMath<UInt64C>.Atanh(UInt64C x) => (UInt64C)MathCompat.Atanh(x._value);
-            UInt64C IMath<UInt64C>.Cbrt(UInt64C x) => (UInt64C)MathCompat.Cbrt(x._value);
+            UInt64C IMath<UInt64C>.Atanh(UInt64C x) => (UInt64C)MathShim.Atanh(x._value);
+            UInt64C IMath<UInt64C>.Cbrt(UInt64C x) => (UInt64C)MathShim.Cbrt(x._value);
             UInt64C IMath<UInt64C>.Ceiling(UInt64C x) => x;
             UInt64C IMath<UInt64C>.Clamp(UInt64C x, UInt64C bound1, UInt64C bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             UInt64C IMath<UInt64C>.Cos(UInt64C x) => (UInt64C)Math.Cos(x._value);

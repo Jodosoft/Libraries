@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -65,8 +64,8 @@ namespace Jodo.Numerics.Clamped
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool IsNormal(SingleC d) => SingleCompat.IsNormal(d._value);
-        public static bool IsSubnormal(SingleC d) => SingleCompat.IsSubnormal(d._value);
+        public static bool IsNormal(SingleC d) => SingleShim.IsNormal(d._value);
+        public static bool IsSubnormal(SingleC d) => SingleShim.IsSubnormal(d._value);
         public static bool TryParse(string s, IFormatProvider? provider, out SingleC result) => TryHelper.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SingleC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out SingleC result) => TryHelper.Run(() => Parse(s, style), out result);
@@ -141,7 +140,7 @@ namespace Jodo.Numerics.Clamped
 
         private static float Check(float value)
         {
-            if (SingleCompat.IsFinite(value)) return value;
+            if (SingleShim.IsFinite(value)) return value;
             else if (float.IsPositiveInfinity(value)) return float.MaxValue;
             else if (float.IsNegativeInfinity(value)) return float.MinValue;
             else return 0f;
@@ -207,41 +206,41 @@ namespace Jodo.Numerics.Clamped
             SingleC INumericStatic<SingleC>.Two => 2;
             SingleC INumericStatic<SingleC>.Zero => 0;
 
-            SingleC IMath<SingleC>.Abs(SingleC value) => MathF.Abs(value._value);
-            SingleC IMath<SingleC>.Acos(SingleC x) => MathF.Acos(x._value);
-            SingleC IMath<SingleC>.Acosh(SingleC x) => MathF.Acosh(x._value);
-            SingleC IMath<SingleC>.Asin(SingleC x) => MathF.Asin(x._value);
-            SingleC IMath<SingleC>.Asinh(SingleC x) => MathF.Asinh(x._value);
-            SingleC IMath<SingleC>.Atan(SingleC x) => MathF.Atan(x._value);
-            SingleC IMath<SingleC>.Atan2(SingleC x, SingleC y) => MathF.Atan2(x._value, y._value);
-            SingleC IMath<SingleC>.Atanh(SingleC x) => MathF.Atanh(x._value);
-            SingleC IMath<SingleC>.Cbrt(SingleC x) => MathF.Cbrt(x._value);
-            SingleC IMath<SingleC>.Ceiling(SingleC x) => MathF.Ceiling(x._value);
-            SingleC IMath<SingleC>.Clamp(SingleC x, SingleC bound1, SingleC bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
-            SingleC IMath<SingleC>.Cos(SingleC x) => MathF.Cos(x._value);
-            SingleC IMath<SingleC>.Cosh(SingleC x) => MathF.Cosh(x._value);
-            SingleC IMath<SingleC>.E { get; } = MathF.E;
-            SingleC IMath<SingleC>.Exp(SingleC x) => MathF.Exp(x._value);
-            SingleC IMath<SingleC>.Floor(SingleC x) => MathF.Floor(x._value);
-            SingleC IMath<SingleC>.IEEERemainder(SingleC x, SingleC y) => MathF.IEEERemainder(x._value, y._value);
-            SingleC IMath<SingleC>.Log(SingleC x) => MathF.Log(x._value);
-            SingleC IMath<SingleC>.Log(SingleC x, SingleC y) => MathF.Log(x._value, y._value);
-            SingleC IMath<SingleC>.Log10(SingleC x) => MathF.Log10(x._value);
-            SingleC IMath<SingleC>.Max(SingleC x, SingleC y) => MathF.Max(x._value, y._value);
-            SingleC IMath<SingleC>.Min(SingleC x, SingleC y) => MathF.Min(x._value, y._value);
-            SingleC IMath<SingleC>.PI { get; } = MathF.PI;
-            SingleC IMath<SingleC>.Pow(SingleC x, SingleC y) => MathF.Pow(x._value, y._value);
-            SingleC IMath<SingleC>.Round(SingleC x) => MathF.Round(x._value);
-            SingleC IMath<SingleC>.Round(SingleC x, int digits) => MathF.Round(x._value, digits);
-            SingleC IMath<SingleC>.Round(SingleC x, int digits, MidpointRounding mode) => MathF.Round(x._value, digits, mode);
-            SingleC IMath<SingleC>.Round(SingleC x, MidpointRounding mode) => MathF.Round(x._value, mode);
-            SingleC IMath<SingleC>.Sin(SingleC x) => MathF.Sin(x._value);
-            SingleC IMath<SingleC>.Sinh(SingleC x) => MathF.Sinh(x._value);
-            SingleC IMath<SingleC>.Sqrt(SingleC x) => MathF.Sqrt(x._value);
-            SingleC IMath<SingleC>.Tan(SingleC x) => MathF.Tan(x._value);
-            SingleC IMath<SingleC>.Tanh(SingleC x) => MathF.Tanh(x._value);
-            SingleC IMath<SingleC>.Tau { get; } = MathF.PI * 2f;
-            SingleC IMath<SingleC>.Truncate(SingleC x) => MathF.Truncate(x._value);
+            SingleC IMath<SingleC>.Abs(SingleC value) => MathFShim.Abs(value._value);
+            SingleC IMath<SingleC>.Acos(SingleC x) => MathFShim.Acos(x._value);
+            SingleC IMath<SingleC>.Acosh(SingleC x) => MathFShim.Acosh(x._value);
+            SingleC IMath<SingleC>.Asin(SingleC x) => MathFShim.Asin(x._value);
+            SingleC IMath<SingleC>.Asinh(SingleC x) => MathFShim.Asinh(x._value);
+            SingleC IMath<SingleC>.Atan(SingleC x) => MathFShim.Atan(x._value);
+            SingleC IMath<SingleC>.Atan2(SingleC x, SingleC y) => MathFShim.Atan2(x._value, y._value);
+            SingleC IMath<SingleC>.Atanh(SingleC x) => MathFShim.Atanh(x._value);
+            SingleC IMath<SingleC>.Cbrt(SingleC x) => MathFShim.Cbrt(x._value);
+            SingleC IMath<SingleC>.Ceiling(SingleC x) => MathFShim.Ceiling(x._value);
+            SingleC IMath<SingleC>.Clamp(SingleC x, SingleC bound1, SingleC bound2) => bound1 > bound2 ? MathFShim.Min(bound1._value, MathFShim.Max(bound2._value, x._value)) : MathFShim.Min(bound2._value, MathFShim.Max(bound1._value, x._value));
+            SingleC IMath<SingleC>.Cos(SingleC x) => MathFShim.Cos(x._value);
+            SingleC IMath<SingleC>.Cosh(SingleC x) => MathFShim.Cosh(x._value);
+            SingleC IMath<SingleC>.E { get; } = MathFShim.E;
+            SingleC IMath<SingleC>.Exp(SingleC x) => MathFShim.Exp(x._value);
+            SingleC IMath<SingleC>.Floor(SingleC x) => MathFShim.Floor(x._value);
+            SingleC IMath<SingleC>.IEEERemainder(SingleC x, SingleC y) => MathFShim.IEEERemainder(x._value, y._value);
+            SingleC IMath<SingleC>.Log(SingleC x) => MathFShim.Log(x._value);
+            SingleC IMath<SingleC>.Log(SingleC x, SingleC y) => MathFShim.Log(x._value, y._value);
+            SingleC IMath<SingleC>.Log10(SingleC x) => MathFShim.Log10(x._value);
+            SingleC IMath<SingleC>.Max(SingleC x, SingleC y) => MathFShim.Max(x._value, y._value);
+            SingleC IMath<SingleC>.Min(SingleC x, SingleC y) => MathFShim.Min(x._value, y._value);
+            SingleC IMath<SingleC>.PI { get; } = MathFShim.PI;
+            SingleC IMath<SingleC>.Pow(SingleC x, SingleC y) => MathFShim.Pow(x._value, y._value);
+            SingleC IMath<SingleC>.Round(SingleC x) => MathFShim.Round(x._value);
+            SingleC IMath<SingleC>.Round(SingleC x, int digits) => MathFShim.Round(x._value, digits);
+            SingleC IMath<SingleC>.Round(SingleC x, int digits, MidpointRounding mode) => MathFShim.Round(x._value, digits, mode);
+            SingleC IMath<SingleC>.Round(SingleC x, MidpointRounding mode) => MathFShim.Round(x._value, mode);
+            SingleC IMath<SingleC>.Sin(SingleC x) => MathFShim.Sin(x._value);
+            SingleC IMath<SingleC>.Sinh(SingleC x) => MathFShim.Sinh(x._value);
+            SingleC IMath<SingleC>.Sqrt(SingleC x) => MathFShim.Sqrt(x._value);
+            SingleC IMath<SingleC>.Tan(SingleC x) => MathFShim.Tan(x._value);
+            SingleC IMath<SingleC>.Tanh(SingleC x) => MathFShim.Tanh(x._value);
+            SingleC IMath<SingleC>.Tau { get; } = MathFShim.PI * 2f;
+            SingleC IMath<SingleC>.Truncate(SingleC x) => MathFShim.Truncate(x._value);
             int IMath<SingleC>.Sign(SingleC x) => Math.Sign(x._value);
 
             int INumericBitConverter<SingleC>.ConvertedSize => sizeof(float);

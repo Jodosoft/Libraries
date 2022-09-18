@@ -191,13 +191,13 @@ namespace Jodo.Numerics.Clamped
 
             Int16C IMath<Int16C>.Abs(Int16C value) => Math.Abs(value._value);
             Int16C IMath<Int16C>.Acos(Int16C x) => (Int16C)Math.Acos(x._value);
-            Int16C IMath<Int16C>.Acosh(Int16C x) => (Int16C)MathCompat.Acosh(x._value);
+            Int16C IMath<Int16C>.Acosh(Int16C x) => (Int16C)MathShim.Acosh(x._value);
             Int16C IMath<Int16C>.Asin(Int16C x) => (Int16C)Math.Asin(x._value);
-            Int16C IMath<Int16C>.Asinh(Int16C x) => (Int16C)MathCompat.Asinh(x._value);
+            Int16C IMath<Int16C>.Asinh(Int16C x) => (Int16C)MathShim.Asinh(x._value);
             Int16C IMath<Int16C>.Atan(Int16C x) => (Int16C)Math.Atan(x._value);
             Int16C IMath<Int16C>.Atan2(Int16C x, Int16C y) => (Int16C)Math.Atan2(x._value, y._value);
-            Int16C IMath<Int16C>.Atanh(Int16C x) => (Int16C)MathCompat.Atanh(x._value);
-            Int16C IMath<Int16C>.Cbrt(Int16C x) => (Int16C)MathCompat.Cbrt(x._value);
+            Int16C IMath<Int16C>.Atanh(Int16C x) => (Int16C)MathShim.Atanh(x._value);
+            Int16C IMath<Int16C>.Cbrt(Int16C x) => (Int16C)MathShim.Cbrt(x._value);
             Int16C IMath<Int16C>.Ceiling(Int16C x) => x;
             Int16C IMath<Int16C>.Clamp(Int16C x, Int16C bound1, Int16C bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             Int16C IMath<Int16C>.Cos(Int16C x) => (Int16C)Math.Cos(x._value);

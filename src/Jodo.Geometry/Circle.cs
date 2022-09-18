@@ -97,7 +97,7 @@ namespace Jodo.Geometry
 
         public bool Equals(Circle<TNumeric> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
         public override bool Equals(object? obj) => obj is Circle<TNumeric> circle && Equals(circle);
-        public override int GetHashCode() => HashCode.Combine(Center, Radius);
+        public override int GetHashCode() => HashCodeShim.Combine(Center, Radius);
         public override string ToString() => $"<X:{Center.X}, Y:{Center.Y}, R:{Radius}>";
         public string ToString(string format, IFormatProvider formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, R:{Radius.ToString(format, formatProvider)}>";
 

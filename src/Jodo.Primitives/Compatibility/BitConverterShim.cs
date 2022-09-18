@@ -22,7 +22,7 @@ using System.Runtime.CompilerServices;
 
 namespace Jodo.Primitives.Compatibility
 {
-    public static class BitConverterCompat
+    public static class BitConverterShim
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe int SingleToInt32Bits(float value)

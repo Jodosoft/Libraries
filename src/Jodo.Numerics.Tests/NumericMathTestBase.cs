@@ -128,9 +128,9 @@ namespace Jodo.Numerics.Tests
                 randomValue = Math.Round(Random.NextDouble(1, 10), 2);
                 if (Numeric.IsIntegral<TNumeric>()) randomValue = Math.Round(randomValue);
             }
-            while (!DoubleCompat.IsFinite(MathCompat.Acosh(randomValue)));
+            while (!DoubleShim.IsFinite(MathShim.Acosh(randomValue)));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Acosh(randomValue), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Acosh(randomValue), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Acosh(input);
@@ -145,7 +145,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             int lowerBound = 1;
             TNumeric input = ConvertN.ToNumeric<TNumeric>(lowerBound, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Acosh(lowerBound), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Acosh(lowerBound), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Acosh(input);
@@ -160,7 +160,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             double upperBound = TestUtilities.ReduceSignificance(Numeric.MaxValue<TNumeric>());
             TNumeric input = ConvertN.ToNumeric<TNumeric>(upperBound, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Acosh(upperBound), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Acosh(upperBound), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Acosh(input);
@@ -221,7 +221,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             double randomValue = Math.Round(Random.NextDouble(), 2);
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Asinh(randomValue), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Asinh(randomValue), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Asinh(input);
@@ -236,7 +236,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             double lowerBound = TestUtilities.ReduceSignificance(Numeric.MinValue<TNumeric>());
             TNumeric input = ConvertN.ToNumeric<TNumeric>(lowerBound, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Asinh(lowerBound), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Asinh(lowerBound), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Asinh(input);
@@ -251,7 +251,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             double upperBound = TestUtilities.ReduceSignificance(Numeric.MaxValue<TNumeric>());
             TNumeric input = ConvertN.ToNumeric<TNumeric>(upperBound, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Asinh(upperBound), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Asinh(upperBound), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Asinh(input);
@@ -349,9 +349,9 @@ namespace Jodo.Numerics.Tests
                 randomValue = Math.Round(Random.NextDouble(Numeric.IsSigned<TNumeric>() ? -1 : 0, 1), 2);
                 if (Numeric.IsIntegral<TNumeric>()) randomValue = Math.Round(randomValue);
             }
-            while (!DoubleCompat.IsFinite(MathCompat.Atanh(randomValue)));
+            while (!DoubleShim.IsFinite(MathShim.Atanh(randomValue)));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Atanh(randomValue), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Atanh(randomValue), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Atanh(input);
@@ -366,7 +366,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             double randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>(Generation.Extended));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Cbrt(randomValue), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Cbrt(randomValue), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Cbrt(input);
@@ -380,7 +380,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             TNumeric input = ConvertN.ToNumeric<TNumeric>(0, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Cbrt(0d), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Cbrt(0d), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Cbrt(input);
@@ -395,7 +395,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             double lowerBound = TestUtilities.ReduceSignificance(Numeric.MinValue<TNumeric>());
             TNumeric input = ConvertN.ToNumeric<TNumeric>(lowerBound, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Cbrt(lowerBound), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Cbrt(lowerBound), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Cbrt(input);
@@ -410,7 +410,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             double upperBound = TestUtilities.ReduceSignificance(Numeric.MaxValue<TNumeric>());
             TNumeric input = ConvertN.ToNumeric<TNumeric>(upperBound, Conversion.Cast);
-            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathCompat.Cbrt(upperBound), Conversion.Cast);
+            TNumeric expected = ConvertN.ToNumeric<TNumeric>(MathShim.Cbrt(upperBound), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Cbrt(input);
@@ -567,7 +567,7 @@ namespace Jodo.Numerics.Tests
                 randomValue = Math.Round(Random.NextDouble(Numeric.IsSigned<TNumeric>() ? -1 : 0, 1), 2);
                 if (Numeric.IsIntegral<TNumeric>()) randomValue = Math.Round(randomValue);
             }
-            while (!DoubleCompat.IsFinite(Math.Cosh(randomValue)));
+            while (!DoubleShim.IsFinite(Math.Cosh(randomValue)));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Cosh(randomValue), Conversion.Cast);
 
@@ -712,7 +712,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             double randomValue;
             do { randomValue = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.One<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended)); }
-            while (!DoubleCompat.IsFinite(Math.Log(randomValue)));
+            while (!DoubleShim.IsFinite(Math.Log(randomValue)));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Log(randomValue), Conversion.Cast);
 
@@ -985,7 +985,7 @@ namespace Jodo.Numerics.Tests
                 randomValue = Math.Round(Random.NextDouble(Numeric.IsSigned<TNumeric>() ? -1 : 0, 1), 2);
                 if (Numeric.IsIntegral<TNumeric>()) randomValue = Math.Round(randomValue);
             }
-            while (!DoubleCompat.IsFinite(Math.Sinh(randomValue)));
+            while (!DoubleShim.IsFinite(Math.Sinh(randomValue)));
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Sinh(randomValue), Conversion.Cast);
 
@@ -1096,7 +1096,7 @@ namespace Jodo.Numerics.Tests
             {
                 input = Math.Round(Random.NextDouble(Numeric.IsSigned<TNumeric>() ? -1 : 0, 1), 2);
             }
-            while (!DoubleCompat.IsFinite(Math.Tanh(input)));
+            while (!DoubleShim.IsFinite(Math.Tanh(input)));
             TNumeric sut = ConvertN.ToNumeric<TNumeric>(input, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Tanh(input), Conversion.Cast);
 

@@ -21,7 +21,7 @@ using System.Runtime.CompilerServices;
 
 namespace Jodo.Primitives.Compatibility
 {
-    public static class SingleCompat
+    public static class SingleShim
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsFinite(float f)
@@ -29,7 +29,7 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1
             return float.IsFinite(f);
 #else
-            int bits = BitConverterCompat.SingleToInt32Bits(f);
+            int bits = BitConverterShim.SingleToInt32Bits(f);
             return (bits & 0x7FFFFFFF) < 0x7F800000;
 #endif
         }
@@ -40,7 +40,7 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1
             return float.IsNegative(f);
 #else
-            return BitConverterCompat.SingleToInt32Bits(f) < 0;
+            return BitConverterShim.SingleToInt32Bits(f) < 0;
 #endif
         }
 
@@ -49,7 +49,7 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1
             return float.IsNormal(f);
 #else
-            int bits = BitConverterCompat.SingleToInt32Bits(f);
+            int bits = BitConverterShim.SingleToInt32Bits(f);
             bits &= 0x7FFFFFFF;
             return bits < 0x7F800000 && bits != 0 && (bits & 0x7F800000) != 0;
 #endif
@@ -60,7 +60,7 @@ namespace Jodo.Primitives.Compatibility
 #if NETSTANDARD2_1
             return float.IsSubnormal(f);
 #else
-            int bits = BitConverterCompat.SingleToInt32Bits(f);
+            int bits = BitConverterShim.SingleToInt32Bits(f);
             bits &= 0x7FFFFFFF;
             return bits < 0x7F800000 && bits != 0 && (bits & 0x7F800000) == 0;
 #endif

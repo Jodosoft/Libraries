@@ -25,8 +25,8 @@ using Jodo.Primitives;
 
 namespace Jodo.Numerics
 {
-    [SuppressMessage("csharpsquid", "S2583:Useless \"if(true) {...}\" and \"if(false){...}\" blocks should be removed", Justification = "False positives to do with around primitive number casting.")]
-    [SuppressMessage("csharpsquid", "S3358:Ternary operators should not be nested", Justification = "The alternative seems worse.")]
+    [SuppressMessage("csharpsquid", "S2583:Useless \"if(true) {...}\" and \"if(false){...}\" blocks should be removed", Justification = "False positives (relating to automatic conversion between the built-in number types).")]
+    [SuppressMessage("csharpsquid", "S3358:Ternary operators should not be nested", Justification = "I think this particular file would be harder to maintain if they were written in full.")]
     public static class ConvertN
     {
         [DebuggerStepThrough]

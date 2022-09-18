@@ -26,6 +26,11 @@ using NUnit.Framework;
 
 namespace Jodo.Testing
 {
+    /// <summary>
+    /// Provides common test methods for structs that verify fundamental methods such
+    /// as <see cref="object.Equals(object)"/> and <see cref="object.GetHashCode()"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of struct.</typeparam>
     public abstract class ObjectTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]

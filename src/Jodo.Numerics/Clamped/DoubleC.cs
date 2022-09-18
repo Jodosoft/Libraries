@@ -64,8 +64,8 @@ namespace Jodo.Numerics.Clamped
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool IsNormal(DoubleC d) => DoubleCompat.IsNormal(d._value);
-        public static bool IsSubnormal(DoubleC d) => DoubleCompat.IsSubnormal(d._value);
+        public static bool IsNormal(DoubleC d) => DoubleShim.IsNormal(d._value);
+        public static bool IsSubnormal(DoubleC d) => DoubleShim.IsSubnormal(d._value);
         public static bool TryParse(string s, IFormatProvider? provider, out DoubleC result) => TryHelper.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleC result) => TryHelper.Run(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out DoubleC result) => TryHelper.Run(() => Parse(s, style), out result);
@@ -140,7 +140,7 @@ namespace Jodo.Numerics.Clamped
 
         private static double Check(double value)
         {
-            if (DoubleCompat.IsFinite(value)) return value;
+            if (DoubleShim.IsFinite(value)) return value;
             else if (double.IsPositiveInfinity(value)) return double.MaxValue;
             else if (double.IsNegativeInfinity(value)) return double.MinValue;
             else return 0d;
@@ -208,13 +208,13 @@ namespace Jodo.Numerics.Clamped
 
             DoubleC IMath<DoubleC>.Abs(DoubleC value) => Math.Abs(value._value);
             DoubleC IMath<DoubleC>.Acos(DoubleC x) => Math.Acos(x._value);
-            DoubleC IMath<DoubleC>.Acosh(DoubleC x) => MathCompat.Acosh(x._value);
+            DoubleC IMath<DoubleC>.Acosh(DoubleC x) => MathShim.Acosh(x._value);
             DoubleC IMath<DoubleC>.Asin(DoubleC x) => Math.Asin(x._value);
-            DoubleC IMath<DoubleC>.Asinh(DoubleC x) => MathCompat.Asinh(x._value);
+            DoubleC IMath<DoubleC>.Asinh(DoubleC x) => MathShim.Asinh(x._value);
             DoubleC IMath<DoubleC>.Atan(DoubleC x) => Math.Atan(x._value);
             DoubleC IMath<DoubleC>.Atan2(DoubleC x, DoubleC y) => Math.Atan2(x._value, y._value);
-            DoubleC IMath<DoubleC>.Atanh(DoubleC x) => MathCompat.Atanh(x._value);
-            DoubleC IMath<DoubleC>.Cbrt(DoubleC x) => MathCompat.Cbrt(x._value);
+            DoubleC IMath<DoubleC>.Atanh(DoubleC x) => MathShim.Atanh(x._value);
+            DoubleC IMath<DoubleC>.Cbrt(DoubleC x) => MathShim.Cbrt(x._value);
             DoubleC IMath<DoubleC>.Ceiling(DoubleC x) => Math.Ceiling(x._value);
             DoubleC IMath<DoubleC>.Clamp(DoubleC x, DoubleC bound1, DoubleC bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             DoubleC IMath<DoubleC>.Cos(DoubleC x) => Math.Cos(x._value);

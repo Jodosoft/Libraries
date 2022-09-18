@@ -30,7 +30,6 @@ namespace Jodo.Numerics
         private const string InvalidGenerationValue = $"The value '{{0}}' is not valid for this usage of the type {nameof(Generation)}.";
         private const string XCannotBeGreaterThanY = "'{0}' cannot be greater than '{1}'.";
         private const string XMustBeFinite = "'{0}' must be a finite value.";
-        private const int NegativeOffsetSingle = 0x800000;
 
         [DebuggerStepThrough]
         public static TNumeric NextNumeric<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
@@ -377,7 +376,7 @@ namespace Jodo.Numerics
         {
             if (bound1 == bound2) return bound1;
 
-            if (bound1 > bound2) ValueTupleCompat.Swap(ref bound1, ref bound2);
+            if (bound1 > bound2) ValueTupleShim.Swap(ref bound1, ref bound2);
 
             if (bound2 != int.MaxValue) return random.Next(bound1, bound2 + 1);
 
@@ -412,7 +411,7 @@ namespace Jodo.Numerics
         private static uint NextUInt32Extended(this Random random, uint bound1, uint bound2)
         {
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2) ValueTupleCompat.Swap(ref bound1, ref bound2);
+            if (bound1 > bound2) ValueTupleShim.Swap(ref bound1, ref bound2);
 
             uint spread = bound2 - bound1;
 
@@ -451,7 +450,7 @@ namespace Jodo.Numerics
         private static long NextInt64Extended(this Random random, long bound1, long bound2)
         {
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2) ValueTupleCompat.Swap(ref bound1, ref bound2);
+            if (bound1 > bound2) ValueTupleShim.Swap(ref bound1, ref bound2);
 
             BigInteger spread = (BigInteger)bound2 - bound1;
 
@@ -492,7 +491,7 @@ namespace Jodo.Numerics
         private static ulong NextUInt64Extended(this Random random, ulong bound1, ulong bound2)
         {
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2) ValueTupleCompat.Swap(ref bound1, ref bound2);
+            if (bound1 > bound2) ValueTupleShim.Swap(ref bound1, ref bound2);
 
             BigInteger spread = (BigInteger)bound2 - bound1;
 
@@ -511,8 +510,8 @@ namespace Jodo.Numerics
         private static float NextSingleDefault(this Random random, float minValue, float maxValue)
         {
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
-            if (!SingleCompat.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
-            if (!SingleCompat.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
+            if (!SingleShim.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
+            if (!SingleShim.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
 
             if (minValue == maxValue) return minValue;
 
@@ -521,21 +520,21 @@ namespace Jodo.Numerics
 
         private static float NextSingleExtended(this Random random, float bound1, float bound2)
         {
-            if (!SingleCompat.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, string.Format(XMustBeFinite, nameof(bound1)));
-            if (!SingleCompat.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, string.Format(XMustBeFinite, nameof(bound1)));
+            if (!SingleShim.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, string.Format(XMustBeFinite, nameof(bound1)));
+            if (!SingleShim.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, string.Format(XMustBeFinite, nameof(bound1)));
 
             if (bound1 == bound2) return bound1;
 
-            ValueTupleCompat.Swap(bound1 > bound2, ref bound1, ref bound2);
+            ValueTupleShim.Swap(bound1 > bound2, ref bound1, ref bound2);
 
-            int bound1Bits = BitConverterCompat.SingleToInt32Bits(bound1);
-            int bound2Bits = BitConverterCompat.SingleToInt32Bits(bound2);
+            int bound1Bits = BitConverterShim.SingleToInt32Bits(bound1);
+            int bound2Bits = BitConverterShim.SingleToInt32Bits(bound2);
 
             int resultBitValue = random.Next(
                 bound1Bits < 0 ? int.MinValue - bound1Bits : bound1Bits,
                 (bound2Bits < 0 ? int.MinValue - bound2Bits : bound2Bits) + 1);
 
-            float result = BitConverterCompat.Int32BitsToSingle(resultBitValue < 0 ? int.MinValue - resultBitValue : resultBitValue);
+            float result = BitConverterShim.Int32BitsToSingle(resultBitValue < 0 ? int.MinValue - resultBitValue : resultBitValue);
 
             return result;
         }
@@ -543,8 +542,8 @@ namespace Jodo.Numerics
         private static double NextDoubleDefault(this Random random, double minValue, double maxValue)
         {
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
-            if (!DoubleCompat.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
-            if (!DoubleCompat.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
+            if (!DoubleShim.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
+            if (!DoubleShim.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
 
             if (minValue == maxValue) return minValue;
 
@@ -553,22 +552,22 @@ namespace Jodo.Numerics
 
         private static double NextDoubleExtended(this Random random, double bound1, double bound2)
         {
-            if (!DoubleCompat.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, string.Format(XMustBeFinite, nameof(bound1)));
-            if (!DoubleCompat.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, string.Format(XMustBeFinite, nameof(bound1)));
+            if (!DoubleShim.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, string.Format(XMustBeFinite, nameof(bound1)));
+            if (!DoubleShim.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, string.Format(XMustBeFinite, nameof(bound1)));
 
             if (bound1 == bound2) return bound1;
 
-            ValueTupleCompat.Swap(bound1 > bound2, ref bound1, ref bound2);
+            ValueTupleShim.Swap(bound1 > bound2, ref bound1, ref bound2);
 
-            long bound1Bits = BitConverterCompat.DoubleToInt64Bits(bound1);
-            long bound2Bits = BitConverterCompat.DoubleToInt64Bits(bound2);
+            long bound1Bits = BitConverterShim.DoubleToInt64Bits(bound1);
+            long bound2Bits = BitConverterShim.DoubleToInt64Bits(bound2);
 
             long resultBitValue = random.NextInt64(
                 bound1Bits < 0 ? long.MinValue - bound1Bits : bound1Bits,
                 bound2Bits < 0 ? long.MinValue - bound2Bits : bound2Bits,
                 Generation.Extended);
 
-            double result = BitConverterCompat.Int64BitsToDouble(resultBitValue < 0 ? long.MinValue - resultBitValue : resultBitValue);
+            double result = BitConverterShim.Int64BitsToDouble(resultBitValue < 0 ? long.MinValue - resultBitValue : resultBitValue);
 
             return result;
         }
@@ -585,7 +584,7 @@ namespace Jodo.Numerics
         private static decimal NextDecimalExtended(this Random random, decimal minValue, decimal maxValue)
         {
             if (minValue == maxValue) return minValue;
-            ValueTupleCompat.Swap(minValue > maxValue, ref minValue, ref maxValue);
+            ValueTupleShim.Swap(minValue > maxValue, ref minValue, ref maxValue);
 
             decimal difference;
             try

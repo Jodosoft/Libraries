@@ -191,13 +191,13 @@ namespace Jodo.Numerics
             int IMath<Int64N>.Sign(Int64N x) => Math.Sign(x._value);
             Int64N IMath<Int64N>.Abs(Int64N value) => Math.Abs(value);
             Int64N IMath<Int64N>.Acos(Int64N x) => (Int64N)Math.Acos(x);
-            Int64N IMath<Int64N>.Acosh(Int64N x) => (Int64N)MathCompat.Acosh(x);
+            Int64N IMath<Int64N>.Acosh(Int64N x) => (Int64N)MathShim.Acosh(x);
             Int64N IMath<Int64N>.Asin(Int64N x) => (Int64N)Math.Asin(x);
-            Int64N IMath<Int64N>.Asinh(Int64N x) => (Int64N)MathCompat.Asinh(x);
+            Int64N IMath<Int64N>.Asinh(Int64N x) => (Int64N)MathShim.Asinh(x);
             Int64N IMath<Int64N>.Atan(Int64N x) => (Int64N)Math.Atan(x);
             Int64N IMath<Int64N>.Atan2(Int64N y, Int64N x) => (Int64N)Math.Atan2(y, x);
-            Int64N IMath<Int64N>.Atanh(Int64N x) => (Int64N)MathCompat.Atanh(x);
-            Int64N IMath<Int64N>.Cbrt(Int64N x) => (Int64N)MathCompat.Cbrt(x);
+            Int64N IMath<Int64N>.Atanh(Int64N x) => (Int64N)MathShim.Atanh(x);
+            Int64N IMath<Int64N>.Cbrt(Int64N x) => (Int64N)MathShim.Cbrt(x);
             Int64N IMath<Int64N>.Ceiling(Int64N x) => x;
             Int64N IMath<Int64N>.Clamp(Int64N x, Int64N bound1, Int64N bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             Int64N IMath<Int64N>.Cos(Int64N x) => (Int64N)Math.Cos(x);

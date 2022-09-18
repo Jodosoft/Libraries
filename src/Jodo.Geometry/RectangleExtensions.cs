@@ -25,83 +25,51 @@ namespace Jodo.Geometry
     public static class RectangleExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static TNumeric GetLeftAxisAligned<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
-        {
-            return value.Center.X.Subtract(value.Width.Half());
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static TNumeric GetRightAxisAligned<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
-        {
-            return value.GetLeftAxisAligned().Add(value.Dimensions.X);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static TNumeric GetBottomAxisAligned<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
-        {
-            return value.Center.Y.Subtract(value.Height.Half());
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static TNumeric GetTopAxisAligned<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
-        {
-            return value.GetBottomAxisAligned().Add(value.Dimensions.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomCenter<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.Center.X, value.GetBottomAxisAligned())
-                .RotateAround(value.Center, value.Angle);
+            return Rectangle.GetBottomCenter(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomLeft<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetLeftAxisAligned(), value.GetBottomAxisAligned())
-                .RotateAround(value.Center, value.Angle);
+            return Rectangle.GetBottomLeft(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomRight<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetRightAxisAligned(), value.GetBottomAxisAligned())
-                .RotateAround(value.Center, value.Angle);
+            return Rectangle.GetBottomRight(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetLeftCenter<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetLeftAxisAligned(), value.Center.Y)
-                .RotateAround(value.Center, value.Angle);
+            return Rectangle.GetLeftCenter(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetRightCenter<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetRightAxisAligned(), value.Center.Y)
-                .RotateAround(value.Center, value.Angle);
+            return Rectangle.GetRightCenter(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopCenter<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.Center.X, value.GetTopAxisAligned())
-                .RotateAround(value.Center, value.Angle);
+            return Rectangle.GetTopCenter(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopLeft<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetLeftAxisAligned(), value.GetTopAxisAligned())
-                .RotateAround(value.Center, value.Angle);
+            return Rectangle.GetTopLeft(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopRight<TNumeric>(this Rectangle<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(value.GetRightAxisAligned(), value.GetTopAxisAligned())
-                .RotateAround(value.Center, value.Angle);
+            return Rectangle.GetTopRight(value.Center, value.Dimensions, value.Angle);
         }
     }
 }

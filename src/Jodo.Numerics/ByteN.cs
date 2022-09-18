@@ -192,13 +192,13 @@ namespace Jodo.Numerics
             int IMath<ByteN>.Sign(ByteN x) => x._value == 0 ? 0 : 1;
             ByteN IMath<ByteN>.Abs(ByteN value) => value._value;
             ByteN IMath<ByteN>.Acos(ByteN x) => (byte)Math.Acos(x._value);
-            ByteN IMath<ByteN>.Acosh(ByteN x) => (byte)MathCompat.Acosh(x._value);
+            ByteN IMath<ByteN>.Acosh(ByteN x) => (byte)MathShim.Acosh(x._value);
             ByteN IMath<ByteN>.Asin(ByteN x) => (byte)Math.Asin(x._value);
-            ByteN IMath<ByteN>.Asinh(ByteN x) => (byte)MathCompat.Asinh(x._value);
+            ByteN IMath<ByteN>.Asinh(ByteN x) => (byte)MathShim.Asinh(x._value);
             ByteN IMath<ByteN>.Atan(ByteN x) => (byte)Math.Atan(x._value);
             ByteN IMath<ByteN>.Atan2(ByteN x, ByteN y) => (byte)Math.Atan2(x._value, y._value);
-            ByteN IMath<ByteN>.Atanh(ByteN x) => (byte)MathCompat.Atanh(x._value);
-            ByteN IMath<ByteN>.Cbrt(ByteN x) => (byte)MathCompat.Cbrt(x._value);
+            ByteN IMath<ByteN>.Atanh(ByteN x) => (byte)MathShim.Atanh(x._value);
+            ByteN IMath<ByteN>.Cbrt(ByteN x) => (byte)MathShim.Cbrt(x._value);
             ByteN IMath<ByteN>.Ceiling(ByteN x) => x;
             ByteN IMath<ByteN>.Clamp(ByteN x, ByteN bound1, ByteN bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             ByteN IMath<ByteN>.Cos(ByteN x) => (byte)Math.Cos(x._value);

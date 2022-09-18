@@ -24,7 +24,7 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Numerics.Clamped
 {
-    [SuppressMessage("csharpsquid", "S3358")]
+    [SuppressMessage("csharpsquid", "S3358:Ternary operators should not be nested", Justification = "I think this particular file would be harder to maintain if they were written in full.")]
     public static class ClampedMath
     {
         [CLSCompliant(false)] public static sbyte Add(sbyte x, sbyte y) { try { checked { return (sbyte)(x + y); } } catch (OverflowException) { return y > 0 ? sbyte.MaxValue : sbyte.MinValue; } }
@@ -295,7 +295,7 @@ namespace Jodo.Numerics.Clamped
 
         public static float Pow(float x, float y)
         {
-            float result = MathF.Pow(x, y);
+            float result = MathFShim.Pow(x, y);
             if (float.IsNaN(result)) return 0f;
             if (float.IsPositiveInfinity(result)) return float.MaxValue;
             if (float.IsNegativeInfinity(result)) return float.MinValue;

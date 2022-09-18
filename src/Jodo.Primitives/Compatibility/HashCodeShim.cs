@@ -17,55 +17,93 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#if !NETSTANDARD2_1_OR_GREATER
-
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Jodo.Primitives.Compatibility
 {
     [SuppressMessage("csharpsquid", "S2436:Types and methods should not have too many generic parameters", Justification = "Like-for-like shims for SDK methods")]
     [SuppressMessage("csharpsquid", "S107:Methods should not have too many parameters", Justification = "Like-for-like shims for SDK methods")]
-    public struct HashCode
+    public static class HashCodeShim
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine<T1>(T1 value1)
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return System.HashCode.Combine(value1);
+#else
             return new { value1 }.GetHashCode();
+#endif
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine<T1, T2>(T1 value1, T2 value2)
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return System.HashCode.Combine(value1);
+#else
             return new { value1, value2 }.GetHashCode();
+#endif
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine<T1, T2, T3>(T1 value1, T2 value2, T3 value3)
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return System.HashCode.Combine(value1);
+#else
             return new { value1, value2, value3 }.GetHashCode();
+#endif
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine<T1, T2, T3, T4>(T1 value1, T2 value2, T3 value3, T4 value4)
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return System.HashCode.Combine(value1, value2, value3, value4);
+#else
             return new { value1, value2, value3, value4 }.GetHashCode();
+#endif
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine<T1, T2, T3, T4, T5>(T1 value1, T2 value2, T3 value3, T4 value4, T5 value5)
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return System.HashCode.Combine(value1, value2, value3, value4, value5);
+#else
             return new { value1, value2, value3, value4, value5 }.GetHashCode();
+#endif
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine<T1, T2, T3, T4, T5, T6>(T1 value1, T2 value2, T3 value3, T4 value4, T5 value5, T6 value6)
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return System.HashCode.Combine(value1, value2, value3, value4, value5, value6);
+#else
             return new { value1, value2, value3, value4, value5, value6 }.GetHashCode();
+#endif
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine<T1, T2, T3, T4, T5, T6, T7>(T1 value1, T2 value2, T3 value3, T4 value4, T5 value5, T6 value6, T7 value7)
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return System.HashCode.Combine(value1, value2, value3, value4, value5, value6, value7);
+#else
             return new { value1, value2, value3, value4, value5, value6, value7 }.GetHashCode();
+#endif
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine<T1, T2, T3, T4, T5, T6, T7, T8>(T1 value1, T2 value2, T3 value3, T4 value4, T5 value5, T6 value6, T7 value7, T8 value8)
         {
+#if NETSTANDARD2_1_OR_GREATER
+            return System.HashCode.Combine(value1, value2, value3, value4, value5, value6, value7, value8);
+#else
             return new { value1, value2, value3, value4, value5, value6, value7, value8 }.GetHashCode();
+#endif
         }
     }
 }
-#endif

@@ -97,7 +97,7 @@ namespace Jodo.Geometry
         public AARectangle<TOther> Convert<TOther>(Func<TNumeric, TOther> convert) where TOther : struct, INumeric<TOther> => new AARectangle<TOther>(convert(Center.X), convert(Center.Y), convert(Dimensions.X), convert(Dimensions.Y));
         public bool Equals(AARectangle<TNumeric> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions);
         public override bool Equals(object? obj) => obj is AARectangle<TNumeric> fix && Equals(fix);
-        public override int GetHashCode() => HashCode.Combine(Center, Dimensions);
+        public override int GetHashCode() => HashCodeShim.Combine(Center, Dimensions);
         public override string ToString() => $"<X:{Center.X}, Y:{Center.Y}, W:{Dimensions.X}, H:{Dimensions.Y}>";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}>";
 
@@ -148,53 +148,49 @@ namespace Jodo.Geometry
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AARectangle<TNumeric> FromBottomLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new AARectangle<TNumeric>(bottomLeft.Add(dimensions.Half()), dimensions);
+            return new AARectangle<TNumeric>(GetCenterFromBottomLeft(bottomLeft, dimensions), dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AARectangle<TNumeric> FromBottomCenter<TNumeric>(Vector2N<TNumeric> bottomCenter, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new AARectangle<TNumeric>(bottomCenter.AddY(dimensions.Y.Half()), dimensions);
+            return new AARectangle<TNumeric>(GetCenterFromBottomCenter(bottomCenter, dimensions), dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AARectangle<TNumeric> FromBottomRight<TNumeric>(Vector2N<TNumeric> bottomRight, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new AARectangle<TNumeric>(
-                new Vector2N<TNumeric>(bottomRight.X.Subtract(dimensions.X.Half()), bottomRight.Y.Add(dimensions.Y.Half())),
-                dimensions);
+            return new AARectangle<TNumeric>(GetCenterFromBottomRight(bottomRight, dimensions), dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AARectangle<TNumeric> FromLeftCenter<TNumeric>(Vector2N<TNumeric> leftCenter, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new AARectangle<TNumeric>(leftCenter.AddX(dimensions.X.Half()), dimensions);
+            return new AARectangle<TNumeric>(GetCenterFromLeftCenter(leftCenter, dimensions), dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AARectangle<TNumeric> FromRightCenter<TNumeric>(Vector2N<TNumeric> rightCenter, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new AARectangle<TNumeric>(rightCenter.SubtractX(dimensions.X.Half()), dimensions);
+            return new AARectangle<TNumeric>(GetCenterFromRightCenter(rightCenter, dimensions), dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AARectangle<TNumeric> FromTopCenter<TNumeric>(Vector2N<TNumeric> topCenter, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new AARectangle<TNumeric>(topCenter.SubtractY(dimensions.Y.Half()), dimensions);
+            return new AARectangle<TNumeric>(GetCenterFromTopCenter(topCenter, dimensions), dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AARectangle<TNumeric> FromTopLeft<TNumeric>(Vector2N<TNumeric> topLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new AARectangle<TNumeric>(
-                new Vector2N<TNumeric>(topLeft.X.Add(dimensions.X.Half()), topLeft.Y.Subtract(dimensions.Y.Half())),
-                dimensions);
+            return new AARectangle<TNumeric>(GetCenterFromTopLeft(topLeft, dimensions), dimensions);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static AARectangle<TNumeric> FromTopRight<TNumeric>(Vector2N<TNumeric> topRight, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new AARectangle<TNumeric>(topRight.Subtract(dimensions.Half()), dimensions);
+            return new AARectangle<TNumeric>(GetCenterFromTopRight(topRight, dimensions), dimensions);
         }
 
         public static AARectangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
@@ -207,6 +203,153 @@ namespace Jodo.Geometry
                     Numeric.Parse<TNumeric>(parts[2].Replace("W:", string.Empty).Trim(), style, provider),
                     Numeric.Parse<TNumeric>(parts[3].Replace("H:", string.Empty).Trim(), style, provider));
             else throw new FormatException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static TNumeric GetBottom<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return center.Y.Subtract(dimensions.Y.Half());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static TNumeric GetLeft<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return center.X.Subtract(dimensions.X.Half());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static TNumeric GetRight<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            // When subtracting, whole dimensions must be used to avoid errors caused by truncated integer division.
+            return center.X.Subtract(dimensions.X.Half()).Add(dimensions.X);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static TNumeric GetTop<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            // When subtracting, whole dimensions must be used to avoid errors caused by truncated integer division.
+            return center.Y.Subtract(dimensions.Y.Half()).Add(dimensions.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetBottomCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(center.X, GetBottom(center, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetBottomLeft<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetLeft(center, dimensions), GetBottom(center, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetBottomRight<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetRight(center, dimensions), GetBottom(center, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetLeftCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetLeft(center, dimensions), center.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetRightCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetRight(center, dimensions), center.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetTopCenter<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(center.X, GetTop(center, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetTopLeft<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetLeft(center, dimensions), GetTop(center, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetTopRight<TNumeric>(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetRight(center, dimensions), GetTop(center, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static TNumeric GetCenterYFromBottom<TNumeric>(Vector2N<TNumeric> bottom, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return bottom.Y.Add(dimensions.Y.Half());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static TNumeric GetCenterYFromTop<TNumeric>(Vector2N<TNumeric> top, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            // When subtracting, whole dimensions must be used to avoid errors caused by truncated integer division.
+            return top.Y.Subtract(dimensions.Y).Add(dimensions.Y.Half());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static TNumeric GetCenterXFromLeft<TNumeric>(Vector2N<TNumeric> left, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return left.X.Add(dimensions.X.Half());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static TNumeric GetCenterXFromRight<TNumeric>(Vector2N<TNumeric> right, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return right.X.Subtract(dimensions.X).Add(dimensions.X.Half());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromBottomCenter<TNumeric>(Vector2N<TNumeric> bottomCenter, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(bottomCenter.X, GetCenterYFromBottom(bottomCenter, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromBottomLeft<TNumeric>(Vector2N<TNumeric> bottomLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetCenterXFromLeft(bottomLeft, dimensions), GetCenterYFromBottom(bottomLeft, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromBottomRight<TNumeric>(Vector2N<TNumeric> bottomRight, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetCenterXFromRight(bottomRight, dimensions), GetCenterYFromBottom(bottomRight, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromLeftCenter<TNumeric>(Vector2N<TNumeric> leftCenter, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetCenterXFromLeft(leftCenter, dimensions), leftCenter.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromRightCenter<TNumeric>(Vector2N<TNumeric> rightCenter, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetCenterXFromRight(rightCenter, dimensions), rightCenter.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromTopCenter<TNumeric>(Vector2N<TNumeric> topCenter, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(topCenter.X, GetCenterYFromTop(topCenter, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromTopLeft<TNumeric>(Vector2N<TNumeric> topLeft, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetCenterXFromLeft(topLeft, dimensions), GetCenterYFromTop(topLeft, dimensions));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static Vector2N<TNumeric> GetCenterFromTopRight<TNumeric>(Vector2N<TNumeric> topRight, Vector2N<TNumeric> dimensions) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(GetCenterXFromRight(topRight, dimensions), GetCenterYFromTop(topRight, dimensions));
         }
     }
 }
