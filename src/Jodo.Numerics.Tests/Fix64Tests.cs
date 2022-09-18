@@ -24,21 +24,21 @@ namespace Jodo.Numerics.Tests
 {
     public static class Fix64Tests
     {
-        public sealed class JsonConvertTests : JsonConvertTestBase<Fix64> { }
-        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Fix64> { }
-        public sealed class NumericCastTests : NumericCastTestBase<Fix64> { }
-        public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<Fix64> { }
-        public sealed class NumericConvertTests : NumericConvertTestBase<Fix64> { }
-        public sealed class NumericMathTests : NumericMathTestBase<Fix64> { }
-        public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<Fix64> { }
-        public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<Fix64> { }
-        public sealed class NumericNonNaNTests : NumericNonNaNTestBase<Fix64> { }
-        public sealed class NumericRealTests : NumericRealTestBase<Fix64> { }
-        public sealed class NumericSignedTests : NumericSignedTestBase<Fix64> { }
-        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Fix64> { }
-        public sealed class NumericTests : NumericTestBase<Fix64> { }
-        public sealed class ObjectTests : ObjectTestBase<Fix64> { }
-        public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64> { }
-        public sealed class SerializableTests : SerializableTestBase<Fix64> { }
+        public sealed class JsonConvertTests : JsonConvertTestBase<Fix64Temp> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Fix64Temp> { }
+        public sealed class NumericCastTests : NumericCastTestBase<Fix64Temp> { }
+        public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<Fix64Temp> { }
+        public sealed class NumericConvertTests : NumericConvertTestBase<Fix64Temp> { }
+        public sealed class NumericMathTests : NumericMathTestBase<Fix64Temp> { }
+        public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<Fix64Temp> { }
+        public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<Fix64Temp> { }
+        public sealed class NumericNonNaNTests : NumericNonNaNTestBase<Fix64Temp> { }
+        public sealed class NumericRealTests : NumericRealTestBase<Fix64Temp> { }
+        public sealed class NumericSignedTests : NumericSignedTestBase<Fix64Temp> { }
+        public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Fix64Temp> { }
+        public sealed class NumericTests : NumericTestBase<Fix64Temp> { }
+        public sealed class ObjectTests : ObjectTestBase<Fix64Temp> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64Temp> { }
+        public sealed class SerializableTests : SerializableTestBase<Fix64Temp> { }
     }
 }

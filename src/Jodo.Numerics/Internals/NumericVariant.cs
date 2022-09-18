@@ -21,9 +21,9 @@ using System;
 using System.Collections.Generic;
 using Jodo.Primitives;
 
-namespace Jodo.Numerics
+namespace Jodo.Numerics.Internals
 {
-    public static class NumericVariant
+    internal static class NumericVariant
     {
         public static TNumeric Generate<TNumeric>(Random random, Variants scenarios) where TNumeric : struct, INumeric<TNumeric>
         {

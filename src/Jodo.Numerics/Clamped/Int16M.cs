@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -95,19 +96,19 @@ namespace Jodo.Numerics.Clamped
         public static bool operator ==(Int16M left, Int16M right) => left._value == right._value;
         public static bool operator >(Int16M left, Int16M right) => left._value > right._value;
         public static bool operator >=(Int16M left, Int16M right) => left._value >= right._value;
-        public static Int16M operator %(Int16M left, Int16M right) => ClampedMath.Remainder(left._value, right._value);
+        public static Int16M operator %(Int16M left, Int16M right) => Clamped.Remainder(left._value, right._value);
         public static Int16M operator &(Int16M left, Int16M right) => (short)(left._value & right._value);
-        public static Int16M operator -(Int16M left, Int16M right) => ClampedMath.Subtract(left._value, right._value);
-        public static Int16M operator --(Int16M value) => ClampedMath.Subtract(value._value, (short)1);
+        public static Int16M operator -(Int16M left, Int16M right) => Clamped.Subtract(left._value, right._value);
+        public static Int16M operator --(Int16M value) => Clamped.Subtract(value._value, (short)1);
         public static Int16M operator -(Int16M value) => (short)-value._value;
-        public static Int16M operator *(Int16M left, Int16M right) => ClampedMath.Multiply(left._value, right._value);
-        public static Int16M operator /(Int16M left, Int16M right) => ClampedMath.Divide(left._value, right._value);
+        public static Int16M operator *(Int16M left, Int16M right) => Clamped.Multiply(left._value, right._value);
+        public static Int16M operator /(Int16M left, Int16M right) => Clamped.Divide(left._value, right._value);
         public static Int16M operator ^(Int16M left, Int16M right) => (short)(left._value ^ right._value);
         public static Int16M operator |(Int16M left, Int16M right) => (short)(left._value | right._value);
         public static Int16M operator ~(Int16M value) => (short)~value._value;
-        public static Int16M operator +(Int16M left, Int16M right) => ClampedMath.Add(left._value, right._value);
+        public static Int16M operator +(Int16M left, Int16M right) => Clamped.Add(left._value, right._value);
         public static Int16M operator +(Int16M value) => value;
-        public static Int16M operator ++(Int16M value) => ClampedMath.Add(value._value, (short)1);
+        public static Int16M operator ++(Int16M value) => Clamped.Add(value._value, (short)1);
         public static Int16M operator <<(Int16M left, int right) => (short)(left._value << right);
         public static Int16M operator >>(Int16M left, int right) => (short)(left._value >> right);
 
@@ -211,7 +212,7 @@ namespace Jodo.Numerics.Clamped
             Int16M IMath<Int16M>.Max(Int16M x, Int16M y) => Math.Max(x._value, y._value);
             Int16M IMath<Int16M>.Min(Int16M x, Int16M y) => Math.Min(x._value, y._value);
             Int16M IMath<Int16M>.PI { get; } = (short)3;
-            Int16M IMath<Int16M>.Pow(Int16M x, Int16M y) => ClampedMath.Pow(x._value, y._value);
+            Int16M IMath<Int16M>.Pow(Int16M x, Int16M y) => Clamped.Pow(x._value, y._value);
             Int16M IMath<Int16M>.Round(Int16M x) => x;
             Int16M IMath<Int16M>.Round(Int16M x, int digits) => x;
             Int16M IMath<Int16M>.Round(Int16M x, int digits, MidpointRounding mode) => x;

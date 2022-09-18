@@ -21,7 +21,7 @@ using System;
 
 namespace Jodo.Numerics.Clamped
 {
-    public static class ConversionExtensions
+    internal static class ConversionExtensions
     {
         public static Conversion Clamped(this Conversion conversion) => conversion switch
         {

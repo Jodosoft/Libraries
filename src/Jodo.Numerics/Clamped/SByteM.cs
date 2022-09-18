@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -95,19 +96,19 @@ namespace Jodo.Numerics.Clamped
         public static bool operator ==(SByteM left, SByteM right) => left._value == right._value;
         public static bool operator >(SByteM left, SByteM right) => left._value > right._value;
         public static bool operator >=(SByteM left, SByteM right) => left._value >= right._value;
-        public static SByteM operator %(SByteM left, SByteM right) => ClampedMath.Remainder(left._value, right._value);
+        public static SByteM operator %(SByteM left, SByteM right) => Clamped.Remainder(left._value, right._value);
         public static SByteM operator &(SByteM left, SByteM right) => (sbyte)(left._value & right._value);
-        public static SByteM operator -(SByteM left, SByteM right) => ClampedMath.Subtract(left._value, right._value);
-        public static SByteM operator --(SByteM value) => ClampedMath.Subtract(value._value, (sbyte)1);
+        public static SByteM operator -(SByteM left, SByteM right) => Clamped.Subtract(left._value, right._value);
+        public static SByteM operator --(SByteM value) => Clamped.Subtract(value._value, (sbyte)1);
         public static SByteM operator -(SByteM value) => (sbyte)-value._value;
-        public static SByteM operator *(SByteM left, SByteM right) => ClampedMath.Multiply(left._value, right._value);
-        public static SByteM operator /(SByteM left, SByteM right) => ClampedMath.Divide(left._value, right._value);
+        public static SByteM operator *(SByteM left, SByteM right) => Clamped.Multiply(left._value, right._value);
+        public static SByteM operator /(SByteM left, SByteM right) => Clamped.Divide(left._value, right._value);
         public static SByteM operator ^(SByteM left, SByteM right) => (sbyte)(left._value ^ right._value);
         public static SByteM operator |(SByteM left, SByteM right) => (sbyte)(left._value | right._value);
         public static SByteM operator ~(SByteM value) => (sbyte)~value._value;
-        public static SByteM operator +(SByteM left, SByteM right) => ClampedMath.Add(left._value, right._value);
+        public static SByteM operator +(SByteM left, SByteM right) => Clamped.Add(left._value, right._value);
         public static SByteM operator +(SByteM value) => value;
-        public static SByteM operator ++(SByteM value) => ClampedMath.Add(value._value, (sbyte)1);
+        public static SByteM operator ++(SByteM value) => Clamped.Add(value._value, (sbyte)1);
         public static SByteM operator <<(SByteM left, int right) => (sbyte)(left._value << right);
         public static SByteM operator >>(SByteM left, int right) => (sbyte)(left._value >> right);
 
@@ -211,7 +212,7 @@ namespace Jodo.Numerics.Clamped
             SByteM IMath<SByteM>.Max(SByteM x, SByteM y) => Math.Max(x._value, y._value);
             SByteM IMath<SByteM>.Min(SByteM x, SByteM y) => Math.Min(x._value, y._value);
             SByteM IMath<SByteM>.PI { get; } = 3;
-            SByteM IMath<SByteM>.Pow(SByteM x, SByteM y) => ClampedMath.Pow(x._value, y._value);
+            SByteM IMath<SByteM>.Pow(SByteM x, SByteM y) => Clamped.Pow(x._value, y._value);
             SByteM IMath<SByteM>.Round(SByteM x) => x;
             SByteM IMath<SByteM>.Round(SByteM x, int digits) => x;
             SByteM IMath<SByteM>.Round(SByteM x, int digits, MidpointRounding mode) => x;

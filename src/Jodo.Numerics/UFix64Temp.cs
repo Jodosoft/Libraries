@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -55,7 +56,7 @@ namespace Jodo.Numerics
         public bool Equals(UFix64 other) => _scaledValue == other._scaledValue;
         public override bool Equals(object? obj) => obj is UFix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
-        public override string ToString() => ScaledMath.ToString(_scaledValue, ScalingFactor, null);
+        public override string ToString() => Scaled.ToString(_scaledValue, ScalingFactor, null);
         public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
         public string ToString(string format) => ((double)this).ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
@@ -64,16 +65,16 @@ namespace Jodo.Numerics
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64 result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out UFix64 result) => FuncExtensions.Try(() => Parse(s, style), out result);
         public static bool TryParse(string s, out UFix64 result) => FuncExtensions.Try(() => Parse(s), out result);
-        public static UFix64 Parse(string s) => new UFix64(ScaledMath.Parse(s, ScalingFactor, default, null));
-        public static UFix64 Parse(string s, IFormatProvider? provider) => new UFix64(ScaledMath.Parse(s, ScalingFactor, default, provider));
-        public static UFix64 Parse(string s, NumberStyles style) => new UFix64(ScaledMath.Parse(s, ScalingFactor, style, null));
-        public static UFix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => new UFix64(ScaledMath.Parse(s, ScalingFactor, style, provider));
+        public static UFix64 Parse(string s) => new UFix64(Scaled.Parse(s, ScalingFactor, default, null));
+        public static UFix64 Parse(string s, IFormatProvider? provider) => new UFix64(Scaled.Parse(s, ScalingFactor, default, provider));
+        public static UFix64 Parse(string s, NumberStyles style) => new UFix64(Scaled.Parse(s, ScalingFactor, style, null));
+        public static UFix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => new UFix64(Scaled.Parse(s, ScalingFactor, style, provider));
 
         private static UFix64 Round(UFix64 value, int digits, MidpointRounding mode)
         {
             if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
             if (digits > 5) return value;
-            return new UFix64(ScaledMath.Round(value._scaledValue, 6 - digits, mode));
+            return new UFix64(Scaled.Round(value._scaledValue, 6 - digits, mode));
         }
 
         [SuppressMessage("Style", "JSON002:Probable JSON string detected", Justification = "False positive")]
@@ -112,7 +113,7 @@ namespace Jodo.Numerics
         [CLSCompliant(false)] public static explicit operator ushort(UFix64 value) => (ushort)(value._scaledValue / ScalingFactor);
         public static explicit operator byte(UFix64 value) => (byte)(value._scaledValue / ScalingFactor);
         public static explicit operator decimal(UFix64 value) => (decimal)value._scaledValue / ScalingFactor;
-        public static explicit operator double(UFix64 value) => ScaledMath.ToDouble(value._scaledValue, ScalingFactor);
+        public static explicit operator double(UFix64 value) => Scaled.ToDouble(value._scaledValue, ScalingFactor);
         public static explicit operator float(UFix64 value) => (float)value._scaledValue / ScalingFactor;
         public static explicit operator int(UFix64 value) => (int)(value._scaledValue / ScalingFactor);
         public static explicit operator long(UFix64 value) => (long)(value._scaledValue / ScalingFactor);
@@ -129,8 +130,8 @@ namespace Jodo.Numerics
         public static UFix64 operator -(UFix64 _) => 0;
         public static UFix64 operator -(UFix64 left, UFix64 right) => new UFix64(left._scaledValue - right._scaledValue);
         public static UFix64 operator --(UFix64 value) => new UFix64(value._scaledValue - ScalingFactor);
-        public static UFix64 operator *(UFix64 left, UFix64 right) => new UFix64(ScaledMath.Multiply(left._scaledValue, right._scaledValue, ScalingFactor));
-        public static UFix64 operator /(UFix64 left, UFix64 right) => new UFix64(ScaledMath.Divide(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static UFix64 operator *(UFix64 left, UFix64 right) => new UFix64(Scaled.Multiply(left._scaledValue, right._scaledValue, ScalingFactor));
+        public static UFix64 operator /(UFix64 left, UFix64 right) => new UFix64(Scaled.Divide(left._scaledValue, right._scaledValue, ScalingFactor));
         public static UFix64 operator ^(UFix64 left, UFix64 right) => new UFix64(left._scaledValue ^ right._scaledValue);
         public static UFix64 operator |(UFix64 left, UFix64 right) => new UFix64(left._scaledValue | right._scaledValue);
         public static UFix64 operator ~(UFix64 value) => new UFix64(~value._scaledValue);
@@ -227,13 +228,13 @@ namespace Jodo.Numerics
             UFix64 IMath<UFix64>.Atan2(UFix64 x, UFix64 y) => (UFix64)Math.Atan2((double)x, (double)y);
             UFix64 IMath<UFix64>.Atanh(UFix64 x) => (UFix64)MathShim.Atanh((double)x);
             UFix64 IMath<UFix64>.Cbrt(UFix64 x) => (UFix64)MathShim.Cbrt((double)x);
-            UFix64 IMath<UFix64>.Ceiling(UFix64 x) => new UFix64(ScaledMath.Ceiling(x._scaledValue, ScalingFactor));
+            UFix64 IMath<UFix64>.Ceiling(UFix64 x) => new UFix64(Scaled.Ceiling(x._scaledValue, ScalingFactor));
             UFix64 IMath<UFix64>.Clamp(UFix64 x, UFix64 bound1, UFix64 bound2) => new UFix64(bound1 > bound2 ? Math.Min(bound1._scaledValue, Math.Max(bound2._scaledValue, x._scaledValue)) : Math.Min(bound2._scaledValue, Math.Max(bound1._scaledValue, x._scaledValue)));
             UFix64 IMath<UFix64>.Cos(UFix64 x) => (UFix64)Math.Cos((double)x);
             UFix64 IMath<UFix64>.Cosh(UFix64 x) => (UFix64)Math.Cosh((double)x);
             UFix64 IMath<UFix64>.E { get; } = (UFix64)Math.E;
             UFix64 IMath<UFix64>.Exp(UFix64 x) => (UFix64)Math.Exp((double)x);
-            UFix64 IMath<UFix64>.Floor(UFix64 x) => new UFix64(ScaledMath.Floor(x._scaledValue, ScalingFactor));
+            UFix64 IMath<UFix64>.Floor(UFix64 x) => new UFix64(Scaled.Floor(x._scaledValue, ScalingFactor));
             UFix64 IMath<UFix64>.IEEERemainder(UFix64 x, UFix64 y) => (UFix64)Math.IEEERemainder((double)x, (double)y);
             UFix64 IMath<UFix64>.Log(UFix64 x) => (UFix64)Math.Log((double)x);
             UFix64 IMath<UFix64>.Log(UFix64 x, UFix64 y) => (UFix64)Math.Log((double)x, (double)y);
@@ -261,7 +262,7 @@ namespace Jodo.Numerics
             bool IConvert<UFix64>.ToBoolean(UFix64 value) => value._scaledValue != 0;
             byte IConvert<UFix64>.ToByte(UFix64 value, Conversion mode) => ConvertN.ToByte(value._scaledValue / ScalingFactor, mode);
             decimal IConvert<UFix64>.ToDecimal(UFix64 value, Conversion mode) => (decimal)value._scaledValue / ScalingFactor;
-            double IConvert<UFix64>.ToDouble(UFix64 value, Conversion mode) => ScaledMath.ToDouble(value._scaledValue, ScalingFactor);
+            double IConvert<UFix64>.ToDouble(UFix64 value, Conversion mode) => Scaled.ToDouble(value._scaledValue, ScalingFactor);
             float IConvert<UFix64>.ToSingle(UFix64 value, Conversion mode) => (float)value._scaledValue / ScalingFactor;
             int IConvert<UFix64>.ToInt32(UFix64 value, Conversion mode) => ConvertN.ToInt32(value._scaledValue / ScalingFactor, mode);
             long IConvert<UFix64>.ToInt64(UFix64 value, Conversion mode) => ConvertN.ToInt64(value._scaledValue / ScalingFactor, mode);

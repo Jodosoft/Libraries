@@ -74,7 +74,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             //act
-            long result = ScaledMath.Round(input, mode);
+            long result = Scaled.Round(input, mode);
 
             //assert
             result.Should().Be(expected);
@@ -89,7 +89,7 @@ namespace Jodo.Numerics.Tests
             long expected = (long)Math.Round(input / 10.0, mode) * 10;
 
             //act
-            long result = ScaledMath.Round(input, mode);
+            long result = Scaled.Round(input, mode);
 
             //assert
             result.Should().Be(expected);
@@ -103,7 +103,7 @@ namespace Jodo.Numerics.Tests
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
-            long result = ScaledMath.Round(input, mode);
+            long result = Scaled.Round(input, mode);
 
             //assert
             result.Should().Be(input);
@@ -116,7 +116,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             //act
-            long result = ScaledMath.Round(input, digits, mode);
+            long result = Scaled.Round(input, digits, mode);
 
             //assert
             result.Should().Be(expected);
@@ -132,7 +132,7 @@ namespace Jodo.Numerics.Tests
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
-            ulong result = ScaledMath.Round(input, places + 2, mode);
+            ulong result = Scaled.Round(input, places + 2, mode);
 
             //assert
             result.Should().Be(0);
@@ -164,7 +164,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             //act
-            ulong result = ScaledMath.Round(input, mode);
+            ulong result = Scaled.Round(input, mode);
 
             //assert
             result.Should().Be(expected);
@@ -179,7 +179,7 @@ namespace Jodo.Numerics.Tests
             ulong expected = (ulong)Math.Round(input / 10.0, mode) * 10;
 
             //act
-            ulong result = ScaledMath.Round(input, mode);
+            ulong result = Scaled.Round(input, mode);
 
             //assert
             result.Should().Be(expected);
@@ -193,7 +193,7 @@ namespace Jodo.Numerics.Tests
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
-            ulong result = ScaledMath.Round(input, mode);
+            ulong result = Scaled.Round(input, mode);
 
             //assert
             result.Should().Be(input);
@@ -209,7 +209,7 @@ namespace Jodo.Numerics.Tests
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
 
             //act
-            long result = ScaledMath.Round(input, places + 2, mode);
+            long result = Scaled.Round(input, places + 2, mode);
 
             //assert
             result.Should().Be(0);
@@ -227,7 +227,7 @@ namespace Jodo.Numerics.Tests
 
             //arrange
             //act
-            long result = ScaledMath.Parse(input, scalingFactor, style, CultureInfo.GetCultureInfo(culture));
+            long result = Scaled.Parse(input, scalingFactor, style, CultureInfo.GetCultureInfo(culture));
 
             //assert
             result.Should().Be(expected);
@@ -241,7 +241,7 @@ namespace Jodo.Numerics.Tests
         {
             //arrange
             //act
-            ulong result = ScaledMath.Parse(input, scalingFactor, style, CultureInfo.GetCultureInfo(culture));
+            ulong result = Scaled.Parse(input, scalingFactor, style, CultureInfo.GetCultureInfo(culture));
 
             //assert
             result.Should().Be(expected);

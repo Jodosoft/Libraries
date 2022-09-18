@@ -23,9 +23,9 @@ namespace Jodo.Numerics.Tests
 {
     public static class Vector3NTests
     {
-        public sealed class FixedPointObjectTests : ObjectTestBase<Vector3N<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector3N<Fix64>> { }
-        public sealed class FixedPointVector3Tests : Vector3NTestBase<Fix64> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Vector3N<Fix64Temp>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Vector3N<Fix64Temp>> { }
+        public sealed class FixedPointVector3Tests : Vector3NTestBase<Fix64Temp> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<Vector3N<SingleN>> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector3N<SingleN>> { }
         public sealed class FloatingPointVector3Tests : Vector3NTestBase<SingleN> { }

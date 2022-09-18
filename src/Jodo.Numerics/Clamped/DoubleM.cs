@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -105,13 +106,13 @@ namespace Jodo.Numerics.Clamped
         public static bool operator ==(DoubleM left, DoubleM right) => left._value == right._value;
         public static bool operator >(DoubleM left, DoubleM right) => left._value > right._value;
         public static bool operator >=(DoubleM left, DoubleM right) => left._value >= right._value;
-        public static DoubleM operator %(DoubleM left, DoubleM right) => ClampedMath.Remainder(left._value, right._value);
-        public static DoubleM operator -(DoubleM left, DoubleM right) => ClampedMath.Subtract(left._value, right._value);
+        public static DoubleM operator %(DoubleM left, DoubleM right) => Clamped.Remainder(left._value, right._value);
+        public static DoubleM operator -(DoubleM left, DoubleM right) => Clamped.Subtract(left._value, right._value);
         public static DoubleM operator --(DoubleM value) => value - 1;
         public static DoubleM operator -(DoubleM value) => -value._value;
-        public static DoubleM operator *(DoubleM left, DoubleM right) => ClampedMath.Multiply(left._value, right._value);
-        public static DoubleM operator /(DoubleM left, DoubleM right) => ClampedMath.Divide(left._value, right._value);
-        public static DoubleM operator +(DoubleM left, DoubleM right) => ClampedMath.Add(left._value, right._value);
+        public static DoubleM operator *(DoubleM left, DoubleM right) => Clamped.Multiply(left._value, right._value);
+        public static DoubleM operator /(DoubleM left, DoubleM right) => Clamped.Divide(left._value, right._value);
+        public static DoubleM operator +(DoubleM left, DoubleM right) => Clamped.Add(left._value, right._value);
         public static DoubleM operator +(DoubleM value) => value;
         public static DoubleM operator ++(DoubleM value) => value + 1;
         public static DoubleM operator &(DoubleM left, DoubleM right) => BitOperations.LogicalAnd(left._value, right._value);

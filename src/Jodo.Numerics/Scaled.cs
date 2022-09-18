@@ -23,7 +23,7 @@ using System.Numerics;
 
 namespace Jodo.Numerics
 {
-    public static class ScaledMath
+    public static class Scaled
     {
         private static readonly BigInteger MaxInt64 = new BigInteger(long.MaxValue);
         private static readonly BigInteger MinInt64 = new BigInteger(long.MinValue);

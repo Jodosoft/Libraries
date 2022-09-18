@@ -102,8 +102,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             double baselineLeft = Random.NextDouble(100, 1000);
             double baselineRight = Random.NextDouble(2, 10);
-            Fix64 sutLeft = (Fix64)baselineLeft;
-            Fix64 sutRight = (Fix64)baselineRight;
+            Fix64Temp sutLeft = (Fix64Temp)baselineLeft;
+            Fix64Temp sutRight = (Fix64Temp)baselineRight;
 
             Benchmark.Run(
                 () => sutLeft / sutRight,
@@ -116,7 +116,7 @@ namespace Jodo.Numerics.Benchmarks
             string input = Random.NextDouble(-100, 100).ToString();
 
             Benchmark.Run(
-                () => Fix64.Parse(input),
+                () => Fix64Temp.Parse(input),
                 () => double.Parse(input));
         }
     }
