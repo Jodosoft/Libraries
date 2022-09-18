@@ -27,27 +27,15 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Geometry
 {
-    public static class Triangle
-    {
-        public static Triangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Triangle<TNumeric> :
             IEquatable<Triangle<TNumeric>>,
             IFormattable,
-            IProvider<INumericBitConverter<Triangle<TNumeric>>>,
-                        IProvider<IVariantRandom<Triangle<TNumeric>>>,
-            ITwoDimensional<Triangle<TNumeric>, TNumeric>,
+            IProvider<IVariantRandom<Triangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
-        private const string Symbol = "△";
-
         public readonly Vector2N<TNumeric> A;
         public readonly Vector2N<TNumeric> B;
         public readonly Vector2N<TNumeric> C;
@@ -108,9 +96,9 @@ namespace Jodo.Geometry
             => new Triangle<TResult>(A.Convert(converter), B.Convert(converter), C.Convert(converter));
         public bool Equals(Triangle<TNumeric> other) => A.Equals(other.A) && B.Equals(other.B) && C.Equals(other.C);
         public override bool Equals(object? obj) => obj is Triangle<TNumeric> fix && Equals(fix);
-        public override int GetHashCode() => HashCode.Combine(A, B, C);
-        public override string ToString() => $"{Symbol}({A}, {B}, {C})";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"{Symbol}({A}, {B}, {C})";
+        public override int GetHashCode() => HashCodeShim.Combine(A, B, C);
+        public override string ToString() => $"({A}, {B}, {C})";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"({A}, {B}, {C})";
 
         public static bool operator ==(Triangle<TNumeric> left, Triangle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Triangle<TNumeric> left, Triangle<TNumeric> right) => !(left == right);
@@ -120,12 +108,9 @@ namespace Jodo.Geometry
         public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>)(Triangle<TNumeric> value) => (value.A, value.B, value.C);
 #endif
 
-        Vector2N<TNumeric>[] ITwoDimensional<Triangle<TNumeric>, TNumeric>.GetVertices(int circumferenceDivisor) => GetVertices();
-        INumericBitConverter<Triangle<TNumeric>> IProvider<INumericBitConverter<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           INumericBitConverter<Triangle<TNumeric>>,
            IVariantRandom<Triangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -137,16 +122,14 @@ namespace Jodo.Geometry
                    random.NextVariant<Vector2N<TNumeric>>(scenarios),
                    random.NextVariant<Vector2N<TNumeric>>(scenarios));
             }
+        }
+    }
 
-            Triangle<TNumeric> INumericBitConverter<Triangle<TNumeric>>.Read(IReader<byte> stream)
-            {
-                throw new NotImplementedException();
-            }
-
-            void INumericBitConverter<Triangle<TNumeric>>.Write(Triangle<TNumeric> value, IWriter<byte> stream)
-            {
-                throw new NotImplementedException();
-            }
+    public static class Triangle
+    {
+        public static Triangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            throw new NotImplementedException();
         }
     }
 }

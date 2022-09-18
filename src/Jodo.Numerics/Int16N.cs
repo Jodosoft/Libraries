@@ -126,7 +126,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<Int16N>.IsGreaterThan(Int16N value) => this > value;
         bool INumeric<Int16N>.IsGreaterThanOrEqualTo(Int16N value) => this >= value;
@@ -155,12 +155,12 @@ namespace Jodo.Numerics
         IVariantRandom<Int16N> IProvider<IVariantRandom<Int16N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<Int16N>,
             IConvert<Int16N>,
             IConvertExtended<Int16N>,
             IMath<Int16N>,
-            INumericStatic<Int16N>,
+            INumericBitConverter<Int16N>,
             INumericRandom<Int16N>,
+            INumericStatic<Int16N>,
             IVariantRandom<Int16N>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -191,18 +191,17 @@ namespace Jodo.Numerics
             int IMath<Int16N>.Sign(Int16N x) => Math.Sign(x._value);
             Int16N IMath<Int16N>.Abs(Int16N value) => Math.Abs(value._value);
             Int16N IMath<Int16N>.Acos(Int16N x) => (short)Math.Acos(x._value);
-            Int16N IMath<Int16N>.Acosh(Int16N x) => (short)MathCompat.Acosh(x._value);
+            Int16N IMath<Int16N>.Acosh(Int16N x) => (short)MathShim.Acosh(x._value);
             Int16N IMath<Int16N>.Asin(Int16N x) => (short)Math.Asin(x._value);
-            Int16N IMath<Int16N>.Asinh(Int16N x) => (short)MathCompat.Asinh(x._value);
+            Int16N IMath<Int16N>.Asinh(Int16N x) => (short)MathShim.Asinh(x._value);
             Int16N IMath<Int16N>.Atan(Int16N x) => (short)Math.Atan(x._value);
             Int16N IMath<Int16N>.Atan2(Int16N x, Int16N y) => (short)Math.Atan2(x._value, y._value);
-            Int16N IMath<Int16N>.Atanh(Int16N x) => (short)MathCompat.Atanh(x._value);
-            Int16N IMath<Int16N>.Cbrt(Int16N x) => (short)MathCompat.Cbrt(x._value);
+            Int16N IMath<Int16N>.Atanh(Int16N x) => (short)MathShim.Atanh(x._value);
+            Int16N IMath<Int16N>.Cbrt(Int16N x) => (short)MathShim.Cbrt(x._value);
             Int16N IMath<Int16N>.Ceiling(Int16N x) => x;
             Int16N IMath<Int16N>.Clamp(Int16N x, Int16N bound1, Int16N bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             Int16N IMath<Int16N>.Cos(Int16N x) => (short)Math.Cos(x._value);
             Int16N IMath<Int16N>.Cosh(Int16N x) => (short)Math.Cosh(x._value);
-            Int16N IMath<Int16N>.DegreesToRadians(Int16N x) => (short)(x * BitOperations.RadiansPerDegree);
             Int16N IMath<Int16N>.E { get; } = (short)2;
             Int16N IMath<Int16N>.Exp(Int16N x) => (short)Math.Exp(x._value);
             Int16N IMath<Int16N>.Floor(Int16N x) => x;
@@ -214,7 +213,6 @@ namespace Jodo.Numerics
             Int16N IMath<Int16N>.Min(Int16N x, Int16N y) => Math.Min(x._value, y._value);
             Int16N IMath<Int16N>.PI { get; } = (short)3;
             Int16N IMath<Int16N>.Pow(Int16N x, Int16N y) => (short)Math.Pow(x._value, y._value);
-            Int16N IMath<Int16N>.RadiansToDegrees(Int16N x) => (short)(x * BitOperations.DegreesPerRadian);
             Int16N IMath<Int16N>.Round(Int16N x) => x;
             Int16N IMath<Int16N>.Round(Int16N x, int digits) => x;
             Int16N IMath<Int16N>.Round(Int16N x, int digits, MidpointRounding mode) => x;
@@ -227,8 +225,9 @@ namespace Jodo.Numerics
             Int16N IMath<Int16N>.Tau { get; } = (short)6;
             Int16N IMath<Int16N>.Truncate(Int16N x) => x;
 
-            Int16N INumericBitConverter<Int16N>.Read(IReader<byte> stream) => BitConverter.ToInt16(stream.Read(sizeof(short)), 0);
-            void INumericBitConverter<Int16N>.Write(Int16N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<Int16N>.ConvertedSize => sizeof(short);
+            Int16N INumericBitConverter<Int16N>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToInt16(value, startIndex);
+            byte[] INumericBitConverter<Int16N>.GetBytes(Int16N value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<Int16N>.ToBoolean(Int16N value) => Convert.ToBoolean(value._value);
             byte IConvert<Int16N>.ToByte(Int16N value, Conversion mode) => ConvertN.ToByte(value._value, mode);

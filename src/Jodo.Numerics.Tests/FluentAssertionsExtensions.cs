@@ -29,7 +29,7 @@ namespace Jodo.Numerics.Tests
     {
         public static AndConstraint<ComparableTypeAssertions<TNumeric>> BeApproximately<TNumeric>(this ComparableTypeAssertions<TNumeric> parent, double expected, string because = "", params object[] becauseArgs) where TNumeric : struct, INumeric<TNumeric>
         {
-            if (!DoubleCompat.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
+            if (!DoubleShim.IsFinite(expected)) throw new ArgumentOutOfRangeException(nameof(expected), expected, "Must be finite.");
 
             double actual = ConvertN.ToDouble((TNumeric)parent.Subject);
             if (Numeric.IsIntegral<TNumeric>())

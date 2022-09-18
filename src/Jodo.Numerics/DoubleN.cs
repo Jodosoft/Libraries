@@ -57,14 +57,14 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool IsFinite(DoubleN d) => DoubleCompat.IsFinite(d);
+        public static bool IsFinite(DoubleN d) => DoubleShim.IsFinite(d);
         public static bool IsInfinity(DoubleN d) => double.IsInfinity(d);
         public static bool IsNaN(DoubleN d) => double.IsNaN(d);
-        public static bool IsNegative(DoubleN d) => DoubleCompat.IsNegative(d);
+        public static bool IsNegative(DoubleN d) => DoubleShim.IsNegative(d);
         public static bool IsNegativeInfinity(DoubleN d) => double.IsNegativeInfinity(d);
-        public static bool IsNormal(DoubleN d) => DoubleCompat.IsNormal(d);
+        public static bool IsNormal(DoubleN d) => DoubleShim.IsNormal(d);
         public static bool IsPositiveInfinity(DoubleN d) => double.IsPositiveInfinity(d);
-        public static bool IsSubnormal(DoubleN d) => DoubleCompat.IsSubnormal(d);
+        public static bool IsSubnormal(DoubleN d) => DoubleShim.IsSubnormal(d);
 
         public static bool TryParse(string s, IFormatProvider? provider, out DoubleN result) => TryHelper.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
@@ -136,7 +136,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<DoubleN>.IsGreaterThan(DoubleN value) => this > value;
         bool INumeric<DoubleN>.IsGreaterThanOrEqualTo(DoubleN value) => this >= value;
@@ -165,10 +165,10 @@ namespace Jodo.Numerics
         IVariantRandom<DoubleN> IProvider<IVariantRandom<DoubleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<DoubleN>,
             IConvert<DoubleN>,
             IConvertExtended<DoubleN>,
             IMath<DoubleN>,
+            INumericBitConverter<DoubleN>,
             INumericRandom<DoubleN>,
             INumericStatic<DoubleN>,
             IVariantRandom<DoubleN>
@@ -201,18 +201,17 @@ namespace Jodo.Numerics
             int IMath<DoubleN>.Sign(DoubleN x) => Math.Sign(x._value);
             DoubleN IMath<DoubleN>.Abs(DoubleN value) => Math.Abs(value._value);
             DoubleN IMath<DoubleN>.Acos(DoubleN x) => Math.Acos(x._value);
-            DoubleN IMath<DoubleN>.Acosh(DoubleN x) => MathCompat.Acosh(x._value);
+            DoubleN IMath<DoubleN>.Acosh(DoubleN x) => MathShim.Acosh(x._value);
             DoubleN IMath<DoubleN>.Asin(DoubleN x) => Math.Asin(x._value);
-            DoubleN IMath<DoubleN>.Asinh(DoubleN x) => MathCompat.Asinh(x._value);
+            DoubleN IMath<DoubleN>.Asinh(DoubleN x) => MathShim.Asinh(x._value);
             DoubleN IMath<DoubleN>.Atan(DoubleN x) => Math.Atan(x._value);
             DoubleN IMath<DoubleN>.Atan2(DoubleN x, DoubleN y) => Math.Atan2(x._value, y._value);
-            DoubleN IMath<DoubleN>.Atanh(DoubleN x) => MathCompat.Atanh(x._value);
-            DoubleN IMath<DoubleN>.Cbrt(DoubleN x) => MathCompat.Cbrt(x._value);
+            DoubleN IMath<DoubleN>.Atanh(DoubleN x) => MathShim.Atanh(x._value);
+            DoubleN IMath<DoubleN>.Cbrt(DoubleN x) => MathShim.Cbrt(x._value);
             DoubleN IMath<DoubleN>.Ceiling(DoubleN x) => Math.Ceiling(x._value);
             DoubleN IMath<DoubleN>.Clamp(DoubleN x, DoubleN bound1, DoubleN bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             DoubleN IMath<DoubleN>.Cos(DoubleN x) => Math.Cos(x._value);
             DoubleN IMath<DoubleN>.Cosh(DoubleN x) => Math.Cosh(x._value);
-            DoubleN IMath<DoubleN>.DegreesToRadians(DoubleN x) => x * BitOperations.RadiansPerDegree;
             DoubleN IMath<DoubleN>.E { get; } = Math.E;
             DoubleN IMath<DoubleN>.Exp(DoubleN x) => Math.Exp(x._value);
             DoubleN IMath<DoubleN>.Floor(DoubleN x) => Math.Floor(x._value);
@@ -224,7 +223,6 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Min(DoubleN x, DoubleN y) => Math.Min(x._value, y._value);
             DoubleN IMath<DoubleN>.PI { get; } = Math.PI;
             DoubleN IMath<DoubleN>.Pow(DoubleN x, DoubleN y) => Math.Pow(x._value, y._value);
-            DoubleN IMath<DoubleN>.RadiansToDegrees(DoubleN x) => x * BitOperations.DegreesPerRadian;
             DoubleN IMath<DoubleN>.Round(DoubleN x) => Math.Round(x._value);
             DoubleN IMath<DoubleN>.Round(DoubleN x, int digits) => Math.Round(x._value, digits);
             DoubleN IMath<DoubleN>.Round(DoubleN x, int digits, MidpointRounding mode) => Math.Round(x._value, digits, mode);
@@ -237,8 +235,9 @@ namespace Jodo.Numerics
             DoubleN IMath<DoubleN>.Tau { get; } = Math.PI * 2d;
             DoubleN IMath<DoubleN>.Truncate(DoubleN x) => Math.Truncate(x._value);
 
-            DoubleN INumericBitConverter<DoubleN>.Read(IReader<byte> stream) => BitConverter.ToDouble(stream.Read(sizeof(double)), 0);
-            void INumericBitConverter<DoubleN>.Write(DoubleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<DoubleN>.ConvertedSize => sizeof(double);
+            DoubleN INumericBitConverter<DoubleN>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToDouble(value, startIndex);
+            byte[] INumericBitConverter<DoubleN>.GetBytes(DoubleN value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<DoubleN>.ToBoolean(DoubleN value) => Convert.ToBoolean(value._value);
             byte IConvert<DoubleN>.ToByte(DoubleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

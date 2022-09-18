@@ -27,12 +27,11 @@ namespace Jodo.Numerics.Tests
 {
     public abstract class NumericRandomTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        public const int SampleSize = 1000;
-
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void NextNumeric_SameSeedNoBoundsDefault_OverloadsGiveSameResult()
         {
             //arrange
+            TNumeric defaultMaxValue = Numeric.IsIntegral<TNumeric>() ? Numeric.MaxValue<TNumeric>() : Numeric.One<TNumeric>();
             int seed = Random.Next();
             Random random1 = new Random(seed);
             Random random2 = new Random(seed);
@@ -47,14 +46,14 @@ namespace Jodo.Numerics.Tests
                 AssertSame.Result(
                    () => random1.NextNumeric<TNumeric>(),
                    () => random2.NextNumeric<TNumeric>(Generation.Default),
-                   () => random3.NextNumeric(Numeric.MaxValue<TNumeric>()),
-                   () => random4.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>()),
-                   () => random5.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Default));
+                   () => random3.NextNumeric(defaultMaxValue),
+                   () => random4.NextNumeric(Numeric.Zero<TNumeric>(), defaultMaxValue),
+                   () => random5.NextNumeric(Numeric.Zero<TNumeric>(), defaultMaxValue, Generation.Default));
             }
             AssertSame.Result(random1.Next, random2.Next, random3.Next, random4.Next, random5.Next); // same sample count
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void NextNumeric_SameSeedAndHighBoundDefault_OverloadsGiveSameResult()
         {
             //arrange
@@ -76,7 +75,7 @@ namespace Jodo.Numerics.Tests
             AssertSame.Result(random1.Next, random2.Next, random3.Next); // same sample count
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void NextNumeric_SameSeedAndBoundsDefault_OverloadsGiveSameResult()
         {
             //arrange
@@ -88,7 +87,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            for (int i = 0; i < SampleSize; i++)
+            for (int i = 0; i < 100; i++)
             {
                 AssertSame.Outcome(
                    () => random1.NextNumeric(minValue, maxValue),
@@ -97,7 +96,7 @@ namespace Jodo.Numerics.Tests
             AssertSame.Result(random1.Next, random2.Next); // same sample count
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void NextNumeric_ReversedBoundsDefault_Throws()
         {
             //arrange
@@ -118,7 +117,7 @@ namespace Jodo.Numerics.Tests
             action2.Should().Throw<ArgumentOutOfRangeException>();
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void NextNumeric_SameSeedNoBoundsExtended_OverloadsGiveSameResult()
         {
             //arrange
@@ -128,7 +127,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            for (int i = 0; i < SampleSize; i++)
+            for (int i = 0; i < 100; i++)
             {
                 AssertSame.Result(
                    () => random1.NextNumeric<TNumeric>(Generation.Extended),
@@ -137,7 +136,7 @@ namespace Jodo.Numerics.Tests
             AssertSame.Result(random1.Next, random2.Next); // same sample count
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void NextNumeric_SameSeedReversedBoundsExtended_GiveSameResult()
         {
             //arrange
@@ -149,7 +148,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            for (int i = 0; i < SampleSize; i++)
+            for (int i = 0; i < 100; i++)
             {
                 AssertSame.Result(
                    () => random1.NextNumeric(minValue, maxValue, Generation.Extended),
@@ -158,7 +157,7 @@ namespace Jodo.Numerics.Tests
             AssertSame.Result(random1.Next, random2.Next); // same sample count
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void NextNumeric_InvalidMode1_Throws()
         {
             //arrange
@@ -175,7 +174,7 @@ namespace Jodo.Numerics.Tests
             action.Should().Throw<ArgumentException>();
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void NextNumeric_InvalidMode2_Throws()
         {
             //arrange

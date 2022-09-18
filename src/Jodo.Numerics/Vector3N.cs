@@ -32,8 +32,7 @@ namespace Jodo.Numerics
     public readonly struct Vector3N<TNumeric> :
             IEquatable<Vector3N<TNumeric>>,
             IFormattable,
-            IProvider<INumericBitConverter<Vector3N<TNumeric>>>,
-                        IProvider<IVariantRandom<Vector3N<TNumeric>>>,
+            IProvider<IVariantRandom<Vector3N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -75,7 +74,7 @@ namespace Jodo.Numerics
 
         public bool Equals(Vector3N<TNumeric> other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         public override bool Equals(object? obj) => obj is Vector3N<TNumeric> vector && Equals(vector);
-        public override int GetHashCode() => HashCode.Combine(X, Y, Z);
+        public override int GetHashCode() => HashCodeShim.Combine(X, Y, Z);
         public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
         public string ToString(string? format) => ToString(format, CultureInfo.CurrentCulture);
 
@@ -104,11 +103,9 @@ namespace Jodo.Numerics
         public static implicit operator (TNumeric, TNumeric, TNumeric)(Vector3N<TNumeric> value) => (value.X, value.Y, value.Z);
 #endif
 
-        INumericBitConverter<Vector3N<TNumeric>> IProvider<INumericBitConverter<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector3N<TNumeric>> IProvider<IVariantRandom<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           INumericBitConverter<Vector3N<TNumeric>>,
            IVariantRandom<Vector3N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -119,21 +116,6 @@ namespace Jodo.Numerics
                     random.NextVariant<TNumeric>(scenarios),
                     random.NextVariant<TNumeric>(scenarios),
                     random.NextVariant<TNumeric>(scenarios));
-            }
-
-            Vector3N<TNumeric> INumericBitConverter<Vector3N<TNumeric>>.Read(IReader<byte> stream)
-            {
-                return new Vector3N<TNumeric>(
-                    BitConverterN.Read<TNumeric>(stream),
-                    BitConverterN.Read<TNumeric>(stream),
-                    BitConverterN.Read<TNumeric>(stream));
-            }
-
-            void INumericBitConverter<Vector3N<TNumeric>>.Write(Vector3N<TNumeric> value, IWriter<byte> stream)
-            {
-                BitConverterN.Write(stream, value.X);
-                BitConverterN.Write(stream, value.Y);
-                BitConverterN.Write(stream, value.Z);
             }
         }
     }
@@ -273,7 +255,7 @@ namespace Jodo.Numerics
         public static Vector3N<TNumeric> Reflect<TNumeric>(Vector3N<TNumeric> vector, Vector3N<TNumeric> normal) where TNumeric : struct, INumeric<TNumeric>
         {
             TNumeric dot = Dot(vector, normal);
-            return vector - (dot.Doubled() * normal);
+            return vector - (dot.Double() * normal);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

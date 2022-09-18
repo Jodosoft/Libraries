@@ -69,8 +69,8 @@ namespace Jodo.Numerics
                 Numeric.MaxValue<TNumeric>().Divide(ten),
                 ConvertN.ToNumeric<TNumeric>(100));
 
-            TNumeric minValue = Numeric.IsSigned<TNumeric>() ? bound.Negative() : Numeric.Zero<TNumeric>();
-            TNumeric maxValue = Numeric.IsSigned<TNumeric>() ? bound.Negative() : bound.Doubled();
+            TNumeric minValue = Numeric.IsSigned<TNumeric>() ? bound.Half().Negative() : Numeric.Zero<TNumeric>();
+            TNumeric maxValue = Numeric.IsSigned<TNumeric>() ? bound.Half() : bound;
 
             TNumeric result = random.NextNumeric(minValue, maxValue, Generation.Extended);
 

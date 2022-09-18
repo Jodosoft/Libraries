@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Packages.props" />
   <ItemGroup>
     <ProjectReference Include="..\Jodo.Primitives\Jodo.Primitives.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Checked\" />
   </ItemGroup>
 </Project>

@@ -27,28 +27,12 @@ using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Geometry
 {
-    public static class Circle
-    {
-        public static Circle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
-        {
-            string[] parts = StringUtilities.ParseVectorParts(s.Trim());
-            if (parts.Length == 3)
-                return new Circle<TNumeric>(
-                    Numeric.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
-                    Numeric.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
-                    Numeric.Parse<TNumeric>(parts[2].Replace("R:", string.Empty).Trim(), style, provider));
-            else throw new FormatException();
-        }
-    }
-
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Circle<TNumeric> :
             IEquatable<Circle<TNumeric>>,
             IFormattable,
-            IProvider<INumericBitConverter<Circle<TNumeric>>>,
-                        IProvider<IVariantRandom<Circle<TNumeric>>>,
-            ITwoDimensional<Circle<TNumeric>, TNumeric>,
+            IProvider<IVariantRandom<Circle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -94,7 +78,7 @@ namespace Jodo.Geometry
             {
                 double degrees = i * 360d / circumferenceDivisor;
 
-                double radians = degrees * BitOperations.RadiansPerDegree;
+                double radians = degrees * (180d / Math.PI);
 
                 results[i + 1] = new Vector2N<TNumeric>(
                     ConvertN.ToNumeric<TNumeric>(centerX + (radius * Math.Cos(radians))),
@@ -113,19 +97,16 @@ namespace Jodo.Geometry
 
         public bool Equals(Circle<TNumeric> other) => Center.Equals(other.Center) && Radius.Equals(other.Radius);
         public override bool Equals(object? obj) => obj is Circle<TNumeric> circle && Equals(circle);
-        public override int GetHashCode() => HashCode.Combine(Center, Radius);
+        public override int GetHashCode() => HashCodeShim.Combine(Center, Radius);
         public override string ToString() => $"<X:{Center.X}, Y:{Center.Y}, R:{Radius}>";
         public string ToString(string format, IFormatProvider formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, R:{Radius.ToString(format, formatProvider)}>";
 
         public static bool operator ==(Circle<TNumeric> left, Circle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
 
-        Vector2N<TNumeric> ITwoDimensional<Circle<TNumeric>, TNumeric>.GetCenter() => Center;
-        INumericBitConverter<Circle<TNumeric>> IProvider<INumericBitConverter<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Circle<TNumeric>> IProvider<IVariantRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           INumericBitConverter<Circle<TNumeric>>,
            IVariantRandom<Circle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -136,17 +117,20 @@ namespace Jodo.Geometry
                     random.NextVariant<Vector2N<TNumeric>>(scenarios),
                     random.NextVariant<TNumeric>(scenarios));
             }
+        }
+    }
 
-            Circle<TNumeric> INumericBitConverter<Circle<TNumeric>>.Read(IReader<byte> stream)
-            {
-                return new Circle<TNumeric>(BitConverterN.Read<Vector2N<TNumeric>>(stream), BitConverterN.Read<TNumeric>(stream));
-            }
-
-            void INumericBitConverter<Circle<TNumeric>>.Write(Circle<TNumeric> value, IWriter<byte> stream)
-            {
-                BitConverterN.Write(stream, value.Center);
-                BitConverterN.Write(stream, value.Radius);
-            }
+    public static class Circle
+    {
+        public static Circle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            string[] parts = StringUtilities.ParseVectorParts(s.Trim());
+            if (parts.Length == 3)
+                return new Circle<TNumeric>(
+                    Numeric.Parse<TNumeric>(parts[0].Replace("X:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[1].Replace("Y:", string.Empty).Trim(), style, provider),
+                    Numeric.Parse<TNumeric>(parts[2].Replace("R:", string.Empty).Trim(), style, provider));
+            else throw new FormatException();
         }
     }
 }

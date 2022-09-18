@@ -70,7 +70,7 @@ namespace Jodo.Numerics.Tests
         }
 
         [Test, Repeat(RandomVariations)]
-        public void Abs_Negative_PositiveEquivalent()
+        public void Abs_RandomNegativeValue_ReturnsPositiveEquivalent()
         {
             //arrange
             TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>().Add(Numeric.MaxUnit<TNumeric>()), Numeric.MinUnit<TNumeric>(), Generation.Extended);
@@ -87,9 +87,7 @@ namespace Jodo.Numerics.Tests
         public void Sign_RandomNegativeValue_ReturnsNegativeOne()
         {
             //arrange
-            TNumeric input;
-            do { input = Random.NextNumeric<TNumeric>(Generation.Extended); }
-            while (input.IsGreaterThanOrEqualTo(Numeric.Zero<TNumeric>()));
+            TNumeric input = Random.NextNumeric(Numeric.MinValue<TNumeric>(), Numeric.Epsilon<TNumeric>().Negative(), Generation.Extended);
 
             //act
             int result = MathN.Sign(input);

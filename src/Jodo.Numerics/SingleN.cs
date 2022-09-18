@@ -57,14 +57,14 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool IsFinite(SingleN f) => SingleCompat.IsFinite(f);
+        public static bool IsFinite(SingleN f) => SingleShim.IsFinite(f);
         public static bool IsInfinity(SingleN f) => float.IsInfinity(f);
         public static bool IsNaN(SingleN f) => float.IsNaN(f);
-        public static bool IsNegative(SingleN f) => SingleCompat.IsNegative(f);
+        public static bool IsNegative(SingleN f) => SingleShim.IsNegative(f);
         public static bool IsNegativeInfinity(SingleN f) => float.IsNegativeInfinity(f);
-        public static bool IsNormal(SingleN f) => SingleCompat.IsNormal(f);
+        public static bool IsNormal(SingleN f) => SingleShim.IsNormal(f);
         public static bool IsPositiveInfinity(SingleN f) => float.IsPositiveInfinity(f);
-        public static bool IsSubnormal(SingleN f) => SingleCompat.IsSubnormal(f);
+        public static bool IsSubnormal(SingleN f) => SingleShim.IsSubnormal(f);
 
         public static bool TryParse(string s, IFormatProvider? provider, out SingleN result) => TryHelper.Run(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out SingleN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
@@ -136,7 +136,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<SingleN>.IsGreaterThan(SingleN value) => this > value;
         bool INumeric<SingleN>.IsGreaterThanOrEqualTo(SingleN value) => this >= value;
@@ -165,12 +165,12 @@ namespace Jodo.Numerics
         IVariantRandom<SingleN> IProvider<IVariantRandom<SingleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<SingleN>,
             IConvert<SingleN>,
             IConvertExtended<SingleN>,
             IMath<SingleN>,
-            INumericStatic<SingleN>,
+            INumericBitConverter<SingleN>,
             INumericRandom<SingleN>,
+            INumericStatic<SingleN>,
             IVariantRandom<SingleN>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -199,46 +199,45 @@ namespace Jodo.Numerics
             SingleN INumericStatic<SingleN>.Zero => 0f;
 
             int IMath<SingleN>.Sign(SingleN x) => Math.Sign(x._value);
-            SingleN IMath<SingleN>.Abs(SingleN value) => MathF.Abs(value._value);
-            SingleN IMath<SingleN>.Acos(SingleN x) => MathF.Acos(x._value);
-            SingleN IMath<SingleN>.Acosh(SingleN x) => MathF.Acosh(x._value);
-            SingleN IMath<SingleN>.Asin(SingleN x) => MathF.Asin(x._value);
-            SingleN IMath<SingleN>.Asinh(SingleN x) => MathF.Asinh(x._value);
-            SingleN IMath<SingleN>.Atan(SingleN x) => MathF.Atan(x._value);
-            SingleN IMath<SingleN>.Atan2(SingleN x, SingleN y) => MathF.Atan2(x._value, y._value);
-            SingleN IMath<SingleN>.Atanh(SingleN x) => MathF.Atanh(x._value);
-            SingleN IMath<SingleN>.Cbrt(SingleN x) => MathF.Cbrt(x._value);
-            SingleN IMath<SingleN>.Ceiling(SingleN x) => MathF.Ceiling(x._value);
-            SingleN IMath<SingleN>.Clamp(SingleN x, SingleN bound1, SingleN bound2) => bound1 > bound2 ? MathF.Min(bound1._value, MathF.Max(bound2._value, x._value)) : MathF.Min(bound2._value, MathF.Max(bound1._value, x._value));
-            SingleN IMath<SingleN>.Cos(SingleN x) => MathF.Cos(x._value);
-            SingleN IMath<SingleN>.Cosh(SingleN x) => MathF.Cosh(x._value);
-            SingleN IMath<SingleN>.DegreesToRadians(SingleN x) => x * BitOperations.RadiansPerDegreeF;
-            SingleN IMath<SingleN>.E { get; } = MathF.E;
-            SingleN IMath<SingleN>.Exp(SingleN x) => MathF.Exp(x._value);
-            SingleN IMath<SingleN>.Floor(SingleN x) => MathF.Floor(x._value);
-            SingleN IMath<SingleN>.IEEERemainder(SingleN x, SingleN y) => MathF.IEEERemainder(x._value, y._value);
-            SingleN IMath<SingleN>.Log(SingleN x) => MathF.Log(x._value);
-            SingleN IMath<SingleN>.Log(SingleN x, SingleN y) => MathF.Log(x._value, y._value);
-            SingleN IMath<SingleN>.Log10(SingleN x) => MathF.Log10(x._value);
-            SingleN IMath<SingleN>.Max(SingleN x, SingleN y) => MathF.Max(x._value, y._value);
-            SingleN IMath<SingleN>.Min(SingleN x, SingleN y) => MathF.Min(x._value, y._value);
-            SingleN IMath<SingleN>.PI { get; } = MathF.PI;
-            SingleN IMath<SingleN>.Pow(SingleN x, SingleN y) => MathF.Pow(x._value, y._value);
-            SingleN IMath<SingleN>.RadiansToDegrees(SingleN x) => x * BitOperations.DegreesPerRadianF;
-            SingleN IMath<SingleN>.Round(SingleN x) => MathF.Round(x);
-            SingleN IMath<SingleN>.Round(SingleN x, int digits) => MathF.Round(x, digits);
-            SingleN IMath<SingleN>.Round(SingleN x, int digits, MidpointRounding mode) => MathF.Round(x, digits, mode);
-            SingleN IMath<SingleN>.Round(SingleN x, MidpointRounding mode) => MathF.Round(x, mode);
-            SingleN IMath<SingleN>.Sin(SingleN x) => MathF.Sin(x._value);
-            SingleN IMath<SingleN>.Sinh(SingleN x) => MathF.Sinh(x._value);
-            SingleN IMath<SingleN>.Sqrt(SingleN x) => MathF.Sqrt(x._value);
-            SingleN IMath<SingleN>.Tan(SingleN x) => MathF.Tan(x._value);
-            SingleN IMath<SingleN>.Tanh(SingleN x) => MathF.Tanh(x._value);
-            SingleN IMath<SingleN>.Tau { get; } = MathF.PI * 2;
-            SingleN IMath<SingleN>.Truncate(SingleN x) => MathF.Truncate(x._value);
+            SingleN IMath<SingleN>.Abs(SingleN value) => MathFShim.Abs(value._value);
+            SingleN IMath<SingleN>.Acos(SingleN x) => MathFShim.Acos(x._value);
+            SingleN IMath<SingleN>.Acosh(SingleN x) => MathFShim.Acosh(x._value);
+            SingleN IMath<SingleN>.Asin(SingleN x) => MathFShim.Asin(x._value);
+            SingleN IMath<SingleN>.Asinh(SingleN x) => MathFShim.Asinh(x._value);
+            SingleN IMath<SingleN>.Atan(SingleN x) => MathFShim.Atan(x._value);
+            SingleN IMath<SingleN>.Atan2(SingleN x, SingleN y) => MathFShim.Atan2(x._value, y._value);
+            SingleN IMath<SingleN>.Atanh(SingleN x) => MathFShim.Atanh(x._value);
+            SingleN IMath<SingleN>.Cbrt(SingleN x) => MathFShim.Cbrt(x._value);
+            SingleN IMath<SingleN>.Ceiling(SingleN x) => MathFShim.Ceiling(x._value);
+            SingleN IMath<SingleN>.Clamp(SingleN x, SingleN bound1, SingleN bound2) => bound1 > bound2 ? MathFShim.Min(bound1._value, MathFShim.Max(bound2._value, x._value)) : MathFShim.Min(bound2._value, MathFShim.Max(bound1._value, x._value));
+            SingleN IMath<SingleN>.Cos(SingleN x) => MathFShim.Cos(x._value);
+            SingleN IMath<SingleN>.Cosh(SingleN x) => MathFShim.Cosh(x._value);
+            SingleN IMath<SingleN>.E { get; } = MathFShim.E;
+            SingleN IMath<SingleN>.Exp(SingleN x) => MathFShim.Exp(x._value);
+            SingleN IMath<SingleN>.Floor(SingleN x) => MathFShim.Floor(x._value);
+            SingleN IMath<SingleN>.IEEERemainder(SingleN x, SingleN y) => MathFShim.IEEERemainder(x._value, y._value);
+            SingleN IMath<SingleN>.Log(SingleN x) => MathFShim.Log(x._value);
+            SingleN IMath<SingleN>.Log(SingleN x, SingleN y) => MathFShim.Log(x._value, y._value);
+            SingleN IMath<SingleN>.Log10(SingleN x) => MathFShim.Log10(x._value);
+            SingleN IMath<SingleN>.Max(SingleN x, SingleN y) => MathFShim.Max(x._value, y._value);
+            SingleN IMath<SingleN>.Min(SingleN x, SingleN y) => MathFShim.Min(x._value, y._value);
+            SingleN IMath<SingleN>.PI { get; } = MathFShim.PI;
+            SingleN IMath<SingleN>.Pow(SingleN x, SingleN y) => MathFShim.Pow(x._value, y._value);
+            SingleN IMath<SingleN>.Round(SingleN x) => MathFShim.Round(x);
+            SingleN IMath<SingleN>.Round(SingleN x, int digits) => MathFShim.Round(x, digits);
+            SingleN IMath<SingleN>.Round(SingleN x, int digits, MidpointRounding mode) => MathFShim.Round(x, digits, mode);
+            SingleN IMath<SingleN>.Round(SingleN x, MidpointRounding mode) => MathFShim.Round(x, mode);
+            SingleN IMath<SingleN>.Sin(SingleN x) => MathFShim.Sin(x._value);
+            SingleN IMath<SingleN>.Sinh(SingleN x) => MathFShim.Sinh(x._value);
+            SingleN IMath<SingleN>.Sqrt(SingleN x) => MathFShim.Sqrt(x._value);
+            SingleN IMath<SingleN>.Tan(SingleN x) => MathFShim.Tan(x._value);
+            SingleN IMath<SingleN>.Tanh(SingleN x) => MathFShim.Tanh(x._value);
+            SingleN IMath<SingleN>.Tau { get; } = MathFShim.PI * 2;
+            SingleN IMath<SingleN>.Truncate(SingleN x) => MathFShim.Truncate(x._value);
 
-            SingleN INumericBitConverter<SingleN>.Read(IReader<byte> stream) => BitConverter.ToSingle(stream.Read(sizeof(float)), 0);
-            void INumericBitConverter<SingleN>.Write(SingleN value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<SingleN>.ConvertedSize => sizeof(float);
+            SingleN INumericBitConverter<SingleN>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToSingle(value, startIndex);
+            byte[] INumericBitConverter<SingleN>.GetBytes(SingleN value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<SingleN>.ToBoolean(SingleN value) => Convert.ToBoolean(value._value);
             byte IConvert<SingleN>.ToByte(SingleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

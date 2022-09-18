@@ -26,49 +26,6 @@ using Jodo.Primitives;
 
 namespace Jodo.Geometry
 {
-    public static class Angle
-    {
-        public static Angle<TNumeric> FromDegrees<TNumeric>(TNumeric degrees) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(degrees);
-
-        public static Angle<TNumeric> FromDegrees<TNumeric>(byte degrees) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(ConvertN.ToNumeric<TNumeric>(degrees));
-
-        public static Angle<TNumeric> FromRadians<TNumeric>(TNumeric radians) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(MathN.RadiansToDegrees(radians));
-
-        public static Angle<TNumeric> FromRadians<TNumeric>(byte radians) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(MathN.RadiansToDegrees(ConvertN.ToNumeric<TNumeric>(radians)));
-
-        public static Angle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
-        {
-            string trimmed = s.Trim();
-
-            if (TryParse(trimmed, "°", style, provider, out TNumeric number)) return FromDegrees(number);
-            if (TryParse(trimmed, "Degrees", style, provider, out number)) return FromDegrees(number);
-            if (TryParse(trimmed, "Degree", style, provider, out number)) return FromDegrees(number);
-            if (TryParse(trimmed, "Deg", style, provider, out number)) return FromDegrees(number);
-            if (TryParse(trimmed, "Radians", style, provider, out number)) return FromRadians(number);
-            if (TryParse(trimmed, "Radian", style, provider, out number)) return FromRadians(number);
-            if (TryParse(trimmed, "Rad", style, provider, out number)) return FromRadians(number);
-            if (TryParse(trimmed, "C", style, provider, out number)) return FromRadians(number);
-            if (TryParse(trimmed, "R", style, provider, out number)) return FromRadians(number);
-
-            return FromDegrees(Numeric.Parse<TNumeric>(trimmed));
-        }
-
-        private static bool TryParse<TNumeric>(string value, string unit, NumberStyles? style, IFormatProvider? provider, out TNumeric number) where TNumeric : struct, INumeric<TNumeric>
-        {
-            if (value.EndsWith(unit, StringComparison.InvariantCultureIgnoreCase))
-            {
-                number = Numeric.Parse<TNumeric>(value.Substring(0, value.Length - unit.Length), style, provider);
-                return true;
-            }
-            number = default;
-            return false;
-        }
-    }
-
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Angle<TNumeric> :
@@ -76,20 +33,11 @@ namespace Jodo.Geometry
             IComparable<Angle<TNumeric>>,
             IEquatable<Angle<TNumeric>>,
             IFormattable,
-            IProvider<INumericBitConverter<Angle<TNumeric>>>,
-                        IProvider<IVariantRandom<Angle<TNumeric>>>,
+            IProvider<IVariantRandom<Angle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
         public readonly TNumeric Degrees;
-
-        public TNumeric GetRadians() => MathN.DegreesToRadians(Degrees);
-        public TNumeric Cos() => MathN.Cos(GetRadians());
-        public TNumeric Cosh() => MathN.Cosh(GetRadians());
-        public TNumeric Sinh() => MathN.Sinh(GetRadians());
-        public TNumeric Tanh() => MathN.Tanh(GetRadians());
-        public TNumeric Sin() => MathN.Sin(GetRadians());
-        public TNumeric Tan() => MathN.Tan(GetRadians());
 
         public Angle(TNumeric degrees)
         {
@@ -119,9 +67,6 @@ namespace Jodo.Geometry
         public override string ToString() => $"{Degrees}°";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"{Degrees.ToString(format, formatProvider)}°";
 
-        public static implicit operator TNumeric(Angle<TNumeric> unit) => unit.Degrees;
-        public static explicit operator Angle<TNumeric>(TNumeric value) => new Angle<TNumeric>(value);
-
         public static bool operator !=(Angle<TNumeric> left, Angle<TNumeric> right) => !left.Equals(right);
         public static bool operator <(Angle<TNumeric> left, Angle<TNumeric> right) => left.Degrees.IsLessThan(right.Degrees);
         public static bool operator <=(Angle<TNumeric> left, Angle<TNumeric> right) => left.Degrees.IsLessThanOrEqualTo(right.Degrees);
@@ -136,47 +81,67 @@ namespace Jodo.Geometry
         public static Angle<TNumeric> operator +(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Add(right.Degrees));
         public static Angle<TNumeric> operator +(Angle<TNumeric> value) => new Angle<TNumeric>(value.Degrees);
 
-        public static bool operator !=(Angle<TNumeric> left, TNumeric right) => !left.Degrees.Equals(right);
-        public static bool operator <(Angle<TNumeric> left, TNumeric right) => left.Degrees.IsLessThan(right);
-        public static bool operator <=(Angle<TNumeric> left, TNumeric right) => left.Degrees.IsLessThanOrEqualTo(right);
-        public static bool operator ==(Angle<TNumeric> left, TNumeric right) => left.Degrees.Equals(right);
-        public static bool operator >(Angle<TNumeric> left, TNumeric right) => left.Degrees.IsGreaterThan(right);
-        public static bool operator >=(Angle<TNumeric> left, TNumeric right) => left.Degrees.IsGreaterThanOrEqualTo(right);
-        public static Angle<TNumeric> operator %(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Remainder(right));
-        public static Angle<TNumeric> operator -(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Subtract(right));
-        public static Angle<TNumeric> operator *(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Multiply(right));
-        public static Angle<TNumeric> operator /(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Divide(right));
-        public static Angle<TNumeric> operator +(Angle<TNumeric> left, TNumeric right) => new Angle<TNumeric>(left.Degrees.Add(right));
-
-        public static bool operator !=(TNumeric left, Angle<TNumeric> right) => !left.Equals(right.Degrees);
-        public static bool operator <(TNumeric left, Angle<TNumeric> right) => left.IsLessThan(right.Degrees);
-        public static bool operator <=(TNumeric left, Angle<TNumeric> right) => left.IsLessThanOrEqualTo(right.Degrees);
-        public static bool operator ==(TNumeric left, Angle<TNumeric> right) => left.Equals(right.Degrees);
-        public static bool operator >(TNumeric left, Angle<TNumeric> right) => left.IsGreaterThan(right.Degrees);
-        public static bool operator >=(TNumeric left, Angle<TNumeric> right) => left.IsGreaterThanOrEqualTo(right.Degrees);
-        public static Angle<TNumeric> operator %(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Remainder(right.Degrees));
-        public static Angle<TNumeric> operator -(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Subtract(right.Degrees));
-        public static Angle<TNumeric> operator *(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Multiply(right.Degrees));
-        public static Angle<TNumeric> operator /(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Divide(right.Degrees));
-        public static Angle<TNumeric> operator +(TNumeric left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Add(right.Degrees));
-
-        INumericBitConverter<Angle<TNumeric>> IProvider<INumericBitConverter<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Angle<TNumeric>> IProvider<IVariantRandom<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<Angle<TNumeric>>,
             IVariantRandom<Angle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Angle<TNumeric> INumericBitConverter<Angle<TNumeric>>.Read(IReader<byte> stream)
-                => new Angle<TNumeric>(BitConverterN.Read<TNumeric>(stream));
-
-            void INumericBitConverter<Angle<TNumeric>>.Write(Angle<TNumeric> value, IWriter<byte> stream)
-                => BitConverterN.Write(stream, value.Degrees);
-
             Angle<TNumeric> IVariantRandom<Angle<TNumeric>>.Next(Random random, Scenarios scenarios)
                 => new Angle<TNumeric>(random.NextVariant<TNumeric>(scenarios));
+        }
+    }
+
+    public static class Angle
+    {
+        public static Angle<TNumeric> Zero<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Angle<TNumeric>(Numeric.Zero<TNumeric>());
+        }
+
+        public static TNumeric RadiansToDegrees<TNumeric>(TNumeric radians) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return radians.Multiply(ConvertN.ToNumeric<TNumeric>(Math.PI / 180d));
+        }
+
+        public static TNumeric DegreesToRadians<TNumeric>(TNumeric degrees) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return degrees.Multiply(ConvertN.ToNumeric<TNumeric>(180d / Math.PI));
+        }
+
+        public static Angle<TNumeric> FromDegrees<TNumeric>(TNumeric degrees) where TNumeric : struct, INumeric<TNumeric>
+            => new Angle<TNumeric>(degrees);
+
+        public static Angle<TNumeric> FromRadians<TNumeric>(TNumeric radians) where TNumeric : struct, INumeric<TNumeric>
+            => new Angle<TNumeric>(RadiansToDegrees(radians));
+
+        public static Angle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        {
+            string trimmed = s.Trim();
+
+            if (TryParse(trimmed, "°", style, provider, out TNumeric number)) return FromDegrees(number);
+            if (TryParse(trimmed, "Degrees", style, provider, out number)) return FromDegrees(number);
+            if (TryParse(trimmed, "Degree", style, provider, out number)) return FromDegrees(number);
+            if (TryParse(trimmed, "Deg", style, provider, out number)) return FromDegrees(number);
+            if (TryParse(trimmed, "Radians", style, provider, out number)) return FromRadians(number);
+            if (TryParse(trimmed, "Radian", style, provider, out number)) return FromRadians(number);
+            if (TryParse(trimmed, "Rad", style, provider, out number)) return FromRadians(number);
+            if (TryParse(trimmed, "C", style, provider, out number)) return FromRadians(number);
+            if (TryParse(trimmed, "R", style, provider, out number)) return FromRadians(number);
+
+            return FromDegrees(Numeric.Parse<TNumeric>(trimmed));
+        }
+
+        private static bool TryParse<TNumeric>(string value, string unit, NumberStyles? style, IFormatProvider? provider, out TNumeric number) where TNumeric : struct, INumeric<TNumeric>
+        {
+            if (value.EndsWith(unit, StringComparison.InvariantCultureIgnoreCase))
+            {
+                number = Numeric.Parse<TNumeric>(value.Substring(0, value.Length - unit.Length), style, provider);
+                return true;
+            }
+            number = default;
+            return false;
         }
     }
 }

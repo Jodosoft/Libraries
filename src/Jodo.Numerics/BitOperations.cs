@@ -18,20 +18,13 @@
 // IN THE SOFTWARE.
 
 using System;
-using Jodo.Primitives.Compatibility;
 
 namespace Jodo.Numerics
 {
     public static class BitOperations
     {
-        public const float DegreesPerRadianF = 180f / MathF.PI;
-        public const float RadiansPerDegreeF = MathF.PI / 180;
-
-        public const double DegreesPerRadian = 180d / Math.PI;
-        public const double RadiansPerDegree = Math.PI / 180d;
-
-        public const decimal DegreesPerRadianM = 180m / (decimal)Math.PI;
-        public const decimal RadiansPerDegreeM = (decimal)Math.PI / 180m;
+        private const string IndexOutOfRange = "Index was out of range. Must be non-negative and less than the size of the collection.";
+        private const string NotLongEnough = "Destination array is not long enough to copy all the items in the collection. Check array index and length.";
 
         public static float BitwiseComplement(float left)
         {
@@ -166,6 +159,57 @@ namespace Jodo.Numerics
             leftBits[1] = leftBits[1] >> right;
             leftBits[2] = leftBits[2] >> right;
             return new decimal(leftBits);
+        }
+
+        public static byte[] GetBytes(decimal value)
+        {
+            byte[] result = new byte[sizeof(decimal)];
+            int[] parts = decimal.GetBits(value);
+            Buffer.BlockCopy(parts, 0, result, 0, result.Length);
+            return result;
+        }
+
+        public static decimal ToDecimal(byte[] value, int startIndex)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            if (startIndex >= value.Length) throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, IndexOutOfRange);
+
+            if (startIndex > value.Length - sizeof(decimal)) throw new ArgumentException(NotLongEnough, nameof(value));
+
+            int part0 = BitConverter.ToInt32(value, startIndex);
+            int part1 = BitConverter.ToInt32(value, startIndex + sizeof(int));
+            int part2 = BitConverter.ToInt32(value, startIndex + sizeof(int) + sizeof(int));
+            int part3 = BitConverter.ToInt32(value, startIndex + sizeof(int) + sizeof(int) + sizeof(int));
+
+            bool sign = (part3 & 0x80000000) != 0;
+            byte scale = (byte)((part3 >> 16) & 0x7F);
+
+            decimal result = new decimal(part0, part1, part2, sign, scale);
+            return result;
+        }
+
+        public static byte ToByte(byte[] value, int startIndex)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            if (startIndex >= value.Length) throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, IndexOutOfRange);
+
+            if (startIndex > value.Length - sizeof(byte)) throw new ArgumentException(NotLongEnough, nameof(value));
+
+            return value[startIndex];
+        }
+
+        [CLSCompliant(false)]
+        public static sbyte ToSByte(byte[] value, int startIndex)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            if (startIndex >= value.Length) throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, IndexOutOfRange);
+
+            if (startIndex > value.Length - sizeof(byte)) throw new ArgumentException(NotLongEnough, nameof(value));
+
+            return (sbyte)value[startIndex];
         }
     }
 }

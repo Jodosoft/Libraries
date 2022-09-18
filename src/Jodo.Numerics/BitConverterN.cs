@@ -17,42 +17,42 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System.Collections.Generic;
+using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Jodo.Primitives;
 
 namespace Jodo.Numerics
 {
     /// <summary>
-    /// Converts numeric types to an array of bytes, and an array of bytes to numeric types.
+    /// Converts numeric values to arrays of bytes, and an array of bytes to numeric values.
     /// </summary>
     /// <seealso cref="INumeric{TSelf}"/>
+    /// <seealso cref="BitConverter"/>
     public static class BitConverterN
     {
-        public static byte[] GetBytes<TNumeric>(TNumeric value) where TNumeric : struct, IProvider<INumericBitConverter<TNumeric>>
+        /// <inheritdoc cref="INumericBitConverter{TNumeric}.ToNumeric(byte[], int)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric ToNumeric<TNumeric>(byte[] value, int startIndex) where TNumeric : struct, INumeric<TNumeric>
         {
-            List<byte>? list = new List<byte>();
-            Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.Write(value, list.AsWriteOnlyStream());
-            return list.ToArray();
+            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.ToNumeric(value, startIndex);
         }
 
-        public static TNumeric FromBytes<TNumeric>(byte[] bytes) where TNumeric : struct, IProvider<INumericBitConverter<TNumeric>>
+        /// <inheritdoc cref="INumericBitConverter{TNumeric}.GetBytes(TNumeric)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte[] GetBytes<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.Read(bytes.AsReadOnlyStream());
+            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.GetBytes(value);
         }
 
-        public static TNumeric FromBytes<TNumeric>(IReadOnlyList<byte> bytes) where TNumeric : struct, IProvider<INumericBitConverter<TNumeric>>
+        /// <inheritdoc cref="INumericBitConverter{TNumeric}.ConvertedSize"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ConvertedSize<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
         {
-            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.Read(bytes.AsReadOnlyStream());
-        }
-
-        public static TNumeric Read<TNumeric>(IReader<byte> stream) where TNumeric : struct, IProvider<INumericBitConverter<TNumeric>>
-        {
-            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.Read(stream);
-        }
-
-        public static void Write<TNumeric>(IWriter<byte> stream, TNumeric value) where TNumeric : struct, IProvider<INumericBitConverter<TNumeric>>
-        {
-            Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.Write(value, stream);
+            return Provider<TNumeric, INumericBitConverter<TNumeric>>.Default.ConvertedSize;
         }
     }
 }

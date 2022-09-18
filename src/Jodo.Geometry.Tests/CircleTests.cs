@@ -18,24 +18,20 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Numerics.Tests;
-using Jodo.Primitives.Tests;
+using Jodo.Testing;
 
 namespace Jodo.Geometry.Tests
 {
     public static class CircleTests
     {
-        public sealed class FixedPointBitConvertTests : BitConvertTestBase<Circle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : CircleTestBase<Fix64> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Circle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Circle<Fix64>> { }
-        public sealed class FloatingPointBitConvertTetsts : BitConvertTestBase<Circle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : CircleTestBase<SingleN> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Circle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Circle<SingleN>> { }
-        public sealed class UnsignedIntegralBitConvertTests : BitConvertTestBase<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : CircleTestBase<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Circle<ByteN>> { }
+        public sealed class GeneralFixedPointTests : CircleTestBase<Fix64> { }
+        public sealed class GeneralFloatingPointTests : CircleTestBase<SingleN> { }
+        public sealed class GeneralUnsignedIntegralTests : CircleTestBase<ByteN> { }
+        public sealed class ObjectFixedPointTests : ObjectTestBase<Circle<Fix64>> { }
+        public sealed class ObjectFloatingPointTests : ObjectTestBase<Circle<SingleN>> { }
+        public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<Circle<ByteN>> { }
+        public sealed class SerializableFixedPointTests : SerializableTestBase<Circle<Fix64>> { }
+        public sealed class SerializableFloatingPointTests : SerializableTestBase<Circle<SingleN>> { }
+        public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<Circle<ByteN>> { }
     }
 }

@@ -18,11 +18,28 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
+using Jodo.Primitives;
 using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
     public abstract class CircleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
+        [Test]
+        public void EqualsMethods_RandomValues_SameOutcome()
+        {
+            //arrange
+            Circle<TNumeric> input1 = Random.NextVariant<Circle<TNumeric>>();
+            Circle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<Circle<TNumeric>>());
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => input1.Equals(input2),
+                () => input1.Equals((object)input2),
+                () => input1 == input2,
+                () => !(input1 != input2));
+        }
     }
 }

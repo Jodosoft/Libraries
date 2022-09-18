@@ -126,7 +126,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<DecimalN>.IsGreaterThan(DecimalN value) => this > value;
         bool INumeric<DecimalN>.IsGreaterThanOrEqualTo(DecimalN value) => this >= value;
@@ -155,10 +155,10 @@ namespace Jodo.Numerics
         IVariantRandom<DecimalN> IProvider<IVariantRandom<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<DecimalN>,
             IConvert<DecimalN>,
             IConvertExtended<DecimalN>,
             IMath<DecimalN>,
+            INumericBitConverter<DecimalN>,
             INumericRandom<DecimalN>,
             INumericStatic<DecimalN>,
             IVariantRandom<DecimalN>
@@ -191,18 +191,17 @@ namespace Jodo.Numerics
             int IMath<DecimalN>.Sign(DecimalN x) => Math.Sign(x);
             DecimalN IMath<DecimalN>.Abs(DecimalN value) => Math.Abs(value);
             DecimalN IMath<DecimalN>.Acos(DecimalN x) => (DecimalN)Math.Acos((double)x);
-            DecimalN IMath<DecimalN>.Acosh(DecimalN x) => (DecimalN)MathCompat.Acosh((double)x);
+            DecimalN IMath<DecimalN>.Acosh(DecimalN x) => (DecimalN)MathShim.Acosh((double)x);
             DecimalN IMath<DecimalN>.Asin(DecimalN x) => (DecimalN)Math.Asin((double)x);
-            DecimalN IMath<DecimalN>.Asinh(DecimalN x) => (DecimalN)MathCompat.Asinh((double)x);
+            DecimalN IMath<DecimalN>.Asinh(DecimalN x) => (DecimalN)MathShim.Asinh((double)x);
             DecimalN IMath<DecimalN>.Atan(DecimalN x) => (DecimalN)Math.Atan((double)x);
             DecimalN IMath<DecimalN>.Atan2(DecimalN x, DecimalN y) => (DecimalN)Math.Atan2((double)x, (double)y);
-            DecimalN IMath<DecimalN>.Atanh(DecimalN x) => (DecimalN)MathCompat.Atanh((double)x);
-            DecimalN IMath<DecimalN>.Cbrt(DecimalN x) => (DecimalN)MathCompat.Cbrt((double)x);
+            DecimalN IMath<DecimalN>.Atanh(DecimalN x) => (DecimalN)MathShim.Atanh((double)x);
+            DecimalN IMath<DecimalN>.Cbrt(DecimalN x) => (DecimalN)MathShim.Cbrt((double)x);
             DecimalN IMath<DecimalN>.Ceiling(DecimalN x) => decimal.Ceiling(x);
             DecimalN IMath<DecimalN>.Clamp(DecimalN x, DecimalN bound1, DecimalN bound2) => bound1 > bound2 ? Math.Min(bound1, Math.Max(bound2, x)) : Math.Min(bound2, Math.Max(bound1, x));
             DecimalN IMath<DecimalN>.Cos(DecimalN x) => (DecimalN)Math.Cos((double)x);
             DecimalN IMath<DecimalN>.Cosh(DecimalN x) => (DecimalN)Math.Cosh((double)x);
-            DecimalN IMath<DecimalN>.DegreesToRadians(DecimalN degrees) => degrees * BitOperations.RadiansPerDegreeM;
             DecimalN IMath<DecimalN>.E { get; } = (DecimalN)Math.E;
             DecimalN IMath<DecimalN>.Exp(DecimalN x) => (DecimalN)Math.Exp((double)x);
             DecimalN IMath<DecimalN>.Floor(DecimalN x) => decimal.Floor(x);
@@ -214,7 +213,6 @@ namespace Jodo.Numerics
             DecimalN IMath<DecimalN>.Min(DecimalN x, DecimalN y) => Math.Min(x, y);
             DecimalN IMath<DecimalN>.PI { get; } = (DecimalN)Math.PI;
             DecimalN IMath<DecimalN>.Pow(DecimalN x, DecimalN y) => y == 1 ? x : (DecimalN)Math.Pow((double)x, (double)y);
-            DecimalN IMath<DecimalN>.RadiansToDegrees(DecimalN radians) => radians * BitOperations.DegreesPerRadianM;
             DecimalN IMath<DecimalN>.Round(DecimalN x) => decimal.Round(x);
             DecimalN IMath<DecimalN>.Round(DecimalN x, int digits) => decimal.Round(x, digits);
             DecimalN IMath<DecimalN>.Round(DecimalN x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);
@@ -227,27 +225,9 @@ namespace Jodo.Numerics
             DecimalN IMath<DecimalN>.Tau { get; } = (DecimalN)Math.PI * 2m;
             DecimalN IMath<DecimalN>.Truncate(DecimalN x) => decimal.Truncate(x);
 
-            DecimalN INumericBitConverter<DecimalN>.Read(IReader<byte> stream)
-            {
-                int part0 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part1 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part2 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-                int part3 = BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-
-                bool sign = (part3 & 0x80000000) != 0;
-                byte scale = (byte)((part3 >> 16) & 0x7F);
-
-                return new decimal(part0, part1, part2, sign, scale);
-            }
-
-            void INumericBitConverter<DecimalN>.Write(DecimalN value, IWriter<byte> stream)
-            {
-                int[]? parts = decimal.GetBits(value);
-                stream.Write(BitConverter.GetBytes(parts[0]));
-                stream.Write(BitConverter.GetBytes(parts[1]));
-                stream.Write(BitConverter.GetBytes(parts[2]));
-                stream.Write(BitConverter.GetBytes(parts[3]));
-            }
+            int INumericBitConverter<DecimalN>.ConvertedSize => sizeof(decimal);
+            DecimalN INumericBitConverter<DecimalN>.ToNumeric(byte[] value, int startIndex) => BitOperations.ToDecimal(value, startIndex);
+            byte[] INumericBitConverter<DecimalN>.GetBytes(DecimalN value) => BitOperations.GetBytes(value._value);
 
             bool IConvert<DecimalN>.ToBoolean(DecimalN value) => Convert.ToBoolean(value._value);
             byte IConvert<DecimalN>.ToByte(DecimalN value, Conversion mode) => ConvertN.ToByte(value._value, mode);
@@ -280,10 +260,10 @@ namespace Jodo.Numerics
             DecimalN INumericStatic<DecimalN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
 
-            DecimalN INumericRandom<DecimalN>.Next(Random random) => random.NextDecimal();
+            DecimalN INumericRandom<DecimalN>.Next(Random random) => random.NextDecimal(1);
             DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN maxValue) => random.NextDecimal(maxValue);
             DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN minValue, DecimalN maxValue) => random.NextDecimal(minValue, maxValue);
-            DecimalN INumericRandom<DecimalN>.Next(Random random, Generation mode) => random.NextDecimal(mode);
+            DecimalN INumericRandom<DecimalN>.Next(Random random, Generation mode) => random.NextDecimal(mode == Generation.Extended ? decimal.MinValue : 0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
             DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN minValue, DecimalN maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
 
             DecimalN IVariantRandom<DecimalN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DecimalN>(random, scenarios);

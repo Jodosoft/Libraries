@@ -17,14 +17,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using Jodo.Primitives.Tests;
+using Jodo.Testing;
+using Jodo.Testing.NewtonsoftJson;
 
 namespace Jodo.Numerics.Tests
 {
     public static class Int64NTests
     {
-        public sealed class BitConvertTests : BitConvertTestBase<Int64N> { }
-        public sealed class NumericBitConvertTests : NumericBitConvertTestBase<Int64N> { }
+        public sealed class JsonConvertTests : JsonConvertTestBase<Int64N> { }
+        public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Int64N> { }
         public sealed class NumericCastTests : NumericCastTestBase<Int64N> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<Int64N> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<Int64N> { }

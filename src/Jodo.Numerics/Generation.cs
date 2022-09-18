@@ -27,7 +27,7 @@ namespace Jodo.Numerics
         /// <summary>
         /// Numbers will be generated according the conventions established by <see cref="System.Random"/>:
         /// <list type="bullet">
-        ///     <item><description>Lower bounds are inclusive whilst upper bounds are exclusive.</description></item>
+        ///     <item><description>Lower bounds are inclusive and upper bounds are exclusive.</description></item>
         ///     <item><description>An <see cref="System.ArgumentOutOfRangeException"/> is thrown if the lower bound is greater than the upper bound.</description></item>
         ///     <item><description>If no lower bound is specified then values returned are greater than or equal to 0.</description></item>
         ///     <item><description>If no upper bound is specified then values returned are less than the <c>MaxValue</c> constant for integral types, otherwise less than 1.</description></item>

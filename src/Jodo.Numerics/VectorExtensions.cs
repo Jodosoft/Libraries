@@ -26,7 +26,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> Doubled<TNumeric>(this Vector2N<TNumeric> vector) where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Vector2N<TNumeric>(vector.X.Doubled(), vector.Y.Doubled());
+            return new Vector2N<TNumeric>(vector.X.Double(), vector.Y.Double());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,6 +39,48 @@ namespace Jodo.Numerics
         public static TNumeric LengthSquared<TNumeric>(this Vector2N<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
             return Vector2N.Dot(value, value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> Half<TNumeric>(this Vector2N<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(value.X.Half(), value.Y.Half());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> Add<TNumeric>(this Vector2N<TNumeric> value, Vector2N<TNumeric> amount) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return value + amount;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> AddX<TNumeric>(this Vector2N<TNumeric> value, TNumeric x) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(value.X.Add(x), value.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> AddY<TNumeric>(this Vector2N<TNumeric> value, TNumeric y) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(value.X, value.Y.Add(y));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> Subtract<TNumeric>(this Vector2N<TNumeric> value, Vector2N<TNumeric> amount) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return value - amount;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> SubtractX<TNumeric>(this Vector2N<TNumeric> value, TNumeric x) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(value.X.Subtract(x), value.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> SubtractY<TNumeric>(this Vector2N<TNumeric> value, TNumeric y) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(value.X, value.Y.Subtract(y));
         }
     }
 }

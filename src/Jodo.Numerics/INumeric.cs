@@ -64,6 +64,7 @@ namespace Jodo.Numerics
         string ToString(string format);
         string ToString(IFormatProvider formatProvider);
 
+#pragma warning disable CP0002 //
 #if HAS_DEFAULT_INTERFACE_METHODS
         public static bool operator <(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsLessThan((TSelf)right);
         public static bool operator <=(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsLessThanOrEqualTo((TSelf)right);
@@ -83,5 +84,6 @@ namespace Jodo.Numerics
         public static TSelf operator <<(INumeric<TSelf> left, int right) => left.LeftShift(right);
         public static TSelf operator >>(INumeric<TSelf> left, int right) => left.RightShift(right);
 #endif
+#pragma warning restore CP0002 //
     }
 }

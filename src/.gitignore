@@ -7,3 +7,4 @@ obj/
 *.trx
 TestResults/
 output/
+publish/

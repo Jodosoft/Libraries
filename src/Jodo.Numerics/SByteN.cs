@@ -126,7 +126,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<SByteN>.IsGreaterThan(SByteN value) => this > value;
         bool INumeric<SByteN>.IsGreaterThanOrEqualTo(SByteN value) => this >= value;
@@ -155,10 +155,10 @@ namespace Jodo.Numerics
         IVariantRandom<SByteN> IProvider<IVariantRandom<SByteN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<SByteN>,
             IConvert<SByteN>,
             IConvertExtended<SByteN>,
             IMath<SByteN>,
+            INumericBitConverter<SByteN>,
             INumericRandom<SByteN>,
             INumericStatic<SByteN>,
             IVariantRandom<SByteN>
@@ -191,18 +191,17 @@ namespace Jodo.Numerics
             int IMath<SByteN>.Sign(SByteN x) => Math.Sign(x._value);
             SByteN IMath<SByteN>.Abs(SByteN value) => Math.Abs(value._value);
             SByteN IMath<SByteN>.Acos(SByteN x) => (sbyte)Math.Acos(x._value);
-            SByteN IMath<SByteN>.Acosh(SByteN x) => (sbyte)MathCompat.Acosh(x._value);
+            SByteN IMath<SByteN>.Acosh(SByteN x) => (sbyte)MathShim.Acosh(x._value);
             SByteN IMath<SByteN>.Asin(SByteN x) => (sbyte)Math.Asin(x._value);
-            SByteN IMath<SByteN>.Asinh(SByteN x) => (sbyte)MathCompat.Asinh(x._value);
+            SByteN IMath<SByteN>.Asinh(SByteN x) => (sbyte)MathShim.Asinh(x._value);
             SByteN IMath<SByteN>.Atan(SByteN x) => (sbyte)Math.Atan(x._value);
             SByteN IMath<SByteN>.Atan2(SByteN x, SByteN y) => (sbyte)Math.Atan2(x._value, y._value);
-            SByteN IMath<SByteN>.Atanh(SByteN x) => (sbyte)MathCompat.Atanh(x._value);
-            SByteN IMath<SByteN>.Cbrt(SByteN x) => (sbyte)MathCompat.Cbrt(x._value);
+            SByteN IMath<SByteN>.Atanh(SByteN x) => (sbyte)MathShim.Atanh(x._value);
+            SByteN IMath<SByteN>.Cbrt(SByteN x) => (sbyte)MathShim.Cbrt(x._value);
             SByteN IMath<SByteN>.Ceiling(SByteN x) => x;
             SByteN IMath<SByteN>.Clamp(SByteN x, SByteN bound1, SByteN bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             SByteN IMath<SByteN>.Cos(SByteN x) => (sbyte)Math.Cos(x._value);
             SByteN IMath<SByteN>.Cosh(SByteN x) => (sbyte)Math.Cosh(x._value);
-            SByteN IMath<SByteN>.DegreesToRadians(SByteN x) => (sbyte)(x * BitOperations.RadiansPerDegree);
             SByteN IMath<SByteN>.E { get; } = 2;
             SByteN IMath<SByteN>.Exp(SByteN x) => (sbyte)Math.Exp(x._value);
             SByteN IMath<SByteN>.Floor(SByteN x) => x;
@@ -214,7 +213,6 @@ namespace Jodo.Numerics
             SByteN IMath<SByteN>.Min(SByteN x, SByteN y) => Math.Min(x._value, y._value);
             SByteN IMath<SByteN>.PI { get; } = 3;
             SByteN IMath<SByteN>.Pow(SByteN x, SByteN y) => (sbyte)Math.Pow(x._value, y._value);
-            SByteN IMath<SByteN>.RadiansToDegrees(SByteN x) => (sbyte)(x * BitOperations.DegreesPerRadian);
             SByteN IMath<SByteN>.Round(SByteN x) => x;
             SByteN IMath<SByteN>.Round(SByteN x, int digits) => x;
             SByteN IMath<SByteN>.Round(SByteN x, int digits, MidpointRounding mode) => x;
@@ -227,8 +225,9 @@ namespace Jodo.Numerics
             SByteN IMath<SByteN>.Tau { get; } = 6;
             SByteN IMath<SByteN>.Truncate(SByteN x) => x;
 
-            SByteN INumericBitConverter<SByteN>.Read(IReader<byte> stream) => unchecked((sbyte)stream.Read(1)[0]);
-            void INumericBitConverter<SByteN>.Write(SByteN value, IWriter<byte> stream) => stream.Write((byte)value._value);
+            int INumericBitConverter<SByteN>.ConvertedSize => sizeof(sbyte);
+            SByteN INumericBitConverter<SByteN>.ToNumeric(byte[] value, int startIndex) => BitOperations.ToSByte(value, startIndex);
+            byte[] INumericBitConverter<SByteN>.GetBytes(SByteN value) => new byte[] { (byte)value._value };
 
             bool IConvert<SByteN>.ToBoolean(SByteN value) => Convert.ToBoolean(value._value);
             byte IConvert<SByteN>.ToByte(SByteN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

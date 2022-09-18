@@ -25,6 +25,8 @@ namespace Jodo.Geometry
     {
         public static Vector2N<TNumeric> RotateAround<TNumeric>(this Vector2N<TNumeric> vector, Vector2N<TNumeric> pivot, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
         {
+            if (angle == Angle.Zero<TNumeric>()) return vector;
+
             Angle<TNumeric> newAngle = -angle;
             Vector2N<TNumeric> difference = vector - pivot;
             return pivot + new Vector2N<TNumeric>(
@@ -39,7 +41,7 @@ namespace Jodo.Geometry
             => MathN.Sqrt(vector.GetLengthSquared());
 
         public static TNumeric DistanceFrom<TNumeric>(this Vector2N<TNumeric> vector, Vector2N<TNumeric> point) where TNumeric : struct, INumeric<TNumeric>
-            => MathN.Sqrt(vector.X.Subtract(point.X).Squared().Add(vector.Y.Subtract(point.Y).Squared()));
+            => MathN.Sqrt(vector.X.Subtract(point.X).Square().Add(vector.Y.Subtract(point.Y).Square()));
 
         public static Vector2N<TNumeric> Translate<TNumeric>(this Vector2N<TNumeric> vector, Vector2N<TNumeric> delta) where TNumeric : struct, INumeric<TNumeric>
            => new Vector2N<TNumeric>(vector.X.Add(delta.X), vector.Y.Add(delta.Y));

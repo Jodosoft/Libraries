@@ -32,8 +32,7 @@ namespace Jodo.Numerics
     public readonly struct Vector2N<TNumeric> :
             IEquatable<Vector2N<TNumeric>>,
             IFormattable,
-            IProvider<INumericBitConverter<Vector2N<TNumeric>>>,
-                        IProvider<IVariantRandom<Vector2N<TNumeric>>>,
+            IProvider<IVariantRandom<Vector2N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -61,14 +60,9 @@ namespace Jodo.Numerics
         public Vector2N<TOther> Convert<TOther>(Func<TNumeric, TOther> convert) where TOther : struct, INumeric<TOther>
             => new Vector2N<TOther>(convert(X), convert(Y));
 
-        public Vector2N<TNumeric> Halved() => new Vector2N<TNumeric>(X.Halved(), Y.Halved());
-        public Vector2N<TNumeric> Doubled() => new Vector2N<TNumeric>(X.Doubled(), Y.Doubled());
-        public Vector2N<TNumeric> AddX(TNumeric x) => new Vector2N<TNumeric>(X.Add(x), Y);
-        public Vector2N<TNumeric> AddY(TNumeric y) => new Vector2N<TNumeric>(X, Y.Add(y));
-
         public bool Equals(Vector2N<TNumeric> other) => X.Equals(other.X) && Y.Equals(other.Y);
         public override bool Equals(object? obj) => obj is Vector2N<TNumeric> vector && Equals(vector);
-        public override int GetHashCode() => HashCode.Combine(X, Y);
+        public override int GetHashCode() => HashCodeShim.Combine(X, Y);
         public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
         public string ToString(string? format) => ToString(format, CultureInfo.CurrentCulture);
 
@@ -98,11 +92,9 @@ namespace Jodo.Numerics
         public static bool operator ==(Vector2N<TNumeric> left, Vector2N<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Vector2N<TNumeric> left, Vector2N<TNumeric> right) => !(left == right);
 
-        INumericBitConverter<Vector2N<TNumeric>> IProvider<INumericBitConverter<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector2N<TNumeric>> IProvider<IVariantRandom<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           INumericBitConverter<Vector2N<TNumeric>>,
            IVariantRandom<Vector2N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
@@ -112,17 +104,6 @@ namespace Jodo.Numerics
                 return new Vector2N<TNumeric>(
                     random.NextVariant<TNumeric>(scenarios),
                     random.NextVariant<TNumeric>(scenarios));
-            }
-
-            Vector2N<TNumeric> INumericBitConverter<Vector2N<TNumeric>>.Read(IReader<byte> stream)
-            {
-                return new Vector2N<TNumeric>(BitConverterN.Read<TNumeric>(stream), BitConverterN.Read<TNumeric>(stream));
-            }
-
-            void INumericBitConverter<Vector2N<TNumeric>>.Write(Vector2N<TNumeric> value, IWriter<byte> stream)
-            {
-                BitConverterN.Write(stream, value.X);
-                BitConverterN.Write(stream, value.Y);
             }
         }
     }
@@ -245,7 +226,7 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> Reflect<TNumeric>(Vector2N<TNumeric> vector, Vector2N<TNumeric> normal) where TNumeric : struct, INumeric<TNumeric>
         {
-            return vector - (Dot(vector, normal).Doubled() * normal);
+            return vector - (Dot(vector, normal).Double() * normal);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

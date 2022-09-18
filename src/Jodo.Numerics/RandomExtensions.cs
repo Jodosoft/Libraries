@@ -30,7 +30,6 @@ namespace Jodo.Numerics
         private const string InvalidGenerationValue = $"The value '{{0}}' is not valid for this usage of the type {nameof(Generation)}.";
         private const string XCannotBeGreaterThanY = "'{0}' cannot be greater than '{1}'.";
         private const string XMustBeFinite = "'{0}' must be a finite value.";
-        private const int NegativeOffsetSingle = 0x800000;
 
         [DebuggerStepThrough]
         public static TNumeric NextNumeric<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
@@ -175,24 +174,24 @@ namespace Jodo.Numerics
         };
 
         public static int NextInt32(this Random random)
-            => random.Next();
+            => random.Next(0, int.MaxValue); // Use the same overload of Next for consistency
 
         public static int NextInt32(this Random random, int maxValue)
-            => random.Next(maxValue);
+            => random.Next(0, maxValue); // Use the same overload of Next for consistency
 
         public static int NextInt32(this Random random, int minValue, int maxValue)
-            => random.Next(minValue, maxValue);
+            => random.Next(minValue, maxValue); // Use the same overload of Next for consistency
 
         public static int NextInt32(this Random random, Generation mode) => mode switch
         {
-            Generation.Default => random.NextInt32(),
+            Generation.Default => random.Next(0, int.MaxValue), // Use the same overload of Next for consistency
             Generation.Extended => random.NextInt32Extended(int.MinValue, int.MaxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
         public static int NextInt32(this Random random, int minValue, int maxValue, Generation mode) => mode switch
         {
-            Generation.Default => random.NextInt32(minValue, maxValue),
+            Generation.Default => random.Next(minValue, maxValue), // Use the same overload of Next for consistency
             Generation.Extended => random.NextInt32Extended(minValue, maxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
@@ -288,7 +287,7 @@ namespace Jodo.Numerics
         public static float NextSingle(this Random random, Generation mode) => mode switch
         {
             Generation.Default => (float)random.NextDouble(),
-            Generation.Extended => random.NextSingleExtended(),
+            Generation.Extended => random.NextSingleExtended(float.MinValue, float.MaxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
@@ -377,13 +376,14 @@ namespace Jodo.Numerics
         {
             if (bound1 == bound2) return bound1;
 
-            if (bound1 > bound2) ValueTupleCompat.Swap(ref bound1, ref bound2);
+            if (bound1 > bound2) ValueTupleShim.Swap(ref bound1, ref bound2);
 
             if (bound2 != int.MaxValue) return random.Next(bound1, bound2 + 1);
 
             if (bound1 != int.MinValue) return random.Next(bound1 - 1, bound2) + 1;
 
             byte[] bytes = new byte[4];
+
             random.NextBytes(bytes);
             return BitConverter.ToInt32(bytes, 0);
         }
@@ -411,7 +411,7 @@ namespace Jodo.Numerics
         private static uint NextUInt32Extended(this Random random, uint bound1, uint bound2)
         {
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2) ValueTupleCompat.Swap(ref bound1, ref bound2);
+            if (bound1 > bound2) ValueTupleShim.Swap(ref bound1, ref bound2);
 
             uint spread = bound2 - bound1;
 
@@ -450,7 +450,7 @@ namespace Jodo.Numerics
         private static long NextInt64Extended(this Random random, long bound1, long bound2)
         {
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2) ValueTupleCompat.Swap(ref bound1, ref bound2);
+            if (bound1 > bound2) ValueTupleShim.Swap(ref bound1, ref bound2);
 
             BigInteger spread = (BigInteger)bound2 - bound1;
 
@@ -491,7 +491,7 @@ namespace Jodo.Numerics
         private static ulong NextUInt64Extended(this Random random, ulong bound1, ulong bound2)
         {
             if (bound1 == bound2) return bound1;
-            if (bound1 > bound2) ValueTupleCompat.Swap(ref bound1, ref bound2);
+            if (bound1 > bound2) ValueTupleShim.Swap(ref bound1, ref bound2);
 
             BigInteger spread = (BigInteger)bound2 - bound1;
 
@@ -510,49 +510,31 @@ namespace Jodo.Numerics
         private static float NextSingleDefault(this Random random, float minValue, float maxValue)
         {
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
-            if (!SingleCompat.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
-            if (!SingleCompat.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
+            if (!SingleShim.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
+            if (!SingleShim.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
 
             if (minValue == maxValue) return minValue;
 
-            int bound1Bits = BitConverterCompat.SingleToInt32Bits(minValue);
-            int bound2Bits = BitConverterCompat.SingleToInt32Bits(maxValue);
-
-            int resultBitValue = random.Next(
-                bound1Bits < 0 ? int.MinValue - bound1Bits : bound1Bits,
-                bound2Bits < 0 ? int.MinValue - bound2Bits : bound2Bits);
-
-            float result = BitConverterCompat.Int32BitsToSingle(resultBitValue < 0 ? int.MinValue - resultBitValue : resultBitValue);
-
-            return result;
-        }
-
-        private static float NextSingleExtended(this Random random)
-        {
-            int resultBitValue = random.Next(int.MinValue + NegativeOffsetSingle, 2139095040);
-
-            float result = BitConverterCompat.Int32BitsToSingle(resultBitValue < 0 ? resultBitValue - NegativeOffsetSingle : resultBitValue);
-
-            return result;
+            return minValue + ((float)random.NextDouble() * (maxValue - minValue));
         }
 
         private static float NextSingleExtended(this Random random, float bound1, float bound2)
         {
-            if (!SingleCompat.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, string.Format(XMustBeFinite, nameof(bound1)));
-            if (!SingleCompat.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, string.Format(XMustBeFinite, nameof(bound1)));
+            if (!SingleShim.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, string.Format(XMustBeFinite, nameof(bound1)));
+            if (!SingleShim.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, string.Format(XMustBeFinite, nameof(bound1)));
 
             if (bound1 == bound2) return bound1;
 
-            ValueTupleCompat.Swap(bound1 > bound2, ref bound1, ref bound2);
+            ValueTupleShim.Swap(bound1 > bound2, ref bound1, ref bound2);
 
-            int bound1Bits = BitConverterCompat.SingleToInt32Bits(bound1);
-            int bound2Bits = BitConverterCompat.SingleToInt32Bits(bound2);
+            int bound1Bits = BitConverterShim.SingleToInt32Bits(bound1);
+            int bound2Bits = BitConverterShim.SingleToInt32Bits(bound2);
 
             int resultBitValue = random.Next(
                 bound1Bits < 0 ? int.MinValue - bound1Bits : bound1Bits,
                 (bound2Bits < 0 ? int.MinValue - bound2Bits : bound2Bits) + 1);
 
-            float result = BitConverterCompat.Int32BitsToSingle(resultBitValue < 0 ? int.MinValue - resultBitValue : resultBitValue);
+            float result = BitConverterShim.Int32BitsToSingle(resultBitValue < 0 ? int.MinValue - resultBitValue : resultBitValue);
 
             return result;
         }
@@ -560,41 +542,32 @@ namespace Jodo.Numerics
         private static double NextDoubleDefault(this Random random, double minValue, double maxValue)
         {
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
-            if (!DoubleCompat.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
-            if (!DoubleCompat.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
+            if (!DoubleShim.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
+            if (!DoubleShim.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
 
             if (minValue == maxValue) return minValue;
 
-            long bound1Bits = BitConverterCompat.DoubleToInt64Bits(minValue);
-            long bound2Bits = BitConverterCompat.DoubleToInt64Bits(maxValue);
-
-            long resultBitValue = random.NextInt64(
-                bound1Bits < 0 ? long.MinValue - bound1Bits : bound1Bits,
-                bound2Bits < 0 ? long.MinValue - bound2Bits : bound2Bits);
-
-            double result = BitConverterCompat.Int64BitsToDouble(resultBitValue < 0 ? long.MinValue - resultBitValue : resultBitValue);
-
-            return result;
+            return minValue + (random.NextDouble() * (maxValue - minValue));
         }
 
         private static double NextDoubleExtended(this Random random, double bound1, double bound2)
         {
-            if (!DoubleCompat.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, string.Format(XMustBeFinite, nameof(bound1)));
-            if (!DoubleCompat.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, string.Format(XMustBeFinite, nameof(bound1)));
+            if (!DoubleShim.IsFinite(bound1)) throw new ArgumentOutOfRangeException(nameof(bound1), bound1, string.Format(XMustBeFinite, nameof(bound1)));
+            if (!DoubleShim.IsFinite(bound2)) throw new ArgumentOutOfRangeException(nameof(bound2), bound2, string.Format(XMustBeFinite, nameof(bound1)));
 
             if (bound1 == bound2) return bound1;
 
-            ValueTupleCompat.Swap(bound1 > bound2, ref bound1, ref bound2);
+            ValueTupleShim.Swap(bound1 > bound2, ref bound1, ref bound2);
 
-            long bound1Bits = BitConverterCompat.DoubleToInt64Bits(bound1);
-            long bound2Bits = BitConverterCompat.DoubleToInt64Bits(bound2);
+            long bound1Bits = BitConverterShim.DoubleToInt64Bits(bound1);
+            long bound2Bits = BitConverterShim.DoubleToInt64Bits(bound2);
 
             long resultBitValue = random.NextInt64(
                 bound1Bits < 0 ? long.MinValue - bound1Bits : bound1Bits,
                 bound2Bits < 0 ? long.MinValue - bound2Bits : bound2Bits,
                 Generation.Extended);
 
-            double result = BitConverterCompat.Int64BitsToDouble(resultBitValue < 0 ? long.MinValue - resultBitValue : resultBitValue);
+            double result = BitConverterShim.Int64BitsToDouble(resultBitValue < 0 ? long.MinValue - resultBitValue : resultBitValue);
 
             return result;
         }
@@ -603,35 +576,15 @@ namespace Jodo.Numerics
         {
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
 
-            decimal difference;
-            try
-            {
-                checked { difference = maxValue - minValue; }
+            if (minValue == maxValue) return minValue;
 
-                decimal scalar = (decimal)(random.Next() / (1.0 * (int.MaxValue - 1)));
-                decimal result = minValue + (difference * scalar);
-                return result;
-            }
-            catch (OverflowException)
-            {
-                decimal result;
-                do
-                {
-                    result = new decimal(
-                        random.NextInt32(),
-                        random.NextInt32(),
-                        random.NextInt32(),
-                        random.NextBoolean(),
-                        random.NextByte(28));
-                } while (result < minValue || result > maxValue);
-                return result;
-            }
+            return minValue + ((decimal)random.NextDouble() * (maxValue - minValue));
         }
 
         private static decimal NextDecimalExtended(this Random random, decimal minValue, decimal maxValue)
         {
             if (minValue == maxValue) return minValue;
-            ValueTupleCompat.Swap(minValue > maxValue, ref minValue, ref maxValue);
+            ValueTupleShim.Swap(minValue > maxValue, ref minValue, ref maxValue);
 
             decimal difference;
             try

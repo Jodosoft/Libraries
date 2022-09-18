@@ -33,7 +33,10 @@ namespace Jodo.Numerics
     [DebuggerDisplay("{ToString(),nq}")]
     public readonly struct Int32N : INumericExtended<Int32N>
     {
+        /// <inheritdoc cref="int.MaxValue" />
         public static readonly Int32N MaxValue = new Int32N(int.MaxValue);
+
+        /// <inheritdoc cref="int.MinValue" />
         public static readonly Int32N MinValue = new Int32N(int.MinValue);
 
         private readonly int _value;
@@ -126,7 +129,7 @@ namespace Jodo.Numerics
         double IConvertible.ToDouble(IFormatProvider provider) => ((IConvertible)_value).ToDouble(provider);
         decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvertible)_value).ToDecimal(provider);
         DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)_value).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => ((IConvertible)_value).ToType(conversionType, provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<Int32N>.IsGreaterThan(Int32N value) => this > value;
         bool INumeric<Int32N>.IsGreaterThanOrEqualTo(Int32N value) => this >= value;
@@ -155,10 +158,10 @@ namespace Jodo.Numerics
         IVariantRandom<Int32N> IProvider<IVariantRandom<Int32N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            INumericBitConverter<Int32N>,
             IConvert<Int32N>,
             IConvertExtended<Int32N>,
             IMath<Int32N>,
+            INumericBitConverter<Int32N>,
             INumericRandom<Int32N>,
             INumericStatic<Int32N>,
             IVariantRandom<Int32N>
@@ -191,18 +194,17 @@ namespace Jodo.Numerics
             int IMath<Int32N>.Sign(Int32N x) => Math.Sign(x._value);
             Int32N IMath<Int32N>.Abs(Int32N value) => Math.Abs(value._value);
             Int32N IMath<Int32N>.Acos(Int32N x) => (int)Math.Acos(x._value);
-            Int32N IMath<Int32N>.Acosh(Int32N x) => (int)MathCompat.Acosh(x._value);
+            Int32N IMath<Int32N>.Acosh(Int32N x) => (int)MathShim.Acosh(x._value);
             Int32N IMath<Int32N>.Asin(Int32N x) => (int)Math.Asin(x._value);
-            Int32N IMath<Int32N>.Asinh(Int32N x) => (int)MathCompat.Asinh(x._value);
+            Int32N IMath<Int32N>.Asinh(Int32N x) => (int)MathShim.Asinh(x._value);
             Int32N IMath<Int32N>.Atan(Int32N x) => (int)Math.Atan(x._value);
             Int32N IMath<Int32N>.Atan2(Int32N x, Int32N y) => (int)Math.Atan2(x._value, y._value);
-            Int32N IMath<Int32N>.Atanh(Int32N x) => (int)MathCompat.Atanh(x._value);
-            Int32N IMath<Int32N>.Cbrt(Int32N x) => (int)MathCompat.Cbrt(x._value);
+            Int32N IMath<Int32N>.Atanh(Int32N x) => (int)MathShim.Atanh(x._value);
+            Int32N IMath<Int32N>.Cbrt(Int32N x) => (int)MathShim.Cbrt(x._value);
             Int32N IMath<Int32N>.Ceiling(Int32N x) => x;
             Int32N IMath<Int32N>.Clamp(Int32N x, Int32N bound1, Int32N bound2) => bound1 > bound2 ? Math.Min(bound1._value, Math.Max(bound2._value, x._value)) : Math.Min(bound2._value, Math.Max(bound1._value, x._value));
             Int32N IMath<Int32N>.Cos(Int32N x) => (int)Math.Cos(x._value);
             Int32N IMath<Int32N>.Cosh(Int32N x) => (int)Math.Cosh(x._value);
-            Int32N IMath<Int32N>.DegreesToRadians(Int32N x) => (int)(x * BitOperations.RadiansPerDegree);
             Int32N IMath<Int32N>.E { get; } = 2;
             Int32N IMath<Int32N>.Exp(Int32N x) => (int)Math.Exp(x._value);
             Int32N IMath<Int32N>.Floor(Int32N x) => x;
@@ -214,7 +216,6 @@ namespace Jodo.Numerics
             Int32N IMath<Int32N>.Min(Int32N x, Int32N y) => Math.Min(x._value, y._value);
             Int32N IMath<Int32N>.PI { get; } = 3;
             Int32N IMath<Int32N>.Pow(Int32N x, Int32N y) => (int)Math.Pow(x._value, y._value);
-            Int32N IMath<Int32N>.RadiansToDegrees(Int32N x) => (int)(x * BitOperations.DegreesPerRadian);
             Int32N IMath<Int32N>.Round(Int32N x) => x;
             Int32N IMath<Int32N>.Round(Int32N x, int digits) => x;
             Int32N IMath<Int32N>.Round(Int32N x, int digits, MidpointRounding mode) => x;
@@ -227,8 +228,9 @@ namespace Jodo.Numerics
             Int32N IMath<Int32N>.Tau { get; } = 6;
             Int32N IMath<Int32N>.Truncate(Int32N x) => x;
 
-            Int32N INumericBitConverter<Int32N>.Read(IReader<byte> stream) => BitConverter.ToInt32(stream.Read(sizeof(int)), 0);
-            void INumericBitConverter<Int32N>.Write(Int32N value, IWriter<byte> stream) => stream.Write(BitConverter.GetBytes(value._value));
+            int INumericBitConverter<Int32N>.ConvertedSize => sizeof(int);
+            Int32N INumericBitConverter<Int32N>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToInt32(value, startIndex);
+            byte[] INumericBitConverter<Int32N>.GetBytes(Int32N value) => BitConverter.GetBytes(value._value);
 
             bool IConvert<Int32N>.ToBoolean(Int32N value) => Convert.ToBoolean(value._value);
             byte IConvert<Int32N>.ToByte(Int32N value, Conversion mode) => ConvertN.ToByte(value._value, mode);

@@ -36,7 +36,7 @@ namespace Jodo.Numerics.Tests
             //arrange
             byte[] bytes = BitConverterN.GetBytes<TNumeric>(default);
             Random.NextBytes(bytes);
-            TNumeric input = BitConverterN.FromBytes<TNumeric>(bytes);
+            TNumeric input = BitConverterN.ToNumeric<TNumeric>(bytes, 0);
 
             //act
             bool result = Numeric.IsNaN(input);
