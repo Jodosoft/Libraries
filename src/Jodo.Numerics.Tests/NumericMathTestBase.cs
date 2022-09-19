@@ -759,20 +759,22 @@ namespace Jodo.Numerics.Tests
             //arrange
             double randomValue1;
             double randomValue2;
+            TNumeric input1;
+            TNumeric input2;
             do
             {
                 randomValue1 = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.Zero<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended));
                 randomValue2 = TestUtilities.ReduceSignificance(Random.NextNumeric(Numeric.One<TNumeric>(), Numeric.MaxValue<TNumeric>(), Generation.Extended));
-            } while (randomValue1 <= 0 || randomValue2 <= 1);
-            TNumeric input1 = ConvertN.ToNumeric<TNumeric>(randomValue1, Conversion.Cast);
-            TNumeric input2 = ConvertN.ToNumeric<TNumeric>(randomValue2, Conversion.Cast);
+                input1 = ConvertN.ToNumeric<TNumeric>(randomValue1, Conversion.Cast);
+                input2 = ConvertN.ToNumeric<TNumeric>(randomValue2, Conversion.Cast);
+            } while (input1.IsLessThanOrEqualTo(Numeric.Zero<TNumeric>()) || input2.IsLessThanOrEqualTo(Numeric.One<TNumeric>()) || input1.Equals(input2));
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Log(randomValue1, randomValue2), Conversion.Cast);
 
             //act
             TNumeric result = MathN.Log(input1, input2);
 
             //assert
-            result.Should().BeApproximately(expected);
+            result.Should().BeApproximately(expected, $"v1 = {randomValue1}, v2 = {randomValue2}, i1 = {input1}, i2 = {input2}, e = {expected}, r = {result}");
         }
 
         [Test, Repeat(RandomVariations)]
