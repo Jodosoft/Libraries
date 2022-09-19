@@ -32,11 +32,11 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(Configuration)' == 'Release' and $(BuildingInsideVisualStudio) == 'true'">
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release' and $(BuildingInsideVisualStudio) == 'true'">
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0</FileVersion>
     <!--<PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>-->
