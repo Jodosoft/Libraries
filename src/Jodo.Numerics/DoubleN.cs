@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -66,10 +67,10 @@ namespace Jodo.Numerics
         public static bool IsPositiveInfinity(DoubleN d) => double.IsPositiveInfinity(d);
         public static bool IsSubnormal(DoubleN d) => DoubleShim.IsSubnormal(d);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out DoubleN result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out DoubleN result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out DoubleN result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out DoubleN result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DoubleN result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out DoubleN result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out DoubleN result) => FuncExtensions.Try(() => Parse(s), out result);
         public static DoubleN Parse(string s) => double.Parse(s);
         public static DoubleN Parse(string s, IFormatProvider? provider) => double.Parse(s, provider);
         public static DoubleN Parse(string s, NumberStyles style) => double.Parse(s, style);
@@ -270,13 +271,13 @@ namespace Jodo.Numerics
             DoubleN INumericStatic<DoubleN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Float | NumberStyles.AllowThousands, provider);
 
-            DoubleN INumericRandom<DoubleN>.Next(Random random) => random.NextDouble();
-            DoubleN INumericRandom<DoubleN>.Next(Random random, DoubleN maxValue) => random.NextDouble(maxValue);
-            DoubleN INumericRandom<DoubleN>.Next(Random random, DoubleN minValue, DoubleN maxValue) => random.NextDouble(minValue, maxValue);
-            DoubleN INumericRandom<DoubleN>.Next(Random random, Generation mode) => random.NextDouble(mode);
-            DoubleN INumericRandom<DoubleN>.Next(Random random, DoubleN minValue, DoubleN maxValue, Generation mode) => random.NextDouble(minValue, maxValue, mode);
+            DoubleN INumericRandom<DoubleN>.Generate(Random random) => random.NextDouble();
+            DoubleN INumericRandom<DoubleN>.Generate(Random random, DoubleN maxValue) => random.NextDouble(maxValue);
+            DoubleN INumericRandom<DoubleN>.Generate(Random random, DoubleN minValue, DoubleN maxValue) => random.NextDouble(minValue, maxValue);
+            DoubleN INumericRandom<DoubleN>.Generate(Random random, Generation mode) => random.NextDouble(mode);
+            DoubleN INumericRandom<DoubleN>.Generate(Random random, DoubleN minValue, DoubleN maxValue, Generation mode) => random.NextDouble(minValue, maxValue, mode);
 
-            DoubleN IVariantRandom<DoubleN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DoubleN>(random, scenarios);
+            DoubleN IVariantRandom<DoubleN>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<DoubleN>(random, scenarios);
         }
     }
 }

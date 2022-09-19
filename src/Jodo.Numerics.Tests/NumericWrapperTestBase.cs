@@ -18,6 +18,9 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
@@ -310,6 +313,135 @@ namespace Jodo.Numerics.Tests
 
             //assert
             AssertSame.Outcome(underlying, numeric);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void ParseMethods1_RandomValues_SameOutcomeAsUnderlying()
+        {
+            //arrange
+            string input = Random.Choose(
+                Random.NextVariant<DoubleN>().ToString(),
+                Random.Next(-100, 100).ToString(),
+                Guid.NewGuid().ToString());
+            MethodInfo underlyingParseMethod = typeof(TNumeric)
+                .GetMethods(BindingFlags.Static | BindingFlags.Public)
+                .Where(x => x.Name == "Parse" && x.GetParameters().Length == 1)
+                .Single();
+            //act
+            Func<TNumeric>[] actions = new Func<TNumeric>[]
+            {
+                () => Numeric.Parse<TNumeric>(input),
+                () =>
+                {
+                    try { return (TNumeric)underlyingParseMethod.Invoke(null, new object[] { input }); }
+                    catch (TargetInvocationException ex) { throw ex.InnerException; }
+                }
+            };
+
+            //assert
+            AssertSame.Outcome(actions);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void ParseMethods2_RandomValues_SameOutcomeAsUnderlying()
+        {
+            //arrange
+            string input = Random.Choose(
+                Random.NextVariant<DoubleN>().ToString(),
+                Random.Next(-100, 100).ToString(),
+                Guid.NewGuid().ToString());
+            IFormatProvider formatProvider = Random.Choose(
+                null,
+                CultureInfo.InvariantCulture,
+                CultureInfo.CurrentCulture,
+                CultureInfo.GetCultureInfo("en-GB"),
+                CultureInfo.GetCultureInfo("en-US"),
+                CultureInfo.GetCultureInfo("da-DK"),
+                CultureInfo.GetCultureInfo("ja-JP"));
+            MethodInfo underlyingParseMethod = typeof(TNumeric)
+                .GetMethods(BindingFlags.Static | BindingFlags.Public)
+                .Where(x => x.Name == "Parse" && x.GetParameters().Length == 2 &&
+                        x.GetParameters()[1].ParameterType == typeof(IFormatProvider))
+                .Single();
+            //act
+            Func<TNumeric>[] actions = new Func<TNumeric>[]
+            {
+                () => Numeric.Parse<TNumeric>(input, formatProvider),
+                () =>
+                {
+                    try { return (TNumeric)underlyingParseMethod.Invoke(null, new object[] { input, formatProvider }); }
+                    catch (TargetInvocationException ex) { throw ex.InnerException; }
+                }
+            };
+
+            //assert
+            AssertSame.Outcome(actions);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void ParseMethods3_RandomValues_SameOutcomeAsUnderlying()
+        {
+            //arrange
+            string input = Random.Choose(
+                Random.NextVariant<DoubleN>().ToString(),
+                Random.Next(-100, 100).ToString(),
+                Guid.NewGuid().ToString());
+            NumberStyles numberStyles = Random.NextEnum<NumberStyles>();
+            MethodInfo underlyingParseMethod = typeof(TNumeric)
+                .GetMethods(BindingFlags.Static | BindingFlags.Public)
+                .Where(x => x.Name == "Parse" && x.GetParameters().Length == 2 &&
+                        x.GetParameters()[1].ParameterType == typeof(NumberStyles))
+                .Single();
+            //act
+            Func<TNumeric>[] actions = new Func<TNumeric>[]
+            {
+                () => Numeric.Parse<TNumeric>(input, numberStyles),
+                () =>
+                {
+                    try { return (TNumeric)underlyingParseMethod.Invoke(null, new object[] { input, numberStyles }); }
+                    catch (TargetInvocationException ex) { throw ex.InnerException; }
+                }
+            };
+
+            //assert
+            AssertSame.Outcome(actions);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void ParseMethods4_RandomValues_SameOutcomeAsUnderlying()
+        {
+            //arrange
+            string input = Random.Choose(
+                Random.NextVariant<DoubleN>().ToString(),
+                Random.Next(-100, 100).ToString(),
+                Guid.NewGuid().ToString());
+            NumberStyles numberStyles = Random.NextEnum<NumberStyles>();
+            IFormatProvider formatProvider = Random.Choose(
+                null,
+                CultureInfo.InvariantCulture,
+                CultureInfo.CurrentCulture,
+                CultureInfo.GetCultureInfo("en-GB"),
+                CultureInfo.GetCultureInfo("en-US"),
+                CultureInfo.GetCultureInfo("da-DK"),
+                CultureInfo.GetCultureInfo("ja-JP"));
+            MethodInfo underlyingParseMethod = typeof(TNumeric)
+                .GetMethods(BindingFlags.Static | BindingFlags.Public)
+                .Where(x => x.Name == "Parse" && x.GetParameters().Length == 3)
+                .Single();
+
+            //act
+            Func<TNumeric>[] actions = new Func<TNumeric>[]
+            {
+                () => Numeric.Parse<TNumeric>(input, numberStyles, formatProvider),
+                () =>
+                {
+                    try { return (TNumeric)underlyingParseMethod.Invoke(null, new object[] { input, numberStyles, formatProvider }); }
+                    catch (TargetInvocationException ex) { throw ex.InnerException; }
+                }
+            };
+
+            //assert
+            AssertSame.Outcome(actions);
         }
     }
 }

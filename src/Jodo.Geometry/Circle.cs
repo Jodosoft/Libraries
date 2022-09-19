@@ -111,7 +111,7 @@ namespace Jodo.Geometry
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Circle<TNumeric> IVariantRandom<Circle<TNumeric>>.Next(Random random, Scenarios scenarios)
+            Circle<TNumeric> IVariantRandom<Circle<TNumeric>>.Generate(Random random, Variants scenarios)
             {
                 return new Circle<TNumeric>(
                     random.NextVariant<Vector2N<TNumeric>>(scenarios),

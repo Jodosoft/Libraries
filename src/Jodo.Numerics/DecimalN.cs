@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -56,10 +57,10 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out DecimalN result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DecimalN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out DecimalN result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out DecimalN result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out DecimalN result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out DecimalN result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out DecimalN result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out DecimalN result) => FuncExtensions.Try(() => Parse(s), out result);
         public static DecimalN Parse(string s) => decimal.Parse(s);
         public static DecimalN Parse(string s, IFormatProvider? provider) => decimal.Parse(s, provider);
         public static DecimalN Parse(string s, NumberStyles style) => decimal.Parse(s, style);
@@ -260,13 +261,13 @@ namespace Jodo.Numerics
             DecimalN INumericStatic<DecimalN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Number, provider);
 
-            DecimalN INumericRandom<DecimalN>.Next(Random random) => random.NextDecimal(1);
-            DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN maxValue) => random.NextDecimal(maxValue);
-            DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN minValue, DecimalN maxValue) => random.NextDecimal(minValue, maxValue);
-            DecimalN INumericRandom<DecimalN>.Next(Random random, Generation mode) => random.NextDecimal(mode == Generation.Extended ? decimal.MinValue : 0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
-            DecimalN INumericRandom<DecimalN>.Next(Random random, DecimalN minValue, DecimalN maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
+            DecimalN INumericRandom<DecimalN>.Generate(Random random) => random.NextDecimal(1);
+            DecimalN INumericRandom<DecimalN>.Generate(Random random, DecimalN maxValue) => random.NextDecimal(maxValue);
+            DecimalN INumericRandom<DecimalN>.Generate(Random random, DecimalN minValue, DecimalN maxValue) => random.NextDecimal(minValue, maxValue);
+            DecimalN INumericRandom<DecimalN>.Generate(Random random, Generation mode) => random.NextDecimal(mode == Generation.Extended ? decimal.MinValue : 0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
+            DecimalN INumericRandom<DecimalN>.Generate(Random random, DecimalN minValue, DecimalN maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
 
-            DecimalN IVariantRandom<DecimalN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<DecimalN>(random, scenarios);
+            DecimalN IVariantRandom<DecimalN>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<DecimalN>(random, scenarios);
         }
     }
 }

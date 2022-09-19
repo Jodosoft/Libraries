@@ -3,7 +3,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Jodo.Primitives\Jodo.Primitives.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Checked\" />
-  </ItemGroup>
 </Project>

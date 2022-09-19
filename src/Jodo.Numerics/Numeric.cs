@@ -30,142 +30,142 @@ namespace Jodo.Numerics
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFloatingPoint<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.HasFloatingPoint;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.HasFloatingPoint;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasInfinity<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.HasInfinity;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.HasInfinity;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasNaN<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.HasNaN;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.HasNaN;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsReal<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsReal;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsReal;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsIntegral<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => !Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsReal;
+            => !DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsReal;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsSigned<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsSigned;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsSigned;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsUnsigned<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => !Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsSigned;
+            => !DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsSigned;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Epsilon<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Epsilon;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Epsilon;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric MaxUnit<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.MaxUnit;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.MaxUnit;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric MaxValue<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.MaxValue;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.MaxValue;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric MinUnit<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.MinUnit;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.MinUnit;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric MinValue<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.MinValue;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.MinValue;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric One<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.One;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.One;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Ten<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Ten;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Ten;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Two<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Two;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Two;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Zero<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Zero;
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Zero;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsFinite<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsFinite(x);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsFinite(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsInfinity<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsInfinity(x);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsInfinity(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNaN<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsNaN(x);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsNaN(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNegative<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsNegative(x);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsNegative(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNegativeInfinity<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsNegativeInfinity(x);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsNegativeInfinity(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNormal<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsNormal(x);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsNormal(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsPositiveInfinity<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsPositiveInfinity(x);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsPositiveInfinity(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsSubnormal<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.IsSubnormal(x);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.IsSubnormal(x);
 
         [DebuggerStepThrough]
         public static TNumeric Parse<TNumeric>(string s) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Parse(s, null, null);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Parse(s, null, null);
 
         [DebuggerStepThrough]
         public static TNumeric Parse<TNumeric>(string s, IFormatProvider? formatProvider) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Parse(s, null, formatProvider);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Parse(s, null, formatProvider);
 
         [DebuggerStepThrough]
         public static TNumeric Parse<TNumeric>(string s, NumberStyles numberStyles) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Parse(s, numberStyles, null);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Parse(s, numberStyles, null);
 
         [DebuggerStepThrough]
         public static TNumeric Parse<TNumeric>(string s, NumberStyles numberStyles, IFormatProvider? formatProvider) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Parse(s, numberStyles, formatProvider);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Parse(s, numberStyles, formatProvider);
 
         [DebuggerStepThrough]
         public static TNumeric Parse<TNumeric>(string s, NumberStyles? numberStyles, IFormatProvider? formatProvider) where TNumeric : struct, INumeric<TNumeric>
-            => Provider<TNumeric, INumericStatic<TNumeric>>.Default.Parse(s, numberStyles, formatProvider);
+            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Parse(s, numberStyles, formatProvider);
 
         public static bool TryParse<TNumeric>(string s, out TNumeric result) where TNumeric : struct, INumeric<TNumeric>
         {

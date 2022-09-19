@@ -1,4 +1,12 @@
 <Project>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix>preview4</VersionSuffix>
+    <!--<PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>-->
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
     <DebugSymbols>true</DebugSymbols>
@@ -6,16 +14,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-
   <PropertyGroup Label="Suppressions">
     <!-- Missing XML comment for publicly visible type or member. -->
     <!-- Justification: XML docs are WIP. -->
     <NoWarn>$(NoWarn);CS1591;</NoWarn>
-    
+
     <!-- Member '$1' exists on $2 but not on $3. -->
     <!-- Justification: Wish to allow conversion operators to/from value tuples in frameworks that support them. -->
     <NoWarn>$(NoWarn);CP0002;</NoWarn>
-    
+
     <!-- Cannot add interface member '$1' to $2 because it does not exist on $3 -->
     <!-- Justification: Wish to allow default interface methods and operators in frameworks that support them. -->
     <NoWarn>$(NoWarn);CP0006;</NoWarn>
@@ -28,21 +35,11 @@
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <Optimize>true</Optimize>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(Configuration)' == 'Release' and $(BuildingInsideVisualStudio) == 'true'">
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release' and $(BuildingInsideVisualStudio) == 'true'">
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
-    <!--<PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>-->
-    <VersionPrefix>1.0.0</VersionPrefix>
-    <VersionSuffix>preview3</VersionSuffix>
-    
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <AssemblyTitle>$(MSBuildProjectName)</AssemblyTitle>
     <Authors>Joseph J. Short</Authors>
@@ -59,6 +56,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <NeutralLanguage>en-GB</NeutralLanguage>
+    <Optimize>true</Optimize>
     <PackageIcon>PackageIcon.png</PackageIcon>
     <PackageId>$(MSBuildProjectName)</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

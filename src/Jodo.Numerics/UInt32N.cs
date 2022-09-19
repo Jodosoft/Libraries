@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -56,10 +57,10 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out UInt32N result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UInt32N result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out UInt32N result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out UInt32N result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out UInt32N result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UInt32N result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out UInt32N result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out UInt32N result) => FuncExtensions.Try(() => Parse(s), out result);
         public static UInt32N Parse(string s) => uint.Parse(s);
         public static UInt32N Parse(string s, IFormatProvider? provider) => uint.Parse(s, provider);
         public static UInt32N Parse(string s, NumberStyles style) => uint.Parse(s, style);
@@ -259,13 +260,13 @@ namespace Jodo.Numerics
             UInt32N INumericStatic<UInt32N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
-            UInt32N INumericRandom<UInt32N>.Next(Random random) => random.NextUInt32();
-            UInt32N INumericRandom<UInt32N>.Next(Random random, UInt32N maxValue) => random.NextUInt32(maxValue);
-            UInt32N INumericRandom<UInt32N>.Next(Random random, UInt32N minValue, UInt32N maxValue) => random.NextUInt32(minValue, maxValue);
-            UInt32N INumericRandom<UInt32N>.Next(Random random, Generation mode) => random.NextUInt32(mode);
-            UInt32N INumericRandom<UInt32N>.Next(Random random, UInt32N minValue, UInt32N maxValue, Generation mode) => random.NextUInt32(minValue, maxValue, mode);
+            UInt32N INumericRandom<UInt32N>.Generate(Random random) => random.NextUInt32();
+            UInt32N INumericRandom<UInt32N>.Generate(Random random, UInt32N maxValue) => random.NextUInt32(maxValue);
+            UInt32N INumericRandom<UInt32N>.Generate(Random random, UInt32N minValue, UInt32N maxValue) => random.NextUInt32(minValue, maxValue);
+            UInt32N INumericRandom<UInt32N>.Generate(Random random, Generation mode) => random.NextUInt32(mode);
+            UInt32N INumericRandom<UInt32N>.Generate(Random random, UInt32N minValue, UInt32N maxValue, Generation mode) => random.NextUInt32(minValue, maxValue, mode);
 
-            UInt32N IVariantRandom<UInt32N>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<UInt32N>(random, scenarios);
+            UInt32N IVariantRandom<UInt32N>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UInt32N>(random, scenarios);
         }
     }
 }

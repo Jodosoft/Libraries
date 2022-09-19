@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -56,10 +57,10 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out Int64N result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Int64N result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out Int64N result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out Int64N result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out Int64N result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Int64N result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out Int64N result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out Int64N result) => FuncExtensions.Try(() => Parse(s), out result);
         public static Int64N Parse(string s) => long.Parse(s);
         public static Int64N Parse(string s, IFormatProvider? provider) => long.Parse(s, provider);
         public static Int64N Parse(string s, NumberStyles style) => long.Parse(s, style);
@@ -260,13 +261,13 @@ namespace Jodo.Numerics
             Int64N INumericStatic<Int64N>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
-            Int64N INumericRandom<Int64N>.Next(Random random) => random.NextInt64();
-            Int64N INumericRandom<Int64N>.Next(Random random, Int64N maxValue) => random.NextInt64(maxValue);
-            Int64N INumericRandom<Int64N>.Next(Random random, Int64N minValue, Int64N maxValue) => random.NextInt64(minValue, maxValue);
-            Int64N INumericRandom<Int64N>.Next(Random random, Generation mode) => random.NextInt64(mode);
-            Int64N INumericRandom<Int64N>.Next(Random random, Int64N minValue, Int64N maxValue, Generation mode) => random.NextInt64(minValue, maxValue, mode);
+            Int64N INumericRandom<Int64N>.Generate(Random random) => random.NextInt64();
+            Int64N INumericRandom<Int64N>.Generate(Random random, Int64N maxValue) => random.NextInt64(maxValue);
+            Int64N INumericRandom<Int64N>.Generate(Random random, Int64N minValue, Int64N maxValue) => random.NextInt64(minValue, maxValue);
+            Int64N INumericRandom<Int64N>.Generate(Random random, Generation mode) => random.NextInt64(mode);
+            Int64N INumericRandom<Int64N>.Generate(Random random, Int64N minValue, Int64N maxValue, Generation mode) => random.NextInt64(minValue, maxValue, mode);
 
-            Int64N IVariantRandom<Int64N>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<Int64N>(random, scenarios);
+            Int64N IVariantRandom<Int64N>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<Int64N>(random, scenarios);
         }
     }
 }

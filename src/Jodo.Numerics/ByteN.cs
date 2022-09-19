@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -58,10 +59,10 @@ namespace Jodo.Numerics
         public string ToString(string format) => _value.ToString(format);
         public string ToString(string? format, IFormatProvider? formatProvider) => _value.ToString(format, formatProvider);
 
-        public static bool TryParse(string s, IFormatProvider? provider, out ByteN result) => TryHelper.Run(() => Parse(s, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out ByteN result) => TryHelper.Run(() => Parse(s, style, provider), out result);
-        public static bool TryParse(string s, NumberStyles style, out ByteN result) => TryHelper.Run(() => Parse(s, style), out result);
-        public static bool TryParse(string s, out ByteN result) => TryHelper.Run(() => Parse(s), out result);
+        public static bool TryParse(string s, IFormatProvider? provider, out ByteN result) => FuncExtensions.Try(() => Parse(s, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out ByteN result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
+        public static bool TryParse(string s, NumberStyles style, out ByteN result) => FuncExtensions.Try(() => Parse(s, style), out result);
+        public static bool TryParse(string s, out ByteN result) => FuncExtensions.Try(() => Parse(s), out result);
         public static ByteN Parse(string s) => byte.Parse(s);
         public static ByteN Parse(string s, IFormatProvider? provider) => byte.Parse(s, provider);
         public static ByteN Parse(string s, NumberStyles style) => byte.Parse(s, style);
@@ -261,13 +262,13 @@ namespace Jodo.Numerics
             ByteN INumericStatic<ByteN>.Parse(string s, NumberStyles? style, IFormatProvider? provider)
                 => Parse(s, style ?? NumberStyles.Integer, provider);
 
-            ByteN INumericRandom<ByteN>.Next(Random random) => random.NextByte();
-            ByteN INumericRandom<ByteN>.Next(Random random, ByteN maxValue) => random.NextByte(maxValue);
-            ByteN INumericRandom<ByteN>.Next(Random random, ByteN minValue, ByteN maxValue) => random.NextByte(minValue, maxValue);
-            ByteN INumericRandom<ByteN>.Next(Random random, Generation mode) => random.NextByte(mode);
-            ByteN INumericRandom<ByteN>.Next(Random random, ByteN minValue, ByteN maxValue, Generation mode) => random.NextByte(minValue, maxValue, mode);
+            ByteN INumericRandom<ByteN>.Generate(Random random) => random.NextByte();
+            ByteN INumericRandom<ByteN>.Generate(Random random, ByteN maxValue) => random.NextByte(maxValue);
+            ByteN INumericRandom<ByteN>.Generate(Random random, ByteN minValue, ByteN maxValue) => random.NextByte(minValue, maxValue);
+            ByteN INumericRandom<ByteN>.Generate(Random random, Generation mode) => random.NextByte(mode);
+            ByteN INumericRandom<ByteN>.Generate(Random random, ByteN minValue, ByteN maxValue, Generation mode) => random.NextByte(minValue, maxValue, mode);
 
-            ByteN IVariantRandom<ByteN>.Next(Random random, Scenarios scenarios) => NumericVariant.Generate<ByteN>(random, scenarios);
+            ByteN IVariantRandom<ByteN>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<ByteN>(random, scenarios);
         }
     }
 }

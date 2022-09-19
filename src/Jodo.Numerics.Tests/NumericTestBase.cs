@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Linq;
 using FluentAssertions;
 using Jodo.Primitives;
 using Jodo.Testing;
@@ -777,6 +778,66 @@ namespace Jodo.Numerics.Tests
 #endif
                 () => left.Positive(),
                 () => DynamicInvoke.UnaryPlusOperator(left));
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void EnumerableMin_RandomValues_CorrectResult()
+        {
+            //arrange
+            TNumeric value1 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric value2 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric expected = value1.IsLessThan(value2) ? value1 : value2;
+
+            //act
+            TNumeric result = new[] { value1, value2 }.Min();
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void EnumerableMax_RandomValues_CorrectResult()
+        {
+            //arrange
+            TNumeric value1 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric value2 = Random.NextNumeric<TNumeric>(Generation.Extended);
+            TNumeric expected = value1.IsGreaterThan(value2) ? value1 : value2;
+
+            //act
+            TNumeric result = new[] { value1, value2 }.Max();
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void EnumerableSum_RandomValues_CorrectResult()
+        {
+            //arrange
+            TNumeric value1 = Random.NextVariant<TNumeric>(Variants.LowMagnitude);
+            TNumeric value2 = Random.NextVariant<TNumeric>(Variants.LowMagnitude);
+            TNumeric expected = value1.Add(value2);
+
+            //act
+            TNumeric result = new[] { value1, value2 }.Sum();
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void EnumerableAverage_RandomValues_CorrectResult()
+        {
+            //arrange
+            TNumeric value1 = Random.NextVariant<TNumeric>(Variants.LowMagnitude);
+            TNumeric value2 = Random.NextVariant<TNumeric>(Variants.LowMagnitude);
+            TNumeric expected = value1.Add(value2).Half();
+
+            //act
+            TNumeric result = new[] { value1, value2 }.Average();
+
+            //assert
+            result.Should().Be(expected);
         }
     }
 }

@@ -18,13 +18,11 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Primitives
 {
-    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Consistency with System.Random.Next")]
     public interface IVariantRandom<out T>
     {
-        T Next(Random random, Scenarios scenarios);
+        T Generate(Random random, Variants scenarios);
     }
 }

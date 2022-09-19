@@ -35,7 +35,7 @@ namespace Jodo.Numerics
         /// If <typeparamref name="TNumeric"/> is integral, this value is rounded to 2.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric E<TNumeric>() where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.E;
+        public static TNumeric E<TNumeric>() where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.E;
 
         /// <summary>
         ///     Represents the ratio of the circumference of a circle to its diameter,
@@ -43,13 +43,13 @@ namespace Jodo.Numerics
         ///     this value is rounded to 3.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric PI<TNumeric>() where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.PI;
+        public static TNumeric PI<TNumeric>() where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.PI;
 
         /// <summary>
         ///     Two times the value of <see cref="PI"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Tau<TNumeric>() where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Tau;
+        public static TNumeric Tau<TNumeric>() where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Tau;
 
         /// <summary>
         /// Returns an integer that indicates the sign of a number.
@@ -79,7 +79,7 @@ namespace Jodo.Numerics
         /// <exception cref="ArithmeticException"><paramref name="value"/> is equal to <c>NaN</c>.</exception>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Sign(value);
+        public static int Sign<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Sign(value);
 
         /// <summary>
         /// Returns the absolute value of a number.
@@ -95,7 +95,7 @@ namespace Jodo.Numerics
         /// </exception>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Abs<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Abs(value);
+        public static TNumeric Abs<TNumeric>(TNumeric value) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Abs(value);
 
         /// <summary>
         /// Returns the angle whose cosine is the specified number.
@@ -112,7 +112,7 @@ namespace Jodo.Numerics
         ///     d equals <c>NaN</c>.</returns>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Acos<TNumeric>(TNumeric n) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Acos(n);
+        public static TNumeric Acos<TNumeric>(TNumeric n) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Acos(n);
 
         /// <summary>
         ///     Returns the angle whose hyperbolic cosine is the specified number.
@@ -124,122 +124,122 @@ namespace Jodo.Numerics
         /// <returns></returns>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Acosh<TNumeric>(TNumeric n) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Acosh(n);
+        public static TNumeric Acosh<TNumeric>(TNumeric n) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Acosh(n);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Asin<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Asin(x);
+        public static TNumeric Asin<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Asin(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Asinh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Asinh(x);
+        public static TNumeric Asinh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Asinh(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Atan<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Atan(x);
+        public static TNumeric Atan<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Atan(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Atan2<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Atan2(x, y);
+        public static TNumeric Atan2<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Atan2(x, y);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Atanh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Atanh(x);
+        public static TNumeric Atanh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Atanh(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Cbrt<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Cbrt(x);
+        public static TNumeric Cbrt<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Cbrt(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Ceiling<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Ceiling(x);
+        public static TNumeric Ceiling<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Ceiling(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Clamp<TNumeric>(TNumeric x, TNumeric bound1, TNumeric bound2) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Clamp(x, bound1, bound2);
+        public static TNumeric Clamp<TNumeric>(TNumeric x, TNumeric bound1, TNumeric bound2) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Clamp(x, bound1, bound2);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Cos<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Cos(x);
+        public static TNumeric Cos<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Cos(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Cosh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Cosh(x);
+        public static TNumeric Cosh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Cosh(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Exp<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Exp(x);
+        public static TNumeric Exp<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Exp(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Floor<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Floor(x);
+        public static TNumeric Floor<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Floor(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric IEEERemainder<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.IEEERemainder(x, y);
+        public static TNumeric IEEERemainder<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.IEEERemainder(x, y);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Log<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Log(x);
+        public static TNumeric Log<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Log(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Log<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Log(x, y);
+        public static TNumeric Log<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Log(x, y);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Log10<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Log10(x);
+        public static TNumeric Log10<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Log10(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Max<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Max(x, y);
+        public static TNumeric Max<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Max(x, y);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Min<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Min(x, y);
+        public static TNumeric Min<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Min(x, y);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Pow<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Pow(x, y);
+        public static TNumeric Pow<TNumeric>(TNumeric x, TNumeric y) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Pow(x, y);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Round<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Round(x);
+        public static TNumeric Round<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Round(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Round<TNumeric>(TNumeric x, int digits) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Round(x, digits);
+        public static TNumeric Round<TNumeric>(TNumeric x, int digits) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Round(x, digits);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Round<TNumeric>(TNumeric x, int digits, MidpointRounding mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Round(x, digits, mode);
+        public static TNumeric Round<TNumeric>(TNumeric x, int digits, MidpointRounding mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Round(x, digits, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Round<TNumeric>(TNumeric x, MidpointRounding mode) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Round(x, mode);
+        public static TNumeric Round<TNumeric>(TNumeric x, MidpointRounding mode) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Round(x, mode);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Sin<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Sin(x);
+        public static TNumeric Sin<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Sin(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Sinh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Sinh(x);
+        public static TNumeric Sinh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Sinh(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Sqrt<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Sqrt(x);
+        public static TNumeric Sqrt<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Sqrt(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Tan<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Tan(x);
+        public static TNumeric Tan<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Tan(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Tanh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Tanh(x);
+        public static TNumeric Tanh<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Tanh(x);
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Truncate<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => Provider<TNumeric, IMath<TNumeric>>.Default.Truncate(x);
+        public static TNumeric Truncate<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric> => DefaultProvider<TNumeric, IMath<TNumeric>>.Instance.Truncate(x);
     }
 }

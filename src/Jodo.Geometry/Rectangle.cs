@@ -146,7 +146,7 @@ namespace Jodo.Geometry
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Rectangle<TNumeric> IVariantRandom<Rectangle<TNumeric>>.Next(Random random, Scenarios scenarios)
+            Rectangle<TNumeric> IVariantRandom<Rectangle<TNumeric>>.Generate(Random random, Variants scenarios)
             {
                 return new Rectangle<TNumeric>(
                     random.NextVariant<Vector2N<TNumeric>>(scenarios),

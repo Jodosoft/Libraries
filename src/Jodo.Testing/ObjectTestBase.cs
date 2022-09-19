@@ -37,7 +37,7 @@ namespace Jodo.Testing
         public void Equals_Null_ReturnsFalse()
         {
             //arrange
-            T input = Random.NextVariant<T>(Scenarios.NonError);
+            T input = Random.NextVariant<T>(Variants.NonError);
 
             //act
             bool result = input.Equals(null);
@@ -50,7 +50,7 @@ namespace Jodo.Testing
         public void Equals_DifferentType_ReturnsFalse()
         {
             //arrange
-            T input = Random.NextVariant<T>(Scenarios.NonError);
+            T input = Random.NextVariant<T>(Variants.NonError);
 
             //act
             bool result = input.Equals(new Stopwatch());
@@ -63,7 +63,7 @@ namespace Jodo.Testing
         public void Equals_Itself_ReturnsTrue()
         {
             //arrange
-            T input = Random.NextVariant<T>(Scenarios.NonError);
+            T input = Random.NextVariant<T>(Variants.NonError);
 
             //act
             bool result = input.Equals(input);
@@ -76,8 +76,8 @@ namespace Jodo.Testing
         public void Equals_Other_ReverseIsSame()
         {
             //arrange
-            T input1 = Random.NextVariant<T>(Scenarios.NonError);
-            T input2 = Random.NextVariant<T>(Scenarios.NonError);
+            T input1 = Random.NextVariant<T>(Variants.NonError);
+            T input2 = Random.NextVariant<T>(Variants.NonError);
 
             //act
             bool result1 = input1.Equals(input2);
@@ -91,7 +91,7 @@ namespace Jodo.Testing
         public void GetHashCode_SameObject_ReturnsSameValue()
         {
             //arrange
-            T input = Random.NextVariant<T>(Scenarios.NonError);
+            T input = Random.NextVariant<T>(Variants.NonError);
             int[] results = new int[100];
 
             //act
@@ -113,7 +113,7 @@ namespace Jodo.Testing
             //act
             for (int i = 0; i < results.Length; i++)
             {
-                T input = Random.NextVariant<T>(Scenarios.NonError);
+                T input = Random.NextVariant<T>(Variants.NonError);
 
                 results[i] = input.GetHashCode();
             }
@@ -126,7 +126,7 @@ namespace Jodo.Testing
         public void ToString_MultipleInvocations_ReturnsSameValue()
         {
             //arrange
-            T input = Random.NextVariant<T>(Scenarios.NonError);
+            T input = Random.NextVariant<T>(Variants.NonError);
             string[] results = new string[100];
 
             //act
@@ -148,7 +148,7 @@ namespace Jodo.Testing
             //act
             for (int i = 0; i < results.Length; i++)
             {
-                T input = Random.NextVariant<T>(Scenarios.NonError);
+                T input = Random.NextVariant<T>(Variants.NonError);
 
                 results[i] = input.ToString();
             }
@@ -161,8 +161,8 @@ namespace Jodo.Testing
         public void GetHashCode_WhenEqualsTrue_ReturnsSameValue()
         {
             //arrange
-            T input1 = Random.NextVariant<T>(Scenarios.NonError);
-            T input2 = Random.NextVariant<T>(Scenarios.NonError);
+            T input1 = Random.NextVariant<T>(Variants.NonError);
+            T input2 = Random.NextVariant<T>(Variants.NonError);
 
             if (input1.Equals(input2))
             {

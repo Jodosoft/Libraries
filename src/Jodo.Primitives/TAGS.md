@@ -1,1 +1,1 @@
-﻿primitives, utility, utilities
+﻿primitive, primitives, utility, utilities, compatibility, shim, shims

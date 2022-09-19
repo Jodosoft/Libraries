@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -32,24 +33,29 @@ namespace Jodo.Numerics
         private const string XMustBeFinite = "'{0}' must be a finite value.";
 
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric NextNumeric<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random);
+            => DefaultProvider<TNumeric, INumericRandom<TNumeric>>.Instance.Generate(random);
 
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric maxValue) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, maxValue);
+           => DefaultProvider<TNumeric, INumericRandom<TNumeric>>.Instance.Generate(random, maxValue);
 
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric minValue, TNumeric maxValue) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, minValue, maxValue);
+            => DefaultProvider<TNumeric, INumericRandom<TNumeric>>.Instance.Generate(random, minValue, maxValue);
 
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric NextNumeric<TNumeric>(this Random random, Generation mode) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, mode);
+            => DefaultProvider<TNumeric, INumericRandom<TNumeric>>.Instance.Generate(random, mode);
 
         [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric minValue, TNumeric maxValue, Generation mode) where TNumeric : struct, INumeric<TNumeric>
-            => ((IProvider<INumericRandom<TNumeric>>)default(TNumeric)).GetInstance().Next(random, minValue, maxValue, mode);
+            => DefaultProvider<TNumeric, INumericRandom<TNumeric>>.Instance.Generate(random, minValue, maxValue, mode);
 
         public static UnitN<TNumeric> NextUnit<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
         {
