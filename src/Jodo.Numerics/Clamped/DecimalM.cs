@@ -211,7 +211,7 @@ namespace Jodo.Numerics.Clamped
             DecimalM IMath<DecimalM>.Max(DecimalM x, DecimalM y) => Math.Max(x._value, y._value);
             DecimalM IMath<DecimalM>.Min(DecimalM x, DecimalM y) => Math.Min(x._value, y._value);
             DecimalM IMath<DecimalM>.PI { get; } = (decimal)Math.PI;
-            DecimalM IMath<DecimalM>.Pow(DecimalM x, DecimalM y) => y == 1 ? x : (DecimalM)ConvertN.ToDecimal(Math.Pow(ConvertN.ToDouble(x._value, Conversion.CastClamp), ConvertN.ToDouble(y._value, Conversion.CastClamp)), Conversion.CastClamp);
+            DecimalM IMath<DecimalM>.Pow(DecimalM x, DecimalM y) => y == 1 ? x : ConvertN.ToDecimal(Math.Pow(ConvertN.ToDouble(x._value, Conversion.CastClamp), ConvertN.ToDouble(y._value, Conversion.CastClamp)), Conversion.CastClamp);
             DecimalM IMath<DecimalM>.Round(DecimalM x) => decimal.Round(x);
             DecimalM IMath<DecimalM>.Round(DecimalM x, int digits) => decimal.Round(x, digits);
             DecimalM IMath<DecimalM>.Round(DecimalM x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);

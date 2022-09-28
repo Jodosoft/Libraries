@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Jodo.Benchmarking;
+using Jodo.Numerics.Clamped;
 using Jodo.Primitives;
 
 namespace Jodo.Numerics.Benchmarks
@@ -30,94 +31,162 @@ namespace Jodo.Numerics.Benchmarks
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static void Int32N_Versus_Int32_Division()
+        public static Benchmark Int32NArithmetic_Versus_Int32Arithmetic()
         {
-            int baselineLeft = Random.NextInt32(100, 1000);
-            int baselineRight = Random.NextInt32(2, 10);
-            Int32N sutLeft = (Int32N)baselineLeft;
-            Int32N sutRight = (Int32N)baselineRight;
-
-            Benchmark.Run(
-                () => sutLeft / sutRight,
-                () => baselineLeft / baselineRight);
+            return Benchmark
+                .Using(LowMagnitudeWithInt32<Int32N>)
+                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
+                .Versus(x => x.Int32 + (x.Int32 * x.Int32) - (x.Int32 / x.Int32));
         }
 
         [Benchmark]
-        public static void Int32N_Versus_Int32_ConversionToFloat()
+        public static Benchmark Int32MArithmetic_Versus_Int32Arithmetic()
         {
-            int baseline = Random.NextInt32(100, 1000);
-            Int32N sut = (Int32N)baseline;
-
-            Benchmark.Run(
-                () => (float)sut,
-                () => (float)baseline);
+            return Benchmark
+                .Using(LowMagnitudeWithInt32<Int32M>)
+                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
+                .Versus(x => x.Int32 + (x.Int32 * x.Int32) - (x.Int32 / x.Int32));
         }
 
         [Benchmark]
-        public static void Int32N_Versus_Int32_StringParsing()
+        public static Benchmark SingleNArithmetic_Versus_SingleArithmetic()
         {
-            string input = Random.NextInt32(-100, 100).ToString();
-
-            Benchmark.Run(
-                () => Int32N.Parse(input),
-                () => int.Parse(input));
+            return Benchmark
+                .Using(LowMagnitudeWithSingle<SingleN>)
+                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
+                .Versus(x => x.Single + (x.Single * x.Single) - (x.Single / x.Single));
         }
 
         [Benchmark]
-        public static void Int32N_Versus_Int32_Overflow()
+        public static Benchmark SingleMArithmetic_Versus_SingleArithmetic()
         {
-            Int32N functionInput = Int32N.MaxValue;
-            int baselineInput = int.MaxValue;
-
-            Benchmark.Run(
-                () => functionInput * functionInput,
-                () => baselineInput * baselineInput);
+            return Benchmark
+                .Using(LowMagnitudeWithSingle<SingleM>)
+                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
+                .Versus(x => x.Single + (x.Single * x.Single) - (x.Single / x.Single));
         }
 
         [Benchmark]
-        public static void XDouble_Versus_Double_Division()
+        public static Benchmark DoubleNArithmetic_Versus_DoubleArithmetic()
         {
-            double baselineLeft = Random.NextDouble(100, 1000);
-            double baselineRight = Random.NextDouble(2, 10);
-            DoubleN sutLeft = (DoubleN)baselineLeft;
-            DoubleN sutRight = (DoubleN)baselineRight;
-
-            Benchmark.Run(
-                () => sutLeft / sutRight,
-                () => baselineLeft / baselineRight);
+            return Benchmark
+                .Using(LowMagnitudeWithDouble<DoubleN>)
+                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
+                .Versus(x => x.Double + (x.Double * x.Double) - (x.Double / x.Double));
         }
 
         [Benchmark]
-        public static void XDouble_Versus_Double_StringParsing()
+        public static Benchmark DoubleMArithmetic_Versus_DoubleArithmetic()
         {
-            string input = Random.NextDouble(-100, 100).ToString();
-
-            Benchmark.Run(
-                () => DoubleN.Parse(input),
-                () => double.Parse(input));
+            return Benchmark
+                .Using(LowMagnitudeWithDouble<DoubleM>)
+                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
+                .Versus(x => x.Double + (x.Double * x.Double) - (x.Double / x.Double));
         }
 
         [Benchmark]
-        public static void Fix64_Versus_Double_Division()
+        public static Benchmark DoubleNDivision_Versus_DoubleDivision()
         {
-            double baselineLeft = Random.NextDouble(100, 1000);
-            double baselineRight = Random.NextDouble(2, 10);
-            Fix64 sutLeft = (Fix64)baselineLeft;
-            Fix64 sutRight = (Fix64)baselineRight;
-
-            Benchmark.Run(
-                () => sutLeft / sutRight,
-                () => baselineLeft / baselineRight);
+            return Benchmark
+                .Using(LowMagnitudeWithDouble<DoubleN>)
+                .Measure(x => x.Numeric / x.Numeric)
+                .Versus(x => x.Double / x.Double);
         }
 
         [Benchmark]
-        public static void Fix64_Versus_Double_StringParsing()
+        public static Benchmark DoubleNLogarithm_Versus_DoubleLogarithm()
         {
-            string input = Random.NextDouble(-100, 100).ToString();
+            return Benchmark
+                .Using(LowMagnitudeWithDouble<DoubleN>)
+                .Measure(x => MathN.Log(x.Numeric, 1))
+                .Versus(x => Math.Log(x.Double, 1));
+        }
 
-            Benchmark.Run(
-                () => Fix64.Parse(input),
-                () => double.Parse(input));
+        [Benchmark]
+        public static Benchmark DoubleNRounding_Versus_DoubleRounding()
+        {
+            return Benchmark
+                .Using(LowMagnitudeWithDouble<DoubleN>)
+                .Measure(x => MathN.Round(x.Numeric, 1))
+                .Versus(x => Math.Round(x.Double, 1));
+        }
+
+        [Benchmark]
+        public static Benchmark Fix64Logarithm_Versus_DoubleLogarithm()
+        {
+            return Benchmark
+                .Using(LowMagnitudeWithDouble<Fix64>)
+                .Measure(x => MathN.Log(x.Numeric, 1))
+                .Versus(x => Math.Log(x.Double, 1));
+        }
+
+        [Benchmark]
+        public static Benchmark Fix64Rounding_Versus_DoubleRounding()
+        {
+            return Benchmark
+                .Using(LowMagnitudeWithDouble<Fix64>)
+                .Measure(x => MathN.Round(x.Numeric, 1))
+                .Versus(x => Math.Round(x.Double, 1));
+        }
+
+        [Benchmark]
+        public static Benchmark Fix64StringParsing_Versus_DoubleStringParsing()
+        {
+            return Benchmark
+                .Using(() => Random.NextVariant<SingleN>(Variants.LowMagnitude).ToString())
+                .Measure(x => Fix64.Parse(x))
+                .Versus(x => double.Parse(x));
+        }
+
+        [Benchmark]
+        public static Benchmark Fix64Random_Versus_DoubleRandom()
+        {
+            return Benchmark
+                .Using(() => new Random())
+                .Measure(x => x.NextNumeric<Fix64>())
+                .Versus(x => x.NextDouble());
+        }
+
+        [Benchmark]
+        public static Benchmark Fix64ToByteArray_Versus_DoubleToByteArray()
+        {
+            return Benchmark
+                .Using(LowMagnitudeWithDouble<Fix64>)
+                .Measure(x => BitConverterN.GetBytes(x.Numeric))
+                .Versus(x => BitConverter.GetBytes(x.Double));
+        }
+
+        [Benchmark]
+        public static Benchmark Fix64FromByteArray_Versus_DoubleFromByteArray()
+        {
+            return Benchmark
+                .Using(() =>
+                    {
+                        double value = Random.NextDouble(100, 1000);
+                        byte[] doubleBytes = BitConverter.GetBytes(value);
+                        byte[] numericBytes = BitConverterN.GetBytes((Fix64)value);
+                        return (doubleBytes, numericBytes);
+                    })
+                .Measure(x => BitConverterN.ToNumeric<Fix64>(x.numericBytes, 0))
+                .Versus(x => BitConverter.ToDouble(x.doubleBytes));
+        }
+
+        private static (int Int32, TNumeric Numeric) LowMagnitudeWithInt32<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+        {
+            int value = 1 + Math.Abs(Random.NextVariant<Int32N>(Variants.LowMagnitude));
+            return (value, ConvertN.ToNumeric<TNumeric>(value, Conversion.Cast));
+        }
+
+        private static (float Single, TNumeric Numeric) LowMagnitudeWithSingle<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+        {
+            float value = 1 + Math.Abs(Random.NextVariant<SingleN>(Variants.LowMagnitude));
+            return (value, ConvertN.ToNumeric<TNumeric>(value, Conversion.Cast));
+        }
+
+        private static (double Double, TNumeric Numeric) LowMagnitudeWithDouble<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+        {
+            double value = 1 + Math.Abs(Random.NextVariant<DoubleN>(Variants.LowMagnitude));
+            return (value, ConvertN.ToNumeric<TNumeric>(value, Conversion.Cast));
         }
     }
 }

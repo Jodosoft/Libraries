@@ -18,32 +18,29 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace Jodo.Benchmarking
 {
-    [ExcludeFromCodeCoverage]
-    public static class Measurer
+    public sealed class BenchmarkResult : IEquatable<BenchmarkResult>
     {
-        [MethodImpl(MethodImplOptions.NoOptimization)]
-        public static Measurement Measure(Func<object> function, TimeSpan duration)
+        public string Name { get; }
+        public Count Subject1 { get; }
+        public Count Subject2 { get; }
+
+        public BenchmarkResult(string name, Count subject1, Count subject2)
         {
-            object checkObj = new object();
-            Stopwatch stopwatch = new Stopwatch();
-            double maxTicks = duration.TotalSeconds * Stopwatch.Frequency;
-            ulong iterations = 0;
-            object obj;
-            stopwatch.Start();
-            do
-            {
-                obj = function();
-                iterations++;
-            } while (stopwatch.ElapsedTicks < maxTicks);
-            stopwatch.Stop();
-            if (ReferenceEquals(obj, checkObj)) throw new InvalidOperationException();
-            return new Measurement(iterations, stopwatch.Elapsed);
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Must not be null, empty or whitespace.", nameof(name));
+            Name = name;
+            Subject1 = subject1;
+            Subject2 = subject2;
         }
+
+        public override bool Equals(object obj) => Equals(obj as BenchmarkResult);
+        public bool Equals(BenchmarkResult other) => other != null && Name == other.Name && Subject2.Equals(other.Subject2) && Subject1.Equals(other.Subject1);
+        public override int GetHashCode() => HashCode.Combine(Name, Subject2, Subject1);
+
+        public static bool operator ==(BenchmarkResult left, BenchmarkResult right) => EqualityComparer<BenchmarkResult>.Default.Equals(left, right);
+        public static bool operator !=(BenchmarkResult left, BenchmarkResult right) => !(left == right);
     }
 }

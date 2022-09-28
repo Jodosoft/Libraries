@@ -26,5 +26,6 @@ namespace Jodo.Benchmarking
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
     public sealed class BenchmarkAttribute : Attribute
     {
+        public string Name { get; set; }
     }
 }

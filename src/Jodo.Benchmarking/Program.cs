@@ -29,12 +29,96 @@ namespace Jodo.Benchmarking
 {
     public static class Program
     {
-#if DEBUG
-        public static This_prevents_benchmarks_being_built_in_debug _;
-#endif
+        private static readonly TimeSpan Duration = TimeSpan.FromSeconds(2);
+
+        private static bool TryGetArg(string[] args, string name, out string value)
+        {
+            int index = Array.IndexOf(args, $"--{name}");
+
+            if (index == -1 ||
+                index + 1 >= args.Length ||
+                args[index + 1] == null ||
+                args[index + 1].StartsWith("-", StringComparison.InvariantCultureIgnoreCase))
+            {
+                value = null;
+                return false;
+            }
+            value = args[index + 1];
+            return true;
+        }
 
         public static void Main(string[] args)
         {
+            GuardAgainstDebug(args);
+
+            Console.WriteLine($"Scanning loaded assemblies for benchmarks (public, static, parameterless and non-generic methods with the {nameof(BenchmarkAttribute)})...");
+
+            System.Reflection.MethodInfo[] benchmarkMethods = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .SelectMany(t => t.GetMethods())
+                .Where(m => m.CustomAttributes.Any(c => c.AttributeType == typeof(BenchmarkAttribute)))
+                .ToArray();
+
+            Console.WriteLine($"Found {benchmarkMethods.Length} benchmark(s).");
+
+            if (benchmarkMethods.Any())
+            {
+                Console.WriteLine($"Writing to \"./{BenchmarkWriter.FileName}\".");
+                Console.WriteLine("Executing benchmarks...");
+                Console.WriteLine();
+
+                BenchmarkWriter.WriteHeader(Duration);
+
+                foreach (System.Reflection.MethodInfo method in benchmarkMethods)
+                {
+                    if (method.IsStatic &&
+                        method.ReturnType == typeof(Benchmark) &&
+                        !method.GetParameters().Any() &&
+                        !method.ContainsGenericParameters &&
+                        !method.ReflectedType.ContainsGenericParameters)
+                    {
+                        Benchmark benchmark = (Benchmark)method.Invoke(null, Array.Empty<object>());
+                        try
+                        {
+                            BenchmarkResult result = benchmark.Execute(Duration);
+                            BenchmarkWriter.WriteResult(result);
+                        }
+                        catch (Exception)
+                        {
+                            BenchmarkWriter.WriteError(benchmark.Name);
+                        }
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine($"{method} cannot be run. " +
+                            "Benchmark methods must be public, static, parameterless and non-generic");
+                    }
+                }
+
+                BenchmarkWriter.WriteFooter();
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Press any key to exit...");
+            _ = Console.ReadKey();
+        }
+
+        private static void GuardAgainstDebug(string[] args)
+        {
+
+#if DEBUG
+            if (args?.SingleOrDefault(x => x == "-fd") == null)
+            {
+                Console.WriteLine(
+                "Benchmarks built in Debug configuration are disabled." +
+                " Use the -fd flag to override this behavior.");
+                Console.WriteLine();
+                Console.WriteLine("Press any key to exit...");
+                _ = Console.ReadKey();
+                Environment.Exit(-1);
+            }
+#endif
             if (Debugger.IsAttached && args?.SingleOrDefault(x => x == "-fd") == null)
             {
                 Console.WriteLine(
@@ -45,47 +129,6 @@ namespace Jodo.Benchmarking
                 _ = Console.ReadKey();
                 Environment.Exit(-1);
             }
-
-            Console.WriteLine("Scanning loaded assemblies...");
-
-            System.Reflection.MethodInfo[] benchmarkMethods = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .SelectMany(t => t.GetMethods())
-                .Where(m => m.CustomAttributes.Any(c => c.AttributeType == typeof(BenchmarkAttribute)))
-                .ToArray();
-
-            Console.WriteLine($"Found {benchmarkMethods.Length} method(s) with the {nameof(BenchmarkAttribute)}.");
-
-            if (benchmarkMethods.Any())
-            {
-                Console.WriteLine("Executing benchmarks...");
-                Console.WriteLine();
-
-                Writer.WriteHeader();
-
-                foreach (System.Reflection.MethodInfo method in benchmarkMethods)
-                {
-                    if (method.IsStatic &&
-                        !method.GetParameters().Any() &&
-                        !method.ContainsGenericParameters &&
-                        !method.ReflectedType.ContainsGenericParameters)
-                    {
-                        _ = method.Invoke(null, Array.Empty<object>());
-                    }
-                    else
-                    {
-                        Console.Error.WriteLine($"{method} cannot be run. " +
-                            "Benchmark methods must be public, static, parameterless and non-generic");
-                    }
-                }
-
-                Writer.WriteFooter();
-            }
-
-            Console.WriteLine();
-            Console.WriteLine("Press any key to exit...");
-            _ = Console.ReadKey();
         }
     }
 }

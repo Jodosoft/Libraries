@@ -83,7 +83,7 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void StringFormatting()
         {
-            Int32N var1 = (Int32N)1024;
+            Int32N var1 = 1024;
             Fix64 var2 = (Fix64)99.54322f;
 
             Console.WriteLine($"{var1:N2}"); // output: 1,024.00
@@ -125,7 +125,7 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void FixedPointArithmetic()
         {
-            Fix64 third = 1 / 3f;
+            Fix64 third = 1 / (Fix64)3;
             Fix64 pi = MathN.PI<Fix64>();
             Fix64 tooSmall = (Fix64)0.0000001;
 

@@ -941,8 +941,8 @@ namespace Jodo.Numerics
         {
             Conversion.Default => Convert.ToDouble(value),
             Conversion.Clamp => Convert.ToDouble(value),
-            Conversion.Cast => (double)value,
-            Conversion.CastClamp => (double)value,
+            Conversion.Cast => value,
+            Conversion.CastClamp => value,
             _ => throw new ArgumentOutOfRangeException(nameof(mode)),
         };
 

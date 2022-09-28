@@ -23,18 +23,35 @@ using System.Diagnostics.CodeAnalysis;
 namespace Jodo.Benchmarking
 {
     [ExcludeFromCodeCoverage]
-    public readonly struct Measurement
+    public sealed class Count : IEquatable<Count>
     {
-        public ulong Count { get; }
+        public long Executions { get; }
         public TimeSpan TotalTime { get; }
 
-        public readonly TimeSpan AverageTime => new TimeSpan(TotalTime.Ticks / (long)Count);
-        public readonly double PerSecond => Count / TotalTime.TotalSeconds;
-
-        public Measurement(ulong count, TimeSpan totalTime)
+        public Count(long executions, TimeSpan totalTime)
         {
-            Count = count;
+            if (executions <= 0) throw new ArgumentOutOfRangeException(nameof(executions), executions, "Must be positive.");
+            if (totalTime <= TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(totalTime), totalTime, "Must be positive.");
+
+            Executions = executions;
             TotalTime = totalTime;
         }
+
+        public TimeSpan GetAverageTime() => new TimeSpan(TotalTime.Ticks / Executions);
+
+        public double GetExecutionsPerSecond() => Executions / TotalTime.TotalSeconds;
+
+        public override bool Equals(object obj) => Equals(obj as Count);
+
+        public bool Equals(Count other) => other != null && Executions == other.Executions && TotalTime.Equals(other.TotalTime);
+
+        public override int GetHashCode() => HashCode.Combine(Executions, TotalTime);
+
+        public static bool operator ==(Count left, Count right) => left.Equals(right);
+
+        public static bool operator !=(Count left, Count right) => !(left == right);
+
+        public static Count operator +(Count count1, Count count2)
+            => new Count(count1.Executions + count2.Executions, count1.TotalTime + count2.TotalTime);
     }
 }
