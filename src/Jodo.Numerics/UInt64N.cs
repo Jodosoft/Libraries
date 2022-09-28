@@ -140,7 +140,7 @@ namespace Jodo.Numerics
         UInt64N INumeric<UInt64N>.LogicalExclusiveOr(UInt64N value) => this ^ value;
         UInt64N INumeric<UInt64N>.LogicalOr(UInt64N value) => this | value;
         UInt64N INumeric<UInt64N>.Multiply(UInt64N value) => this * value;
-        UInt64N INumeric<UInt64N>.Negative() => (UInt64N)(0 - _value);
+        UInt64N INumeric<UInt64N>.Negative() => 0 - _value;
         UInt64N INumeric<UInt64N>.Positive() => +this;
         UInt64N INumeric<UInt64N>.Remainder(UInt64N value) => this % value;
         UInt64N INumeric<UInt64N>.RightShift(int count) => this >> count;

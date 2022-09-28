@@ -82,16 +82,6 @@ namespace Jodo.Geometry
 
         public Triangle<TNumeric> Translate(Vector2N<TNumeric> delta) => new Triangle<TNumeric>(A + delta, B + delta, C + delta);
 
-        public bool Contains(Vector2N<TNumeric> point) => throw new NotImplementedException();
-        public bool Contains(TNumeric pointX, TNumeric pointY) => Contains(new Vector2N<TNumeric>(pointX, pointY));
-
-        public bool Contains(Triangle<TNumeric> other) => throw new NotImplementedException();
-        public bool IntersectsWith(Triangle<TNumeric> other) => throw new NotImplementedException();
-
-        public Triangle<TNumeric> Rotate90() => throw new NotImplementedException();
-        public Rectangle<TNumeric> Rotate(Angle<TNumeric> angle) => throw new NotImplementedException();
-        public Rectangle<TNumeric> RotateAround(Vector2N<TNumeric> pivot, Angle<TNumeric> angle) => throw new NotImplementedException();
-
         public Triangle<TResult> Convert<TResult>(Func<TNumeric, TResult> converter) where TResult : struct, INumeric<TResult>
             => new Triangle<TResult>(A.Convert(converter), B.Convert(converter), C.Convert(converter));
         public bool Equals(Triangle<TNumeric> other) => A.Equals(other.A) && B.Equals(other.B) && C.Equals(other.C);

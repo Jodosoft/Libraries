@@ -101,9 +101,9 @@ namespace Jodo.Numerics
         [CLSCompliant(false)] public static implicit operator Fix64(ushort value) => new Fix64(value * ScalingFactor);
         public static explicit operator Fix64(decimal value) => new Fix64((long)(value * ScalingFactor));
         public static explicit operator Fix64(double value) => FromDouble(value);
+        public static explicit operator Fix64(float value) => new Fix64((long)(value * ScalingFactor));
         public static explicit operator Fix64(long value) => new Fix64(value * ScalingFactor);
         public static implicit operator Fix64(byte value) => new Fix64(value * ScalingFactor);
-        public static implicit operator Fix64(float value) => new Fix64((long)(value * ScalingFactor));
         public static implicit operator Fix64(int value) => new Fix64(value * ScalingFactor);
         public static implicit operator Fix64(short value) => new Fix64(value * ScalingFactor);
 
@@ -273,11 +273,11 @@ namespace Jodo.Numerics
             ulong IConvertExtended<Fix64>.ToUInt64(Fix64 value, Conversion mode) => ConvertN.ToUInt64(value._scaledValue / ScalingFactor, mode);
             ushort IConvertExtended<Fix64>.ToUInt16(Fix64 value, Conversion mode) => ConvertN.ToUInt16(value._scaledValue / ScalingFactor, mode);
 
-            Fix64 IConvert<Fix64>.ToNumeric(bool value) => value ? ScalingFactor : 0;
+            Fix64 IConvert<Fix64>.ToNumeric(bool value) => new Fix64(value ? ScalingFactor : 0);
             Fix64 IConvert<Fix64>.ToNumeric(byte value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
             Fix64 IConvert<Fix64>.ToNumeric(decimal value, Conversion mode) => (Fix64)value;
             Fix64 IConvert<Fix64>.ToNumeric(double value, Conversion mode) => (Fix64)value;
-            Fix64 IConvert<Fix64>.ToNumeric(float value, Conversion mode) => value;
+            Fix64 IConvert<Fix64>.ToNumeric(float value, Conversion mode) => (Fix64)value;
             Fix64 IConvert<Fix64>.ToNumeric(int value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
             Fix64 IConvert<Fix64>.ToNumeric(long value, Conversion mode) => (Fix64)value;
             Fix64 IConvertExtended<Fix64>.ToValue(sbyte value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);

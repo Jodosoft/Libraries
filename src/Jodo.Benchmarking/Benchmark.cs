@@ -19,39 +19,49 @@
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Jodo.Benchmarking
 {
-    [ExcludeFromCodeCoverage]
-    public static class Benchmark
+    public class Benchmark<T> : Benchmark
     {
-        public const int DurationInSeconds = 60;
+        public Func<T> DataFactory { get; }
+        public Func<T, object> Subject1 { get; }
+        public Func<T, object> Subject2 { get; }
 
-        public static void Run(Func<object> subjectFunction, Func<object> baselineFunction)
+        public Benchmark(string name, Func<T> dataFactory, Func<T, object> subject1, Func<T, object> subject2) : base(name)
         {
-            object voidObj = new object();
-            Func<object> voidFunction = new Func<object>(() => voidObj);
-
-            TimeSpan trialTime = TimeSpan.FromSeconds(DurationInSeconds / 4.0);
-            Measurement subjectMeasurement = Measurer.Measure(subjectFunction, trialTime);
-            Measurement baselineMeasurement = Measurer.Measure(baselineFunction, trialTime);
-            Measurement voidMeasurement = Measurer.Measure(voidFunction, trialTime);
-
-            subjectMeasurement = Adjust(subjectMeasurement, voidMeasurement);
-            baselineMeasurement = Adjust(baselineMeasurement, voidMeasurement);
-
-            Writer.Write(new StackTrace().GetFrame(1).GetMethod().Name, subjectMeasurement, baselineMeasurement);
+            DataFactory = dataFactory ?? throw new ArgumentNullException(nameof(dataFactory));
+            Subject2 = subject2 ?? throw new ArgumentNullException(nameof(subject2));
+            Subject1 = subject1 ?? throw new ArgumentNullException(nameof(subject1));
         }
 
-        private static Measurement Adjust(Measurement measurement, Measurement voidMeasurement)
+        public override BenchmarkResult Execute(TimeSpan duration)
         {
-            double subjectAdjustment = measurement.Count * voidMeasurement.TotalTime.TotalSeconds / (long)voidMeasurement.Count;
-            if (double.IsFinite(subjectAdjustment) && subjectAdjustment > 0)
-            {
-                return new Measurement(measurement.Count, TimeSpan.FromSeconds(measurement.TotalTime.TotalSeconds - subjectAdjustment));
-            }
-            return measurement;
+            (Count Subject1, Count Subject2) measurements = Counter.Measure(DataFactory, Subject1, Subject2, duration);
+
+            return new BenchmarkResult(Name, measurements.Subject1, measurements.Subject2);
+        }
+    }
+
+    public abstract class Benchmark
+    {
+        public string Name { get; }
+
+        protected Benchmark(string name)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+        }
+
+        public abstract BenchmarkResult Execute(TimeSpan duration);
+
+        public static BenchmarkBuilder.WithNameAndData<T> Using<T>(Func<T> factory)
+        {
+            return new BenchmarkBuilder.WithNameAndData<T>(new StackTrace().GetFrame(1).GetMethod().Name, factory);
+        }
+
+        public static BenchmarkBuilder.WithNameAndData<T> UsingData<T>(T value)
+        {
+            return new BenchmarkBuilder.WithNameAndData<T>(new StackTrace().GetFrame(1).GetMethod().Name, () => value);
         }
     }
 }
