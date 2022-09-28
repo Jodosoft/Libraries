@@ -99,11 +99,11 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Vector2N<TNumeric> IVariantRandom<Vector2N<TNumeric>>.Generate(Random random, Variants scenarios)
+            Vector2N<TNumeric> IVariantRandom<Vector2N<TNumeric>>.Generate(Random random, Variants variants)
             {
                 return new Vector2N<TNumeric>(
-                    random.NextVariant<TNumeric>(scenarios),
-                    random.NextVariant<TNumeric>(scenarios));
+                    random.NextVariant<TNumeric>(variants),
+                    random.NextVariant<TNumeric>(variants));
             }
         }
     }

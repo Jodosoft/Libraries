@@ -192,5 +192,65 @@ namespace Jodo.Numerics.Tests
             //assert
             action.Should().Throw<ArgumentException>();
         }
+
+        [Test, Repeat(RandomVariations)]
+        public void NextNumeric_InvalidVariant_Throws()
+        {
+            //arrange
+            Variants input = Random.Choose(Variants.None, (Variants)32, (Variants)64, (Variants)128);
+
+            //act
+            Action action = new Action(() => Random.NextNumeric<TNumeric>(input));
+
+            //assert
+            action.Should().Throw<ArgumentException>();
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void NextNumeric_DefaultsVariant_ReturnsDefault()
+        {
+            //arrange
+            //act
+            TNumeric result = Random.NextNumeric<TNumeric>(Variants.Defaults);
+
+            //assert
+            result.Should().Be(default);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void NextNumeric_LowMagnitudeVariant_ReturnsValuesThatHaveRoundTrippableStringRepresentations()
+        {
+            //arrange
+            //act
+            TNumeric result1 = Random.NextNumeric<TNumeric>(Variants.LowMagnitude);
+            TNumeric result2 = Numeric.Parse<TNumeric>(result1.ToString());
+
+            //assert
+            result1.Should().Be(result2);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void NextNumeric_BoundariesVariant_ReturnsMinValueOrMaxValue()
+        {
+            //arrange
+            TNumeric[] expected = new[] { Numeric.MinValue<TNumeric>(), Numeric.MaxValue<TNumeric>() };
+
+            //act
+            TNumeric result = Random.NextNumeric<TNumeric>(Variants.Boundaries);
+
+            //assert
+            expected.Should().Contain(result);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void NextNumeric_NonErrorVariants_ShouldNotContainNonFiniteNumbers()
+        {
+            //arrange
+            //act
+            bool result = Numeric.IsFinite(Random.NextNumeric<TNumeric>(Variants.NonError));
+
+            //assert
+            result.Should().BeTrue();
+        }
     }
 }

@@ -108,8 +108,8 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            UnitN<TNumeric> IVariantRandom<UnitN<TNumeric>>.Generate(Random random, Variants scenarios)
-                => new UnitN<TNumeric>(random.NextVariant<TNumeric>(scenarios));
+            UnitN<TNumeric> IVariantRandom<UnitN<TNumeric>>.Generate(Random random, Variants variants)
+                => new UnitN<TNumeric>(random.NextVariant<TNumeric>(variants));
         }
     }
 

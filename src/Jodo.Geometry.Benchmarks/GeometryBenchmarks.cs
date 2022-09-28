@@ -18,11 +18,27 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
+using Jodo.Benchmarking;
+using Jodo.Numerics;
 
-namespace Jodo.Primitives
+namespace Jodo.Geometry.Benchmarks
 {
-    public interface IVariantRandom<out T>
+    [ExcludeFromCodeCoverage]
+    public static class GeometryBenchmarks
     {
-        T Generate(Random random, Variants variants);
+        private static readonly Random Random = new Random();
+
+        [Benchmark]
+        public static void AARectangleNGetArea_Versus_SingleMultiplication()
+        {
+            float width = Random.NextSingle();
+            float height = Random.NextSingle();
+            AARectangle<SingleN> sut = new AARectangle<SingleN>(Random.NextSingle(), Random.NextSingle(), width, height);
+
+            Benchmark.Run(
+                () => sut.GetArea(),
+                () => width * height);
+        }
     }
 }

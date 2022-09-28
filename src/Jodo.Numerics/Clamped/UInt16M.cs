@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -267,7 +266,7 @@ namespace Jodo.Numerics.Clamped
             UInt16M INumericRandom<UInt16M>.Generate(Random random, Generation mode) => random.NextUInt16(mode);
             UInt16M INumericRandom<UInt16M>.Generate(Random random, UInt16M minValue, UInt16M maxValue, Generation mode) => random.NextUInt16(minValue, maxValue, mode);
 
-            UInt16M IVariantRandom<UInt16M>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UInt16M>(random, scenarios);
+            UInt16M IVariantRandom<UInt16M>.Generate(Random random, Variants variants) => random.NextUInt16(variants);
         }
     }
 }

@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -267,7 +266,7 @@ namespace Jodo.Numerics.Clamped
             DecimalM INumericRandom<DecimalM>.Generate(Random random, Generation mode) => random.NextDecimal(mode == Generation.Extended ? decimal.MinValue : 0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
             DecimalM INumericRandom<DecimalM>.Generate(Random random, DecimalM minValue, DecimalM maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
 
-            DecimalM IVariantRandom<DecimalM>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<DecimalM>(random, scenarios);
+            DecimalM IVariantRandom<DecimalM>.Generate(Random random, Variants variants) => random.NextDecimal(variants);
         }
     }
 }

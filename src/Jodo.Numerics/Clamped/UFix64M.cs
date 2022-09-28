@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -296,7 +295,7 @@ namespace Jodo.Numerics.Clamped
             UFix64M INumericRandom<UFix64M>.Generate(Random random, Generation mode) => new UFix64M(random.NextUInt64(0, mode == Generation.Extended ? ulong.MaxValue : ScalingFactor, mode));
             UFix64M INumericRandom<UFix64M>.Generate(Random random, UFix64M minValue, UFix64M maxValue, Generation mode) => new UFix64M(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
-            UFix64M IVariantRandom<UFix64M>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UFix64M>(random, scenarios);
+            UFix64M IVariantRandom<UFix64M>.Generate(Random random, Variants variants) => new UFix64M(random.NextUInt64(variants));
         }
     }
 }

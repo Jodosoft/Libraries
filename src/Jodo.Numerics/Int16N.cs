@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -267,7 +266,7 @@ namespace Jodo.Numerics
             Int16N INumericRandom<Int16N>.Generate(Random random, Generation mode) => random.NextInt16(mode);
             Int16N INumericRandom<Int16N>.Generate(Random random, Int16N minValue, Int16N maxValue, Generation mode) => random.NextInt16(minValue, maxValue, mode);
 
-            Int16N IVariantRandom<Int16N>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<Int16N>(random, scenarios);
+            Int16N IVariantRandom<Int16N>.Generate(Random random, Variants variants) => random.NextInt16(variants);
         }
     }
 }

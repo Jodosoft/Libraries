@@ -19,6 +19,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Jodo.Primitives;
@@ -31,6 +32,22 @@ namespace Jodo.Numerics
         private const string InvalidGenerationValue = $"The value '{{0}}' is not valid for this usage of the type {nameof(Generation)}.";
         private const string XCannotBeGreaterThanY = "'{0}' cannot be greater than '{1}'.";
         private const string XMustBeFinite = "'{0}' must be a finite value.";
+
+        // These values are the cube roots of MaxValue for their respective types.
+        private const sbyte LowMagnitudeSByte = 5;
+        private const byte LowMagnitudeByte = 6;
+        private const short LowMagnitudeInt16 = 32;
+        private const ushort LowMagnitudeUInt16 = 40;
+        private const int LowMagnitudeInt32 = 1290;
+        private const uint LowMagnitudeUInt32 = 1625;
+        private const long LowMagnitudeInt64 = 2097152;
+        private const ulong LowMagnitudeUInt64 = 2642246;
+
+        // Arbitrary low-magnitude numbers chosen to be well within each types' maximum digits of precision.
+        private const int LowMagnitudeNumberOfDecimalPlaces = 1;
+        private const float LowMagnitudeSingle = 100.0f;
+        private const double LowMagnitudeDouble = 10000.0d;
+        private const decimal LowMagnitudeDecimal = 100.0m;
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -56,6 +73,11 @@ namespace Jodo.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric NextNumeric<TNumeric>(this Random random, TNumeric minValue, TNumeric maxValue, Generation mode) where TNumeric : struct, INumeric<TNumeric>
             => DefaultProvider<TNumeric, INumericRandom<TNumeric>>.Instance.Generate(random, minValue, maxValue, mode);
+
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric NextNumeric<TNumeric>(this Random random, Variants variants) where TNumeric : struct, INumeric<TNumeric>
+            => DefaultProvider<TNumeric, IVariantRandom<TNumeric>>.Instance.Generate(random, variants);
 
         public static UnitN<TNumeric> NextUnit<TNumeric>(this Random random) where TNumeric : struct, INumeric<TNumeric>
         {
@@ -100,6 +122,17 @@ namespace Jodo.Numerics
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static byte NextByte(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => random.NextByte(0, LowMagnitudeByte, Generation.Extended),
+            Variants.AnyMagnitude => random.NextByte(Generation.Extended),
+            Variants.Boundaries => random.Choose(byte.MinValue, byte.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
+        };
+
         [CLSCompliant(false)]
         public static sbyte NextSByte(this Random random)
            => (sbyte)random.Next(sbyte.MaxValue);
@@ -128,6 +161,18 @@ namespace Jodo.Numerics
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
+        [CLSCompliant(false)]
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static sbyte NextSByte(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => random.NextSByte(-LowMagnitudeSByte, LowMagnitudeSByte, Generation.Extended),
+            Variants.AnyMagnitude => random.NextSByte(Generation.Extended),
+            Variants.Boundaries => random.Choose(sbyte.MinValue, sbyte.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
+        };
+
         public static short NextInt16(this Random random)
            => (short)random.Next(short.MaxValue);
 
@@ -149,6 +194,17 @@ namespace Jodo.Numerics
             Generation.Default => random.NextInt16(minValue, maxValue),
             Generation.Extended => random.NextInt16Extended(minValue, maxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
+        };
+
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static short NextInt16(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => random.NextInt16(-LowMagnitudeInt16, LowMagnitudeInt16, Generation.Extended),
+            Variants.AnyMagnitude => random.NextInt16(Generation.Extended),
+            Variants.Boundaries => random.Choose(short.MinValue, short.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
         };
 
         [CLSCompliant(false)]
@@ -179,6 +235,18 @@ namespace Jodo.Numerics
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
+        [CLSCompliant(false)]
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static ushort NextUInt16(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => random.NextUInt16(0, LowMagnitudeUInt16, Generation.Extended),
+            Variants.AnyMagnitude => random.NextUInt16(Generation.Extended),
+            Variants.Boundaries => random.Choose(ushort.MinValue, ushort.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
+        };
+
         public static int NextInt32(this Random random)
             => random.Next(0, int.MaxValue); // Use the same overload of Next for consistency
 
@@ -200,6 +268,17 @@ namespace Jodo.Numerics
             Generation.Default => random.Next(minValue, maxValue), // Use the same overload of Next for consistency
             Generation.Extended => random.NextInt32Extended(minValue, maxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
+        };
+
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static int NextInt32(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => random.NextInt32(-LowMagnitudeInt32, LowMagnitudeInt32, Generation.Extended),
+            Variants.AnyMagnitude => random.NextInt32(Generation.Extended),
+            Variants.Boundaries => random.Choose(int.MinValue, int.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
         };
 
         [CLSCompliant(false)]
@@ -230,6 +309,18 @@ namespace Jodo.Numerics
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
+        [CLSCompliant(false)]
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static uint NextUInt32(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => random.NextUInt32(0, LowMagnitudeUInt32, Generation.Extended),
+            Variants.AnyMagnitude => random.NextUInt32(Generation.Extended),
+            Variants.Boundaries => random.Choose(uint.MinValue, uint.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
+        };
+
         public static long NextInt64(this Random random)
             => random.NextInt64Default(0, long.MaxValue);
 
@@ -251,6 +342,17 @@ namespace Jodo.Numerics
             Generation.Default => random.NextInt64Default(minValue, maxValue),
             Generation.Extended => random.NextInt64Extended(minValue, maxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
+        };
+
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static long NextInt64(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => random.NextInt64(-LowMagnitudeInt64, LowMagnitudeInt64, Generation.Extended),
+            Variants.AnyMagnitude => random.NextInt64(Generation.Extended),
+            Variants.Boundaries => random.Choose(long.MinValue, long.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
         };
 
         [CLSCompliant(false)]
@@ -281,6 +383,18 @@ namespace Jodo.Numerics
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
+        [CLSCompliant(false)]
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static ulong NextUInt64(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => random.NextUInt64(0, LowMagnitudeUInt64, Generation.Extended),
+            Variants.AnyMagnitude => random.NextUInt64(Generation.Extended),
+            Variants.Boundaries => random.Choose(ulong.MinValue, ulong.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
+        };
+
         public static float NextSingle(this Random random)
             => (float)random.NextDouble();
 
@@ -302,6 +416,17 @@ namespace Jodo.Numerics
             Generation.Default => random.NextSingleDefault(minValue, maxValue),
             Generation.Extended => random.NextSingleExtended(minValue, maxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
+        };
+
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static float NextSingle(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => MathFShim.Round(random.NextSingle(-LowMagnitudeSingle, LowMagnitudeSingle, Generation.Extended), 1),
+            Variants.AnyMagnitude => random.NextSingle(Generation.Extended),
+            Variants.Boundaries => random.Choose(float.MinValue, float.MaxValue),
+            Variants.Errors => random.Choose(default, float.NegativeInfinity, float.PositiveInfinity, float.NaN),
+            _ => throw new InvalidOperationException(),
         };
 
         public static double NextDouble(this Random random)
@@ -327,6 +452,17 @@ namespace Jodo.Numerics
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
         };
 
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static double NextDouble(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => Math.Round(random.NextDouble(-LowMagnitudeDouble, LowMagnitudeDouble, Generation.Extended), 1),
+            Variants.AnyMagnitude => random.NextDouble(Generation.Extended),
+            Variants.Boundaries => random.Choose(double.MinValue, double.MaxValue),
+            Variants.Errors => random.Choose(default, double.NegativeInfinity, double.PositiveInfinity, double.NaN),
+            _ => throw new InvalidOperationException(),
+        };
+
         public static decimal NextDecimal(this Random random)
             => random.NextDecimalDefault(0, decimal.MaxValue);
 
@@ -348,6 +484,17 @@ namespace Jodo.Numerics
             Generation.Default => random.NextDecimalDefault(minValue, maxValue),
             Generation.Extended => random.NextDecimalExtended(minValue, maxValue),
             _ => throw new ArgumentException(string.Format(InvalidGenerationValue, mode), nameof(mode)),
+        };
+
+        [SuppressMessage("Style", "IDE0072:Add missing cases", Justification = "Unreachable")]
+        public static decimal NextDecimal(this Random random, Variants variants) => random.ChooseVariant(variants) switch
+        {
+            Variants.Defaults => default,
+            Variants.LowMagnitude => Math.Round(random.NextDecimal(-LowMagnitudeDecimal, LowMagnitudeDecimal, Generation.Extended), 1),
+            Variants.AnyMagnitude => random.NextDecimal(Generation.Extended),
+            Variants.Boundaries => random.Choose(decimal.MinValue, decimal.MaxValue),
+            Variants.Errors => default,
+            _ => throw new InvalidOperationException(),
         };
 
         private static byte NextByteExtended(this Random random, byte bound1, byte bound2)
@@ -616,5 +763,29 @@ namespace Jodo.Numerics
                 return result;
             }
         }
+
+        private static Variants ChooseVariant(this Random random, Variants variants)
+        {
+            int count =
+                (HasFlag(variants, Variants.Defaults) ? 1 : 0) +
+                (HasFlag(variants, Variants.LowMagnitude) ? 1 : 0) +
+                (HasFlag(variants, Variants.AnyMagnitude) ? 1 : 0) +
+                (HasFlag(variants, Variants.Boundaries) ? 1 : 0) +
+                (HasFlag(variants, Variants.Errors) ? 1 : 0);
+            if (count == 0) throw new ArgumentOutOfRangeException(nameof(variants));
+
+            int index = random.Next(0, count);
+
+            if (variants.HasFlag(Variants.Defaults) && index-- == 0) return Variants.Defaults;
+            if (variants.HasFlag(Variants.LowMagnitude) && index-- == 0) return Variants.LowMagnitude;
+            if (variants.HasFlag(Variants.AnyMagnitude) && index-- == 0) return Variants.AnyMagnitude;
+            if (variants.HasFlag(Variants.Boundaries) && index-- == 0) return Variants.Boundaries;
+            if (variants.HasFlag(Variants.Errors) && index-- == 0) return Variants.Errors;
+
+            throw new InvalidOperationException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool HasFlag(Variants variants, Variants flag) => ((byte)variants & (byte)flag) > 0;
     }
 }

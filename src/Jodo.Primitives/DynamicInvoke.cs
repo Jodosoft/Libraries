@@ -23,13 +23,13 @@ using System.Reflection;
 namespace Jodo.Primitives
 {
     /// <summary>
-    ///     Provides methods for invoking operators using reflection.
+    ///     Provides static methods for invoking operators using reflection.
     /// </summary>
     public static class DynamicInvoke
     {
         /// <summary>
         ///     Uses reflection to invoke the addition operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -41,7 +41,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the bitwise complement operator for <typeparamref name="T"/> using
-        ///     <paramref name="value"/> as the parameter. Returns the result
+        ///     <paramref name="value"/> as the parameter. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -55,7 +55,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the decrement operator for <typeparamref name="T"/> using
-        ///     <paramref name="value"/> as the parameter. Returns the result
+        ///     <paramref name="value"/> as the parameter. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -66,7 +66,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the division operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -78,7 +78,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the equality for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters, returning the result.
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters, returning the result of the operation.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -89,7 +89,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the greater than operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -101,7 +101,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the greater than or equal operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -113,7 +113,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the increment operator for <typeparamref name="T"/> using
-        ///     <paramref name="value"/> as the parameter. Returns the result
+        ///     <paramref name="value"/> as the parameter. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -124,7 +124,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the inequality for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters, returning the result.
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters, returning the result of the operation.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -135,7 +135,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the left-shift operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -147,7 +147,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the less than operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -159,7 +159,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the less than or equal operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -171,7 +171,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the logical AND operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -183,7 +183,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the logical exclusive OR operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -195,7 +195,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the logical OR operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -207,7 +207,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the multiplication operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -219,7 +219,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the remainder operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -231,7 +231,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the right-shift operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -243,7 +243,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the subtraction operator for <typeparamref name="T"/> using
-        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result
+        ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -255,7 +255,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the unary minus operator for <typeparamref name="T"/> using
-        ///     <paramref name="value"/> as the parameter. Returns the result
+        ///     <paramref name="value"/> as the parameter. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
@@ -266,7 +266,7 @@ namespace Jodo.Primitives
 
         /// <summary>
         ///     Uses reflection to invoke the unary plus operator for <typeparamref name="T"/> using
-        ///     <paramref name="value"/> as the parameter. Returns the result
+        ///     <paramref name="value"/> as the parameter. Returns the result of the operation
         ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>

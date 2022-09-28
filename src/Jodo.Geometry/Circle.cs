@@ -111,11 +111,11 @@ namespace Jodo.Geometry
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Circle<TNumeric> IVariantRandom<Circle<TNumeric>>.Generate(Random random, Variants scenarios)
+            Circle<TNumeric> IVariantRandom<Circle<TNumeric>>.Generate(Random random, Variants variants)
             {
                 return new Circle<TNumeric>(
-                    random.NextVariant<Vector2N<TNumeric>>(scenarios),
-                    random.NextVariant<TNumeric>(scenarios));
+                    random.NextVariant<Vector2N<TNumeric>>(variants),
+                    random.NextVariant<TNumeric>(variants));
             }
         }
     }
