@@ -184,8 +184,6 @@ namespace Jodo.Numerics
             SByteN INumericStatic<SByteN>.MinUnit => -1;
             SByteN INumericStatic<SByteN>.MinValue => MinValue;
             SByteN INumericStatic<SByteN>.One => 1;
-            SByteN INumericStatic<SByteN>.Ten => 10;
-            SByteN INumericStatic<SByteN>.Two => 2;
             SByteN INumericStatic<SByteN>.Zero => 0;
 
             int IMath<SByteN>.Sign(SByteN x) => Math.Sign(x._value);

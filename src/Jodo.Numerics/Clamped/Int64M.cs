@@ -184,8 +184,6 @@ namespace Jodo.Numerics.Clamped
             Int64M INumericStatic<Int64M>.MinUnit => -1L;
             Int64M INumericStatic<Int64M>.MinValue => MinValue;
             Int64M INumericStatic<Int64M>.One => 1L;
-            Int64M INumericStatic<Int64M>.Ten => 10L;
-            Int64M INumericStatic<Int64M>.Two => 2L;
             Int64M INumericStatic<Int64M>.Zero => 0L;
 
             Int64M IMath<Int64M>.Abs(Int64M value) => Math.Abs(value);

@@ -71,18 +71,6 @@ namespace Jodo.Numerics.Tests
         }
 
         [Test]
-        public void Ten_IsTen()
-        {
-            ConvertN.ToDouble(Numeric.Ten<TNumeric>()).Should().Be(10);
-        }
-
-        [Test]
-        public void Two_IsTwo()
-        {
-            ConvertN.ToDouble(Numeric.Two<TNumeric>()).Should().Be(2);
-        }
-
-        [Test]
         public void Zero_LessThanEpsilon()
         {
             Numeric.Zero<TNumeric>().Should().BeLessThan(Numeric.Epsilon<TNumeric>());

@@ -185,8 +185,6 @@ namespace Jodo.Numerics
             ByteN INumericStatic<ByteN>.MinUnit => 0;
             ByteN INumericStatic<ByteN>.MinValue => MinValue;
             ByteN INumericStatic<ByteN>.One => 1;
-            ByteN INumericStatic<ByteN>.Ten => 10;
-            ByteN INumericStatic<ByteN>.Two => 2;
             ByteN INumericStatic<ByteN>.Zero => 0;
 
             int IMath<ByteN>.Sign(ByteN x) => x._value == 0 ? 0 : 1;

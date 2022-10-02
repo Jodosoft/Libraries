@@ -39,8 +39,8 @@ namespace Jodo.Geometry
         public readonly Vector2N<TNumeric> Center;
         public readonly TNumeric Radius;
 
-        public TNumeric GetDiameter() => Numeric.Two<TNumeric>().Multiply(Radius);
-        public TNumeric GetCircumeference() => Numeric.Two<TNumeric>().Multiply(MathN.PI<TNumeric>()).Multiply(Radius);
+        public TNumeric GetDiameter() => Radius.Double();
+        public TNumeric GetCircumeference() => MathN.PI<TNumeric>().Double().Multiply(Radius);
 
         public Circle(Vector2N<TNumeric> center, TNumeric radius)
         {
@@ -87,7 +87,7 @@ namespace Jodo.Geometry
             return results;
         }
 
-        public TNumeric GetArea() => MathN.PI<TNumeric>().Multiply(MathN.Pow(Radius, Numeric.Two<TNumeric>()));
+        public TNumeric GetArea() => MathN.PI<TNumeric>().Multiply(Radius.Multiply(Radius));
         public bool Contains(Circle<TNumeric> other) => Radius.IsGreaterThanOrEqualTo(other.Radius) && Center.DistanceFrom(other.Center).IsLessThanOrEqualTo(Radius.Subtract(other.Radius));
         public bool Contains(Vector2N<TNumeric> point) => point.DistanceFrom(Center).IsLessThan(Radius);
         public Circle<TNumeric> Translate(Vector2N<TNumeric> delta) => new Circle<TNumeric>(Center.Translate(delta), Radius);

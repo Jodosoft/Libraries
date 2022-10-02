@@ -61,8 +61,8 @@ namespace Jodo.Numerics.Tests
             TNumeric difference = MathN.Max(actual, expected).Subtract(MathN.Min(actual, expected));
 
             TNumeric tolerance = expected.IsGreaterThan(Numeric.MinUnit<TNumeric>()) && expected.IsLessThan(Numeric.MaxUnit<TNumeric>()) ?
-                Numeric.One<TNumeric>().Divide(Numeric.Ten<TNumeric>()) :
-                MathN.Abs(expected.Divide(Numeric.Ten<TNumeric>()));
+                Numeric.One<TNumeric>().Divide(ConvertN.ToNumeric<TNumeric>(10, Conversion.Cast)) :
+                MathN.Abs(expected.Divide(ConvertN.ToNumeric<TNumeric>(10, Conversion.Cast)));
 
             Execute.Assertion
                 .ForCondition(difference.IsLessThanOrEqualTo(tolerance))

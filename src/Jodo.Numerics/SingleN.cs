@@ -194,8 +194,6 @@ namespace Jodo.Numerics
             SingleN INumericStatic<SingleN>.MinUnit => -1f;
             SingleN INumericStatic<SingleN>.MinValue => MinValue;
             SingleN INumericStatic<SingleN>.One => 1f;
-            SingleN INumericStatic<SingleN>.Ten => 10f;
-            SingleN INumericStatic<SingleN>.Two => 2f;
             SingleN INumericStatic<SingleN>.Zero => 0f;
 
             int IMath<SingleN>.Sign(SingleN x) => Math.Sign(x._value);

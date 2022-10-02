@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Jodo.Benchmarking;
 using Jodo.Numerics;
+using Jodo.Primitives;
 
 namespace Jodo.Geometry.Benchmarks
 {
@@ -30,15 +31,19 @@ namespace Jodo.Geometry.Benchmarks
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static void AARectangleNGetArea_Versus_SingleMultiplication()
+        public static Benchmark AARectangleNGetArea_Versus_SingleMultiplication()
         {
-            float width = Random.NextSingle();
-            float height = Random.NextSingle();
-            AARectangle<SingleN> sut = new AARectangle<SingleN>(Random.NextSingle(), Random.NextSingle(), width, height);
-
-            Benchmark.Run(
-                () => sut.GetArea(),
-                () => width * height);
+            return Benchmark
+                .Using(() =>
+                {
+                    float singleWidth = Random.NextSingle(Variants.LowMagnitude);
+                    float singleHeight = Random.NextSingle(Variants.LowMagnitude);
+                    AARectangle<SingleN> aaRectangle = new AARectangle<SingleN>(
+                        Random.NextSingle(Variants.LowMagnitude), Random.NextSingle(Variants.LowMagnitude), singleWidth, singleHeight);
+                    return (singleWidth, singleHeight, aaRectangle);
+                })
+                .Measure(x => x.aaRectangle.GetArea())
+                .Versus(x => x.singleWidth * x.singleHeight);
         }
     }
 }

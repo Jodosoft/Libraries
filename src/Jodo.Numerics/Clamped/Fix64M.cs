@@ -213,8 +213,6 @@ namespace Jodo.Numerics.Clamped
             Fix64M INumericStatic<Fix64M>.MinUnit { get; } = new Fix64M(-ScalingFactor);
             Fix64M INumericStatic<Fix64M>.MinValue => MinValue;
             Fix64M INumericStatic<Fix64M>.One { get; } = new Fix64M(ScalingFactor);
-            Fix64M INumericStatic<Fix64M>.Ten { get; } = new Fix64M(10 * ScalingFactor);
-            Fix64M INumericStatic<Fix64M>.Two { get; } = new Fix64M(2 * ScalingFactor);
             Fix64M INumericStatic<Fix64M>.Zero => 0;
 
             Fix64M IMath<Fix64M>.Abs(Fix64M value) => value._scaledValue < 0 ? -value : value;

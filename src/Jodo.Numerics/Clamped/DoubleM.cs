@@ -202,8 +202,6 @@ namespace Jodo.Numerics.Clamped
             DoubleM INumericStatic<DoubleM>.MinUnit => -1d;
             DoubleM INumericStatic<DoubleM>.MinValue => MinValue;
             DoubleM INumericStatic<DoubleM>.One => 1d;
-            DoubleM INumericStatic<DoubleM>.Ten => 10d;
-            DoubleM INumericStatic<DoubleM>.Two => 2d;
             DoubleM INumericStatic<DoubleM>.Zero => 0d;
 
             DoubleM IMath<DoubleM>.Abs(DoubleM value) => Math.Abs(value._value);

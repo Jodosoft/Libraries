@@ -184,8 +184,6 @@ namespace Jodo.Numerics
             DecimalN INumericStatic<DecimalN>.MinUnit => -1m;
             DecimalN INumericStatic<DecimalN>.MinValue => MinValue;
             DecimalN INumericStatic<DecimalN>.One => 1m;
-            DecimalN INumericStatic<DecimalN>.Ten => 10m;
-            DecimalN INumericStatic<DecimalN>.Two => 2m;
             DecimalN INumericStatic<DecimalN>.Zero => 0m;
 
             int IMath<DecimalN>.Sign(DecimalN x) => Math.Sign(x);

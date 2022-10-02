@@ -167,17 +167,6 @@ namespace Jodo.Numerics
             bool INumericStatic<UInt16N>.HasFloatingPoint => false;
             bool INumericStatic<UInt16N>.HasInfinity => false;
             bool INumericStatic<UInt16N>.HasNaN => false;
-            bool INumericStatic<UInt16N>.IsReal => false;
-            bool INumericStatic<UInt16N>.IsSigned => false;
-            UInt16N INumericStatic<UInt16N>.Epsilon => (ushort)1;
-            UInt16N INumericStatic<UInt16N>.MaxUnit => (ushort)1;
-            UInt16N INumericStatic<UInt16N>.MaxValue => MaxValue;
-            UInt16N INumericStatic<UInt16N>.MinUnit => (ushort)0;
-            UInt16N INumericStatic<UInt16N>.MinValue => MinValue;
-            UInt16N INumericStatic<UInt16N>.One => (ushort)1;
-            UInt16N INumericStatic<UInt16N>.Ten => (ushort)10;
-            UInt16N INumericStatic<UInt16N>.Two => (ushort)2;
-            UInt16N INumericStatic<UInt16N>.Zero => (ushort)0;
             bool INumericStatic<UInt16N>.IsFinite(UInt16N x) => true;
             bool INumericStatic<UInt16N>.IsInfinity(UInt16N x) => false;
             bool INumericStatic<UInt16N>.IsNaN(UInt16N x) => false;
@@ -185,7 +174,16 @@ namespace Jodo.Numerics
             bool INumericStatic<UInt16N>.IsNegativeInfinity(UInt16N x) => false;
             bool INumericStatic<UInt16N>.IsNormal(UInt16N x) => false;
             bool INumericStatic<UInt16N>.IsPositiveInfinity(UInt16N x) => false;
+            bool INumericStatic<UInt16N>.IsReal => false;
+            bool INumericStatic<UInt16N>.IsSigned => false;
             bool INumericStatic<UInt16N>.IsSubnormal(UInt16N x) => false;
+            UInt16N INumericStatic<UInt16N>.Epsilon => (ushort)1;
+            UInt16N INumericStatic<UInt16N>.MaxUnit => (ushort)1;
+            UInt16N INumericStatic<UInt16N>.MaxValue => MaxValue;
+            UInt16N INumericStatic<UInt16N>.MinUnit => (ushort)0;
+            UInt16N INumericStatic<UInt16N>.MinValue => MinValue;
+            UInt16N INumericStatic<UInt16N>.One => (ushort)1;
+            UInt16N INumericStatic<UInt16N>.Zero => (ushort)0;
 
             int IMath<UInt16N>.Sign(UInt16N x) => x._value == 0 ? 0 : 1;
             UInt16N IMath<UInt16N>.Abs(UInt16N value) => value._value;

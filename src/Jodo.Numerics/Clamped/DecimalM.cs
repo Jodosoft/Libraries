@@ -184,8 +184,6 @@ namespace Jodo.Numerics.Clamped
             DecimalM INumericStatic<DecimalM>.MinUnit => -1m;
             DecimalM INumericStatic<DecimalM>.MinValue => MinValue;
             DecimalM INumericStatic<DecimalM>.One => 1m;
-            DecimalM INumericStatic<DecimalM>.Ten => 10m;
-            DecimalM INumericStatic<DecimalM>.Two => 2m;
             DecimalM INumericStatic<DecimalM>.Zero => 0m;
 
             DecimalM IMath<DecimalM>.Abs(DecimalM value) => Math.Abs(value._value);

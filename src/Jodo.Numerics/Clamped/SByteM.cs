@@ -184,8 +184,6 @@ namespace Jodo.Numerics.Clamped
             SByteM INumericStatic<SByteM>.MinUnit => -1;
             SByteM INumericStatic<SByteM>.MinValue => MinValue;
             SByteM INumericStatic<SByteM>.One => 1;
-            SByteM INumericStatic<SByteM>.Ten => 10;
-            SByteM INumericStatic<SByteM>.Two => 2;
             SByteM INumericStatic<SByteM>.Zero => 0;
 
             SByteM IMath<SByteM>.Abs(SByteM value) => Math.Abs(value._value);

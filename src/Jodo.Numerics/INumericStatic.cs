@@ -36,8 +36,6 @@ namespace Jodo.Numerics
         TNumeric MinUnit { get; }
         TNumeric MinValue { get; }
         TNumeric One { get; }
-        TNumeric Ten { get; }
-        TNumeric Two { get; }
         TNumeric Zero { get; }
 
         bool IsFinite(TNumeric x);

@@ -183,8 +183,6 @@ namespace Jodo.Numerics
             UInt32N INumericStatic<UInt32N>.MinUnit => (uint)0;
             UInt32N INumericStatic<UInt32N>.MinValue => MinValue;
             UInt32N INumericStatic<UInt32N>.One => (uint)1;
-            UInt32N INumericStatic<UInt32N>.Ten => (uint)10;
-            UInt32N INumericStatic<UInt32N>.Two => (uint)2;
             UInt32N INumericStatic<UInt32N>.Zero => (uint)0;
 
             int IMath<UInt32N>.Sign(UInt32N x) => x._value == 0 ? 0 : 1;

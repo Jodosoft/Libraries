@@ -184,8 +184,6 @@ namespace Jodo.Numerics.Clamped
             UInt16M INumericStatic<UInt16M>.MinUnit => 0;
             UInt16M INumericStatic<UInt16M>.MinValue => MinValue;
             UInt16M INumericStatic<UInt16M>.One => 1;
-            UInt16M INumericStatic<UInt16M>.Ten => 10;
-            UInt16M INumericStatic<UInt16M>.Two => 2;
             UInt16M INumericStatic<UInt16M>.Zero => 0;
 
             int IMath<UInt16M>.Sign(UInt16M x) => x._value == 0 ? 0 : 1;

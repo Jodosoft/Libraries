@@ -29,7 +29,7 @@ namespace Jodo.Benchmarking
 {
     public static class Program
     {
-        private static readonly TimeSpan Duration = TimeSpan.FromSeconds(2);
+        private static readonly TimeSpan Duration = TimeSpan.FromSeconds(60);
 
         private static bool TryGetArg(string[] args, string name, out string value)
         {

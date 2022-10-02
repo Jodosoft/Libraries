@@ -94,16 +94,6 @@ namespace Jodo.Numerics
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Ten<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Ten;
-
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric Two<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
-            => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Two;
-
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Zero<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
             => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Zero;
 

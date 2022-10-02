@@ -28,13 +28,13 @@ namespace Jodo.Numerics
         [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Appropriate use according to the documentation of CA1720.")]
         public static TNumeric Double<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
         {
-            return n.Multiply(Numeric.Two<TNumeric>());
+            return n.Multiply(Numeric.One<TNumeric>().Add(Numeric.One<TNumeric>()));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TNumeric Half<TNumeric>(this TNumeric n) where TNumeric : struct, INumeric<TNumeric>
         {
-            return n.Divide(Numeric.Two<TNumeric>());
+            return n.Divide(Numeric.One<TNumeric>().Add(Numeric.One<TNumeric>()));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

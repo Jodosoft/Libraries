@@ -202,8 +202,6 @@ namespace Jodo.Numerics.Clamped
             SingleM INumericStatic<SingleM>.MinUnit => -1;
             SingleM INumericStatic<SingleM>.MinValue => MinValue;
             SingleM INumericStatic<SingleM>.One => 1;
-            SingleM INumericStatic<SingleM>.Ten => 10;
-            SingleM INumericStatic<SingleM>.Two => 2;
             SingleM INumericStatic<SingleM>.Zero => 0;
 
             SingleM IMath<SingleM>.Abs(SingleM value) => MathFShim.Abs(value._value);
@@ -284,7 +282,7 @@ namespace Jodo.Numerics.Clamped
             SingleM INumericRandom<SingleM>.Generate(Random random, Generation mode) => random.NextSingle(mode);
             SingleM INumericRandom<SingleM>.Generate(Random random, SingleM minValue, SingleM maxValue, Generation mode) => random.NextSingle(minValue, maxValue, mode);
 
-            SingleM IVariantRandom<SingleM>.Generate(Random random, Variants variants) => random.NextSingle();
+            SingleM IVariantRandom<SingleM>.Generate(Random random, Variants variants) => random.NextSingle(variants);
         }
     }
 }

@@ -213,8 +213,6 @@ namespace Jodo.Numerics.Clamped
             UFix64M INumericStatic<UFix64M>.MinUnit => 0;
             UFix64M INumericStatic<UFix64M>.MinValue => MinValue;
             UFix64M INumericStatic<UFix64M>.One { get; } = new UFix64M(ScalingFactor);
-            UFix64M INumericStatic<UFix64M>.Ten { get; } = new UFix64M(10 * ScalingFactor);
-            UFix64M INumericStatic<UFix64M>.Two { get; } = new UFix64M(2 * ScalingFactor);
             UFix64M INumericStatic<UFix64M>.Zero => 0;
 
             int IMath<UFix64M>.Sign(UFix64M x) => x._scaledValue == 0 ? 0 : 1;

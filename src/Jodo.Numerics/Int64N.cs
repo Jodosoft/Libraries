@@ -184,8 +184,6 @@ namespace Jodo.Numerics
             Int64N INumericStatic<Int64N>.MinUnit => -1L;
             Int64N INumericStatic<Int64N>.MinValue => MinValue;
             Int64N INumericStatic<Int64N>.One => 1L;
-            Int64N INumericStatic<Int64N>.Ten => 10L;
-            Int64N INumericStatic<Int64N>.Two => 2L;
             Int64N INumericStatic<Int64N>.Zero => 0;
 
             int IMath<Int64N>.Sign(Int64N x) => Math.Sign(x._value);
