@@ -106,7 +106,6 @@ namespace Jodo.Benchmarking
 
         private static void GuardAgainstDebug(string[] args)
         {
-
 #if DEBUG
             if (args?.SingleOrDefault(x => x == "-fd") == null)
             {
