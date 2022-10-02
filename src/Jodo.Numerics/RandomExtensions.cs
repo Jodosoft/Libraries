@@ -44,7 +44,7 @@ namespace Jodo.Numerics
         private const ulong LowMagnitudeUInt64 = 2642246;
 
         // Arbitrary low-magnitude numbers chosen to be well within each types' maximum digits of precision.
-        private const int LowMagnitudeNumberOfDecimalPlaces = 1;
+        private const int LowMagnitudeDecimalPlaces = 1;
         private const float LowMagnitudeSingle = 100.0f;
         private const double LowMagnitudeDouble = 10000.0d;
         private const decimal LowMagnitudeDecimal = 100.0m;
@@ -422,7 +422,7 @@ namespace Jodo.Numerics
         public static float NextSingle(this Random random, Variants variants) => random.ChooseVariant(variants) switch
         {
             Variants.Defaults => default,
-            Variants.LowMagnitude => MathFShim.Round(random.NextSingle(-LowMagnitudeSingle, LowMagnitudeSingle, Generation.Extended), 1),
+            Variants.LowMagnitude => MathFShim.Round(random.NextSingle(-LowMagnitudeSingle, LowMagnitudeSingle, Generation.Extended), LowMagnitudeDecimalPlaces),
             Variants.AnyMagnitude => random.NextSingle(Generation.Extended),
             Variants.Boundaries => random.Choose(float.MinValue, float.MaxValue),
             Variants.Errors => random.Choose(default, float.NegativeInfinity, float.PositiveInfinity, float.NaN),
@@ -456,7 +456,7 @@ namespace Jodo.Numerics
         public static double NextDouble(this Random random, Variants variants) => random.ChooseVariant(variants) switch
         {
             Variants.Defaults => default,
-            Variants.LowMagnitude => Math.Round(random.NextDouble(-LowMagnitudeDouble, LowMagnitudeDouble, Generation.Extended), 1),
+            Variants.LowMagnitude => Math.Round(random.NextDouble(-LowMagnitudeDouble, LowMagnitudeDouble, Generation.Extended), LowMagnitudeDecimalPlaces),
             Variants.AnyMagnitude => random.NextDouble(Generation.Extended),
             Variants.Boundaries => random.Choose(double.MinValue, double.MaxValue),
             Variants.Errors => random.Choose(default, double.NegativeInfinity, double.PositiveInfinity, double.NaN),
@@ -490,7 +490,7 @@ namespace Jodo.Numerics
         public static decimal NextDecimal(this Random random, Variants variants) => random.ChooseVariant(variants) switch
         {
             Variants.Defaults => default,
-            Variants.LowMagnitude => Math.Round(random.NextDecimal(-LowMagnitudeDecimal, LowMagnitudeDecimal, Generation.Extended), 1),
+            Variants.LowMagnitude => Math.Round(random.NextDecimal(-LowMagnitudeDecimal, LowMagnitudeDecimal, Generation.Extended), LowMagnitudeDecimalPlaces),
             Variants.AnyMagnitude => random.NextDecimal(Generation.Extended),
             Variants.Boundaries => random.Choose(decimal.MinValue, decimal.MaxValue),
             Variants.Errors => default,
@@ -766,12 +766,7 @@ namespace Jodo.Numerics
 
         private static Variants ChooseVariant(this Random random, Variants variants)
         {
-            int count =
-                (HasFlag(variants, Variants.Defaults) ? 1 : 0) +
-                (HasFlag(variants, Variants.LowMagnitude) ? 1 : 0) +
-                (HasFlag(variants, Variants.AnyMagnitude) ? 1 : 0) +
-                (HasFlag(variants, Variants.Boundaries) ? 1 : 0) +
-                (HasFlag(variants, Variants.Errors) ? 1 : 0);
+            int count = CountFlags(variants);
             if (count == 0) throw new ArgumentOutOfRangeException(nameof(variants));
 
             int index = random.Next(0, count);
@@ -780,9 +775,18 @@ namespace Jodo.Numerics
             if (variants.HasFlag(Variants.LowMagnitude) && index-- == 0) return Variants.LowMagnitude;
             if (variants.HasFlag(Variants.AnyMagnitude) && index-- == 0) return Variants.AnyMagnitude;
             if (variants.HasFlag(Variants.Boundaries) && index-- == 0) return Variants.Boundaries;
-            if (variants.HasFlag(Variants.Errors) && index-- == 0) return Variants.Errors;
+            if (variants.HasFlag(Variants.Errors) && index == 0) return Variants.Errors;
 
             throw new InvalidOperationException();
+        }
+
+        private static int CountFlags(Variants variants)
+        {
+            return (HasFlag(variants, Variants.Defaults) ? 1 : 0) +
+                (HasFlag(variants, Variants.LowMagnitude) ? 1 : 0) +
+                (HasFlag(variants, Variants.AnyMagnitude) ? 1 : 0) +
+                (HasFlag(variants, Variants.Boundaries) ? 1 : 0) +
+                (HasFlag(variants, Variants.Errors) ? 1 : 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
