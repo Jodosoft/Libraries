@@ -118,11 +118,11 @@ namespace Jodo.Geometry
         {
             public static readonly Utilities Instance = new Utilities();
 
-            AARectangle<TNumeric> IVariantRandom<AARectangle<TNumeric>>.Generate(Random random, Variants scenarios)
+            AARectangle<TNumeric> IVariantRandom<AARectangle<TNumeric>>.Generate(Random random, Variants variants)
             {
                 return new AARectangle<TNumeric>(
-                    random.NextVariant<Vector2N<TNumeric>>(scenarios),
-                    random.NextVariant<Vector2N<TNumeric>>(scenarios));
+                    random.NextVariant<Vector2N<TNumeric>>(variants),
+                    random.NextVariant<Vector2N<TNumeric>>(variants));
             }
         }
     }

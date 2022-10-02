@@ -88,8 +88,8 @@ namespace Jodo.Geometry
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Angle<TNumeric> IVariantRandom<Angle<TNumeric>>.Generate(Random random, Variants scenarios)
-                => new Angle<TNumeric>(random.NextVariant<TNumeric>(scenarios));
+            Angle<TNumeric> IVariantRandom<Angle<TNumeric>>.Generate(Random random, Variants variants)
+                => new Angle<TNumeric>(random.NextVariant<TNumeric>(variants));
         }
     }
 

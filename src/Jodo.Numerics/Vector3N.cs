@@ -110,12 +110,12 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Vector3N<TNumeric> IVariantRandom<Vector3N<TNumeric>>.Generate(Random random, Variants scenarios)
+            Vector3N<TNumeric> IVariantRandom<Vector3N<TNumeric>>.Generate(Random random, Variants variants)
             {
                 return new Vector3N<TNumeric>(
-                    random.NextVariant<TNumeric>(scenarios),
-                    random.NextVariant<TNumeric>(scenarios),
-                    random.NextVariant<TNumeric>(scenarios));
+                    random.NextVariant<TNumeric>(variants),
+                    random.NextVariant<TNumeric>(variants),
+                    random.NextVariant<TNumeric>(variants));
             }
         }
     }

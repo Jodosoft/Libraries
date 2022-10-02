@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -168,17 +167,6 @@ namespace Jodo.Numerics
             bool INumericStatic<UInt16N>.HasFloatingPoint => false;
             bool INumericStatic<UInt16N>.HasInfinity => false;
             bool INumericStatic<UInt16N>.HasNaN => false;
-            bool INumericStatic<UInt16N>.IsReal => false;
-            bool INumericStatic<UInt16N>.IsSigned => false;
-            UInt16N INumericStatic<UInt16N>.Epsilon => (ushort)1;
-            UInt16N INumericStatic<UInt16N>.MaxUnit => (ushort)1;
-            UInt16N INumericStatic<UInt16N>.MaxValue => MaxValue;
-            UInt16N INumericStatic<UInt16N>.MinUnit => (ushort)0;
-            UInt16N INumericStatic<UInt16N>.MinValue => MinValue;
-            UInt16N INumericStatic<UInt16N>.One => (ushort)1;
-            UInt16N INumericStatic<UInt16N>.Ten => (ushort)10;
-            UInt16N INumericStatic<UInt16N>.Two => (ushort)2;
-            UInt16N INumericStatic<UInt16N>.Zero => (ushort)0;
             bool INumericStatic<UInt16N>.IsFinite(UInt16N x) => true;
             bool INumericStatic<UInt16N>.IsInfinity(UInt16N x) => false;
             bool INumericStatic<UInt16N>.IsNaN(UInt16N x) => false;
@@ -186,7 +174,16 @@ namespace Jodo.Numerics
             bool INumericStatic<UInt16N>.IsNegativeInfinity(UInt16N x) => false;
             bool INumericStatic<UInt16N>.IsNormal(UInt16N x) => false;
             bool INumericStatic<UInt16N>.IsPositiveInfinity(UInt16N x) => false;
+            bool INumericStatic<UInt16N>.IsReal => false;
+            bool INumericStatic<UInt16N>.IsSigned => false;
             bool INumericStatic<UInt16N>.IsSubnormal(UInt16N x) => false;
+            UInt16N INumericStatic<UInt16N>.Epsilon => (ushort)1;
+            UInt16N INumericStatic<UInt16N>.MaxUnit => (ushort)1;
+            UInt16N INumericStatic<UInt16N>.MaxValue => MaxValue;
+            UInt16N INumericStatic<UInt16N>.MinUnit => (ushort)0;
+            UInt16N INumericStatic<UInt16N>.MinValue => MinValue;
+            UInt16N INumericStatic<UInt16N>.One => (ushort)1;
+            UInt16N INumericStatic<UInt16N>.Zero => (ushort)0;
 
             int IMath<UInt16N>.Sign(UInt16N x) => x._value == 0 ? 0 : 1;
             UInt16N IMath<UInt16N>.Abs(UInt16N value) => value._value;
@@ -266,7 +263,7 @@ namespace Jodo.Numerics
             UInt16N INumericRandom<UInt16N>.Generate(Random random, Generation mode) => random.NextUInt16(mode);
             UInt16N INumericRandom<UInt16N>.Generate(Random random, UInt16N minValue, UInt16N maxValue, Generation mode) => random.NextUInt16(minValue, maxValue, mode);
 
-            UInt16N IVariantRandom<UInt16N>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UInt16N>(random, scenarios);
+            UInt16N IVariantRandom<UInt16N>.Generate(Random random, Variants variants) => random.NextUInt16(variants);
         }
     }
 }

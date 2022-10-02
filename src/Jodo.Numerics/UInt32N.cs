@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -140,7 +139,7 @@ namespace Jodo.Numerics
         UInt32N INumeric<UInt32N>.LogicalExclusiveOr(UInt32N value) => this ^ value;
         UInt32N INumeric<UInt32N>.LogicalOr(UInt32N value) => this | value;
         UInt32N INumeric<UInt32N>.Multiply(UInt32N value) => this * value;
-        UInt32N INumeric<UInt32N>.Negative() => (UInt32N)(0 - _value);
+        UInt32N INumeric<UInt32N>.Negative() => 0 - _value;
         UInt32N INumeric<UInt32N>.Positive() => +this;
         UInt32N INumeric<UInt32N>.Remainder(UInt32N value) => this % value;
         UInt32N INumeric<UInt32N>.RightShift(int count) => this >> count;
@@ -184,8 +183,6 @@ namespace Jodo.Numerics
             UInt32N INumericStatic<UInt32N>.MinUnit => (uint)0;
             UInt32N INumericStatic<UInt32N>.MinValue => MinValue;
             UInt32N INumericStatic<UInt32N>.One => (uint)1;
-            UInt32N INumericStatic<UInt32N>.Ten => (uint)10;
-            UInt32N INumericStatic<UInt32N>.Two => (uint)2;
             UInt32N INumericStatic<UInt32N>.Zero => (uint)0;
 
             int IMath<UInt32N>.Sign(UInt32N x) => x._value == 0 ? 0 : 1;
@@ -266,7 +263,7 @@ namespace Jodo.Numerics
             UInt32N INumericRandom<UInt32N>.Generate(Random random, Generation mode) => random.NextUInt32(mode);
             UInt32N INumericRandom<UInt32N>.Generate(Random random, UInt32N minValue, UInt32N maxValue, Generation mode) => random.NextUInt32(minValue, maxValue, mode);
 
-            UInt32N IVariantRandom<UInt32N>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UInt32N>(random, scenarios);
+            UInt32N IVariantRandom<UInt32N>.Generate(Random random, Variants variants) => random.NextUInt32(variants);
         }
     }
 }

@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -185,8 +184,6 @@ namespace Jodo.Numerics.Clamped
             UInt64M INumericStatic<UInt64M>.MinUnit => 0;
             UInt64M INumericStatic<UInt64M>.MinValue => MinValue;
             UInt64M INumericStatic<UInt64M>.One => 1;
-            UInt64M INumericStatic<UInt64M>.Ten => 10;
-            UInt64M INumericStatic<UInt64M>.Two => 2;
             UInt64M INumericStatic<UInt64M>.Zero => 0;
 
             int IMath<UInt64M>.Sign(UInt64M x) => x._value == 0 ? 0 : 1;
@@ -267,7 +264,7 @@ namespace Jodo.Numerics.Clamped
             UInt64M INumericRandom<UInt64M>.Generate(Random random, Generation mode) => random.NextUInt64(mode);
             UInt64M INumericRandom<UInt64M>.Generate(Random random, UInt64M minValue, UInt64M maxValue, Generation mode) => random.NextUInt64(minValue, maxValue, mode);
 
-            UInt64M IVariantRandom<UInt64M>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UInt64M>(random, scenarios);
+            UInt64M IVariantRandom<UInt64M>.Generate(Random random, Variants variants) => random.NextUInt64(variants);
         }
     }
 }

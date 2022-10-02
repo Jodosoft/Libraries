@@ -23,6 +23,6 @@ namespace Jodo.Primitives
 {
     public interface IVariantRandom<out T>
     {
-        T Generate(Random random, Variants scenarios);
+        T Generate(Random random, Variants variants);
     }
 }

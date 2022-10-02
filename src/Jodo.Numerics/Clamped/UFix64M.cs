@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -214,8 +213,6 @@ namespace Jodo.Numerics.Clamped
             UFix64M INumericStatic<UFix64M>.MinUnit => 0;
             UFix64M INumericStatic<UFix64M>.MinValue => MinValue;
             UFix64M INumericStatic<UFix64M>.One { get; } = new UFix64M(ScalingFactor);
-            UFix64M INumericStatic<UFix64M>.Ten { get; } = new UFix64M(10 * ScalingFactor);
-            UFix64M INumericStatic<UFix64M>.Two { get; } = new UFix64M(2 * ScalingFactor);
             UFix64M INumericStatic<UFix64M>.Zero => 0;
 
             int IMath<UFix64M>.Sign(UFix64M x) => x._scaledValue == 0 ? 0 : 1;
@@ -296,7 +293,7 @@ namespace Jodo.Numerics.Clamped
             UFix64M INumericRandom<UFix64M>.Generate(Random random, Generation mode) => new UFix64M(random.NextUInt64(0, mode == Generation.Extended ? ulong.MaxValue : ScalingFactor, mode));
             UFix64M INumericRandom<UFix64M>.Generate(Random random, UFix64M minValue, UFix64M maxValue, Generation mode) => new UFix64M(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
-            UFix64M IVariantRandom<UFix64M>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UFix64M>(random, scenarios);
+            UFix64M IVariantRandom<UFix64M>.Generate(Random random, Variants variants) => new UFix64M(random.NextUInt64(variants));
         }
     }
 }

@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -101,9 +100,9 @@ namespace Jodo.Numerics.Clamped
         [CLSCompliant(false)] public static implicit operator Fix64M(ushort value) => new Fix64M(value * ScalingFactor);
         public static explicit operator Fix64M(decimal value) => new Fix64M(ConvertN.ToInt64(Clamped.Multiply(value, ScalingFactor), Conversion.CastClamp));
         public static explicit operator Fix64M(double value) => FromDouble(value);
+        public static explicit operator Fix64M(float value) => new Fix64M(ConvertN.ToInt64(value * ScalingFactor, Conversion.CastClamp));
         public static explicit operator Fix64M(long value) => new Fix64M(Clamped.Multiply(value, ScalingFactor));
         public static implicit operator Fix64M(byte value) => new Fix64M(value * ScalingFactor);
-        public static implicit operator Fix64M(float value) => new Fix64M(ConvertN.ToInt64(value * ScalingFactor, Conversion.CastClamp));
         public static implicit operator Fix64M(int value) => new Fix64M(value * ScalingFactor);
         public static implicit operator Fix64M(short value) => new Fix64M(value * ScalingFactor);
 
@@ -214,8 +213,6 @@ namespace Jodo.Numerics.Clamped
             Fix64M INumericStatic<Fix64M>.MinUnit { get; } = new Fix64M(-ScalingFactor);
             Fix64M INumericStatic<Fix64M>.MinValue => MinValue;
             Fix64M INumericStatic<Fix64M>.One { get; } = new Fix64M(ScalingFactor);
-            Fix64M INumericStatic<Fix64M>.Ten { get; } = new Fix64M(10 * ScalingFactor);
-            Fix64M INumericStatic<Fix64M>.Two { get; } = new Fix64M(2 * ScalingFactor);
             Fix64M INumericStatic<Fix64M>.Zero => 0;
 
             Fix64M IMath<Fix64M>.Abs(Fix64M value) => value._scaledValue < 0 ? -value : value;
@@ -273,11 +270,11 @@ namespace Jodo.Numerics.Clamped
             ulong IConvertExtended<Fix64M>.ToUInt64(Fix64M value, Conversion mode) => ConvertN.ToUInt64(value._scaledValue / ScalingFactor, mode.Clamped());
             ushort IConvertExtended<Fix64M>.ToUInt16(Fix64M value, Conversion mode) => ConvertN.ToUInt16(value._scaledValue / ScalingFactor, mode.Clamped());
 
-            Fix64M IConvert<Fix64M>.ToNumeric(bool value) => value ? ScalingFactor : 0;
+            Fix64M IConvert<Fix64M>.ToNumeric(bool value) => new Fix64M(value ? ScalingFactor : 0);
             Fix64M IConvert<Fix64M>.ToNumeric(byte value, Conversion mode) => (Fix64M)ConvertN.ToInt64(value, mode.Clamped());
             Fix64M IConvert<Fix64M>.ToNumeric(decimal value, Conversion mode) => (Fix64M)value;
             Fix64M IConvert<Fix64M>.ToNumeric(double value, Conversion mode) => (Fix64M)value;
-            Fix64M IConvert<Fix64M>.ToNumeric(float value, Conversion mode) => value;
+            Fix64M IConvert<Fix64M>.ToNumeric(float value, Conversion mode) => (Fix64M)value;
             Fix64M IConvert<Fix64M>.ToNumeric(int value, Conversion mode) => (Fix64M)ConvertN.ToInt64(value, mode.Clamped());
             Fix64M IConvert<Fix64M>.ToNumeric(long value, Conversion mode) => (Fix64M)value;
             Fix64M IConvertExtended<Fix64M>.ToValue(sbyte value, Conversion mode) => (Fix64M)ConvertN.ToInt64(value, mode.Clamped());
@@ -296,7 +293,7 @@ namespace Jodo.Numerics.Clamped
             Fix64M INumericRandom<Fix64M>.Generate(Random random, Generation mode) => new Fix64M(random.NextInt64(mode == Generation.Extended ? long.MinValue : 0, mode == Generation.Extended ? long.MaxValue : ScalingFactor, mode));
             Fix64M INumericRandom<Fix64M>.Generate(Random random, Fix64M minValue, Fix64M maxValue, Generation mode) => new Fix64M(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
-            Fix64M IVariantRandom<Fix64M>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<Fix64M>(random, scenarios);
+            Fix64M IVariantRandom<Fix64M>.Generate(Random random, Variants variants) => new Fix64M(random.NextInt64(variants));
         }
     }
 }

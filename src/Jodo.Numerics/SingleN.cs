@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -195,8 +194,6 @@ namespace Jodo.Numerics
             SingleN INumericStatic<SingleN>.MinUnit => -1f;
             SingleN INumericStatic<SingleN>.MinValue => MinValue;
             SingleN INumericStatic<SingleN>.One => 1f;
-            SingleN INumericStatic<SingleN>.Ten => 10f;
-            SingleN INumericStatic<SingleN>.Two => 2f;
             SingleN INumericStatic<SingleN>.Zero => 0f;
 
             int IMath<SingleN>.Sign(SingleN x) => Math.Sign(x._value);
@@ -277,7 +274,7 @@ namespace Jodo.Numerics
             SingleN INumericRandom<SingleN>.Generate(Random random, Generation mode) => random.NextSingle(mode);
             SingleN INumericRandom<SingleN>.Generate(Random random, SingleN minValue, SingleN maxValue, Generation mode) => random.NextSingle(minValue, maxValue, mode);
 
-            SingleN IVariantRandom<SingleN>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<SingleN>(random, scenarios);
+            SingleN IVariantRandom<SingleN>.Generate(Random random, Variants variants) => random.NextSingle(variants);
         }
     }
 }

@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -140,7 +139,7 @@ namespace Jodo.Numerics
         UInt64N INumeric<UInt64N>.LogicalExclusiveOr(UInt64N value) => this ^ value;
         UInt64N INumeric<UInt64N>.LogicalOr(UInt64N value) => this | value;
         UInt64N INumeric<UInt64N>.Multiply(UInt64N value) => this * value;
-        UInt64N INumeric<UInt64N>.Negative() => (UInt64N)(0 - _value);
+        UInt64N INumeric<UInt64N>.Negative() => 0 - _value;
         UInt64N INumeric<UInt64N>.Positive() => +this;
         UInt64N INumeric<UInt64N>.Remainder(UInt64N value) => this % value;
         UInt64N INumeric<UInt64N>.RightShift(int count) => this >> count;
@@ -184,8 +183,6 @@ namespace Jodo.Numerics
             UInt64N INumericStatic<UInt64N>.MinUnit => (UInt64N)0;
             UInt64N INumericStatic<UInt64N>.MinValue => MinValue;
             UInt64N INumericStatic<UInt64N>.One => (UInt64N)1;
-            UInt64N INumericStatic<UInt64N>.Ten => (UInt64N)10;
-            UInt64N INumericStatic<UInt64N>.Two => (UInt64N)2;
             UInt64N INumericStatic<UInt64N>.Zero => (UInt64N)0;
 
             int IMath<UInt64N>.Sign(UInt64N x) => x._value == 0 ? 0 : 1;
@@ -266,7 +263,7 @@ namespace Jodo.Numerics
             UInt64N INumericRandom<UInt64N>.Generate(Random random, Generation mode) => random.NextUInt64(mode);
             UInt64N INumericRandom<UInt64N>.Generate(Random random, UInt64N minValue, UInt64N maxValue, Generation mode) => random.NextUInt64(minValue, maxValue, mode);
 
-            UInt64N IVariantRandom<UInt64N>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<UInt64N>(random, scenarios);
+            UInt64N IVariantRandom<UInt64N>.Generate(Random random, Variants variants) => random.NextUInt64(variants);
         }
     }
 }

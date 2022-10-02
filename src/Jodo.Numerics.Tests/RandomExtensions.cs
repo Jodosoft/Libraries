@@ -31,13 +31,13 @@ namespace Jodo.Numerics.Tests
                 result = random.NextNumeric<TNumeric>(Generation.Extended);
             } while (
                 (bounds.HasFlag(TestBounds.Positive) && result.IsLessThanOrEqualTo(Numeric.Zero<TNumeric>())) ||
-                (bounds.HasFlag(TestBounds.HighMagnitude) && MathN.Abs(result).IsLessThan(Numeric.Ten<TNumeric>())));
+                (bounds.HasFlag(TestBounds.HighMagnitude) && MathN.Abs(result).IsLessThan(ConvertN.ToNumeric<TNumeric>(10, Conversion.Cast))));
 
             if (bounds.HasFlag(TestBounds.LowSignificance))
             {
                 while (MathN.Log10(MathN.Abs(result)).IsGreaterThan(ConvertN.ToNumeric<TNumeric>(3)))
                 {
-                    result = result.Divide(Numeric.Ten<TNumeric>());
+                    result = result.Divide(ConvertN.ToNumeric<TNumeric>(10, Conversion.Cast));
                 }
                 result = MathN.Round(result, 2);
             }

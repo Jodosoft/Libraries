@@ -18,35 +18,32 @@
 // IN THE SOFTWARE.
 
 using System;
-using System.Globalization;
+using System.Diagnostics.CodeAnalysis;
+using Jodo.Benchmarking;
+using Jodo.Numerics;
+using Jodo.Primitives;
 
-namespace Jodo.Numerics
+namespace Jodo.Geometry.Benchmarks
 {
-    public interface INumericStatic<TNumeric>
+    [ExcludeFromCodeCoverage]
+    public static class GeometryBenchmarks
     {
-        bool IsSigned { get; }
-        bool IsReal { get; }
-        bool HasNaN { get; }
-        bool HasInfinity { get; }
-        bool HasFloatingPoint { get; }
+        private static readonly Random Random = new Random();
 
-        TNumeric Epsilon { get; }
-        TNumeric MaxUnit { get; }
-        TNumeric MaxValue { get; }
-        TNumeric MinUnit { get; }
-        TNumeric MinValue { get; }
-        TNumeric One { get; }
-        TNumeric Zero { get; }
-
-        bool IsFinite(TNumeric x);
-        bool IsInfinity(TNumeric x);
-        bool IsNaN(TNumeric x);
-        bool IsNegative(TNumeric x);
-        bool IsNegativeInfinity(TNumeric x);
-        bool IsNormal(TNumeric x);
-        bool IsPositiveInfinity(TNumeric x);
-        bool IsSubnormal(TNumeric x);
-
-        TNumeric Parse(string s, NumberStyles? style, IFormatProvider? provider);
+        [Benchmark]
+        public static Benchmark AARectangleNGetArea_Versus_SingleMultiplication()
+        {
+            return Benchmark
+                .Using(() =>
+                {
+                    float singleWidth = Random.NextSingle(Variants.LowMagnitude);
+                    float singleHeight = Random.NextSingle(Variants.LowMagnitude);
+                    AARectangle<SingleN> aaRectangle = new AARectangle<SingleN>(
+                        Random.NextSingle(Variants.LowMagnitude), Random.NextSingle(Variants.LowMagnitude), singleWidth, singleHeight);
+                    return (singleWidth, singleHeight, aaRectangle);
+                })
+                .Measure(x => x.aaRectangle.GetArea())
+                .Versus(x => x.singleWidth * x.singleHeight);
+        }
     }
 }

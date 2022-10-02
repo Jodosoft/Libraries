@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -101,9 +100,9 @@ namespace Jodo.Numerics
         [CLSCompliant(false)] public static implicit operator Fix64(ushort value) => new Fix64(value * ScalingFactor);
         public static explicit operator Fix64(decimal value) => new Fix64((long)(value * ScalingFactor));
         public static explicit operator Fix64(double value) => FromDouble(value);
+        public static explicit operator Fix64(float value) => new Fix64((long)(value * ScalingFactor));
         public static explicit operator Fix64(long value) => new Fix64(value * ScalingFactor);
         public static implicit operator Fix64(byte value) => new Fix64(value * ScalingFactor);
-        public static implicit operator Fix64(float value) => new Fix64((long)(value * ScalingFactor));
         public static implicit operator Fix64(int value) => new Fix64(value * ScalingFactor);
         public static implicit operator Fix64(short value) => new Fix64(value * ScalingFactor);
 
@@ -214,8 +213,6 @@ namespace Jodo.Numerics
             Fix64 INumericStatic<Fix64>.MinUnit { get; } = new Fix64(-ScalingFactor);
             Fix64 INumericStatic<Fix64>.MinValue => MinValue;
             Fix64 INumericStatic<Fix64>.One { get; } = new Fix64(ScalingFactor);
-            Fix64 INumericStatic<Fix64>.Ten { get; } = new Fix64(10 * ScalingFactor);
-            Fix64 INumericStatic<Fix64>.Two { get; } = new Fix64(2 * ScalingFactor);
             Fix64 INumericStatic<Fix64>.Zero => 0;
 
             Fix64 IMath<Fix64>.Abs(Fix64 value) => value._scaledValue < 0 ? -value : value;
@@ -273,11 +270,11 @@ namespace Jodo.Numerics
             ulong IConvertExtended<Fix64>.ToUInt64(Fix64 value, Conversion mode) => ConvertN.ToUInt64(value._scaledValue / ScalingFactor, mode);
             ushort IConvertExtended<Fix64>.ToUInt16(Fix64 value, Conversion mode) => ConvertN.ToUInt16(value._scaledValue / ScalingFactor, mode);
 
-            Fix64 IConvert<Fix64>.ToNumeric(bool value) => value ? ScalingFactor : 0;
+            Fix64 IConvert<Fix64>.ToNumeric(bool value) => new Fix64(value ? ScalingFactor : 0);
             Fix64 IConvert<Fix64>.ToNumeric(byte value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
             Fix64 IConvert<Fix64>.ToNumeric(decimal value, Conversion mode) => (Fix64)value;
             Fix64 IConvert<Fix64>.ToNumeric(double value, Conversion mode) => (Fix64)value;
-            Fix64 IConvert<Fix64>.ToNumeric(float value, Conversion mode) => value;
+            Fix64 IConvert<Fix64>.ToNumeric(float value, Conversion mode) => (Fix64)value;
             Fix64 IConvert<Fix64>.ToNumeric(int value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
             Fix64 IConvert<Fix64>.ToNumeric(long value, Conversion mode) => (Fix64)value;
             Fix64 IConvertExtended<Fix64>.ToValue(sbyte value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
@@ -296,7 +293,7 @@ namespace Jodo.Numerics
             Fix64 INumericRandom<Fix64>.Generate(Random random, Generation mode) => new Fix64(random.NextInt64(mode == Generation.Extended ? long.MinValue : 0, mode == Generation.Extended ? long.MaxValue : ScalingFactor, mode));
             Fix64 INumericRandom<Fix64>.Generate(Random random, Fix64 minValue, Fix64 maxValue, Generation mode) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
-            Fix64 IVariantRandom<Fix64>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<Fix64>(random, scenarios);
+            Fix64 IVariantRandom<Fix64>.Generate(Random random, Variants variants) => new Fix64(random.NextInt64(variants));
         }
     }
 }

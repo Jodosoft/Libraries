@@ -75,7 +75,7 @@ namespace Jodo.Primitives
 
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T NextVariant<T>(this Random random, Variants scenarios) where T : struct, IProvider<IVariantRandom<T>>
-            => DefaultProvider<T, IVariantRandom<T>>.Instance.Generate(random, scenarios);
+        public static T NextVariant<T>(this Random random, Variants variants) where T : struct, IProvider<IVariantRandom<T>>
+            => DefaultProvider<T, IVariantRandom<T>>.Instance.Generate(random, variants);
     }
 }

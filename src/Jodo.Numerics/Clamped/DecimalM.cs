@@ -21,7 +21,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Jodo.Numerics.Internals;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -185,8 +184,6 @@ namespace Jodo.Numerics.Clamped
             DecimalM INumericStatic<DecimalM>.MinUnit => -1m;
             DecimalM INumericStatic<DecimalM>.MinValue => MinValue;
             DecimalM INumericStatic<DecimalM>.One => 1m;
-            DecimalM INumericStatic<DecimalM>.Ten => 10m;
-            DecimalM INumericStatic<DecimalM>.Two => 2m;
             DecimalM INumericStatic<DecimalM>.Zero => 0m;
 
             DecimalM IMath<DecimalM>.Abs(DecimalM value) => Math.Abs(value._value);
@@ -212,7 +209,7 @@ namespace Jodo.Numerics.Clamped
             DecimalM IMath<DecimalM>.Max(DecimalM x, DecimalM y) => Math.Max(x._value, y._value);
             DecimalM IMath<DecimalM>.Min(DecimalM x, DecimalM y) => Math.Min(x._value, y._value);
             DecimalM IMath<DecimalM>.PI { get; } = (decimal)Math.PI;
-            DecimalM IMath<DecimalM>.Pow(DecimalM x, DecimalM y) => y == 1 ? x : (DecimalM)ConvertN.ToDecimal(Math.Pow(ConvertN.ToDouble(x._value, Conversion.CastClamp), ConvertN.ToDouble(y._value, Conversion.CastClamp)), Conversion.CastClamp);
+            DecimalM IMath<DecimalM>.Pow(DecimalM x, DecimalM y) => y == 1 ? x : ConvertN.ToDecimal(Math.Pow(ConvertN.ToDouble(x._value, Conversion.CastClamp), ConvertN.ToDouble(y._value, Conversion.CastClamp)), Conversion.CastClamp);
             DecimalM IMath<DecimalM>.Round(DecimalM x) => decimal.Round(x);
             DecimalM IMath<DecimalM>.Round(DecimalM x, int digits) => decimal.Round(x, digits);
             DecimalM IMath<DecimalM>.Round(DecimalM x, int digits, MidpointRounding mode) => decimal.Round(x, digits, mode);
@@ -267,7 +264,7 @@ namespace Jodo.Numerics.Clamped
             DecimalM INumericRandom<DecimalM>.Generate(Random random, Generation mode) => random.NextDecimal(mode == Generation.Extended ? decimal.MinValue : 0, mode == Generation.Extended ? decimal.MaxValue : 1, mode);
             DecimalM INumericRandom<DecimalM>.Generate(Random random, DecimalM minValue, DecimalM maxValue, Generation mode) => random.NextDecimal(minValue, maxValue, mode);
 
-            DecimalM IVariantRandom<DecimalM>.Generate(Random random, Variants scenarios) => NumericVariant.Generate<DecimalM>(random, scenarios);
+            DecimalM IVariantRandom<DecimalM>.Generate(Random random, Variants variants) => random.NextDecimal(variants);
         }
     }
 }
