@@ -14,7 +14,7 @@
     1. [Extended random numbers](#extended-random-numbers)
     1. [Fixed-point numbers](#fixed-point-numbers)
     1. [Generic number types](#generic-number-types)
-    1. [Other features](#other-features)
+    1. [Numeric structures](#numeric-structures)
     1. [Performance considerations](#performance-considerations)
 1. [Jodo.CheckedNumerics](#jodocheckednumerics)
 1. [Jodo.Geometry](#jodogeometry)
@@ -99,7 +99,7 @@ This document describes the goals and principals of the project (table below), a
       <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for help, see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
       <p>Binaries are available on GitHub.com at <a href="https://github.com/JosephJShort/Jodo/releases">https://github.com/JosephJShort/Jodo/releases</a>.</p>
       <p><a href="https://semver.org/">Semantic Versioning</a> is used to ensure that version numbers convey the presence of breaking changes.</p>
-      <p>Alternatively, the libraries can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> and the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
+      <p>The libraries can be built from the source code in this repository using the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a> and any IDE that supports .NET, such as <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a>.</p>
       <p>
         <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
         <a href="[https://www.nuget.org/packages?q=Jodo.](https://github.com/JosephJShort/Jodo/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/JosephJShort/Jodo?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
@@ -109,7 +109,7 @@ This document describes the goals and principals of the project (table below), a
   <tr>
     <td>Documentation</td>
     <td>
-      <p>Work-in-progress API documentation is available at https://jodo.dev. Please see the sections below for more detail on each package.</p>
+      <p>Work-in-progress API documentation is available at https://jodo.dev.</p>
       <p>
         <a href="https://jodo.dev"><img alt="Documentation" src="https://img.shields.io/badge/documentation-passing-005784?style=flat-square&color=005784"></a>
       </p>
@@ -274,7 +274,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 </tr>
 </table>
 
-### Other features
+### Numeric structures
 
 <table>
   <tr>
