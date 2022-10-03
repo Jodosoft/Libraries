@@ -39,8 +39,8 @@ This document describes the goals and principals of the project (table below), a
       <p>The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API, and care is taken not to introduce name clashes with the API or other popular libraries</p>
       <p>The libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues.</p>
       <p>
-        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps builds" src="https://img.shields.io/azure-devops/build/JosephJShort/Jodo/1?logo=azuredevops&style=flat-square&no-cache"></a>
-        <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Milestones" src="https://img.shields.io/github/milestones/all/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+        <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
       </p>
     </td>
   </tr>
