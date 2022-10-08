@@ -22,7 +22,10 @@
 &nbsp;&nbsp;&nbsp;&nbsp;3.1. [Generic numbers](#31-generic-numbers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;3.2. [Numeric structures](#32-numeric-structures)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;3.3. [Fixed-point arithmetic](#33-fixed-point-arithmetic)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;3.4. [Random extensions](#34-random-extensions)
+&nbsp;&nbsp;&nbsp;&nbsp;3.4. [Clamped arithmetic](#34-clamped-arithmetic)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.5. [Random extensions](#35-random-extensions)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.6. [Utilities](#36-utilities)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.7. [Performance considerations](37-performance-considerations)
 
 4\. [Jodo.Geometry](#4-jodogeometry)
 
@@ -96,11 +99,23 @@ The Jodo libraries are intended to provide simple data structures and algorithms
 
 ## 2.2. Roadmap
 
-<p>The libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues.</p>
 <p>
   <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Milestones" src="https://img.shields.io/github/milestones/all/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
   <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
 </p>
+
+The Jodo libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues.
+
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>`1.0.0`</td>
+    <td>Release numerics</td>
+  </tr>
+</table>
 
 [\[Back to top\]](#top)
 
@@ -316,7 +331,7 @@ Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
 
 [\[Back to top\]](#top)
 
-## 3.4 Checked numbers
+## 3.4 Clamped arithmetic
   
 Provides numeric types (implementing <a href="#inumericn">INumeric&lt;N&gt;</a>) and utilities with built-in protection from overflow.
 
@@ -339,8 +354,9 @@ Console.WriteLine(x2);  // output: 3.402823E+38
 | <sub><em>readonly struct</em></sub><br />`cfloat`,<br />`cdouble` | Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively. Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`. It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`. |
 | <sub><em>readonly struct</em></sub><br />`cfix64`,<br />`cufix64` | <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Supporting a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned). Represented internally by 64-bit integers. |
 
+[\[Back to top\]](#top)
 
-## 3.4. Random extensions
+## 3.5. Random extensions
 
 Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> provide random number generation for every built-in number type. Overloads allow for increased flexibility with bounds, such as inclusive upper bounds and bounds specified in any order, as in the following example:
 
@@ -352,7 +368,15 @@ var value1 = new Random().NextDouble(double.MinValue, double.MaxValue); // Retur
 var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns a ulong between 100 and 200 (inclusive).
 ```
 
-## 3.5 Performance considerations
+[\[Back to top\]](#top)
+
+## 3.6 Utilities
+
+tbc
+
+[\[Back to top\]](#top)
+
+## 3.7 Performance considerations
 
 The numeric types provided by this package are structs that wrap built-in types and operators. Therefore they consume more memory and CPU time compared to using the built-in types alone.
 
