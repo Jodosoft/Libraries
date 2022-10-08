@@ -7,19 +7,88 @@
   <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
 </p>
 
-<h2>Contents</h2>
+## Contents
 
-1. [Introduction](#introduction)
-1. [Jodo.Numerics](#jodonumerics)
-    1. [Extended random numbers](#extended-random-numbers)
-    1. [Fixed-point numbers](#fixed-point-numbers)
-    1. [Generic number types](#generic-number-types)
-    1. [Numeric structures](#numeric-structures)
-    1. [Performance considerations](#performance-considerations)
-1. [Jodo.CheckedNumerics](#jodocheckednumerics)
-1. [Jodo.Geometry](#jodogeometry)
-1. [Jodo.Collections](#jodocollections)
-1. [Jodo.Primitives](#jodoprimitives)
+1\. [Introduction](#1-introduction)
+
+2\. [About this project](#2-about-this-project)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;2.1. [Design goals](#21-design-goals)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;2.2. [Roadmap](#22-roadmap)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;2.3. [Contributing](#23-contributing)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;2.4. [Releases](#24-releases)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;2.5. [Documentation](#25-documentation)
+
+3\. [Jodo.Numerics](#3-jodonumerics)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.1. [Generic numbers](#31-generic-numbers)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.2. [Numeric structures](#32-numeric-structures)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.3. [Fixed-point arithmetic](#33-fixed-point-arithmetic)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.4. [Random extensions](#34-random-extensions)
+
+4\. [Jodo.Geometry](#4-jodogeometry)
+
+5\. [Jodo.Collections](#5-jodocollections)
+
+## 1. Introduction
+
+tbc
+
+## 2. About this project
+
+tbc
+
+> mission 
+
+tbc
+
+## 2.1. Design Goals
+
+tbc
+
+## 2.2. Roadmap
+
+tbc
+
+## 2.3. Contributing
+
+tbc
+
+## 2.4. Releases
+
+tbc
+
+## 2.5. Documentation
+
+tbc
+
+## 3. Jodo.Numerics
+
+tbc
+
+## 3.1. Generic numbers
+
+tbc
+
+## 3.2. Numeric structures
+
+tbc
+
+## 3.3. Fixed-point arithmetic
+
+tbc
+
+## 3.4. Random extensions
+
+tbc
+
+## 4. Jodo.Geometry
+
+tbc
+
+## 5. Jodo.Collections
+
+tbc
+
+
 
 <h2>Introduction</h2>
 
