@@ -1,4 +1,4 @@
-<br />
+<br id="top" />
 <p align="center"><img src="Banner.png" alt="Logo" height="96"/></p>
 <h1 align="center">The Jodo Libraries</h1>
 
@@ -30,71 +30,23 @@
 
 ## 1. Introduction
 
-tbc
-
-## 2. About this project
-
-tbc
-
-> mission 
-
-tbc
-
-## 2.1. Design Goals
-
-tbc
-
-## 2.2. Roadmap
-
-tbc
-
-## 2.3. Contributing
-
-tbc
-
-## 2.4. Releases
-
-tbc
-
-## 2.5. Documentation
-
-tbc
-
-## 3. Jodo.Numerics
-
-tbc
-
-## 3.1. Generic numbers
-
-tbc
-
-## 3.2. Numeric structures
-
-tbc
-
-## 3.3. Fixed-point arithmetic
-
-tbc
-
-## 3.4. Random extensions
-
-tbc
-
-## 4. Jodo.Geometry
-
-tbc
-
-## 5. Jodo.Collections
-
-tbc
-
-
-
-<h2>Introduction</h2>
-
 Welcome to Jodo, a project to make .NET libraries written in C#, covering numerics, geometry and data structures.
 
 This document describes the goals and principals of the project (table below), and the features of each library (following sections).
+
+[\[Back to top\]](#top)
+
+## 2. About this project
+
+The Jodo libraries provide simple data structures and algorithms intended to be the building blocks of more comlpex applications. No configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.
+
+The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API, and care is taken not to introduce name clashes with the API or other popular libraries
+
+[\[Back to top\]](#top)
+
+## 2.1. Design Goals
+
+The Jodo libraries are intended to provide simple data structures and algorithms for use in more comlpex applications. No configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.
 
 <table>
   <tr>
@@ -102,22 +54,9 @@ This document describes the goals and principals of the project (table below), a
     <th>Description</th>
   </tr>
   <tr>
-    <td>Mission</td>
-    <td>
-      <p>The Jodo libraries provide simple data structures and algorithms intended to be the building blocks of more comlpex applications. No configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.</p>
-      <p>The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API, and care is taken not to introduce name clashes with the API or other popular libraries</p>
-      <p>The libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues.</p>
-      <p>
-        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Milestones" src="https://img.shields.io/github/milestones/all/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
-        <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
-      </p>
-    </td>
-  </tr>
-  <tr>
     <td>Reliability</td>
     <td>
-      <p>The Jodo libraries are designed to be reliable.</p>
-      <p>Unit tests, benchmarks, and continuous integration tools are used to ensure they remain fit for purpose.</p>
+      <p>Unit tests, benchmarks, and continuous integration tools are used to ensure the Jodo libraries remain fit for purpose.</p>
       <p>Tests are designed to cover boundary conditions, edge-cases, and error scenarios (not just happy paths). The target code coverage for this project is 90%.</p>
       <p>Click on the shields below to see the latest test results and coverage.</p>
       <p>
@@ -151,87 +90,62 @@ This document describes the goals and principals of the project (table below), a
       </p>
     </td>
   </tr>
-  <tr>
-    <td>Community</td>
-    <td>
-      <p>Community contributions are welcome at https://github.com/JosephJShort/Jodo (the home of this repository). Contributors are requested to adhere to the <a href="CODE-OF-CONDUCT.md">code of conduct</a>.</p>
-      <p>This work is licensed under the <a href="LICENSE.md">MIT License</a>.</p>
-      <p>
-        <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github"></a>
-        <a href="https://github.com/JosephJShort/Jodo/stargazers"><img alt="GitHub issues" src="https://img.shields.io/github/stars/JosephJShort/Jodo?logo=github&style=flat-square&color=005784&no-cache"></a>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td>Releases</td>
-    <td>
-      <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for help, see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
-      <p>Binaries are available on GitHub.com at <a href="https://github.com/JosephJShort/Jodo/releases">https://github.com/JosephJShort/Jodo/releases</a>.</p>
-      <p><a href="https://semver.org/">Semantic Versioning</a> is used to ensure that version numbers convey the presence of breaking changes.</p>
-      <p>The libraries can be built from the source code in this repository using the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a> and any IDE that supports .NET, such as <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a>.</p>
-      <p>
-        <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
-        <a href="[https://www.nuget.org/packages?q=Jodo.](https://github.com/JosephJShort/Jodo/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/JosephJShort/Jodo?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td>Documentation</td>
-    <td>
-      <p>Work-in-progress API documentation is available at https://jodo.dev.</p>
-      <p>
-        <a href="https://jodo.dev"><img alt="Documentation" src="https://img.shields.io/badge/documentation-passing-005784?style=flat-square&color=005784"></a>
-      </p>
-    </td>
-  </tr>
 </table>
 
-<h2>Jodo.Numerics</h2>
+[\[Back to top\]](#top)
+
+## 2.2. Roadmap
+
+<p>The libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues.</p>
+<p>
+  <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Milestones" src="https://img.shields.io/github/milestones/all/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+  <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
+</p>
+
+[\[Back to top\]](#top)
+
+## 2.3. Contributing
+
+Community contributions are welcome at https://github.com/JosephJShort/Jodo (the home of this repository). Contributors are requested to adhere to the <a href="CODE-OF-CONDUCT.md">code of conduct</a>.
+
+This work is licensed under the <a href="LICENSE.md">MIT License</a>.
+
+<p>
+  <a href="https://github.com/JosephJShort/Jodo/blob/main/LICENSE.md"><img alt="GitHub" src="https://img.shields.io/github/license/JosephJShort/Jodo?style=flat-square&color=005784&logo=github"></a>
+  <a href="https://github.com/JosephJShort/Jodo/stargazers"><img alt="GitHub issues" src="https://img.shields.io/github/stars/JosephJShort/Jodo?logo=github&style=flat-square&color=005784&no-cache"></a>
+</p>
+
+[\[Back to top\]](#top)
+
+## 2.4. Releases
+
+<p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for help, see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
+<p>Binaries are available on GitHub.com at <a href="https://github.com/JosephJShort/Jodo/releases">https://github.com/JosephJShort/Jodo/releases</a>.</p>
+<p><a href="https://semver.org/">Semantic Versioning</a> is used to ensure that version numbers convey the presence of breaking changes.</p>
+<p>The libraries can be built from the source code in this repository using the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a> and any IDE that supports .NET, such as <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a>.</p>
+<p>
+  <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
+  <a href="[https://www.nuget.org/packages?q=Jodo.](https://github.com/JosephJShort/Jodo/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/JosephJShort/Jodo?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
+</p>
+
+[\[Back to top\]](#top)
+
+## 2.5. Documentation
+
+<p>Work-in-progress API documentation is available at https://jodo.dev.</p>
+<p>
+  <a href="https://jodo.dev"><img alt="Documentation" src="https://img.shields.io/badge/documentation-passing-005784?style=flat-square&color=005784"></a>
+</p>
+
+[\[Back to top\]](#top)
+
+## 3. Jodo.Numerics
 
 Provides numeric utilities, custom number types, and a generic interface for defining numbers.
 
-### Extended random numbers
+[\[Back to top\]](#top)
 
-Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> provide random number generation for every built-in number type. Overloads allow for increased flexibility with bounds, such as inclusive upper bounds and bounds specified in any order, as in the following example:
-
-```csharp
-using Jodo.Numerics;
-using System;
-
-var value1 = new Random().NextDouble(double.MinValue, double.MaxValue); // Returns any finite double.
-var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns a ulong between 100 and 200 (inclusive).
-```
-
-### Fixed-point numbers
-
-`Fix64` and `UFix64` are custom number types that implement fixed-point arithmetic. 
-
-Compared to floating-point, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> arithmetic provides a constant level of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same bit size.
-
-<pre lang="csharp"><code>using Jodo.Numerics;
-using System;
-
-var floatingPoint = 1000000 + MathF.PI;
-var fixedPoint = 1000000 + MathN.PI&lt;Fix64&gt;();
-Console.WriteLine(floatingPoint); // output: 1000003.1
-Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
-
-<table>
-  <tr>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr />
-  <tr>
-    <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>Fix64</code>,<br /><code>UFix64</code></td>
-    <td><p><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 decimal digits of precision, represented internally by 64-bit integers.</p>
-      <p>Supports a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned).</p>
-    </td>
-  </tr>
-  <tr />
-</table>
-
-### Generic number types
+## 3.1. Generic numbers
 
 The <a href="#inumericn">INumeric&lt;N&gt;</a> interface allows for number types to be used in a generic context.
 
@@ -343,7 +257,9 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 </tr>
 </table>
 
-### Numeric structures
+[\[Back to top\]](#top)
+
+## 3.2. Numeric structures
 
 <table>
   <tr>
@@ -367,16 +283,87 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
   </tr>
 </table>
 
-### Performance considerations
+[\[Back to top\]](#top)
+
+## 3.3. Fixed-point arithmetic
+
+`Fix64` and `UFix64` are custom number types that implement fixed-point arithmetic. 
+
+Compared to floating-point, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> arithmetic provides a constant level of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same bit size.
+
+<pre lang="csharp"><code>using Jodo.Numerics;
+using System;
+
+var floatingPoint = 1000000 + MathF.PI;
+var fixedPoint = 1000000 + MathN.PI&lt;Fix64&gt;();
+Console.WriteLine(floatingPoint); // output: 1000003.1
+Console.WriteLine(fixedPoint); // output: 1000003.141592</code></pre>
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr />
+  <tr>
+    <td id="fix64"><sub><em>readonly struct</em></sub><br /><code>Fix64</code>,<br /><code>UFix64</code></td>
+    <td><p><a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 decimal digits of precision, represented internally by 64-bit integers.</p>
+      <p>Supports a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned).</p>
+    </td>
+  </tr>
+  <tr />
+</table>
+
+[\[Back to top\]](#top)
+
+## 3.4 Checked numbers
+  
+Provides numeric types (implementing <a href="#inumericn">INumeric&lt;N&gt;</a>) and utilities with built-in protection from overflow.
+
+Useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
+        
+Usage is the same as with built-in numeric types but yields different results as demonstrated by the following code example:
+```csharp
+var x1 = cint.MaxValue + 1;
+Console.WriteLine(x1);  // output: 2147483647
+
+var x2 = (cfloat)4 / 0;
+Console.WriteLine(x2);  // output: 3.402823E+38
+```
+
+| Type | Description |
+| --- | --- |
+| <sub><em>static class</em></sub><br />CheckedArithmetic | Provides checked arithmetic methods for the built-in numeric types. |
+| <sub><em>static class</em></sub><br />CheckedConvert | Provides checked equivalents to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert). |
+| <sub><em>readonly struct</em></sub><br />`cbyte`, `csbyte`,<br />`cshort`, `cushort`,<br />`cint`, `cuint`,<br />`clong`, `culong`,<br />`cdecimal` | Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow. Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`. |
+| <sub><em>readonly struct</em></sub><br />`cfloat`,<br />`cdouble` | Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively. Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`. It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`. |
+| <sub><em>readonly struct</em></sub><br />`cfix64`,<br />`cufix64` | <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Supporting a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned). Represented internally by 64-bit integers. |
+
+
+## 3.4. Random extensions
+
+Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> provide random number generation for every built-in number type. Overloads allow for increased flexibility with bounds, such as inclusive upper bounds and bounds specified in any order, as in the following example:
+
+```csharp
+using Jodo.Numerics;
+using System;
+
+var value1 = new Random().NextDouble(double.MinValue, double.MaxValue); // Returns any finite double.
+var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns a ulong between 100 and 200 (inclusive).
+```
+
+## 3.5 Performance considerations
 
 The numeric types provided by this package are structs that wrap built-in types and operators. Therefore they consume more memory and CPU time compared to using the built-in types alone.
+
+Additionally, types in the `Jodo.Numerics.Clamped` namespace make use of the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword is used for conversion and arithmetic with these types. Therefore they use more CPU time compared to built-in numeric types, especially in cases of overflow.
+
 
 If developing a performance-sensitive application, use a profiler to assess the impact.
 
 Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Numerics.Benchmarks.exe* in RELEASE mode.
 
 Sample output can be seen below:
-  
 
 <details>
 <summary><em>Jodo.Numerics.Benchmarks - Results from 2022-06-03T21:30:27.6877090Z</em></summary>
@@ -396,79 +383,17 @@ Sample output can be seen below:
 
 </details>
 
+[\[Back to top\]](#top)
 
-<h2>Jodo.CheckedNumerics</h2>
-  
-Provides numeric types (implementing <a href="#inumericn">INumeric&lt;N&gt;</a>) and utilities with built-in protection from overflow.
+## 4. Jodo.Geometry
 
-Useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
-        
-Usage is the same as with built-in numeric types but yields different results as demonstrated by the following code example:
-```csharp
-var x1 = cint.MaxValue + 1;
-Console.WriteLine(x1);  // output: 2147483647
+> tbc
 
-var x2 = (cfloat)4 / 0;
-Console.WriteLine(x2);  // output: 3.402823E+38
-```
+[\[Back to top\]](#top)
 
-### Types
+## 5. Jodo.Collections
 
-| Type | Description |
-| --- | --- |
-| <sub><em>static class</em></sub><br />CheckedArithmetic | Provides checked arithmetic methods for the built-in numeric types. |
-| <sub><em>static class</em></sub><br />CheckedConvert | Provides checked equivalents to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert). |
-| <sub><em>readonly struct</em></sub><br />`cbyte`, `csbyte`,<br />`cshort`, `cushort`,<br />`cint`, `cuint`,<br />`clong`, `culong`,<br />`cdecimal` | Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow. Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`. |
-| <sub><em>readonly struct</em></sub><br />`cfloat`,<br />`cdouble` | Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively. Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`. It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`. |
-| <sub><em>readonly struct</em></sub><br />`cfix64`,<br />`cufix64` | <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">Fixed-point</a> numeric types with 6 digits of precision. Supporting a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup> (or 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup> when unsigned). Represented internally by 64-bit integers. |
+> tbc
 
-### Performance considerations
+[\[Back to top\]](#top)
 
-The numeric types provided by this package are structs that wrap built-in types and operators. Therefore they consume more memory and CPU time compared to using the built-in types alone.
-
-Additionally, the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword is used for conversion and arithmetic with these types. Therefore they use more CPU time compared to built-in numeric types, especially in cases of overflow.
-
-If developing a performance-sensitive application, use a profiler to assess the impact. As a rule of thumb the impact is likely to be acceptable in logical applications, but not in arithmetic-intesive applications, such as 3D graphics or big-data.
-
-Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.CheckedNumerics.Benchmarks.exe* in RELEASE mode.
-
-Sample output can be seen below:
-<details>
-  <summary><em>Jodo.CheckedNumerics.Benchmarks - Results from 2022-05-11T18:11:17.8665440Z</em></summary>
-
-  > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
-  > * **Architecture:** x64-based processor
-  > * **RAM:** 16.0 GB
-  > * **OS:** Windows 10 (64-bit)
-  > * **Seconds per Benchmark:** 10.0
-
-  | Name | Baseline Ops Per Second | Baseline Time | Ops Per Second | Time | Observation |
-  | --- | --- | --- | --- | --- | --- |
-  | CInt_Negation_Vs_Int | 2.172E+08 | *<1μs* | 1.131E+08 | *<1μs* | 1.9x slower |
-  | CInt_Division_Vs_Int | 3.417E+08 | *<1μs* | 1.112E+08 | *<1μs* | 3.0x slower |
-  | CInt_ConversionToFloat_Vs_Int | 3.815E+08 | *<1μs* | 2.487E+08 | *<1μs* | 1.5x slower |
-  | CInt_StringParsing_Vs_Int | 7.443E+07 | *<1μs* | 5.885E+07 | *<1μs* | 1.3x slower |
-  | **CInt_MultiplicationOverflow_Vs_Int** | **3.725E+08** | ***<1μs*** | **1.453E+05** | **6.8μs** | **2563x slower** |
-
-</details>
-
-<h2>Jodo.Geometry</h2>
-
-> This package is a work in progress.
-
-Provides geometric value types.
-
-| CheckedGeometry type | Notes |
-| - | - |
-| AARectangle\<T\> | Axis-aligned rectangle |
-| Rectangle\<T\> |  |
-| Circle\<T\> |  |
-| Angle\<T\> |  |
-
-<h2>Jodo.Collections</h2>
-
-> This package is a work in progress.
-  
-<h2>Jodo.Primitives</h2>
-
-Provides miscellaneous interfaces and extension methods used throughout the Jodo packages. 
