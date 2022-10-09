@@ -41,7 +41,7 @@ This document describes the goals and principals of the project and the features
 
 ## 2. About this project
 
-The Jodo libraries started as collection reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types were revamped and tested to make them for for public consumption.
+The Jodo libraries started as collection reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types were revamped to make them fit for public consumption.
 
 [\[Back to top\]](#top)
 
@@ -55,13 +55,13 @@ The table below summarises the goals of the project.
     <th>Description</th>
   </tr>
   <tr>
-    <td>Simple</td>
+    <td>Simple types</td>
     <td> 
       <p>
-        The Jodo libraries are intended to provide simple data structures and algorithms for use in more comlpex applications.
+        The Jodo libraries are intended to provide simple data structures and algorithms to use as the building blocks for more comlpex applications.
       </p>
       <p>
-        No configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.
+        As a rule of thumb, no configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.
       </p>
       <p>
         The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API.
@@ -72,7 +72,7 @@ The table below summarises the goals of the project.
     <td>Reliable</td>
     <td>
       <p>Unit tests, benchmarks, and continuous integration tools are used to ensure the Jodo libraries remain fit for purpose.</p>
-      <p>Tests are designed to cover boundary conditions, edge-cases, and error scenarios (not just happy paths). The target code coverage for this project is 90%.</p>
+      <p>Tests are designed to cover boundary conditions, edge-cases, and error scenarios (not just happy paths). In addition, the project has a target of 90% code coverage.</p>
       <p>Click on the shields below to see the latest test results and coverage.</p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
@@ -81,14 +81,26 @@ The table below summarises the goals of the project.
     </td>
   </tr>
   <tr>
-    <td>Compatibile</td>
+    <td>Compatible</td>
     <td>     
       <p>
-        .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) are targeted in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
+        The libraries are designed to maximise compatibility. .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) are targeted in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
         Additional targets such as .NET Standard 2.1 (<code>netstandard2.1</code>) are used to incorporate newer language features like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
-      <p>Publicly exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a> wherever possible, and language-agnostic naming conventions are used.</p>
-      <p>Care is taken to avoid name clashes with commonly-used types from the .NET API and popular NuGet packages.</p>
+      <p>
+        Tests are compiled and run against multiple targets, and on multiple operating systems, to ensure
+        that API implementation details do not affect their intended behaviour. Currently, the list includes
+        .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
+        .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu and macOS.
+      </p>
+      <p>
+        Publicly exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a>
+        wherever possible, and language-agnostic naming conventions are used. This means that
+        the Jodo libraries can be used in C#, F# and Visual Basic.
+      </p>
+      <p>
+        Care is taken to avoid name clashes with commonly-used types from the .NET API or popular NuGet packages.
+      </p>
     </td>
   </tr>
   <tr>
