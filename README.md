@@ -35,21 +35,19 @@
 
 Welcome to Jodo, a project to make .NET libraries written in C#, covering numerics, geometry and data structures.
 
-This document describes the goals and principals of the project (table below), and the features of each library (following sections).
+This document describes the goals and principals of the project and the features of each library.
 
 [\[Back to top\]](#top)
 
 ## 2. About this project
 
-The Jodo libraries provide simple data structures and algorithms intended to be the building blocks of more comlpex applications. No configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.
-
-The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API, and care is taken not to introduce name clashes with the API or other popular libraries
+The Jodo libraries started as collection reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types were revamped and tested to make them for for public consumption.
 
 [\[Back to top\]](#top)
 
 ## 2.1. Design Goals
 
-The Jodo libraries are intended to provide simple data structures and algorithms for use in more comlpex applications. No configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.
+The table below summarises the goals of the project.
 
 <table>
   <tr>
@@ -57,7 +55,21 @@ The Jodo libraries are intended to provide simple data structures and algorithms
     <th>Description</th>
   </tr>
   <tr>
-    <td>Reliability</td>
+    <td>Simple</td>
+    <td> 
+      <p>
+        The Jodo libraries are intended to provide simple data structures and algorithms for use in more comlpex applications.
+      </p>
+      <p>
+        No configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.
+      </p>
+      <p>
+        The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>Reliable</td>
     <td>
       <p>Unit tests, benchmarks, and continuous integration tools are used to ensure the Jodo libraries remain fit for purpose.</p>
       <p>Tests are designed to cover boundary conditions, edge-cases, and error scenarios (not just happy paths). The target code coverage for this project is 90%.</p>
@@ -69,28 +81,29 @@ The Jodo libraries are intended to provide simple data structures and algorithms
     </td>
   </tr>
   <tr>
-    <td>Maintainability</td>
-    <td>
-        <p>The source code of the Jodo libraries is designed to be approachable.</p>
-        <p>Two static analysis tools, <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a> and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a>, are used to detect code smells, such as overly complex functions.
-      <p>
-      <p><a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used with maximum rule-severity to ensure the code base stays conformant. Rules are only suppressed in exceptional circumstances, and suppression tags always include a justification message.</p>
-        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
-        <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a></p>
-    </td>
-  </tr>
-  <tr>
-    <td>Compatibility</td>
+    <td>Compatibile</td>
     <td>     
       <p>
         .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) are targeted in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
         Additional targets such as .NET Standard 2.1 (<code>netstandard2.1</code>) are used to incorporate newer language features like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
-      <p>Publically exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a> wherever possible, and language-agnostic naming conventions are used.</p>
+      <p>Publicly exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a> wherever possible, and language-agnostic naming conventions are used.</p>
+      <p>Care is taken to avoid name clashes with commonly-used types from the .NET API and popular NuGet packages.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>Maintainable</td>
+    <td>
       <p>
-        <img alt="Target net461" src="https://img.shields.io/badge/target-.NET%20Framework%204.6-005784?logo=dotnet&style=flat-square&color=005784">
-        <img alt="Target netstandard2.0" src="https://img.shields.io/badge/target-.NET%20Standard%202.0-005784?logo=dotnet&style=flat-square&color=005784">
+        Two static analysis tools, <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a>
+        and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a>, are used
+        to detect code smells, such as overly complex functions.
       </p>
+      <p>
+      <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used with maximum rule-severity to ensure the code base stays conformant. Rules are only suppressed in exceptional circumstances, and suppression tags always include a justification message.
+      </p>
+        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
+        <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a></p>
     </td>
   </tr>
 </table>
