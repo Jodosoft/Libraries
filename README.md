@@ -133,12 +133,28 @@ The Jodo libraries are under active development, and are kept up to date with ad
 
 <table>
   <tr>
-    <th>Feature</th>
-    <th>Description</th>
+    <th>Version</th>
+    <th>Goals</th>
   </tr>
   <tr>
-    <td>`1.0.0`</td>
-    <td>Release numerics</td>
+    <td><code>1.0.0</code></td>
+    <td>
+      <ul>
+        <li>Create the initial release of Jodo.Numerics</li>
+        <li>Reach a very high level of test coverage</li>
+        <li>Establish code quality rules</li>
+        <li>Create benchmarks</li>
+      </ul>
+      <img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/3?label=closed%20issues&style=flat-square&no-cache">
+    </td>
+  </tr>
+  <tr>
+    <td><code>1.1.0</code></td>
+    <td>
+      <ul>
+        <li>Create the initial release of Jodo.Geometry</li>
+      </ul>
+    </td>
   </tr>
 </table>
 
