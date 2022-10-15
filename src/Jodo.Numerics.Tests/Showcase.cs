@@ -68,16 +68,21 @@ namespace Jodo.Numerics.Tests
         }
 
         [Test]
-        public void FixedPointArithmetic_LargeValues_NoLossOfPrecision()
+        public void FixedPointArithmetic_ConstantPrecision_LowerMaximumMagnitude()
         {
-            float floatingPoint = 1000000 + MathF.PI;
-            Fix64 fixedPoint = 1000000 + MathN.PI<Fix64>();
+            Fix64 fixedPoint = (Fix64)8000000000000 + MathN.PI<Fix64>();
+            double floatingPoint = 8000000000000 + Math.PI;
 
-            Console.WriteLine(floatingPoint); // output: 1000003.1
-            Console.WriteLine(fixedPoint); // output: 1000003.141592
+            Console.WriteLine(fixedPoint); // output: 8000000000003.141592
+            Console.WriteLine(floatingPoint); // output: 8000000000003.142
+
+            Console.WriteLine(Fix64.MaxValue); // output: 9223372036854.775807
+            Console.WriteLine(double.MaxValue); // output: 1.7976931348623157E+308
+
+            Console.WriteLine();
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("1000003.1", "1000003.141592");
+                .Should().ContainInOrder("8000000000003.141592", "8000000000003.142", "9223372036854.775807", "1.7976931348623157E+308");
         }
 
         [Test]

@@ -31,22 +31,6 @@ namespace Jodo.Benchmarking
     {
         private static readonly TimeSpan Duration = TimeSpan.FromSeconds(60);
 
-        private static bool TryGetArg(string[] args, string name, out string value)
-        {
-            int index = Array.IndexOf(args, $"--{name}");
-
-            if (index == -1 ||
-                index + 1 >= args.Length ||
-                args[index + 1] == null ||
-                args[index + 1].StartsWith("-", StringComparison.InvariantCultureIgnoreCase))
-            {
-                value = null;
-                return false;
-            }
-            value = args[index + 1];
-            return true;
-        }
-
         public static void Main(string[] args)
         {
             GuardAgainstDebug(args);
@@ -68,7 +52,10 @@ namespace Jodo.Benchmarking
                 Console.WriteLine("Executing benchmarks...");
                 Console.WriteLine();
 
-                BenchmarkWriter.WriteHeader(Duration);
+                BenchmarkWriter.WriteHeader(
+                    Duration,
+                    TryGetArg(args, "processor", out string processor) ? processor : "*tbc*",
+                    TryGetArg(args, "ram", out string ram) ? ram : "*tbc*");
 
                 foreach (System.Reflection.MethodInfo method in benchmarkMethods)
                 {
@@ -128,6 +115,22 @@ namespace Jodo.Benchmarking
                 _ = Console.ReadKey();
                 Environment.Exit(-1);
             }
+        }
+
+        private static bool TryGetArg(string[] args, string name, out string value)
+        {
+            int index = Array.IndexOf(args, $"--{name}");
+
+            if (index == -1 ||
+                index + 1 >= args.Length ||
+                args[index + 1] == null ||
+                args[index + 1].StartsWith("-", StringComparison.InvariantCultureIgnoreCase))
+            {
+                value = null;
+                return false;
+            }
+            value = args[index + 1];
+            return true;
         }
     }
 }

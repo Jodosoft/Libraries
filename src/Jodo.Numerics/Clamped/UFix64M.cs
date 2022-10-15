@@ -56,9 +56,20 @@ namespace Jodo.Numerics.Clamped
         public override bool Equals(object? obj) => obj is UFix64M other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => Scaled.ToString(_scaledValue, ScalingFactor, null);
-        public string ToString(IFormatProvider formatProvider) => ((double)this).ToString(formatProvider);
+        public string ToString(IFormatProvider formatProvider) => Scaled.ToString(_scaledValue, ScalingFactor, formatProvider);
         public string ToString(string format) => ((double)this).ToString(format);
-        public string ToString(string? format, IFormatProvider? formatProvider) => ((double)this).ToString(format, formatProvider);
+
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            if (format == null)
+            {
+                if (formatProvider == null) return ToString();
+                return ToString(formatProvider);
+            }
+            if (formatProvider == null) return ToString(format);
+
+            return ((double)this).ToString(format, formatProvider);
+        }
 
         public static bool TryParse(string s, IFormatProvider? provider, out UFix64M result) => FuncExtensions.Try(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64M result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
