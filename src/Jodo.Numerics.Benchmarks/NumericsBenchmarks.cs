@@ -35,8 +35,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             return Benchmark
                 .Using(LowMagnitudeWithInt32<Int32N>)
-                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
-                .Versus(x => x.Int32 + (x.Int32 * x.Int32) - (x.Int32 / x.Int32));
+                .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
+                .Versus(x => (((x.Int32 + x.Int32) * x.Int32) - x.Int32) / x.Int32);
         }
 
         [Benchmark]
@@ -44,8 +44,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             return Benchmark
                 .Using(LowMagnitudeWithInt32<Int32M>)
-                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
-                .Versus(x => x.Int32 + (x.Int32 * x.Int32) - (x.Int32 / x.Int32));
+                .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
+                .Versus(x => (((x.Int32 + x.Int32) * x.Int32) - x.Int32) / x.Int32);
         }
 
         [Benchmark]
@@ -53,8 +53,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             return Benchmark
                 .Using(LowMagnitudeWithSingle<SingleN>)
-                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
-                .Versus(x => x.Single + (x.Single * x.Single) - (x.Single / x.Single));
+                .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
+                .Versus(x => (((x.Single + x.Single) * x.Single) - x.Single) / x.Single);
         }
 
         [Benchmark]
@@ -62,8 +62,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             return Benchmark
                 .Using(LowMagnitudeWithSingle<SingleM>)
-                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
-                .Versus(x => x.Single + (x.Single * x.Single) - (x.Single / x.Single));
+                .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
+                .Versus(x => (((x.Single + x.Single) * x.Single) - x.Single) / x.Single);
         }
 
         [Benchmark]
@@ -71,8 +71,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             return Benchmark
                 .Using(LowMagnitudeWithDouble<DoubleN>)
-                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
-                .Versus(x => x.Double + (x.Double * x.Double) - (x.Double / x.Double));
+                .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
+                .Versus(x => (((x.Double + x.Double) * x.Double) - x.Double) / x.Double);
         }
 
         [Benchmark]
@@ -80,17 +80,8 @@ namespace Jodo.Numerics.Benchmarks
         {
             return Benchmark
                 .Using(LowMagnitudeWithDouble<DoubleM>)
-                .Measure(x => x.Numeric + (x.Numeric * x.Numeric) - (x.Numeric / x.Numeric))
-                .Versus(x => x.Double + (x.Double * x.Double) - (x.Double / x.Double));
-        }
-
-        [Benchmark]
-        public static Benchmark DoubleNDivision_Versus_DoubleDivision()
-        {
-            return Benchmark
-                .Using(LowMagnitudeWithDouble<DoubleN>)
-                .Measure(x => x.Numeric / x.Numeric)
-                .Versus(x => x.Double / x.Double);
+                .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
+                .Versus(x => (((x.Double + x.Double) * x.Double) - x.Double) / x.Double);
         }
 
         [Benchmark]

@@ -31,7 +31,7 @@ namespace Jodo.Benchmarking
         public static readonly string AssemblyName = Assembly.GetEntryAssembly().GetName().Name;
         public static readonly string FileName = $"{AssemblyName}.Results.md";
 
-        public static void WriteHeader(TimeSpan duration)
+        public static void WriteHeader(TimeSpan duration, string processor, string ram)
         {
             string assemblyName = Assembly.GetEntryAssembly().GetName().Name;
 
@@ -40,8 +40,8 @@ namespace Jodo.Benchmarking
                     $"{assemblyName} - Results from {DateTime.UtcNow:u}",
                     "------",
                     string.Empty,
-                    "> * **Processor:** *tbc*",
-                    "> * **RAM:** *tbc*",
+                    $"> * **Processor:** {processor}",
+                    $"> * **RAM:** {ram}",
                     $"> * **.NET Version:** {RuntimeInformation.FrameworkDescription}",
                     $"> * **Architecture:** {RuntimeInformation.ProcessArchitecture}",
                     $"> * **OS:** {RuntimeInformation.RuntimeIdentifier}",
