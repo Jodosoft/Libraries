@@ -40,7 +40,7 @@ This document describes the goals and principals of the project and the features
 
 ## 2. About the project
 
-The Jodo libraries started as collection reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types were revamped to make them fit for public consumption.
+The Jodo libraries started as a collection of reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types were revamped to make them fit for public consumption.
 
 This section describes the design goals, roadmap, and other details of the project.
 
@@ -305,8 +305,8 @@ The table below summarises the clamped number types and utilities provided.
 | <sub><em>readonly struct</em></sub><br />ByteM, SByteM,<br />Int16M, UInt16M,<br />Int32M, UInt32M,<br />Int64M, UInt64M,<br />DecimalM | Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow. Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`. |
 | <sub><em>readonly struct</em></sub><br />SingleM,<br />DoubleM | Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively. Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`. Operations that would return `NaN` instead return 0. (It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`). |
 | <sub><em>readonly struct</em></sub><br />Fix64M,<br />UFix64M | Variants of <a href="#32-fixed-point-numbers">Fix64</a> and <a href="#32-fixed-point-numbers">UFix64</a>. Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow. Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`. |
-| <sub><em>static class</em></sub><br />CheckedArithmetic | Provides checked arithmetic methods for the built-in numeric types. |
-| <sub><em>static class</em></sub><br />CheckedConvert | Provides checked equivalents to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert). |
+| <sub><em>static class</em></sub><br />CheckedArithmetic | Provides clamped arithmetic methods for the built-in numeric types. |
+| <sub><em>static class</em></sub><br />CheckedConvert | Provides clamped conversion methods equivalent to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert). |
 
 [\[Back to top\]](#top)
 
@@ -460,7 +460,7 @@ Benchmarks are provided to facilitate comparison with the built-in types. To run
 Sample output can be seen below:
 
 <details>
-<summary><em>Jodo.Numerics.Benchmarks - Results from 2022-09-28 07:58:50Z/em></summary>
+<summary><em>Jodo.Numerics.Benchmarks - Results from 2022-09-28 07:58:50Z</em></summary>
 
  <br />
   
