@@ -152,7 +152,7 @@ The Jodo libraries are under active development, and are kept up to date with ad
         <li>Create benchmarks</li>
       </ul>
       <a href="https://github.com/JosephJShort/Jodo/milestone/3"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/3?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
-      <img src="https://img.shields.io/badge/package-unavailable-red?logo=nuget&no-cache">
+      <a href="https://www.nuget.org/packages?q=Jodo."><img src="https://img.shields.io/badge/package-available-green?logo=nuget&no-cache"></a>
     </td>
   </tr>
   <tr>
@@ -162,7 +162,7 @@ The Jodo libraries are under active development, and are kept up to date with ad
         <li>Create the initial release of Jodo.Geometry</li>
       </ul>
       <a href="https://github.com/JosephJShort/Jodo/milestone/4"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/4?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
-      <img src="https://img.shields.io/badge/package-unavailable-red?logo=nuget&no-cache">
+      <a href="https://www.nuget.org/packages?q=Jodo."><img src="https://img.shields.io/badge/package-unavailable-red?logo=nuget&no-cache"></a>
     </td>
   </tr>
 </table>
