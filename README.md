@@ -11,7 +11,7 @@
 
 1\. [Introduction](#1-introduction)
 
-2\. [About this project](#2-about-this-project)<br />
+2\. [About the project](#2-about-the-project)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;2.1. [Design goals](#21-design-goals)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;2.2. [Roadmap](#22-roadmap)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;2.3. [Contributing](#23-contributing)<br />
@@ -33,21 +33,23 @@
 
 ## 1. Introduction
 
-Welcome to Jodo, a project to make .NET libraries written in C#, covering numerics, geometry and data structures.
+Welcome to Jodo, a project to make simple, reliable .NET libraries covering numerics, geometry and data structures.
 
 This document describes the goals and principals of the project and the features of each library.
 
 [\[Back to top\]](#top)
 
-## 2. About this project
+## 2. About the project
 
 The Jodo libraries started as collection reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types were revamped to make them fit for public consumption.
+
+This section describes the design goals, roadmap, and other details of the project.
 
 [\[Back to top\]](#top)
 
 ## 2.1. Design Goals
 
-The table below summarises the goals of the project.
+The table below summarises the design goals of the project.
 
 <table>
   <tr>
@@ -55,13 +57,13 @@ The table below summarises the goals of the project.
     <th>Description</th>
   </tr>
   <tr>
-    <td>Simple types</td>
+    <td>Simplicity</td>
     <td> 
       <p>
-        The Jodo libraries are intended to provide simple data structures and algorithms to use as the building blocks for more comlpex applications.
+        The Jodo libraries are designed to provide simple data structures and algorithms to use as the building blocks for more comlpex applications.
       </p>
       <p>
-        As a rule of thumb, no configuration or dependency injection is required, and a competent developer should be able to use the libraries without refering to documentation.
+        As a rule of thumb, nothing within the libraries requires configuration or dependency injection to use. A competent developer should be able to use the libraries intuitively, without needing to refer to documentation.
       </p>
       <p>
         The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API.
@@ -69,10 +71,21 @@ The table below summarises the goals of the project.
     </td>
   </tr>
   <tr>
-    <td>Reliable</td>
+    <td>Reliability</td>
     <td>
-      <p>Unit tests, benchmarks, and continuous integration tools are used to ensure the Jodo libraries remain fit for purpose.</p>
-      <p>Tests are designed to cover boundary conditions, edge-cases, and error scenarios (not just happy paths). In addition, the project has a target of 90% code coverage.</p>
+      <p>
+        Foremost, the Jodo libraries are designed to be dependable. Unit tests, benchmarks,
+        and continuous integration tools are used to ensure they remain fit for purpose.</p>
+      <p>
+        Tests are designed to cover boundary conditions, edge-cases, and error scenarios as well as happy paths.
+        Code coverage is used, but is not considered a definitive metric of adequate testing.
+        The code coverage target is 90%.</p>
+      <p>
+        During pull request validation, tests are compiled and run against multiple .NET targets, on multiple operating systems, and using multiple default cultures. Currently, this includes
+        .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
+        .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu, macOS, English (<code>en-US</code>), Japanese (<code>ja-JP</code>) and Norweigan (<code>nl-NL</code>).
+        This helps to ensure that the libraries behave as intended, respect localisation, and are unaffected by .NET implementation details.
+      </p>
       <p>Click on the shields below to see the latest test results and coverage.</p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
@@ -81,38 +94,35 @@ The table below summarises the goals of the project.
     </td>
   </tr>
   <tr>
-    <td>Compatible</td>
+    <td>Compatibility</td>
     <td>     
       <p>
-        The libraries are designed to maximise compatibility. .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) are targeted in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
+        The libraries are designed to maximise compatibility. The .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>.
         Additional targets such as .NET Standard 2.1 (<code>netstandard2.1</code>) are used to incorporate newer language features like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>.
       </p>
       <p>
-        Tests are compiled and run against multiple targets, and on multiple operating systems, to ensure
-        that API implementation details do not affect their intended behaviour. Currently, the list includes
-        .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
-        .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu and macOS.
-      </p>
-      <p>
         Publicly exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a>
-        wherever possible, and language-agnostic naming conventions are used. This means that
-        the Jodo libraries can be used in C#, F# and Visual Basic.
+        wherever possible, and language-agnostic naming conventions are used. This ensures that
+        the libraries can be used just as easily in F# and Visual Basic as they can in C#.
       </p>
       <p>
-        Care is taken to avoid name clashes with commonly-used types from the .NET API or popular NuGet packages.
+        Care is taken to avoid name clashes with commonly-used types, either from the .NET API or from popular NuGet packages.
       </p>
     </td>
   </tr>
   <tr>
-    <td>Maintainable</td>
+    <td>Maintainability</td>
     <td>
+      <p>
+        The source code of the Jodo libraries is designed to be easy to understand and change.
+      </p>
       <p>
         Two static analysis tools, <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a>
         and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a>, are used
-        to detect code smells, such as overly complex functions.
+        to detect code smells, such as unused variables or overly complex functions.
       </p>
       <p>
-      <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used with maximum rule-severity to ensure the code base stays conformant. Rules are only suppressed in exceptional circumstances, and suppression tags always include a justification message.
+      <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used with maximum rule-severity. Rules are only suppressed in exceptional circumstances, and suppression tags are always accompanied by a justification message.
       </p>
         <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
         <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a></p>
@@ -124,12 +134,7 @@ The table below summarises the goals of the project.
 
 ## 2.2. Roadmap
 
-<p>
-  <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Milestones" src="https://img.shields.io/github/milestones/all/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
-  <a href="https://github.com/JosephJShort/Jodo/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/JosephJShort/Jodo?logo=github&style=flat-square&no-cache"></a>
-</p>
-
-The Jodo libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues.
+The Jodo libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues. The following table summarises the overall goals for each version.
 
 <table>
   <tr>
@@ -141,11 +146,13 @@ The Jodo libraries are under active development, and are kept up to date with ad
     <td>
       <ul>
         <li>Create the initial release of Jodo.Numerics</li>
+        <li>Add cross-platform support</li>
         <li>Reach a very high level of test coverage</li>
         <li>Establish code quality rules</li>
         <li>Create benchmarks</li>
       </ul>
-      <img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/3?label=closed%20issues&style=flat-square&no-cache">
+      <a href="https://github.com/JosephJShort/Jodo/milestone/3"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/3?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
+      <img src="https://img.shields.io/badge/package-unavailable-red?logo=nuget&no-cache">
     </td>
   </tr>
   <tr>
@@ -154,6 +161,8 @@ The Jodo libraries are under active development, and are kept up to date with ad
       <ul>
         <li>Create the initial release of Jodo.Geometry</li>
       </ul>
+      <a href="https://github.com/JosephJShort/Jodo/milestone/4"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/4?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
+      <img src="https://img.shields.io/badge/package-unavailable-red?logo=nuget&no-cache">
     </td>
   </tr>
 </table>
@@ -178,7 +187,7 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for help, see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
 <p>Binaries are available on GitHub.com at <a href="https://github.com/JosephJShort/Jodo/releases">https://github.com/JosephJShort/Jodo/releases</a>.</p>
 <p><a href="https://semver.org/">Semantic Versioning</a> is used to ensure that version numbers convey the presence of breaking changes.</p>
-<p>The libraries can be built from the source code in this repository using the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a> and any IDE that supports .NET, such as <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a>.</p>
+<p>The libraries can also be built from the source code in this repository using the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a> and any IDE that supports .NET, such as <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a>.</p>
 <p>
   <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
   <a href="[https://www.nuget.org/packages?q=Jodo.](https://github.com/JosephJShort/Jodo/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/JosephJShort/Jodo?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
