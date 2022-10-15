@@ -234,6 +234,8 @@ var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns 
 
 Compared to floating-point, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> arithmetic provides a constant level of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same bit size.
 
+Fix64 and UFix64 are custom number types that implement fixed-point arithmetic.
+
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
 
@@ -246,7 +248,7 @@ Console.WriteLine(floatingPoint); // output: 8000000000003.142
 Console.WriteLine(Fix64.MaxValue); // output: 9223372036854.775807
 Console.WriteLine(double.MaxValue); // output: 1.7976931348623157E+308</code></pre>
 
-`Fix64` and `UFix64` are custom number types that implement fixed-point arithmetic. The table belows summarises the capabilities of these types.
+The table belows summarises the capabilities of these types.
 
 <table>
   <tr>
@@ -296,6 +298,8 @@ var f = (SingleM)4 / 0;
 Console.WriteLine(f);  // output: 3.402823E+38
 ```
 
+The table below summarises the clamped number types and utilities provided.
+
 | Type | Description |
 | --- | --- |
 | <sub><em>readonly struct</em></sub><br />ByteM, SByteM,<br />Int16M, UInt16M,<br />Int32M, UInt32M,<br />Int64M, UInt64M,<br />DecimalM | Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow. Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`. |
@@ -336,7 +340,7 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
 
 ## 3.5. Generic numbers
 
-The <a href="#inumericn">INumeric&lt;N&gt;</a> interface defines a contract for number types, allowing them to be used in a generic context.
+The INumeric&lt;TSelf&gt; interface defines a contract for number types, allowing them to be used in a generic context.
 
 Overloaded operators, and utility class such as `MathN` and `ConvertN` allow for these types to be used seemlessly in place of the built-in number types.
 
@@ -430,12 +434,12 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
   <tr />
   <tr>
     <td id="wrappers"><sub><em>readonly struct</em></sub><br />
-      <code>ByteN</code>, <code>SByteN</code>,<br />
-      <code>Int16N</code>, <code>UInt16N</code>,<br />
-      <code>Int32N</code>, <code>UInt32N</code>,<br />
-      <code>Int64N</code>, <code>UInt64N</code>,<br />
-      <code>SingleN</code>, <code>DoubleN</code>,<br />
-      <code>DecimalN</code>
+      ByteN, SByteN,<br />
+      Int16N, UInt16N,<br />
+      Int32N, UInt32N,<br />
+      Int64N, UInt64N,<br />
+      SingleN, DoubleN,<br />
+      DecimalN
     </td>
     <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, allowing the built-in numeric types to be used in a generic context.</td>
   </tr>
@@ -445,32 +449,45 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 ## 3.6 Performance considerations
 
-The numeric types provided by this package are structs that wrap built-in types and operators. Therefore they consume more memory and CPU time compared to using the built-in types alone.
+The number types provided by this library are structs that wrap built-in types and operators. Therefore they consume additional memory and CPU time compared to using the built-in types alone.
 
-Additionally, types in the `Jodo.Numerics.Clamped` namespace make use of the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword is used for conversion and arithmetic with these types. Therefore they use more CPU time compared to built-in numeric types, especially in cases of overflow.
+Additionally, the number types in the *Jodo.Numerics.Clamped* namespace make use of the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword for conversion and arithmetic. Therefore increases CPU time compared to using unchecked, especially in cases of overflow.
 
-
-If developing a performance-sensitive application, use a profiler to assess the impact.
+If developing a performance-sensitive application, use a profiler to assess the impact of introducing these types. Generally speaking, the impact is likely to be acceptable unless CPU-bound arithmetic is already on the hot path for the given application (e.g. in machine learning or 3D physics simulation).
 
 Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Numerics.Benchmarks.exe* in RELEASE mode.
 
 Sample output can be seen below:
 
 <details>
-<summary><em>Jodo.Numerics.Benchmarks - Results from 2022-06-03T21:30:27.6877090Z</em></summary>
+<summary><em>Jodo.Numerics.Benchmarks - Results from 2022-09-28 07:58:50Z/em></summary>
 
-  > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
-  > * **Architecture:** x64-based processor
-  > * **RAM:** 16.0 GB
-  > * **OS:** Windows 10 (64-bit)
-  > * **Seconds per Benchmark:** 60.0
+ <br />
+  
+> * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
+> * **Architecture:** x64-based processor
+> * **.NET Version:** .NET 5.0.17
+> * **Architecture:** X64
+> * **OS:** win10-x64
+> * **Seconds per Benchmark:** 60.0
 
-| Name | Ops Per Second | Time | Baseline Ops Per Second | Baseline Time | Observation |
-| --- | --- | --- | --- | --- | --- |
-| XInt_Versus_Int32_Division | 1.798E+08 | *<1μs* | 1.94E+08 | *<1μs* | *Marginal difference* |
-| XInt_Versus_Int32_StringParsing | 7.305E+07 | *<1μs* | 6.734E+07 | *<1μs* | *Marginal difference* |
-| XDouble_Versus_Double_StringParsing | 1.663E+06 | *<1μs* | 1.624E+06 | *<1μs* | *Marginal difference* |
-| Fix64_Versus_Double_Division | 1.455E+07 | *<1μs* | 1.593E+08 | *<1μs* | 10.9x slower |
+| Subjects "(1)\_Versus\_(2)" | Operations Per Second (1) | Operations Per Second (2) | Average Time (1) | Average Time (2) | Relative Speed (1) | Relative Speed (2) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Fix64Logarithm_Versus_DoubleLogarithm | 7.789E+06 | 5.183E+07 | *<1μs* | *<1μs* | **0.15** | 6.65 |
+| Fix64Rounding_Versus_DoubleRounding | 3.846E+07 | 3.637E+07 | *<1μs* | *<1μs* | 1.06 | 0.95 |
+| Fix64StringParsing_Versus_DoubleStringParsing | 1.842E+07 | 1.973E+07 | *<1μs* | *<1μs* | 0.93 | 1.07 |
+| Fix64Random_Versus_DoubleRandom | 2.4E+07 | 3.995E+07 | *<1μs* | *<1μs* | **0.60** | 1.66 |
+| Fix64ToByteArray_Versus_DoubleToByteArray | 4.831E+07 | 4.876E+07 | *<1μs* | *<1μs* | 0.99 | 1.01 |
+| Fix64FromByteArray_Versus_DoubleFromByteArray | 5.29E+07 | 5.225E+07 | *<1μs* | *<1μs* | 1.01 | 0.99 |
+| Int32NArithmetic_Versus_Int32Arithmetic | 5.03E+07 | 5.282E+07 | *<1μs* | *<1μs* | 0.95 | 1.05 |
+| Int32MArithmetic_Versus_Int32Arithmetic | 4.425E+07 | 5.215E+07 | *<1μs* | *<1μs* | **0.85** | 1.18 |
+| SingleNArithmetic_Versus_SingleArithmetic | 4.122E+07 | 5.623E+07 | *<1μs* | *<1μs* | **0.73** | 1.36 |
+| SingleMArithmetic_Versus_SingleArithmetic | 3.418E+07 | 5.634E+07 | *<1μs* | *<1μs* | **0.61** | 1.65 |
+| DoubleNArithmetic_Versus_DoubleArithmetic | 4.129E+07 | 5.565E+07 | *<1μs* | *<1μs* | **0.74** | 1.35 |
+| DoubleMArithmetic_Versus_DoubleArithmetic | 3.402E+07 | 5.527E+07 | *<1μs* | *<1μs* | **0.62** | 1.62 |
+| DoubleNDivision_Versus_DoubleDivision | 4.833E+07 | 5.392E+07 | *<1μs* | *<1μs* | **0.90** | 1.12 |
+| DoubleNLogarithm_Versus_DoubleLogarithm | 4.913E+07 | 5.244E+07 | *<1μs* | *<1μs* | 0.94 | 1.07 |
+| DoubleNRounding_Versus_DoubleRounding | 3.396E+07 | 3.597E+07 | *<1μs* | *<1μs* | 0.94 | 1.06 |
 
 </details>
 
@@ -478,13 +495,13 @@ Sample output can be seen below:
 
 ## 4. Jodo.Geometry
 
-> tbc
+> Coming soon (see section 2.2. "[Roadmap](#22-roadmap)")
 
 [\[Back to top\]](#top)
 
 ## 5. Jodo.Collections
 
-> tbc
+> Coming soon (see section 2.2. "[Roadmap](#22-roadmap)")
 
 [\[Back to top\]](#top)
 
