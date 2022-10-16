@@ -300,13 +300,85 @@ Console.WriteLine(f);  // output: 3.402823E+38
 
 The table below summarises the clamped number types and utilities provided.
 
-| Type | Description |
-| --- | --- |
-| <sub><em>readonly struct</em></sub><br />ByteM, SByteM,<br />Int16M, UInt16M,<br />Int32M, UInt32M,<br />Int64M, UInt64M,<br />DecimalM | Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow. Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`. |
-| <sub><em>readonly struct</em></sub><br />SingleM,<br />DoubleM | Operations that would overflow do NOT return `NegativeInfinity` or `PositiveInfinity` but return `MinValue` or `MaxValue` respectively. Division by zero does NOT return `NegativeInfinity`, `PositiveInfinity` or `NaN` but returns `MaxValue`. Operations that would return `NaN` instead return 0. (It is not possible for values to be `NegativeInfinity`, `PositiveInfinity` or `NaN`). |
-| <sub><em>readonly struct</em></sub><br />Fix64M,<br />UFix64M | Variants of <a href="#32-fixed-point-numbers">Fix64</a> and <a href="#32-fixed-point-numbers">UFix64</a>. Operations that would overflow instead return `MinValue` or `MaxValue` depending on the direction of the overflow. Division by zero does NOT throw a [DivideByZeroException](https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception) but returns `MaxValue`. |
-| <sub><em>static class</em></sub><br />CheckedArithmetic | Provides clamped arithmetic methods for the built-in numeric types. |
-| <sub><em>static class</em></sub><br />CheckedConvert | Provides clamped conversion methods equivalent to [Convert](https://docs.microsoft.com/en-us/dotnet/api/system.convert). |
+<table>
+	<tr>
+		<th>Type</th>
+		<th>Description</th>
+	</tr>
+	<tr />
+	<tr>
+		<td>
+			<sub><em>readonly struct</em></sub><br />
+			ByteM, SByteM,<br />Int16M, UInt16M,<br />
+			Int32M, UInt32M,<br />Int64M, UInt64M,<br />
+			DecimalM
+		</td>
+		<td>
+			Operations that would overflow instead return
+			<code>MinValue</code> or <code>MaxValue</code>
+			depending on the direction of the overflow.
+			Division by zero does NOT throw a
+			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception">DivideByZeroException</a>
+			but returns <code>MaxValue</code>.
+		</td>
+	</tr>
+	<tr />
+	<tr>
+		<td>
+			<sub><em>readonly struct</em></sub><br />
+			SingleM,<br />DoubleM
+		</td>
+		<td>
+			Operations that would overflow do NOT return
+			<code>NegativeInfinity</code> or <code>PositiveInfinity</code>
+			but return <code>MinValue</code> or <code>MaxValue</code>
+			respectively. Division by zero does NOT return
+			<code>NegativeInfinity</code>, <code>PositiveInfinity</code>
+			or <code>NaN</code> but returns <code>MaxValue</code>.
+			Operations that would return <code>NaN</code> instead return 0.
+			(It is not possible for values to be <code>NegativeInfinity</code>,
+			<code>PositiveInfinity</code> or <code>NaN</code>).
+		</td>
+	</tr>
+	<tr />
+	<tr>
+		<td>
+			<sub><em>readonly struct</em></sub><br />
+			Fix64M,<br />UFix64M
+		</td>
+		<td>
+			Variants of <a href="#32-fixed-point-numbers">Fix64</a>
+			and <a href="#32-fixed-point-numbers">UFix64</a>.
+			Operations that would overflow instead return <code>MinValue</code>
+			or <code>MaxValue</code> depending on the direction of the
+			overflow. Division by zero does NOT throw a
+			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception">DivideByZeroException</a>
+			but returns <code>MaxValue</code>.
+		</td>
+	</tr>
+	<tr />
+	<tr>
+		<td>
+			<sub><em>static class</em></sub><br />
+			ClampedArithmetic
+		</td>
+		<td>
+			Provides clamped arithmetic methods for the
+			built-in numeric types.
+		</td>
+	</tr>
+	<tr />
+	<tr>
+		<td>
+			<sub><em>static class</em></sub><br />
+			ClampedConvert
+		</td>
+		<td>
+			Provides clamped conversion methods equivalent to
+			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">Convert</a>.
+		</td>
+	</tr>
+</table>
 
 [\[Back to top\]](#top)
 
@@ -372,7 +444,7 @@ Console.WriteLine(result); // output: 3.497149</code></pre>
     <td id="bitconvertern"><sub><em>static class</em></sub><br />BitConverterN</td>
     <td>
       <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">System.BitConverter</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, allowing conversion to and from byte arrays.
-      <p>This is demonstrated by the following code sample:</p>
+      </p>
 <pre lang="csharp"><code>byte[] result = BitConverterN.GetBytes((UFix64)256.512);
 Console.WriteLine(BitConverter.ToString(result)); // output: 00-10-4A-0F-00-00-00-00</code></pre>
     </td>
@@ -380,7 +452,21 @@ Console.WriteLine(BitConverter.ToString(result)); // output: 00-10-4A-0F-00-00-0
   <tr />
   <tr>
     <td id="convertn"><sub><em>static class</em></sub><br />ConvertN</td>
-    <td>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a> (e.g. <code>ToBoolean(N)</code> and <code>ToDecimal(N)</code>). Overloads are provided to support alternative modes of conversion, e.g. <code>Default</code>, <code>Cast</code> and <code>Clamp</code>.</td>
+    <td>
+      <p>
+        Provides equivalent methods to
+        <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a>
+        for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>
+        (e.g. <code>ToBoolean(N)</code> and <code>ToDecimal(N)</code>).
+        Overloads are provided to support alternative modes of conversion,
+        e.g. <code>Default</code>, <code>Cast</code> and <code>Clamp</code>.
+      </p>
+      <pre lang="csharp"><code>var defaultResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Default);
+var castResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Cast);
+
+Console.WriteLine(defaultResult); // output: 200
+Console.WriteLine(castResult); // output: 199</code></pre>
+    </td>
   </tr>
   <tr />
   <tr>
