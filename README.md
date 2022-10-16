@@ -30,6 +30,10 @@
 
 5\. [Jodo.Collections](#5-jodocollections)
 
+<br />
+<p align="center">* * *</p>
+<br />
+
 ## 1. Introduction
 
 Welcome to Jodo, a project to make simple, reliable .NET libraries covering numerics, geometry and data structures.
@@ -37,6 +41,10 @@ Welcome to Jodo, a project to make simple, reliable .NET libraries covering nume
 This document describes the goals and principals of the project and the features of each library.
 
 [\[Back to top\]](#top)
+
+<br />
+<p align="center">* * *</p>
+<br />
 
 ## 2. About the project
 
@@ -579,11 +587,19 @@ Sample output can be seen below:
 
 [\[Back to top\]](#top)
 
+<br />
+<p align="center">* * *</p>
+<br />
+
 ## 4. Jodo.Geometry
 
 > Coming soon (see section 2.2. "[Roadmap](#22-roadmap)")
 
 [\[Back to top\]](#top)
+
+<br />
+<p align="center">* * *</p>
+<br />
 
 ## 5. Jodo.Collections
 
