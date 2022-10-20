@@ -240,9 +240,9 @@ var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns 
 
 ## 3.2. Fixed-point numbers
 
-Compared to floating-point, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> arithmetic provides a constant level of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same bit size.
+Compared to floating-point, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same bit size.
 
-Fix64 and UFix64 are custom number types that implement fixed-point arithmetic.
+<a href="#fix64">Fix64</a> and <a href="#ufix64">UFix64</a> are custom number types that implement fixed-point arithmetic.
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -274,7 +274,7 @@ The table belows summarises the capabilities of these types.
   </tr>
   <tr />
   <tr>
-    <td id="fix64"><sub><em>readonly struct</em></sub><br />UFix64</td>
+    <td id="ufix64"><sub><em>readonly struct</em></sub><br />UFix64</td>
     <td>
       <p>Unsigned fixed-point number type with 6 decimal digits of precision, represented internally by a 64-bit integer.</p>
       <p>Supports a range of values from 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup>.</p>
@@ -296,7 +296,7 @@ The table belows summarises the capabilities of these types.
   
 Clamped numbers have built-in protection from overflow. Operations that would overflow instead revert to `MinValue` or `MaxValue` for the given number type. This is useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
         
-Usage is the same as with built-in numeric types but yields different results as demonstrated by the following code example:
+Usage is the same as with built-in numeric types but yields different results in cases of overflow.
 
 ```csharp
 var i = Int32M.MaxValue + 1;
