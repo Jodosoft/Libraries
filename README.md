@@ -16,7 +16,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;2.2. [Roadmap](#22-roadmap)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;2.3. [Contributing](#23-contributing)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;2.4. [Releases](#24-releases)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;2.5. [Documentation](#25-documentation)
+&nbsp;&nbsp;&nbsp;&nbsp;2.5. [Documentation](#25-documentation)<br />
 
 3\. [Jodo.Numerics](#3-jodonumerics)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;3.1. [Random extensions](#31-random-extensions)<br />
@@ -24,11 +24,14 @@
 &nbsp;&nbsp;&nbsp;&nbsp;3.3. [Clamped numbers](#33-clamped-numbers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;3.4. [Structures](#34-structures)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;3.5. [Generic numbers](#35-generic-numbers)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;3.6. [Performance considerations](37-performance-considerations)
+&nbsp;&nbsp;&nbsp;&nbsp;3.6. [Performance considerations](37-performance-considerations)<br />
 
-4\. [Jodo.Geometry](#4-jodogeometry)
+4\. [Jodo.Geometry](#4-jodogeometry)<br />
 
-5\. [Jodo.Collections](#5-jodocollections)
+5\. [Jodo.Collections](#5-jodocollections)<br />
+
+6\. [Jodo.Primitives](#6-jodoprimitives)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;6.1. [Random variants](61-random-variants)<br />
 
 <br />
 <p align="center">* * *</p>
@@ -607,3 +610,61 @@ Sample output can be seen below:
 
 [\[Back to top\]](#top)
 
+## 6. Jodo.Primitives
+
+Provides low level utility classes that are used throughout the various Jodo libraries. This section describes the utilities.
+
+<a href="https://www.nuget.org/packages/Jodo.Primitives/"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
+
+[\[Back to top\]](#top)
+
+## 6.1. Random variants
+
+Provides a specification for randomly generating objects based on variants (categories). This feature is used extensively in the Jodo unit testing libraries to ensure that test cover a variety of scenarios. Although the exact definition of each variant is left to the implementor, the following table serves as a guide:
+
+<table>
+    <tr>
+        <th>Variant</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Defaults</td>
+	<td>Null, zero, and any other default state for a given object.</td>
+    </tr>
+    <tr>
+        <td>LowMagnitude</td>
+	<td>Small values and values with reduced significance.</td>
+    </tr>
+    <tr>
+        <td>AnyMagnitude</td>
+	<td>Any value from the set of all possible values, excluding errors.</td>
+    </tr>
+    <tr>
+        <td>Boundaries</td>
+	<td>Minimum and maximum values.</td>
+    </tr>
+    <tr>
+        <td>Errors</td>
+	<td>Values that are typical of error scenarios, or values intended to elicit errors.</td>
+    </tr>
+    <tr>
+        <td>All</td>
+	<td>Encompasses all variants.</td>
+    </tr>
+    <tr>
+        <td>NonError</td>
+	<td>Encompasses all variants, except for errors.</td>
+    </tr>
+</table>
+
+Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> allow
+for objects to be generated within these categories.
+
+<pre lang="csharp"><code>var random = new Random();
+short num1 = random.NextVariant&lt;Int16N&gt;(Variants.LowMagnitude);
+short num2 = random.NextVariant&lt;Int16N&gt;(Variants.Defaults | Variants.Boundaries);
+
+Console.WriteLine(num1); // output: 24 (example)
+Console.WriteLine(num2); // output: -32768 (example)</code></pre>
+
+[\[Back to top\]](#top)
