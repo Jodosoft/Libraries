@@ -20,8 +20,10 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -32,6 +34,7 @@ namespace Jodo.Numerics
     public readonly struct Vector3N<TNumeric> :
             IEquatable<Vector3N<TNumeric>>,
             IFormattable,
+            IProvider<IBitBuffer<Vector3N<TNumeric>>>,
             IProvider<IVariantRandom<Vector3N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -103,12 +106,44 @@ namespace Jodo.Numerics
         public static implicit operator (TNumeric, TNumeric, TNumeric)(Vector3N<TNumeric> value) => (value.X, value.Y, value.Z);
 #endif
 
+        IBitBuffer<Vector3N<TNumeric>> IProvider<IBitBuffer<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector3N<TNumeric>> IProvider<IVariantRandom<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+           IBitBuffer<Vector3N<TNumeric>>,
            IVariantRandom<Vector3N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            Vector3N<TNumeric> IBitBuffer<Vector3N<TNumeric>>.Read(Stream stream)
+            {
+                return new Vector3N<TNumeric>(
+                    stream.Read<TNumeric>(),
+                    stream.Read<TNumeric>(),
+                    stream.Read<TNumeric>());
+            }
+
+            async Task<Vector3N<TNumeric>> IBitBuffer<Vector3N<TNumeric>>.ReadAsync(Stream stream)
+            {
+                return new Vector3N<TNumeric>(
+                    await stream.ReadAsync<TNumeric>(),
+                    await stream.ReadAsync<TNumeric>(),
+                    await stream.ReadAsync<TNumeric>());
+            }
+
+            void IBitBuffer<Vector3N<TNumeric>>.Write(Vector3N<TNumeric> value, Stream stream)
+            {
+                stream.Write(value.X);
+                stream.Write(value.Y);
+                stream.Write(value.Z);
+            }
+
+            async Task IBitBuffer<Vector3N<TNumeric>>.WriteAsync(Vector3N<TNumeric> value, Stream stream)
+            {
+                await stream.WriteAsync(value.X);
+                await stream.WriteAsync(value.Y);
+                await stream.WriteAsync(value.Z);
+            }
 
             Vector3N<TNumeric> IVariantRandom<Vector3N<TNumeric>>.Generate(Random random, Variants variants)
             {

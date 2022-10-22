@@ -21,7 +21,9 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -187,6 +189,7 @@ namespace Jodo.Numerics.Clamped
         UFix64M INumeric<UFix64M>.Subtract(UFix64M value) => this - value;
 
         INumericBitConverter<UFix64M> IProvider<INumericBitConverter<UFix64M>>.GetInstance() => Utilities.Instance;
+        IBitBuffer<UFix64M> IProvider<IBitBuffer<UFix64M>>.GetInstance() => Utilities.Instance;
         IConvert<UFix64M> IProvider<IConvert<UFix64M>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UFix64M> IProvider<IConvertExtended<UFix64M>>.GetInstance() => Utilities.Instance;
         IMath<UFix64M> IProvider<IMath<UFix64M>>.GetInstance() => Utilities.Instance;
@@ -195,6 +198,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<UFix64M> IProvider<IVariantRandom<UFix64M>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+            IBitBuffer<UFix64M>,
             IConvert<UFix64M>,
             IConvertExtended<UFix64M>,
             IMath<UFix64M>,
@@ -204,6 +208,11 @@ namespace Jodo.Numerics.Clamped
             IVariantRandom<UFix64M>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            void IBitBuffer<UFix64M>.Write(UFix64M value, Stream stream) => stream.Write(value._scaledValue);
+            async Task IBitBuffer<UFix64M>.WriteAsync(UFix64M value, Stream stream) => await stream.WriteAsync(value._scaledValue);
+            UFix64M IBitBuffer<UFix64M>.Read(Stream stream) => new UFix64M(stream.ReadUInt64());
+            async Task<UFix64M> IBitBuffer<UFix64M>.ReadAsync(Stream stream) => new UFix64M(await stream.ReadUInt64Async());
 
             bool INumericStatic<UFix64M>.HasFloatingPoint => false;
             bool INumericStatic<UFix64M>.HasInfinity => false;

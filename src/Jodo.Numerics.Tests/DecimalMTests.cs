@@ -20,6 +20,7 @@
 using System;
 using FluentAssertions;
 using Jodo.Numerics.Clamped;
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
 using NUnit.Framework;
@@ -28,6 +29,7 @@ namespace Jodo.Numerics.Tests
 {
     public sealed class DecimalMTests : GlobalFixtureBase
     {
+        public sealed class BitBufferTests : BitBufferTestBase<DecimalM> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DecimalM> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<DecimalM> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<DecimalM> { }

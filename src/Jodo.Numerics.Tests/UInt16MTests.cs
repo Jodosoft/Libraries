@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics.Clamped;
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
 
@@ -25,6 +26,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class UInt16MTests
     {
+        public sealed class BitBufferTests : BitBufferTestBase<UInt16M> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<UInt16M> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<UInt16M> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<UInt16M> { }

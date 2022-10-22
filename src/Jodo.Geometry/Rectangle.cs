@@ -20,9 +20,11 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -34,6 +36,7 @@ namespace Jodo.Geometry
     public readonly struct Rectangle<TNumeric> :
             IEquatable<Rectangle<TNumeric>>,
             IFormattable,
+            IProvider<IBitBuffer<Rectangle<TNumeric>>>,
             IProvider<IVariantRandom<Rectangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -139,12 +142,44 @@ namespace Jodo.Geometry
         public static bool operator !=(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => !(left == right);
         public static implicit operator Rectangle<TNumeric>(AARectangle<TNumeric> value) => new Rectangle<TNumeric>(value.Center, value.Dimensions, default);
 
+        IBitBuffer<Rectangle<TNumeric>> IProvider<IBitBuffer<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Rectangle<TNumeric>> IProvider<IVariantRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+           IBitBuffer<Rectangle<TNumeric>>,
            IVariantRandom<Rectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            Rectangle<TNumeric> IBitBuffer<Rectangle<TNumeric>>.Read(Stream stream)
+            {
+                return new Rectangle<TNumeric>(
+                    stream.Read<Vector2N<TNumeric>>(),
+                    stream.Read<Vector2N<TNumeric>>(),
+                    stream.Read<Angle<TNumeric>>());
+            }
+
+            async Task<Rectangle<TNumeric>> IBitBuffer<Rectangle<TNumeric>>.ReadAsync(Stream stream)
+            {
+                return new Rectangle<TNumeric>(
+                    await stream.ReadAsync<Vector2N<TNumeric>>(),
+                    await stream.ReadAsync<Vector2N<TNumeric>>(),
+                    await stream.ReadAsync<Angle<TNumeric>>());
+            }
+
+            void IBitBuffer<Rectangle<TNumeric>>.Write(Rectangle<TNumeric> value, Stream stream)
+            {
+                stream.Write(value.Center);
+                stream.Write(value.Dimensions);
+                stream.Write(value.Angle);
+            }
+
+            async Task IBitBuffer<Rectangle<TNumeric>>.WriteAsync(Rectangle<TNumeric> value, Stream stream)
+            {
+                await stream.WriteAsync(value.Center);
+                await stream.WriteAsync(value.Dimensions);
+                await stream.WriteAsync(value.Angle);
+            }
 
             Rectangle<TNumeric> IVariantRandom<Rectangle<TNumeric>>.Generate(Random random, Variants variants)
             {

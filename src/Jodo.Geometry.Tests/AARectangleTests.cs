@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
 
 namespace Jodo.Geometry.Tests
@@ -27,11 +28,14 @@ namespace Jodo.Geometry.Tests
         public sealed class AARectangleIntegralFixedPointTests : AARectangleTestBase<Fix64> { }
         public sealed class AARectangleIntegralFloatingPointTests : AARectangleTestBase<SingleN> { }
         public sealed class AARectangleIntegralUnsignedIntegralTests : AARectangleIntegralTestBase<ByteN> { }
-        public sealed class ObjectFixedPointTests : ObjectTestBase<AARectangle<Fix64>> { }
-        public sealed class ObjectFloatingPointTests : ObjectTestBase<AARectangle<SingleN>> { }
-        public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<AARectangle<ByteN>> { }
-        public sealed class SerializableFixedPointTests : SerializableTestBase<AARectangle<Fix64>> { }
-        public sealed class SerializableFloatingPointTests : SerializableTestBase<AARectangle<SingleN>> { }
-        public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<AARectangle<ByteN>> { }
+        public sealed class FixedPointBitBufferTests : BitBufferTestBase<AARectangle<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<AARectangle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<AARectangle<Fix64>> { }
+        public sealed class FloatingPointBitBufferTests : BitBufferTestBase<AARectangle<SingleN>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<AARectangle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<AARectangle<SingleN>> { }
+        public sealed class UnsignedIntegralBitBufferTests : BitBufferTestBase<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AARectangle<ByteN>> { }
     }
 }

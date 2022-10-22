@@ -20,7 +20,9 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -157,6 +159,7 @@ namespace Jodo.Numerics
         SingleN INumeric<SingleN>.Subtract(SingleN value) => this - value;
 
         INumericBitConverter<SingleN> IProvider<INumericBitConverter<SingleN>>.GetInstance() => Utilities.Instance;
+        IBitBuffer<SingleN> IProvider<IBitBuffer<SingleN>>.GetInstance() => Utilities.Instance;
         IConvert<SingleN> IProvider<IConvert<SingleN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SingleN> IProvider<IConvertExtended<SingleN>>.GetInstance() => Utilities.Instance;
         IMath<SingleN> IProvider<IMath<SingleN>>.GetInstance() => Utilities.Instance;
@@ -165,6 +168,7 @@ namespace Jodo.Numerics
         IVariantRandom<SingleN> IProvider<IVariantRandom<SingleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+            IBitBuffer<SingleN>,
             IConvert<SingleN>,
             IConvertExtended<SingleN>,
             IMath<SingleN>,
@@ -174,6 +178,11 @@ namespace Jodo.Numerics
             IVariantRandom<SingleN>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            void IBitBuffer<SingleN>.Write(SingleN value, Stream stream) => stream.Write(value._value);
+            async Task IBitBuffer<SingleN>.WriteAsync(SingleN value, Stream stream) => await stream.WriteAsync(value._value);
+            SingleN IBitBuffer<SingleN>.Read(Stream stream) => stream.ReadSingle();
+            async Task<SingleN> IBitBuffer<SingleN>.ReadAsync(Stream stream) => await stream.ReadSingleAsync();
 
             bool INumericStatic<SingleN>.HasFloatingPoint => true;
             bool INumericStatic<SingleN>.HasInfinity => true;

@@ -20,7 +20,9 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -150,6 +152,7 @@ namespace Jodo.Numerics
         Int32N INumeric<Int32N>.Subtract(Int32N value) => this - value;
 
         INumericBitConverter<Int32N> IProvider<INumericBitConverter<Int32N>>.GetInstance() => Utilities.Instance;
+        IBitBuffer<Int32N> IProvider<IBitBuffer<Int32N>>.GetInstance() => Utilities.Instance;
         IConvert<Int32N> IProvider<IConvert<Int32N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Int32N> IProvider<IConvertExtended<Int32N>>.GetInstance() => Utilities.Instance;
         IMath<Int32N> IProvider<IMath<Int32N>>.GetInstance() => Utilities.Instance;
@@ -158,6 +161,7 @@ namespace Jodo.Numerics
         IVariantRandom<Int32N> IProvider<IVariantRandom<Int32N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+            IBitBuffer<Int32N>,
             IConvert<Int32N>,
             IConvertExtended<Int32N>,
             IMath<Int32N>,
@@ -167,6 +171,11 @@ namespace Jodo.Numerics
             IVariantRandom<Int32N>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            void IBitBuffer<Int32N>.Write(Int32N value, Stream stream) => stream.Write(value._value);
+            async Task IBitBuffer<Int32N>.WriteAsync(Int32N value, Stream stream) => await stream.WriteAsync(value._value);
+            Int32N IBitBuffer<Int32N>.Read(Stream stream) => stream.ReadInt32();
+            async Task<Int32N> IBitBuffer<Int32N>.ReadAsync(Stream stream) => await stream.ReadInt32Async();
 
             bool INumericStatic<Int32N>.HasFloatingPoint => false;
             bool INumericStatic<Int32N>.HasInfinity => false;

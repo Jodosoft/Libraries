@@ -20,8 +20,10 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -39,6 +41,7 @@ namespace Jodo.Geometry
     public readonly struct AARectangle<TNumeric> :
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
+            IProvider<IBitBuffer<AARectangle<TNumeric>>>,
             IProvider<IVariantRandom<AARectangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -49,15 +52,15 @@ namespace Jodo.Geometry
         public TNumeric Height => Dimensions.Y;
         public TNumeric Width => Dimensions.X;
 
-        public AARectangle(Vector2N<TNumeric> origin, Vector2N<TNumeric> dimensions)
+        public AARectangle(Vector2N<TNumeric> center, Vector2N<TNumeric> dimensions)
         {
-            Center = origin;
+            Center = center;
             Dimensions = dimensions;
         }
 
-        public AARectangle(TNumeric originX, TNumeric originY, TNumeric width, TNumeric height)
+        public AARectangle(TNumeric centerX, TNumeric centerY, TNumeric width, TNumeric height)
         {
-            Center = new Vector2N<TNumeric>(originX, originY);
+            Center = new Vector2N<TNumeric>(centerX, centerY);
             Dimensions = new Vector2N<TNumeric>(width, height);
         }
 
@@ -111,12 +114,40 @@ namespace Jodo.Geometry
         public static implicit operator (TNumeric, TNumeric, TNumeric, TNumeric)(AARectangle<TNumeric> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
 #endif
 
+        IBitBuffer<AARectangle<TNumeric>> IProvider<IBitBuffer<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<AARectangle<TNumeric>> IProvider<IVariantRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+           IBitBuffer<AARectangle<TNumeric>>,
            IVariantRandom<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            AARectangle<TNumeric> IBitBuffer<AARectangle<TNumeric>>.Read(Stream stream)
+            {
+                return new AARectangle<TNumeric>(
+                    stream.Read<Vector2N<TNumeric>>(),
+                    stream.Read<Vector2N<TNumeric>>());
+            }
+
+            async Task<AARectangle<TNumeric>> IBitBuffer<AARectangle<TNumeric>>.ReadAsync(Stream stream)
+            {
+                return new AARectangle<TNumeric>(
+                    await stream.ReadAsync<Vector2N<TNumeric>>(),
+                    await stream.ReadAsync<Vector2N<TNumeric>>());
+            }
+
+            void IBitBuffer<AARectangle<TNumeric>>.Write(AARectangle<TNumeric> value, Stream stream)
+            {
+                stream.Write(value.Center);
+                stream.Write(value.Dimensions);
+            }
+
+            async Task IBitBuffer<AARectangle<TNumeric>>.WriteAsync(AARectangle<TNumeric> value, Stream stream)
+            {
+                await stream.WriteAsync(value.Center);
+                await stream.WriteAsync(value.Dimensions);
+            }
 
             AARectangle<TNumeric> IVariantRandom<AARectangle<TNumeric>>.Generate(Random random, Variants variants)
             {

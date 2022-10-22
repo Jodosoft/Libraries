@@ -18,20 +18,24 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
 
 namespace Jodo.Geometry.Tests
 {
     public static class TriangleTests
     {
-        public sealed class GeneralFixedPointTests : TriangleTestBase<Fix64> { }
-        public sealed class GeneralFloatingPointTests : TriangleTestBase<SingleN> { }
-        public sealed class GeneralUnsignedIntegralTests : TriangleTestBase<ByteN> { }
-        public sealed class ObjectFixedPointTests : ObjectTestBase<Triangle<Fix64>> { }
-        public sealed class ObjectFloatingPointTests : ObjectTestBase<Triangle<SingleN>> { }
-        public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<Triangle<ByteN>> { }
-        public sealed class SerializableFixedPointTests : SerializableTestBase<Triangle<Fix64>> { }
-        public sealed class SerializableFloatingPointTests : SerializableTestBase<Triangle<SingleN>> { }
-        public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<Triangle<ByteN>> { }
+        public sealed class FixedPointBitBufferTests : BitBufferTestBase<Triangle<Fix64>> { }
+        public sealed class FixedPointGeneralTests : TriangleTestBase<Fix64> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Triangle<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Triangle<Fix64>> { }
+        public sealed class FloatingPointBitBufferTests : BitBufferTestBase<Triangle<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : TriangleTestBase<SingleN> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Triangle<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Triangle<SingleN>> { }
+        public sealed class UnsignedIntegralBitBufferTests : BitBufferTestBase<Triangle<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : TriangleTestBase<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Triangle<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Triangle<ByteN>> { }
     }
 }

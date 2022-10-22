@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
 
@@ -24,6 +25,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class SByteNTests
     {
+        public sealed class BitBufferTests : BitBufferTestBase<SByteN> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<SByteN> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<SByteN> { }
         public sealed class NumericCastTests : NumericCastTestBase<SByteN> { }
