@@ -21,7 +21,9 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -187,6 +189,7 @@ namespace Jodo.Numerics.Clamped
         Fix64M INumeric<Fix64M>.Subtract(Fix64M value) => this - value;
 
         INumericBitConverter<Fix64M> IProvider<INumericBitConverter<Fix64M>>.GetInstance() => Utilities.Instance;
+        IBitBuffer<Fix64M> IProvider<IBitBuffer<Fix64M>>.GetInstance() => Utilities.Instance;
         IConvert<Fix64M> IProvider<IConvert<Fix64M>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Fix64M> IProvider<IConvertExtended<Fix64M>>.GetInstance() => Utilities.Instance;
         IMath<Fix64M> IProvider<IMath<Fix64M>>.GetInstance() => Utilities.Instance;
@@ -195,6 +198,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<Fix64M> IProvider<IVariantRandom<Fix64M>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+            IBitBuffer<Fix64M>,
             IConvert<Fix64M>,
             IConvertExtended<Fix64M>,
             IMath<Fix64M>,
@@ -204,6 +208,11 @@ namespace Jodo.Numerics.Clamped
             IVariantRandom<Fix64M>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            void IBitBuffer<Fix64M>.Write(Fix64M value, Stream stream) => stream.Write(value._scaledValue);
+            async Task IBitBuffer<Fix64M>.WriteAsync(Fix64M value, Stream stream) => await stream.WriteAsync(value._scaledValue);
+            Fix64M IBitBuffer<Fix64M>.Read(Stream stream) => new Fix64M(stream.ReadInt64());
+            async Task<Fix64M> IBitBuffer<Fix64M>.ReadAsync(Stream stream) => new Fix64M(await stream.ReadInt64Async());
 
             bool INumericStatic<Fix64M>.HasFloatingPoint => false;
             bool INumericStatic<Fix64M>.HasInfinity => false;

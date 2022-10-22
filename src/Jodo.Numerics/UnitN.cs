@@ -20,7 +20,9 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Primitives;
 
 namespace Jodo.Numerics
@@ -32,6 +34,7 @@ namespace Jodo.Numerics
             IComparable<UnitN<TNumeric>>,
             IEquatable<UnitN<TNumeric>>,
             IFormattable,
+            IProvider<IBitBuffer<UnitN<TNumeric>>>,
             IProvider<IVariantRandom<UnitN<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -101,12 +104,34 @@ namespace Jodo.Numerics
         public static TNumeric operator /(TNumeric left, UnitN<TNumeric> right) => left.Divide(right.Value);
         public static TNumeric operator +(TNumeric left, UnitN<TNumeric> right) => left.Add(right.Value);
 
+        IBitBuffer<UnitN<TNumeric>> IProvider<IBitBuffer<UnitN<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<UnitN<TNumeric>> IProvider<IVariantRandom<UnitN<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+            IBitBuffer<UnitN<TNumeric>>,
             IVariantRandom<UnitN<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            UnitN<TNumeric> IBitBuffer<UnitN<TNumeric>>.Read(Stream stream)
+            {
+                return new UnitN<TNumeric>(stream.Read<TNumeric>());
+            }
+
+            async Task<UnitN<TNumeric>> IBitBuffer<UnitN<TNumeric>>.ReadAsync(Stream stream)
+            {
+                return new UnitN<TNumeric>(await stream.ReadAsync<TNumeric>());
+            }
+
+            void IBitBuffer<UnitN<TNumeric>>.Write(UnitN<TNumeric> value, Stream stream)
+            {
+                stream.Write(value.Value);
+            }
+
+            async Task IBitBuffer<UnitN<TNumeric>>.WriteAsync(UnitN<TNumeric> value, Stream stream)
+            {
+                await stream.WriteAsync(value.Value);
+            }
 
             UnitN<TNumeric> IVariantRandom<UnitN<TNumeric>>.Generate(Random random, Variants variants)
                 => new UnitN<TNumeric>(random.NextVariant<TNumeric>(variants));

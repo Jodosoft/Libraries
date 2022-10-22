@@ -20,7 +20,9 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -32,6 +34,7 @@ namespace Jodo.Geometry
     public readonly struct Triangle<TNumeric> :
             IEquatable<Triangle<TNumeric>>,
             IFormattable,
+            IProvider<IBitBuffer<Triangle<TNumeric>>>,
             IProvider<IVariantRandom<Triangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -98,12 +101,44 @@ namespace Jodo.Geometry
         public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>)(Triangle<TNumeric> value) => (value.A, value.B, value.C);
 #endif
 
+        IBitBuffer<Triangle<TNumeric>> IProvider<IBitBuffer<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+           IBitBuffer<Triangle<TNumeric>>,
            IVariantRandom<Triangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            Triangle<TNumeric> IBitBuffer<Triangle<TNumeric>>.Read(Stream stream)
+            {
+                return new Triangle<TNumeric>(
+                    stream.Read<Vector2N<TNumeric>>(),
+                    stream.Read<Vector2N<TNumeric>>(),
+                    stream.Read<Vector2N<TNumeric>>());
+            }
+
+            async Task<Triangle<TNumeric>> IBitBuffer<Triangle<TNumeric>>.ReadAsync(Stream stream)
+            {
+                return new Triangle<TNumeric>(
+                    await stream.ReadAsync<Vector2N<TNumeric>>(),
+                    await stream.ReadAsync<Vector2N<TNumeric>>(),
+                    await stream.ReadAsync<Vector2N<TNumeric>>());
+            }
+
+            void IBitBuffer<Triangle<TNumeric>>.Write(Triangle<TNumeric> value, Stream stream)
+            {
+                stream.Write(value.A);
+                stream.Write(value.B);
+                stream.Write(value.C);
+            }
+
+            async Task IBitBuffer<Triangle<TNumeric>>.WriteAsync(Triangle<TNumeric> value, Stream stream)
+            {
+                await stream.WriteAsync(value.A);
+                await stream.WriteAsync(value.B);
+                await stream.WriteAsync(value.C);
+            }
 
             Triangle<TNumeric> IVariantRandom<Triangle<TNumeric>>.Generate(Random random, Variants variants)
             {

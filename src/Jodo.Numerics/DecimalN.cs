@@ -20,7 +20,9 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -147,6 +149,7 @@ namespace Jodo.Numerics
         DecimalN INumeric<DecimalN>.Subtract(DecimalN value) => this - value;
 
         INumericBitConverter<DecimalN> IProvider<INumericBitConverter<DecimalN>>.GetInstance() => Utilities.Instance;
+        IBitBuffer<DecimalN> IProvider<IBitBuffer<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvert<DecimalN> IProvider<IConvert<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DecimalN> IProvider<IConvertExtended<DecimalN>>.GetInstance() => Utilities.Instance;
         IMath<DecimalN> IProvider<IMath<DecimalN>>.GetInstance() => Utilities.Instance;
@@ -155,6 +158,7 @@ namespace Jodo.Numerics
         IVariantRandom<DecimalN> IProvider<IVariantRandom<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+            IBitBuffer<DecimalN>,
             IConvert<DecimalN>,
             IConvertExtended<DecimalN>,
             IMath<DecimalN>,
@@ -164,6 +168,11 @@ namespace Jodo.Numerics
             IVariantRandom<DecimalN>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            void IBitBuffer<DecimalN>.Write(DecimalN value, Stream stream) => stream.Write(value._value);
+            async Task IBitBuffer<DecimalN>.WriteAsync(DecimalN value, Stream stream) => await stream.WriteAsync(value._value);
+            DecimalN IBitBuffer<DecimalN>.Read(Stream stream) => stream.ReadDecimal();
+            async Task<DecimalN> IBitBuffer<DecimalN>.ReadAsync(Stream stream) => await stream.ReadDecimalAsync();
 
             bool INumericStatic<DecimalN>.HasFloatingPoint => true;
             bool INumericStatic<DecimalN>.HasInfinity => false;

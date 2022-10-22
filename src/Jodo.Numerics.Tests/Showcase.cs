@@ -167,6 +167,20 @@ namespace Jodo.Numerics.Tests
             ConsoleOuput.ToString().Split(Environment.NewLine)
                 .Should().ContainInOrder("D2-02-96-49-00-00-00-00", "00-10-4A-0F-00-00-00-00");
         }
+
+        [Test]
+        public void RandomVariants_Examples()
+        {
+            var random = new Random(93);
+            var num1 = random.NextVariant<Int16N>(Variants.LowMagnitude);
+            var num2 = random.NextVariant<Int16N>(Variants.Defaults | Variants.Boundaries);
+
+            Console.WriteLine(num1); // output: -26
+            Console.WriteLine(num2); // output: 32767
+
+            ConsoleOuput.ToString().Split(Environment.NewLine)
+                .Should().ContainInOrder("-26", "32767");
+        }
     }
 }
 #endif

@@ -20,7 +20,9 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -147,6 +149,7 @@ namespace Jodo.Numerics
         Int64N INumeric<Int64N>.Subtract(Int64N value) => this - value;
 
         INumericBitConverter<Int64N> IProvider<INumericBitConverter<Int64N>>.GetInstance() => Utilities.Instance;
+        IBitBuffer<Int64N> IProvider<IBitBuffer<Int64N>>.GetInstance() => Utilities.Instance;
         IConvert<Int64N> IProvider<IConvert<Int64N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Int64N> IProvider<IConvertExtended<Int64N>>.GetInstance() => Utilities.Instance;
         IMath<Int64N> IProvider<IMath<Int64N>>.GetInstance() => Utilities.Instance;
@@ -155,6 +158,7 @@ namespace Jodo.Numerics
         IVariantRandom<Int64N> IProvider<IVariantRandom<Int64N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
+            IBitBuffer<Int64N>,
             IConvert<Int64N>,
             IConvertExtended<Int64N>,
             IMath<Int64N>,
@@ -164,6 +168,11 @@ namespace Jodo.Numerics
             IVariantRandom<Int64N>
         {
             public static readonly Utilities Instance = new Utilities();
+
+            void IBitBuffer<Int64N>.Write(Int64N value, Stream stream) => stream.Write(value._value);
+            async Task IBitBuffer<Int64N>.WriteAsync(Int64N value, Stream stream) => await stream.WriteAsync(value._value);
+            Int64N IBitBuffer<Int64N>.Read(Stream stream) => stream.ReadInt64();
+            async Task<Int64N> IBitBuffer<Int64N>.ReadAsync(Stream stream) => await stream.ReadInt64Async();
 
             bool INumericStatic<Int64N>.HasFloatingPoint => false;
             bool INumericStatic<Int64N>.HasInfinity => false;

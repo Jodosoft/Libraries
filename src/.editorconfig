@@ -132,3 +132,7 @@ dotnet_diagnostic.IDE0005.severity = none
 # IDE0061: Use block body for local functions
 # Justification: Both can be appropriate.
 dotnet_diagnostic.IDE0061.severity = none
+
+# CA1835: Prefer the 'Memory'-based overloads for 'ReadAsync' and 'WriteAsync'
+# Justification: Memory is not available on all target frameworks.
+dotnet_diagnostic.CA1835.severity = none

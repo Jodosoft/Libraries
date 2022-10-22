@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Packages.props" />
+  <Import Project="..\PackagesNonBreaking.props" />
   <ItemGroup>
     <ProjectReference Include="..\Jodo.Primitives\Jodo.Primitives.csproj" />
   </ItemGroup>

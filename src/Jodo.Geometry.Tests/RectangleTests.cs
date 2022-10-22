@@ -18,20 +18,24 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
 
 namespace Jodo.Geometry.Tests
 {
     public static class RectangleTests
     {
-        public sealed class ObjectFixedPointTests : ObjectTestBase<Rectangle<Fix64>> { }
-        public sealed class ObjectFloatingPointTests : ObjectTestBase<Rectangle<SingleN>> { }
-        public sealed class ObjectUnsignedIntegralTests : ObjectTestBase<Rectangle<ByteN>> { }
-        public sealed class RectangleFixedPointTests : RectangleTestBase<Fix64> { }
-        public sealed class RectangleFloatingPointTests : RectangleTestBase<SingleN> { }
-        public sealed class RectangleUnsignedIntegralTests : RectangleTestBase<ByteN> { }
-        public sealed class SerializableFixedPointTests : SerializableTestBase<Rectangle<Fix64>> { }
-        public sealed class SerializableFloatingPointTests : SerializableTestBase<Rectangle<SingleN>> { }
-        public sealed class SerializableUnsignedIntegralTests : SerializableTestBase<Rectangle<ByteN>> { }
+        public sealed class FixedPointBitBufferTests : BitBufferTestBase<Rectangle<Fix64>> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<Rectangle<Fix64>> { }
+        public sealed class FixedPointRectangleTests : RectangleTestBase<Fix64> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<Rectangle<Fix64>> { }
+        public sealed class FloatingPointBitBufferTests : BitBufferTestBase<Rectangle<SingleN>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Rectangle<SingleN>> { }
+        public sealed class FloatingPointRectangleTests : RectangleTestBase<SingleN> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Rectangle<SingleN>> { }
+        public sealed class UnsignedIntegralBitBufferTests : BitBufferTestBase<Rectangle<ByteN>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Rectangle<ByteN>> { }
+        public sealed class UnsignedIntegralRectangleTests : RectangleTestBase<ByteN> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Rectangle<ByteN>> { }
     }
 }
