@@ -97,7 +97,6 @@ The table below summarises the design goals of the project.
         .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
         .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu, macOS.
       </p>
-      <p>Click on the shields below to see the latest test results and coverage.</p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
@@ -135,8 +134,10 @@ The table below summarises the design goals of the project.
       <p>
       <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are used with maximum rule-severity. Rules are only suppressed in exceptional circumstances, and suppression tags are always accompanied by a justification message.
       </p>
+      <p>
         <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
-        <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a></p>
+        <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/JosephJShort/Jodo/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a>
+      </p>
     </td>
   </tr>
 </table>
@@ -610,6 +611,10 @@ Sample output can be seen below:
 
 [\[Back to top\]](#top)
 
+<br />
+<p align="center">* * *</p>
+<br />
+
 ## 6. Jodo.Primitives
 
 Provides low level utility classes that are used throughout the various Jodo libraries. This section describes the utilities.
@@ -620,7 +625,7 @@ Provides low level utility classes that are used throughout the various Jodo lib
 
 ## 6.1. Random variants
 
-Provides a specification for randomly generating objects based on variants (categories). This feature is used extensively in the Jodo unit testing libraries to ensure that test cover a variety of scenarios. Although the exact definition of each variant is left to the implementor, the following table serves as a guide:
+Provides a specification for randomly generating objects based on variants (categories). This feature is used extensively by the Jodo unit testing libraries to ensure that tests cover a variety of scenarios. Although the exact definition of each variant is left to the implementor, the following table serves as a guide:
 
 <table>
     <tr>
