@@ -21,17 +21,53 @@ using System;
 
 namespace Jodo.Primitives
 {
+    /// <summary>
+    /// Specifies categories for the random generation of objects. The exact definition
+    /// of each category is left to the implementor.
+    /// 
+    /// <seealso cref="IVariantRandom{T}"/>
+    /// </summary>
     [Flags]
     public enum Variants : byte
     {
+        /// <summary>
+        /// Does not specify a category for random generation. The behavior of implementations is undefined.
+        /// </summary>
         None = 0,
+
+        /// <summary>
+        /// Includes null, zero, and any other default state for a given object.
+        /// </summary>
         Defaults = 1,
+
+        /// <summary>
+        /// Includes small values and values with reduced significance.
+        /// </summary>
         LowMagnitude = 2,
+
+        /// <summary>
+        /// Includes any value from the set of all possible values, excluding errors.
+        /// </summary>
         AnyMagnitude = 4,
+
+        /// <summary>
+        /// Includes minimum and maximum values.
+        /// </summary>
         Boundaries = 8,
+
+        /// <summary>
+        /// Includes values that are typical of error scenarios, or values intended to elicit errors.
+        /// </summary>
         Errors = 16,
 
+        /// <summary>
+        /// Encompasses all variants.
+        /// </summary>
         All = Defaults | LowMagnitude | AnyMagnitude | Boundaries | Errors,
+
+        /// <summary>
+        /// Encompasses all variants, except for errors.
+        /// </summary>
         NonError = Defaults | LowMagnitude | AnyMagnitude | Boundaries,
     }
 }

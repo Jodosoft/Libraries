@@ -78,7 +78,7 @@ namespace Jodo.Primitives.Tests
         }
 
         [Test, Repeat(RandomVariations)]
-        public void SerialiseMethods_RandomValue_SameResult()
+        public void SerializeMethods_RandomValue_SameResult()
         {
             //arrange
             T input = Random.NextVariant<T>(Variants.NonError);
@@ -86,6 +86,20 @@ namespace Jodo.Primitives.Tests
             //act
             byte[] result1 = BitBuffer.Serialize(input);
             byte[] result2 = BitBuffer.SerializeAsync(input).Result;
+
+            //assert
+            result1.Should().BeEquivalentTo(result2);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DeserializeMethods_RandomValue_SameResult()
+        {
+            //arrange
+            byte[] input = BitBuffer.Serialize(Random.NextVariant<T>(Variants.NonError));
+
+            //act
+            T result1 = BitBuffer.Deserialize<T>(input, 0);
+            T result2 = BitBuffer.DeserializeAsync<T>(input, 0).Result;
 
             //assert
             result1.Should().BeEquivalentTo(result2);
