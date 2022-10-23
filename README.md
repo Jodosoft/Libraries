@@ -45,7 +45,7 @@
 
 Welcome to Jodo, a project to make simple, reliable .NET libraries covering numerics, geometry and data structures.
 
-This document describes the goals and principals of the project and the features of each library.
+This document describes the goals the project and the features of each library, and usage instructions.
 
 [\[Back to top\]](#top)
 
@@ -55,7 +55,11 @@ This document describes the goals and principals of the project and the features
 
 ## 2. Quickstart
 
-> tbc
+> the jodo libraries can be installed with a NuGet package manager, or see section for alternatives.
+
+> All types are in the namespaces under Jodo.* No configuration or dependency injection is required, simply reference the types in your code.
+
+> See section A B C for a description
 
 [\[Back to top\]](#top)
 
@@ -87,7 +91,7 @@ The table below summarises the design goals of the project.
         The Jodo libraries are designed to provide simple data structures and algorithms to use as the building blocks for more comlpex applications.
       </p>
       <p>
-        As a rule of thumb, nothing within the libraries requires configuration or dependency injection to use. A competent developer should be able to use the libraries intuitively, without needing to refer to documentation.
+        As a rule of thumb, nothing within the libraries should require configuration or dependency injection to use, and a competent developer should be able to use the libraries intuitively, without needing to refer to documentation.
       </p>
       <p>
         The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API.
@@ -98,7 +102,7 @@ The table below summarises the design goals of the project.
     <td>Reliability</td>
     <td>
       <p>
-        Foremost, the Jodo libraries are designed to be dependable. Unit tests, benchmarks,
+        The Jodo libraries are designed to be dependable. Unit tests, benchmarks,
         and continuous integration tools are used to ensure they remain fit for purpose.</p>
       <p>
         Tests are designed to cover boundary conditions, edge-cases, and error scenarios as well as happy paths.
