@@ -11,27 +11,31 @@
 
 1\. [Introduction](#1-introduction)
 
-2\. [About the project](#2-about-the-project)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;2.1. [Design goals](#21-design-goals)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;2.2. [Roadmap](#22-roadmap)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;2.3. [Contributing](#23-contributing)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;2.4. [Releases](#24-releases)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;2.5. [Documentation](#25-documentation)<br />
+2\. [Quickstart](#2-quickstart)
 
-3\. [Jodo.Numerics](#3-jodonumerics)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;3.1. [Random extensions](#31-random-extensions)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;3.2. [Fixed-point numbers](#32-fixed-point-numbers)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;3.3. [Clamped numbers](#33-clamped-numbers)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;3.4. [Structures](#34-structures)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;3.5. [Generic numbers](#35-generic-numbers)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;3.6. [Performance considerations](37-performance-considerations)<br />
+3\. [About the project](#3-about-the-project)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.1. [Design goals](#31-design-goals)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.2. [Roadmap](#32-roadmap)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.3. [Contributing](#33-contributing)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.4. [Documentation](#34-documentation)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.5. [Releases](#35-releases)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;3.6. [Changelog](#36-changelog)<br />
 
-4\. [Jodo.Geometry](#4-jodogeometry)<br />
+4\. [Jodo.Primitives](#4-jodoprimitives)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;4.1. [Random variants](#41-random-variants)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;4.2. [Default providers](#42-default-providers)<br />
 
-5\. [Jodo.Collections](#5-jodocollections)<br />
+5\. [Jodo.Numerics](#5-jodonumerics)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;5.1. [Fixed-point numbers](#51-fixed-point-numbers)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;5.2. [Clamped numbers](#52-clamped-numbers)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;5.3. [Generic numbers](#53-generic-numbers)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;5.4. [Structures](#54-structures)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;5.5. [Random extensions](#55-random-extensions)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;5.6. [Performance considerations](#56-performance-considerations)<br />
 
-6\. [Jodo.Primitives](#6-jodoprimitives)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;6.1. [Random variants](61-random-variants)<br />
+6\. [Jodo.Geometry (pre-release)](#6-jodogeometry-pre-release)<br />
+
+7\. [Jodo.Collections (pre-release)](#6-jodogeometry-pre-release)<br />
 
 <br />
 <p align="center">* * *</p>
@@ -49,7 +53,11 @@ This document describes the goals and principals of the project and the features
 <p align="center">* * *</p>
 <br />
 
-## 2. About the project
+## 2. Quickstart
+
+> tbc
+
+## 3. About the project
 
 The Jodo libraries started as a collection of reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types were revamped to make them fit for public consumption.
 
@@ -57,7 +65,7 @@ This section describes the design goals, roadmap, and other details of the proje
 
 [\[Back to top\]](#top)
 
-## 2.1. Design Goals
+## 3.1. Design Goals
 
 The table below summarises the design goals of the project.
 
@@ -144,7 +152,7 @@ The table below summarises the design goals of the project.
 
 [\[Back to top\]](#top)
 
-## 2.2. Roadmap
+## 3.2. Roadmap
 
 The Jodo libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues. The following table summarises the overall goals for each version.
 
@@ -181,7 +189,7 @@ The Jodo libraries are under active development, and are kept up to date with ad
 
 [\[Back to top\]](#top)
 
-## 2.3. Contributing
+## 3.3. Contributing
 
 Community contributions are welcome at https://github.com/JosephJShort/Jodo (the home of this repository). Contributors are requested to adhere to the <a href="CODE-OF-CONDUCT.md">code of conduct</a>.
 
@@ -194,7 +202,16 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 
 [\[Back to top\]](#top)
 
-## 2.4. Releases
+## 3.4. Documentation
+
+<p>Work-in-progress API documentation is available at https://jodo.dev.</p>
+<p>
+  <a href="https://jodo.dev"><img alt="Documentation" src="https://img.shields.io/badge/documentation-passing-005784?style=flat-square&color=005784"></a>
+</p>
+
+[\[Back to top\]](#top)
+
+## 3.5. Releases
 
 <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for help, see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
 <p>Binaries are available on GitHub.com at <a href="https://github.com/JosephJShort/Jodo/releases">https://github.com/JosephJShort/Jodo/releases</a>.</p>
@@ -207,12 +224,30 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 
 [\[Back to top\]](#top)
 
-## 2.5. Documentation
+## 3.6. Changelog
 
-<p>Work-in-progress API documentation is available at https://jodo.dev.</p>
-<p>
-  <a href="https://jodo.dev"><img alt="Documentation" src="https://img.shields.io/badge/documentation-passing-005784?style=flat-square&color=005784"></a>
-</p>
+The Jodo libraries are under active development, and are kept up to date with advancements in the .NET SDK. A list of upcoming changes can be seen at https://github.com/JosephJShort/Jodo/issues. The following table summarises the overall goals for each version.
+
+<table>
+  <tr>
+    <th>Version</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>1.0.0</code></td>
+    <td>
+      <ul>
+        <li>Create the initial release of Jodo.Numerics</li>
+        <li>Add cross-platform support</li>
+        <li>Reach a very high level of test coverage</li>
+        <li>Establish code quality rules</li>
+        <li>Create benchmarks</li>
+      </ul>
+      <a href="https://github.com/JosephJShort/Jodo/milestone/3"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/3?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
+      <a href="https://www.nuget.org/packages?q=Jodo."><img src="https://img.shields.io/badge/package-available-green?logo=nuget&no-cache"></a>
+    </td>
+  </tr>
+</table>
 
 [\[Back to top\]](#top)
 
@@ -220,7 +255,76 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 <p align="center">* * *</p>
 <br />
 
-## 3. Jodo.Numerics
+## 4. Jodo.Primitives
+
+Provides low level utility classes that are used throughout the various Jodo libraries. This section describes the utilities.
+
+<a href="https://www.nuget.org/packages/Jodo.Primitives/"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
+
+[\[Back to top\]](#top)
+
+## 4.1. Random variants
+
+Provides a specification for randomly generating objects based on variants (categories). This feature is used extensively by the Jodo unit testing libraries to ensure that tests cover a variety of scenarios. Although the exact definition of each variant is left to the implementor, the following table serves as a guide:
+
+<table>
+    <tr>
+        <th>Variant</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Defaults</td>
+	<td>Null, zero, and any other default state for a given object.</td>
+    </tr>
+    <tr>
+        <td>LowMagnitude</td>
+	<td>Small values and values with reduced significance.</td>
+    </tr>
+    <tr>
+        <td>AnyMagnitude</td>
+	<td>Any value from the set of all possible values, excluding errors.</td>
+    </tr>
+    <tr>
+        <td>Boundaries</td>
+	<td>Minimum and maximum values.</td>
+    </tr>
+    <tr>
+        <td>Errors</td>
+	<td>Values that are typical of error scenarios, or values intended to elicit errors.</td>
+    </tr>
+    <tr>
+        <td>All</td>
+	<td>Encompasses all variants.</td>
+    </tr>
+    <tr>
+        <td>NonError</td>
+	<td>Encompasses all variants, except for errors.</td>
+    </tr>
+</table>
+
+Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> allow
+for objects to be generated within these categories.
+
+<pre lang="csharp"><code>var random = new Random();
+short num1 = random.NextVariant&lt;Int16N&gt;(Variants.LowMagnitude);
+short num2 = random.NextVariant&lt;Int16N&gt;(Variants.Defaults | Variants.Boundaries);
+
+Console.WriteLine(num1); // output: 24 (example)
+Console.WriteLine(num2); // output: -32768 (example)</code></pre>
+
+[\[Back to top\]](#top)
+
+## 4.2. Default providers
+
+> tbc
+
+[\[Back to top\]](#top)
+
+<br />
+<p align="center">* * *</p>
+<br />
+
+## 5. Jodo.Numerics
 
 Provides numeric utilities, custom number types, and a generic interface for defining numbers. This section describes the features of the library.
 
@@ -608,68 +712,5 @@ Sample output can be seen below:
 ## 5. Jodo.Collections
 
 > Coming soon (see section 2.2. "[Roadmap](#22-roadmap)")
-
-[\[Back to top\]](#top)
-
-<br />
-<p align="center">* * *</p>
-<br />
-
-## 6. Jodo.Primitives
-
-Provides low level utility classes that are used throughout the various Jodo libraries. This section describes the utilities.
-
-<a href="https://www.nuget.org/packages/Jodo.Primitives/"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
-
-[\[Back to top\]](#top)
-
-## 6.1. Random variants
-
-Provides a specification for randomly generating objects based on variants (categories). This feature is used extensively by the Jodo unit testing libraries to ensure that tests cover a variety of scenarios. Although the exact definition of each variant is left to the implementor, the following table serves as a guide:
-
-<table>
-    <tr>
-        <th>Variant</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>Defaults</td>
-	<td>Null, zero, and any other default state for a given object.</td>
-    </tr>
-    <tr>
-        <td>LowMagnitude</td>
-	<td>Small values and values with reduced significance.</td>
-    </tr>
-    <tr>
-        <td>AnyMagnitude</td>
-	<td>Any value from the set of all possible values, excluding errors.</td>
-    </tr>
-    <tr>
-        <td>Boundaries</td>
-	<td>Minimum and maximum values.</td>
-    </tr>
-    <tr>
-        <td>Errors</td>
-	<td>Values that are typical of error scenarios, or values intended to elicit errors.</td>
-    </tr>
-    <tr>
-        <td>All</td>
-	<td>Encompasses all variants.</td>
-    </tr>
-    <tr>
-        <td>NonError</td>
-	<td>Encompasses all variants, except for errors.</td>
-    </tr>
-</table>
-
-Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> allow
-for objects to be generated within these categories.
-
-<pre lang="csharp"><code>var random = new Random();
-short num1 = random.NextVariant&lt;Int16N&gt;(Variants.LowMagnitude);
-short num2 = random.NextVariant&lt;Int16N&gt;(Variants.Defaults | Variants.Boundaries);
-
-Console.WriteLine(num1); // output: 24 (example)
-Console.WriteLine(num2); // output: -32768 (example)</code></pre>
 
 [\[Back to top\]](#top)
