@@ -33,9 +33,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;5.5. [Random extensions](#55-random-extensions)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;5.6. [Performance considerations](#56-performance-considerations)<br />
 
-6\. [Jodo.Geometry (pre-release)](#6-jodogeometry-pre-release)<br />
+6\. [Jodo.Geometry](#6-jodogeometry-pre-release) (pre-release)<br />
 
-7\. [Jodo.Collections (pre-release)](#6-jodogeometry-pre-release)<br />
+7\. [Jodo.Collections](#6-jodogeometry-pre-release) (pre-release)<br />
 
 <br />
 <p align="center">* * *</p>
@@ -56,6 +56,12 @@ This document describes the goals and principals of the project and the features
 ## 2. Quickstart
 
 > tbc
+
+[\[Back to top\]](#top)
+
+<br />
+<p align="center">* * *</p>
+<br />
 
 ## 3. About the project
 
@@ -332,21 +338,7 @@ Provides numeric utilities, custom number types, and a generic interface for def
   
 [\[Back to top\]](#top)
 
-## 3.1. Random extensions
-
-Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> provide random number generation for every built-in number type, as well as types that implement <a href="#inumericn">INumeric&lt;TSelf&gt;</a>. Overloads allow for increased flexibility with bounds, such as inclusive upper bounds and bounds specified in any order, as in the following example:
-
-```csharp
-using Jodo.Numerics;
-using System;
-
-var value1 = new Random().NextDouble(double.MinValue, double.MaxValue); // Returns any finite double.
-var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns a ulong between 100 and 200 (inclusive).
-```
-
-[\[Back to top\]](#top)
-
-## 3.2. Fixed-point numbers
+## 5.1. Fixed-point numbers
 
 Compared to floating-point, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same bit size.
 
@@ -400,7 +392,7 @@ The table belows summarises the capabilities of these types.
 
 [\[Back to top\]](#top)
 
-## 3.3 Clamped numbers
+## 5.2 Clamped numbers
   
 Clamped numbers have built-in protection from overflow. Operations that would overflow instead revert to `MinValue` or `MaxValue` for the given number type. This is useful for preventing unexpected negative/positive, infinite or `NaN` values from entering a system.
         
@@ -498,35 +490,7 @@ The table below summarises the clamped number types and utilities provided.
 
 [\[Back to top\]](#top)
 
-## 3.4. Structures
-
-Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of <a href="#35-generic-numbers">INumeric&lt;TSelf&gt;</a>. The table below sumarises the types available.
-
-<table>
-  <tr>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr />
-  <tr>
-    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2&lt;TNumeric&gt;</td>
-    <td>A collection of two numeric values, <code>X</code> and <code>Y</code>, with extensive interface and operator support.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3&lt;TNumeric&gt;</td>
-    <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code>, with extensive interface and operator support.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;TNumeric&gt;</td>
-    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
-  </tr>
-</table>
-
-[\[Back to top\]](#top)
-
-## 3.5. Generic numbers
+## 5.3. Generic numbers
 
 The INumeric&lt;TSelf&gt; interface defines a contract for number types, allowing them to be used in a generic context.
 
@@ -649,7 +613,49 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 [\[Back to top\]](#top)
 
-## 3.6 Performance considerations
+## 5.4. Structures
+
+Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of <a href="#35-generic-numbers">INumeric&lt;TSelf&gt;</a>. The table below sumarises the types available.
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr />
+  <tr>
+    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2&lt;TNumeric&gt;</td>
+    <td>A collection of two numeric values, <code>X</code> and <code>Y</code>, with extensive interface and operator support.</td>
+  </tr>
+  <tr />
+  <tr>
+    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3&lt;TNumeric&gt;</td>
+    <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code>, with extensive interface and operator support.</td>
+  </tr>
+  <tr />
+  <tr>
+    <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;TNumeric&gt;</td>
+    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
+  </tr>
+</table>
+
+[\[Back to top\]](#top)
+
+## 5.5. Random extensions
+
+Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> provide random number generation for every built-in number type, as well as types that implement <a href="#inumericn">INumeric&lt;TSelf&gt;</a>. Overloads allow for increased flexibility with bounds, such as inclusive upper bounds and bounds specified in any order, as in the following example:
+
+```csharp
+using Jodo.Numerics;
+using System;
+
+var value1 = new Random().NextDouble(double.MinValue, double.MaxValue); // Returns any finite double.
+var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns a ulong between 100 and 200 (inclusive).
+```
+
+[\[Back to top\]](#top)
+
+## 5.6 Performance considerations
 
 The number types provided by this library are structs that wrap built-in types and operators. Therefore they consume additional memory and CPU time compared to using the built-in types alone.
 
@@ -699,7 +705,7 @@ Sample output can be seen below:
 <p align="center">* * *</p>
 <br />
 
-## 4. Jodo.Geometry
+## 6. Jodo.Geometry (pre-release)
 
 > Coming soon (see section 2.2. "[Roadmap](#22-roadmap)")
 
@@ -709,7 +715,7 @@ Sample output can be seen below:
 <p align="center">* * *</p>
 <br />
 
-## 5. Jodo.Collections
+## 7. Jodo.Collections (pre-release)
 
 > Coming soon (see section 2.2. "[Roadmap](#22-roadmap)")
 
