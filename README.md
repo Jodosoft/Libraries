@@ -18,7 +18,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;2.4. [Releases](#24-releases)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;2.5. [Documentation](#25-documentation)<br />
 
-3\. [Jodo.Numerics](#3-jodonumerics)<br />
+3\. [Jodo.Numerics](#numerics)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;3.1. [Random extensions](#31-random-extensions)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;3.2. [Fixed-point numbers](#32-fixed-point-numbers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;3.3. [Clamped numbers](#33-clamped-numbers)<br />
@@ -220,7 +220,7 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 <p align="center">* * *</p>
 <br />
 
-## 3. Jodo.Numerics
+<h2 id="numerics">3. Jodo.Numerics</h2>
 
 Provides numeric utilities, custom number types, and a generic interface for defining numbers. This section describes the features of the library.
 
