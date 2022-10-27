@@ -296,14 +296,19 @@ Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-poin
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
 
-Fix64 fixedPoint = (Fix64)8000000000000 + MathN.PI&lt;Fix64&gt;();
-double floatingPoint = 8000000000000 + Math.PI;
+Fix64 x = 100;
+Fix64 y = 2 * MathN.Cos(x);
+Fix64 z = Fix64.Parse("1000000.123456");
+Fix64 r = new Random(1).NextNumeric&lt;Fix64&gt;(100, 200);
+float f = ConvertN.ToSingle(z);
+byte[] bytes = BitConverterN.GetBytes(y);
 
-Console.WriteLine(fixedPoint); // output: 8000000000003.141592
-Console.WriteLine(floatingPoint); // output: 8000000000003.142
-
-Console.WriteLine(Fix64.MaxValue); // output: 9223372036854.775807
-Console.WriteLine(double.MaxValue); // output: 1.7976931348623157E+308</code></pre>
+Console.WriteLine(x); // output: 100
+Console.WriteLine(y); // output: 1.724636
+Console.WriteLine(z); // output: 1000000.123456
+Console.WriteLine(r); // output: 124.866858
+Console.WriteLine(f); // output: 1000000.1
+Console.WriteLine(bytes.Length); // output: 8</code></pre>
 
 The table belows summarizes the capabilities of these types.
 
