@@ -204,7 +204,6 @@ The following table summarizes the development goals for upcoming versions of th
     <td>
       <ul>
         <li>Add support for spans</li>
-        <li>Add support for spans</li>
       </ul>
     </td>
   </tr>
@@ -289,7 +288,7 @@ Provides numeric utilities, custom number types, and a generic interface for def
 
 ### 4.1. Fixed-point numbers <br id="numerics-fixed-point-numbers" />
 
-Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important as numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
+Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
 
 <a href="#fix64">Fix64</a> and <a href="#ufix64">UFix64</a> are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-generic-numbers">§4.3. Generic numbers</a>).
 
@@ -563,7 +562,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 [\[Back to top\]](#top)
 
-## 4.4. Structures <br id="numerics-structures" />
+### 4.4. Structures <br id="numerics-structures" />
 
 Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of <a href="#35-generic-numbers">INumeric&lt;TSelf&gt;</a>. The table below sumarises the types available.
 
@@ -591,7 +590,7 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
 
 [\[Back to top\]](#top)
 
-## 4.5. Random extensions <br id="numerics-random-extensions" />
+### 4.5. Random extensions <br id="numerics-random-extensions" />
 
 Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement <a href="#inumericn">INumeric&lt;TSelf&gt;</a>.
 
@@ -618,7 +617,7 @@ var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns 
 
 [\[Back to top\]](#top)
 
-## 4.6 Performance considerations <br id="numerics-performance-considerations" />
+### 4.6 Performance considerations <br id="numerics-performance-considerations" />
 
 The number types provided by this library are structs that wrap built-in types and operators. Therefore they consume additional memory and CPU time compared to using the built-in types alone.
 
