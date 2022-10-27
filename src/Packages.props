@@ -60,7 +60,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/JosephJShort/Jodo</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>https://github.com/JosephJShort/Jodo/issues?q=is%3Aclosed</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/JosephJShort/Jodo/#changelog</PackageReleaseNotes>
     <PackageTags>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)\TAGS.md"))</PackageTags>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <Product>Jodo</Product>
