@@ -29,6 +29,8 @@ using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
+using MyNumberType = Jodo.Numerics.DoubleN;
+
 namespace Jodo.Numerics.Tests
 {
     [NonParallelizable]
@@ -88,23 +90,23 @@ namespace Jodo.Numerics.Tests
         [Test]
         public void StringFormatting()
         {
-            Int32N var1 = 1024;
+            Int32N var1 = 1023;
             Fix64 var2 = (Fix64)99.54322f;
 
-            Console.WriteLine($"{var1:N2}"); // output: 1,024.00
-            Console.WriteLine($"{var1:X}"); // output: 400
+            Console.WriteLine($"{var1:N2}"); // output: 1,023.00
+            Console.WriteLine($"{var1:X}"); // output: 3FF
             Console.WriteLine($"{var2:E}"); // output: 9.954322E+001
             Console.WriteLine($"{var2:000.000}"); // output: 099.543
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("1,024.00", "400", "9.954322E+001", "099.543");
+                .Should().ContainInOrder("1,023.00", "3FF", "9.954322E+001", "099.543");
         }
 
         [Test]
         public void RandomValueGeneration()
         {
-            DoubleN var1 = Random.NextNumeric<DoubleN>(Generation.Extended);
-            DoubleN var2 = Random.NextNumeric<DoubleN>(100, 120, Generation.Extended);
+            DecimalN var1 = Random.NextNumeric<DecimalN>(Generation.Extended);
+            DecimalN var2 = Random.NextNumeric<DecimalN>(100, 120, Generation.Extended);
 
             Console.WriteLine(var1); // output: -7.405808417991177E+115 (example)
             Console.WriteLine(var2); // output: 102.85086051826445 (example)
@@ -186,6 +188,47 @@ namespace Jodo.Numerics.Tests
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
                 .Should().ContainInOrder("-26", "32767");
+        }
+
+        [Test]
+        public void FixedPoints_Examples()
+        {
+            var random = new Random(93);
+            var num1 = random.NextVariant<Int16N>(Variants.LowMagnitude);
+            var num2 = random.NextVariant<Int16N>(Variants.Defaults | Variants.Boundaries);
+
+            Console.WriteLine(num1); // output: -26
+            Console.WriteLine(num2); // output: 32767
+
+            ConsoleOuput.ToString().Split(Environment.NewLine)
+                .Should().ContainInOrder("-26", "32767");
+        }
+
+        [Test]
+        public void MyNumberType_Examples()
+        {
+            MyNumberType fromLiteral = 3.123;
+            MyNumberType usingOperators = (fromLiteral + 1) % 2;
+            MyNumberType usingMath = MathN.Pow(fromLiteral, 2);
+            MyNumberType fromRandom = new Random(1).NextNumeric<MyNumberType>(10, 20);
+            MyNumberType fromString = MyNumberType.Parse("-7.4E+5");
+            short conversion = ConvertN.ToInt16(usingMath);
+            string stringFormat = $"{fromLiteral:N3}";
+            byte[] asBytes = BitConverterN.GetBytes(usingMath);
+
+            Console.WriteLine(fromLiteral); // output: 3.123
+            Console.WriteLine(usingOperators); // output: 0.12300000000000022
+            Console.WriteLine(usingMath); // output: 9.753129000000001
+            Console.WriteLine(fromRandom); // output: 12.486685841570928
+            Console.WriteLine(fromString); // output: -740000
+            Console.WriteLine(conversion); // output: 10
+            Console.WriteLine(stringFormat); // output: 3.123
+            Console.WriteLine(asBytes); // output: System.Byte[]
+
+            ConsoleOuput.ToString().Split(Environment.NewLine)
+                .Should().ContainInOrder(
+                    "3.123", "0.12300000000000022", "9.753129000000001", "12.486685841570928",
+                    "-740000", "10", "3.123", "System.Byte[]");
         }
     }
 }
