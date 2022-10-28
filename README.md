@@ -62,12 +62,12 @@ To use the Jodo libraries:
 3. Import the required namespace in your code files, e.g. "`using Jodo.Numerics;`".
 4. Use the newly-available types in your code (no configuration or dependency injection is required).
 
-The available libraries are:
+The features available are:
 
 * **[Jodo.Numerics](#numerics)** - numeric utilities, custom number types, and a generic interface for defining numbers
 * **[Jodo.Geometry](#geometry) (preview)** - geometric structures, shapes and angles
-* **[Jodo.Collections](#collections) (preview)** - an extended set of collection classes
-* **[Jodo.Primitives](#primitives)** - miscellaneous utilities
+* **[Jodo.Collections](#collections) (preview)** - *tbc*
+* **[Jodo.Primitives](#primitives)** - miscellaneous utilities used throughout the other libraries
 
 
 [\[Back to top\]](#top)
@@ -78,7 +78,7 @@ The available libraries are:
 
 ## 3. About the project <br id="about" />
 
-The Jodo libraries started as a collection of reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types were revamped to make them fit for public consumption.
+The Jodo libraries started as a collection of reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types are being revamped to make them fit for public consumption.
 
 This section describes the design goals, roadmap, and other details of the project.
 
