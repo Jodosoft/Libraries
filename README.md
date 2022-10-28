@@ -24,7 +24,7 @@
 4\. [Jodo.Numerics](#numerics)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.1. [Fixed-point numbers](#numerics-fixed-point-numbers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.2. [Non-overflowing numbers](#numerics-non-overflowing-numbers)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;4.3. [Generic numbers](#numerics-generic-numbers)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;4.3. [Framework for number types](#numerics-framework-for-number-types)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.4. [Structures](#numerics-structures)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.5. [Random extensions](#numerics-random-extensions)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.6. [Performance considerations](#numerics-performance-considerations)<br />
@@ -36,6 +36,7 @@
 7\. [Jodo.Primitives](#primitives)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;7.1. [Random variants](#primitives-random-variants)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;7.2. [Default providers](#primitives-default-providers)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;7.3. [Stream extensions](#primitives-stream-extensions) (preview)<br />
 
 <br />
 <p align="center">* * *</p>
@@ -43,7 +44,7 @@
 
 ## 1. Introduction <br id="introduction" />
 
-Welcome to Jodo, a project to make simple and reliable .NET libraries covering numerics, geometry and data structures.
+Welcome to Jodo, a project to make simple, reliable .NET libraries covering numerics, geometry and data structures.
 
 This document describes the goals the project and the features of each library, and steps for getting started.
 
@@ -193,10 +194,28 @@ The following table summarizes the development goals for upcoming versions of th
     <td><code>1.1.0</code></td>
     <td>
       <ul>
-        <li>Create the first release of Jodo.Geometry</li>
-        <li>Make small improvements to Jodo.Numerics</li>
+        <li>Implement suggestions and make improvements to Jodo.Numerics</li>
+        <li>Add support for spans</li>
+        <li>Add support for bit streaming</li>
+        <li>Automate API documentation website and fill in major blanks</li>
       </ul>
       <a href="https://github.com/JosephJShort/Jodo/milestone/4"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/4?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
+    </td>
+  </tr>
+  <tr>
+    <td><code>1.2.0</code></td>
+    <td>
+      <ul>
+        <li>Create the first release of Jodo.Geometry</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><code>1.3.0</code></td>
+    <td>
+      <ul>
+        <li>Implement suggestions and make improvements to Jodo.Geometry</li>
+      </ul>
     </td>
   </tr>
   <tr>
@@ -290,7 +309,7 @@ Provides numeric utilities, custom number types, and a generic interface for def
 
 Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
 
-<a href="#fix64">Fix64</a> and <a href="#ufix64">UFix64</a> are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-generic-numbers">§4.3. Generic numbers</a>).
+Fix64 and UFix64 are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -336,7 +355,7 @@ The table belows summarizes the capabilities of these types.
   <tr>
     <td id="fix64"><sub><em>static class</em></sub><br />Scaled</td>
     <td>
-      <p>Provides static methods for performing arithmetic and string conversion on integers with an imaginary decimal point. Used to implement <code>Fix64</code> and <code>UFix64</code>.</p>
+      <p>Provides static methods for performing arithmetic and string conversion on integers with a scaling factor. Used to implement <code>Fix64</code> and <code>UFix64</code>.</p>
     </td>
   </tr>
 </table>
@@ -349,7 +368,7 @@ Number types in the `Jodo.Numerics.Clamped` namespace have built-in protection f
 
 This is useful for preventing unexpected negative, positive, infinite or `NaN` values from entering a system.
 
-As with all the number types provided by this library, these types support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-generic-numbers">§4.3. Generic numbers</a>).
+As with all the number types provided by this library, these types support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
         
 Usage is the same as with built-in numeric types but yields different results in cases of overflow.
 
@@ -405,8 +424,7 @@ The table below summarizes the clamped number types and utilities provided.
 			Fix64M,<br />UFix64M
 		</td>
 		<td>
-			Non-overflowing variants of <a href="#32-fixed-point-numbers">Fix64</a>
-			and <a href="#32-fixed-point-numbers">UFix64</a>.
+			Non-overflowing variants of Fix64 and UFix64 (see <a href="#numerics-fixed-point-numbers">§4.1. Fixed-point numbers</a>).
 			Operations that would overflow instead return <code>MinValue</code>
 			or <code>MaxValue</code> depending on the direction of the
 			overflow. Division by zero does NOT throw a
@@ -439,19 +457,25 @@ The table below summarizes the clamped number types and utilities provided.
 
 [\[Back to top\]](#top)
 
-### 4.3. Generic numbers <br id="numerics-generic-numbers" />
+### 4.3. Framework for number types <br id="numerics-framework-for-number-types" />
 
-The INumeric&lt;TSelf&gt; interface defines a contract for number types, allowing them to be used in a generic context.
+The INumeric&lt;TSelf&gt; interface defines a contract for number types with support for operators, maths, conversion, string-parsing, random generation, and more.
 
-Overloaded operators, and utility class such as `MathN` and `ConvertN` allow for these types to be used seemlessly in place of the built-in number types.
+Static utility classes, such as `MathN` and `ConvertN`, expose the features of these types in a way this is familiar to users of the built-in number types.
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
 
-var number = (MyNumberType)100;
-var result = number * 2 + 1;</code></pre>
+MyNumberType fromLiteral = 3.123;
+MyNumberType usingOperators = (fromLiteral + 1) % 2;
+MyNumberType usingMath = MathN.Pow(fromLiteral, 2);
+MyNumberType fromRandom = new Random(1).NextNumeric&lt;MyNumberType&gt;(10, 20);
+MyNumberType fromString = MyNumberType.Parse("-7.4E+5");
+short conversion = ConvertN.ToInt16(usingMath);
+string stringFormat = $"{fromLiteral:N3}";
+byte[] asBytes = BitConverterN.GetBytes(usingMath);</code></pre>
 
-The table below gives a full list of features supported by number types that implement INumeric&lt;N&gt;.
+The table below gives a full list of features supported by number types that implement INumeric&lt;TSelf&gt;.
 
 <table>
   <tr>
@@ -462,20 +486,17 @@ The table below gives a full list of features supported by number types that imp
   <tr>
     <td id="mathn"><sub><em>static class</em></sub><br />MathN</td>
     <td>
-      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">System.Math</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, e.g. <code>Log(N)</code>, <code>Acosh(N)</code> and <code>Round(N, int)</code>.</p>
-      <p>This is demonstrated by the following code sample:</p>
-    <pre lang="csharp"><code>var result = MathN.Log10(1000 * MathN.PI&lt;Fix64&gt;());
-Console.WriteLine(result); // output: 3.497149</code></pre>
+      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">System.Math</a> for types that implement INumeric&lt;TSelf&gt;, e.g. <code>Log(N)</code>, <code>Acosh(N)</code> and <code>Round(N, int)</code>.</p>
+    <pre lang="csharp"><code>var result = MathN.Log10(1000 * MathN.PI&lt;MyNumberType&gt;());</code></pre>
     </td>
   </tr>
   <tr />
   <tr>
     <td id="bitconvertern"><sub><em>static class</em></sub><br />BitConverterN</td>
     <td>
-      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">System.BitConverter</a> for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, allowing conversion to and from byte arrays.
+      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">System.BitConverter</a> for types that implement INumeric&lt;TSelf&gt;, allowing conversion to and from byte arrays.
       </p>
-<pre lang="csharp"><code>byte[] result = BitConverterN.GetBytes((UFix64)256.512);
-Console.WriteLine(BitConverter.ToString(result)); // output: 00-10-4A-0F-00-00-00-00</code></pre>
+<pre lang="csharp"><code>byte[] result = BitConverterN.GetBytes((MyNumberType)256.512);</code></pre>
     </td>
   </tr>
   <tr />
@@ -485,23 +506,33 @@ Console.WriteLine(BitConverter.ToString(result)); // output: 00-10-4A-0F-00-00-0
       <p>
         Provides equivalent methods to
         <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a>
-        for types that implement <a href="#inumericn">INumeric&lt;N&gt;</a>
+        for types that implement INumeric&lt;TSelf&gt;
         (e.g. <code>ToBoolean(N)</code> and <code>ToDecimal(N)</code>).
         Overloads are provided to support alternative modes of conversion,
         e.g. <code>Default</code>, <code>Cast</code> and <code>Clamp</code>.
       </p>
       <pre lang="csharp"><code>var defaultResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Default);
-var castResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Cast);
-
-Console.WriteLine(defaultResult); // output: 200
-Console.WriteLine(castResult); // output: 199</code></pre>
+var castResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Cast);</code></pre>
+    </td>
+  </tr>
+  <tr />
+  <tr>
+    <td id="mathn"><sub><em>static class</em></sub><br />Numeric</td>
+    <td>
+      <p>Provides access to constants and static methods for number types in a generic context.</p>
+    <pre lang="csharp"><code>public void ExampleMethod&lt;T&gt;() where T : struct, INumeric<T>
+{
+    var zero = Numeric.Zero&lt;T&gt;();
+    var parsed = Numeric.Parse&lt;T&gt;("1.2");
+    var isFinite = Numeric.IsFinite(parsed);
+}</code></pre>
     </td>
   </tr>
   <tr />
   <tr>
     <td id="operators">Overloaded operators</td>
     <td>
-      <p>All the provided numeric types have a full suite of overloaded operators, including:
+      <p>All the number types in this library have a full suite of overloaded operators, including:
       <ul>
         <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Equality operators</a> (<code>==</code>, <code>!=</code>)</li>
         <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/equality-operators">Comparison operators</a> (<code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>)</li>
@@ -511,7 +542,7 @@ Console.WriteLine(castResult); // output: 199</code></pre>
       </ul>
   </p>
    <p>
-Additionally, <a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>++</code>, <code>--</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code>, allowing for limited expressions in a generic context (note that equality and conversion operators are not supported on interfaces).
+Additionally, INumeric&lt;TSelf&gt; defines overloads for <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>++</code>, <code>--</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code>, allowing for limited expressions in a generic context (note that equality and conversion operators are not supported on interfaces).
   </p>
   <p> <em>Note: The bitwise and shift operators are overloaded for non-integral types. These operators perform the correct bitwise operations, but are unlikely to produce useful results.</em></p>
       </td>
@@ -520,12 +551,12 @@ Additionally, <a href="#inumericn">INumeric&lt;N&gt;</a> defines overloads for <
    <tr>
 <td id="stringformatting">String formatting</td>
 <td>
-<p>All the provided numeric types can be used with <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings">numeric format strings</a>, as in the following code sample:</p>
-  <pre lang="csharp"><code>var var1 = (xint)1024;
-var var2 = (fix64)99.54322f;
+<p>All the number types in this library can be used with <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings">numeric format strings</a>, as in the following code sample:</p>
+  <pre lang="csharp"><code>var var1 = (MyNumberType)1023;
+var var2 = (MyNumberType)99.54322f;
 
-Console.WriteLine($"{var1:N}"); // outputs: 1,024.00
-Console.WriteLine($"{var1:X}"); // outputs: 400
+Console.WriteLine($"{var1:N}"); // outputs: 1,023.00
+Console.WriteLine($"{var1:X}"); // outputs: 3FF
 Console.WriteLine($"{var2:E}"); // outputs: 9.954322E+001
 Console.WriteLine($"{var2:000.000}"); // outputs: 099.543</code></pre>
 </td>
@@ -533,18 +564,18 @@ Console.WriteLine($"{var2:000.000}"); // outputs: 099.543</code></pre>
   <tr />
 <tr>
 <td>Random generation</td>
-  <td>Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">Random</a> provide randomly generated values. Values can be generated between two bounds or without bounds, as in the following code sample:</p>
-  <pre lang="csharp"><code>var var1 = Random.NextNumeric&lt;xdouble&gt;();
-var var2 = Random.NextNumeric&lt;xdouble&gt;(100, 120);
+  <td>Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> provide randomly generated values. Values can be generated between bounds or without bounds.</p>
+  <pre lang="csharp"><code>var var1 = Random.NextNumeric&lt;MyNumberType&gt;();
+var var2 = Random.NextNumeric&lt;MyNumberType&gt;(100, 120);
 
-Console.WriteLine(var1); // outputs: -7.405808417991177E+115 (example)
+Console.WriteLine(var1); // outputs: 0.405808417991177 (example)
 Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
   
   </td>
 </tr>
   <tr />
 <tr>
-<td>Commonly-used abstractions</td> <td>All the provided numeric types implement <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable">System.IComparable</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1">System.IComparable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iconvertible">System.IConvertible</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">System.IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">System.ISerializable</a>. They also override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
+<td>Commonly-used abstractions</td> <td>All the number types in this library implement <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable">System.IComparable</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1">System.IComparable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iconvertible">System.IConvertible</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">System.IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">System.ISerializable</a>. They also override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
 </tr>
   <tr />
   <tr>
@@ -556,7 +587,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
       SingleN, DoubleN,<br />
       DecimalN
     </td>
-    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> that implement <a href="#inumericn">INumeric&lt;N&gt;</a>, allowing the built-in numeric types to be used in a generic context.</td>
+    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> that implement INumeric&lt;N&gt;, allowing them to be used in a generic context.</td>
   </tr>
 </table>
 
@@ -564,7 +595,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 ### 4.4. Structures <br id="numerics-structures" />
 
-Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of <a href="#35-generic-numbers">INumeric&lt;TSelf&gt;</a>. The table below sumarises the types available.
+Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>). The table below sumarises the types available.
 
 <table>
   <tr>
@@ -573,17 +604,27 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
   </tr>
   <tr />
   <tr>
-    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2&lt;TNumeric&gt;</td>
+    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2N&lt;TNumeric&gt;</td>
     <td>A collection of two numeric values, <code>X</code> and <code>Y</code>, with extensive interface and operator support.</td>
   </tr>
   <tr />
   <tr>
-    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3&lt;TNumeric&gt;</td>
+    <td id="vector2n"><sub><em>static class</em></sub><br />Vector2N</td>
+    <td>Provides static methods for performing vector-based mathematics, such as dot product.</td>
+  </tr>
+  <tr />
+  <tr>
+    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3N&lt;TNumeric&gt;</td>
     <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code>, with extensive interface and operator support.</td>
   </tr>
   <tr />
   <tr>
-    <td id="unitn"><sub><em>readonly struct</em></sub><br />Unit&lt;TNumeric&gt;</td>
+    <td id="vector2n"><sub><em>static class</em></sub><br />Vector3N</td>
+    <td>Provides static methods for performing vector-based mathematics, such as dot product.</td>
+  </tr>
+  <tr />
+  <tr>
+    <td id="unitn"><sub><em>readonly struct</em></sub><br />UnitN&lt;TNumeric&gt;</td>
     <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
   </tr>
 </table>
@@ -592,7 +633,7 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
 
 ### 4.5. Random extensions <br id="numerics-random-extensions" />
 
-Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement <a href="#inumericn">INumeric&lt;TSelf&gt;</a>.
+Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
 
 Overloads are provided that allow greater flexibility with bounds via the `Generation` enum:
 
@@ -619,21 +660,17 @@ var value2 = new Random().NextUInt64(200, 100, Generation.Extended); // Returns 
 
 ### 4.6 Performance considerations <br id="numerics-performance-considerations" />
 
-The number types provided by this library are structs that wrap built-in types and operators. Therefore they consume additional memory and CPU time compared to using the built-in types alone.
+The number types provided by this library are structs that wrap built-in types and operations. Therefore they require additional memory and CPU time compared to using the built-in types alone.
 
-Additionally, the number types in the *Jodo.Numerics.Clamped* namespace make use of the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword for conversion and arithmetic. Therefore increases CPU time compared to using unchecked, especially in cases of overflow.
+Additionally, the number types within the *Jodo.Numerics.Clamped* namespace make use of the [checked](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/checked) keyword for conversion and arithmetic. This further increases CPU time compared to using unchecked operations, especially in cases of overflow.
 
-If developing a performance-sensitive application, use a profiler to assess the impact of introducing these types. Generally speaking, the impact is likely to be acceptable unless CPU-bound arithmetic is already on the hot path for the given application (e.g. in machine learning or 3D physics simulation).
+If developing a performance-sensitive application, use a profiler to assess the impact of introducing these types. Generally speaking, the impact is likely to be acceptable unless CPU-bound arithmetic is already on the hot path for the given application (e.g. in machine learning or 3D physics applications).
 
-Benchmarks are provided to facilitate comparison with the built-in types. To run the benchmarks, clone this repository then build and run *Jodo.Numerics.Benchmarks.exe* in RELEASE mode.
+Benchmarks are provided to facilitate comparison with the built-in number types. To run the benchmarks, clone this repository then build and run *Jodo.Numerics.Benchmarks* in RELEASE mode (without a attaching a debugger).
 
 Sample output can be seen below:
 
-<details>
-<summary><em>Jodo.Numerics.Benchmarks - Results from 2022-09-28 07:58:50Z</em></summary>
-
- <br />
-  
+> *Jodo.Numerics.Benchmarks - Results from 2022-09-28 07:58:50Z*
 > * **Processor:** 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
 > * **Architecture:** x64-based processor
 > * **.NET Version:** .NET 5.0.17
@@ -659,8 +696,6 @@ Sample output can be seen below:
 | DoubleNLogarithm_Versus_DoubleLogarithm | 4.913E+07 | 5.244E+07 | *<1μs* | *<1μs* | 0.94 | 1.07 |
 | DoubleNRounding_Versus_DoubleRounding | 3.396E+07 | 3.597E+07 | *<1μs* | *<1μs* | 0.94 | 1.06 |
 
-</details>
-
 [\[Back to top\]](#top)
 
 <br />
@@ -669,7 +704,7 @@ Sample output can be seen below:
 
 ## 5. Jodo.Geometry (preview) <br id="geometry" />
 
-> Coming soon (see section 2.2. "[Roadmap](#22-roadmap)")
+> Coming soon (see section 2.2. "[Roadmap](#roadmap)")
 
 [\[Back to top\]](#top)
 
@@ -679,13 +714,13 @@ Sample output can be seen below:
 
 ## 6. Jodo.Collections (preview) <br id="collections" />
 
-> Coming soon (see section 2.2. "[Roadmap](#22-roadmap)")
+> Coming soon (see section 2.2. "[Roadmap](#roadmap)")
 
 [\[Back to top\]](#top)
 
 ## 7. Jodo.Primitives <br id="primitives" />
 
-Provides low level utility classes that are used throughout the various Jodo libraries. This section describes the utilities.
+Provides utilities and abstractions that are used throughout the Jodo libraries.
 
 <a href="https://www.nuget.org/packages/Jodo.Primitives/"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
 
@@ -702,31 +737,31 @@ Provides a specification for randomly generating objects based on variants (cate
     </tr>
     <tr>
         <td>Defaults</td>
-	<td>Null, zero, and any other default state for a given object.</td>
+	      <td>Null, zero, or any other default state for a given object.</td>
     </tr>
     <tr>
         <td>LowMagnitude</td>
-	<td>Small values and values with reduced significance.</td>
+	      <td>Small values and values with reduced significance.</td>
     </tr>
     <tr>
         <td>AnyMagnitude</td>
-	<td>Any value from the set of all possible values, excluding errors.</td>
+	      <td>Any value from the set of all possible values, excluding errors.</td>
     </tr>
     <tr>
         <td>Boundaries</td>
-	<td>Minimum and maximum values.</td>
+	      <td>Minimum and maximum values.</td>
     </tr>
     <tr>
         <td>Errors</td>
-	<td>Values that are typical of error scenarios, or values intended to elicit errors.</td>
+	      <td>Values that are typical of error scenarios, or values intended to elicit errors.</td>
     </tr>
     <tr>
         <td>All</td>
-	<td>Encompasses all variants.</td>
+	      <td>Encompasses all variants.</td>
     </tr>
     <tr>
         <td>NonError</td>
-	<td>Encompasses all variants, except for errors.</td>
+	      <td>Encompasses all variants, except for errors.</td>
     </tr>
 </table>
 
@@ -744,7 +779,17 @@ Console.WriteLine(num2); // output: -32768 (example)</code></pre>
 
 ### 7.2. Default providers <br id="primitives-default-providers" />
 
-> tbc
+> Documentation tbc
+
+[\[Back to top\]](#top)
+
+<br />
+<p align="center">* * *</p>
+<br />
+
+### 7.3. Stream extensions (preview) <br id="primitives-stream-extensions" />
+
+> Documentation tbc
 
 [\[Back to top\]](#top)
 
