@@ -130,18 +130,24 @@ namespace Jodo.Numerics.Tests
         }
 
         [Test]
-        public void FixedPointArithmetic()
+        public void FixedPointNumbers_Example()
         {
-            Fix64 third = 1 / (Fix64)3;
-            Fix64 pi = MathN.PI<Fix64>();
-            Fix64 tooSmall = (Fix64)0.0000001;
+            Fix64 x = 100;
+            Fix64 y = 2 * MathN.Cos(x);
+            Fix64 z = Fix64.Parse("1000000.123456");
+            Fix64 r = new Random(1).NextNumeric<Fix64>(100, 200);
+            float f = ConvertN.ToSingle(z);
+            byte[] bytes = BitConverterN.GetBytes(y);
 
-            Console.WriteLine(third); // output: 0.333333
-            Console.WriteLine(pi); // output: 3.141592
-            Console.WriteLine(tooSmall); // output: 0
+            Console.WriteLine(x); // output: 100
+            Console.WriteLine(y); // output: 1.724636
+            Console.WriteLine(z); // output: 1000000.123456
+            Console.WriteLine(r); // output: 124.866858
+            Console.WriteLine(f); // output: 1000000.1
+            Console.WriteLine(bytes.Length); // output: 8
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("0.333333", "3.141592", "0");
+                .Should().ContainInOrder("100", "1.724636", "1000000.123456", "124.866858", "1000000.1", "8");
         }
 
         [Test]
