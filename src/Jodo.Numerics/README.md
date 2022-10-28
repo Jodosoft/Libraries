@@ -1,1 +1,1 @@
-﻿Custom number types and extensive numeric utilities.
+﻿Provides numeric utilities, custom number types, and a generic interface for defining numbers.
