@@ -1,1 +1,1 @@
-﻿Geometric structs and utilities that support custom number types.
+﻿Provides geometric structs and utilities that support custom number types.

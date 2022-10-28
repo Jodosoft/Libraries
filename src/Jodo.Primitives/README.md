@@ -1,1 +1,1 @@
-﻿Provides miscellaneous utilities used by the Jodo packages.
+﻿Provides utilities and abstractions that are used throughout the Jodo libraries.

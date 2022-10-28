@@ -1,1 +1,1 @@
-﻿numeric, numerics, number, numbers, math, maths, arithmetic, fixed, point, fixed-point, fix
+﻿numeric, numerics, number, numbers, math, maths, arithmetic, fixed, point, fixed-point, fix, jodo

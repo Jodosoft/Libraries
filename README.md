@@ -36,7 +36,8 @@
 7\. [Jodo.Primitives](#primitives)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;7.1. [Random variants](#primitives-random-variants)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;7.2. [Default providers](#primitives-default-providers)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;7.3. [Stream extensions](#primitives-stream-extensions) (preview)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;7.3. [Shims](#primitives-shims)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;7.4. [Stream extensions](#primitives-stream-extensions) (preview)<br />
 
 <br />
 <p align="center">* * *</p>
@@ -66,8 +67,8 @@ To use the Jodo libraries:
 The features available are:
 
 * **[Jodo.Numerics](#numerics)** - numeric utilities, custom number types, and a generic interface for defining numbers
-* **[Jodo.Geometry](#geometry) (preview)** - geometric structures, shapes and angles
-* **[Jodo.Collections](#collections) (preview)** - *tbc*
+* **[Jodo.Geometry](#geometry) (preview)** - geometric structs and utilities that support custom number types.
+* **[Jodo.Collections](#collections) (preview)** - Extra collection classes and interfaces to complement the .NET API
 * **[Jodo.Primitives](#primitives)** - miscellaneous utilities used throughout the other libraries
 
 
@@ -299,7 +300,7 @@ The following table summarizes changes made to previous releases of the Jodo lib
 
 ## 4. Jodo.Numerics <br id="numerics" />
 
-Provides numeric utilities, custom number types, and a generic interface for defining numbers. This section describes the features of the library.
+Provides numeric utilities, custom number types, and a generic interface for defining numbers.
 
 <a href="https://www.nuget.org/packages/Jodo.Numerics/"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Numerics?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
   
@@ -704,6 +705,8 @@ Sample output can be seen below:
 
 ## 5. Jodo.Geometry (preview) <br id="geometry" />
 
+Provides geometric structs and utilities that support custom number types.
+
 > Coming soon (see section 2.2. "[Roadmap](#roadmap)")
 
 [\[Back to top\]](#top)
@@ -713,6 +716,8 @@ Sample output can be seen below:
 <br />
 
 ## 6. Jodo.Collections (preview) <br id="collections" />
+
+Provides extra collection classes and interfaces to complement the .NET API.
 
 > Coming soon (see section 2.2. "[Roadmap](#roadmap)")
 
@@ -783,11 +788,13 @@ Console.WriteLine(num2); // output: -32768 (example)</code></pre>
 
 [\[Back to top\]](#top)
 
-<br />
-<p align="center">* * *</p>
-<br />
+### 7.3. Shims <br id="primitives-shims" />
 
-### 7.3. Stream extensions (preview) <br id="primitives-stream-extensions" />
+> Documentation tbc
+
+[\[Back to top\]](#top)
+
+### 7.4. Stream extensions (preview) <br id="primitives-stream-extensions" />
 
 > Documentation tbc
 
