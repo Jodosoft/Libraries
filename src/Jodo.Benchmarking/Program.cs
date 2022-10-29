@@ -46,8 +46,8 @@ namespace Jodo.Benchmarking
 
                 BenchmarkWriter.WriteHeader(
                     Duration,
-                    TryGetArg(args, "processor", out string processor) ? processor : "*tbc*",
-                    TryGetArg(args, "ram", out string ram) ? ram : "*tbc*");
+                    GetArgOrDefault(args, "processor") ?? "*tbc*",
+                    GetArgOrDefault(args, "ram") ?? "*tbc*");
 
                 foreach (MethodInfo method in benchmarkMethods)
                 {
@@ -131,7 +131,7 @@ namespace Jodo.Benchmarking
             }
         }
 
-        private static bool TryGetArg(string[] args, string name, out string value)
+        private static string GetArgOrDefault(string[] args, string name)
         {
             int index = Array.IndexOf(args, $"--{name}");
 
@@ -140,11 +140,9 @@ namespace Jodo.Benchmarking
                 args[index + 1] == null ||
                 args[index + 1].StartsWith("-", StringComparison.InvariantCultureIgnoreCase))
             {
-                value = null;
-                return false;
+                return null;
             }
-            value = args[index + 1];
-            return true;
+            return args[index + 1];
         }
     }
 }
