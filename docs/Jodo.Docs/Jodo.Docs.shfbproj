@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>22a055ed-abab-4bdd-8989-6eb738411445</ProjectGuid>
+    <SHFBSchemaVersion>2017.9.26.0</SHFBSchemaVersion>
+    <AssemblyName>Jodo.Docs</AssemblyName>
+    <RootNamespace>Jodo.Docs</RootNamespace>
+    <Name>Jodo.Docs</Name>
+    <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
+    <OutputPath>bin\www\</OutputPath>
+    <HtmlHelpName>Jodo.Docs</HtmlHelpName>
+    <Language>en-US</Language>
+    <TransformComponentArguments>
+      <Argument Key="RobotsMetadata" Value="" />
+      <Argument Key="BibliographyDataFile" Value="" />
+      <Argument Key="RootBreadcrumbTitleText" Value="Learn" />
+      <Argument Key="CollapsibleSections" Value="False" />
+      <Argument Key="LogoFile" Value="Icon.png" />
+      <Argument Key="LogoHeight" Value="48" />
+      <Argument Key="LogoWidth" Value="44" />
+      <Argument Key="LogoAltText" Value="Jodo" />
+      <Argument Key="LogoPlacement" Value="left" />
+      <Argument Key="LogoAlignment" Value="left" />
+      <Argument Key="LogoUrl" Value="https://jodo.dev/" />
+      <Argument Key="MaxVersionParts" Value="3" />
+      <Argument Key="DefaultLanguage" Value="cs" />
+      <Argument Key="IncludeEnumValues" Value="True" />
+      <Argument Key="EnumMemberSortOrder" Value="Value" />
+      <Argument Key="FlagsEnumValueFormat" Value="IntegerValue" />
+      <Argument Key="FlagsEnumSeparatorSize" Value="0" />
+      <Argument Key="BaseSourceCodeUrl" Value="https://github.com/JosephJShort/Jodo/blob/main/src" />
+      <Argument Key="RequestExampleUrl" Value="" />
+    </TransformComponentArguments>
+    <HelpFileFormat>Website</HelpFileFormat>
+    <SyntaxFilters>Standard</SyntaxFilters>
+    <PresentationStyle>Default2022</PresentationStyle>
+    <CleanIntermediates>True</CleanIntermediates>
+    <KeepLogFile>True</KeepLogFile>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <IndentHtml>False</IndentHtml>
+    <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
+    <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
+    <HelpTitle>Jodo</HelpTitle>
+    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <NamingMethod>MemberName</NamingMethod>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <NamespaceGrouping>False</NamespaceGrouping>
+    <MaximumGroupParts>2</MaximumGroupParts>
+    <Preliminary>False</Preliminary>
+    <SdkLinkTarget>Self</SdkLinkTarget>
+    <DocumentationSources>
+      <DocumentationSource sourceFile="..\..\src\Jodo.Primitives\Jodo.Primitives.csproj" />
+      <DocumentationSource sourceFile="..\..\src\Jodo.Numerics\Jodo.Numerics.csproj" />
+      <DocumentationSource sourceFile="..\..\src\Jodo.Geometry\Jodo.Geometry.csproj" />
+      <DocumentationSource sourceFile="..\..\src\Jodo.Collections\Jodo.Collections.csproj" />
+    </DocumentationSources>
+    <RootNamespaceTitle>API Reference</RootNamespaceTitle>
+    <CopyrightText>Copyright &amp;#169%3b 2022 Joseph J. Short</CopyrightText>
+    <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, NonBrowsable</VisibleItems>
+    <MissingTags>AutoDocumentCtors, Namespace, AutoDocumentDispose</MissingTags>
+    <SourceCodeBasePath>..\..\src\</SourceCodeBasePath>
+    <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="(global)" isDocumented="True" xmlns="" />
+      <NamespaceSummaryItem name="Jodo.Numerics" isDocumented="True" xmlns="">Provides numeric utilities, custom number types, and a generic interface for defining numbers.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Jodo.Numerics.Clamped" isDocumented="True" xmlns="" />
+      <NamespaceSummaryItem name="Jodo.Primitives" isDocumented="True" xmlns="">Provides utilities and abstractions that are used throughout the Jodo libraries.</NamespaceSummaryItem>
+    </NamespaceSummaries>
+    <BuildLogFile>bin\build.log</BuildLogFile>
+    <WorkingPath>bin\temp\</WorkingPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="content" />
+    <Folder Include="icons" />
+    <Folder Include="media" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\favicon.ico" />
+    <None Include="content\Jodo.aml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ContentLayout Include="ContentLayout.content" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\Icon.png">
+      <ImageId>Icon</ImageId>
+      <AlternateText>Icon</AlternateText>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="'$(MSBuildRestoreSessionId)' != ''" />
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" Condition="'$(MSBuildRestoreSessionId)' == ''" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)CNAME" "$(ProjectDir)bin\www\" /Y</PostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topic id="jodo" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>Simple, reliable .NET libraries covering numbers, geometry and data structures.</para>
+		</introduction>
+
+		<section>
+			<title>Getting started</title>
+			<content>
+				<para>
+					For a general information, see the Jodo repository on GitHub at <externalLink>
+						<linkText>https://github.com/JosephJShort/Jodo/</linkText>
+						<linkUri>https://github.com/JosephJShort/Jodo/</linkUri>
+					</externalLink>.
+				</para>
+				<para>
+					For API reference documentation, use the links to the left to navigate between namespaces.
+				</para>
+			</content>
+		</section>
+		<relatedTopics />
+	</developerConceptualDocument>
+</topic>
