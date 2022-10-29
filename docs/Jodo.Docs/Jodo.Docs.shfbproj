@@ -25,7 +25,7 @@
       <Argument Key="LogoWidth" Value="44" />
       <Argument Key="LogoAltText" Value="Jodo" />
       <Argument Key="LogoPlacement" Value="left" />
-      <Argument Key="LogoAlignment" Value="left" />
+      <Argument Key="LogoAlignment" Value="center" />
       <Argument Key="LogoUrl" Value="https://jodo.dev/" />
       <Argument Key="MaxVersionParts" Value="3" />
       <Argument Key="DefaultLanguage" Value="cs" />
@@ -97,8 +97,8 @@
       <AlternateText>Icon</AlternateText>
     </Content>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="'$(MSBuildRestoreSessionId)' != ''" />
-  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" Condition="'$(MSBuildRestoreSessionId)' == ''" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" Condition="Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
