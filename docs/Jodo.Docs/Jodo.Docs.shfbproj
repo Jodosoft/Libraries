@@ -97,6 +97,11 @@
       <AlternateText>Icon</AlternateText>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EWSoftware.SHFB" Version="2022.10.15" />
+    <PackageReference Include="EWSoftware.SHFB.NET" Version="5.0.0.2" />
+    <PackageReference Include="EWSoftware.SHFB.NETFramework" Version="4.8.0" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" Condition="Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
   <PropertyGroup>
