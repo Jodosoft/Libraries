@@ -17,14 +17,6 @@
     <!-- Missing XML comment for publicly visible type or member. -->
     <!-- Justification: XML docs are WIP. -->
     <NoWarn>$(NoWarn);CS1591;</NoWarn>
-
-    <!-- Member '$1' exists on $2 but not on $3. -->
-    <!-- Justification: Wish to allow conversion operators to/from value tuples in frameworks that support them. -->
-    <NoWarn>$(NoWarn);CP0002;</NoWarn>
-
-    <!-- Cannot add interface member '$1' to $2 because it does not exist on $3 -->
-    <!-- Justification: Wish to allow default interface methods and operators in frameworks that support them. -->
-    <NoWarn>$(NoWarn);CP0006;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

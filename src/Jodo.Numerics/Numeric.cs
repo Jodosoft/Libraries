@@ -157,6 +157,19 @@ namespace Jodo.Numerics
         public static TNumeric Parse<TNumeric>(string s, NumberStyles? numberStyles, IFormatProvider? formatProvider) where TNumeric : struct, INumeric<TNumeric>
             => DefaultProvider<TNumeric, INumericStatic<TNumeric>>.Instance.Parse(s, numberStyles, formatProvider);
 
+        /// <summary>
+        /// Returns <see langword="true"/> if <paramref name="x"/> equals <c>0</c>. Equivalent to checking whether
+        /// <paramref name="x"/> equals <c>default</c>.
+        /// </summary>
+        /// <typeparam name="TNumeric">The type of number to test.</typeparam>
+        /// <param name="x">The number to test for equality to <c>0</c>.</param>
+        /// <returns><see langword="true"/> if <paramref name="x"/> equals <c>0</c>; otherwise <see langword="false"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsZero<TNumeric>(TNumeric x) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return x.Equals(default);
+        }
+
         public static bool TryParse<TNumeric>(string s, out TNumeric result) where TNumeric : struct, INumeric<TNumeric>
         {
             try

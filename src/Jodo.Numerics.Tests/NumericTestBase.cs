@@ -83,6 +83,21 @@ namespace Jodo.Numerics.Tests
         }
 
         [Test, Repeat(RandomVariations)]
+        public void IsZero_RandomValues_ReturnsSameAsOtherMethods()
+        {
+            //arrange
+            TNumeric input = Random.NextVariant<TNumeric>();
+
+            //act
+            bool isZero() => Numeric.IsZero(input);
+            bool equalsZero() => input.Equals(Numeric.Zero<TNumeric>());
+            bool equalsDefault() => input.Equals(default);
+
+            //assert
+            AssertSame.Outcome(isZero, equalsZero, equalsDefault);
+        }
+
+        [Test, Repeat(RandomVariations)]
         public void Add_RandomValues_CorrectResult()
         {
             //arrange
