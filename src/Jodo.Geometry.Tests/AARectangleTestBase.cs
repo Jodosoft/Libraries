@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Linq;
 using FluentAssertions;
 using Jodo.Numerics;
 using Jodo.Primitives;
@@ -100,59 +101,91 @@ namespace Jodo.Geometry.Tests
         }
 
         [Test, Repeat(RandomVariations)]
-        public void TopMethods_RandomValue_SameResult()
+        public void GetTop_UnitHeight_DoesNotEqualBottom()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            AARectangle<TNumeric> subject = new AARectangle<TNumeric>(
+                Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude),
+                new Vector2N<TNumeric>(Random.NextVariant<TNumeric>(Variants.LowMagnitude), Numeric.One<TNumeric>()));
+            TNumeric bottom = subject.GetBottom();
 
             //act
+            TNumeric result = subject.GetTop();
+
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetTop(),
-                () => origin.Y.Subtract(dimensions.Y.Half()).Add(dimensions.Y));
+            result.Should().NotBe(bottom);
         }
 
         [Test, Repeat(RandomVariations)]
-        public void BottomMethods_RandomValue_SameResult()
+        public void GetRight_UnitWidth_DoesNotEqualBottom()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            AARectangle<TNumeric> subject = new AARectangle<TNumeric>(
+                Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude),
+                new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Random.NextVariant<TNumeric>(Variants.LowMagnitude)));
+            TNumeric left = subject.GetLeft();
 
             //act
+            TNumeric result = subject.GetRight();
+
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetBottom(),
-                () => origin.Y.Subtract(dimensions.Y.Half()));
+            result.Should().NotBe(left);
         }
 
         [Test, Repeat(RandomVariations)]
-        public void LeftMethods_RandomValue_SameResult()
+        public void GetTop_RandomValue_SameAsManualCalculation()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Variants.NonError);
 
             //act
+            TNumeric getTop() => subject.GetTop();
+            TNumeric manualCalculation() => subject.Center.Y.Subtract(subject.Height.Half()).Add(subject.Height);
+
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetLeft(),
-                () => origin.X.Subtract(dimensions.X.Half()));
+            AssertSame.Result(getTop, manualCalculation);
         }
 
         [Test, Repeat(RandomVariations)]
-        public void RightMethods_RandomValue_SameResult()
+        public void GetBottom_RandomValue_SameAsManualCalculation()
         {
             //arrange
-            Vector2N<TNumeric> origin = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
-            Vector2N<TNumeric> dimensions = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Variants.NonError);
 
             //act
+            TNumeric getBottom() => subject.GetBottom();
+            TNumeric manualCalculation() => subject.Center.Y.Subtract(subject.Height.Half());
+
             //assert
-            AssertSame.Result(
-                () => new AARectangle<TNumeric>(origin, dimensions).GetRight(),
-                () => origin.X.Subtract(dimensions.X.Half()).Add(dimensions.X));
+            AssertSame.Result(getBottom, manualCalculation);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void GetRight_RandomValue_SameAsManualCalculation()
+        {
+            //arrange
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Variants.NonError);
+
+            //act
+            TNumeric getRight() => subject.GetRight();
+            TNumeric manualCalculation() => subject.Center.X.Subtract(subject.Width.Half()).Add(subject.Width);
+
+            //assert
+            AssertSame.Result(getRight, manualCalculation);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void GetLeft_RandomValue_SameAsManualCalculation()
+        {
+            //arrange
+            AARectangle<TNumeric> subject = Random.NextVariant<AARectangle<TNumeric>>(Variants.NonError);
+
+            //act
+            TNumeric getLeft() => subject.GetLeft();
+            TNumeric manualCalculation() => subject.Center.X.Subtract(subject.Width.Half());
+
+            //assert
+            AssertSame.Result(getLeft, manualCalculation);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -170,7 +203,9 @@ namespace Jodo.Geometry.Tests
                 () => AARectangle.FromBottomLeft(expected, dimensions).GetBottomLeft(),
                 () => Rectangle.FromBottomLeft(expected, dimensions, Angle.Zero<TNumeric>()).GetBottomLeft(),
                 () => expected
-            };
+            }
+                .Select(x => new Func<Vector2N<TNumeric>>(() => Vector2N.Round(x(), 3)))
+                .ToArray();
 
             //assert
             AssertSame.Outcome(actions);
@@ -190,7 +225,9 @@ namespace Jodo.Geometry.Tests
                 () => AARectangle.FromBottomCenter(expected, dimensions).GetBottomCenter(),
                 () => Rectangle.FromBottomCenter(expected, dimensions, Angle.Zero<TNumeric>()).GetBottomCenter(),
                 () => expected
-            };
+            }
+                .Select(x => new Func<Vector2N<TNumeric>>(() => Vector2N.Round(x(), 3)))
+                .ToArray();
 
             //assert
             AssertSame.Outcome(actions);
@@ -213,7 +250,9 @@ namespace Jodo.Geometry.Tests
                 () => AARectangle.FromBottomRight(expected, dimensions).GetBottomRight(),
                 () => Rectangle.FromBottomRight(expected, dimensions, Angle.Zero<TNumeric>()).GetBottomRight(),
                 () => expected
-            };
+            }
+                .Select(x => new Func<Vector2N<TNumeric>>(() => Vector2N.Round(x(), 3)))
+                .ToArray();
 
             //assert
             AssertSame.Outcome(actions);
@@ -236,7 +275,9 @@ namespace Jodo.Geometry.Tests
                 () => AARectangle.FromRightCenter(expected, dimensions).GetRightCenter(),
                 () => Rectangle.FromRightCenter(expected, dimensions, Angle.Zero<TNumeric>()).GetRightCenter(),
                 () => expected
-            };
+            }
+                .Select(x => new Func<Vector2N<TNumeric>>(() => Vector2N.Round(x(), 3)))
+                .ToArray();
 
             //assert
             AssertSame.Outcome(actions);
@@ -259,7 +300,9 @@ namespace Jodo.Geometry.Tests
                 () => AARectangle.FromTopRight(expected, dimensions).GetTopRight(),
                 () => Rectangle.FromTopRight(expected, dimensions, Angle.Zero<TNumeric>()).GetTopRight(),
                 () => expected
-            };
+            }
+                .Select(x => new Func<Vector2N<TNumeric>>(() => Vector2N.Round(x(), 3)))
+                .ToArray();
 
             //assert
             AssertSame.Outcome(actions);
@@ -282,7 +325,9 @@ namespace Jodo.Geometry.Tests
                 () => AARectangle.FromTopCenter(expected, dimensions).GetTopCenter(),
                 () => Rectangle.FromTopCenter(expected, dimensions, Angle.Zero<TNumeric>()).GetTopCenter(),
                 () => expected
-            };
+            }
+                .Select(x => new Func<Vector2N<TNumeric>>(() => Vector2N.Round(x(), 3)))
+                .ToArray();
 
             //assert
             AssertSame.Outcome(actions);
@@ -305,7 +350,9 @@ namespace Jodo.Geometry.Tests
                 () => AARectangle.FromTopLeft(expected, dimensions).GetTopLeft(),
                 () => Rectangle.FromTopLeft(expected, dimensions, Angle.Zero<TNumeric>()).GetTopLeft(),
                 () => expected
-            };
+            }
+                .Select(x => new Func<Vector2N<TNumeric>>(() => Vector2N.Round(x(), 3)))
+                .ToArray();
 
             //assert
             AssertSame.Outcome(actions);
@@ -328,7 +375,9 @@ namespace Jodo.Geometry.Tests
                 () => AARectangle.FromLeftCenter(expected, dimensions).GetLeftCenter(),
                 () => Rectangle.FromLeftCenter(expected, dimensions, Angle.Zero<TNumeric>()).GetLeftCenter(),
                 () => expected
-            };
+            }
+                .Select(x => new Func<Vector2N<TNumeric>>(() => Vector2N.Round(x(), 3)))
+                .ToArray();
 
             //assert
             AssertSame.Outcome(actions);

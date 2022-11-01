@@ -309,8 +309,8 @@ namespace Jodo.Numerics.Tests
         public void Atan2_RandomValues_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue1 = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>(Generation.Extended));
-            double randomValue2 = TestUtilities.ReduceSignificance(Random.NextNumeric<TNumeric>(Generation.Extended));
+            double randomValue1 = Random.Next(1, 3);
+            double randomValue2 = Random.Next(1, 3);
             TNumeric input1 = ConvertN.ToNumeric<TNumeric>(randomValue1, Conversion.Cast);
             TNumeric input2 = ConvertN.ToNumeric<TNumeric>(randomValue2, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Atan2(randomValue1, randomValue2), Conversion.Cast);
