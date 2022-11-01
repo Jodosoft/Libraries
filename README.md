@@ -122,7 +122,7 @@ The table below summarizes the design goals of the project.
       <p>
         Publicly exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a>
         wherever possible, and language-agnostic naming conventions are used. This ensures that
-        the libraries can be used in F# and Visual Basic as well as their in their native language, C#.
+        the libraries can be used in F# and Visual Basic as well as in their native language, C#.
       </p>
       <p>
         Care is taken to avoid name clashes with commonly-used types, either from the .NET API or from popular NuGet packages.
@@ -139,7 +139,7 @@ The table below summarizes the design goals of the project.
         The Jodo libraries are designed to be dependable. Unit tests, benchmarks,
         and continuous integration tools are used to ensure they remain fit for purpose.</p>
       <p>
-        Tests are designed to cover boundary conditions, edge-cases, and error scenarios—not happy paths.
+        Tests are designed to cover boundary conditions, edge-cases, and error scenarios—not just happy paths.
         Code coverage is used, but is not considered a definitive metric of adequate testing.
         The code coverage target is 90%.</p>
       <p>
