@@ -33,7 +33,7 @@
       <Argument Key="EnumMemberSortOrder" Value="Value" />
       <Argument Key="FlagsEnumValueFormat" Value="IntegerValue" />
       <Argument Key="FlagsEnumSeparatorSize" Value="0" />
-      <Argument Key="BaseSourceCodeUrl" Value="https://github.com/JosephJShort/Jodo/blob/main/src" />
+      <Argument Key="BaseSourceCodeUrl" Value="https://github.com/JosephJShort/Jodo/blob/main/src/" />
       <Argument Key="RequestExampleUrl" Value="" />
     </TransformComponentArguments>
     <HelpFileFormat>Website</HelpFileFormat>

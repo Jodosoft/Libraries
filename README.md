@@ -122,7 +122,7 @@ The table below summarizes the design goals of the project.
       <p>
         Publicly exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a>
         wherever possible, and language-agnostic naming conventions are used. This ensures that
-        the libraries can be used in F# and Visual Basic as well as their in their native language, C#.
+        the libraries can be used in F# and Visual Basic as well as in their native language, C#.
       </p>
       <p>
         Care is taken to avoid name clashes with commonly-used types, either from the .NET API or from popular NuGet packages.
@@ -139,15 +139,15 @@ The table below summarizes the design goals of the project.
         The Jodo libraries are designed to be dependable. Unit tests, benchmarks,
         and continuous integration tools are used to ensure they remain fit for purpose.</p>
       <p>
-        Tests are designed to cover boundary conditions, edge-cases, and error scenarios—not happy paths.
+        Tests are designed to cover boundary conditions, edge-cases, and error scenarios—not just happy paths.
         Code coverage is used, but is not considered a definitive metric of adequate testing.
         The code coverage target is 90%.</p>
       <p>
-        As part of pull request validation, tests are executed with multiple .NET targets and operating systems.
-        This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
-        Currently, the list
+        As part of pull request validation, tests are executed against multiple .NET targets and operating systems.
+        Currently, this includes
         .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
         .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu, and macOS.
+        This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
       </p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
@@ -170,7 +170,7 @@ The table below summarizes the design goals of the project.
         In the project configuration files, <code>TreatWarningsAsErrors</code> is set to <code>True</code>, <code>WarningLevel</code> is set to <code>4</code> and <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are enabled with maximum scope and severity. This helps to flag  issues during development.
         </p>
       <p>
-        Errors are only suppressed in exceptional circumstances, and suppression tags are always accompanied by a justification message.
+        Warnings are only suppressed in exceptional circumstances, and suppression tags are always accompanied by a justification message.
       </p>
       <p>
         <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/JosephJShort_Jodo/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
