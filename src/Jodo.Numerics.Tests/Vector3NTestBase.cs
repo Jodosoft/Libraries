@@ -19,6 +19,7 @@
 
 using System;
 using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -41,6 +42,78 @@ namespace Jodo.Numerics.Tests
             result.X.Should().Be(x);
             result.Y.Should().Be(y);
             result.Z.Should().Be(z);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Round1_RandomValues_SameResultAsRoundingComponents()
+        {
+            //arrange
+            Vector3N<TNumeric> input = Random.NextVariant<Vector3N<TNumeric>>(Variants.LowMagnitude);
+            Vector3N<TNumeric> expected = new Vector3N<TNumeric>(
+                MathN.Round(input.X),
+                MathN.Round(input.Y),
+                MathN.Round(input.Z));
+
+            //act
+            Vector3N<TNumeric> result = Vector3N.Round(input);
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Round2_RandomValues_SameResultAsRoundingComponents()
+        {
+            //arrange
+            Vector3N<TNumeric> input = Random.NextVariant<Vector3N<TNumeric>>(Variants.LowMagnitude);
+            int digits = Random.Next(0, 5);
+            Vector3N<TNumeric> expected = new Vector3N<TNumeric>(
+                MathN.Round(input.X, digits),
+                MathN.Round(input.Y, digits),
+                MathN.Round(input.Z, digits));
+
+            //act
+            Vector3N<TNumeric> result = Vector3N.Round(input, digits);
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Round3_RandomValues_SameResultAsRoundingComponents()
+        {
+            //arrange
+            Vector3N<TNumeric> input = Random.NextVariant<Vector3N<TNumeric>>(Variants.LowMagnitude);
+            int digits = Random.Next(0, 5);
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
+            Vector3N<TNumeric> expected = new Vector3N<TNumeric>(
+                MathN.Round(input.X, digits, mode),
+                MathN.Round(input.Y, digits, mode),
+                MathN.Round(input.Z, digits, mode));
+
+            //act
+            Vector3N<TNumeric> result = Vector3N.Round(input, digits, mode);
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Round4_RandomValues_SameResultAsRoundingComponents()
+        {
+            //arrange
+            Vector3N<TNumeric> input = Random.NextVariant<Vector3N<TNumeric>>(Variants.LowMagnitude);
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
+            Vector3N<TNumeric> expected = new Vector3N<TNumeric>(
+                MathN.Round(input.X, mode),
+                MathN.Round(input.Y, mode),
+                MathN.Round(input.Z, mode));
+
+            //act
+            Vector3N<TNumeric> result = Vector3N.Round(input, mode);
+
+            //assert
+            result.Should().Be(expected);
         }
     }
 }

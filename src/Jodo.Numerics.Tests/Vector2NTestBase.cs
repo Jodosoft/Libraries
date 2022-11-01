@@ -17,7 +17,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
@@ -205,6 +207,74 @@ namespace Jodo.Numerics.Tests
             AssertSame.Outcome(
                 () => new Vector2N<TNumeric>(MathN.Min(input1.X, input2.X), MathN.Min(input1.Y, input2.Y)),
                 () => Vector2N.Min(input1, input2));
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Round1_RandomValues_SameResultAsRoundingComponents()
+        {
+            //arrange
+            Vector2N<TNumeric> input = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
+                MathN.Round(input.X),
+                MathN.Round(input.Y));
+
+            //act
+            Vector2N<TNumeric> result = Vector2N.Round(input);
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Round2_RandomValues_SameResultAsRoundingComponents()
+        {
+            //arrange
+            Vector2N<TNumeric> input = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            int digits = Random.Next(0, 5);
+            Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
+                MathN.Round(input.X, digits),
+                MathN.Round(input.Y, digits));
+
+            //act
+            Vector2N<TNumeric> result = Vector2N.Round(input, digits);
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Round3_RandomValues_SameResultAsRoundingComponents()
+        {
+            //arrange
+            Vector2N<TNumeric> input = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            int digits = Random.Next(0, 5);
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
+            Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
+                MathN.Round(input.X, digits, mode),
+                MathN.Round(input.Y, digits, mode));
+
+            //act
+            Vector2N<TNumeric> result = Vector2N.Round(input, digits, mode);
+
+            //assert
+            result.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void Round4_RandomValues_SameResultAsRoundingComponents()
+        {
+            //arrange
+            Vector2N<TNumeric> input = Random.NextVariant<Vector2N<TNumeric>>(Variants.LowMagnitude);
+            MidpointRounding mode = Random.NextEnum<MidpointRounding>();
+            Vector2N<TNumeric> expected = new Vector2N<TNumeric>(
+                MathN.Round(input.X, mode),
+                MathN.Round(input.Y, mode));
+
+            //act
+            Vector2N<TNumeric> result = Vector2N.Round(input, mode);
+
+            //assert
+            result.Should().Be(expected);
         }
     }
 }
