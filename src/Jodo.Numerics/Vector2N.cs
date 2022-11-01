@@ -261,6 +261,42 @@ namespace Jodo.Numerics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> Round<TNumeric>(Vector2N<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(
+                MathN.Round(value.X),
+                MathN.Round(value.Y)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> Round<TNumeric>(Vector2N<TNumeric> value, int digits) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(
+                MathN.Round(value.X, digits),
+                MathN.Round(value.Y, digits)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> Round<TNumeric>(Vector2N<TNumeric> value, int digits, MidpointRounding mode) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(
+                MathN.Round(value.X, digits, mode),
+                MathN.Round(value.Y, digits, mode)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2N<TNumeric> Round<TNumeric>(Vector2N<TNumeric> value, MidpointRounding mode) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return new Vector2N<TNumeric>(
+                MathN.Round(value.X, mode),
+                MathN.Round(value.Y, mode)
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> SquareRoot<TNumeric>(Vector2N<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
             return new Vector2N<TNumeric>(

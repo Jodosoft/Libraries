@@ -41,7 +41,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 AssertSame.Result(
                    () => random1.NextNumeric<TNumeric>(),
@@ -65,7 +65,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 AssertSame.Outcome(
                    () => random1.NextNumeric(maxValue),
@@ -87,7 +87,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 AssertSame.Outcome(
                    () => random1.NextNumeric(minValue, maxValue),
@@ -127,7 +127,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 AssertSame.Result(
                    () => random1.NextNumeric<TNumeric>(Generation.Extended),
@@ -148,7 +148,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 AssertSame.Result(
                    () => random1.NextNumeric(minValue, maxValue, Generation.Extended),
