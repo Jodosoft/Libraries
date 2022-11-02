@@ -462,7 +462,7 @@ The table below summarizes the clamped number types and utilities provided.
 
 The INumeric&lt;TSelf&gt; interface defines a contract for number types with support for operators, maths, conversion, string-parsing, random generation, and more.
 
-Static utility classes, such as `MathN` and `ConvertN`, expose the features of these types in a way this is familiar to users of the built-in number types.
+Static utility classes, such as `MathN` and `ConvertN`, expose these features in a way that is familiar to users of the .NET API.
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -596,7 +596,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 ### 4.4. Structures <br id="numerics-structures" />
 
-Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>). The table below sumarises the types available.
+Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>). The table below sumarises the available structs and accompanying utilities.
 
 <table>
   <tr>
@@ -605,28 +605,28 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
   </tr>
   <tr />
   <tr>
-    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2N&lt;TNumeric&gt;</td>
+    <td><sub><em>readonly struct</em></sub><br />UnitN&lt;TNumeric&gt;</td>
+    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
+  </tr>
+  <tr />
+  <tr>
+    <td><sub><em>readonly struct</em></sub><br />Vector2N&lt;TNumeric&gt;</td>
     <td>A collection of two numeric values, <code>X</code> and <code>Y</code>, with extensive interface and operator support.</td>
   </tr>
   <tr />
   <tr>
-    <td id="vector2n"><sub><em>static class</em></sub><br />Vector2N</td>
-    <td>Provides static methods for performing vector-based mathematics, such as dot product.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3N&lt;TNumeric&gt;</td>
+    <td><sub><em>readonly struct</em></sub><br />Vector3N&lt;TNumeric&gt;</td>
     <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code>, with extensive interface and operator support.</td>
   </tr>
   <tr />
   <tr>
-    <td id="vector2n"><sub><em>static class</em></sub><br />Vector3N</td>
-    <td>Provides static methods for performing vector-based mathematics, such as dot product.</td>
+    <td><sub><em>static class</em></sub><br />Vector2N</td>
+    <td>Provides static methods for performing vector-based mathematics on instances of Vector2N&lt;TNumeric&gt;, such as dot product.</td>
   </tr>
   <tr />
   <tr>
-    <td id="unitn"><sub><em>readonly struct</em></sub><br />UnitN&lt;TNumeric&gt;</td>
-    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
+    <td><sub><em>static class</em></sub><br />Vector3N</td>
+    <td>Provides static methods for performing vector-based mathematics on instances of Vector3N&lt;TNumeric&gt;, such as dot product.</td>
   </tr>
 </table>
 
