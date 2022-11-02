@@ -24,7 +24,7 @@
 4\. [Jodo.Numerics](#numerics)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.1. [Fixed-point numbers](#numerics-fixed-point-numbers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.2. [Non-overflowing numbers](#numerics-non-overflowing-numbers)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;4.3. [Framework for number types](#numerics-framework-for-number-types)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;4.3. [Framework for numbers](#numerics-framework-for-numbers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.4. [Structures](#numerics-structures)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.5. [Random extensions](#numerics-random-extensions)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.6. [Performance considerations](#numerics-performance-considerations)<br />
@@ -310,7 +310,7 @@ Provides numeric utilities, custom number types, and a generic interface for def
 
 Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
 
-Fix64 and UFix64 are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
+Fix64 and UFix64 are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -369,7 +369,7 @@ Number types in the `Jodo.Numerics.Clamped` namespace have built-in protection f
 
 This is useful for preventing unexpected negative, positive, infinite or `NaN` values from entering a system.
 
-As with all the number types provided by this library, these types support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
+As with all the number types provided by this library, these types support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
         
 Usage is the same as with built-in numeric types but yields different results in cases of overflow.
 
@@ -458,7 +458,7 @@ The table below summarizes the clamped number types and utilities provided.
 
 [\[Back to top\]](#top)
 
-### 4.3. Framework for number types <br id="numerics-framework-for-number-types" />
+### 4.3. Framework for numbers <br id="numerics-framework-for-numbers" />
 
 The INumeric&lt;TSelf&gt; interface defines a contract for number types with support for operators, maths, conversion, string-parsing, random generation, and more.
 
@@ -596,7 +596,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 ### 4.4. Structures <br id="numerics-structures" />
 
-Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>). The table below sumarises the types available.
+Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>). The table below sumarises the types available.
 
 <table>
   <tr>
@@ -634,7 +634,7 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
 
 ### 4.5. Random extensions <br id="numerics-random-extensions" />
 
-Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
+Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 Overloads are provided that allow greater flexibility with bounds via the `Generation` enum:
 
