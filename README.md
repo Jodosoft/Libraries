@@ -195,9 +195,9 @@ The following table summarizes the development goals for upcoming versions of th
     <td><code>1.1.0</code></td>
     <td>
       <ul>
-        <li>Implement suggestions and make improvements to Jodo.Numerics</li>
+        <li>Implement suggestions</li>
         <li>Add support for spans</li>
-        <li>Add support for bit streaming</li>
+        <li>Add support for streaming</li>
         <li>Automate API documentation website and fill in major blanks</li>
       </ul>
       <a href="https://github.com/JosephJShort/Jodo/milestone/4"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/4?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
@@ -215,7 +215,7 @@ The following table summarizes the development goals for upcoming versions of th
     <td><code>1.3.0</code></td>
     <td>
       <ul>
-        <li>Implement suggestions and make improvements to Jodo.Geometry</li>
+        <li>Implement suggestions</li>
       </ul>
     </td>
   </tr>
@@ -223,7 +223,7 @@ The following table summarizes the development goals for upcoming versions of th
     <td><em>Future</em></td>
     <td>
       <ul>
-        <li>Add support for spans</li>
+        <li>Create the first release of Jodo.Geometry</li>
       </ul>
     </td>
   </tr>
