@@ -47,7 +47,7 @@
 
 Welcome to Jodo, a project to make simple, reliable .NET libraries covering numerics, geometry and data structures.
 
-This document describes the goals the project and the features of each library, and steps for getting started.
+This document describes the goals the project, the features of each library, and steps for getting started.
 
 [\[Back to top\]](#top)
 
@@ -164,7 +164,7 @@ The table below summarizes the design goals of the project.
       <p>
         As part of pull request validation, <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a>
         and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a> are used
-        to detect code smells, such as unused variables or overly complex functions.
+        to detect code smells such as unused variables or overly complex functions.
       </p>
       <p>
         In the project configuration files, <code>TreatWarningsAsErrors</code> is set to <code>True</code>, <code>WarningLevel</code> is set to <code>4</code> and <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are enabled with maximum scope and severity. This helps to flag  issues during development.
