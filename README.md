@@ -69,7 +69,7 @@ The features available are:
 * **[Jodo.Numerics](#numerics)** - numeric utilities, custom number types, and a generic interface for defining numbers
 * **[Jodo.Geometry](#geometry) (preview)** - geometric structs and utilities that support custom number types.
 * **[Jodo.Collections](#collections) (preview)** - Extra collection classes and interfaces to complement the .NET API
-* **[Jodo.Primitives](#primitives)** - miscellaneous utilities used throughout the other libraries
+* **[Jodo.Primitives](#primitives)** - miscellaneous utilities used throughout the Jodo libraries
 
 
 [\[Back to top\]](#top)
@@ -125,7 +125,7 @@ The table below summarizes the design goals of the project.
         the libraries can be used in F# and Visual Basic as well as in their native language, C#.
       </p>
       <p>
-        Care is taken to avoid name clashes with commonly-used types, either from the .NET API or from popular NuGet packages.
+        Care is taken to avoid name clashes with commonly-used types from the .NET API and popular NuGet packages.
       </p>
       <p>
         <a href="https://semver.org/">Semantic Versioning</a> is used to ensure that version numbers convey the presence of breaking changes to the libraries, and <a href="https://learn.microsoft.com/en-us/dotnet/fundamentals/package-validation/overview">package validation</a> is used to ensure backwards compatibility within each major version.
@@ -150,7 +150,7 @@ The table below summarizes the design goals of the project.
         This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
       </p>
       <p>
-        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
+        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/5/main?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
       </p>
     </td>
@@ -163,7 +163,7 @@ The table below summarizes the design goals of the project.
       </p>
       <p>
         As part of pull request validation, <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a>
-        and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a>, are used
+        and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a> are used
         to detect code smells, such as unused variables or overly complex functions.
       </p>
       <p>
