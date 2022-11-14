@@ -122,7 +122,7 @@ namespace Jodo.Numerics.Tests
         public void RoundTripSpans_RandomVariant_SameAsOriginal()
         {
             //arrange
-            TNumeric input = Random.NextVariant<TNumeric>(Variants.All);
+            TNumeric input = Random.NextVariant<TNumeric>(Variants.NonError);
             byte[] buffer = new byte[BitConverterN.ConvertedSize<TNumeric>()];
             Span<byte> span = new Span<byte>(buffer, 0, buffer.Length);
 
