@@ -38,7 +38,6 @@ namespace Jodo.Numerics
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
-
         public readonly TNumeric Value { get; }
 
         public UnitN(TNumeric value)

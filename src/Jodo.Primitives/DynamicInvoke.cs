@@ -283,7 +283,6 @@ namespace Jodo.Primitives
             }
             catch (TargetInvocationException exception)
             {
-
                 throw exception.InnerException;
             }
         }
