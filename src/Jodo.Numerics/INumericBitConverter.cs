@@ -64,5 +64,38 @@ namespace Jodo.Numerics
         /// <param name="value">The number to convert.</param>
         /// <returns>An array of bytes with length determined by <see cref="ConvertedSize"/>.</returns>
         byte[] GetBytes(TNumeric value);
+
+#if HAS_SPANS
+
+        //
+        // Summary:
+        //     Converts a read-only byte span into a 32-bit signed integer.
+        //
+        // Parameters:
+        //   value:
+        //     A read-only span containing the bytes to convert.
+        //
+        // Returns:
+        //     A 32-bit signed integer representing the converted bytes.
+        //
+        // Exceptions:
+        //   T:System.ArgumentOutOfRangeException:
+        //     The length of value is less than 4.
+
+        /// <summary>
+        /// Converts a read-only byte span into a numeric value.
+        /// </summary>
+        /// <param name="value">A read-only span containing the bytes to convert.</param>
+        /// <returns>A numeric value representing the converted bytes.</returns>
+        TNumeric ToNumeric(ReadOnlySpan<byte> value);
+
+        /// <summary>
+        /// Converts a numeric value into a span of bytes.
+        /// </summary>
+        /// <param name="destination">When this method returns, the bytes representing the converted numeric value.</param>
+        /// <param name="value">The numeric value to convert.</param>
+        /// <returns><see langword="true"/> if the conversion was successful; <see langword="false"/> otherwise.</returns>
+        bool TryWriteBytes(Span<byte> destination, TNumeric value);
+#endif
     }
 }

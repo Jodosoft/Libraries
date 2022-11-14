@@ -18,15 +18,12 @@
 // IN THE SOFTWARE.
 
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Jodo.Primitives
 {
-    public interface IBitBuffer<T>
+    public interface IBinaryConvert<T>
     {
-        void Write(T value, Stream stream);
-        Task WriteAsync(T value, Stream stream);
-        T Read(Stream stream);
-        Task<T> ReadAsync(Stream stream);
+        void Write(BinaryWriter writer, T value);
+        T Read(BinaryReader reader);
     }
 }

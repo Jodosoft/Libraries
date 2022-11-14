@@ -26,7 +26,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class UFix64MTests
     {
-        public sealed class BitBufferTests : BitBufferTestBase<UFix64M> { }
+        public sealed class BinaryConvertTests : BinaryConvertTestBase<UFix64M> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<UFix64M> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<UFix64M> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<UFix64M> { }

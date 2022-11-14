@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Suppressions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  
-    <!-- Operations that use value tuples (not available in net461) -->
-    <Suppression>
+  <Suppression>
     <DiagnosticId>CP0002</DiagnosticId>
     <Target>M:Jodo.Numerics.Vector2N`1.op_Implicit(System.ValueTuple{`0,`0})~Jodo.Numerics.Vector2N{`0}</Target>
     <Left>lib/netstandard2.0/Jodo.Numerics.dll</Left>
@@ -26,8 +24,6 @@
     <Left>lib/netstandard2.0/Jodo.Numerics.dll</Left>
     <Right>lib/net461/Jodo.Numerics.dll</Right>
   </Suppression>
-    
-    <!-- Default interface methods (not available before netstandard2.1) -->
   <Suppression>
     <DiagnosticId>CP0006</DiagnosticId>
     <Target>M:Jodo.Numerics.INumeric`1.op_LessThan(Jodo.Numerics.INumeric{`0},Jodo.Numerics.INumeric{`0})</Target>
@@ -129,5 +125,31 @@
     <Target>M:Jodo.Numerics.INumeric`1.op_RightShift(Jodo.Numerics.INumeric{`0},System.Int32)</Target>
     <Left>lib/netstandard2.0/Jodo.Numerics.dll</Left>
     <Right>lib/netstandard2.1/Jodo.Numerics.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0006</DiagnosticId>
+    <Target>M:Jodo.Numerics.INumericBitConverter`1.ToNumeric(System.ReadOnlySpan{System.Byte})</Target>
+    <Left>lib/netstandard2.0/Jodo.Numerics.dll</Left>
+    <Right>lib/netstandard2.1/Jodo.Numerics.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0006</DiagnosticId>
+    <Target>M:Jodo.Numerics.INumericBitConverter`1.TryWriteBytes(System.Span{System.Byte},`0)</Target>
+    <Left>lib/netstandard2.0/Jodo.Numerics.dll</Left>
+    <Right>lib/netstandard2.1/Jodo.Numerics.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0006</DiagnosticId>
+    <Target>M:Jodo.Numerics.INumericBitConverter`1.ToNumeric(System.ReadOnlySpan{System.Byte})</Target>
+    <Left>lib/netstandard2.1/Jodo.Numerics.dll</Left>
+    <Right>lib/netstandard2.1/Jodo.Numerics.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0006</DiagnosticId>
+    <Target>M:Jodo.Numerics.INumericBitConverter`1.TryWriteBytes(System.Span{System.Byte},`0)</Target>
+    <Left>lib/netstandard2.1/Jodo.Numerics.dll</Left>
+    <Right>lib/netstandard2.1/Jodo.Numerics.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
   </Suppression>
 </Suppressions>

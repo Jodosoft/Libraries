@@ -27,10 +27,10 @@ using NUnit.Framework;
 namespace Jodo.Primitives.Tests
 {
     /// <summary>
-    /// Provides common test methods for types that implement <see cref="IProvider{IBitBuffer{T}}"/>
+    /// Provides common test methods for types that implement <see cref="IProvider{IBinaryConvert{T}}"/>
     /// </summary>
     /// <typeparam name="T">The type of struct.</typeparam>
-    public abstract class BitBufferTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IBitBuffer<T>>, IProvider<IVariantRandom<T>>
+    public abstract class BinaryConvertTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IBinaryConvert<T>>, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
         public void Serialise_RandomValues_ReadsBackSameValues()
@@ -42,67 +42,18 @@ namespace Jodo.Primitives.Tests
                 .ToArray();
 
             //act
-            byte[] buffer = inputs.SelectMany(x => BitBuffer.Serialize(x)).ToArray();
+            byte[] buffer = inputs.SelectMany(x => BinaryConvert.Serialize(x)).ToArray();
             using Stream stream = new MemoryStream(buffer);
+            using BinaryReader reader = new BinaryReader(stream);
             stream.Position = 0;
             T[] results = new T[inputs.Length];
             for (int i = 0; i < results.Length; i++)
             {
-                results[i] = BitBuffer.Read<T>(stream);
+                results[i] = reader.Read<T>();
             }
 
             //assert
             results.Should().BeEquivalentTo(inputs);
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void SerialiseAsync_RandomValues_RoundTripsTwice()
-        {
-            //arrange
-            T[] inputs = Enumerable
-                .Range(0, Random.Next(10))
-                .Select(_ => Random.NextVariant<T>(Variants.NonError))
-                .ToArray();
-
-            //act
-            byte[] buffer = inputs.SelectMany(x => BitBuffer.SerializeAsync(x).Result).ToArray();
-            using Stream stream = new MemoryStream(buffer);
-            T[] results = new T[inputs.Length];
-            for (int i = 0; i < results.Length; i++)
-            {
-                results[i] = BitBuffer.Read<T>(stream);
-            }
-
-            //assert
-            results.Should().BeEquivalentTo(inputs);
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void SerializeMethods_RandomValue_SameResult()
-        {
-            //arrange
-            T input = Random.NextVariant<T>(Variants.NonError);
-
-            //act
-            byte[] result1 = BitBuffer.Serialize(input);
-            byte[] result2 = BitBuffer.SerializeAsync(input).Result;
-
-            //assert
-            result1.Should().BeEquivalentTo(result2);
-        }
-
-        [Test, Repeat(RandomVariations)]
-        public void DeserializeMethods_RandomValue_SameResult()
-        {
-            //arrange
-            byte[] input = BitBuffer.Serialize(Random.NextVariant<T>(Variants.NonError));
-
-            //act
-            T result1 = BitBuffer.Deserialize<T>(input, 0);
-            T result2 = BitBuffer.DeserializeAsync<T>(input, 0).Result;
-
-            //assert
-            result1.Should().BeEquivalentTo(result2);
         }
     }
 }

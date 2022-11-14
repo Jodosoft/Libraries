@@ -108,7 +108,7 @@ namespace Jodo.Testing
         public void GetHashCode_RandomInputs_ReturnsDifferentValues()
         {
             //arrange
-            int[] results = new int[20];
+            int[] results = new int[100];
 
             //act
             for (int i = 0; i < results.Length; i++)
@@ -143,7 +143,7 @@ namespace Jodo.Testing
         public void ToString_RandomInputs_ReturnsDifferentValues()
         {
             //arrange
-            string[] results = new string[20];
+            string[] results = new string[100];
 
             //act
             for (int i = 0; i < results.Length; i++)

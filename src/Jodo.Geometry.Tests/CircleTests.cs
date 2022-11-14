@@ -25,15 +25,15 @@ namespace Jodo.Geometry.Tests
 {
     public static class CircleTests
     {
-        public sealed class FixedPointBitBufferTests : BitBufferTestBase<Circle<Fix64>> { }
+        public sealed class FixedPointBinaryConvertTests : BinaryConvertTestBase<Circle<Fix64>> { }
         public sealed class FixedPointGeneralTests : CircleTestBase<Fix64> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<Circle<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<Circle<Fix64>> { }
-        public sealed class FloatingPointBitBufferTests : BitBufferTestBase<Circle<SingleN>> { }
+        public sealed class FloatingPointBinaryConvertTests : BinaryConvertTestBase<Circle<SingleN>> { }
         public sealed class FloatingPointGeneralTests : CircleTestBase<SingleN> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<Circle<SingleN>> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<Circle<SingleN>> { }
-        public sealed class UnsignedIntegralBitBufferTests : BitBufferTestBase<Circle<ByteN>> { }
+        public sealed class UnsignedIntegralBinaryConvertTests : BinaryConvertTestBase<Circle<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : CircleTestBase<ByteN> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Circle<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Circle<ByteN>> { }

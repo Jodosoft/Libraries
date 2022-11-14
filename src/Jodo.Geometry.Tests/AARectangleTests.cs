@@ -28,13 +28,13 @@ namespace Jodo.Geometry.Tests
         public sealed class AARectangleIntegralFixedPointTests : AARectangleTestBase<Fix64> { }
         public sealed class AARectangleIntegralFloatingPointTests : AARectangleTestBase<SingleN> { }
         public sealed class AARectangleIntegralUnsignedIntegralTests : AARectangleIntegralTestBase<ByteN> { }
-        public sealed class FixedPointBitBufferTests : BitBufferTestBase<AARectangle<Fix64>> { }
+        public sealed class FixedPointBinaryConvertTests : BinaryConvertTestBase<AARectangle<Fix64>> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<AARectangle<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<AARectangle<Fix64>> { }
-        public sealed class FloatingPointBitBufferTests : BitBufferTestBase<AARectangle<SingleN>> { }
+        public sealed class FloatingPointBinaryConvertTests : BinaryConvertTestBase<AARectangle<SingleN>> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<AARectangle<SingleN>> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<AARectangle<SingleN>> { }
-        public sealed class UnsignedIntegralBitBufferTests : BitBufferTestBase<AARectangle<ByteN>> { }
+        public sealed class UnsignedIntegralBinaryConvertTests : BinaryConvertTestBase<AARectangle<ByteN>> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AARectangle<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AARectangle<ByteN>> { }
     }

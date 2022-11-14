@@ -23,7 +23,6 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -41,7 +40,7 @@ namespace Jodo.Geometry
     public readonly struct AARectangle<TNumeric> :
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitBuffer<AARectangle<TNumeric>>>,
+            IProvider<IBinaryConvert<AARectangle<TNumeric>>>,
             IProvider<IVariantRandom<AARectangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -114,39 +113,26 @@ namespace Jodo.Geometry
         public static implicit operator (TNumeric, TNumeric, TNumeric, TNumeric)(AARectangle<TNumeric> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
 #endif
 
-        IBitBuffer<AARectangle<TNumeric>> IProvider<IBitBuffer<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<AARectangle<TNumeric>> IProvider<IBinaryConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<AARectangle<TNumeric>> IProvider<IVariantRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitBuffer<AARectangle<TNumeric>>,
+           IBinaryConvert<AARectangle<TNumeric>>,
            IVariantRandom<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            AARectangle<TNumeric> IBitBuffer<AARectangle<TNumeric>>.Read(Stream stream)
+            void IBinaryConvert<AARectangle<TNumeric>>.Write(BinaryWriter writer, AARectangle<TNumeric> value)
+            {
+                writer.Write(value.Center);
+                writer.Write(value.Dimensions);
+            }
+
+            AARectangle<TNumeric> IBinaryConvert<AARectangle<TNumeric>>.Read(BinaryReader reader)
             {
                 return new AARectangle<TNumeric>(
-                    stream.Read<Vector2N<TNumeric>>(),
-                    stream.Read<Vector2N<TNumeric>>());
-            }
-
-            async Task<AARectangle<TNumeric>> IBitBuffer<AARectangle<TNumeric>>.ReadAsync(Stream stream)
-            {
-                return new AARectangle<TNumeric>(
-                    await stream.ReadAsync<Vector2N<TNumeric>>(),
-                    await stream.ReadAsync<Vector2N<TNumeric>>());
-            }
-
-            void IBitBuffer<AARectangle<TNumeric>>.Write(AARectangle<TNumeric> value, Stream stream)
-            {
-                stream.Write(value.Center);
-                stream.Write(value.Dimensions);
-            }
-
-            async Task IBitBuffer<AARectangle<TNumeric>>.WriteAsync(AARectangle<TNumeric> value, Stream stream)
-            {
-                await stream.WriteAsync(value.Center);
-                await stream.WriteAsync(value.Dimensions);
+                    reader.Read<Vector2N<TNumeric>>(),
+                    reader.Read<Vector2N<TNumeric>>());
             }
 
             AARectangle<TNumeric> IVariantRandom<AARectangle<TNumeric>>.Generate(Random random, Variants variants)

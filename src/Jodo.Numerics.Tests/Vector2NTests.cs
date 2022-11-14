@@ -26,15 +26,15 @@ namespace Jodo.Numerics.Tests
 {
     public class Vector2NTests : GlobalFixtureBase
     {
-        public sealed class FixedPointBitBufferTests : BitBufferTestBase<Vector2N<Fix64>> { }
+        public sealed class FixedPointBinaryConvertTests : BinaryConvertTestBase<Vector2N<Fix64>> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<Vector2N<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<Vector2N<Fix64>> { }
         public sealed class FixedPointVector2Tests : Vector2NTestBase<Fix64> { }
-        public sealed class FloatingPointBitBufferTests : BitBufferTestBase<Vector2N<SingleN>> { }
+        public sealed class FloatingPointBinaryConvertTests : BinaryConvertTestBase<Vector2N<SingleN>> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<Vector2N<SingleN>> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector2N<SingleN>> { }
         public sealed class FloatingPointVector2Tests : Vector2NTestBase<SingleN> { }
-        public sealed class UnsignedIntegralBitBufferTests : BitBufferTestBase<Vector2N<ByteN>> { }
+        public sealed class UnsignedIntegralBinaryConvertTests : BinaryConvertTestBase<Vector2N<ByteN>> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector2N<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector2N<ByteN>> { }
         public sealed class UnsignedIntegralVector2Tests : Vector2NTestBase<ByteN> { }

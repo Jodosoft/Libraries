@@ -9,6 +9,10 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)'=='net6.0'">
+    <DefineConstants>HAS_VALUE_TUPLES;HAS_SPANS;HAS_DEFAULT_INTERFACE_METHODS;$(AdditionalConstants)</DefineConstants>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(TargetFramework)'=='net5.0'">
     <DefineConstants>HAS_VALUE_TUPLES;HAS_SPANS;HAS_DEFAULT_INTERFACE_METHODS;$(AdditionalConstants)</DefineConstants>
   </PropertyGroup>

@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Numerics;
 using Jodo.Primitives;
 
@@ -35,7 +34,7 @@ namespace Jodo.Geometry
             IComparable<Angle<TNumeric>>,
             IEquatable<Angle<TNumeric>>,
             IFormattable,
-            IProvider<IBitBuffer<Angle<TNumeric>>>,
+            IProvider<IBinaryConvert<Angle<TNumeric>>>,
             IProvider<IVariantRandom<Angle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -84,33 +83,23 @@ namespace Jodo.Geometry
         public static Angle<TNumeric> operator +(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Add(right.Degrees));
         public static Angle<TNumeric> operator +(Angle<TNumeric> value) => new Angle<TNumeric>(value.Degrees);
 
-        IBitBuffer<Angle<TNumeric>> IProvider<IBitBuffer<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<Angle<TNumeric>> IProvider<IBinaryConvert<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Angle<TNumeric>> IProvider<IVariantRandom<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitBuffer<Angle<TNumeric>>,
+            IBinaryConvert<Angle<TNumeric>>,
             IVariantRandom<Angle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Angle<TNumeric> IBitBuffer<Angle<TNumeric>>.Read(Stream stream)
+            void IBinaryConvert<Angle<TNumeric>>.Write(BinaryWriter writer, Angle<TNumeric> value)
             {
-                return new Angle<TNumeric>(stream.Read<TNumeric>());
+                writer.Write(value.Degrees);
             }
 
-            async Task<Angle<TNumeric>> IBitBuffer<Angle<TNumeric>>.ReadAsync(Stream stream)
+            Angle<TNumeric> IBinaryConvert<Angle<TNumeric>>.Read(BinaryReader reader)
             {
-                return new Angle<TNumeric>(await stream.ReadAsync<TNumeric>());
-            }
-
-            void IBitBuffer<Angle<TNumeric>>.Write(Angle<TNumeric> value, Stream stream)
-            {
-                stream.Write(value.Degrees);
-            }
-
-            async Task IBitBuffer<Angle<TNumeric>>.WriteAsync(Angle<TNumeric> value, Stream stream)
-            {
-                await stream.WriteAsync(value.Degrees);
+                return new Angle<TNumeric>(reader.Read<TNumeric>());
             }
 
             Angle<TNumeric> IVariantRandom<Angle<TNumeric>>.Generate(Random random, Variants variants)

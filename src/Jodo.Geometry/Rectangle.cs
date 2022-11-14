@@ -24,7 +24,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -36,7 +35,7 @@ namespace Jodo.Geometry
     public readonly struct Rectangle<TNumeric> :
             IEquatable<Rectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBitBuffer<Rectangle<TNumeric>>>,
+            IProvider<IBinaryConvert<Rectangle<TNumeric>>>,
             IProvider<IVariantRandom<Rectangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -142,43 +141,28 @@ namespace Jodo.Geometry
         public static bool operator !=(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => !(left == right);
         public static implicit operator Rectangle<TNumeric>(AARectangle<TNumeric> value) => new Rectangle<TNumeric>(value.Center, value.Dimensions, default);
 
-        IBitBuffer<Rectangle<TNumeric>> IProvider<IBitBuffer<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<Rectangle<TNumeric>> IProvider<IBinaryConvert<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Rectangle<TNumeric>> IProvider<IVariantRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitBuffer<Rectangle<TNumeric>>,
+           IBinaryConvert<Rectangle<TNumeric>>,
            IVariantRandom<Rectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Rectangle<TNumeric> IBitBuffer<Rectangle<TNumeric>>.Read(Stream stream)
+            void IBinaryConvert<Rectangle<TNumeric>>.Write(BinaryWriter writer, Rectangle<TNumeric> value)
+            {
+                writer.Write(value.Center);
+                writer.Write(value.Dimensions);
+                writer.Write(value.Angle);
+            }
+
+            Rectangle<TNumeric> IBinaryConvert<Rectangle<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Rectangle<TNumeric>(
-                    stream.Read<Vector2N<TNumeric>>(),
-                    stream.Read<Vector2N<TNumeric>>(),
-                    stream.Read<Angle<TNumeric>>());
-            }
-
-            async Task<Rectangle<TNumeric>> IBitBuffer<Rectangle<TNumeric>>.ReadAsync(Stream stream)
-            {
-                return new Rectangle<TNumeric>(
-                    await stream.ReadAsync<Vector2N<TNumeric>>(),
-                    await stream.ReadAsync<Vector2N<TNumeric>>(),
-                    await stream.ReadAsync<Angle<TNumeric>>());
-            }
-
-            void IBitBuffer<Rectangle<TNumeric>>.Write(Rectangle<TNumeric> value, Stream stream)
-            {
-                stream.Write(value.Center);
-                stream.Write(value.Dimensions);
-                stream.Write(value.Angle);
-            }
-
-            async Task IBitBuffer<Rectangle<TNumeric>>.WriteAsync(Rectangle<TNumeric> value, Stream stream)
-            {
-                await stream.WriteAsync(value.Center);
-                await stream.WriteAsync(value.Dimensions);
-                await stream.WriteAsync(value.Angle);
+                    reader.Read<Vector2N<TNumeric>>(),
+                    reader.Read<Vector2N<TNumeric>>(),
+                    reader.Read<Angle<TNumeric>>());
             }
 
             Rectangle<TNumeric> IVariantRandom<Rectangle<TNumeric>>.Generate(Random random, Variants variants)

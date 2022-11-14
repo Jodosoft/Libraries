@@ -115,5 +115,25 @@ namespace Jodo.Numerics.Tests
             //assert
             action.Should().Throw<ArgumentOutOfRangeException>();
         }
+
+#if HAS_SPANS 
+
+        [Test]
+        public void RoundTripSpans_RandomVariant_SameAsOriginal()
+        {
+            //arrange
+            TNumeric input = Random.NextVariant<TNumeric>(Variants.All);
+            byte[] buffer = new byte[BitConverterN.ConvertedSize<TNumeric>()];
+            Span<byte> span = new Span<byte>(buffer, 0, buffer.Length);
+
+            //act
+            bool result1 = BitConverterN.TryWriteBytes(span, input);
+            TNumeric result2 = BitConverterN.ToNumeric<TNumeric>(span);
+
+            //assert
+            result1.Should().BeTrue();
+            result2.Should().Be(input);
+        }
+#endif
     }
 }
