@@ -24,7 +24,7 @@
 4\. [Jodo.Numerics](#numerics)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.1. [Fixed-point numbers](#numerics-fixed-point-numbers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.2. [Non-overflowing numbers](#numerics-non-overflowing-numbers)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;4.3. [Framework for number types](#numerics-framework-for-number-types)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;4.3. [Framework for numbers](#numerics-framework-for-numbers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.4. [Structures](#numerics-structures)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.5. [Random extensions](#numerics-random-extensions)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;4.6. [Performance considerations](#numerics-performance-considerations)<br />
@@ -47,7 +47,7 @@
 
 Welcome to Jodo, a project to make simple, reliable .NET libraries covering numerics, geometry and data structures.
 
-This document describes the goals the project and the features of each library, and steps for getting started.
+This document describes the goals the project, the features of each library, and steps for getting started.
 
 [\[Back to top\]](#top)
 
@@ -69,7 +69,7 @@ The features available are:
 * **[Jodo.Numerics](#numerics)** - numeric utilities, custom number types, and a generic interface for defining numbers
 * **[Jodo.Geometry](#geometry) (preview)** - geometric structs and utilities that support custom number types.
 * **[Jodo.Collections](#collections) (preview)** - Extra collection classes and interfaces to complement the .NET API
-* **[Jodo.Primitives](#primitives)** - miscellaneous utilities used throughout the other libraries
+* **[Jodo.Primitives](#primitives)** - miscellaneous utilities used throughout the Jodo libraries
 
 
 [\[Back to top\]](#top)
@@ -125,7 +125,7 @@ The table below summarizes the design goals of the project.
         the libraries can be used in F# and Visual Basic as well as in their native language, C#.
       </p>
       <p>
-        Care is taken to avoid name clashes with commonly-used types, either from the .NET API or from popular NuGet packages.
+        Care is taken to avoid name clashes with commonly-used types from the .NET API and popular NuGet packages.
       </p>
       <p>
         <a href="https://semver.org/">Semantic Versioning</a> is used to ensure that version numbers convey the presence of breaking changes to the libraries, and <a href="https://learn.microsoft.com/en-us/dotnet/fundamentals/package-validation/overview">package validation</a> is used to ensure backwards compatibility within each major version.
@@ -150,7 +150,7 @@ The table below summarizes the design goals of the project.
         This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
       </p>
       <p>
-        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
+        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/5/main?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
       </p>
     </td>
@@ -163,8 +163,8 @@ The table below summarizes the design goals of the project.
       </p>
       <p>
         As part of pull request validation, <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a>
-        and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a>, are used
-        to detect code smells, such as unused variables or overly complex functions.
+        and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a> are used
+        to detect code smells such as unused variables or overly complex functions.
       </p>
       <p>
         In the project configuration files, <code>TreatWarningsAsErrors</code> is set to <code>True</code>, <code>WarningLevel</code> is set to <code>4</code> and <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are enabled with maximum scope and severity. This helps to flag  issues during development.
@@ -195,9 +195,9 @@ The following table summarizes the development goals for upcoming versions of th
     <td><code>1.1.0</code></td>
     <td>
       <ul>
-        <li>Implement suggestions and make improvements to Jodo.Numerics</li>
+        <li>Implement suggestions</li>
         <li>Add support for spans</li>
-        <li>Add support for bit streaming</li>
+        <li>Add support for streaming</li>
         <li>Automate API documentation website and fill in major blanks</li>
       </ul>
       <a href="https://github.com/JosephJShort/Jodo/milestone/4"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/4?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
@@ -215,7 +215,7 @@ The following table summarizes the development goals for upcoming versions of th
     <td><code>1.3.0</code></td>
     <td>
       <ul>
-        <li>Implement suggestions and make improvements to Jodo.Geometry</li>
+        <li>Implement suggestions</li>
       </ul>
     </td>
   </tr>
@@ -223,7 +223,7 @@ The following table summarizes the development goals for upcoming versions of th
     <td><em>Future</em></td>
     <td>
       <ul>
-        <li>Add support for spans</li>
+        <li>Create the first release of Jodo.Geometry</li>
       </ul>
     </td>
   </tr>
@@ -310,7 +310,7 @@ Provides numeric utilities, custom number types, and a generic interface for def
 
 Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
 
-Fix64 and UFix64 are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
+Fix64 and UFix64 are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -369,7 +369,7 @@ Number types in the `Jodo.Numerics.Clamped` namespace have built-in protection f
 
 This is useful for preventing unexpected negative, positive, infinite or `NaN` values from entering a system.
 
-As with all the number types provided by this library, these types support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
+As with all the number types provided by this library, these types support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
         
 Usage is the same as with built-in numeric types but yields different results in cases of overflow.
 
@@ -458,11 +458,11 @@ The table below summarizes the clamped number types and utilities provided.
 
 [\[Back to top\]](#top)
 
-### 4.3. Framework for number types <br id="numerics-framework-for-number-types" />
+### 4.3. Framework for numbers <br id="numerics-framework-for-numbers" />
 
 The INumeric&lt;TSelf&gt; interface defines a contract for number types with support for operators, maths, conversion, string-parsing, random generation, and more.
 
-Static utility classes, such as `MathN` and `ConvertN`, expose the features of these types in a way this is familiar to users of the built-in number types.
+Static utility classes, such as `MathN` and `ConvertN`, expose these features in a way that is familiar to users of the .NET API.
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -596,7 +596,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 ### 4.4. Structures <br id="numerics-structures" />
 
-Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>). The table below sumarises the types available.
+Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>). The table below sumarises the available structs and accompanying utilities.
 
 <table>
   <tr>
@@ -605,28 +605,28 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
   </tr>
   <tr />
   <tr>
-    <td id="vector2n"><sub><em>readonly struct</em></sub><br />Vector2N&lt;TNumeric&gt;</td>
+    <td><sub><em>readonly struct</em></sub><br />UnitN&lt;TNumeric&gt;</td>
+    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
+  </tr>
+  <tr />
+  <tr>
+    <td><sub><em>readonly struct</em></sub><br />Vector2N&lt;TNumeric&gt;</td>
     <td>A collection of two numeric values, <code>X</code> and <code>Y</code>, with extensive interface and operator support.</td>
   </tr>
   <tr />
   <tr>
-    <td id="vector2n"><sub><em>static class</em></sub><br />Vector2N</td>
-    <td>Provides static methods for performing vector-based mathematics, such as dot product.</td>
-  </tr>
-  <tr />
-  <tr>
-    <td id="vector3n"><sub><em>readonly struct</em></sub><br />Vector3N&lt;TNumeric&gt;</td>
+    <td><sub><em>readonly struct</em></sub><br />Vector3N&lt;TNumeric&gt;</td>
     <td>A collection of three numeric values, <code>X</code>, <code>Y</code> and <code>Z</code>, with extensive interface and operator support.</td>
   </tr>
   <tr />
   <tr>
-    <td id="vector2n"><sub><em>static class</em></sub><br />Vector3N</td>
-    <td>Provides static methods for performing vector-based mathematics, such as dot product.</td>
+    <td><sub><em>static class</em></sub><br />Vector2N</td>
+    <td>Provides static methods for performing vector-based mathematics on instances of Vector2N&lt;TNumeric&gt;, such as dot product.</td>
   </tr>
   <tr />
   <tr>
-    <td id="unitn"><sub><em>readonly struct</em></sub><br />UnitN&lt;TNumeric&gt;</td>
-    <td>A wrapper for numeric types that clamps values between -1 and 1 (or 0 and 1 when unsigned).</td>
+    <td><sub><em>static class</em></sub><br />Vector3N</td>
+    <td>Provides static methods for performing vector-based mathematics on instances of Vector3N&lt;TNumeric&gt;, such as dot product.</td>
   </tr>
 </table>
 
@@ -634,7 +634,7 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
 
 ### 4.5. Random extensions <br id="numerics-random-extensions" />
 
-Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-number-types">§4.3. Framework for number types</a>).
+Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 Overloads are provided that allow greater flexibility with bounds via the `Generation` enum:
 
