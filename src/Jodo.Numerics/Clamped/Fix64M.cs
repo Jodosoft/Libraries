@@ -302,7 +302,7 @@ namespace Jodo.Numerics.Clamped
             Fix64M IConvert<Fix64M>.ToNumeric(short value, Conversion mode) => (Fix64M)ConvertN.ToInt64(value, mode.Clamped());
             Fix64M IConvert<Fix64M>.ToNumeric(string value) => (Fix64M)Convert.ToInt64(value);
             Fix64M IConvertExtended<Fix64M>.ToNumeric(uint value, Conversion mode) => (Fix64M)ConvertN.ToInt64(value, mode.Clamped());
-            Fix64M IConvertExtended<Fix64M>.ToNumeric(ulong value, Conversion mode) => (Fix64M)ConvertN.ToInt64(value, mode.Clamped());
+            Fix64M IConvertExtended<Fix64M>.ToNumeric(ulong value, Conversion mode) => new Fix64M(Scaled.ToInt64(value, ScalingFactor, mode.Clamped()));
             Fix64M IConvertExtended<Fix64M>.ToNumeric(ushort value, Conversion mode) => (Fix64M)ConvertN.ToInt64(value, mode.Clamped());
 
             Fix64M INumericStatic<Fix64M>.Parse(string s, NumberStyles? style, IFormatProvider? provider)

@@ -302,7 +302,7 @@ namespace Jodo.Numerics
             Fix64 IConvert<Fix64>.ToNumeric(short value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
             Fix64 IConvert<Fix64>.ToNumeric(string value) => (Fix64)Convert.ToInt64(value);
             Fix64 IConvertExtended<Fix64>.ToNumeric(uint value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
-            Fix64 IConvertExtended<Fix64>.ToNumeric(ulong value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
+            Fix64 IConvertExtended<Fix64>.ToNumeric(ulong value, Conversion mode) => new Fix64(Scaled.ToInt64(value, ScalingFactor, mode));
             Fix64 IConvertExtended<Fix64>.ToNumeric(ushort value, Conversion mode) => (Fix64)ConvertN.ToInt64(value, mode);
 
             Fix64 INumericStatic<Fix64>.Parse(string s, NumberStyles? style, IFormatProvider? provider)

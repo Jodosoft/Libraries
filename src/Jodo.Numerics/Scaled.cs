@@ -258,6 +258,16 @@ namespace Jodo.Numerics
             return result;
         }
 
+        [CLSCompliant(false)]
+        public static long ToInt64(ulong scaledValue, ulong scalingFactor, Conversion mode) => mode switch
+        {
+            Conversion.Default => Convert.ToInt64(scaledValue) * Convert.ToInt64(scalingFactor),
+            Conversion.Clamp => Clamped.Clamped.Multiply(ConvertN.ToInt64(scaledValue, Conversion.Clamp), ConvertN.ToInt64(scaledValue, Conversion.Clamp)),
+            Conversion.Cast => (long)scaledValue * (long)scalingFactor,
+            Conversion.CastClamp => Clamped.Clamped.Multiply((long)scaledValue, (long)scalingFactor),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, $"Unknown value of {nameof(Conversion)}"),
+        };
+
         private static long RoundToEven(long value)
         {
             long remainder = value % 10;
