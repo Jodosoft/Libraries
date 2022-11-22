@@ -500,7 +500,7 @@ namespace Jodo.Numerics.Tests
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => ~left,
 #endif
-                () => left.BitwiseComplement(),
+                left.BitwiseComplement,
                 () => DynamicInvoke.BitwiseComplementOperator(left));
         }
 
@@ -779,7 +779,7 @@ namespace Jodo.Numerics.Tests
 #if HAS_DEFAULT_INTERFACE_METHODS
                     () => +left,
 #endif
-                () => left.Positive(),
+                left.Positive,
                 () => DynamicInvoke.UnaryPlusOperator(left));
         }
 

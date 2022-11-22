@@ -91,7 +91,7 @@ namespace Jodo.Numerics.Tests
             TNumeric left = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
-            Func<TNumeric> action = new Func<TNumeric>(() => left.BitwiseComplement());
+            Func<TNumeric> action = new Func<TNumeric>(left.BitwiseComplement);
 
             //assert
             action.Should().NotThrow();

@@ -44,7 +44,7 @@ namespace Jodo.Numerics.Tests
             for (int i = 0; i < 10; i++)
             {
                 AssertSame.Result(
-                   () => random1.NextNumeric<TNumeric>(),
+                   random1.NextNumeric<TNumeric>,
                    () => random2.NextNumeric<TNumeric>(Generation.Default),
                    () => random3.NextNumeric(defaultMaxValue),
                    () => random4.NextNumeric(Numeric.Zero<TNumeric>(), defaultMaxValue),
