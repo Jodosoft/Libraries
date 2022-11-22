@@ -24,15 +24,15 @@ namespace Jodo.Numerics.Tests
 {
     public static class UnitNTest
     {
-        public sealed class FixedPointBitBufferTests : BitBufferTestBase<UnitN<Fix64>> { }
+        public sealed class FixedPointBinaryConvertTests : BinaryConvertTestBase<UnitN<Fix64>> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<UnitN<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<UnitN<Fix64>> { }
         public sealed class FixedPointUnitTests : UnitNTestBase<Fix64> { }
-        public sealed class FloatingPointBitBufferTests : BitBufferTestBase<UnitN<SingleN>> { }
+        public sealed class FloatingPointBinaryConvertTests : BinaryConvertTestBase<UnitN<SingleN>> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<UnitN<SingleN>> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<UnitN<SingleN>> { }
         public sealed class FloatingPointUnitTests : UnitNTestBase<SingleN> { }
-        public sealed class UnsignedIntegralBitBufferTests : BitBufferTestBase<UnitN<ByteN>> { }
+        public sealed class UnsignedIntegralBinaryConvertTests : BinaryConvertTestBase<UnitN<ByteN>> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<UnitN<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<UnitN<ByteN>> { }
         public sealed class UnsignedIntegralUnitTests : UnitNTestBase<ByteN> { }

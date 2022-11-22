@@ -27,7 +27,6 @@ namespace Jodo.Numerics.Tests
 {
     public abstract class Vector2NTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-
         [Test, Repeat(RandomVariations)]
         public void Ctor_RandomValues_CorrectResult()
         {

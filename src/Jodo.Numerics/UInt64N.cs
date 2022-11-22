@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -148,7 +147,7 @@ namespace Jodo.Numerics
         UInt64N INumeric<UInt64N>.Subtract(UInt64N value) => this - value;
 
         INumericBitConverter<UInt64N> IProvider<INumericBitConverter<UInt64N>>.GetInstance() => Utilities.Instance;
-        IBitBuffer<UInt64N> IProvider<IBitBuffer<UInt64N>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<UInt64N> IProvider<IBinaryConvert<UInt64N>>.GetInstance() => Utilities.Instance;
         IConvert<UInt64N> IProvider<IConvert<UInt64N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt64N> IProvider<IConvertExtended<UInt64N>>.GetInstance() => Utilities.Instance;
         IMath<UInt64N> IProvider<IMath<UInt64N>>.GetInstance() => Utilities.Instance;
@@ -157,7 +156,7 @@ namespace Jodo.Numerics
         IVariantRandom<UInt64N> IProvider<IVariantRandom<UInt64N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitBuffer<UInt64N>,
+            IBinaryConvert<UInt64N>,
             IConvert<UInt64N>,
             IConvertExtended<UInt64N>,
             IMath<UInt64N>,
@@ -168,10 +167,8 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBitBuffer<UInt64N>.Write(UInt64N value, Stream stream) => stream.Write(value._value);
-            async Task IBitBuffer<UInt64N>.WriteAsync(UInt64N value, Stream stream) => await stream.WriteAsync(value._value);
-            UInt64N IBitBuffer<UInt64N>.Read(Stream stream) => stream.ReadUInt64();
-            async Task<UInt64N> IBitBuffer<UInt64N>.ReadAsync(Stream stream) => await stream.ReadUInt64Async();
+            void IBinaryConvert<UInt64N>.Write(BinaryWriter writer, UInt64N value) => writer.Write(value);
+            UInt64N IBinaryConvert<UInt64N>.Read(BinaryReader reader) => reader.ReadUInt64();
 
             bool INumericStatic<UInt64N>.HasFloatingPoint => false;
             bool INumericStatic<UInt64N>.HasInfinity => false;
@@ -234,6 +231,10 @@ namespace Jodo.Numerics
             int INumericBitConverter<UInt64N>.ConvertedSize => sizeof(ulong);
             UInt64N INumericBitConverter<UInt64N>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToUInt64(value, startIndex);
             byte[] INumericBitConverter<UInt64N>.GetBytes(UInt64N value) => BitConverter.GetBytes(value._value);
+#if HAS_SPANS
+            UInt64N INumericBitConverter<UInt64N>.ToNumeric(ReadOnlySpan<byte> value) => BitConverter.ToUInt64(value);
+            bool INumericBitConverter<UInt64N>.TryWriteBytes(Span<byte> destination, UInt64N value) => BitConverter.TryWriteBytes(destination, value);
+#endif
 
             bool IConvert<UInt64N>.ToBoolean(UInt64N value) => Convert.ToBoolean(value._value);
             byte IConvert<UInt64N>.ToByte(UInt64N value, Conversion mode) => ConvertN.ToByte(value._value, mode);

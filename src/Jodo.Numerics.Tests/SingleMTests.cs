@@ -26,7 +26,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class SingleMTests
     {
-        public sealed class BitBufferTests : BitBufferTestBase<SingleM> { }
+        public sealed class BinaryConvertTests : BinaryConvertTestBase<SingleM> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<SingleM> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<SingleM> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<SingleM> { }

@@ -123,7 +123,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            AssertSame.Outcome(() => left.Value.ToString(), () => left.ToString());
+            AssertSame.Outcome(left.Value.ToString, left.ToString);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -134,7 +134,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            AssertSame.Outcome(() => left.Value.GetHashCode(), () => left.GetHashCode());
+            AssertSame.Outcome(left.Value.GetHashCode, left.GetHashCode);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -433,7 +433,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            AssertSame.Outcome(() => left.Value.Negative(), () => -left);
+            AssertSame.Outcome(left.Value.Negative, () => -left);
         }
 
         [Test, Repeat(RandomVariations)]
@@ -444,7 +444,7 @@ namespace Jodo.Numerics.Tests
 
             //act
             //assert
-            AssertSame.Outcome(() => left.Value.Positive(), () => +left);
+            AssertSame.Outcome(left.Value.Positive, () => +left);
         }
 
         [Test, Repeat(RandomVariations)]

@@ -23,7 +23,6 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -34,7 +33,7 @@ namespace Jodo.Numerics
     public readonly struct Vector2N<TNumeric> :
             IEquatable<Vector2N<TNumeric>>,
             IFormattable,
-            IProvider<IBitBuffer<Vector2N<TNumeric>>>,
+            IProvider<IBinaryConvert<Vector2N<TNumeric>>>,
             IProvider<IVariantRandom<Vector2N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -95,39 +94,26 @@ namespace Jodo.Numerics
         public static bool operator ==(Vector2N<TNumeric> left, Vector2N<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Vector2N<TNumeric> left, Vector2N<TNumeric> right) => !(left == right);
 
-        IBitBuffer<Vector2N<TNumeric>> IProvider<IBitBuffer<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<Vector2N<TNumeric>> IProvider<IBinaryConvert<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector2N<TNumeric>> IProvider<IVariantRandom<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitBuffer<Vector2N<TNumeric>>,
+           IBinaryConvert<Vector2N<TNumeric>>,
            IVariantRandom<Vector2N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Vector2N<TNumeric> IBitBuffer<Vector2N<TNumeric>>.Read(Stream stream)
+            void IBinaryConvert<Vector2N<TNumeric>>.Write(BinaryWriter writer, Vector2N<TNumeric> value)
+            {
+                writer.Write(value.X);
+                writer.Write(value.Y);
+            }
+
+            Vector2N<TNumeric> IBinaryConvert<Vector2N<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Vector2N<TNumeric>(
-                    stream.Read<TNumeric>(),
-                    stream.Read<TNumeric>());
-            }
-
-            async Task<Vector2N<TNumeric>> IBitBuffer<Vector2N<TNumeric>>.ReadAsync(Stream stream)
-            {
-                return new Vector2N<TNumeric>(
-                    await stream.ReadAsync<TNumeric>(),
-                    await stream.ReadAsync<TNumeric>());
-            }
-
-            void IBitBuffer<Vector2N<TNumeric>>.Write(Vector2N<TNumeric> value, Stream stream)
-            {
-                stream.Write(value.X);
-                stream.Write(value.Y);
-            }
-
-            async Task IBitBuffer<Vector2N<TNumeric>>.WriteAsync(Vector2N<TNumeric> value, Stream stream)
-            {
-                await stream.WriteAsync(value.X);
-                await stream.WriteAsync(value.Y);
+                    reader.Read<TNumeric>(),
+                    reader.Read<TNumeric>());
             }
 
             Vector2N<TNumeric> IVariantRandom<Vector2N<TNumeric>>.Generate(Random random, Variants variants)

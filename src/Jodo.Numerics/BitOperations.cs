@@ -189,6 +189,26 @@ namespace Jodo.Numerics
             return result;
         }
 
+#if HAS_SPANS
+        public static decimal ToDecimal(ReadOnlySpan<byte> value)
+        {
+            if (value.Length < sizeof(decimal))
+                throw new ArgumentOutOfRangeException(nameof(value));
+
+            int part0 = BitConverter.ToInt32(value);
+            int part1 = BitConverter.ToInt32(value.Slice(sizeof(int)));
+            int part2 = BitConverter.ToInt32(value.Slice(sizeof(int) + sizeof(int)));
+            int part3 = BitConverter.ToInt32(value.Slice(sizeof(int) + sizeof(int) + sizeof(int)));
+
+            bool sign = (part3 & 0x80000000) != 0;
+            byte scale = (byte)((part3 >> 16) & 0x7F);
+
+            decimal result = new decimal(part0, part1, part2, sign, scale);
+
+            return result;
+        }
+#endif
+
         public static byte ToByte(byte[] value, int startIndex)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
@@ -199,6 +219,16 @@ namespace Jodo.Numerics
 
             return value[startIndex];
         }
+
+#if HAS_SPANS
+        public static byte ToByte(ReadOnlySpan<byte> value)
+        {
+            if (value.Length < sizeof(byte))
+                throw new ArgumentOutOfRangeException(nameof(value));
+
+            return value[0];
+        }
+#endif
 
         [CLSCompliant(false)]
         public static sbyte ToSByte(byte[] value, int startIndex)
@@ -211,5 +241,50 @@ namespace Jodo.Numerics
 
             return (sbyte)value[startIndex];
         }
+
+#if HAS_SPANS
+        [CLSCompliant(false)]
+        public static sbyte ToSByte(ReadOnlySpan<byte> value)
+        {
+            if (value.Length < sizeof(sbyte))
+                throw new ArgumentOutOfRangeException(nameof(value));
+
+            return (sbyte)value[0];
+        }
+#endif
+
+#if HAS_SPANS
+        public static bool TryWriteByte(Span<byte> destination, byte value)
+        {
+            if (destination.Length < sizeof(byte))
+                return false;
+
+            destination[0] = value;
+            return true;
+        }
+
+        [CLSCompliant(false)]
+        public static bool TryWriteSByte(Span<byte> destination, sbyte value)
+        {
+            if (destination.Length < sizeof(sbyte))
+                return false;
+
+            destination[0] = (byte)value;
+            return true;
+        }
+
+        public static bool TryWriteBytes(Span<byte> destination, decimal value)
+        {
+            if (destination.Length < sizeof(byte))
+                return false;
+
+            byte[] result = new byte[sizeof(decimal)];
+            int[] parts = decimal.GetBits(value);
+            Buffer.BlockCopy(parts, 0, result, 0, result.Length);
+            result.CopyTo(destination);
+
+            return true;
+        }
+#endif
     }
 }

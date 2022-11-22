@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -159,7 +158,7 @@ namespace Jodo.Numerics
         SingleN INumeric<SingleN>.Subtract(SingleN value) => this - value;
 
         INumericBitConverter<SingleN> IProvider<INumericBitConverter<SingleN>>.GetInstance() => Utilities.Instance;
-        IBitBuffer<SingleN> IProvider<IBitBuffer<SingleN>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<SingleN> IProvider<IBinaryConvert<SingleN>>.GetInstance() => Utilities.Instance;
         IConvert<SingleN> IProvider<IConvert<SingleN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SingleN> IProvider<IConvertExtended<SingleN>>.GetInstance() => Utilities.Instance;
         IMath<SingleN> IProvider<IMath<SingleN>>.GetInstance() => Utilities.Instance;
@@ -168,7 +167,7 @@ namespace Jodo.Numerics
         IVariantRandom<SingleN> IProvider<IVariantRandom<SingleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitBuffer<SingleN>,
+            IBinaryConvert<SingleN>,
             IConvert<SingleN>,
             IConvertExtended<SingleN>,
             IMath<SingleN>,
@@ -179,10 +178,8 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBitBuffer<SingleN>.Write(SingleN value, Stream stream) => stream.Write(value._value);
-            async Task IBitBuffer<SingleN>.WriteAsync(SingleN value, Stream stream) => await stream.WriteAsync(value._value);
-            SingleN IBitBuffer<SingleN>.Read(Stream stream) => stream.ReadSingle();
-            async Task<SingleN> IBitBuffer<SingleN>.ReadAsync(Stream stream) => await stream.ReadSingleAsync();
+            void IBinaryConvert<SingleN>.Write(BinaryWriter writer, SingleN value) => writer.Write(value);
+            SingleN IBinaryConvert<SingleN>.Read(BinaryReader reader) => reader.ReadSingle();
 
             bool INumericStatic<SingleN>.HasFloatingPoint => true;
             bool INumericStatic<SingleN>.HasInfinity => true;
@@ -245,6 +242,10 @@ namespace Jodo.Numerics
             int INumericBitConverter<SingleN>.ConvertedSize => sizeof(float);
             SingleN INumericBitConverter<SingleN>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToSingle(value, startIndex);
             byte[] INumericBitConverter<SingleN>.GetBytes(SingleN value) => BitConverter.GetBytes(value._value);
+#if HAS_SPANS
+            SingleN INumericBitConverter<SingleN>.ToNumeric(ReadOnlySpan<byte> value) => BitConverter.ToSingle(value);
+            bool INumericBitConverter<SingleN>.TryWriteBytes(Span<byte> destination, SingleN value) => BitConverter.TryWriteBytes(destination, value);
+#endif
 
             bool IConvert<SingleN>.ToBoolean(SingleN value) => Convert.ToBoolean(value._value);
             byte IConvert<SingleN>.ToByte(SingleN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

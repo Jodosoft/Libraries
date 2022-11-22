@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -149,7 +148,7 @@ namespace Jodo.Numerics
         DecimalN INumeric<DecimalN>.Subtract(DecimalN value) => this - value;
 
         INumericBitConverter<DecimalN> IProvider<INumericBitConverter<DecimalN>>.GetInstance() => Utilities.Instance;
-        IBitBuffer<DecimalN> IProvider<IBitBuffer<DecimalN>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<DecimalN> IProvider<IBinaryConvert<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvert<DecimalN> IProvider<IConvert<DecimalN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DecimalN> IProvider<IConvertExtended<DecimalN>>.GetInstance() => Utilities.Instance;
         IMath<DecimalN> IProvider<IMath<DecimalN>>.GetInstance() => Utilities.Instance;
@@ -158,7 +157,7 @@ namespace Jodo.Numerics
         IVariantRandom<DecimalN> IProvider<IVariantRandom<DecimalN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitBuffer<DecimalN>,
+            IBinaryConvert<DecimalN>,
             IConvert<DecimalN>,
             IConvertExtended<DecimalN>,
             IMath<DecimalN>,
@@ -169,10 +168,8 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBitBuffer<DecimalN>.Write(DecimalN value, Stream stream) => stream.Write(value._value);
-            async Task IBitBuffer<DecimalN>.WriteAsync(DecimalN value, Stream stream) => await stream.WriteAsync(value._value);
-            DecimalN IBitBuffer<DecimalN>.Read(Stream stream) => stream.ReadDecimal();
-            async Task<DecimalN> IBitBuffer<DecimalN>.ReadAsync(Stream stream) => await stream.ReadDecimalAsync();
+            void IBinaryConvert<DecimalN>.Write(BinaryWriter writer, DecimalN value) => writer.Write(value);
+            DecimalN IBinaryConvert<DecimalN>.Read(BinaryReader reader) => reader.ReadDecimal();
 
             bool INumericStatic<DecimalN>.HasFloatingPoint => true;
             bool INumericStatic<DecimalN>.HasInfinity => false;
@@ -235,6 +232,10 @@ namespace Jodo.Numerics
             int INumericBitConverter<DecimalN>.ConvertedSize => sizeof(decimal);
             DecimalN INumericBitConverter<DecimalN>.ToNumeric(byte[] value, int startIndex) => BitOperations.ToDecimal(value, startIndex);
             byte[] INumericBitConverter<DecimalN>.GetBytes(DecimalN value) => BitOperations.GetBytes(value._value);
+#if HAS_SPANS
+            DecimalN INumericBitConverter<DecimalN>.ToNumeric(ReadOnlySpan<byte> value) => BitOperations.ToDecimal(value);
+            bool INumericBitConverter<DecimalN>.TryWriteBytes(Span<byte> destination, DecimalN value) => BitOperations.TryWriteBytes(destination, value);
+#endif
 
             bool IConvert<DecimalN>.ToBoolean(DecimalN value) => Convert.ToBoolean(value._value);
             byte IConvert<DecimalN>.ToByte(DecimalN value, Conversion mode) => ConvertN.ToByte(value._value, mode);

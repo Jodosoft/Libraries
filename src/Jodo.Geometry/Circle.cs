@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
@@ -34,7 +33,7 @@ namespace Jodo.Geometry
     public readonly struct Circle<TNumeric> :
             IEquatable<Circle<TNumeric>>,
             IFormattable,
-            IProvider<IBitBuffer<Circle<TNumeric>>>,
+            IProvider<IBinaryConvert<Circle<TNumeric>>>,
             IProvider<IVariantRandom<Circle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -107,39 +106,26 @@ namespace Jodo.Geometry
         public static bool operator ==(Circle<TNumeric> left, Circle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
 
-        IBitBuffer<Circle<TNumeric>> IProvider<IBitBuffer<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<Circle<TNumeric>> IProvider<IBinaryConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Circle<TNumeric>> IProvider<IVariantRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBitBuffer<Circle<TNumeric>>,
+           IBinaryConvert<Circle<TNumeric>>,
            IVariantRandom<Circle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            Circle<TNumeric> IBitBuffer<Circle<TNumeric>>.Read(Stream stream)
+            void IBinaryConvert<Circle<TNumeric>>.Write(BinaryWriter writer, Circle<TNumeric> value)
+            {
+                writer.Write(value.Center);
+                writer.Write(value.Radius);
+            }
+
+            Circle<TNumeric> IBinaryConvert<Circle<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Circle<TNumeric>(
-                    stream.Read<Vector2N<TNumeric>>(),
-                    stream.Read<TNumeric>());
-            }
-
-            async Task<Circle<TNumeric>> IBitBuffer<Circle<TNumeric>>.ReadAsync(Stream stream)
-            {
-                return new Circle<TNumeric>(
-                    await stream.ReadAsync<Vector2N<TNumeric>>(),
-                    await stream.ReadAsync<TNumeric>());
-            }
-
-            void IBitBuffer<Circle<TNumeric>>.Write(Circle<TNumeric> value, Stream stream)
-            {
-                stream.Write(value.Center);
-                stream.Write(value.Radius);
-            }
-
-            async Task IBitBuffer<Circle<TNumeric>>.WriteAsync(Circle<TNumeric> value, Stream stream)
-            {
-                await stream.WriteAsync(value.Center);
-                await stream.WriteAsync(value.Radius);
+                    reader.Read<Vector2N<TNumeric>>(),
+                    reader.Read<TNumeric>());
             }
 
             Circle<TNumeric> IVariantRandom<Circle<TNumeric>>.Generate(Random random, Variants variants)

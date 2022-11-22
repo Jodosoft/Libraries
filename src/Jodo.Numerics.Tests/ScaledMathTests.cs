@@ -224,7 +224,6 @@ namespace Jodo.Numerics.Tests
         [TestCase("-1234.56", 100, null, "ja-JP", -123456)]
         public void Parse1_VariousScenarios_CorrectResultAsDouble(string input, long scalingFactor, NumberStyles? style, string culture, long expected)
         {
-
             //arrange
             //act
             long result = Scaled.Parse(input, scalingFactor, style, CultureInfo.GetCultureInfo(culture));

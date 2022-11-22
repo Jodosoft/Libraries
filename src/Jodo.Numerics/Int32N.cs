@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -152,7 +151,7 @@ namespace Jodo.Numerics
         Int32N INumeric<Int32N>.Subtract(Int32N value) => this - value;
 
         INumericBitConverter<Int32N> IProvider<INumericBitConverter<Int32N>>.GetInstance() => Utilities.Instance;
-        IBitBuffer<Int32N> IProvider<IBitBuffer<Int32N>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<Int32N> IProvider<IBinaryConvert<Int32N>>.GetInstance() => Utilities.Instance;
         IConvert<Int32N> IProvider<IConvert<Int32N>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Int32N> IProvider<IConvertExtended<Int32N>>.GetInstance() => Utilities.Instance;
         IMath<Int32N> IProvider<IMath<Int32N>>.GetInstance() => Utilities.Instance;
@@ -161,7 +160,7 @@ namespace Jodo.Numerics
         IVariantRandom<Int32N> IProvider<IVariantRandom<Int32N>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitBuffer<Int32N>,
+            IBinaryConvert<Int32N>,
             IConvert<Int32N>,
             IConvertExtended<Int32N>,
             IMath<Int32N>,
@@ -172,10 +171,8 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBitBuffer<Int32N>.Write(Int32N value, Stream stream) => stream.Write(value._value);
-            async Task IBitBuffer<Int32N>.WriteAsync(Int32N value, Stream stream) => await stream.WriteAsync(value._value);
-            Int32N IBitBuffer<Int32N>.Read(Stream stream) => stream.ReadInt32();
-            async Task<Int32N> IBitBuffer<Int32N>.ReadAsync(Stream stream) => await stream.ReadInt32Async();
+            void IBinaryConvert<Int32N>.Write(BinaryWriter writer, Int32N value) => writer.Write(value);
+            Int32N IBinaryConvert<Int32N>.Read(BinaryReader reader) => reader.ReadInt32();
 
             bool INumericStatic<Int32N>.HasFloatingPoint => false;
             bool INumericStatic<Int32N>.HasInfinity => false;
@@ -238,6 +235,10 @@ namespace Jodo.Numerics
             int INumericBitConverter<Int32N>.ConvertedSize => sizeof(int);
             Int32N INumericBitConverter<Int32N>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToInt32(value, startIndex);
             byte[] INumericBitConverter<Int32N>.GetBytes(Int32N value) => BitConverter.GetBytes(value._value);
+#if HAS_SPANS
+            Int32N INumericBitConverter<Int32N>.ToNumeric(ReadOnlySpan<byte> value) => BitConverter.ToInt32(value);
+            bool INumericBitConverter<Int32N>.TryWriteBytes(Span<byte> destination, Int32N value) => BitConverter.TryWriteBytes(destination, value);
+#endif
 
             bool IConvert<Int32N>.ToBoolean(Int32N value) => Convert.ToBoolean(value._value);
             byte IConvert<Int32N>.ToByte(Int32N value, Conversion mode) => ConvertN.ToByte(value._value, mode);

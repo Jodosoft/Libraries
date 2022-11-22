@@ -17,21 +17,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System;
-using NUnit.Framework;
+using System.IO;
+using System.Runtime.CompilerServices;
 
-namespace Jodo.Testing
+namespace Jodo.Primitives
 {
-    [Parallelizable(ParallelScope.Children)]
-    [Timeout(10000)]
-    public abstract class GlobalFixtureBase
+    public static class BinaryReaderExtensions
     {
-#if DEBUG
-        public const int RandomVariations = 16;
-#else
-        public const int RandomVariations = 256;
-#endif
-
-        public static Random Random => TestLocal.GetOrAdd(() => new Random());
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Read<T>(this BinaryReader reader) where T : struct, IProvider<IBinaryConvert<T>>
+            => DefaultProvider<T, IBinaryConvert<T>>.Instance.Read(reader);
     }
 }

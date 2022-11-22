@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -149,7 +148,7 @@ namespace Jodo.Numerics.Clamped
         ByteM INumeric<ByteM>.Subtract(ByteM value) => this - value;
 
         INumericBitConverter<ByteM> IProvider<INumericBitConverter<ByteM>>.GetInstance() => Utilities.Instance;
-        IBitBuffer<ByteM> IProvider<IBitBuffer<ByteM>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<ByteM> IProvider<IBinaryConvert<ByteM>>.GetInstance() => Utilities.Instance;
         IConvert<ByteM> IProvider<IConvert<ByteM>>.GetInstance() => Utilities.Instance;
         IConvertExtended<ByteM> IProvider<IConvertExtended<ByteM>>.GetInstance() => Utilities.Instance;
         IMath<ByteM> IProvider<IMath<ByteM>>.GetInstance() => Utilities.Instance;
@@ -158,7 +157,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<ByteM> IProvider<IVariantRandom<ByteM>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitBuffer<ByteM>,
+            IBinaryConvert<ByteM>,
             IConvert<ByteM>,
             IConvertExtended<ByteM>,
             IMath<ByteM>,
@@ -169,10 +168,8 @@ namespace Jodo.Numerics.Clamped
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBitBuffer<ByteM>.Write(ByteM value, Stream stream) => stream.Write((sbyte)value._value);
-            async Task IBitBuffer<ByteM>.WriteAsync(ByteM value, Stream stream) => await stream.WriteAsync((sbyte)value._value);
-            ByteM IBitBuffer<ByteM>.Read(Stream stream) => (byte)stream.ReadSByte();
-            async Task<ByteM> IBitBuffer<ByteM>.ReadAsync(Stream stream) => (byte)await stream.ReadSByteAsync();
+            void IBinaryConvert<ByteM>.Write(BinaryWriter writer, ByteM value) => writer.Write(value);
+            ByteM IBinaryConvert<ByteM>.Read(BinaryReader reader) => reader.ReadByte();
 
             bool INumericStatic<ByteM>.HasFloatingPoint => false;
             bool INumericStatic<ByteM>.HasInfinity => false;
@@ -235,6 +232,10 @@ namespace Jodo.Numerics.Clamped
             int INumericBitConverter<ByteM>.ConvertedSize => sizeof(byte);
             ByteM INumericBitConverter<ByteM>.ToNumeric(byte[] value, int startIndex) => BitOperations.ToByte(value, startIndex);
             byte[] INumericBitConverter<ByteM>.GetBytes(ByteM value) => new byte[] { value._value };
+#if HAS_SPANS
+            ByteM INumericBitConverter<ByteM>.ToNumeric(ReadOnlySpan<byte> value) => BitOperations.ToByte(value);
+            bool INumericBitConverter<ByteM>.TryWriteBytes(Span<byte> destination, ByteM value) => BitOperations.TryWriteByte(destination, value);
+#endif
 
             bool IConvert<ByteM>.ToBoolean(ByteM value) => value._value != 0;
             byte IConvert<ByteM>.ToByte(ByteM value, Conversion mode) => value._value;

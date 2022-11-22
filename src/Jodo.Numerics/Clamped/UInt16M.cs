@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Jodo.Primitives;
 using Jodo.Primitives.Compatibility;
 
@@ -149,7 +148,7 @@ namespace Jodo.Numerics.Clamped
         UInt16M INumeric<UInt16M>.Subtract(UInt16M value) => this - value;
 
         INumericBitConverter<UInt16M> IProvider<INumericBitConverter<UInt16M>>.GetInstance() => Utilities.Instance;
-        IBitBuffer<UInt16M> IProvider<IBitBuffer<UInt16M>>.GetInstance() => Utilities.Instance;
+        IBinaryConvert<UInt16M> IProvider<IBinaryConvert<UInt16M>>.GetInstance() => Utilities.Instance;
         IConvert<UInt16M> IProvider<IConvert<UInt16M>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UInt16M> IProvider<IConvertExtended<UInt16M>>.GetInstance() => Utilities.Instance;
         IMath<UInt16M> IProvider<IMath<UInt16M>>.GetInstance() => Utilities.Instance;
@@ -158,7 +157,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<UInt16M> IProvider<IVariantRandom<UInt16M>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBitBuffer<UInt16M>,
+            IBinaryConvert<UInt16M>,
             IConvert<UInt16M>,
             IConvertExtended<UInt16M>,
             IMath<UInt16M>,
@@ -169,10 +168,8 @@ namespace Jodo.Numerics.Clamped
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBitBuffer<UInt16M>.Write(UInt16M value, Stream stream) => stream.Write(value._value);
-            async Task IBitBuffer<UInt16M>.WriteAsync(UInt16M value, Stream stream) => await stream.WriteAsync(value._value);
-            UInt16M IBitBuffer<UInt16M>.Read(Stream stream) => stream.ReadUInt16();
-            async Task<UInt16M> IBitBuffer<UInt16M>.ReadAsync(Stream stream) => await stream.ReadUInt16Async();
+            void IBinaryConvert<UInt16M>.Write(BinaryWriter writer, UInt16M value) => writer.Write(value);
+            UInt16M IBinaryConvert<UInt16M>.Read(BinaryReader reader) => reader.ReadUInt16();
 
             bool INumericStatic<UInt16M>.HasFloatingPoint => false;
             bool INumericStatic<UInt16M>.HasInfinity => false;
@@ -235,6 +232,10 @@ namespace Jodo.Numerics.Clamped
             int INumericBitConverter<UInt16M>.ConvertedSize => sizeof(ushort);
             UInt16M INumericBitConverter<UInt16M>.ToNumeric(byte[] value, int startIndex) => BitConverter.ToUInt16(value, startIndex);
             byte[] INumericBitConverter<UInt16M>.GetBytes(UInt16M value) => BitConverter.GetBytes(value._value);
+#if HAS_SPANS
+            UInt16M INumericBitConverter<UInt16M>.ToNumeric(ReadOnlySpan<byte> value) => BitConverter.ToUInt16(value);
+            bool INumericBitConverter<UInt16M>.TryWriteBytes(Span<byte> destination, UInt16M value) => BitConverter.TryWriteBytes(destination, value);
+#endif
 
             bool IConvert<UInt16M>.ToBoolean(UInt16M value) => value._value != 0;
             byte IConvert<UInt16M>.ToByte(UInt16M value, Conversion mode) => ConvertN.ToByte(value._value, mode.Clamped());
