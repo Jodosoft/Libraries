@@ -39,6 +39,16 @@ namespace Jodo.Numerics
             return DefaultProvider<TNumeric, INumericBitConverter<TNumeric>>.Instance.ToNumeric(value, startIndex);
         }
 
+#if HAS_SPANS
+        /// <inheritdoc cref="INumericBitConverter{TNumeric}.TryWriteBytes(Span{byte}, TNumeric)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TNumeric ToNumeric<TNumeric>(ReadOnlySpan<byte> value) where TNumeric : struct, INumeric<TNumeric>
+        {
+            return DefaultProvider<TNumeric, INumericBitConverter<TNumeric>>.Instance.ToNumeric(value);
+        }
+#endif
+
         /// <inheritdoc cref="INumericBitConverter{TNumeric}.GetBytes(TNumeric)"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -62,14 +72,6 @@ namespace Jodo.Numerics
         public static bool TryWriteBytes<TNumeric>(Span<byte> destination, TNumeric value) where TNumeric : struct, INumeric<TNumeric>
         {
             return DefaultProvider<TNumeric, INumericBitConverter<TNumeric>>.Instance.TryWriteBytes(destination, value);
-        }
-
-        /// <inheritdoc cref="INumericBitConverter{TNumeric}.TryWriteBytes(Span{byte}, TNumeric)"/>
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TNumeric ToNumeric<TNumeric>(ReadOnlySpan<byte> value) where TNumeric : struct, INumeric<TNumeric>
-        {
-            return DefaultProvider<TNumeric, INumericBitConverter<TNumeric>>.Instance.ToNumeric(value);
         }
 #endif
     }

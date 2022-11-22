@@ -189,47 +189,7 @@ namespace Jodo.Numerics
             return result;
         }
 
-        public static byte ToByte(byte[] value, int startIndex)
-        {
-            if (value == null) throw new ArgumentNullException(nameof(value));
-
-            if (startIndex >= value.Length) throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, IndexOutOfRange);
-
-            if (startIndex > value.Length - sizeof(byte)) throw new ArgumentException(NotLongEnough, nameof(value));
-
-            return value[startIndex];
-        }
-
-        [CLSCompliant(false)]
-        public static sbyte ToSByte(byte[] value, int startIndex)
-        {
-            if (value == null) throw new ArgumentNullException(nameof(value));
-
-            if (startIndex >= value.Length) throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, IndexOutOfRange);
-
-            if (startIndex > value.Length - sizeof(byte)) throw new ArgumentException(NotLongEnough, nameof(value));
-
-            return (sbyte)value[startIndex];
-        }
-
 #if HAS_SPANS
-        public static byte ToByte(ReadOnlySpan<byte> value)
-        {
-            if (value.Length < sizeof(byte))
-                throw new ArgumentOutOfRangeException(nameof(value));
-
-            return value[0];
-        }
-
-        [CLSCompliant(false)]
-        public static sbyte ToSByte(ReadOnlySpan<byte> value)
-        {
-            if (value.Length < sizeof(sbyte))
-                throw new ArgumentOutOfRangeException(nameof(value));
-
-            return (sbyte)value[0];
-        }
-
         public static decimal ToDecimal(ReadOnlySpan<byte> value)
         {
             if (value.Length < sizeof(decimal))
@@ -247,7 +207,53 @@ namespace Jodo.Numerics
 
             return result;
         }
+#endif
 
+        public static byte ToByte(byte[] value, int startIndex)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            if (startIndex >= value.Length) throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, IndexOutOfRange);
+
+            if (startIndex > value.Length - sizeof(byte)) throw new ArgumentException(NotLongEnough, nameof(value));
+
+            return value[startIndex];
+        }
+
+#if HAS_SPANS
+        public static byte ToByte(ReadOnlySpan<byte> value)
+        {
+            if (value.Length < sizeof(byte))
+                throw new ArgumentOutOfRangeException(nameof(value));
+
+            return value[0];
+        }
+#endif
+
+        [CLSCompliant(false)]
+        public static sbyte ToSByte(byte[] value, int startIndex)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
+            if (startIndex >= value.Length) throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, IndexOutOfRange);
+
+            if (startIndex > value.Length - sizeof(byte)) throw new ArgumentException(NotLongEnough, nameof(value));
+
+            return (sbyte)value[startIndex];
+        }
+
+#if HAS_SPANS
+        [CLSCompliant(false)]
+        public static sbyte ToSByte(ReadOnlySpan<byte> value)
+        {
+            if (value.Length < sizeof(sbyte))
+                throw new ArgumentOutOfRangeException(nameof(value));
+
+            return (sbyte)value[0];
+        }
+#endif
+
+#if HAS_SPANS
         public static bool TryWriteByte(Span<byte> destination, byte value)
         {
             if (destination.Length < sizeof(byte))
