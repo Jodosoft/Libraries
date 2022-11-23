@@ -27,7 +27,7 @@
       <Argument Key="LogoPlacement" Value="left" />
       <Argument Key="LogoAlignment" Value="center" />
       <Argument Key="LogoUrl" Value="https://jodo.dev/" />
-      <Argument Key="MaxVersionParts" Value="3" />
+      <Argument Key="MaxVersionParts" Value="2" />
       <Argument Key="DefaultLanguage" Value="cs" />
       <Argument Key="IncludeEnumValues" Value="True" />
       <Argument Key="EnumMemberSortOrder" Value="Value" />
