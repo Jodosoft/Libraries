@@ -67,11 +67,13 @@
     <SourceCodeBasePath>..\..\src\</SourceCodeBasePath>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="(global)" isDocumented="True" xmlns="" />
-      <NamespaceSummaryItem name="Jodo.Numerics" isDocumented="True" xmlns="">Provides numeric utilities, custom number types, and a generic interface for defining numbers.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Jodo.Numerics.Clamped" isDocumented="True" xmlns="" />
-      <NamespaceSummaryItem name="Jodo.Primitives" isDocumented="True" xmlns="">Provides utilities and abstractions that are used throughout the Jodo libraries.</NamespaceSummaryItem>
-    </NamespaceSummaries>
+      <NamespaceSummaryItem name="(global)" isDocumented="False" />
+<NamespaceSummaryItem name="Jodo.Numerics" isDocumented="True">Provides numeric utilities, custom number types, and a generic interface for defining numbers.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Jodo.Numerics.Clamped" isDocumented="True">Provides non-overflowing number types.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Jodo.Primitives" isDocumented="True">Provides utilities and abstractions that are used throughout the Jodo libraries.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Jodo.Collections" isDocumented="True">Provides additional collections and collection abstractions.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Jodo.Geometry" isDocumented="True">Provides geometric structs and utilities with support for custom number types.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Jodo.Primitives.Compatibility" isDocumented="True">Provides shims for features that are unavailable in earlier versions of .NET.</NamespaceSummaryItem></NamespaceSummaries>
     <BuildLogFile>bin\build.log</BuildLogFile>
     <WorkingPath>bin\temp\</WorkingPath>
   </PropertyGroup>
