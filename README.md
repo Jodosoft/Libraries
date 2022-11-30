@@ -310,7 +310,7 @@ Provides numeric utilities, custom number types, and a generic interface for def
 
 Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
 
-Fix64 and UFix64 are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
+<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Fix64.htm">Fix64</a> and <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_UFix64.htm">UFix64</a> are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -338,7 +338,7 @@ The table belows summarizes the capabilities of these types.
   </tr>
   <tr />
   <tr>
-    <td id="fix64"><sub><em>readonly struct</em></sub><br />Fix64</td>
+    <td><sub><em>readonly struct</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Fix64.htm">Fix64</a></td>
     <td>
       <p>Signed fixed-point number type with 6 decimal digits of precision, represented internally by a 64-bit integer.</p>
       <p>Supports a range of values from ±1.0 x 10<sup>−6</sup> to ±9.2 x 10<sup>12</sup>.</p>
@@ -346,7 +346,7 @@ The table belows summarizes the capabilities of these types.
   </tr>
   <tr />
   <tr>
-    <td id="ufix64"><sub><em>readonly struct</em></sub><br />UFix64</td>
+    <td><sub><em>readonly struct</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_UFix64.htm">UFix64</a></td>
     <td>
       <p>Unsigned fixed-point number type with 6 decimal digits of precision, represented internally by a 64-bit integer.</p>
       <p>Supports a range of values from 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup>.</p>
@@ -354,7 +354,7 @@ The table belows summarizes the capabilities of these types.
   </tr>
   <tr />
   <tr>
-    <td id="fix64"><sub><em>static class</em></sub><br />Scaled</td>
+    <td><sub><em>static class</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Scaled.htm">Scaled</a></td>
     <td>
       <p>Provides static methods for performing arithmetic and string conversion on integers with a scaling factor. Used to implement <code>Fix64</code> and <code>UFix64</code>.</p>
     </td>
@@ -365,9 +365,11 @@ The table belows summarizes the capabilities of these types.
 
 ### 4.2 Non-overflowing numbers <br id="numerics-non-overflowing-numbers" />
   
-Number types in the `Jodo.Numerics.Clamped` namespace have built-in protection from overflow. Operations that would normally overflow instead revert to `MinValue` or `MaxValue` for the given number type.
+Number types in the <a href="https://jodo.dev/jodo/api/N_Jodo_Numerics_Clamped.htm">Jodo.Numerics.Clamped</a> namespace have built-in protection from overflow. 
 
-This is useful for preventing unexpected negative, positive, infinite or `NaN` values from entering a system.
+Operations that would normally error or overflow instead return `MinValue`, `MaxValue` or `Zero`.
+
+This is useful in systems where overflow is expected
 
 As with all the number types provided by this library, these types support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
         
@@ -392,16 +394,21 @@ The table below summarizes the clamped number types and utilities provided.
 	<tr>
 		<td>
 			<sub><em>readonly struct</em></sub><br />
-			ByteM, SByteM,<br />Int16M, UInt16M,<br />
-			Int32M, UInt32M,<br />Int64M, UInt64M,<br />
-			DecimalM
+			<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_ByteM.htm">ByteM</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_SByteM.htm">SByteM</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_Int16M.htm">Int16M</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_UInt16M.htm">UInt16M</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_Int32M.htm">Int32M</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_UInt32M.htm">UInt32M</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_Int64M.htm">Int64M</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_UInt64M.htm">UInt64M</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_DecimalM.htm">DecimalM</a>
 		</td>
 		<td>
-			Operations that would overflow instead return
-			<code>MinValue</code> or <code>MaxValue</code>
-			depending on the direction of the overflow.
+			Operations that would normally overflow from positive to negative instead return <code>MaxValue</code>.
+			Operations that would normally overflow from negative to positive instead return <code>MinValue</code>.
 			Division by zero does NOT throw a
-			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception">DivideByZeroException</a>
+			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception">System.DivideByZeroException</a>
 			but returns <code>MaxValue</code>.
 		</td>
 	</tr>
@@ -409,23 +416,24 @@ The table below summarizes the clamped number types and utilities provided.
 	<tr>
 		<td>
 			<sub><em>readonly struct</em></sub><br />
-			SingleM,<br />DoubleM
+			<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_SingleM.htm">SingleM</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_DoubleM.htm">DoubleM</a>
 		</td>
 		<td>
-			Operations that would return
-			<code>NegativeInfinity</code> or <code>PositiveInfinity</code>
-			instead return <code>MinValue</code> or <code>MaxValue</code>
-			respectively. Operations that would return <code>NaN</code> instead return 0.
+			Operations that would normally return <code>PositiveInfinity</code> instead return <code>MaxValue</code>.
+			Operations that would normally return <code>NegativeInfinity</code> instead return <code>MinValue</code>.
+      Operations that would normally return <code>NaN</code> instead return <code>0</code>.
 		</td>
 	</tr>
 	<tr />
 	<tr>
 		<td>
 			<sub><em>readonly struct</em></sub><br />
-			Fix64M,<br />UFix64M
+			<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_Fix64M.htm">Fix64M</a>,<br />
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_UFix64M.htm">UFix64M</a>
 		</td>
 		<td>
-			Non-overflowing variants of Fix64 and UFix64 (see <a href="#numerics-fixed-point-numbers">§4.1. Fixed-point numbers</a>).
+			Non-overflowing fixed-point numbers (see <a href="#numerics-fixed-point-numbers">§4.1. Fixed-point numbers</a>).
 			Operations that would overflow instead return <code>MinValue</code>
 			or <code>MaxValue</code> depending on the direction of the
 			overflow. Division by zero does NOT throw a
@@ -437,21 +445,10 @@ The table below summarizes the clamped number types and utilities provided.
 	<tr>
 		<td>
 			<sub><em>static class</em></sub><br />
-			ClampedArithmetic
+			<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_Clamped.htm">Clamped</a>
 		</td>
 		<td>
 			Provides static methods for performing non-overflowing arithmetic.
-		</td>
-	</tr>
-	<tr />
-	<tr>
-		<td>
-			<sub><em>static class</em></sub><br />
-			ClampedConvert
-		</td>
-		<td>
-			Provides static methods for performing non-overflowing conversion. Has an equivalent API to
-			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a>.
 		</td>
 	</tr>
 </table>
@@ -460,9 +457,9 @@ The table below summarizes the clamped number types and utilities provided.
 
 ### 4.3. Framework for numbers <br id="numerics-framework-for-numbers" />
 
-The INumeric&lt;TSelf&gt; interface defines a contract for number types with support for operators, maths, conversion, string-parsing, random generation, and more.
+The <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a> interface defines a contract for number types with support for operators, maths, conversion, string-parsing, random generation, and more.
 
-Static utility classes, such as `MathN` and `ConvertN`, expose these features in a way that is familiar to users of the .NET API.
+Static utility classes, such as <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_MathN.htm">MathN</a> and <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_ConvertN.htm">ConvertN</a>, expose these features in a way that is familiar to users of the .NET API.
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -476,7 +473,7 @@ short conversion = ConvertN.ToInt16(usingMath);
 string stringFormat = $"{fromLiteral:N3}";
 byte[] asBytes = BitConverterN.GetBytes(usingMath);</code></pre>
 
-The table below gives a full list of features supported by number types that implement INumeric&lt;TSelf&gt;.
+The table below gives a full list of features supported by number types that implement <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a>.
 
 <table>
   <tr>
@@ -485,29 +482,29 @@ The table below gives a full list of features supported by number types that imp
   </tr>
   <tr />
   <tr>
-    <td id="mathn"><sub><em>static class</em></sub><br />MathN</td>
+    <td><sub><em>static class</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_MathN.htm">MathN</a></td>
     <td>
-      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">System.Math</a> for types that implement INumeric&lt;TSelf&gt;, e.g. <code>Log(N)</code>, <code>Acosh(N)</code> and <code>Round(N, int)</code>.</p>
+      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math">System.Math</a> for types that implement <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a>, e.g. <code>Log(N)</code>, <code>Acosh(N)</code> and <code>Round(N, int)</code>.</p>
     <pre lang="csharp"><code>var result = MathN.Log10(1000 * MathN.PI&lt;MyNumberType&gt;());</code></pre>
     </td>
   </tr>
   <tr />
   <tr>
-    <td id="bitconvertern"><sub><em>static class</em></sub><br />BitConverterN</td>
+    <td><sub><em>static class</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_BitConverterN.htm">BitConverterN</a></td>
     <td>
-      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">System.BitConverter</a> for types that implement INumeric&lt;TSelf&gt;, allowing conversion to and from byte arrays.
+      <p>Provides equivalent methods to <a href="https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter">System.BitConverter</a> for types that implement <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a>, allowing conversion to and from byte arrays.
       </p>
 <pre lang="csharp"><code>byte[] result = BitConverterN.GetBytes((MyNumberType)256.512);</code></pre>
     </td>
   </tr>
   <tr />
   <tr>
-    <td id="convertn"><sub><em>static class</em></sub><br />ConvertN</td>
+    <td><sub><em>static class</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_ConvertN.htm">ConvertN</a></td>
     <td>
       <p>
         Provides equivalent methods to
         <a href="https://docs.microsoft.com/en-us/dotnet/api/system.convert">System.Convert</a>
-        for types that implement INumeric&lt;TSelf&gt;
+        for types that implement <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a>
         (e.g. <code>ToBoolean(N)</code> and <code>ToDecimal(N)</code>).
         Overloads are provided to support alternative modes of conversion,
         e.g. <code>Default</code>, <code>Cast</code> and <code>Clamp</code>.
@@ -518,7 +515,7 @@ var castResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Cast);</cod
   </tr>
   <tr />
   <tr>
-    <td id="mathn"><sub><em>static class</em></sub><br />Numeric</td>
+    <td><sub><em>static class</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Numeric.htm">Numeric</a></td>
     <td>
       <p>Provides access to constants and static methods for number types in a generic context.</p>
     <pre lang="csharp"><code>public void ExampleMethod&lt;T&gt;() where T : struct, INumeric<T>
@@ -543,7 +540,7 @@ var castResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Cast);</cod
       </ul>
   </p>
    <p>
-Additionally, INumeric&lt;TSelf&gt; defines overloads for <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>++</code>, <code>--</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code>, allowing for limited expressions in a generic context (note that equality and conversion operators are not supported on interfaces).
+Additionally, <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a> defines overloads for <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>++</code>, <code>--</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>+</code>, <code>-</code>, <code>~</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>&</code>, <code>|</code> and <code>^</code>, allowing for limited expressions in a generic context (note that equality and conversion operators are not supported on interfaces).
   </p>
   <p> <em>Note: The bitwise and shift operators are overloaded for non-integral types. These operators perform the correct bitwise operations, but are unlikely to produce useful results.</em></p>
       </td>
@@ -588,7 +585,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
       SingleN, DoubleN,<br />
       DecimalN
     </td>
-    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> that implement INumeric&lt;N&gt;, allowing them to be used in a generic context.</td>
+    <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> that implement <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a>, allowing them to be used in a generic context.</td>
   </tr>
 </table>
 
@@ -596,7 +593,7 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
 
 ### 4.4. Structures <br id="numerics-structures" />
 
-Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>). The table below sumarises the available structs and accompanying utilities.
+Numeric structures, such as vectors, are provided for use in mathematical applications. These structures are generic on number type, supporting any implementation of <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a> (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>). The table below summarizes the available structs and accompanying utilities.
 
 <table>
   <tr>
@@ -634,7 +631,7 @@ Numeric structures, such as vectors, are provided for use in mathematical applic
 
 ### 4.5. Random extensions <br id="numerics-random-extensions" />
 
-Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement INumeric&lt;TSelf&gt; (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
+Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> add support for generating every built-in number type and types that implement <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a> (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 Overloads are provided that allow greater flexibility with bounds via the `Generation` enum:
 
