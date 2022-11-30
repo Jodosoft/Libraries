@@ -4,6 +4,7 @@
     <FileVersion>1.1.0</FileVersion>
     <VersionPrefix>1.1.0</VersionPrefix>
     <VersionSuffix>preview2</VersionSuffix>
+    <IncludeSourceRevisionInInformationalVersion>False</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
   <PropertyGroup>
