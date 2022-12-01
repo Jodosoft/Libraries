@@ -148,7 +148,7 @@ namespace Jodo.Numerics.Clamped
         SByteM INumeric<SByteM>.Subtract(SByteM value) => this - value;
 
         INumericBitConverter<SByteM> IProvider<INumericBitConverter<SByteM>>.GetInstance() => Utilities.Instance;
-        IBinaryConvert<SByteM> IProvider<IBinaryConvert<SByteM>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<SByteM> IProvider<IBinaryIO<SByteM>>.GetInstance() => Utilities.Instance;
         IConvert<SByteM> IProvider<IConvert<SByteM>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SByteM> IProvider<IConvertExtended<SByteM>>.GetInstance() => Utilities.Instance;
         IMath<SByteM> IProvider<IMath<SByteM>>.GetInstance() => Utilities.Instance;
@@ -157,7 +157,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<SByteM> IProvider<IVariantRandom<SByteM>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<SByteM>,
+            IBinaryIO<SByteM>,
             IConvert<SByteM>,
             IConvertExtended<SByteM>,
             IMath<SByteM>,
@@ -168,8 +168,8 @@ namespace Jodo.Numerics.Clamped
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<SByteM>.Write(BinaryWriter writer, SByteM value) => writer.Write(value);
-            SByteM IBinaryConvert<SByteM>.Read(BinaryReader reader) => reader.ReadSByte();
+            void IBinaryIO<SByteM>.Write(BinaryWriter writer, SByteM value) => writer.Write(value);
+            SByteM IBinaryIO<SByteM>.Read(BinaryReader reader) => reader.ReadSByte();
 
             bool INumericStatic<SByteM>.HasFloatingPoint => false;
             bool INumericStatic<SByteM>.HasInfinity => false;

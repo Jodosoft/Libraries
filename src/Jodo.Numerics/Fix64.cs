@@ -188,7 +188,7 @@ namespace Jodo.Numerics
         Fix64 INumeric<Fix64>.Subtract(Fix64 value) => this - value;
 
         INumericBitConverter<Fix64> IProvider<INumericBitConverter<Fix64>>.GetInstance() => Utilities.Instance;
-        IBinaryConvert<Fix64> IProvider<IBinaryConvert<Fix64>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<Fix64> IProvider<IBinaryIO<Fix64>>.GetInstance() => Utilities.Instance;
         IConvert<Fix64> IProvider<IConvert<Fix64>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Fix64> IProvider<IConvertExtended<Fix64>>.GetInstance() => Utilities.Instance;
         IMath<Fix64> IProvider<IMath<Fix64>>.GetInstance() => Utilities.Instance;
@@ -197,7 +197,7 @@ namespace Jodo.Numerics
         IVariantRandom<Fix64> IProvider<IVariantRandom<Fix64>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<Fix64>,
+            IBinaryIO<Fix64>,
             IConvert<Fix64>,
             IConvertExtended<Fix64>,
             IMath<Fix64>,
@@ -208,8 +208,8 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<Fix64>.Write(BinaryWriter writer, Fix64 value) => writer.Write(value._scaledValue);
-            Fix64 IBinaryConvert<Fix64>.Read(BinaryReader reader) => new Fix64(reader.ReadInt64());
+            void IBinaryIO<Fix64>.Write(BinaryWriter writer, Fix64 value) => writer.Write(value._scaledValue);
+            Fix64 IBinaryIO<Fix64>.Read(BinaryReader reader) => new Fix64(reader.ReadInt64());
 
             bool INumericStatic<Fix64>.HasFloatingPoint => false;
             bool INumericStatic<Fix64>.HasInfinity => false;

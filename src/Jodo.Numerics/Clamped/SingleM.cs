@@ -166,7 +166,7 @@ namespace Jodo.Numerics.Clamped
         SingleM INumeric<SingleM>.Subtract(SingleM value) => this - value;
 
         INumericBitConverter<SingleM> IProvider<INumericBitConverter<SingleM>>.GetInstance() => Utilities.Instance;
-        IBinaryConvert<SingleM> IProvider<IBinaryConvert<SingleM>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<SingleM> IProvider<IBinaryIO<SingleM>>.GetInstance() => Utilities.Instance;
         IConvert<SingleM> IProvider<IConvert<SingleM>>.GetInstance() => Utilities.Instance;
         IConvertExtended<SingleM> IProvider<IConvertExtended<SingleM>>.GetInstance() => Utilities.Instance;
         IMath<SingleM> IProvider<IMath<SingleM>>.GetInstance() => Utilities.Instance;
@@ -175,7 +175,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<SingleM> IProvider<IVariantRandom<SingleM>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<SingleM>,
+            IBinaryIO<SingleM>,
             IConvert<SingleM>,
             IConvertExtended<SingleM>,
             IMath<SingleM>,
@@ -186,8 +186,8 @@ namespace Jodo.Numerics.Clamped
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<SingleM>.Write(BinaryWriter writer, SingleM value) => writer.Write(value);
-            SingleM IBinaryConvert<SingleM>.Read(BinaryReader reader) => reader.ReadSingle();
+            void IBinaryIO<SingleM>.Write(BinaryWriter writer, SingleM value) => writer.Write(value);
+            SingleM IBinaryIO<SingleM>.Read(BinaryReader reader) => reader.ReadSingle();
 
             bool INumericStatic<SingleM>.HasFloatingPoint => true;
             bool INumericStatic<SingleM>.HasInfinity => false;

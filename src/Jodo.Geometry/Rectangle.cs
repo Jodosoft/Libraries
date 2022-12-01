@@ -35,7 +35,7 @@ namespace Jodo.Geometry
     public readonly struct Rectangle<TNumeric> :
             IEquatable<Rectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryConvert<Rectangle<TNumeric>>>,
+            IProvider<IBinaryIO<Rectangle<TNumeric>>>,
             IProvider<IVariantRandom<Rectangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -141,23 +141,23 @@ namespace Jodo.Geometry
         public static bool operator !=(Rectangle<TNumeric> left, Rectangle<TNumeric> right) => !(left == right);
         public static implicit operator Rectangle<TNumeric>(AARectangle<TNumeric> value) => new Rectangle<TNumeric>(value.Center, value.Dimensions, default);
 
-        IBinaryConvert<Rectangle<TNumeric>> IProvider<IBinaryConvert<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<Rectangle<TNumeric>> IProvider<IBinaryIO<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Rectangle<TNumeric>> IProvider<IVariantRandom<Rectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBinaryConvert<Rectangle<TNumeric>>,
+           IBinaryIO<Rectangle<TNumeric>>,
            IVariantRandom<Rectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<Rectangle<TNumeric>>.Write(BinaryWriter writer, Rectangle<TNumeric> value)
+            void IBinaryIO<Rectangle<TNumeric>>.Write(BinaryWriter writer, Rectangle<TNumeric> value)
             {
                 writer.Write(value.Center);
                 writer.Write(value.Dimensions);
                 writer.Write(value.Angle);
             }
 
-            Rectangle<TNumeric> IBinaryConvert<Rectangle<TNumeric>>.Read(BinaryReader reader)
+            Rectangle<TNumeric> IBinaryIO<Rectangle<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Rectangle<TNumeric>(
                     reader.Read<Vector2N<TNumeric>>(),

@@ -26,7 +26,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class SByteMTests
     {
-        public sealed class BinaryConvertTests : BinaryConvertTestBase<SByteM> { }
+        public sealed class BinaryIOTests : BinaryIOTestBase<SByteM> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<SByteM> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<SByteM> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<SByteM> { }

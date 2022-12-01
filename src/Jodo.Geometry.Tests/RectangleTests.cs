@@ -25,15 +25,15 @@ namespace Jodo.Geometry.Tests
 {
     public static class RectangleTests
     {
-        public sealed class FixedPointBinaryConvertTests : BinaryConvertTestBase<Rectangle<Fix64>> { }
+        public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<Rectangle<Fix64>> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<Rectangle<Fix64>> { }
         public sealed class FixedPointRectangleTests : RectangleTestBase<Fix64> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<Rectangle<Fix64>> { }
-        public sealed class FloatingPointBinaryConvertTests : BinaryConvertTestBase<Rectangle<SingleN>> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<Rectangle<SingleN>> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<Rectangle<SingleN>> { }
         public sealed class FloatingPointRectangleTests : RectangleTestBase<SingleN> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<Rectangle<SingleN>> { }
-        public sealed class UnsignedIntegralBinaryConvertTests : BinaryConvertTestBase<Rectangle<ByteN>> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<Rectangle<ByteN>> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Rectangle<ByteN>> { }
         public sealed class UnsignedIntegralRectangleTests : RectangleTestBase<ByteN> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Rectangle<ByteN>> { }

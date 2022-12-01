@@ -148,7 +148,7 @@ namespace Jodo.Numerics.Clamped
         DecimalM INumeric<DecimalM>.Subtract(DecimalM value) => this - value;
 
         INumericBitConverter<DecimalM> IProvider<INumericBitConverter<DecimalM>>.GetInstance() => Utilities.Instance;
-        IBinaryConvert<DecimalM> IProvider<IBinaryConvert<DecimalM>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<DecimalM> IProvider<IBinaryIO<DecimalM>>.GetInstance() => Utilities.Instance;
         IConvert<DecimalM> IProvider<IConvert<DecimalM>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DecimalM> IProvider<IConvertExtended<DecimalM>>.GetInstance() => Utilities.Instance;
         IMath<DecimalM> IProvider<IMath<DecimalM>>.GetInstance() => Utilities.Instance;
@@ -157,7 +157,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<DecimalM> IProvider<IVariantRandom<DecimalM>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<DecimalM>,
+            IBinaryIO<DecimalM>,
             IConvert<DecimalM>,
             IConvertExtended<DecimalM>,
             IMath<DecimalM>,
@@ -168,8 +168,8 @@ namespace Jodo.Numerics.Clamped
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<DecimalM>.Write(BinaryWriter writer, DecimalM value) => writer.Write(value);
-            DecimalM IBinaryConvert<DecimalM>.Read(BinaryReader reader) => reader.ReadDecimal();
+            void IBinaryIO<DecimalM>.Write(BinaryWriter writer, DecimalM value) => writer.Write(value);
+            DecimalM IBinaryIO<DecimalM>.Read(BinaryReader reader) => reader.ReadDecimal();
 
             bool INumericStatic<DecimalM>.HasFloatingPoint => true;
             bool INumericStatic<DecimalM>.HasInfinity => false;

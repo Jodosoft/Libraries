@@ -33,7 +33,7 @@ namespace Jodo.Geometry
     public readonly struct Circle<TNumeric> :
             IEquatable<Circle<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryConvert<Circle<TNumeric>>>,
+            IProvider<IBinaryIO<Circle<TNumeric>>>,
             IProvider<IVariantRandom<Circle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -106,22 +106,22 @@ namespace Jodo.Geometry
         public static bool operator ==(Circle<TNumeric> left, Circle<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Circle<TNumeric> left, Circle<TNumeric> right) => !(left == right);
 
-        IBinaryConvert<Circle<TNumeric>> IProvider<IBinaryConvert<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<Circle<TNumeric>> IProvider<IBinaryIO<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Circle<TNumeric>> IProvider<IVariantRandom<Circle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBinaryConvert<Circle<TNumeric>>,
+           IBinaryIO<Circle<TNumeric>>,
            IVariantRandom<Circle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<Circle<TNumeric>>.Write(BinaryWriter writer, Circle<TNumeric> value)
+            void IBinaryIO<Circle<TNumeric>>.Write(BinaryWriter writer, Circle<TNumeric> value)
             {
                 writer.Write(value.Center);
                 writer.Write(value.Radius);
             }
 
-            Circle<TNumeric> IBinaryConvert<Circle<TNumeric>>.Read(BinaryReader reader)
+            Circle<TNumeric> IBinaryIO<Circle<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Circle<TNumeric>(
                     reader.Read<Vector2N<TNumeric>>(),

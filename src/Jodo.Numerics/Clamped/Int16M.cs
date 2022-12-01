@@ -148,7 +148,7 @@ namespace Jodo.Numerics.Clamped
         Int16M INumeric<Int16M>.Subtract(Int16M value) => this - value;
 
         INumericBitConverter<Int16M> IProvider<INumericBitConverter<Int16M>>.GetInstance() => Utilities.Instance;
-        IBinaryConvert<Int16M> IProvider<IBinaryConvert<Int16M>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<Int16M> IProvider<IBinaryIO<Int16M>>.GetInstance() => Utilities.Instance;
         IConvert<Int16M> IProvider<IConvert<Int16M>>.GetInstance() => Utilities.Instance;
         IConvertExtended<Int16M> IProvider<IConvertExtended<Int16M>>.GetInstance() => Utilities.Instance;
         IMath<Int16M> IProvider<IMath<Int16M>>.GetInstance() => Utilities.Instance;
@@ -157,7 +157,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<Int16M> IProvider<IVariantRandom<Int16M>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<Int16M>,
+            IBinaryIO<Int16M>,
             IConvert<Int16M>,
             IConvertExtended<Int16M>,
             IMath<Int16M>,
@@ -168,8 +168,8 @@ namespace Jodo.Numerics.Clamped
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<Int16M>.Write(BinaryWriter writer, Int16M value) => writer.Write(value);
-            Int16M IBinaryConvert<Int16M>.Read(BinaryReader reader) => reader.ReadInt16();
+            void IBinaryIO<Int16M>.Write(BinaryWriter writer, Int16M value) => writer.Write(value);
+            Int16M IBinaryIO<Int16M>.Read(BinaryReader reader) => reader.ReadInt16();
 
             bool INumericStatic<Int16M>.HasFloatingPoint => false;
             bool INumericStatic<Int16M>.HasInfinity => false;

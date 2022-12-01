@@ -19,8 +19,16 @@
 
 namespace Jodo.Primitives
 {
+    /// <summary>
+    /// Provides a mechanism for retrieving an instance of a type.
+    /// </summary>
+    /// <typeparam name="T">The type for which to provide an instance.</typeparam>
     public interface IProvider<out T>
     {
+        /// <summary>
+        /// Returns an instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>An instance of <typeparamref name="T"/>.</returns>
         T GetInstance();
     }
 }

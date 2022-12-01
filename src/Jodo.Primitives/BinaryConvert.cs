@@ -25,7 +25,7 @@ namespace Jodo.Primitives
 {
     public static class BinaryConvert
     {
-        public static byte[] Serialize<T>(IEnumerable<T> values) where T : struct, IProvider<IBinaryConvert<T>>
+        public static byte[] Serialize<T>(IEnumerable<T> values) where T : struct, IProvider<IBinaryIO<T>>
         {
             if (values == null) throw new ArgumentNullException(nameof(values));
             using IEnumerator<T> enumerator = values.GetEnumerator();
@@ -35,7 +35,7 @@ namespace Jodo.Primitives
             using BinaryWriter writer = new BinaryWriter(stream);
             while (enumerator.MoveNext())
             {
-                DefaultProvider<T, IBinaryConvert<T>>.Instance.Write(writer, enumerator.Current);
+                DefaultProvider<T, IBinaryIO<T>>.Instance.Write(writer, enumerator.Current);
             }
             stream.Position = 0;
             byte[] result = new byte[stream.Length];
@@ -43,23 +43,23 @@ namespace Jodo.Primitives
             return result;
         }
 
-        public static byte[] Serialize<T>(T value) where T : struct, IProvider<IBinaryConvert<T>>
+        public static byte[] Serialize<T>(T value) where T : struct, IProvider<IBinaryIO<T>>
         {
             using Stream stream = new MemoryStream();
             using BinaryWriter writer = new BinaryWriter(stream);
-            DefaultProvider<T, IBinaryConvert<T>>.Instance.Write(writer, value);
+            DefaultProvider<T, IBinaryIO<T>>.Instance.Write(writer, value);
             stream.Position = 0;
             byte[] result = new byte[stream.Length];
             _ = stream.Read(result, 0, result.Length);
             return result;
         }
 
-        public static T Deserialize<T>(byte[] buffer, int offset) where T : struct, IProvider<IBinaryConvert<T>>
+        public static T Deserialize<T>(byte[] buffer, int offset) where T : struct, IProvider<IBinaryIO<T>>
         {
             using Stream stream = new MemoryStream(buffer, offset, buffer.Length - offset);
             using BinaryReader reader = new BinaryReader(stream);
             stream.Position = 0;
-            T result = DefaultProvider<T, IBinaryConvert<T>>.Instance.Read(reader);
+            T result = DefaultProvider<T, IBinaryIO<T>>.Instance.Read(reader);
             return result;
         }
     }

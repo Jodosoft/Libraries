@@ -33,7 +33,7 @@ namespace Jodo.Numerics
             IComparable<UnitN<TNumeric>>,
             IEquatable<UnitN<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryConvert<UnitN<TNumeric>>>,
+            IProvider<IBinaryIO<UnitN<TNumeric>>>,
             IProvider<IVariantRandom<UnitN<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -102,21 +102,21 @@ namespace Jodo.Numerics
         public static TNumeric operator /(TNumeric left, UnitN<TNumeric> right) => left.Divide(right.Value);
         public static TNumeric operator +(TNumeric left, UnitN<TNumeric> right) => left.Add(right.Value);
 
-        IBinaryConvert<UnitN<TNumeric>> IProvider<IBinaryConvert<UnitN<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<UnitN<TNumeric>> IProvider<IBinaryIO<UnitN<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<UnitN<TNumeric>> IProvider<IVariantRandom<UnitN<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<UnitN<TNumeric>>,
+            IBinaryIO<UnitN<TNumeric>>,
             IVariantRandom<UnitN<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<UnitN<TNumeric>>.Write(BinaryWriter writer, UnitN<TNumeric> value)
+            void IBinaryIO<UnitN<TNumeric>>.Write(BinaryWriter writer, UnitN<TNumeric> value)
             {
                 writer.Write(value.Value);
             }
 
-            UnitN<TNumeric> IBinaryConvert<UnitN<TNumeric>>.Read(BinaryReader reader)
+            UnitN<TNumeric> IBinaryIO<UnitN<TNumeric>>.Read(BinaryReader reader)
             {
                 return new UnitN<TNumeric>(reader.Read<TNumeric>());
             }

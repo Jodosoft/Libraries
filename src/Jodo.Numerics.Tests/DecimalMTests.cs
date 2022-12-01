@@ -29,7 +29,7 @@ namespace Jodo.Numerics.Tests
 {
     public sealed class DecimalMTests : GlobalFixtureBase
     {
-        public sealed class BinaryConvertTests : BinaryConvertTestBase<DecimalM> { }
+        public sealed class BinaryIOTests : BinaryIOTestBase<DecimalM> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DecimalM> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<DecimalM> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<DecimalM> { }

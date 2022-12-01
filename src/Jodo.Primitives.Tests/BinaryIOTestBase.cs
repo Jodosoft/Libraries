@@ -27,10 +27,10 @@ using NUnit.Framework;
 namespace Jodo.Primitives.Tests
 {
     /// <summary>
-    /// Provides common test methods for types that implement <see cref="IProvider{IBinaryConvert{T}}"/>
+    /// Provides common test methods for types that implement <see cref="IProvider{IBinaryIO{T}}"/>
     /// </summary>
     /// <typeparam name="T">The type of struct.</typeparam>
-    public abstract class BinaryConvertTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IBinaryConvert<T>>, IProvider<IVariantRandom<T>>
+    public abstract class BinaryIOTestBase<T> : GlobalFixtureBase where T : struct, IProvider<IBinaryIO<T>>, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
         public void Serialise_RandomValues_ReadsBackSameValues()

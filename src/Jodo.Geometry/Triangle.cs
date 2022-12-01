@@ -33,7 +33,7 @@ namespace Jodo.Geometry
     public readonly struct Triangle<TNumeric> :
             IEquatable<Triangle<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryConvert<Triangle<TNumeric>>>,
+            IProvider<IBinaryIO<Triangle<TNumeric>>>,
             IProvider<IVariantRandom<Triangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -100,23 +100,23 @@ namespace Jodo.Geometry
         public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>)(Triangle<TNumeric> value) => (value.A, value.B, value.C);
 #endif
 
-        IBinaryConvert<Triangle<TNumeric>> IProvider<IBinaryConvert<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<Triangle<TNumeric>> IProvider<IBinaryIO<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBinaryConvert<Triangle<TNumeric>>,
+           IBinaryIO<Triangle<TNumeric>>,
            IVariantRandom<Triangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<Triangle<TNumeric>>.Write(BinaryWriter writer, Triangle<TNumeric> value)
+            void IBinaryIO<Triangle<TNumeric>>.Write(BinaryWriter writer, Triangle<TNumeric> value)
             {
                 writer.Write(value.A);
                 writer.Write(value.B);
                 writer.Write(value.C);
             }
 
-            Triangle<TNumeric> IBinaryConvert<Triangle<TNumeric>>.Read(BinaryReader reader)
+            Triangle<TNumeric> IBinaryIO<Triangle<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Triangle<TNumeric>(
                     reader.Read<Vector2N<TNumeric>>(),
