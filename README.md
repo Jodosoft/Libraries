@@ -47,7 +47,7 @@
 
 Welcome to Jodo, a project to make simple, reliable .NET libraries covering numerics, geometry and data structures.
 
-This document describes the goals the project, the features of each library, and steps for getting started.
+This document describes the goals of the project, the features of each library, and steps for getting started.
 
 [\[Back to top\]](#top)
 
