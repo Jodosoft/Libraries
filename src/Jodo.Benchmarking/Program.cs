@@ -62,7 +62,7 @@ namespace Jodo.Benchmarking
             _ = Console.ReadKey();
         }
 
-        private static bool TryRunBenchmark(MethodInfo method)
+        private static void TryRunBenchmark(MethodInfo method)
         {
             if (method.IsStatic &&
                                     method.ReturnType == typeof(Benchmark) &&
@@ -75,7 +75,6 @@ namespace Jodo.Benchmarking
                 {
                     BenchmarkResult result = benchmark.Execute(Duration);
                     BenchmarkWriter.WriteResult(result);
-                    return true;
                 }
                 catch (Exception)
                 {
@@ -87,7 +86,6 @@ namespace Jodo.Benchmarking
                 Console.Error.WriteLine($"{method} cannot be run. " +
                     "Benchmark methods must be public, static, parameterless and non-generic");
             }
-            return false;
         }
 
         private static MethodInfo[] GetBenchmarks()
