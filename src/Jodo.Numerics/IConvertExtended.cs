@@ -21,6 +21,10 @@ using System;
 
 namespace Jodo.Numerics
 {
+    /// <summary>
+    /// Converts objects to or from non-CLS compliant base data types.
+    /// </summary>
+    /// <typeparam name="TNumeric">The type of object that can be converted.</typeparam>
     [CLSCompliant(false)]
     public interface IConvertExtended<TNumeric>
     {

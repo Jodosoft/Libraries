@@ -29,8 +29,8 @@ namespace Jodo.Numerics
         /// <list type="bullet">
         ///     <item><description>Lower bounds are inclusive and upper bounds are exclusive.</description></item>
         ///     <item><description>An <see cref="System.ArgumentOutOfRangeException"/> is thrown if the lower bound is greater than the upper bound.</description></item>
-        ///     <item><description>If no lower bound is specified then values returned are greater than or equal to 0.</description></item>
-        ///     <item><description>If no upper bound is specified then values returned are less than the <c>MaxValue</c> constant for integral types, otherwise less than 1.</description></item>
+        ///     <item><description>If no lower bound is specified then values returned are greater than or equal to zero.</description></item>
+        ///     <item><description>If no upper bound is specified then values returned are less than the <c>MaxValue</c> constant for integral types, otherwise less than one.</description></item>
         ///     <item><description>If the bounds are equal then the lower bound is returned.</description></item>
         /// </list>
         /// </summary>
