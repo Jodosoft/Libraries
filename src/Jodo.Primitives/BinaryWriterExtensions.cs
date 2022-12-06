@@ -25,7 +25,7 @@ namespace Jodo.Primitives
     public static class BinaryWriterExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Write<T>(this BinaryWriter writer, T value) where T : struct, IProvider<IBinaryConvert<T>>
-             => DefaultProvider<T, IBinaryConvert<T>>.Instance.Write(writer, value);
+        public static void Write<T>(this BinaryWriter writer, T value) where T : struct, IProvider<IBinaryIO<T>>
+             => DefaultProvider<T, IBinaryIO<T>>.Instance.Write(writer, value);
     }
 }

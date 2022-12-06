@@ -158,7 +158,7 @@ namespace Jodo.Numerics
         DoubleN INumeric<DoubleN>.Subtract(DoubleN value) => this - value;
 
         INumericBitConverter<DoubleN> IProvider<INumericBitConverter<DoubleN>>.GetInstance() => Utilities.Instance;
-        IBinaryConvert<DoubleN> IProvider<IBinaryConvert<DoubleN>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<DoubleN> IProvider<IBinaryIO<DoubleN>>.GetInstance() => Utilities.Instance;
         IConvert<DoubleN> IProvider<IConvert<DoubleN>>.GetInstance() => Utilities.Instance;
         IConvertExtended<DoubleN> IProvider<IConvertExtended<DoubleN>>.GetInstance() => Utilities.Instance;
         IMath<DoubleN> IProvider<IMath<DoubleN>>.GetInstance() => Utilities.Instance;
@@ -167,7 +167,7 @@ namespace Jodo.Numerics
         IVariantRandom<DoubleN> IProvider<IVariantRandom<DoubleN>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<DoubleN>,
+            IBinaryIO<DoubleN>,
             IConvert<DoubleN>,
             IConvertExtended<DoubleN>,
             IMath<DoubleN>,
@@ -178,8 +178,8 @@ namespace Jodo.Numerics
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<DoubleN>.Write(BinaryWriter writer, DoubleN value) => writer.Write(value);
-            DoubleN IBinaryConvert<DoubleN>.Read(BinaryReader reader) => reader.ReadDouble();
+            void IBinaryIO<DoubleN>.Write(BinaryWriter writer, DoubleN value) => writer.Write(value);
+            DoubleN IBinaryIO<DoubleN>.Read(BinaryReader reader) => reader.ReadDouble();
 
             bool INumericStatic<DoubleN>.HasFloatingPoint => true;
             bool INumericStatic<DoubleN>.HasInfinity => true;

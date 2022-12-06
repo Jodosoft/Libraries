@@ -33,7 +33,7 @@ namespace Jodo.Numerics
     public readonly struct Vector2N<TNumeric> :
             IEquatable<Vector2N<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryConvert<Vector2N<TNumeric>>>,
+            IProvider<IBinaryIO<Vector2N<TNumeric>>>,
             IProvider<IVariantRandom<Vector2N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -94,22 +94,22 @@ namespace Jodo.Numerics
         public static bool operator ==(Vector2N<TNumeric> left, Vector2N<TNumeric> right) => left.Equals(right);
         public static bool operator !=(Vector2N<TNumeric> left, Vector2N<TNumeric> right) => !(left == right);
 
-        IBinaryConvert<Vector2N<TNumeric>> IProvider<IBinaryConvert<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<Vector2N<TNumeric>> IProvider<IBinaryIO<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector2N<TNumeric>> IProvider<IVariantRandom<Vector2N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBinaryConvert<Vector2N<TNumeric>>,
+           IBinaryIO<Vector2N<TNumeric>>,
            IVariantRandom<Vector2N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<Vector2N<TNumeric>>.Write(BinaryWriter writer, Vector2N<TNumeric> value)
+            void IBinaryIO<Vector2N<TNumeric>>.Write(BinaryWriter writer, Vector2N<TNumeric> value)
             {
                 writer.Write(value.X);
                 writer.Write(value.Y);
             }
 
-            Vector2N<TNumeric> IBinaryConvert<Vector2N<TNumeric>>.Read(BinaryReader reader)
+            Vector2N<TNumeric> IBinaryIO<Vector2N<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Vector2N<TNumeric>(
                     reader.Read<TNumeric>(),

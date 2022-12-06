@@ -40,7 +40,7 @@ namespace Jodo.Geometry
     public readonly struct AARectangle<TNumeric> :
             IEquatable<AARectangle<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryConvert<AARectangle<TNumeric>>>,
+            IProvider<IBinaryIO<AARectangle<TNumeric>>>,
             IProvider<IVariantRandom<AARectangle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -113,22 +113,22 @@ namespace Jodo.Geometry
         public static implicit operator (TNumeric, TNumeric, TNumeric, TNumeric)(AARectangle<TNumeric> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
 #endif
 
-        IBinaryConvert<AARectangle<TNumeric>> IProvider<IBinaryConvert<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<AARectangle<TNumeric>> IProvider<IBinaryIO<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<AARectangle<TNumeric>> IProvider<IVariantRandom<AARectangle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBinaryConvert<AARectangle<TNumeric>>,
+           IBinaryIO<AARectangle<TNumeric>>,
            IVariantRandom<AARectangle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<AARectangle<TNumeric>>.Write(BinaryWriter writer, AARectangle<TNumeric> value)
+            void IBinaryIO<AARectangle<TNumeric>>.Write(BinaryWriter writer, AARectangle<TNumeric> value)
             {
                 writer.Write(value.Center);
                 writer.Write(value.Dimensions);
             }
 
-            AARectangle<TNumeric> IBinaryConvert<AARectangle<TNumeric>>.Read(BinaryReader reader)
+            AARectangle<TNumeric> IBinaryIO<AARectangle<TNumeric>>.Read(BinaryReader reader)
             {
                 return new AARectangle<TNumeric>(
                     reader.Read<Vector2N<TNumeric>>(),

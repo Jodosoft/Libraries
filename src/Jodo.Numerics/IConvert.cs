@@ -19,6 +19,10 @@
 
 namespace Jodo.Numerics
 {
+    /// <summary>
+    /// Converts objects to or from base data types.
+    /// </summary>
+    /// <typeparam name="TNumeric">The type of object that can be converted.</typeparam>
     public interface IConvert<TNumeric>
     {
         bool ToBoolean(TNumeric value);

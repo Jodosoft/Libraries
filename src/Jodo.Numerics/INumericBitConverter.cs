@@ -33,9 +33,8 @@ namespace Jodo.Numerics
         /// Returns the number of bytes that will be used to <see cref="ToNumeric(byte[], int)"/>
         /// to form a numeric value, which is also the length of byte arrays returned by
         /// <see cref="GetBytes(TNumeric)"/>.
-        /// 
-        /// Note: this not the same as the number of bytes consumed in memory by a numeric value.
         /// </summary>
+        /// <remarks>Note: this is not the same as the number of bytes consumed in memory by a numeric value.</remarks>
         /// <returns>The number of bytes used to convert a <typeparamref name="TNumeric"/> value.</returns>
         int ConvertedSize { get; }
 

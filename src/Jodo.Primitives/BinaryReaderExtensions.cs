@@ -25,7 +25,7 @@ namespace Jodo.Primitives
     public static class BinaryReaderExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Read<T>(this BinaryReader reader) where T : struct, IProvider<IBinaryConvert<T>>
-            => DefaultProvider<T, IBinaryConvert<T>>.Instance.Read(reader);
+        public static T Read<T>(this BinaryReader reader) where T : struct, IProvider<IBinaryIO<T>>
+            => DefaultProvider<T, IBinaryIO<T>>.Instance.Read(reader);
     }
 }

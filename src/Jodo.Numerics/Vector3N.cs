@@ -33,7 +33,7 @@ namespace Jodo.Numerics
     public readonly struct Vector3N<TNumeric> :
             IEquatable<Vector3N<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryConvert<Vector3N<TNumeric>>>,
+            IProvider<IBinaryIO<Vector3N<TNumeric>>>,
             IProvider<IVariantRandom<Vector3N<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -105,23 +105,23 @@ namespace Jodo.Numerics
         public static implicit operator (TNumeric, TNumeric, TNumeric)(Vector3N<TNumeric> value) => (value.X, value.Y, value.Z);
 #endif
 
-        IBinaryConvert<Vector3N<TNumeric>> IProvider<IBinaryConvert<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<Vector3N<TNumeric>> IProvider<IBinaryIO<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Vector3N<TNumeric>> IProvider<IVariantRandom<Vector3N<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBinaryConvert<Vector3N<TNumeric>>,
+           IBinaryIO<Vector3N<TNumeric>>,
            IVariantRandom<Vector3N<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<Vector3N<TNumeric>>.Write(BinaryWriter writer, Vector3N<TNumeric> value)
+            void IBinaryIO<Vector3N<TNumeric>>.Write(BinaryWriter writer, Vector3N<TNumeric> value)
             {
                 writer.Write(value.X);
                 writer.Write(value.Y);
                 writer.Write(value.Z);
             }
 
-            Vector3N<TNumeric> IBinaryConvert<Vector3N<TNumeric>>.Read(BinaryReader reader)
+            Vector3N<TNumeric> IBinaryIO<Vector3N<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Vector3N<TNumeric>(
                     reader.Read<TNumeric>(),

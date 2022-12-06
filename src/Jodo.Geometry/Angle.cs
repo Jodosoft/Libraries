@@ -34,7 +34,7 @@ namespace Jodo.Geometry
             IComparable<Angle<TNumeric>>,
             IEquatable<Angle<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryConvert<Angle<TNumeric>>>,
+            IProvider<IBinaryIO<Angle<TNumeric>>>,
             IProvider<IVariantRandom<Angle<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
@@ -83,21 +83,21 @@ namespace Jodo.Geometry
         public static Angle<TNumeric> operator +(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Add(right.Degrees));
         public static Angle<TNumeric> operator +(Angle<TNumeric> value) => new Angle<TNumeric>(value.Degrees);
 
-        IBinaryConvert<Angle<TNumeric>> IProvider<IBinaryConvert<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<Angle<TNumeric>> IProvider<IBinaryIO<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<Angle<TNumeric>> IProvider<IVariantRandom<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<Angle<TNumeric>>,
+            IBinaryIO<Angle<TNumeric>>,
             IVariantRandom<Angle<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<Angle<TNumeric>>.Write(BinaryWriter writer, Angle<TNumeric> value)
+            void IBinaryIO<Angle<TNumeric>>.Write(BinaryWriter writer, Angle<TNumeric> value)
             {
                 writer.Write(value.Degrees);
             }
 
-            Angle<TNumeric> IBinaryConvert<Angle<TNumeric>>.Read(BinaryReader reader)
+            Angle<TNumeric> IBinaryIO<Angle<TNumeric>>.Read(BinaryReader reader)
             {
                 return new Angle<TNumeric>(reader.Read<TNumeric>());
             }

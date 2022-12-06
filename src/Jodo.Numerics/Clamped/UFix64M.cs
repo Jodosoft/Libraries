@@ -188,7 +188,7 @@ namespace Jodo.Numerics.Clamped
         UFix64M INumeric<UFix64M>.Subtract(UFix64M value) => this - value;
 
         INumericBitConverter<UFix64M> IProvider<INumericBitConverter<UFix64M>>.GetInstance() => Utilities.Instance;
-        IBinaryConvert<UFix64M> IProvider<IBinaryConvert<UFix64M>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<UFix64M> IProvider<IBinaryIO<UFix64M>>.GetInstance() => Utilities.Instance;
         IConvert<UFix64M> IProvider<IConvert<UFix64M>>.GetInstance() => Utilities.Instance;
         IConvertExtended<UFix64M> IProvider<IConvertExtended<UFix64M>>.GetInstance() => Utilities.Instance;
         IMath<UFix64M> IProvider<IMath<UFix64M>>.GetInstance() => Utilities.Instance;
@@ -197,7 +197,7 @@ namespace Jodo.Numerics.Clamped
         IVariantRandom<UFix64M> IProvider<IVariantRandom<UFix64M>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryConvert<UFix64M>,
+            IBinaryIO<UFix64M>,
             IConvert<UFix64M>,
             IConvertExtended<UFix64M>,
             IMath<UFix64M>,
@@ -208,8 +208,8 @@ namespace Jodo.Numerics.Clamped
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryConvert<UFix64M>.Write(BinaryWriter writer, UFix64M value) => writer.Write(value._scaledValue);
-            UFix64M IBinaryConvert<UFix64M>.Read(BinaryReader reader) => new UFix64M(reader.ReadUInt64());
+            void IBinaryIO<UFix64M>.Write(BinaryWriter writer, UFix64M value) => writer.Write(value._scaledValue);
+            UFix64M IBinaryIO<UFix64M>.Read(BinaryReader reader) => new UFix64M(reader.ReadUInt64());
 
             bool INumericStatic<UFix64M>.HasFloatingPoint => false;
             bool INumericStatic<UFix64M>.HasInfinity => false;

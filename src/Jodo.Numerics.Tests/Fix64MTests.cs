@@ -26,7 +26,7 @@ namespace Jodo.Numerics.Tests
 {
     public static class Fix64MTests
     {
-        public sealed class BinaryConvertTests : BinaryConvertTestBase<Fix64M> { }
+        public sealed class BinaryIOTests : BinaryIOTestBase<Fix64M> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<Fix64M> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<Fix64M> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<Fix64M> { }
