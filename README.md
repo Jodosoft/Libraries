@@ -37,7 +37,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;7.1. [Random variants](#primitives-random-variants)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;7.2. [Default providers](#primitives-default-providers)<br />
 &nbsp;&nbsp;&nbsp;&nbsp;7.3. [Shims](#primitives-shims)<br />
-&nbsp;&nbsp;&nbsp;&nbsp;7.4. [Stream extensions](#primitives-stream-extensions) (preview)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;7.4. [Binary IO Extensions](#binary-io-extensions)<br />
 
 <br />
 <p align="center">* * *</p>
@@ -99,7 +99,7 @@ The table below summarizes the design goals of the project.
     <td>Simplicity</td>
     <td> 
       <p>
-        The Jodo libraries are designed to provide simple data structures and algorithms to use as the building blocks for more comlpex applications.
+        The Jodo libraries are designed to provide simple data structures and algorithms to use as the building blocks for more complex applications.
       </p>
       <p>
         As a rule of thumb, nothing within the libraries should require configuration or dependency injection. A competent developer should be able to use the libraries intuitively, without needing to refer to documentation.
@@ -113,11 +113,11 @@ The table below summarizes the design goals of the project.
     <td>Compatibility</td>
     <td>     
       <p>
-        The Jodo libraries are designed to work with a wide array of programming languages and operating systems.
+        The Jodo libraries are designed to work with a wide array of .NET versions, platforms and programming languages.
       </p>
       <p>
         .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>,
-        whilst additional targets such as .NET Standard 2.1 (<code>netstandard2.1</code>) are used to incorporate newer language features like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>. No platform-dependant features are used.
+        whilst additional targets such as .NET Standard 2.1 (<code>netstandard2.1</code>) are added to incorporate newer language features like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>. No platform-dependant features are used.
       </p>
       <p>
         Publicly exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a>
@@ -143,11 +143,11 @@ The table below summarizes the design goals of the project.
         Code coverage is used, but is not considered a definitive metric of adequate testing.
         The code coverage target is 90%.</p>
       <p>
-        As part of pull request validation, tests are executed against multiple .NET targets and operating systems.
-        Currently, this includes
+        The <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1">pull request validation build</a> executes the tests against multiple .NET targets and operating systems.
+        This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
+        Currently, this covers
         .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
         .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu, and macOS.
-        This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
       </p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/5/main?logo=azuredevops&style=flat-square&no-cache"></a>
@@ -162,7 +162,7 @@ The table below summarizes the design goals of the project.
         The source code of the Jodo libraries is designed to be easy to understand and change.
       </p>
       <p>
-        As part of pull request validation, <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a>
+        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo">SonarCloud</a>
         and <a href="https://www.codefactor.io/repository/github/josephjshort/jodo/overview/main">CodeFactor</a> are used
         to detect code smells such as unused variables or overly complex functions.
       </p>
@@ -192,22 +192,10 @@ The following table summarizes the development goals for upcoming versions of th
     <th>Goals</th>
   </tr>
   <tr>
-    <td><code>1.1.0</code></td>
-    <td>
-      <ul>
-        <li>Implement suggestions</li>
-        <li>Add support for spans</li>
-        <li>Add support for streaming</li>
-        <li>Automate API documentation website and fill in major blanks</li>
-      </ul>
-      <a href="https://github.com/JosephJShort/Jodo/milestone/4"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/4?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
-    </td>
-  </tr>
-  <tr>
     <td><code>1.2.0</code></td>
     <td>
       <ul>
-        <li>Create the first release of Jodo.Geometry</li>
+        <li>Create the first release of Jodo.Geometry.</li>
       </ul>
     </td>
   </tr>
@@ -215,15 +203,33 @@ The following table summarizes the development goals for upcoming versions of th
     <td><code>1.3.0</code></td>
     <td>
       <ul>
-        <li>Implement suggestions</li>
+        <li>Tweaks, fixes and suggestions for Jodo.Geometry.</li>
+        <li>Other issues depending on priority.</li>
       </ul>
     </td>
   </tr>
   <tr>
-    <td><em>Future</em></td>
+    <td><code>1.4.0</code></td>
     <td>
       <ul>
-        <li>Create the first release of Jodo.Geometry</li>
+        <li>Create the first release of Jodo.Collections.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><code>1.5.0</code></td>
+    <td>
+      <ul>
+        <li>Tweaks, fixes and suggestions for Jodo.Collections.</li>
+        <li>Other issues depending on priority.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><code>2.0.0</code></td>
+    <td>
+      <ul>
+        <li>Refactoring and quality improvements that require breaking changes.</li>
       </ul>
     </td>
   </tr>
@@ -246,7 +252,7 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 
 ### 3.4. Documentation <br id="documentation" />
 
-<p>Work-in-progress API documentation is available at https://jodo.dev.</p>
+<p>Work-in-progress API documentation is available at <a href="https://jodo.dev/jodo">https://jodo.dev/jodo</a>.</p>
 <p>
   <a href="https://jodo.dev"><img alt="Documentation" src="https://img.shields.io/badge/documentation-passing-005784?style=flat-square&color=005784"></a>
 </p>
@@ -257,7 +263,7 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 
 <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodo.">NuGet.org</a> (for help, see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
 <p>Binaries are available on GitHub.com at <a href="https://github.com/JosephJShort/Jodo/releases">https://github.com/JosephJShort/Jodo/releases</a>.</p>
-<p>The libraries can also be built from the source code in this repository using the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a> and any IDE that supports .NET, such as <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a>.</p>
+<p>The libraries can also be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> (or alternative) with the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
 <p>
   <a href="https://www.nuget.org/packages?q=Jodo."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodo.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
   <a href="[https://www.nuget.org/packages?q=Jodo.](https://github.com/JosephJShort/Jodo/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/JosephJShort/Jodo?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
@@ -267,7 +273,7 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 
 ### 3.6. Changelog <br id="changelog" />
 
-The following table summarizes changes made to previous releases of the Jodo libraries:
+The following table summarizes the changes that were made for each published version of the Jodo libraries.
 
 <table>
   <tr>
@@ -275,15 +281,35 @@ The following table summarizes changes made to previous releases of the Jodo lib
     <th>Changes</th>
   </tr>
   <tr>
+    <td><code>1.1.0</code></td>
+    <td>
+      <p>
+        <ul>
+          <li>Automated API documentation website.</li>
+          <li>Increased documentation coverage.</li>
+          <li>Jodo.Numerics
+            <ul>
+              <li>Implemented tweaks, fixes and suggestions.</li>
+              <li>Added support for spans (see <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_BitConverterN.htm">BitConverterN</a>).</li>
+              <li>Added support for binary IO (see <a href="https://jodo.dev/jodo/search.html?SearchText=Binary%20Extensions">Binary Extensions</a>).</li>
+            </ul>
+          </li>
+        </ul>
+        <a href="https://github.com/JosephJShort/Jodo/milestone/4"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/4?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
+      </p>
+    </td>
+  </tr>
+  <tr>
     <td><code>1.0.0</code></td>
     <td>
       <p>
         <ul>
-          <li>The initial release of Jodo.Numerics and Jodo.Primitives</li>
-          <li>Added cross-platform support</li>
-          <li>Reached high level of test coverage</li>
-          <li>Established code quality rules</li>
-          <li>Created benchmarks</li>
+          <li>Initial release of Jodo.Numerics and Jodo.Primitives.</li>
+          <li>Preview releases of Jodo.Geometry and Jodo.Collections.
+          <li>Added cross-platform support.</li>
+          <li>Reached high level of test coverage.</li>
+          <li>Established code quality rules.</li>
+          <li>Created benchmarks.</li>
         </ul>
         <a href="https://github.com/JosephJShort/Jodo/milestone/3"><img alt="GitHub milestone" src="https://img.shields.io/github/milestones/progress/JosephJShort/Jodo/3?label=closed%20issues&style=flat-square&logo=github&no-cache"></a>
       </p>
@@ -308,9 +334,9 @@ Provides numeric utilities, custom number types, and a generic interface for def
 
 ### 4.1. Fixed-point numbers <br id="numerics-fixed-point-numbers" />
 
-Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point</a> numbers maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
+Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point numbers</a> maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
 
-<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Fix64.htm">Fix64</a> and <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_UFix64.htm">UFix64</a> are number types that implement fixed-point arithmetic. As with all the number types provided by this library, they support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
+<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Fix64.htm">Fix64</a> and <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_UFix64.htm">UFix64</a> are fixed-point number types with 6 decimal digits of precision. As with all number types provided by this library, they support a full range of mathematical functions, operators, conversions, string formatting, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -348,7 +374,7 @@ The table belows summarizes the capabilities of these types.
   <tr>
     <td><sub><em>readonly struct</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_UFix64.htm">UFix64</a></td>
     <td>
-      <p>Unsigned fixed-point number type with 6 decimal digits of precision, represented internally by a 64-bit integer.</p>
+      <p>Unsigned fixed-point number type with 6 decimal digits of precision, represented internally by an unsigned 64-bit integer.</p>
       <p>Supports a range of values from 1.0 x 10<sup>−6</sup> to 1.8 x 10<sup>13</sup>.</p>
     </td>
   </tr>
@@ -356,7 +382,7 @@ The table belows summarizes the capabilities of these types.
   <tr>
     <td><sub><em>static class</em></sub><br /><a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Scaled.htm">Scaled</a></td>
     <td>
-      <p>Provides static methods for performing arithmetic and string conversion on integers with a scaling factor. Used to implement <code>Fix64</code> and <code>UFix64</code>.</p>
+      <p>Provides static methods for performing arithmetic and string conversion on integers with a scaling factor. Used in the implementation of Fix64 and UFix64.</p>
     </td>
   </tr>
 </table>
@@ -365,15 +391,11 @@ The table belows summarizes the capabilities of these types.
 
 ### 4.2 Non-overflowing numbers <br id="numerics-non-overflowing-numbers" />
   
-Number types in the <a href="https://jodo.dev/jodo/api/N_Jodo_Numerics_Clamped.htm">Jodo.Numerics.Clamped</a> namespace have built-in protection from overflow. 
+Number types in the <a href="https://jodo.dev/jodo/api/N_Jodo_Numerics_Clamped.htm">Jodo.Numerics.Clamped</a> namespace have built-in prevention of overflow. Operations that would normally error or overflow instead return `MinValue` or `MaxValue`, and operations that would normally return <code>NaN</code> instead return zero.
 
-Operations that would normally error or overflow instead return `MinValue`, `MaxValue` or `Zero`.
+This provides an alternative to using the <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/checked-and-unchecked"><code>checked</code></a> keyword, removing the need for repetitive error handling logic.
 
-This is useful in systems where overflow is expected
-
-As with all the number types provided by this library, these types support a full range of math, operators, conversion, string parsing, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
-        
-Usage is the same as with built-in numeric types but yields different results in cases of overflow.
+As with all number types provided by this library, non-overflowing number types support a full range of mathematical functions, operators, conversions, string formatting, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 ```csharp
 var i = Int32M.MaxValue + 1;
@@ -383,7 +405,7 @@ var f = (SingleM)4 / 0;
 Console.WriteLine(f);  // output: 3.402823E+38
 ```
 
-The table below summarizes the clamped number types and utilities provided.
+The table below summarizes the non-overflowing number types and utilities provided by this library:
 
 <table>
 	<tr>
@@ -401,15 +423,15 @@ The table below summarizes the clamped number types and utilities provided.
       <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_Int32M.htm">Int32M</a>,<br />
       <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_UInt32M.htm">UInt32M</a>,<br />
       <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_Int64M.htm">Int64M</a>,<br />
-      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_UInt64M.htm">UInt64M</a>,<br />
-      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_DecimalM.htm">DecimalM</a>
+      <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_UInt64M.htm">UInt64M</a>
 		</td>
 		<td>
-			Operations that would normally overflow from positive to negative instead return <code>MaxValue</code>.
+			<p>Non-overflowing variants of the built-in integral number types.</p>
+      <p>Operations that would normally overflow from positive to negative instead return <code>MaxValue</code>.
 			Operations that would normally overflow from negative to positive instead return <code>MinValue</code>.
 			Division by zero does NOT throw a
 			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception">System.DivideByZeroException</a>
-			but returns <code>MaxValue</code>.
+			but returns <code>MaxValue</code>.</p>
 		</td>
 	</tr>
 	<tr />
@@ -420,9 +442,25 @@ The table below summarizes the clamped number types and utilities provided.
       <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_DoubleM.htm">DoubleM</a>
 		</td>
 		<td>
-			Operations that would normally return <code>PositiveInfinity</code> instead return <code>MaxValue</code>.
+      <p>Non-overflowing variants of the built-in floating-point number types.</p>
+			<p>Operations that would normally return <code>PositiveInfinity</code> instead return <code>MaxValue</code>.
 			Operations that would normally return <code>NegativeInfinity</code> instead return <code>MinValue</code>.
-      Operations that would normally return <code>NaN</code> instead return <code>0</code>.
+      Operations that would normally return <code>NaN</code> instead return <code>0</code>.</p>
+		</td>
+	</tr>
+	<tr />
+	<tr>
+		<td>
+			<sub><em>readonly struct</em></sub><br />
+			<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_DecimalM.htm">DecimalM</a>
+		</td>
+		<td>
+			<p>Non-overflowing variants of <a href="https://learn.microsoft.com/en-us/dotnet/api/system.decimal?view=net-7.0">System.Decimal</a>.</p>
+      <p>Operations that would normally overflow from positive to negative instead return <code>MaxValue</code>.
+			Operations that would normally overflow from negative to positive instead return <code>MinValue</code>.
+			Division by zero does NOT throw a
+			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception">System.DivideByZeroException</a>
+			but returns <code>MaxValue</code>.</p>
 		</td>
 	</tr>
 	<tr />
@@ -433,12 +471,12 @@ The table below summarizes the clamped number types and utilities provided.
       <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_UFix64M.htm">UFix64M</a>
 		</td>
 		<td>
-			Non-overflowing fixed-point numbers (see <a href="#numerics-fixed-point-numbers">§4.1. Fixed-point numbers</a>).
-			Operations that would overflow instead return <code>MinValue</code>
+			<p>Non-overflowing variants of fixed-point numbers (see <a href="#numerics-fixed-point-numbers">§4.1. Fixed-point numbers</a>).</p>
+			<p>Operations that would overflow instead return <code>MinValue</code>
 			or <code>MaxValue</code> depending on the direction of the
 			overflow. Division by zero does NOT throw a
 			<a href="https://docs.microsoft.com/en-us/dotnet/api/system.dividebyzeroexception">DivideByZeroException</a>
-			but returns <code>MaxValue</code>.
+			but returns <code>MaxValue</code>.</p>
 		</td>
 	</tr>
 	<tr />
@@ -448,7 +486,7 @@ The table below summarizes the clamped number types and utilities provided.
 			<a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_Clamped_Clamped.htm">Clamped</a>
 		</td>
 		<td>
-			Provides static methods for performing non-overflowing arithmetic.
+			Provides static methods for performing non-overflowing arithmetic. Used in the implementation of the preceeding non-overflowing number types.
 		</td>
 	</tr>
 </table>
@@ -457,9 +495,9 @@ The table below summarizes the clamped number types and utilities provided.
 
 ### 4.3. Framework for numbers <br id="numerics-framework-for-numbers" />
 
-The <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a> interface defines a contract for number types with support for operators, maths, conversion, string-parsing, random generation, and more.
+The <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a> interface provides a definition for number types with support for operators, maths, string-conversion, random generation, and more.
 
-Static utility classes, such as <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_MathN.htm">MathN</a> and <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_ConvertN.htm">ConvertN</a>, expose these features in a way that is familiar to users of the .NET API.
+Static utility classes, such as <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_MathN.htm">MathN</a> and <a href="https://jodo.dev/jodo/api/T_Jodo_Numerics_ConvertN.htm">ConvertN</a>, expose these features in a way that is similar to .NET API.
 
 <pre lang="csharp"><code>using Jodo.Numerics;
 using System;
@@ -559,7 +597,7 @@ Console.WriteLine($"{var2:E}"); // outputs: 9.954322E+001
 Console.WriteLine($"{var2:000.000}"); // outputs: 099.543</code></pre>
 </td>
 </tr>
-  <tr />
+<tr />
 <tr>
 <td>Random generation</td>
   <td>Extension methods on <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> provide randomly generated values. Values can be generated between bounds or without bounds.</p>
@@ -571,7 +609,23 @@ Console.WriteLine(var2); // outputs: 102.85086051826445 (example)</code></pre>
   
   </td>
 </tr>
-  <tr />
+<tr />
+<tr>
+<td>Binary streaming</td>
+  <td>Extension methods on <a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.binaryreader?view=net-7.0">System.IO.BinaryReader</a> and <a href="https://learn.microsoft.com/en-us/dotnet/api/system.io.binarywriter?view=net-7.0">System.IO.BinaryWriter</a> allow number types to be represented as simple binary using streams.</p>
+  <pre lang="csharp"><code>MyNumberType value = 3.141;
+using Stream stream = new MemoryStream(new byte[8]);
+using BinaryWriter writer = new BinaryWriter(stream);
+using BinaryReader reader = new BinaryReader(stream);
+writer.Write(value);
+stream.Position = 0;
+var result = reader.Read&lt;MyNumberType&gt;();
+
+Console.WriteLine(result); // output: 3.141</code></pre>
+  
+  </td>
+</tr>
+<tr />
 <tr>
 <td>Commonly-used abstractions</td> <td>All the number types in this library implement <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable">System.IComparable</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1">System.IComparable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iconvertible">System.IConvertible</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.iformattable">System.IFormattable</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/system.runtime.serialization.iserializable">System.ISerializable</a>. They also override <code>Equals(object)</code>, <code>GetHashCode()</code> and <code>ToString()</code>, and have the <a href="https://docs.microsoft.com/en-us/dotnet/framework/debug-trace-profile/enhancing-debugging-with-the-debugger-display-attributes">DebuggerDisplay</a> attribute. </td>
 </tr>
@@ -791,7 +845,7 @@ Console.WriteLine(num2); // output: -32768 (example)</code></pre>
 
 [\[Back to top\]](#top)
 
-### 7.4. Stream extensions (preview) <br id="primitives-stream-extensions" />
+### 7.4. Binary IO extensions<br id="binary-IO-extensions" />
 
 > Documentation tbc
 
