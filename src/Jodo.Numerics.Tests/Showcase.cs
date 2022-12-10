@@ -22,6 +22,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text;
 using FluentAssertions;
 using Jodo.Numerics;
@@ -229,6 +230,24 @@ namespace Jodo.Numerics.Tests
                 .Should().ContainInOrder(
                     "3.123", "0.12300000000000022", "9.753129000000001", "12.486685841570928",
                     "-740000", "10", "3.123", "System.Byte[]");
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void BinaryIO_Example()
+        {
+            MyNumberType value = 3.141;
+            using Stream stream = new MemoryStream(new byte[8]);
+            using BinaryWriter writer = new BinaryWriter(stream);
+            using BinaryReader reader = new BinaryReader(stream);
+            writer.Write(value);
+            stream.Position = 0;
+            var result = reader.Read<MyNumberType>();
+
+            Console.WriteLine(result); // output: 3.141
+
+            ConsoleOuput.ToString().Split(Environment.NewLine)
+                .Should().ContainInOrder(
+                    "3.141");
         }
     }
 }
