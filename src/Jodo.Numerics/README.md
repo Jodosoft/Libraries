@@ -1,1 +1,3 @@
-﻿Provides numeric utilities, custom number types, and a generic interface for defining numbers.
+﻿Extended number types and utilities (such as fixed-point and non-overflowing numbers).
+
+See: https://github.com/JosephJShort/Jodo/#numerics

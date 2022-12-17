@@ -1,1 +1,1 @@
-﻿geometry, geometric, shape, shapes, 2d, jodo
+﻿geometry, geometric, angle, angles, shape, shapes, 2d, jodo
