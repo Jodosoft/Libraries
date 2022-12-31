@@ -38,7 +38,7 @@ namespace Jodo.Geometry.Benchmarks
                 {
                     float singleWidth = Random.NextSingle(Variants.LowMagnitude);
                     float singleHeight = Random.NextSingle(Variants.LowMagnitude);
-                    AARectangle<SingleN> aaRectangle = new AARectangle<SingleN>(
+                    AARectangleN<SingleN> aaRectangle = new AARectangleN<SingleN>(
                         Random.NextSingle(Variants.LowMagnitude), Random.NextSingle(Variants.LowMagnitude), singleWidth, singleHeight);
                     return (singleWidth, singleHeight, aaRectangle);
                 })

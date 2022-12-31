@@ -18,28 +18,24 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Primitives;
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
-using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public abstract class TriangleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public static class CircleNTests
     {
-        [Test]
-        public void EqualsMethods_RandomValues_SameOutcome()
-        {
-            //arrange
-            Triangle<TNumeric> input1 = Random.NextVariant<Triangle<TNumeric>>();
-            Triangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<Triangle<TNumeric>>());
-
-            //act
-            //assert
-            AssertSame.Outcome(
-                () => input1.Equals(input2),
-                () => input1.Equals((object)input2),
-                () => input1 == input2,
-                () => !(input1 != input2));
-        }
+        public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<CircleN<Fix64>> { }
+        public sealed class FixedPointGeneralTests : CircleNTestBase<Fix64> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<CircleN<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<CircleN<Fix64>> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<CircleN<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : CircleNTestBase<SingleN> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<CircleN<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<CircleN<SingleN>> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<CircleN<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : CircleNTestBase<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<CircleN<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<CircleN<ByteN>> { }
     }
 }

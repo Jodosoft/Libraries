@@ -18,28 +18,24 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Primitives;
+using Jodo.Primitives.Tests;
 using Jodo.Testing;
-using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public abstract class CircleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public static class AngleNTests
     {
-        [Test]
-        public void EqualsMethods_RandomValues_SameOutcome()
-        {
-            //arrange
-            Circle<TNumeric> input1 = Random.NextVariant<Circle<TNumeric>>();
-            Circle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<Circle<TNumeric>>());
-
-            //act
-            //assert
-            AssertSame.Outcome(
-                () => input1.Equals(input2),
-                () => input1.Equals((object)input2),
-                () => input1 == input2,
-                () => !(input1 != input2));
-        }
+        public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<AngleN<Fix64>> { }
+        public sealed class FixedPointGeneralTests : AngleNTestBase<Fix64> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<AngleN<Fix64>> { }
+        public sealed class FixedPointSerializableFixedPointTests : SerializableTestBase<AngleN<Fix64>> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<AngleN<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : AngleNTestBase<SingleN> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<AngleN<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<AngleN<SingleN>> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<AngleN<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : AngleNTestBase<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AngleN<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AngleN<ByteN>> { }
     }
 }

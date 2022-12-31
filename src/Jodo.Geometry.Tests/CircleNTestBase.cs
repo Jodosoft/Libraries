@@ -17,33 +17,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using FluentAssertions;
 using Jodo.Numerics;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public abstract class AARectangleIntegralTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class CircleNTestBase
+        <TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        [SetUp]
-        public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>());
-
-        [Test, Repeat(RandomVariations)]
-        public void FromBottomLeft_UnitSquare_CorrectVertices()
+        [Test]
+        public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange
-            AARectangle<TNumeric> subject = AARectangle.FromBottomLeft(
-                new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
-                new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
+            CircleN<TNumeric> input1 = Random.NextVariant<CircleN<TNumeric>>();
+            CircleN<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<CircleN<TNumeric>>());
 
             //act
-            Vector2N<TNumeric> bottomLeftResult = subject.GetBottomLeft();
-            Vector2N<TNumeric> topRightResult = subject.GetTopRight();
-
             //assert
-            bottomLeftResult.Should().Be(new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()));
-            topRightResult.Should().Be(new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
+            AssertSame.Outcome(
+                () => input1.Equals(input2),
+                () => input1.Equals((object)input2),
+                () => input1 == input2,
+                () => !(input1 != input2));
         }
     }
 }

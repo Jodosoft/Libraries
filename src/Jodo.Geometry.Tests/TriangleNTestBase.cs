@@ -18,24 +18,29 @@
 // IN THE SOFTWARE.
 
 using Jodo.Numerics;
-using Jodo.Primitives.Tests;
+using Jodo.Primitives;
 using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public static class TriangleTests
+    public abstract class TriangleNTestBase
+        <TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<Triangle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : TriangleTestBase<Fix64> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Triangle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Triangle<Fix64>> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<Triangle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : TriangleTestBase<SingleN> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Triangle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Triangle<SingleN>> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<Triangle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : TriangleTestBase<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Triangle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Triangle<ByteN>> { }
+        [Test]
+        public void EqualsMethods_RandomValues_SameOutcome()
+        {
+            //arrange
+            TriangleN<TNumeric> input1 = Random.NextVariant<TriangleN<TNumeric>>();
+            TriangleN<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<TriangleN<TNumeric>>());
+
+            //act
+            //assert
+            AssertSame.Outcome(
+                () => input1.Equals(input2),
+                () => input1.Equals((object)input2),
+                () => input1 == input2,
+                () => !(input1 != input2));
+        }
     }
 }

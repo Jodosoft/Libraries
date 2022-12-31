@@ -23,11 +23,11 @@ namespace Jodo.Geometry
 {
     public static class VectorExtensions
     {
-        public static Vector2N<TNumeric> RotateAround<TNumeric>(this Vector2N<TNumeric> vector, Vector2N<TNumeric> pivot, Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        public static Vector2N<TNumeric> RotateAround<TNumeric>(this Vector2N<TNumeric> vector, Vector2N<TNumeric> pivot, AngleN<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
         {
-            if (angle == Angle.Zero<TNumeric>()) return vector;
+            if (angle == AngleN.Zero<TNumeric>()) return vector;
 
-            Angle<TNumeric> newAngle = -angle;
+            AngleN<TNumeric> newAngle = -angle;
             Vector2N<TNumeric> difference = vector - pivot;
             return pivot + new Vector2N<TNumeric>(
                 difference.X.Multiply(newAngle.Cos()).Subtract(difference.Y.Multiply(newAngle.Sin())),

@@ -23,19 +23,19 @@ using Jodo.Testing;
 
 namespace Jodo.Geometry.Tests
 {
-    public static class AngleTests
+    public static class TriangleNTests
     {
-        public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<Angle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : AngleTestBase<Fix64> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Angle<Fix64>> { }
-        public sealed class FixedPointSerializableFixedPointTests : SerializableTestBase<Angle<Fix64>> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<Angle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : AngleTestBase<SingleN> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Angle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Angle<SingleN>> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : AngleTestBase<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Angle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Angle<ByteN>> { }
+        public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<TriangleN<Fix64>> { }
+        public sealed class FixedPointGeneralTests : TriangleNTestBase<Fix64> { }
+        public sealed class FixedPointObjectTests : ObjectTestBase<TriangleN<Fix64>> { }
+        public sealed class FixedPointSerializableTests : SerializableTestBase<TriangleN<Fix64>> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<TriangleN<SingleN>> { }
+        public sealed class FloatingPointGeneralTests : TriangleNTestBase<SingleN> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<TriangleN<SingleN>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<TriangleN<SingleN>> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<TriangleN<ByteN>> { }
+        public sealed class UnsignedIntegralGeneralTests : TriangleNTestBase<ByteN> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<TriangleN<ByteN>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<TriangleN<ByteN>> { }
     }
 }

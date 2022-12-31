@@ -30,11 +30,11 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Triangle<TNumeric> :
-            IEquatable<Triangle<TNumeric>>,
+    public readonly struct TriangleN<TNumeric> :
+            IEquatable<TriangleN<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryIO<Triangle<TNumeric>>>,
-            IProvider<IVariantRandom<Triangle<TNumeric>>>,
+            IProvider<IBinaryIO<TriangleN<TNumeric>>>,
+            IProvider<IVariantRandom<TriangleN<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
@@ -42,14 +42,14 @@ namespace Jodo.Geometry
         public readonly Vector2N<TNumeric> B;
         public readonly Vector2N<TNumeric> C;
 
-        public Triangle(Vector2N<TNumeric> a, Vector2N<TNumeric> b, Vector2N<TNumeric> c)
+        public TriangleN(Vector2N<TNumeric> a, Vector2N<TNumeric> b, Vector2N<TNumeric> c)
         {
             A = a;
             B = b;
             C = c;
         }
 
-        private Triangle(SerializationInfo info, StreamingContext context) : this(
+        private TriangleN(SerializationInfo info, StreamingContext context) : this(
             (Vector2N<TNumeric>)info.GetValue(nameof(A), typeof(Vector2N<TNumeric>)),
             (Vector2N<TNumeric>)info.GetValue(nameof(B), typeof(Vector2N<TNumeric>)),
             (Vector2N<TNumeric>)info.GetValue(nameof(C), typeof(Vector2N<TNumeric>)))
@@ -62,7 +62,7 @@ namespace Jodo.Geometry
             info.AddValue(nameof(C), C, typeof(Vector2N<TNumeric>));
         }
 
-        public AARectangle<TNumeric> GetBounds()
+        public AARectangleN<TNumeric> GetBounds()
         {
             throw new NotImplementedException();
         }
@@ -82,51 +82,51 @@ namespace Jodo.Geometry
             throw new NotImplementedException();
         }
 
-        public Triangle<TNumeric> Translate(Vector2N<TNumeric> delta) => new Triangle<TNumeric>(A + delta, B + delta, C + delta);
+        public TriangleN<TNumeric> Translate(Vector2N<TNumeric> delta) => new TriangleN<TNumeric>(A + delta, B + delta, C + delta);
 
-        public Triangle<TResult> Convert<TResult>(Func<TNumeric, TResult> converter) where TResult : struct, INumeric<TResult>
-            => new Triangle<TResult>(A.Convert(converter), B.Convert(converter), C.Convert(converter));
-        public bool Equals(Triangle<TNumeric> other) => A.Equals(other.A) && B.Equals(other.B) && C.Equals(other.C);
-        public override bool Equals(object? obj) => obj is Triangle<TNumeric> fix && Equals(fix);
+        public TriangleN<TResult> Convert<TResult>(Func<TNumeric, TResult> converter) where TResult : struct, INumeric<TResult>
+            => new TriangleN<TResult>(A.Convert(converter), B.Convert(converter), C.Convert(converter));
+        public bool Equals(TriangleN<TNumeric> other) => A.Equals(other.A) && B.Equals(other.B) && C.Equals(other.C);
+        public override bool Equals(object? obj) => obj is TriangleN<TNumeric> fix && Equals(fix);
         public override int GetHashCode() => HashCodeShim.Combine(A, B, C);
         public override string ToString() => $"({A}, {B}, {C})";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"({A}, {B}, {C})";
 
-        public static bool operator ==(Triangle<TNumeric> left, Triangle<TNumeric> right) => left.Equals(right);
-        public static bool operator !=(Triangle<TNumeric> left, Triangle<TNumeric> right) => !(left == right);
+        public static bool operator ==(TriangleN<TNumeric> left, TriangleN<TNumeric> right) => left.Equals(right);
+        public static bool operator !=(TriangleN<TNumeric> left, TriangleN<TNumeric> right) => !(left == right);
 
 #if HAS_VALUE_TUPLES
-        public static implicit operator Triangle<TNumeric>((Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>) value) => new Triangle<TNumeric>(value.Item1, value.Item2, value.Item3);
-        public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>)(Triangle<TNumeric> value) => (value.A, value.B, value.C);
+        public static implicit operator TriangleN<TNumeric>((Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>) value) => new TriangleN<TNumeric>(value.Item1, value.Item2, value.Item3);
+        public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>)(TriangleN<TNumeric> value) => (value.A, value.B, value.C);
 #endif
 
-        IBinaryIO<Triangle<TNumeric>> IProvider<IBinaryIO<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IVariantRandom<Triangle<TNumeric>> IProvider<IVariantRandom<Triangle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<TriangleN<TNumeric>> IProvider<IBinaryIO<TriangleN<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<TriangleN<TNumeric>> IProvider<IVariantRandom<TriangleN<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-           IBinaryIO<Triangle<TNumeric>>,
-           IVariantRandom<Triangle<TNumeric>>
+           IBinaryIO<TriangleN<TNumeric>>,
+           IVariantRandom<TriangleN<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryIO<Triangle<TNumeric>>.Write(BinaryWriter writer, Triangle<TNumeric> value)
+            void IBinaryIO<TriangleN<TNumeric>>.Write(BinaryWriter writer, TriangleN<TNumeric> value)
             {
                 writer.Write(value.A);
                 writer.Write(value.B);
                 writer.Write(value.C);
             }
 
-            Triangle<TNumeric> IBinaryIO<Triangle<TNumeric>>.Read(BinaryReader reader)
+            TriangleN<TNumeric> IBinaryIO<TriangleN<TNumeric>>.Read(BinaryReader reader)
             {
-                return new Triangle<TNumeric>(
+                return new TriangleN<TNumeric>(
                     reader.Read<Vector2N<TNumeric>>(),
                     reader.Read<Vector2N<TNumeric>>(),
                     reader.Read<Vector2N<TNumeric>>());
             }
 
-            Triangle<TNumeric> IVariantRandom<Triangle<TNumeric>>.Generate(Random random, Variants variants)
+            TriangleN<TNumeric> IVariantRandom<TriangleN<TNumeric>>.Generate(Random random, Variants variants)
             {
-                return new Triangle<TNumeric>(
+                return new TriangleN<TNumeric>(
                    random.NextVariant<Vector2N<TNumeric>>(variants),
                    random.NextVariant<Vector2N<TNumeric>>(variants),
                    random.NextVariant<Vector2N<TNumeric>>(variants));
@@ -134,9 +134,9 @@ namespace Jodo.Geometry
         }
     }
 
-    public static class Triangle
+    public static class TriangleN
     {
-        public static Triangle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        public static TriangleN<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
         {
             throw new NotImplementedException();
         }

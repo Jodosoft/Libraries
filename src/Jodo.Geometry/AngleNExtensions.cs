@@ -21,27 +21,27 @@ using Jodo.Numerics;
 
 namespace Jodo.Geometry
 {
-    public static class AngleExtensions
+    public static class AngleNExtensions
     {
-        public static TNumeric GetRadians<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
-            => Angle.DegreesToRadians(angle.Degrees);
+        public static TNumeric GetRadians<TNumeric>(this AngleN<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+            => AngleN.DegreesToRadians(angle.Degrees);
 
-        public static TNumeric Cos<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        public static TNumeric Cos<TNumeric>(this AngleN<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Cos(angle.GetRadians());
 
-        public static TNumeric Cosh<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        public static TNumeric Cosh<TNumeric>(this AngleN<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Cosh(angle.GetRadians());
 
-        public static TNumeric Sin<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        public static TNumeric Sin<TNumeric>(this AngleN<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Sin(angle.GetRadians());
 
-        public static TNumeric Sinh<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        public static TNumeric Sinh<TNumeric>(this AngleN<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Sinh(angle.GetRadians());
 
-        public static TNumeric Tan<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        public static TNumeric Tan<TNumeric>(this AngleN<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Tan(angle.GetRadians());
 
-        public static TNumeric Tanh<TNumeric>(this Angle<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
+        public static TNumeric Tanh<TNumeric>(this AngleN<TNumeric> angle) where TNumeric : struct, INumeric<TNumeric>
             => MathN.Tanh(angle.GetRadians());
     }
 }

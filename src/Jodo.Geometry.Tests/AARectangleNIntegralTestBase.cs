@@ -17,25 +17,33 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using FluentAssertions;
 using Jodo.Numerics;
-using Jodo.Primitives.Tests;
 using Jodo.Testing;
+using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public static class CircleTests
+    public abstract class AARectangleNIntegralTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<Circle<Fix64>> { }
-        public sealed class FixedPointGeneralTests : CircleTestBase<Fix64> { }
-        public sealed class FixedPointObjectTests : ObjectTestBase<Circle<Fix64>> { }
-        public sealed class FixedPointSerializableTests : SerializableTestBase<Circle<Fix64>> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<Circle<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : CircleTestBase<SingleN> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Circle<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Circle<SingleN>> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : CircleTestBase<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Circle<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Circle<ByteN>> { }
+        [SetUp]
+        public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>());
+
+        [Test, Repeat(RandomVariations)]
+        public void FromBottomLeft_UnitSquare_CorrectVertices()
+        {
+            //arrange
+            AARectangleN<TNumeric> subject = AARectangleN.FromBottomLeft(
+                new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
+                new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
+
+            //act
+            Vector2N<TNumeric> bottomLeftResult = subject.GetBottomLeft();
+            Vector2N<TNumeric> topRightResult = subject.GetTopRight();
+
+            //assert
+            bottomLeftResult.Should().Be(new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()));
+            topRightResult.Should().Be(new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
+        }
     }
 }
