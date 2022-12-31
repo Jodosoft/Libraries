@@ -57,19 +57,28 @@ This document describes the goals of the project, the features of each library, 
 
 ## 2. Quickstart <br id="quickstart" />
 
-To use the Jodo libraries:
+To install a Jodo library, run <a href="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-add-package">dotnet add</a>, e.g.
+<pre lang="bash"><code>dotnet add Jodo.Numerics</code></pre>
+Alternatively, use the <a href="https://learn.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio">NuGet Package Manager</a> in Visual Studio:
+1. Right click on a project file and select "Manage Nuget Packages..."
+2. Type "jodo" in the search box
+3. Select a library from the results, e.g. Jodo.Numerics
+4. Click Install
 
-1. Search "`jodo`" in the NuGet package manager.
-2. Select a library (e.g. `Jodo.Numerics`), and click Install (most versions of .NET are supported).
-3. Import the required namespace in your code files, e.g. "`using Jodo.Numerics;`".
-4. Use the newly-available types in your code (no configuration or dependency injection is required).
+Most platforms and versions of .NET are supported, and the libraries can be used freely in commercial work under the MIT License.
 
-The features available are:
+To use the libraries, simply import the required namespace and start using the features in your code. No configuration or dependency injection is required.
 
-* **[Jodo.Numerics](#numerics)** - numeric utilities, custom number types, and a generic interface for defining numbers
-* **[Jodo.Geometry](#geometry) (preview)** - geometric structs and utilities that support custom number types.
-* **[Jodo.Collections](#collections) (preview)** - Extra collection classes and interfaces to complement the .NET API
-* **[Jodo.Primitives](#primitives)** - miscellaneous utilities used throughout the Jodo libraries
+<pre lang="csharp"><code>using Jodo.Numerics;
+
+</code>// ...</pre>
+
+The available libraries are:
+
+* **[Jodo.Numerics](#numerics)** - extra number types (such as fixed-point and non-overflowing) with maths, string-parsing, operators and utilities.
+* **[Jodo.Primitives](#primitives)** - utilities, abstractions and shims used by the Jodo libraries
+* **[Jodo.Geometry](#geometry) (preview)** - shapes, angles and trigonometric functions that work with generic numbers
+* **[Jodo.Collections](#collections) (preview)** - extra data-structures, utilities and collection abstractions
 
 
 [\[Back to top\]](#top)
@@ -80,7 +89,7 @@ The features available are:
 
 ## 3. About the project <br id="about" />
 
-The Jodo libraries started as a collection of reusable types from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types are being revamped to make them fit for public consumption.
+The Jodo libraries started as a collection of reusable classes from the personal projects of [@JosephJShort](https://github.com/JosephJShort). The types have been reorganized, refactored, and extensively tested with the goal of making useful libraries for the .NET community.
 
 This section describes the design goals, roadmap, and other details of the project.
 
@@ -96,16 +105,25 @@ The table below summarizes the design goals of the project.
     <th>Description</th>
   </tr>
   <tr>
-    <td>Simplicity</td>
-    <td> 
+    <td>Reliability</td>
+    <td>
       <p>
-        The Jodo libraries are designed to provide simple data structures and algorithms to use as the building blocks for more complex applications.
+        The Jodo libraries are designed to be dependable. Unit tests, benchmarks,
+        and continuous integration tools are used to ensure they remain fit for purpose.</p>
+      <p>
+        Tests are designed to cover boundary conditions, edge-cases, and error scenarios—not just happy paths.
+        Code coverage is used, but is not considered to be the definitive metric of adequate testing.
+        The code coverage target is 90%.</p>
+      <p>
+        The <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1">pull request validation build</a> executes tests against multiple .NET targets and operating systems.
+        This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
+        Currently, this includes
+        .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
+        .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu, and macOS.
       </p>
       <p>
-        As a rule of thumb, nothing within the libraries should require configuration or dependency injection. A competent developer should be able to use the libraries intuitively, without needing to refer to documentation.
-      </p>
-      <p>
-        The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API.
+        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/5/main?logo=azuredevops&style=flat-square&no-cache"></a>
+        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
       </p>
     </td>
   </tr>
@@ -133,29 +151,6 @@ The table below summarizes the design goals of the project.
     </td>
   </tr>
   <tr>
-    <td>Reliability</td>
-    <td>
-      <p>
-        The Jodo libraries are designed to be dependable. Unit tests, benchmarks,
-        and continuous integration tools are used to ensure they remain fit for purpose.</p>
-      <p>
-        Tests are designed to cover boundary conditions, edge-cases, and error scenarios—not just happy paths.
-        Code coverage is used, but is not considered a definitive metric of adequate testing.
-        The code coverage target is 90%.</p>
-      <p>
-        The <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1">pull request validation build</a> executes the tests against multiple .NET targets and operating systems.
-        This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
-        Currently, this covers
-        .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
-        .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu, and macOS.
-      </p>
-      <p>
-        <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/5/main?logo=azuredevops&style=flat-square&no-cache"></a>
-        <a href="https://sonarcloud.io/summary/overall?id=JosephJShort_Jodo"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/JosephJShort_Jodo/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
-      </p>
-    </td>
-  </tr>
-  <tr>
     <td>Maintainability</td>
     <td>
       <p>
@@ -178,13 +173,27 @@ The table below summarizes the design goals of the project.
       </p>
     </td>
   </tr>
+  <tr>
+    <td>Simple API</td>
+    <td> 
+      <p>
+        The Jodo libraries are designed to provide simple data structures and algorithms to use as the building blocks for more complex applications.
+      </p>
+      <p>
+        As a rule of thumb, nothing within the libraries should require configuration or dependency injection. A competent developer should be able to use the libraries intuitively, without needing to refer to documentation.
+      </p>
+      <p>
+        The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API.
+      </p>
+    </td>
+  </tr>
 </table>
 
 [\[Back to top\]](#top)
 
 ### 3.2. Roadmap <br id="roadmap" />
 
-The following table summarizes the development goals for upcoming versions of the Jodo libraries.
+The table below summarizes the high-level development goals for upcoming versions of the Jodo libraries.
 
 <table>
   <tr>
@@ -278,10 +287,12 @@ The following table summarizes the changes that were made for each published ver
 <table>
   <tr>
     <th>Version</th>
+    <th>Release date</th>
     <th>Changes</th>
   </tr>
   <tr>
     <td><code>1.1.0</code></td>
+    <td>2022-12-07</td>
     <td>
       <p>
         <ul>
@@ -301,6 +312,7 @@ The following table summarizes the changes that were made for each published ver
   </tr>
   <tr>
     <td><code>1.0.0</code></td>
+    <td>2022-10-15</td>
     <td>
       <p>
         <ul>
