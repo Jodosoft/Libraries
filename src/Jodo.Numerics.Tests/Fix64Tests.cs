@@ -17,13 +17,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class Fix64Tests
+    public class Fix64Tests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<Fix64> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<Fix64> { }
@@ -42,5 +45,18 @@ namespace Jodo.Numerics.Tests
         public sealed class ObjectTests : ObjectTestBase<Fix64> { }
         public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64> { }
         public sealed class SerializableTests : SerializableTestBase<Fix64> { }
+
+        [Test]
+        public void CastToUFix64_RandomValue_RoundTrips()
+        {
+            //arrange
+            Fix64 input = Random.NextVariant<Fix64>();
+
+            //act
+            Fix64 result = (Fix64)(UFix64)input;
+
+            //assert
+            result.Should().Be(input);
+        }
     }
 }

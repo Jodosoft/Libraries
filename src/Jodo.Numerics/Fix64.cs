@@ -72,6 +72,8 @@ namespace Jodo.Numerics
             return ((double)this).ToString(format, formatProvider);
         }
 
+        public static long GetScalingFactor() => ScalingFactor;
+        public static long GetScaledValue(Fix64 value) => value._scaledValue;
         public static bool TryParse(string s, IFormatProvider? provider, out Fix64 result) => FuncExtensions.Try(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Fix64 result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out Fix64 result) => FuncExtensions.Try(() => Parse(s, style), out result);
@@ -114,6 +116,7 @@ namespace Jodo.Numerics
         public static explicit operator Fix64(double value) => FromDouble(value);
         public static explicit operator Fix64(float value) => new Fix64((long)(value * ScalingFactor));
         public static explicit operator Fix64(long value) => new Fix64(value * ScalingFactor);
+        public static explicit operator Fix64(UFix64 value) => new Fix64((long)UFix64.GetScaledValue(value));
         public static implicit operator Fix64(byte value) => new Fix64(value * ScalingFactor);
         public static implicit operator Fix64(int value) => new Fix64(value * ScalingFactor);
         public static implicit operator Fix64(short value) => new Fix64(value * ScalingFactor);
