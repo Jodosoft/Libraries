@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using FluentAssertions;
 using Jodo.Numerics;
 using Jodo.Primitives;
 using Jodo.Testing;
@@ -41,6 +42,49 @@ namespace Jodo.Geometry.Tests
                 () => input1.Equals((object)input2),
                 () => input1 == input2,
                 () => !(input1 != input2));
+        }
+
+        [Test]
+        public void GetDiameter_RandomValues_SameAsDoubleRadius()
+        {
+            //arrange
+            CircleN<TNumeric> input1 = Random.NextVariant<CircleN<TNumeric>>(Variants.NonError);
+
+            //act
+            TNumeric result = input1.GetDiameter();
+
+            //assert
+            result.Should().Be(input1.Radius.Double());
+        }
+
+        [Test]
+        public void Ctor1_RandomInputs_SetsCenterAndRadiusCorrectly()
+        {
+            //arrange
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.NonError);
+            TNumeric radius = Random.NextVariant<TNumeric>(Variants.NonError);
+
+            //act
+            CircleN<TNumeric> result = new CircleN<TNumeric>(center, radius);
+
+            //assert
+            result.Center.Should().Be(center);
+            result.Radius.Should().Be(radius);
+        }
+
+        [Test]
+        public void Ctor2_RandomInputs_SetsCenterAndRadiusCorrectly()
+        {
+            //arrange
+            Vector2N<TNumeric> center = Random.NextVariant<Vector2N<TNumeric>>(Variants.NonError);
+            TNumeric radius = Random.NextVariant<TNumeric>(Variants.NonError);
+
+            //act
+            CircleN<TNumeric> result = new CircleN<TNumeric>(center.X, center.Y, radius);
+
+            //assert
+            result.Center.Should().Be(center);
+            result.Radius.Should().Be(radius);
         }
     }
 }

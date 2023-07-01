@@ -26,6 +26,7 @@ namespace Jodo.Numerics.Tests
     public static class SingleNTests
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<SingleN> { }
+        public sealed class FormattableTests : FormattableTestBase<SingleN> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<SingleN> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<SingleN> { }
         public sealed class NumericCastTests : NumericCastTestBase<SingleN> { }

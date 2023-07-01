@@ -26,14 +26,17 @@ namespace Jodo.Geometry.Tests
     public static class TriangleNTests
     {
         public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<TriangleN<Fix64>> { }
+        public sealed class FixedPointFormattableTests : FormattableTestBase<TriangleN<Fix64>> { }
         public sealed class FixedPointGeneralTests : TriangleNTestBase<Fix64> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<TriangleN<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<TriangleN<Fix64>> { }
         public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<TriangleN<SingleN>> { }
+        public sealed class FloatingPointFormattableTests : FormattableTestBase<TriangleN<SingleN>> { }
         public sealed class FloatingPointGeneralTests : TriangleNTestBase<SingleN> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<TriangleN<SingleN>> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<TriangleN<SingleN>> { }
         public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<TriangleN<ByteN>> { }
+        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<TriangleN<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : TriangleNTestBase<ByteN> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<TriangleN<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<TriangleN<ByteN>> { }

@@ -26,6 +26,7 @@ namespace Jodo.Numerics.Tests
     public sealed class DoubleNTests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<DoubleN> { }
+        public sealed class FormattableTests : FormattableTestBase<DoubleN> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<DoubleN> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<DoubleN> { }
         public sealed class NumericCastTests : NumericCastTestBase<DoubleN> { }

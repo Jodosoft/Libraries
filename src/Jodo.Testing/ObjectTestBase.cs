@@ -91,7 +91,7 @@ namespace Jodo.Testing
         public void GetHashCode_SameObject_ReturnsSameValue()
         {
             //arrange
-            T input = Random.NextVariant<T>(Variants.NonError);
+            T input = Random.NextVariant<T>();
             int[] results = new int[100];
 
             //act
@@ -113,7 +113,7 @@ namespace Jodo.Testing
             //act
             for (int i = 0; i < results.Length; i++)
             {
-                T input = Random.NextVariant<T>(Variants.NonError);
+                T input = Random.NextVariant<T>();
 
                 results[i] = input.GetHashCode();
             }
@@ -126,7 +126,7 @@ namespace Jodo.Testing
         public void ToString_MultipleInvocations_ReturnsSameValue()
         {
             //arrange
-            T input = Random.NextVariant<T>(Variants.NonError);
+            T input = Random.NextVariant<T>();
             string[] results = new string[100];
 
             //act
@@ -148,7 +148,7 @@ namespace Jodo.Testing
             //act
             for (int i = 0; i < results.Length; i++)
             {
-                T input = Random.NextVariant<T>(Variants.NonError);
+                T input = Random.NextVariant<T>();
 
                 results[i] = input.ToString();
             }

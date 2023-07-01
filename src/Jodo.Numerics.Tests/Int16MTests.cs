@@ -29,6 +29,7 @@ namespace Jodo.Numerics.Tests
         public sealed class BinaryIOTests : BinaryIOTestBase<Int16M> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<Int16M> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<Int16M> { }
+        public sealed class FormattableTests : FormattableTestBase<Int16M> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<Int16M> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Int16M> { }
         public sealed class NumericCastTests : NumericCastTestBase<Int16M> { }

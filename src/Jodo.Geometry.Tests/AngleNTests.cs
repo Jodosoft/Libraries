@@ -26,14 +26,17 @@ namespace Jodo.Geometry.Tests
     public static class AngleNTests
     {
         public sealed class FixedPointBinaryIOTests : BinaryIOTestBase<AngleN<Fix64>> { }
+        public sealed class FixedPointFormattableTests : FormattableTestBase<AngleN<Fix64>> { }
         public sealed class FixedPointGeneralTests : AngleNTestBase<Fix64> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<AngleN<Fix64>> { }
         public sealed class FixedPointSerializableFixedPointTests : SerializableTestBase<AngleN<Fix64>> { }
         public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<AngleN<SingleN>> { }
+        public sealed class FloatingPointFormattableTests : FormattableTestBase<AngleN<SingleN>> { }
         public sealed class FloatingPointGeneralTests : AngleNTestBase<SingleN> { }
         public sealed class FloatingPointObjectTests : ObjectTestBase<AngleN<SingleN>> { }
         public sealed class FloatingPointSerializableTests : SerializableTestBase<AngleN<SingleN>> { }
         public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<AngleN<ByteN>> { }
+        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<AngleN<ByteN>> { }
         public sealed class UnsignedIntegralGeneralTests : AngleNTestBase<ByteN> { }
         public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AngleN<ByteN>> { }
         public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AngleN<ByteN>> { }
