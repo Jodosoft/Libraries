@@ -19,6 +19,7 @@
 
 using System;
 using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
@@ -133,6 +134,34 @@ namespace Jodo.Numerics.Tests
 
             //assert
             result.Should().BeFalse();
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            DecimalN input = Random.NextVariant<DecimalN>(Variants.LowMagnitude);
+            DecimalN expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            DecimalN input = Random.NextVariant<DecimalN>(Variants.LowMagnitude);
+            DecimalN expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
         }
     }
 }

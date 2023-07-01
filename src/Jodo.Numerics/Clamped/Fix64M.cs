@@ -142,7 +142,7 @@ namespace Jodo.Numerics.Clamped
         public static Fix64M operator %(Fix64M left, Fix64M right) => new Fix64M(Clamped.Remainder(left._scaledValue, right._scaledValue));
         public static Fix64M operator &(Fix64M left, Fix64M right) => new Fix64M(left._scaledValue & right._scaledValue);
         public static Fix64M operator -(Fix64M left, Fix64M right) => new Fix64M(Clamped.Subtract(left._scaledValue, right._scaledValue));
-        public static Fix64M operator --(Fix64M value) => new Fix64M(value._scaledValue - ScalingFactor);
+        public static Fix64M operator --(Fix64M value) => new Fix64M(Clamped.Subtract(value._scaledValue, ScalingFactor));
         public static Fix64M operator -(Fix64M value) => new Fix64M(-value._scaledValue);
         public static Fix64M operator *(Fix64M left, Fix64M right) => new Fix64M(Clamped.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
         public static Fix64M operator /(Fix64M left, Fix64M right) => new Fix64M(Clamped.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
@@ -151,7 +151,7 @@ namespace Jodo.Numerics.Clamped
         public static Fix64M operator ~(Fix64M value) => new Fix64M(~value._scaledValue);
         public static Fix64M operator +(Fix64M left, Fix64M right) => new Fix64M(Clamped.Add(left._scaledValue, right._scaledValue));
         public static Fix64M operator +(Fix64M value) => value;
-        public static Fix64M operator ++(Fix64M value) => new Fix64M(value._scaledValue + ScalingFactor);
+        public static Fix64M operator ++(Fix64M value) => new Fix64M(Clamped.Add(value._scaledValue, ScalingFactor));
         public static Fix64M operator <<(Fix64M left, int right) => new Fix64M(left._scaledValue << right);
         public static Fix64M operator >>(Fix64M left, int right) => new Fix64M(left._scaledValue >> right);
 

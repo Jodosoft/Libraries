@@ -27,7 +27,7 @@ namespace Jodo.Geometry.Tests
     public abstract class TriangleNTestBase
         <TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange

@@ -17,9 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
@@ -45,5 +48,33 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericWrapperTests : NumericWrapperTestBase<DoubleN, double> { }
         public sealed class ObjectTests : ObjectTestBase<DoubleN> { }
         public sealed class SerializableTests : SerializableTestBase<DoubleN> { }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            DoubleN input = Random.NextVariant<DoubleN>(Variants.NonError);
+            DoubleN expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            DoubleN input = Random.NextVariant<DoubleN>(Variants.NonError);
+            DoubleN expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

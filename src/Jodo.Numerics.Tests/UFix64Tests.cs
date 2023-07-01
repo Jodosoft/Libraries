@@ -17,13 +17,17 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class UFix64Tests
+    public sealed class UFix64Tests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<UFix64> { }
         public sealed class FormattableTests : FormattableTestBase<UFix64> { }
@@ -43,5 +47,33 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericUnsignedTests : NumericUnsignedTestBase<UFix64> { }
         public sealed class ObjectTests : ObjectTestBase<UFix64> { }
         public sealed class SerializableTests : SerializableTestBase<UFix64> { }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            UFix64 input = Random.NextVariant<UFix64>();
+            UFix64 expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            UFix64 input = Random.NextVariant<UFix64>();
+            UFix64 expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

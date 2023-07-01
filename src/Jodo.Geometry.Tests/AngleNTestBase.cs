@@ -28,7 +28,7 @@ namespace Jodo.Geometry.Tests
 {
     public abstract class AngleNTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void EqualsMethods_RandomValues_SameResult()
         {
             //arrange
@@ -44,7 +44,7 @@ namespace Jodo.Geometry.Tests
                 () => !(input1 != input2));
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Degrees_FromDegrees_SameAsOriginal()
         {
             //arrange

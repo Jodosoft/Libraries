@@ -26,7 +26,7 @@ using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public class Fix64Tests : GlobalFixtureBase
+    public sealed class Fix64Tests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<Fix64> { }
         public sealed class FormattableTests : FormattableTestBase<Fix64> { }
@@ -58,6 +58,34 @@ namespace Jodo.Numerics.Tests
 
             //assert
             result.Should().Be(input);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            Fix64 input = Random.NextVariant<Fix64>();
+            Fix64 expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            Fix64 input = Random.NextVariant<Fix64>();
+            Fix64 expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
         }
     }
 }

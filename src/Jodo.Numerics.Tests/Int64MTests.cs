@@ -17,14 +17,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
 using Jodo.Numerics.Clamped;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class Int64MTests
+    public sealed class Int64MTests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<Int64M> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<Int64M> { }
@@ -45,5 +49,33 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericTests : NumericTestBase<Int64M> { }
         public sealed class ObjectTests : ObjectTestBase<Int64M> { }
         public sealed class SerializableTests : SerializableTestBase<Int64M> { }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            Int64M input = Random.NextVariant<Int64M>();
+            Int64M expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            Int64M input = Random.NextVariant<Int64M>();
+            Int64M expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

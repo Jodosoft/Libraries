@@ -28,7 +28,7 @@ namespace Jodo.Geometry.Tests
     public abstract class CircleNTestBase
         <TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange
@@ -44,7 +44,7 @@ namespace Jodo.Geometry.Tests
                 () => !(input1 != input2));
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void GetDiameter_RandomValues_SameAsDoubleRadius()
         {
             //arrange
@@ -57,7 +57,7 @@ namespace Jodo.Geometry.Tests
             result.Should().Be(input1.Radius.Double());
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Ctor1_RandomInputs_SetsCenterAndRadiusCorrectly()
         {
             //arrange
@@ -72,7 +72,7 @@ namespace Jodo.Geometry.Tests
             result.Radius.Should().Be(radius);
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Ctor2_RandomInputs_SetsCenterAndRadiusCorrectly()
         {
             //arrange
