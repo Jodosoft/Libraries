@@ -336,5 +336,32 @@ namespace Jodo.Geometry.Tests
                 () => degrees,
                 () => AngleN.FromDegrees(degrees).Degrees);
         }
+
+        [Test, Repeat(RandomVariations)]
+        public void TryParse_NoUnitDefaultFormat_CorrectRoundTrip()
+        {
+            //arrange
+            AngleN<TNumeric> input = AngleN.FromDegrees(Random.NextVariant<TNumeric>(Variants.LowMagnitude));
+
+            //act
+            AngleN<TNumeric> result = AngleN.Parse<TNumeric>(input.ToString(), null, null);
+
+            //assert
+            result.Should().Be(input);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void TryParse_DegreesWithDefaultFormat_CorrectRoundTrip()
+        {
+            //arrange
+            AngleN<TNumeric> input = AngleN.FromDegrees(Random.NextVariant<TNumeric>(Variants.LowMagnitude));
+            string unit = Random.Choose("°", "deg", "degree", "degrees", "DEGREES");
+
+            //act
+            AngleN<TNumeric> result = AngleN.Parse<TNumeric>($"{input.Degrees} {unit}", null, null);
+
+            //assert
+            result.Should().Be(input);
+        }
     }
 }
