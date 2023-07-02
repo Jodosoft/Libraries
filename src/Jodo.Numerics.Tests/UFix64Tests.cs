@@ -49,6 +49,10 @@ namespace Jodo.Numerics.Tests
         public sealed class ObjectTests : ObjectTestBase<UFix64> { }
         public sealed class SerializableTests : SerializableTestBase<UFix64> { }
 
+        [Test]
+        public void GetScalingFactor_ReturnsOneMillion()
+            => UFix64.GetScalingFactor().Should().Be(1_000_000);
+
         [Test, Repeat(RandomVariations)]
         public void IncrementOperator_RandomInputs_SameAsPlusOne()
         {

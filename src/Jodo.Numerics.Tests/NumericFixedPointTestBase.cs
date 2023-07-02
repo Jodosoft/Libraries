@@ -42,5 +42,18 @@ namespace Jodo.Numerics.Tests
             //assert
             result.Should().Be(TypeCode.Object);
         }
+
+        [Test, Repeat(RandomVariations)]
+        public void ToBoolean_AnyValue_CorrectResult()
+        {
+            //arrange
+            TNumeric input = Random.NextVariant<TNumeric>();
+
+            //act
+            bool result = ((IConvertible)input).ToBoolean(null);
+
+            //assert
+            result.Should().Be(!input.Equals(Numeric.Zero<TNumeric>()));
+        }
     }
 }
