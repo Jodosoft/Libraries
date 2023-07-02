@@ -68,28 +68,7 @@ namespace Jodo.Geometry
             info.AddValue(nameof(Radius), Radius, typeof(TNumeric));
         }
 
-        public Vector2N<TNumeric>[] GetVertices(int circumferenceDivisor)
-        {
-            double centerX = ConvertN.ToDouble(Center.X);
-            double centerY = ConvertN.ToDouble(Center.Y);
-            double radius = ConvertN.ToDouble(Radius);
-
-            Vector2N<TNumeric>[]? results = new Vector2N<TNumeric>[circumferenceDivisor + 1];
-            results[0] = Center;
-            for (int i = 0; i < circumferenceDivisor; i++)
-            {
-                double degrees = i * 360d / circumferenceDivisor;
-
-                double radians = degrees * (180d / Math.PI);
-
-                results[i + 1] = new Vector2N<TNumeric>(
-                    ConvertN.ToNumeric<TNumeric>(centerX + (radius * Math.Cos(radians))),
-                    ConvertN.ToNumeric<TNumeric>(centerY + (radius * Math.Sin(radians))));
-            }
-            return results;
-        }
-
-        public TNumeric GetArea() => MathN.PI<TNumeric>().Multiply(Radius.Multiply(Radius));
+        public TNumeric GetArea() => MathN.PI<TNumeric>().Multiply(Radius).Multiply(Radius);
         public bool Contains(CircleN<TNumeric> other) => Radius.IsGreaterThanOrEqualTo(other.Radius) && Center.DistanceFrom(other.Center).IsLessThanOrEqualTo(Radius.Subtract(other.Radius));
         public bool Contains(Vector2N<TNumeric> point) => point.DistanceFrom(Center).IsLessThan(Radius);
         public CircleN<TNumeric> Translate(Vector2N<TNumeric> delta) => new CircleN<TNumeric>(Center.Translate(delta), Radius);

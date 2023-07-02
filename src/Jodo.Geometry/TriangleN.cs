@@ -72,11 +72,6 @@ namespace Jodo.Geometry
             throw new NotImplementedException();
         }
 
-        public Vector2N<TNumeric>[] GetVertices()
-        {
-            throw new NotImplementedException();
-        }
-
         public Vector2N<TNumeric> GetCenter()
         {
             throw new NotImplementedException();
@@ -94,11 +89,6 @@ namespace Jodo.Geometry
 
         public static bool operator ==(TriangleN<TNumeric> left, TriangleN<TNumeric> right) => left.Equals(right);
         public static bool operator !=(TriangleN<TNumeric> left, TriangleN<TNumeric> right) => !(left == right);
-
-#if HAS_VALUE_TUPLES
-        public static implicit operator TriangleN<TNumeric>((Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>) value) => new TriangleN<TNumeric>(value.Item1, value.Item2, value.Item3);
-        public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>, Vector2N<TNumeric>)(TriangleN<TNumeric> value) => (value.A, value.B, value.C);
-#endif
 
         IBinaryIO<TriangleN<TNumeric>> IProvider<IBinaryIO<TriangleN<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<TriangleN<TNumeric>> IProvider<IVariantRandom<TriangleN<TNumeric>>>.GetInstance() => Utilities.Instance;
