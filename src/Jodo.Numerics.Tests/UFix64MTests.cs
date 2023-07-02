@@ -38,6 +38,7 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<UFix64M> { }
         public sealed class NumericCastTests : NumericCastTestBase<UFix64M> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<UFix64M> { }
+        public sealed class NumericFixedPointTests : NumericFixedPointTestBase<UFix64M> { }
         public sealed class NumericMathTests : NumericMathTestBase<UFix64M> { }
         public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<UFix64M> { }
         public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<UFix64M> { }

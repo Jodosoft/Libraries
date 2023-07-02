@@ -35,16 +35,17 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericCastTests : NumericCastTestBase<Fix64> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<Fix64> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<Fix64> { }
+        public sealed class NumericFixedPointTests : NumericFixedPointTestBase<Fix64> { }
         public sealed class NumericMathTests : NumericMathTestBase<Fix64> { }
         public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<Fix64> { }
         public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<Fix64> { }
         public sealed class NumericNonNaNTests : NumericNonNaNTestBase<Fix64> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64> { }
         public sealed class NumericRealTests : NumericRealTestBase<Fix64> { }
         public sealed class NumericSignedTests : NumericSignedTestBase<Fix64> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Fix64> { }
         public sealed class NumericTests : NumericTestBase<Fix64> { }
         public sealed class ObjectTests : ObjectTestBase<Fix64> { }
-        public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64> { }
         public sealed class SerializableTests : SerializableTestBase<Fix64> { }
 
         [Test]
