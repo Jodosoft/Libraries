@@ -42,7 +42,7 @@ namespace Jodo.Geometry
     {
         public readonly Vector2N<TNumeric> Center;
         public readonly Vector2N<TNumeric> Dimensions;
-        public readonly AngleN<TNumeric> AngleN;
+        public readonly AngleN<TNumeric> Angle;
 
         public TNumeric Height => Dimensions.Y;
         public TNumeric Width => Dimensions.X;
@@ -51,21 +51,21 @@ namespace Jodo.Geometry
         {
             Center = origin;
             Dimensions = dimensions;
-            AngleN = angle;
+            Angle = angle;
         }
 
         private RectangleN(SerializationInfo info, StreamingContext context)
         {
             Center = (Vector2N<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2N<TNumeric>));
             Dimensions = (Vector2N<TNumeric>)info.GetValue(nameof(Dimensions), typeof(Vector2N<TNumeric>));
-            AngleN = (AngleN<TNumeric>)info.GetValue(nameof(AngleN), typeof(AngleN<TNumeric>));
+            Angle = (AngleN<TNumeric>)info.GetValue(nameof(Angle), typeof(AngleN<TNumeric>));
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Center), Center, typeof(Vector2N<TNumeric>));
             info.AddValue(nameof(Dimensions), Dimensions, typeof(Vector2N<TNumeric>));
-            info.AddValue(nameof(AngleN), AngleN, typeof(AngleN<TNumeric>));
+            info.AddValue(nameof(Angle), Angle, typeof(AngleN<TNumeric>));
         }
 
         public bool Contains(RectangleN<TNumeric> other)
@@ -98,30 +98,30 @@ namespace Jodo.Geometry
 
         public RectangleN<TNumeric> Grow(TNumeric delta) => Grow(new Vector2N<TNumeric>(delta, delta));
         public RectangleN<TNumeric> Grow(TNumeric deltaX, TNumeric deltaY) => Grow(new Vector2N<TNumeric>(deltaX, deltaY));
-        public RectangleN<TNumeric> Grow(Vector2N<TNumeric> delta) => new RectangleN<TNumeric>(Center - delta, Dimensions + delta + delta, AngleN);
+        public RectangleN<TNumeric> Grow(Vector2N<TNumeric> delta) => new RectangleN<TNumeric>(Center, Dimensions + delta, Angle);
 
-        public RectangleN<TNumeric> Scale(TNumeric scale) => new RectangleN<TNumeric>(Center, Dimensions * scale, AngleN);
+        public RectangleN<TNumeric> Scale(TNumeric scale) => new RectangleN<TNumeric>(Center, Dimensions * scale, Angle);
 
-        public RectangleN<TNumeric> Rotate(AngleN<TNumeric> angle) => new RectangleN<TNumeric>(Center, Dimensions, AngleN + angle);
-        public RectangleN<TNumeric> RotateAround(Vector2N<TNumeric> pivot, AngleN<TNumeric> angle) => new RectangleN<TNumeric>(Center.RotateAround(pivot, angle), Dimensions, AngleN + angle);
+        public RectangleN<TNumeric> Rotate(AngleN<TNumeric> angle) => new RectangleN<TNumeric>(Center, Dimensions, Angle + angle);
+        public RectangleN<TNumeric> RotateAround(Vector2N<TNumeric> pivot, AngleN<TNumeric> angle) => new RectangleN<TNumeric>(Center.RotateAround(pivot, angle), Dimensions, Angle + angle);
         public RectangleN<TNumeric> Shrink(TNumeric delta) => Shrink(new Vector2N<TNumeric>(delta, delta));
         public RectangleN<TNumeric> Shrink(TNumeric deltaX, TNumeric deltaY) => Shrink(new Vector2N<TNumeric>(deltaX, deltaY));
-        public RectangleN<TNumeric> Shrink(Vector2N<TNumeric> delta) => new RectangleN<TNumeric>(Center, Dimensions - delta, AngleN);
+        public RectangleN<TNumeric> Shrink(Vector2N<TNumeric> delta) => new RectangleN<TNumeric>(Center, Dimensions - delta, Angle);
         public RectangleN<TNumeric> Translate(TNumeric deltaX, TNumeric deltaY) => Translate(new Vector2N<TNumeric>(deltaX, deltaY));
-        public RectangleN<TNumeric> Translate(Vector2N<TNumeric> delta) => new RectangleN<TNumeric>(Center + delta, Dimensions, AngleN);
+        public RectangleN<TNumeric> Translate(Vector2N<TNumeric> delta) => new RectangleN<TNumeric>(Center + delta, Dimensions, Angle);
         public RectangleN<TNumeric> UnitTranslate(TNumeric deltaX, TNumeric deltaY) => Translate(new Vector2N<TNumeric>(deltaX, deltaY));
         public RectangleN<TNumeric> UnitTranslate(Vector2N<TNumeric> delta) => new RectangleN<TNumeric>(
-            Center + new Vector2N<TNumeric>(delta.X.Multiply(Width), delta.Y.Multiply(Height)), Dimensions, AngleN);
+            Center + new Vector2N<TNumeric>(delta.X.Multiply(Width), delta.Y.Multiply(Height)), Dimensions, Angle);
 
-        public bool Equals(RectangleN<TNumeric> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && AngleN.Equals(other.AngleN);
+        public bool Equals(RectangleN<TNumeric> other) => Center.Equals(other.Center) && Dimensions.Equals(other.Dimensions) && Angle.Equals(other.Angle);
         public override bool Equals(object? obj)
         {
             return obj is RectangleN<TNumeric> rectangle && Equals(rectangle);
         }
 
-        public override int GetHashCode() => HashCodeShim.Combine(Center, Dimensions, AngleN);
-        public override string ToString() => $"<X:{Center.X}, Y:{Center.Y}, W:{Dimensions.X}, H:{Dimensions.Y}, A:{AngleN}>";
-        public string ToString(string? format, IFormatProvider? formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}, A:{AngleN.ToString(format, formatProvider)}>";
+        public override int GetHashCode() => HashCodeShim.Combine(Center, Dimensions, Angle);
+        public override string ToString() => $"<X:{Center.X}, Y:{Center.Y}, W:{Dimensions.X}, H:{Dimensions.Y}, A:{Angle}>";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, W:{Dimensions.X.ToString(format, formatProvider)}, H:{Dimensions.Y.ToString(format, formatProvider)}, A:{Angle.ToString(format, formatProvider)}>";
 
         public AARectangleN<TNumeric> GetBounds()
         {
@@ -154,7 +154,7 @@ namespace Jodo.Geometry
             {
                 writer.Write(value.Center);
                 writer.Write(value.Dimensions);
-                writer.Write(value.AngleN);
+                writer.Write(value.Angle);
             }
 
             RectangleN<TNumeric> IBinaryIO<RectangleN<TNumeric>>.Read(BinaryReader reader)

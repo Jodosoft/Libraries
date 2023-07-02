@@ -27,49 +27,49 @@ namespace Jodo.Geometry
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomCenter<TNumeric>(this RectangleN<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return RectangleN.GetBottomCenter(value.Center, value.Dimensions, value.AngleN);
+            return RectangleN.GetBottomCenter(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomLeft<TNumeric>(this RectangleN<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return RectangleN.GetBottomLeft(value.Center, value.Dimensions, value.AngleN);
+            return RectangleN.GetBottomLeft(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetBottomRight<TNumeric>(this RectangleN<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return RectangleN.GetBottomRight(value.Center, value.Dimensions, value.AngleN);
+            return RectangleN.GetBottomRight(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetLeftCenter<TNumeric>(this RectangleN<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return RectangleN.GetLeftCenter(value.Center, value.Dimensions, value.AngleN);
+            return RectangleN.GetLeftCenter(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetRightCenter<TNumeric>(this RectangleN<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return RectangleN.GetRightCenter(value.Center, value.Dimensions, value.AngleN);
+            return RectangleN.GetRightCenter(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopCenter<TNumeric>(this RectangleN<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return RectangleN.GetTopCenter(value.Center, value.Dimensions, value.AngleN);
+            return RectangleN.GetTopCenter(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopLeft<TNumeric>(this RectangleN<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return RectangleN.GetTopLeft(value.Center, value.Dimensions, value.AngleN);
+            return RectangleN.GetTopLeft(value.Center, value.Dimensions, value.Angle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2N<TNumeric> GetTopRight<TNumeric>(this RectangleN<TNumeric> value) where TNumeric : struct, INumeric<TNumeric>
         {
-            return RectangleN.GetTopRight(value.Center, value.Dimensions, value.AngleN);
+            return RectangleN.GetTopRight(value.Center, value.Dimensions, value.Angle);
         }
     }
 }
