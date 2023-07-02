@@ -106,13 +106,6 @@ namespace Jodo.Geometry
         public static bool operator ==(AARectangleN<TNumeric> left, AARectangleN<TNumeric> right) => left.Equals(right);
         public static bool operator !=(AARectangleN<TNumeric> left, AARectangleN<TNumeric> right) => !(left == right);
 
-#if HAS_VALUE_TUPLES
-        public static implicit operator AARectangleN<TNumeric>((Vector2N<TNumeric>, Vector2N<TNumeric>) value) => new AARectangleN<TNumeric>(value.Item1, value.Item2);
-        public static implicit operator (Vector2N<TNumeric>, Vector2N<TNumeric>)(AARectangleN<TNumeric> value) => (value.Center, value.Dimensions);
-        public static implicit operator AARectangleN<TNumeric>((TNumeric, TNumeric, TNumeric, TNumeric) value) => new AARectangleN<TNumeric>((value.Item1, value.Item2), (value.Item3, value.Item4));
-        public static implicit operator (TNumeric, TNumeric, TNumeric, TNumeric)(AARectangleN<TNumeric> value) => (value.Center.X, value.Center.Y, value.Dimensions.X, value.Dimensions.Y);
-#endif
-
         IBinaryIO<AARectangleN<TNumeric>> IProvider<IBinaryIO<AARectangleN<TNumeric>>>.GetInstance() => Utilities.Instance;
         IVariantRandom<AARectangleN<TNumeric>> IProvider<IVariantRandom<AARectangleN<TNumeric>>>.GetInstance() => Utilities.Instance;
 
