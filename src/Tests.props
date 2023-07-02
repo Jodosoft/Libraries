@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net48;netcoreapp2.1;net6.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netcoreapp2.1;net48</TargetFrameworks>
     <Optimize>false</Optimize>
   </PropertyGroup>
   <ItemGroup>

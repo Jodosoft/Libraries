@@ -117,9 +117,7 @@ The table below summarizes the design goals of the project.
       <p>
         The <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=1">pull request validation build</a> executes tests against multiple .NET targets and operating systems.
         This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
-        Currently, this includes
-        .NET Framework 4.8 (<code>net48</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>),
-        .NET 5 (<code>net5.0</code>), .NET 6 (<code>net6.0</code>), Windows, Ubuntu, and macOS.
+        Currently, this includes .NET 7 (<code>net7.0</code>), .NET 6 (<code>net6.0</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>), .NET Framework 4.8 (<code>net48</code>), Windows, Ubuntu, and macOS.
       </p>
       <p>
         <a href="https://dev.azure.com/JosephJShort/Jodo/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/JosephJShort/Jodo/5/main?logo=azuredevops&style=flat-square&no-cache"></a>
