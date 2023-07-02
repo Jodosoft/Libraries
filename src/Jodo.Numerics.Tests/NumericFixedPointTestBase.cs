@@ -55,5 +55,18 @@ namespace Jodo.Numerics.Tests
             //assert
             result.Should().Be(!input.Equals(Numeric.Zero<TNumeric>()));
         }
+
+        [Test, Repeat(RandomVariations)]
+        public void ToStringParse_LowMagnitude_CanRoundTrip()
+        {
+            //arrange
+            TNumeric input = Random.NextVariant<TNumeric>(Variants.LowMagnitude);
+
+            //act
+            TNumeric result = Numeric.Parse<TNumeric>(input.ToString());
+
+            //assert
+            result.Should().Be(input);
+        }
     }
 }
