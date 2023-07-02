@@ -85,17 +85,6 @@ namespace Jodo.Geometry
 
         public TNumeric GetArea() => MathN.Abs(Width.Multiply(Height));
 
-        public Vector2N<TNumeric>[] GetVertices()
-        {
-            return new[]
-            {
-                this.GetBottomLeft(),
-                this.GetBottomRight(),
-                this.GetTopRight(),
-                this.GetTopLeft()
-            };
-        }
-
         public RectangleN<TNumeric> Grow(TNumeric delta) => Grow(new Vector2N<TNumeric>(delta, delta));
         public RectangleN<TNumeric> Grow(TNumeric deltaX, TNumeric deltaY) => Grow(new Vector2N<TNumeric>(deltaX, deltaY));
         public RectangleN<TNumeric> Grow(Vector2N<TNumeric> delta) => new RectangleN<TNumeric>(Center, Dimensions + delta, Angle);

@@ -72,11 +72,6 @@ namespace Jodo.Geometry
             throw new NotImplementedException();
         }
 
-        public Vector2N<TNumeric>[] GetVertices()
-        {
-            throw new NotImplementedException();
-        }
-
         public Vector2N<TNumeric> GetCenter()
         {
             throw new NotImplementedException();

@@ -86,5 +86,18 @@ namespace Jodo.Geometry.Tests
             result.Center.Should().Be(center);
             result.Radius.Should().Be(radius);
         }
+
+        [Test, Repeat(RandomVariations)]
+        public void GetArea_RandomValues_SameAsPiRSquared()
+        {
+            //arrange
+            CircleN<TNumeric> input = Random.NextVariant<CircleN<TNumeric>>(Variants.LowMagnitude);
+
+            //act
+            TNumeric result = input.GetArea();
+
+            //assert
+            result.Should().Be(MathN.PI<TNumeric>().Multiply(input.Radius).Multiply(input.Radius));
+        }
     }
 }
