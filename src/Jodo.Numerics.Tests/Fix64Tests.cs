@@ -52,7 +52,7 @@ namespace Jodo.Numerics.Tests
         public void GetScalingFactor_ReturnsOneMillion()
             => Fix64.GetScalingFactor().Should().Be(1_000_000);
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void CastToUFix64_RandomValue_RoundTrips()
         {
             //arrange

@@ -55,11 +55,11 @@ namespace Jodo.Numerics.Tests
         public void GetScalingFactor_ReturnsOneMillion()
             => Fix64M.GetScalingFactor().Should().Be(1_000_000);
 
-        [Test]
-        public void CastToUFix64M_RandomValue_RoundTrips()
+        [Test, Repeat(RandomVariations)]
+        public void CastToUFix64M_RandomAbsValue_RoundTrips()
         {
             //arrange
-            Fix64M input = Random.NextVariant<Fix64M>();
+            Fix64M input = MathN.Abs(Random.NextVariant<Fix64M>());
 
             //act
             Fix64M result = (Fix64M)(UFix64M)input;
