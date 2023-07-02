@@ -17,15 +17,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class UInt16NTests
+    public sealed class UInt16NTests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<UInt16N> { }
+        public sealed class FormattableTests : FormattableTestBase<UInt16N> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<UInt16N> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<UInt16N> { }
         public sealed class NumericCastTests : NumericCastTestBase<UInt16N> { }
@@ -44,5 +49,33 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericWrapperTests : NumericWrapperTestBase<UInt16N, ushort> { }
         public sealed class ObjectTests : ObjectTestBase<UInt16N> { }
         public sealed class SerializableTests : SerializableTestBase<UInt16N> { }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            UInt16N input = Random.NextVariant<UInt16N>();
+            UInt16N expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            UInt16N input = Random.NextVariant<UInt16N>();
+            UInt16N expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

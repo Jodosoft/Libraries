@@ -17,33 +17,56 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using FluentAssertions;
-using Jodo.Numerics;
+using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
-namespace Jodo.Geometry.Tests
+namespace Jodo.Numerics.Tests
 {
-    public abstract class AARectangleIntegralTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class NumericFixedPointTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [SetUp]
-        public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>());
+        public void SetUp() => Assert.That(Numeric.IsReal<TNumeric>() && !Numeric.HasFloatingPoint<TNumeric>());
 
-        [Test, Repeat(RandomVariations)]
-        public void FromBottomLeft_UnitSquare_CorrectVertices()
+        [Test]
+        public void GetTypeCode_AnyValue_ReturnsObject()
         {
             //arrange
-            AARectangle<TNumeric> subject = AARectangle.FromBottomLeft(
-                new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
-                new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
+            TNumeric input = Random.NextVariant<TNumeric>();
 
             //act
-            Vector2N<TNumeric> bottomLeftResult = subject.GetBottomLeft();
-            Vector2N<TNumeric> topRightResult = subject.GetTopRight();
+            TypeCode result = ((IConvertible)input).GetTypeCode();
 
             //assert
-            bottomLeftResult.Should().Be(new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()));
-            topRightResult.Should().Be(new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
+            result.Should().Be(TypeCode.Object);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void ToBoolean_AnyValue_CorrectResult()
+        {
+            //arrange
+            TNumeric input = Random.NextVariant<TNumeric>();
+
+            //act
+            bool result = ((IConvertible)input).ToBoolean(null);
+
+            //assert
+            result.Should().Be(!input.Equals(Numeric.Zero<TNumeric>()));
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void ToStringParse_LowMagnitude_CanRoundTrip()
+        {
+            //arrange
+            TNumeric input = Random.NextVariant<TNumeric>(Variants.LowMagnitude);
+
+            //act
+            TNumeric result = Numeric.Parse<TNumeric>(input.ToString());
+
+            //assert
+            result.Should().Be(input);
         }
     }
 }

@@ -24,14 +24,15 @@ using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public abstract class CircleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class TriangleNTestBase
+        <TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange
-            Circle<TNumeric> input1 = Random.NextVariant<Circle<TNumeric>>();
-            Circle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<Circle<TNumeric>>());
+            TriangleN<TNumeric> input1 = Random.NextVariant<TriangleN<TNumeric>>();
+            TriangleN<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<TriangleN<TNumeric>>());
 
             //act
             //assert

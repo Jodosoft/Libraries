@@ -5,6 +5,7 @@
     <VersionPrefix>1.1.0</VersionPrefix>
     <!--<VersionSuffix></VersionSuffix>-->
     <IncludeSourceRevisionInInformationalVersion>False</IncludeSourceRevisionInInformationalVersion>
+    <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
   </PropertyGroup>
 
   <PropertyGroup>

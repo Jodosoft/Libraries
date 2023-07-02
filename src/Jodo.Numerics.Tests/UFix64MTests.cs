@@ -17,22 +17,28 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
 using Jodo.Numerics.Clamped;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class UFix64MTests
+    public sealed class UFix64MTests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<UFix64M> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<UFix64M> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<UFix64M> { }
+        public sealed class FormattableTests : FormattableTestBase<UFix64M> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<UFix64M> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<UFix64M> { }
         public sealed class NumericCastTests : NumericCastTestBase<UFix64M> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<UFix64M> { }
+        public sealed class NumericFixedPointTests : NumericFixedPointTestBase<UFix64M> { }
         public sealed class NumericMathTests : NumericMathTestBase<UFix64M> { }
         public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<UFix64M> { }
         public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<UFix64M> { }
@@ -44,5 +50,37 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericUnsignedTests : NumericUnsignedTestBase<UFix64M> { }
         public sealed class ObjectTests : ObjectTestBase<UFix64M> { }
         public sealed class SerializableTests : SerializableTestBase<UFix64M> { }
+
+        [Test]
+        public void GetScalingFactor_ReturnsOneMillion()
+            => UFix64M.GetScalingFactor().Should().Be(1_000_000);
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            UFix64M input = Random.NextVariant<UFix64M>();
+            UFix64M expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            UFix64M input = Random.NextVariant<UFix64M>();
+            UFix64M expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

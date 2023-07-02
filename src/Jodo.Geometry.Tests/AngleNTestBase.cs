@@ -26,14 +26,14 @@ using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public abstract class AngleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class AngleNTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void EqualsMethods_RandomValues_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>();
-            Angle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<Angle<TNumeric>>());
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>();
+            AngleN<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<AngleN<TNumeric>>());
 
             //act
             //assert
@@ -44,14 +44,14 @@ namespace Jodo.Geometry.Tests
                 () => !(input1 != input2));
         }
 
-        [Test]
+        [Test, Repeat(RandomVariations)]
         public void Degrees_FromDegrees_SameAsOriginal()
         {
             //arrange
             TNumeric input = Random.NextNumeric<TNumeric>(Generation.Extended);
 
             //act
-            TNumeric result = Angle.FromDegrees(input).Degrees;
+            TNumeric result = AngleN.FromDegrees(input).Degrees;
 
             //assert
             result.Should().Be(input);
@@ -61,7 +61,7 @@ namespace Jodo.Geometry.Tests
         public void Cos_RandomValues_SameAsMathN()
         {
             //arrange
-            Angle<TNumeric> subject = Random.NextVariant<Angle<TNumeric>>();
+            AngleN<TNumeric> subject = Random.NextVariant<AngleN<TNumeric>>();
 
             //act
             //assert
@@ -74,7 +74,7 @@ namespace Jodo.Geometry.Tests
         public void Cosh_RandomValues_SameAsMathN()
         {
             //arrange
-            Angle<TNumeric> subject = Random.NextVariant<Angle<TNumeric>>();
+            AngleN<TNumeric> subject = Random.NextVariant<AngleN<TNumeric>>();
 
             //act
             //assert
@@ -87,7 +87,7 @@ namespace Jodo.Geometry.Tests
         public void Sin_RandomValues_SameAsMathN()
         {
             //arrange
-            Angle<TNumeric> subject = Random.NextVariant<Angle<TNumeric>>();
+            AngleN<TNumeric> subject = Random.NextVariant<AngleN<TNumeric>>();
 
             //act
             //assert
@@ -100,7 +100,7 @@ namespace Jodo.Geometry.Tests
         public void Sinh_RandomValues_SameAsMathN()
         {
             //arrange
-            Angle<TNumeric> subject = Random.NextVariant<Angle<TNumeric>>();
+            AngleN<TNumeric> subject = Random.NextVariant<AngleN<TNumeric>>();
 
             //act
             //assert
@@ -113,7 +113,7 @@ namespace Jodo.Geometry.Tests
         public void Tan_RandomValues_SameAsMathN()
         {
             //arrange
-            Angle<TNumeric> subject = Random.NextVariant<Angle<TNumeric>>();
+            AngleN<TNumeric> subject = Random.NextVariant<AngleN<TNumeric>>();
 
             //act
             //assert
@@ -126,7 +126,7 @@ namespace Jodo.Geometry.Tests
         public void Tanh_RandomValues_SameAsMathN()
         {
             //arrange
-            Angle<TNumeric> subject = Random.NextVariant<Angle<TNumeric>>();
+            AngleN<TNumeric> subject = Random.NextVariant<AngleN<TNumeric>>();
 
             //act
             //assert
@@ -139,8 +139,8 @@ namespace Jodo.Geometry.Tests
         public void CompareToMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>();
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>();
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>();
+            AngleN<TNumeric> input2 = Random.NextVariant<AngleN<TNumeric>>();
 
             //act
             //assert
@@ -155,8 +155,8 @@ namespace Jodo.Geometry.Tests
         public void GreaterThanMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.NonError);
+            AngleN<TNumeric> input2 = Random.NextVariant<AngleN<TNumeric>>(Variants.NonError);
 
             //act
             //assert
@@ -171,8 +171,8 @@ namespace Jodo.Geometry.Tests
         public void GreaterThanOrEqualToMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.NonError);
+            AngleN<TNumeric> input2 = Random.NextVariant<AngleN<TNumeric>>(Variants.NonError);
 
             //act
             //assert
@@ -187,8 +187,8 @@ namespace Jodo.Geometry.Tests
         public void LessThanMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.NonError);
+            AngleN<TNumeric> input2 = Random.NextVariant<AngleN<TNumeric>>(Variants.NonError);
 
             //act
             //assert
@@ -203,8 +203,8 @@ namespace Jodo.Geometry.Tests
         public void LessThanOrEqualToMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.NonError);
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.NonError);
+            AngleN<TNumeric> input2 = Random.NextVariant<AngleN<TNumeric>>(Variants.NonError);
 
             //act
             //assert
@@ -219,96 +219,96 @@ namespace Jodo.Geometry.Tests
         public void AdditionMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input2 = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
             AssertSame.Result(
                 () => input1 + input2,
-                () => Angle.FromDegrees(input1.Degrees.Add(input2.Degrees)));
+                () => AngleN.FromDegrees(input1.Degrees.Add(input2.Degrees)));
         }
 
         [Test, Repeat(RandomVariations)]
         public void SubtractionMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input2 = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
             AssertSame.Result(
                 () => input1 - input2,
-                () => Angle.FromDegrees(input1.Degrees.Subtract(input2.Degrees)));
+                () => AngleN.FromDegrees(input1.Degrees.Subtract(input2.Degrees)));
         }
 
         [Test, Repeat(RandomVariations)]
         public void DivisionMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
-            Angle<TNumeric> input2 = Angle.FromDegrees(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(1), ConvertN.ToNumeric<TNumeric>(10), Generation.Extended));
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input2 = AngleN.FromDegrees(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(1), ConvertN.ToNumeric<TNumeric>(10), Generation.Extended));
 
             //act
             //assert
             AssertSame.Result(
                 () => input1 / input2,
-                () => Angle.FromDegrees(input1.Degrees.Divide(input2.Degrees)));
+                () => AngleN.FromDegrees(input1.Degrees.Divide(input2.Degrees)));
         }
 
         [Test, Repeat(RandomVariations)]
         public void MultiplicationMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
-            Angle<TNumeric> input2 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input2 = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
             AssertSame.Result(
                 () => input1 * input2,
-                () => Angle.FromDegrees(input1.Degrees.Multiply(input2.Degrees)));
+                () => AngleN.FromDegrees(input1.Degrees.Multiply(input2.Degrees)));
         }
 
         [Test, Repeat(RandomVariations)]
         public void RemainderMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input1 = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
-            Angle<TNumeric> input2 = Angle.FromDegrees(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(1), ConvertN.ToNumeric<TNumeric>(10), Generation.Extended));
+            AngleN<TNumeric> input1 = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input2 = AngleN.FromDegrees(Random.NextNumeric(ConvertN.ToNumeric<TNumeric>(1), ConvertN.ToNumeric<TNumeric>(10), Generation.Extended));
 
             //act
             //assert
             AssertSame.Result(
                 () => input1 % input2,
-                () => Angle.FromDegrees(input1.Degrees.Remainder(input2.Degrees)));
+                () => AngleN.FromDegrees(input1.Degrees.Remainder(input2.Degrees)));
         }
 
         [Test, Repeat(RandomVariations)]
         public void UnaryPlusMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
             AssertSame.Result(
                 () => +input,
-                () => Angle.FromDegrees(input.Degrees.Positive()));
+                () => AngleN.FromDegrees(input.Degrees.Positive()));
         }
 
         [Test, Repeat(RandomVariations)]
         public void UnaryMinusMethods_RandomValue_SameResult()
         {
             //arrange
-            Angle<TNumeric> input = Random.NextVariant<Angle<TNumeric>>(Variants.LowMagnitude);
+            AngleN<TNumeric> input = Random.NextVariant<AngleN<TNumeric>>(Variants.LowMagnitude);
 
             //act
             //assert
             AssertSame.Result(
                 () => -input,
-                () => Angle.FromDegrees(input.Degrees.Negative()));
+                () => AngleN.FromDegrees(input.Degrees.Negative()));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -320,8 +320,8 @@ namespace Jodo.Geometry.Tests
             //act
             //assert
             AssertSame.Result(
-                () => Angle.FromRadians(radians),
-                () => Angle.FromDegrees(Angle.RadiansToDegrees(radians)));
+                () => AngleN.FromRadians(radians),
+                () => AngleN.FromDegrees(AngleN.RadiansToDegrees(radians)));
         }
 
         [Test, Repeat(RandomVariations)]
@@ -334,7 +334,34 @@ namespace Jodo.Geometry.Tests
             //assert
             AssertSame.Result(
                 () => degrees,
-                () => Angle.FromDegrees(degrees).Degrees);
+                () => AngleN.FromDegrees(degrees).Degrees);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void TryParse_NoUnitDefaultFormat_CorrectRoundTrip()
+        {
+            //arrange
+            AngleN<TNumeric> input = AngleN.FromDegrees(Random.NextVariant<TNumeric>(Variants.LowMagnitude));
+
+            //act
+            AngleN<TNumeric> result = AngleN.Parse<TNumeric>(input.ToString(), null, null);
+
+            //assert
+            result.Should().Be(input);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void TryParse_DegreesWithDefaultFormat_CorrectRoundTrip()
+        {
+            //arrange
+            AngleN<TNumeric> input = AngleN.FromDegrees(Random.NextVariant<TNumeric>(Variants.LowMagnitude));
+            string unit = Random.Choose("°", "deg", "degree", "degrees", "DEGREES");
+
+            //act
+            AngleN<TNumeric> result = AngleN.Parse<TNumeric>($"{input.Degrees} {unit}", null, null);
+
+            //assert
+            result.Should().Be(input);
         }
     }
 }

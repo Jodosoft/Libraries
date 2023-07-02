@@ -17,15 +17,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class SByteNTests
+    public sealed class SByteNTests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<SByteN> { }
+        public sealed class FormattableTests : FormattableTestBase<SByteN> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<SByteN> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<SByteN> { }
         public sealed class NumericCastTests : NumericCastTestBase<SByteN> { }
@@ -42,5 +47,33 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericTests : NumericTestBase<SByteN> { }
         public sealed class ObjectTests : ObjectTestBase<SByteN> { }
         public sealed class SerializableTests : SerializableTestBase<SByteN> { }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            SByteN input = Random.NextVariant<SByteN>();
+            SByteN expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            SByteN input = Random.NextVariant<SByteN>();
+            SByteN expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

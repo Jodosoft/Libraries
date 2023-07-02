@@ -72,6 +72,12 @@ namespace Jodo.Numerics
             return ((double)this).ToString(format, formatProvider);
         }
 
+        [CLSCompliant(false)]
+        public static ulong GetScalingFactor() => ScalingFactor;
+
+        [CLSCompliant(false)]
+        public static ulong GetScaledValue(UFix64 value) => value._scaledValue;
+
         public static bool TryParse(string s, IFormatProvider? provider, out UFix64 result) => FuncExtensions.Try(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64 result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out UFix64 result) => FuncExtensions.Try(() => Parse(s, style), out result);
@@ -112,6 +118,7 @@ namespace Jodo.Numerics
         [CLSCompliant(false)] public static implicit operator UFix64(ushort value) => new UFix64(value * ScalingFactor);
         public static explicit operator UFix64(decimal value) => value < 0 ? new UFix64(0) : new UFix64((ulong)(value * ScalingFactor));
         public static explicit operator UFix64(double value) => value < 0 ? new UFix64(0) : FromDouble(value);
+        public static explicit operator UFix64(Fix64 value) => new UFix64((ulong)Fix64.GetScaledValue(value));
         public static explicit operator UFix64(float value) => value < 0 ? new UFix64(0) : new UFix64((ulong)(value * ScalingFactor));
         public static explicit operator UFix64(int value) => new UFix64((ulong)value * ScalingFactor);
         public static explicit operator UFix64(long value) => new UFix64((ulong)value * ScalingFactor);

@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions;
 using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
@@ -442,6 +443,53 @@ namespace Jodo.Numerics.Tests
 
             //assert
             AssertSame.Outcome(actions);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void GetTypeCode_RandomValues_SamedAsUnderlying()
+        {
+            //arrange
+            TNumeric subject = Random.NextVariant<TNumeric>();
+
+            //act
+            //assert
+            AssertSame.Value(
+                Type.GetTypeCode(typeof(TUnderlying)),
+                ((IConvertible)subject).GetTypeCode());
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void ToChar_RandomValues_SamedAsUnderlying()
+        {
+            //arrange
+            TUnderlying input = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TNumeric subject = DynamicInvoke.ConversionOperator<TNumeric>(input);
+
+            //act
+            char underlying()
+                => ((IConvertible)input).ToChar(CultureInfo.CurrentCulture);
+            char numeric()
+                => ((IConvertible)subject).ToChar(CultureInfo.CurrentCulture);
+
+            //assert
+            AssertSame.Outcome(underlying, numeric);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void ToDateTime_RandomValues_SamedAsUnderlying()
+        {
+            //arrange
+            TUnderlying input = DynamicInvoke.ConversionOperator<TUnderlying>(Random.NextVariant<TNumeric>());
+            TNumeric subject = DynamicInvoke.ConversionOperator<TNumeric>(input);
+
+            //act
+            DateTime underlying()
+                => ((IConvertible)input).ToDateTime(CultureInfo.CurrentCulture);
+            DateTime numeric()
+                => ((IConvertible)subject).ToDateTime(CultureInfo.CurrentCulture);
+
+            //assert
+            AssertSame.Outcome(underlying, numeric);
         }
     }
 }

@@ -72,6 +72,12 @@ namespace Jodo.Numerics.Clamped
             return ((double)this).ToString(format, formatProvider);
         }
 
+        [CLSCompliant(false)]
+        public static ulong GetScalingFactor() => ScalingFactor;
+
+        [CLSCompliant(false)]
+        public static ulong GetScaledValue(UFix64M value) => value._scaledValue;
+
         public static bool TryParse(string s, IFormatProvider? provider, out UFix64M result) => FuncExtensions.Try(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out UFix64M result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out UFix64M result) => FuncExtensions.Try(() => Parse(s, style), out result);
@@ -112,6 +118,7 @@ namespace Jodo.Numerics.Clamped
         [CLSCompliant(false)] public static implicit operator UFix64M(ushort value) => new UFix64M(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
         public static explicit operator UFix64M(decimal value) => value < 0 ? new UFix64M(0) : new UFix64M(ConvertN.ToUInt64(Clamped.Multiply(value, ScalingFactor), Conversion.CastClamp));
         public static explicit operator UFix64M(double value) => value < 0 ? new UFix64M(0) : FromDouble(value);
+        public static explicit operator UFix64M(Fix64M value) => new UFix64M(ConvertN.ToUInt64(Fix64M.GetScaledValue(value), Conversion.CastClamp));
         public static explicit operator UFix64M(float value) => value < 0 ? new UFix64M(0) : new UFix64M(ConvertN.ToUInt64(value * ScalingFactor, Conversion.CastClamp));
         public static explicit operator UFix64M(int value) => new UFix64M(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
         public static explicit operator UFix64M(long value) => new UFix64M(ConvertN.ToUInt64(value, Conversion.CastClamp) * ScalingFactor);
@@ -140,7 +147,7 @@ namespace Jodo.Numerics.Clamped
         public static UFix64M operator &(UFix64M left, UFix64M right) => new UFix64M(left._scaledValue & right._scaledValue);
         public static UFix64M operator -(UFix64M _) => 0;
         public static UFix64M operator -(UFix64M left, UFix64M right) => new UFix64M(Clamped.Subtract(left._scaledValue, right._scaledValue));
-        public static UFix64M operator --(UFix64M value) => new UFix64M(value._scaledValue - ScalingFactor);
+        public static UFix64M operator --(UFix64M value) => new UFix64M(Clamped.Subtract(value._scaledValue, ScalingFactor));
         public static UFix64M operator *(UFix64M left, UFix64M right) => new UFix64M(Clamped.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
         public static UFix64M operator /(UFix64M left, UFix64M right) => new UFix64M(Clamped.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
         public static UFix64M operator ^(UFix64M left, UFix64M right) => new UFix64M(left._scaledValue ^ right._scaledValue);
@@ -148,7 +155,7 @@ namespace Jodo.Numerics.Clamped
         public static UFix64M operator ~(UFix64M value) => new UFix64M(~value._scaledValue);
         public static UFix64M operator +(UFix64M left, UFix64M right) => new UFix64M(Clamped.Add(left._scaledValue, right._scaledValue));
         public static UFix64M operator +(UFix64M value) => value;
-        public static UFix64M operator ++(UFix64M value) => new UFix64M(value._scaledValue + ScalingFactor);
+        public static UFix64M operator ++(UFix64M value) => new UFix64M(Clamped.Add(value._scaledValue, ScalingFactor));
         public static UFix64M operator <<(UFix64M left, int right) => new UFix64M(left._scaledValue << right);
         public static UFix64M operator >>(UFix64M left, int right) => new UFix64M(left._scaledValue >> right);
 

@@ -1,1 +1,3 @@
-﻿Provides utilities and abstractions that are used throughout the Jodo libraries.
+﻿Utilities, abstractions and shims used throughout the Jodo libraries.
+
+See: https://github.com/JosephJShort/Jodo/#primitives

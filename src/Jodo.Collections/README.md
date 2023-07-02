@@ -1,1 +1,3 @@
-﻿Provides extra collection classes and interfaces to complement the .NET API
+﻿Extended collection classes, utilities and abstractions.
+
+See: https://github.com/JosephJShort/Jodo/#collections

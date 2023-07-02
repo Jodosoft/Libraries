@@ -17,18 +17,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
 using Jodo.Numerics.Clamped;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class SByteMTests
+    public sealed class SByteMTests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<SByteM> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<SByteM> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<SByteM> { }
+        public sealed class FormattableTests : FormattableTestBase<SByteM> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<SByteM> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<SByteM> { }
         public sealed class NumericCastTests : NumericCastTestBase<SByteM> { }
@@ -44,5 +49,33 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericTests : NumericTestBase<SByteM> { }
         public sealed class ObjectTests : ObjectTestBase<SByteM> { }
         public sealed class SerializableTests : SerializableTestBase<SByteM> { }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            SByteM input = Random.NextVariant<SByteM>();
+            SByteM expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            SByteM input = Random.NextVariant<SByteM>();
+            SByteM expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

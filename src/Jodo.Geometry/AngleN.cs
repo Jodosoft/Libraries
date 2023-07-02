@@ -29,24 +29,24 @@ namespace Jodo.Geometry
 {
     [Serializable]
     [DebuggerDisplay("{ToString(),nq}")]
-    public readonly struct Angle<TNumeric> :
+    public readonly struct AngleN<TNumeric> :
             IComparable,
-            IComparable<Angle<TNumeric>>,
-            IEquatable<Angle<TNumeric>>,
+            IComparable<AngleN<TNumeric>>,
+            IEquatable<AngleN<TNumeric>>,
             IFormattable,
-            IProvider<IBinaryIO<Angle<TNumeric>>>,
-            IProvider<IVariantRandom<Angle<TNumeric>>>,
+            IProvider<IBinaryIO<AngleN<TNumeric>>>,
+            IProvider<IVariantRandom<AngleN<TNumeric>>>,
             ISerializable
         where TNumeric : struct, INumeric<TNumeric>
     {
         public readonly TNumeric Degrees;
 
-        public Angle(TNumeric degrees)
+        public AngleN(TNumeric degrees)
         {
             Degrees = degrees;
         }
 
-        private Angle(SerializationInfo info, StreamingContext context)
+        private AngleN(SerializationInfo info, StreamingContext context)
         {
             Degrees = (TNumeric)info.GetValue(nameof(Degrees), typeof(TNumeric));
         }
@@ -56,62 +56,62 @@ namespace Jodo.Geometry
             info.AddValue(nameof(Degrees), Degrees, typeof(TNumeric));
         }
 
-        public Angle<TNumeric> Normalise()
+        public AngleN<TNumeric> Normalise()
         {
-            return new Angle<TNumeric>(Degrees.Remainder(ConvertN.ToNumeric<TNumeric>(360, Conversion.Cast)));
+            return new AngleN<TNumeric>(Degrees.Remainder(ConvertN.ToNumeric<TNumeric>(360, Conversion.Cast)));
         }
 
-        public int CompareTo(object? obj) => obj is Angle<TNumeric> other ? CompareTo(other) : 1;
-        public int CompareTo(Angle<TNumeric> other) => Degrees.CompareTo(other.Degrees);
-        public bool Equals(Angle<TNumeric> other) => Degrees.Equals(other.Degrees);
-        public override bool Equals(object? obj) => obj is Angle<TNumeric> angle && Equals(angle);
+        public int CompareTo(object? obj) => obj is AngleN<TNumeric> other ? CompareTo(other) : 1;
+        public int CompareTo(AngleN<TNumeric> other) => Degrees.CompareTo(other.Degrees);
+        public bool Equals(AngleN<TNumeric> other) => Degrees.Equals(other.Degrees);
+        public override bool Equals(object? obj) => obj is AngleN<TNumeric> angle && Equals(angle);
         public override int GetHashCode() => Degrees.GetHashCode();
         public override string ToString() => $"{Degrees}°";
         public string ToString(string? format, IFormatProvider? formatProvider) => $"{Degrees.ToString(format, formatProvider)}°";
 
-        public static bool operator !=(Angle<TNumeric> left, Angle<TNumeric> right) => !left.Equals(right);
-        public static bool operator <(Angle<TNumeric> left, Angle<TNumeric> right) => left.Degrees.IsLessThan(right.Degrees);
-        public static bool operator <=(Angle<TNumeric> left, Angle<TNumeric> right) => left.Degrees.IsLessThanOrEqualTo(right.Degrees);
-        public static bool operator ==(Angle<TNumeric> left, Angle<TNumeric> right) => left.Equals(right);
-        public static bool operator >(Angle<TNumeric> left, Angle<TNumeric> right) => left.Degrees.IsGreaterThan(right.Degrees);
-        public static bool operator >=(Angle<TNumeric> left, Angle<TNumeric> right) => left.Degrees.IsGreaterThanOrEqualTo(right.Degrees);
-        public static Angle<TNumeric> operator %(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Remainder(right.Degrees));
-        public static Angle<TNumeric> operator -(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Subtract(right.Degrees));
-        public static Angle<TNumeric> operator -(Angle<TNumeric> value) => new Angle<TNumeric>(value.Degrees.Negative());
-        public static Angle<TNumeric> operator *(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Multiply(right.Degrees));
-        public static Angle<TNumeric> operator /(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Divide(right.Degrees));
-        public static Angle<TNumeric> operator +(Angle<TNumeric> left, Angle<TNumeric> right) => new Angle<TNumeric>(left.Degrees.Add(right.Degrees));
-        public static Angle<TNumeric> operator +(Angle<TNumeric> value) => new Angle<TNumeric>(value.Degrees);
+        public static bool operator !=(AngleN<TNumeric> left, AngleN<TNumeric> right) => !left.Equals(right);
+        public static bool operator <(AngleN<TNumeric> left, AngleN<TNumeric> right) => left.Degrees.IsLessThan(right.Degrees);
+        public static bool operator <=(AngleN<TNumeric> left, AngleN<TNumeric> right) => left.Degrees.IsLessThanOrEqualTo(right.Degrees);
+        public static bool operator ==(AngleN<TNumeric> left, AngleN<TNumeric> right) => left.Equals(right);
+        public static bool operator >(AngleN<TNumeric> left, AngleN<TNumeric> right) => left.Degrees.IsGreaterThan(right.Degrees);
+        public static bool operator >=(AngleN<TNumeric> left, AngleN<TNumeric> right) => left.Degrees.IsGreaterThanOrEqualTo(right.Degrees);
+        public static AngleN<TNumeric> operator %(AngleN<TNumeric> left, AngleN<TNumeric> right) => new AngleN<TNumeric>(left.Degrees.Remainder(right.Degrees));
+        public static AngleN<TNumeric> operator -(AngleN<TNumeric> left, AngleN<TNumeric> right) => new AngleN<TNumeric>(left.Degrees.Subtract(right.Degrees));
+        public static AngleN<TNumeric> operator -(AngleN<TNumeric> value) => new AngleN<TNumeric>(value.Degrees.Negative());
+        public static AngleN<TNumeric> operator *(AngleN<TNumeric> left, AngleN<TNumeric> right) => new AngleN<TNumeric>(left.Degrees.Multiply(right.Degrees));
+        public static AngleN<TNumeric> operator /(AngleN<TNumeric> left, AngleN<TNumeric> right) => new AngleN<TNumeric>(left.Degrees.Divide(right.Degrees));
+        public static AngleN<TNumeric> operator +(AngleN<TNumeric> left, AngleN<TNumeric> right) => new AngleN<TNumeric>(left.Degrees.Add(right.Degrees));
+        public static AngleN<TNumeric> operator +(AngleN<TNumeric> value) => new AngleN<TNumeric>(value.Degrees);
 
-        IBinaryIO<Angle<TNumeric>> IProvider<IBinaryIO<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
-        IVariantRandom<Angle<TNumeric>> IProvider<IVariantRandom<Angle<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IBinaryIO<AngleN<TNumeric>> IProvider<IBinaryIO<AngleN<TNumeric>>>.GetInstance() => Utilities.Instance;
+        IVariantRandom<AngleN<TNumeric>> IProvider<IVariantRandom<AngleN<TNumeric>>>.GetInstance() => Utilities.Instance;
 
         private sealed class Utilities :
-            IBinaryIO<Angle<TNumeric>>,
-            IVariantRandom<Angle<TNumeric>>
+            IBinaryIO<AngleN<TNumeric>>,
+            IVariantRandom<AngleN<TNumeric>>
         {
             public static readonly Utilities Instance = new Utilities();
 
-            void IBinaryIO<Angle<TNumeric>>.Write(BinaryWriter writer, Angle<TNumeric> value)
+            void IBinaryIO<AngleN<TNumeric>>.Write(BinaryWriter writer, AngleN<TNumeric> value)
             {
                 writer.Write(value.Degrees);
             }
 
-            Angle<TNumeric> IBinaryIO<Angle<TNumeric>>.Read(BinaryReader reader)
+            AngleN<TNumeric> IBinaryIO<AngleN<TNumeric>>.Read(BinaryReader reader)
             {
-                return new Angle<TNumeric>(reader.Read<TNumeric>());
+                return new AngleN<TNumeric>(reader.Read<TNumeric>());
             }
 
-            Angle<TNumeric> IVariantRandom<Angle<TNumeric>>.Generate(Random random, Variants variants)
-                => new Angle<TNumeric>(random.NextVariant<TNumeric>(variants));
+            AngleN<TNumeric> IVariantRandom<AngleN<TNumeric>>.Generate(Random random, Variants variants)
+                => new AngleN<TNumeric>(random.NextVariant<TNumeric>(variants));
         }
     }
 
-    public static class Angle
+    public static class AngleN
     {
-        public static Angle<TNumeric> Zero<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
+        public static AngleN<TNumeric> Zero<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
         {
-            return new Angle<TNumeric>(Numeric.Zero<TNumeric>());
+            return new AngleN<TNumeric>(Numeric.Zero<TNumeric>());
         }
 
         public static TNumeric RadiansToDegrees<TNumeric>(TNumeric radians) where TNumeric : struct, INumeric<TNumeric>
@@ -124,13 +124,13 @@ namespace Jodo.Geometry
             return degrees.Multiply(ConvertN.ToNumeric<TNumeric>(180d / Math.PI));
         }
 
-        public static Angle<TNumeric> FromDegrees<TNumeric>(TNumeric degrees) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(degrees);
+        public static AngleN<TNumeric> FromDegrees<TNumeric>(TNumeric degrees) where TNumeric : struct, INumeric<TNumeric>
+            => new AngleN<TNumeric>(degrees);
 
-        public static Angle<TNumeric> FromRadians<TNumeric>(TNumeric radians) where TNumeric : struct, INumeric<TNumeric>
-            => new Angle<TNumeric>(RadiansToDegrees(radians));
+        public static AngleN<TNumeric> FromRadians<TNumeric>(TNumeric radians) where TNumeric : struct, INumeric<TNumeric>
+            => new AngleN<TNumeric>(RadiansToDegrees(radians));
 
-        public static Angle<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
+        public static AngleN<TNumeric> Parse<TNumeric>(string s, NumberStyles? style, IFormatProvider? provider) where TNumeric : struct, INumeric<TNumeric>
         {
             string trimmed = s.Trim();
 

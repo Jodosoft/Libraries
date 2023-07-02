@@ -72,6 +72,8 @@ namespace Jodo.Numerics.Clamped
             return ((double)this).ToString(format, formatProvider);
         }
 
+        public static long GetScalingFactor() => ScalingFactor;
+        public static long GetScaledValue(Fix64M value) => value._scaledValue;
         public static bool TryParse(string s, IFormatProvider? provider, out Fix64M result) => FuncExtensions.Try(() => Parse(s, provider), out result);
         public static bool TryParse(string s, NumberStyles style, IFormatProvider? provider, out Fix64M result) => FuncExtensions.Try(() => Parse(s, style, provider), out result);
         public static bool TryParse(string s, NumberStyles style, out Fix64M result) => FuncExtensions.Try(() => Parse(s, style), out result);
@@ -117,6 +119,7 @@ namespace Jodo.Numerics.Clamped
         public static implicit operator Fix64M(byte value) => new Fix64M(value * ScalingFactor);
         public static implicit operator Fix64M(int value) => new Fix64M(value * ScalingFactor);
         public static implicit operator Fix64M(short value) => new Fix64M(value * ScalingFactor);
+        public static explicit operator Fix64M(UFix64M value) => new Fix64M(ConvertN.ToInt64(UFix64M.GetScaledValue(value), Conversion.CastClamp));
 
         [CLSCompliant(false)] public static explicit operator sbyte(Fix64M value) => ConvertN.ToSByte(value._scaledValue / ScalingFactor, Conversion.CastClamp);
         [CLSCompliant(false)] public static explicit operator uint(Fix64M value) => ConvertN.ToUInt32(value._scaledValue / ScalingFactor, Conversion.CastClamp);
@@ -139,8 +142,8 @@ namespace Jodo.Numerics.Clamped
         public static Fix64M operator %(Fix64M left, Fix64M right) => new Fix64M(Clamped.Remainder(left._scaledValue, right._scaledValue));
         public static Fix64M operator &(Fix64M left, Fix64M right) => new Fix64M(left._scaledValue & right._scaledValue);
         public static Fix64M operator -(Fix64M left, Fix64M right) => new Fix64M(Clamped.Subtract(left._scaledValue, right._scaledValue));
-        public static Fix64M operator --(Fix64M value) => new Fix64M(value._scaledValue - ScalingFactor);
-        public static Fix64M operator -(Fix64M value) => new Fix64M(-value._scaledValue);
+        public static Fix64M operator --(Fix64M value) => new Fix64M(Clamped.Subtract(value._scaledValue, ScalingFactor));
+        public static Fix64M operator -(Fix64M value) => new Fix64M(value._scaledValue == long.MinValue ? long.MaxValue : -value._scaledValue);
         public static Fix64M operator *(Fix64M left, Fix64M right) => new Fix64M(Clamped.ScaledMultiply(left._scaledValue, right._scaledValue, ScalingFactor));
         public static Fix64M operator /(Fix64M left, Fix64M right) => new Fix64M(Clamped.ScaledDivide(left._scaledValue, right._scaledValue, ScalingFactor));
         public static Fix64M operator ^(Fix64M left, Fix64M right) => new Fix64M(left._scaledValue ^ right._scaledValue);
@@ -148,7 +151,7 @@ namespace Jodo.Numerics.Clamped
         public static Fix64M operator ~(Fix64M value) => new Fix64M(~value._scaledValue);
         public static Fix64M operator +(Fix64M left, Fix64M right) => new Fix64M(Clamped.Add(left._scaledValue, right._scaledValue));
         public static Fix64M operator +(Fix64M value) => value;
-        public static Fix64M operator ++(Fix64M value) => new Fix64M(value._scaledValue + ScalingFactor);
+        public static Fix64M operator ++(Fix64M value) => new Fix64M(Clamped.Add(value._scaledValue, ScalingFactor));
         public static Fix64M operator <<(Fix64M left, int right) => new Fix64M(left._scaledValue << right);
         public static Fix64M operator >>(Fix64M left, int right) => new Fix64M(left._scaledValue >> right);
 

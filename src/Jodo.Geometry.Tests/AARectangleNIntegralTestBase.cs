@@ -17,29 +17,33 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using FluentAssertions;
 using Jodo.Numerics;
-using Jodo.Primitives;
 using Jodo.Testing;
 using NUnit.Framework;
 
 namespace Jodo.Geometry.Tests
 {
-    public abstract class TriangleTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public abstract class AARectangleNIntegralTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
-        [Test]
-        public void EqualsMethods_RandomValues_SameOutcome()
+        [SetUp]
+        public void SetUp() => Assert.That(Numeric.IsIntegral<TNumeric>());
+
+        [Test, Repeat(RandomVariations)]
+        public void FromBottomLeft_UnitSquare_CorrectVertices()
         {
             //arrange
-            Triangle<TNumeric> input1 = Random.NextVariant<Triangle<TNumeric>>();
-            Triangle<TNumeric> input2 = Random.Choose(input1, Random.NextVariant<Triangle<TNumeric>>());
+            AARectangleN<TNumeric> subject = AARectangleN.FromBottomLeft(
+                new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()),
+                new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
 
             //act
+            Vector2N<TNumeric> bottomLeftResult = subject.GetBottomLeft();
+            Vector2N<TNumeric> topRightResult = subject.GetTopRight();
+
             //assert
-            AssertSame.Outcome(
-                () => input1.Equals(input2),
-                () => input1.Equals((object)input2),
-                () => input1 == input2,
-                () => !(input1 != input2));
+            bottomLeftResult.Should().Be(new Vector2N<TNumeric>(Numeric.Zero<TNumeric>(), Numeric.Zero<TNumeric>()));
+            topRightResult.Should().Be(new Vector2N<TNumeric>(Numeric.One<TNumeric>(), Numeric.One<TNumeric>()));
         }
     }
 }

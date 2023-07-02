@@ -17,30 +17,80 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using FluentAssertions;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class Fix64Tests
+    public sealed class Fix64Tests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<Fix64> { }
+        public sealed class FormattableTests : FormattableTestBase<Fix64> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<Fix64> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<Fix64> { }
         public sealed class NumericCastTests : NumericCastTestBase<Fix64> { }
         public sealed class NumericConversionConsistencyTests : NumericConversionConsistencyTestBase<Fix64> { }
         public sealed class NumericConvertTests : NumericConvertTestBase<Fix64> { }
+        public sealed class NumericFixedPointTests : NumericFixedPointTestBase<Fix64> { }
         public sealed class NumericMathTests : NumericMathTestBase<Fix64> { }
         public sealed class NumericNonFloatingPointTests : NumericNonFloatingPointTestBase<Fix64> { }
         public sealed class NumericNonInfinityTests : NumericNonInfinityTestBase<Fix64> { }
         public sealed class NumericNonNaNTests : NumericNonNaNTestBase<Fix64> { }
+        public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64> { }
         public sealed class NumericRealTests : NumericRealTestBase<Fix64> { }
         public sealed class NumericSignedTests : NumericSignedTestBase<Fix64> { }
         public sealed class NumericStringConvertTests : NumericStringConvertTestBase<Fix64> { }
         public sealed class NumericTests : NumericTestBase<Fix64> { }
         public sealed class ObjectTests : ObjectTestBase<Fix64> { }
-        public sealed class NumericRandomTestBase : NumericRandomTestBase<Fix64> { }
         public sealed class SerializableTests : SerializableTestBase<Fix64> { }
+
+        [Test]
+        public void GetScalingFactor_ReturnsOneMillion()
+            => Fix64.GetScalingFactor().Should().Be(1_000_000);
+
+        [Test, Repeat(RandomVariations)]
+        public void CastToUFix64_RandomValue_RoundTrips()
+        {
+            //arrange
+            Fix64 input = Random.NextVariant<Fix64>();
+
+            //act
+            Fix64 result = (Fix64)(UFix64)input;
+
+            //assert
+            result.Should().Be(input);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            Fix64 input = Random.NextVariant<Fix64>();
+            Fix64 expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            Fix64 input = Random.NextVariant<Fix64>();
+            Fix64 expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

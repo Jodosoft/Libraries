@@ -17,18 +17,23 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
+using FluentAssertions;
 using Jodo.Numerics.Clamped;
+using Jodo.Primitives;
 using Jodo.Primitives.Tests;
 using Jodo.Testing;
 using Jodo.Testing.NewtonsoftJson;
+using NUnit.Framework;
 
 namespace Jodo.Numerics.Tests
 {
-    public static class DoubleMTests
+    public sealed class DoubleMTests : GlobalFixtureBase
     {
         public sealed class BinaryIOTests : BinaryIOTestBase<DoubleM> { }
         public sealed class CheckedNumericConversionTests : CheckedNumericConversionTestBase<DoubleM> { }
         public sealed class CheckedNumericTests : CheckedNumericTestBase<DoubleM> { }
+        public sealed class FormattableTests : FormattableTestBase<DoubleM> { }
         public sealed class JsonConvertTests : JsonConvertTestBase<DoubleM> { }
         public sealed class NumericBitConverterTests : NumericBitConverterTestBase<DoubleM> { }
         public sealed class NumericCastTests : NumericCastTestBase<DoubleM> { }
@@ -44,5 +49,33 @@ namespace Jodo.Numerics.Tests
         public sealed class NumericTests : NumericTestBase<DoubleM> { }
         public sealed class ObjectTests : ObjectTestBase<DoubleM> { }
         public sealed class SerializableTests : SerializableTestBase<DoubleM> { }
+
+        [Test, Repeat(RandomVariations)]
+        public void IncrementOperator_RandomInputs_SameAsPlusOne()
+        {
+            //arrange
+            DoubleM input = Random.NextVariant<DoubleM>(Variants.NonError);
+            DoubleM expected = input + 1;
+
+            //act
+            input++;
+
+            //assert
+            input.Should().Be(expected);
+        }
+
+        [Test, Repeat(RandomVariations)]
+        public void DecrementOperator_RandomInputs_SameAsMinusOne()
+        {
+            //arrange
+            DoubleM input = Random.NextVariant<DoubleM>(Variants.NonError);
+            DoubleM expected = input - 1;
+
+            //act
+            input--;
+
+            //assert
+            input.Should().Be(expected);
+        }
     }
 }

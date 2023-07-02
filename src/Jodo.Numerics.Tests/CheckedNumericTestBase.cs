@@ -26,6 +26,19 @@ namespace Jodo.Numerics.Tests
 {
     public class CheckedNumericTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
+        [Test, Repeat(RandomVariations)]
+        public void Abs_AnyValue_ShouldBeNonNegative()
+        {
+            //arrange
+            TNumeric input = Numeric.MaxValue<TNumeric>();
+
+            //act
+            TNumeric result = MathN.Abs(input);
+
+            //assert
+            result.Should().BeGreaterThanOrEqualTo(Numeric.Zero<TNumeric>());
+        }
+
         [Test]
         public void Add_MaxValueAndMaxValue_ReturnsMaxValue()
         {
