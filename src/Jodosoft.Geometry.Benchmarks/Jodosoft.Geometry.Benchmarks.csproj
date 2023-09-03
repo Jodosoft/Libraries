@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Benchmarks.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\Jodosoft.Geometry\Jodosoft.Geometry.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,6 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Tests.props" />
-  <ItemGroup>
-    <ProjectReference Include="..\Jodo.Testing\Jodo.Testing.csproj" />
-  </ItemGroup>
-</Project>

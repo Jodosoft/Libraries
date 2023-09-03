@@ -1,7 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Tests.props" />
-  <ItemGroup>
-    <ProjectReference Include="..\Jodo.Geometry\Jodo.Geometry.csproj" />
-    <ProjectReference Include="..\Jodo.Numerics.Tests\Jodo.Numerics.Tests.csproj" />
-  </ItemGroup>
-</Project>

@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Tests.props" />
+  <PropertyGroup>
+    <IsTestProject>False</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jodosoft.Primitives\Jodosoft.Primitives.csproj" />
+  </ItemGroup>
+</Project>

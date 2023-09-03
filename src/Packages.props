@@ -35,10 +35,10 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <AssemblyTitle>$(MSBuildProjectName)</AssemblyTitle>
-    <Authors>Joseph J. Short</Authors>
-    <Company>Joseph J. Short</Company>
+    <Authors>Joe Lawry-Short</Authors>
+    <Company>Joe Lawry-Short</Company>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <Copyright>Copyright © Joseph J. Short 2022</Copyright>
+    <Copyright>Copyright © Joe Lawry-Short 2023</Copyright>
     <DefaultItemExcludes>$(DefaultItemExcludes);bin\**</DefaultItemExcludes>
     <Description>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)\README.md"))</Description>
     <Deterministic>true</Deterministic>
@@ -52,15 +52,15 @@
     <PackageIcon>PackageIcon.png</PackageIcon>
     <PackageId>$(MSBuildProjectName)</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/JosephJShort/Jodo</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Jodosoft/Libraries</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>https://github.com/JosephJShort/Jodo/#changelog</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Jodosoft/Libraries/#changelog</PackageReleaseNotes>
     <PackageTags>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)\TAGS.md"))</PackageTags>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-    <Product>Jodo</Product>
+    <Product>The Jodosoft Libraries</Product>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/JosephJShort/Jodo.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Jodosoft/Libraries.git</RepositoryUrl>
     <RootNamespace>$(MSBuildProjectName)</RootNamespace>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Title>$(MSBuildProjectName)</Title>

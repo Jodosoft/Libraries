@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Jodosoft.Numerics.Benchmarks": {
+      "commandName": "Project",
+      "commandLineArgs": "-fd"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Suppressions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Jodosoft.Geometry.AARectangleN`1.op_Implicit(Jodosoft.Geometry.AARectangleN{`0})~System.ValueTuple{`0,`0,`0,`0}</Target>
+    <Left>lib/netstandard2.0/Jodosoft.Geometry.dll</Left>
+    <Right>lib/net461/Jodosoft.Geometry.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Jodosoft.Geometry.AARectangleN`1.op_Implicit(Jodosoft.Geometry.AARectangleN{`0})~System.ValueTuple{Jodosoft.Numerics.Vector2N{`0},Jodosoft.Numerics.Vector2N{`0}}</Target>
+    <Left>lib/netstandard2.0/Jodosoft.Geometry.dll</Left>
+    <Right>lib/net461/Jodosoft.Geometry.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Jodosoft.Geometry.AARectangleN`1.op_Implicit(System.ValueTuple{`0,`0,`0,`0})~Jodosoft.Geometry.AARectangleN{`0}</Target>
+    <Left>lib/netstandard2.0/Jodosoft.Geometry.dll</Left>
+    <Right>lib/net461/Jodosoft.Geometry.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Jodosoft.Geometry.AARectangleN`1.op_Implicit(System.ValueTuple{Jodosoft.Numerics.Vector2N{`0},Jodosoft.Numerics.Vector2N{`0}})~Jodosoft.Geometry.AARectangleN{`0}</Target>
+    <Left>lib/netstandard2.0/Jodosoft.Geometry.dll</Left>
+    <Right>lib/net461/Jodosoft.Geometry.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Jodosoft.Geometry.TriangleN`1.op_Implicit(Jodosoft.Geometry.TriangleN{`0})~System.ValueTuple{Jodosoft.Numerics.Vector2N{`0},Jodosoft.Numerics.Vector2N{`0},Jodosoft.Numerics.Vector2N{`0}}</Target>
+    <Left>lib/netstandard2.0/Jodosoft.Geometry.dll</Left>
+    <Right>lib/net461/Jodosoft.Geometry.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Jodosoft.Geometry.TriangleN`1.op_Implicit(System.ValueTuple{Jodosoft.Numerics.Vector2N{`0},Jodosoft.Numerics.Vector2N{`0},Jodosoft.Numerics.Vector2N{`0}})~Jodosoft.Geometry.TriangleN{`0}</Target>
+    <Left>lib/netstandard2.0/Jodosoft.Geometry.dll</Left>
+    <Right>lib/net461/Jodosoft.Geometry.dll</Right>
+  </Suppression>
+</Suppressions>
