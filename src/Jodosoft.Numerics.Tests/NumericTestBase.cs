@@ -208,13 +208,14 @@ namespace Jodosoft.Numerics.Tests
         public void Divide_RandomValueByItself_ReturnsOne()
         {
             //arrange
-            TNumeric input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
+            TNumeric input;
+            do { input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2); ; } while (input.Equals(Numeric.Zero<TNumeric>()));
 
             //act
             TNumeric result = input.Divide(input);
 
             //assert
-            result.Should().Be(input);
+            result.Should().Be(Numeric.One<TNumeric>());
         }
 
         [Test, Repeat(RandomVariations)]
@@ -325,7 +326,8 @@ namespace Jodosoft.Numerics.Tests
         public void Remainder_RandomValueByItself_ReturnsZero()
         {
             //arrange
-            TNumeric input = MathN.Truncate(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp));
+            TNumeric input;
+            do { input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2); ; } while (input.Equals(Numeric.Zero<TNumeric>()));
 
             //act
             TNumeric result = input.Remainder(input);
