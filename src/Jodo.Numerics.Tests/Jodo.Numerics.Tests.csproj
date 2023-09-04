@@ -1,9 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Tests.props" />
-  <ItemGroup>
-    <ProjectReference Include="..\Jodo.Numerics\Jodo.Numerics.csproj" />
-    <ProjectReference Include="..\Jodo.Primitives.Tests\Jodo.Primitives.Tests.csproj" />
-    <ProjectReference Include="..\Jodo.Testing.NewtonsoftJson\Jodo.Testing.NewtonsoftJson.csproj" />
-    <ProjectReference Include="..\Jodo.Testing\Jodo.Testing.csproj" />
-  </ItemGroup>
-</Project>

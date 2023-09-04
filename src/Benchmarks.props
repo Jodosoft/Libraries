@@ -4,10 +4,10 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Jodo.Benchmarking\Jodo.Benchmarking.csproj" />
+    <ProjectReference Include="..\Jodosoft.Benchmarking\Jodosoft.Benchmarking.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Jodo.Benchmarking\Program.cs" Link="Program.cs" />
+    <Compile Include="..\Jodosoft.Benchmarking\Program.cs" Link="Program.cs" />
     <Compile Include="..\TestAssemblyInfo.cs" Link="Properties\TestAssemblyInfo.cs" />
   </ItemGroup>
 </Project>

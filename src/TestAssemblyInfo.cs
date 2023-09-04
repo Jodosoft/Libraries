@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022 Joseph J. Short
+﻿// Copyright (c) 2023 Joe Lawry-Short
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
 // deal in the Software without restriction, including without limitation the
@@ -21,3 +21,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE0058:Expression value is never used", Justification = "Fluent assertions")]
 [assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "Subject_When_Then naming convention for test methods")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", MessageId = "csharpsquid", Justification = "False positive on csharpsquid suppressions")]

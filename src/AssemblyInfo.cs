@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022 Joseph J. Short
+﻿// Copyright (c) 2023 Joe Lawry-Short
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
 // deal in the Software without restriction, including without limitation the
@@ -21,14 +21,14 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Jodo.Benchmarking.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Geometry.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Geometry.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Collections.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Numerics.Benchmarks")]
-[assembly: InternalsVisibleTo("Jodo.Numerics.Tests")]
-[assembly: InternalsVisibleTo("Jodo.Testing.Tests")]
+[assembly: InternalsVisibleTo("Jodosoft.Benchmarking.Tests")]
+[assembly: InternalsVisibleTo("Jodosoft.Geometry.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodosoft.Geometry.Tests")]
+[assembly: InternalsVisibleTo("Jodosoft.Collections.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodosoft.Collections.Tests")]
+[assembly: InternalsVisibleTo("Jodosoft.Numerics.Benchmarks")]
+[assembly: InternalsVisibleTo("Jodosoft.Numerics.Tests")]
+[assembly: InternalsVisibleTo("Jodosoft.Testing.Tests")]
 
 [assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", MessageId = "csharpsquid", Justification = "False positive on csharpsquid suppressions")]
 

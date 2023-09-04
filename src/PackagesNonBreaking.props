@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
+    <!--<PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>-->
     <!--<GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>-->
   </PropertyGroup>
 </Project>

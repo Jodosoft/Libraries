@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>22a055ed-abab-4bdd-8989-6eb738411445</ProjectGuid>
+    <SHFBSchemaVersion>2017.9.26.0</SHFBSchemaVersion>
+    <AssemblyName>Jodosoft.Libraries.Docs</AssemblyName>
+    <RootNamespace>Jodosoft.Libraries.Docs</RootNamespace>
+    <Name>Jodosoft.Libraries.Docs</Name>
+    <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
+    <OutputPath>bin\docs\</OutputPath>
+    <HtmlHelpName>Jodosoft.Libraries.Docs</HtmlHelpName>
+    <Language>en-US</Language>
+    <TransformComponentArguments>
+      <Argument Key="RobotsMetadata" Value="" />
+      <Argument Key="BibliographyDataFile" Value="" />
+      <Argument Key="RootBreadcrumbTitleText" Value="Learn" />
+      <Argument Key="CollapsibleSections" Value="False" />
+      <Argument Key="LogoFile" Value="Icon.png" />
+      <Argument Key="LogoHeight" Value="48" />
+      <Argument Key="LogoWidth" Value="44" />
+      <Argument Key="LogoAltText" Value="Jodosoft" />
+      <Argument Key="LogoPlacement" Value="left" />
+      <Argument Key="LogoAlignment" Value="center" />
+      <Argument Key="LogoUrl" Value="https://www.jodosoft.com/" />
+      <Argument Key="MaxVersionParts" Value="2" />
+      <Argument Key="DefaultLanguage" Value="cs" />
+      <Argument Key="IncludeEnumValues" Value="True" />
+      <Argument Key="EnumMemberSortOrder" Value="Value" />
+      <Argument Key="FlagsEnumValueFormat" Value="IntegerValue" />
+      <Argument Key="FlagsEnumSeparatorSize" Value="0" />
+      <Argument Key="BaseSourceCodeUrl" Value="https://github.com/Jodosoft/Libraries/blob/main/src/" />
+      <Argument Key="RequestExampleUrl" Value="https://github.com/Jodosoft/Libraries/issues/new" />
+    </TransformComponentArguments>
+    <HelpFileFormat>Website</HelpFileFormat>
+    <SyntaxFilters>Standard</SyntaxFilters>
+    <PresentationStyle>Default2022</PresentationStyle>
+    <CleanIntermediates>True</CleanIntermediates>
+    <KeepLogFile>True</KeepLogFile>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <IndentHtml>False</IndentHtml>
+    <BuildAssemblerVerbosity>OnlyErrors</BuildAssemblerVerbosity>
+    <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
+    <HelpTitle>Jodosoft</HelpTitle>
+    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <NamingMethod>MemberName</NamingMethod>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <NamespaceGrouping>False</NamespaceGrouping>
+    <MaximumGroupParts>2</MaximumGroupParts>
+    <Preliminary>False</Preliminary>
+    <SdkLinkTarget>Self</SdkLinkTarget>
+    <DocumentationSources>
+      <DocumentationSource sourceFile="..\..\src\Jodosoft.Primitives\Jodosoft.Primitives.csproj" />
+      <DocumentationSource sourceFile="..\..\src\Jodosoft.Numerics\Jodosoft.Numerics.csproj" />
+      <DocumentationSource sourceFile="..\..\src\Jodosoft.Geometry\Jodosoft.Geometry.csproj" />
+      <DocumentationSource sourceFile="..\..\src\Jodosoft.Collections\Jodosoft.Collections.csproj" />
+    </DocumentationSources>
+    <RootNamespaceTitle>API Reference</RootNamespaceTitle>
+    <CopyrightText>Copyright &amp;#169%3b 2023 Joe Lawry-Short</CopyrightText>
+    <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, NonBrowsable</VisibleItems>
+    <MissingTags>AutoDocumentCtors, Namespace, AutoDocumentDispose</MissingTags>
+    <SourceCodeBasePath>..\..\src\</SourceCodeBasePath>
+    <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="(global)" isDocumented="False" />
+      <NamespaceSummaryItem name="Jodosoft.Numerics" isDocumented="True">Provides numeric utilities, custom number types, and a generic interface for defining numbers.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Jodosoft.Numerics.Clamped" isDocumented="True">Provides non-overflowing number types.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Jodosoft.Primitives" isDocumented="True">Provides utilities and abstractions that are used throughout the Jodosoft Libraries.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Jodosoft.Collections" isDocumented="True">Provides additional collections and collection abstractions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Jodosoft.Geometry" isDocumented="True">Provides geometric structs and utilities with support for custom number types.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Jodosoft.Primitives.Compatibility" isDocumented="True">Provides shims for features that are unavailable in earlier versions of .NET.</NamespaceSummaryItem>
+    </NamespaceSummaries>
+    <BuildLogFile>bin\build.log</BuildLogFile>
+    <WorkingPath>bin\temp\</WorkingPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="content" />
+    <Folder Include="icons" />
+    <Folder Include="media" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\favicon.ico" />
+    <None Include="content\welcome.aml" />
+    <None Include="Rename-Html-Folder.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ContentLayout Include="ContentLayout.content" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\Icon.png">
+      <ImageId>Icon</ImageId>
+      <AlternateText>Icon</AlternateText>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EWSoftware.SHFB" Version="2022.10.15" />
+    <PackageReference Include="EWSoftware.SHFB.NET" Version="5.0.0.2" />
+    <PackageReference Include="EWSoftware.SHFB.NETFramework" Version="4.8.0" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" Condition="Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>powershell -ExecutionPolicy Unrestricted $(ProjectDir)Rename-Html-Folder.ps1</PostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+</Project>

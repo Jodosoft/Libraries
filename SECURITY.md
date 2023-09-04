@@ -1,3 +1,3 @@
 # Security Policy
 
-Vulnerabilities should be reported privately to support@jodo.dev.
+Vulnerabilities should be reported privately to support@jodosoft.com.
