@@ -17,10 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Jodosoft.Primitives.Compatibility
 {
+
+    [SuppressMessage("csharpsquid", "S6640:Using unsafe code blocks is security-sensitive.", Justification = "Shims using verified .NET implementations.")]
     public static class SingleShim
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
