@@ -120,7 +120,7 @@ The table below summarizes the design goals of the project.
         Currently, this includes .NET 7 (<code>net7.0</code>), .NET 6 (<code>net6.0</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>), .NET Framework 4.8 (<code>net48</code>), Windows, Ubuntu, and macOS.
       </p>
       <p>
-        <a href="https://dev.azure.com/Jodosoft/Libraries/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/Jodosoft/Libraries/5/main?logo=azuredevops&style=flat-square&no-cache"></a>
+        <a href="https://dev.azure.com/Jodosoft/Libraries/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/Jodosoft/Libraries/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
         <a href="https://sonarcloud.io/summary/overall?id=Jodosoft_Libraries"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/Jodosoft_Libraries/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
       </p>
     </td>
