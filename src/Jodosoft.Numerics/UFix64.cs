@@ -87,13 +87,6 @@ namespace Jodosoft.Numerics
         public static UFix64 Parse(string s, NumberStyles style) => new UFix64(Scaled.Parse(s, ScalingFactor, style, null));
         public static UFix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => new UFix64(Scaled.Parse(s, ScalingFactor, style, provider));
 
-        private static UFix64 Round(UFix64 value, int digits, MidpointRounding mode)
-        {
-            if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
-            if (digits > 5) return value;
-            return new UFix64(Scaled.Round(value._scaledValue, 6 - digits, mode));
-        }
-
         [SuppressMessage("Style", "JSON002:Probable JSON string detected", Justification = "False positive")]
         private static UFix64 FromDouble(double value)
         {
@@ -322,6 +315,13 @@ namespace Jodosoft.Numerics
             UFix64 INumericRandom<UFix64>.Generate(Random random, UFix64 minValue, UFix64 maxValue, Generation mode) => new UFix64(random.NextUInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
             UFix64 IVariantRandom<UFix64>.Generate(Random random, Variants variants) => new UFix64(random.NextUInt64(variants));
+
+            private static UFix64 Round(UFix64 value, int digits, MidpointRounding mode)
+            {
+                if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
+                if (digits > 5) return value;
+                return new UFix64(Scaled.Round(value._scaledValue, 6 - digits, mode));
+            }
         }
     }
 }

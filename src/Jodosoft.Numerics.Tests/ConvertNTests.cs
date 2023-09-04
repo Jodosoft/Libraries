@@ -35,7 +35,7 @@ namespace Jodosoft.Numerics.Tests
         {
             MethodInfo[] methods = typeof(ConvertN)
                 .GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .Where(x => !x.ContainsGenericParameters && x.GetParameters().Any(p => p.ParameterType == typeof(Conversion)))
+                .Where(x => !x.ContainsGenericParameters && Array.Exists(x.GetParameters(), p => p.ParameterType == typeof(Conversion)))
                 .ToArray();
 
             if (methods.Length == 0) Assert.Fail();

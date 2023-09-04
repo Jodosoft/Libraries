@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Jodosoft.Numerics;
 using Jodosoft.Primitives;
@@ -29,6 +30,8 @@ namespace Jodosoft.Geometry.Tests
         <TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [Test, Repeat(RandomVariations)]
+
+        [SuppressMessage("csharpsquid", "S1940:Boolean checks should not be inverted.", Justification = "Intentional for verifying operator consistency.")]
         public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange

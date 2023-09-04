@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions;
 using Jodosoft.Numerics;
@@ -30,6 +31,8 @@ namespace Jodosoft.Geometry.Tests
     public abstract class AARectangleNTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [Test, Repeat(RandomVariations)]
+
+        [SuppressMessage("csharpsquid", "S1940:Boolean checks should not be inverted.", Justification = "Intentional for verifying operator consistency.")]
         public void EqualsMethods_RandomValues_SameOutcome()
         {
             //arrange

@@ -83,13 +83,6 @@ namespace Jodosoft.Numerics
         public static Fix64 Parse(string s, NumberStyles style) => (Fix64)double.Parse(s, style);
         public static Fix64 Parse(string s, NumberStyles style, IFormatProvider? provider) => (Fix64)double.Parse(s, style, provider);
 
-        private static Fix64 Round(Fix64 value, int digits, MidpointRounding mode)
-        {
-            if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
-            if (digits > 5) return value;
-            return new Fix64(Scaled.Round(value._scaledValue, 6 - digits, mode));
-        }
-
         [SuppressMessage("Style", "JSON002:Probable JSON string detected", Justification = "False positive")]
         private static Fix64 FromDouble(double value)
         {
@@ -318,6 +311,13 @@ namespace Jodosoft.Numerics
             Fix64 INumericRandom<Fix64>.Generate(Random random, Fix64 minValue, Fix64 maxValue, Generation mode) => new Fix64(random.NextInt64(minValue._scaledValue, maxValue._scaledValue, mode));
 
             Fix64 IVariantRandom<Fix64>.Generate(Random random, Variants variants) => new Fix64(random.NextInt64(variants));
+
+            private static Fix64 Round(Fix64 value, int digits, MidpointRounding mode)
+            {
+                if (digits < 0) throw new ArgumentOutOfRangeException(nameof(digits), digits, "Must be positive.");
+                if (digits > 5) return value;
+                return new Fix64(Scaled.Round(value._scaledValue, 6 - digits, mode));
+            }
         }
     }
 }

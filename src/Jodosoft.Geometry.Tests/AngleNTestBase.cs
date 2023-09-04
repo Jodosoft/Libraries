@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Jodosoft.Numerics;
 using Jodosoft.Primitives;
@@ -26,6 +27,7 @@ using NUnit.Framework;
 
 namespace Jodosoft.Geometry.Tests
 {
+    [SuppressMessage("csharpsquid", "S1940:Boolean checks should not be inverted.", Justification = "Intentional for verifying operator consistency.")]
     public abstract class AngleNTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [Test, Repeat(RandomVariations)]
