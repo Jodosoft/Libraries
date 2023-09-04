@@ -21,3 +21,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE0058:Expression value is never used", Justification = "Fluent assertions")]
 [assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "Subject_When_Then naming convention for test methods")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", MessageId = "csharpsquid", Justification = "False positive on csharpsquid suppressions")]

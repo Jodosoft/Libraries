@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -30,6 +31,7 @@ namespace Jodosoft.Testing
     /// Provides common test methods for structs that implement <see cref="ISerializable"/>.
     /// </summary>
     /// <typeparam name="T">The type that implements <see cref="ISerializable"/>.</typeparam>
+    [SuppressMessage("csharpsquid", "S5773:Restrict types of objects allowed to be deserialized.", Justification = "Left unrestricted for testing purposes only.")]
     public abstract class SerializableTestBase<T> : GlobalFixtureBase where T : struct, ISerializable, IProvider<IVariantRandom<T>>
     {
         [Test, Repeat(RandomVariations)]
