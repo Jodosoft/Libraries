@@ -1,9 +1,9 @@
 <Project>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0</FileVersion>
-    <VersionPrefix>1.1.0</VersionPrefix>
-    <!--<VersionSuffix></VersionSuffix>-->
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionSuffix>preview1</VersionSuffix>
     <IncludeSourceRevisionInInformationalVersion>False</IncludeSourceRevisionInInformationalVersion>
     <GenerateCompatibilitySuppressionFile>true</GenerateCompatibilitySuppressionFile>
   </PropertyGroup>
