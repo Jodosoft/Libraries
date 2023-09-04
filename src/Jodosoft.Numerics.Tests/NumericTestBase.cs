@@ -211,7 +211,7 @@ namespace Jodosoft.Numerics.Tests
             TNumeric input = MathN.Round(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp), 2);
 
             //act
-            TNumeric result = input.Divide(Numeric.One<TNumeric>());
+            TNumeric result = input.Divide(input);
 
             //assert
             result.Should().Be(input);
@@ -328,7 +328,7 @@ namespace Jodosoft.Numerics.Tests
             TNumeric input = MathN.Truncate(ConvertN.ToNumeric<TNumeric>(Random.NextDouble(-10, 10), Conversion.Clamp));
 
             //act
-            TNumeric result = input.Remainder(Numeric.One<TNumeric>());
+            TNumeric result = input.Remainder(input);
 
             //assert
             result.Should().Be(Numeric.Zero<TNumeric>());

@@ -21,7 +21,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions;
 using Jodosoft.Primitives;
 using Jodosoft.Testing;
 using NUnit.Framework;
@@ -326,8 +325,7 @@ namespace Jodosoft.Numerics.Tests
                 Guid.NewGuid().ToString());
             MethodInfo underlyingParseMethod = typeof(TNumeric)
                 .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(x => x.Name == "Parse" && x.GetParameters().Length == 1)
-                .Single();
+                .Single(x => x.Name == "Parse" && x.GetParameters().Length == 1);
             //act
             Func<TNumeric>[] actions = new Func<TNumeric>[]
             {
@@ -361,9 +359,8 @@ namespace Jodosoft.Numerics.Tests
                 CultureInfo.GetCultureInfo("ja-JP"));
             MethodInfo underlyingParseMethod = typeof(TNumeric)
                 .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(x => x.Name == "Parse" && x.GetParameters().Length == 2 &&
-                        x.GetParameters()[1].ParameterType == typeof(IFormatProvider))
-                .Single();
+                .Single(x => x.Name == "Parse" && x.GetParameters().Length == 2 &&
+                        x.GetParameters()[1].ParameterType == typeof(IFormatProvider));
             //act
             Func<TNumeric>[] actions = new Func<TNumeric>[]
             {
@@ -390,9 +387,9 @@ namespace Jodosoft.Numerics.Tests
             NumberStyles numberStyles = Random.NextEnum<NumberStyles>();
             MethodInfo underlyingParseMethod = typeof(TNumeric)
                 .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(x => x.Name == "Parse" && x.GetParameters().Length == 2 &&
-                        x.GetParameters()[1].ParameterType == typeof(NumberStyles))
-                .Single();
+                .Single(x => x.Name == "Parse" && x.GetParameters().Length == 2 &&
+                        x.GetParameters()[1].ParameterType == typeof(NumberStyles));
+
             //act
             Func<TNumeric>[] actions = new Func<TNumeric>[]
             {
@@ -427,8 +424,7 @@ namespace Jodosoft.Numerics.Tests
                 CultureInfo.GetCultureInfo("ja-JP"));
             MethodInfo underlyingParseMethod = typeof(TNumeric)
                 .GetMethods(BindingFlags.Static | BindingFlags.Public)
-                .Where(x => x.Name == "Parse" && x.GetParameters().Length == 3)
-                .Single();
+                .Single(x => x.Name == "Parse" && x.GetParameters().Length == 3);
 
             //act
             Func<TNumeric>[] actions = new Func<TNumeric>[]

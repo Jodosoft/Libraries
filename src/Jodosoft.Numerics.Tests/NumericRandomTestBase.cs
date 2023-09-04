@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Jodosoft.Primitives;
 using Jodosoft.Testing;
@@ -137,6 +138,7 @@ namespace Jodosoft.Numerics.Tests
         }
 
         [Test, Repeat(RandomVariations)]
+        [SuppressMessage("csharpsquid", "S2234:Arguments should be passed in the same order as the method parameters.", Justification = "Intention of test.")]
         public void NextNumeric_SameSeedReversedBoundsExtended_GiveSameResult()
         {
             //arrange
