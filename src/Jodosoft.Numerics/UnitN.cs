@@ -47,7 +47,7 @@ namespace Jodosoft.Numerics
 
         private UnitN(SerializationInfo info, StreamingContext context)
         {
-            Value = MathN.Clamp((TNumeric)info.GetValue(nameof(Value), typeof(TNumeric) ?? throw new InvalidOperationException()), Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>());
+            Value = MathN.Clamp((TNumeric)info.GetValue(nameof(Value), typeof(TNumeric)), Numeric.MinUnit<TNumeric>(), Numeric.MaxUnit<TNumeric>());
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using FluentAssertions;
@@ -113,6 +114,7 @@ namespace Jodosoft.Testing
         /// (using <see cref="object.Equals(object)"/>).
         /// </summary>
         [AssertionMethod]
+        [SuppressMessage("csharpsquid", "S2583:Conditionally executed code should be reachable.", Justification = "False positive-confirmed with debugger.")]
         public static void Result<TResult>(IEnumerable<Func<TResult>> functions)
         {
             if (functions == null) throw new ArgumentNullException(nameof(functions));

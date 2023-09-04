@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using FluentAssertions;
@@ -60,6 +61,7 @@ namespace Jodosoft.Testing
         }
 
         [Test, Repeat(RandomVariations)]
+        [SuppressMessage("csharpsquid", "S1764:Identical expressions should not be used on both sides of operators.", Justification = "Used intentionally for this test.")]
         public void Equals_Itself_ReturnsTrue()
         {
             //arrange
