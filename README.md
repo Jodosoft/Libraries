@@ -61,7 +61,7 @@ To install a Jodosoft library, use your NuGet package manager or run <a href="ht
 <pre lang="bash"><code>dotnet add Jodosoft.Numerics</code></pre>
 
 
-No configuration or dependency injection is required. Simply import the relevant Jodosoft namespace and beginning the types in your code.
+No configuration or dependency injection is required. Simply import the relevant Jodosoft namespace and begin using the types in your code.
 
 <pre lang="csharp"><code>using Jodosoft.Numerics;
 
