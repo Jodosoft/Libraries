@@ -85,7 +85,7 @@ The available libraries are:
 
 ## 3. About the project <br id="about" />
 
-The Jodosoft Libraries started as a collection of useful classes from the personal projects of [Joe Lawry-Short](https://github.com/joelawryshort). The types have been reorganized, refactored, and tested rigorously with the aim of making them useful for the .NET community.
+The Jodosoft Libraries started as a collection of classes from the personal projects of [Joe Lawry-Short](https://github.com/joelawryshort). The types have been reorganized, refactored, and tested rigorously with the aim of making them useful for the .NET community.
 
 This section describes the design goals, roadmap, and other details of the project.
 
@@ -107,7 +107,7 @@ The table below summarizes the design goals of the project.
         The Jodosoft Libraries are designed to provide simple data structures and algorithms to use as the building blocks for more complex applications.
       </p>
       <p>
-        As a rule of thumb, nothing within the libraries should require configuration or dependency injection. A competent developer should be able to use the libraries intuitively, without needing to refer to documentation.
+        As a rule of thumb, nothing within the libraries should require configuration or dependency injection. A competent developer should be able to use the libraries intuitively, without needing to refer to extensive API documentation.
       </p>
       <p>
         The libraries adhere to the <a href="https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/">.NET Framework Design Guidelines</a> to ensure ease-of-use and consistency with the .NET API.
