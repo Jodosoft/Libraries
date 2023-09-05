@@ -57,28 +57,24 @@ This document describes the goals of the project, the features of each library, 
 
 ## 2. Quickstart <br id="quickstart" />
 
-To install a Jodosoft library, run <a href="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-add-package">dotnet add</a>, e.g.
+To install a Jodosoft library, use your NuGet package manager or run <a href="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-add-package">dotnet add</a>, e.g.
 <pre lang="bash"><code>dotnet add Jodosoft.Numerics</code></pre>
-Alternatively, use the <a href="https://learn.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio">NuGet Package Manager</a> in Visual Studio:
-1. Right click on a project file and select "Manage Nuget Packages..."
-2. Type "jodosoft" in the search box
-3. Select a library from the results, e.g. Jodosoft.Numerics
-4. Click Install
 
-Most platforms and versions of .NET are supported, and the libraries can be used freely in commercial work under the MIT License.
 
-To use the libraries, simply import the required namespace and start using the features in your code. No configuration or dependency injection is required.
+No configuration or dependency injection is required. Simply import the relevant Jodosoft namespace and beginning the types in your code.
 
 <pre lang="csharp"><code>using Jodosoft.Numerics;
 
-</code>// ...</pre>
+</code>var fixedPointNumber = (Fix64)1.234;</pre>
+
+Most platforms and versions of .NET are supported, and the libraries can be used freely in commercial work under the terms of the MIT License.
 
 The available libraries are:
 
-* **[Jodosoft.Numerics](#numerics)** - extra number types (such as fixed-point and non-overflowing) with maths, string-parsing, operators and utilities.
-* **[Jodosoft.Primitives](#primitives)** - utilities, abstractions and shims used by The Jodosoft libraries
-* **[Jodosoft.Geometry](#geometry) (preview)** - shapes, angles and trigonometric functions that work with generic numbers
-* **[Jodosoft.Collections](#collections) (preview)** - extra data-structures, utilities and collection abstractions
+* **[Jodosoft.Numerics](#numerics)** - extra number types (such as fixed-point and non-overflowing) that support maths, string-parsing, operators and more.
+* **[Jodosoft.Geometry](#geometry) (preview)** - shapes, angles and trigonometric functions that work with number types from Jodosoft.Numerics
+* **[Jodosoft.Collections](#collections) (preview)** - data-structures, utilities and collection abstractions
+* **[Jodosoft.Primitives](#primitives)** - utilities and abstractions used throughout the Jodosoft libraries
 
 
 [\[Back to top\]](#top)
@@ -89,7 +85,7 @@ The available libraries are:
 
 ## 3. About the project <br id="about" />
 
-The Jodosoft Libraries started as a collection of reusable classes from the personal projects of [@joelawryshort](https://github.com/joelawryshort). The types have been reorganized, refactored, and extensively tested with the goal of making useful libraries for the .NET community.
+The Jodosoft Libraries started as a collection of useful classes from the personal projects of [Joe Lawry-Short](https://github.com/joelawryshort). The types have been reorganized, refactored, and tested rigorously with the aim of making them useful for the .NET community.
 
 This section describes the design goals, roadmap, and other details of the project.
 
@@ -105,74 +101,7 @@ The table below summarizes the design goals of the project.
     <th>Description</th>
   </tr>
   <tr>
-    <td>Reliability</td>
-    <td>
-      <p>
-        The Jodosoft Libraries are designed to be dependable. Unit tests, benchmarks,
-        and continuous integration tools are used to ensure they remain fit for purpose.</p>
-      <p>
-        Tests are designed to cover boundary conditions, edge-cases, and error scenarios—not just happy paths.
-        Code coverage is used, but is not considered to be the definitive metric of adequate testing.
-        The code coverage target is 90%.</p>
-      <p>
-        The <a href="https://dev.azure.com/Jodosoft/Libraries/_build?definitionId=1">pull request validation build</a> executes tests against multiple .NET targets and operating systems.
-        This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
-        Currently, this includes .NET 7 (<code>net7.0</code>), .NET 6 (<code>net6.0</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>), .NET Framework 4.8 (<code>net48</code>), Windows, Ubuntu, and macOS.
-      </p>
-      <p>
-        <a href="https://dev.azure.com/Jodosoft/Libraries/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/Jodosoft/Libraries/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
-        <a href="https://sonarcloud.io/summary/overall?id=Jodosoft_Libraries"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/Jodosoft_Libraries/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td>Compatibility</td>
-    <td>     
-      <p>
-        The Jodosoft Libraries are designed to work with a wide array of .NET versions, platforms and programming languages.
-      </p>
-      <p>
-        .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>,
-        whilst additional targets such as .NET Standard 2.1 (<code>netstandard2.1</code>) are added to incorporate newer language features like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>. No platform-dependant features are used.
-      </p>
-      <p>
-        Publicly exposed types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a>
-        wherever possible, and language-agnostic naming conventions are used. This ensures that
-        the libraries can be used in F# and Visual Basic as well as in their native language, C#.
-      </p>
-      <p>
-        Care is taken to avoid name clashes with commonly-used types from the .NET API and popular NuGet packages.
-      </p>
-      <p>
-        <a href="https://semver.org/">Semantic Versioning</a> is used to ensure that version numbers convey the presence of breaking changes to the libraries, and <a href="https://learn.microsoft.com/en-us/dotnet/fundamentals/package-validation/overview">package validation</a> is used to ensure backwards compatibility within each major version.
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td>Maintainability</td>
-    <td>
-      <p>
-        The source code of The Jodosoft Libraries is designed to be easy to understand and change.
-      </p>
-      <p>
-        <a href="https://sonarcloud.io/summary/overall?id=Jodosoft_Libraries">SonarCloud</a>
-        and <a href="https://www.codefactor.io/repository/github/jodosoft/libraries/overview/main">CodeFactor</a> are used
-        to detect code smells such as unused variables or overly complex functions.
-      </p>
-      <p>
-        In the project configuration files, <code>TreatWarningsAsErrors</code> is set to <code>True</code>, <code>WarningLevel</code> is set to <code>4</code> and <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are enabled with maximum scope and severity. This helps to flag  issues during development.
-        </p>
-      <p>
-        Warnings are only suppressed in exceptional circumstances, and suppression tags are always accompanied by a justification message.
-      </p>
-      <p>
-        <a href="https://sonarcloud.io/summary/overall?id=Jodosoft_Libraries"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/Jodosoft_Libraries/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
-        <a href="https://www.codefactor.io/repository/github/jodosoft/libraries/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/Jodosoft/Libraries/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td>Simple API</td>
+    <td>Simple</td>
     <td> 
       <p>
         The Jodosoft Libraries are designed to provide simple data structures and algorithms to use as the building blocks for more complex applications.
@@ -185,13 +114,82 @@ The table below summarizes the design goals of the project.
       </p>
     </td>
   </tr>
+  <tr>
+    <td>Reliable</td>
+    <td>
+      <p>
+        The Jodosoft Libraries are designed to be dependable. Unit tests, benchmarks,
+        and continuous integration tools are used to ensure they remain fit for purpose.</p>
+      <p>
+        Unit tests are designed to cover boundary conditions, edge-cases, and error scenarios—not just happy paths.
+        Code coverage is used, but is not considered to be the definitive metric of adequate testing.
+        The code coverage target is 90%.</p>
+      <p>
+        The <a href="https://dev.azure.com/Jodosoft/Libraries/_build?definitionId=1">pull request validation build</a> executes the tests against multiple .NET targets and operating systems.
+        This helps to ensure that the libraries behave as intended and are unaffected by .NET implementation details.
+        Currently, this includes .NET 7 (<code>net7.0</code>), .NET 6 (<code>net6.0</code>), .NET Core 2.1 (<code>netcoreapp2.1</code>), .NET Framework 4.8 (<code>net48</code>), Windows, Ubuntu, and macOS.
+      </p>
+      <p>
+        <a href="https://dev.azure.com/Jodosoft/Libraries/_build?definitionId=5"><img alt="Azure DevOps tests" src="https://img.shields.io/azure-devops/tests/Jodosoft/Libraries/1/main?logo=azuredevops&style=flat-square&no-cache"></a>
+        <a href="https://sonarcloud.io/summary/overall?id=Jodosoft_Libraries"><img alt="Sonar Coverage" src="https://img.shields.io/sonar/coverage/Jodosoft_Libraries/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache"></a>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>Compatible</td>
+    <td>     
+      <p>
+        The Jodosoft Libraries are designed to work with a wide array of .NET versions, platforms and programming languages.
+      </p>
+      <p>
+        .NET Standard 2.0 (<code>netstandard2.0</code>) and .NET Framework 4.6 (<code>net461</code>) targets are used in order to <a href="https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting">maximize cross-platform support</a>, and no platform-dependant features are used.
+      </p>
+      <p>
+        Newer targets, such as .NET Standard 2.1 (<code>netstandard2.1</code>), are used to incorporate language developments like <a href="https://docs.microsoft.com/en-gb/dotnet/csharp/whats-new/csharp-8#default-interface-methods">default interface methods</a>, but this is implemented in a backwards-compatible way.
+      </p>
+      <p>
+        Language-agnostic naming conventions are used and public types are marked as <a href="https://docs.microsoft.com/en-us/dotnet/standard/language-independence">CLS compliant</a>
+        wherever possible. This ensures that
+        the libraries can be used in F# and Visual Basic as well as in their native language, C#.
+      </p>
+      <p>
+        Care is taken to avoid name clashes with types from the .NET API or commonly-used NuGet packages.
+      </p>
+      <p>
+        <a href="https://semver.org/">Semantic Versioning</a> is used so that version numbers convey the presence of breaking changes, and <a href="https://learn.microsoft.com/en-us/dotnet/fundamentals/package-validation/overview">package validation</a> is used to ensure backwards compatibility within each major version.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>Maintainable</td>
+    <td>
+      <p>
+        The source code of the Jodosoft Libraries is designed to be easy to understand and change.
+      </p>
+      <p>
+        <a href="https://sonarcloud.io/summary/overall?id=Jodosoft_Libraries">SonarCloud</a>
+        and <a href="https://www.codefactor.io/repository/github/jodosoft/libraries/overview/main">CodeFactor</a> are used
+        to detect code smells such as unused variables or overly complex functions.
+      </p>
+      <p>
+        The project files are configured to flag as many issues as possible. <code>TreatWarningsAsErrors</code> is set to <code>True</code>, <code>WarningLevel</code> is set to <code>4</code> and <a href="https://docs.microsoft.com/en-us/visualstudio/code-quality/roslyn-analyzers-overview?view=vs-2022">Rosyln analysers</a> are enabled with maximum scope and severity. This helps to flag  issues during development.
+        </p>
+      <p>
+        Warnings are only suppressed in exceptional circumstances, and suppression tags are always accompanied by a justification message.
+      </p>
+      <p>
+        <a href="https://sonarcloud.io/summary/overall?id=Jodosoft_Libraries"><img alt="Sonar Violations (long format)" src="https://img.shields.io/sonar/violations/Jodosoft_Libraries/main?label=smells&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&style=flat-square&no-cache" /></a>
+        <a href="https://www.codefactor.io/repository/github/jodosoft/libraries/overview/main"><img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/Jodosoft/Libraries/main?label=quality&logo=codefactor&style=flat-square&no-cache"></a>
+      </p>
+    </td>
+  </tr>
 </table>
 
 [\[Back to top\]](#top)
 
 ### 3.2. Roadmap <br id="roadmap" />
 
-The table below summarizes the high-level development goals for upcoming versions of The Jodosoft Libraries.
+The table below summarizes the high-level development goals for upcoming versions of the Jodosoft Libraries.
 
 <table>
   <tr>
@@ -199,7 +197,7 @@ The table below summarizes the high-level development goals for upcoming version
     <th>Goals</th>
   </tr>
   <tr>
-    <td><code>1.2.0</code></td>
+    <td><code>2.1.0</code></td>
     <td>
       <ul>
         <li>Create the first release of Jodosoft.Geometry.</li>
@@ -207,7 +205,7 @@ The table below summarizes the high-level development goals for upcoming version
     </td>
   </tr>
   <tr>
-    <td><code>1.3.0</code></td>
+    <td><code>2.2.0</code></td>
     <td>
       <ul>
         <li>Tweaks, fixes and suggestions for Jodosoft.Geometry.</li>
@@ -216,7 +214,7 @@ The table below summarizes the high-level development goals for upcoming version
     </td>
   </tr>
   <tr>
-    <td><code>1.4.0</code></td>
+    <td><code>2.3.0</code></td>
     <td>
       <ul>
         <li>Create the first release of Jodosoft.Collections.</li>
@@ -224,7 +222,7 @@ The table below summarizes the high-level development goals for upcoming version
     </td>
   </tr>
   <tr>
-    <td><code>1.5.0</code></td>
+    <td><code>2.4.0</code></td>
     <td>
       <ul>
         <li>Tweaks, fixes and suggestions for Jodosoft.Collections.</li>
@@ -233,7 +231,7 @@ The table below summarizes the high-level development goals for upcoming version
     </td>
   </tr>
   <tr>
-    <td><code>2.0.0</code></td>
+    <td><code>3.0.0</code></td>
     <td>
       <ul>
         <li>Refactoring and quality improvements that require breaking changes.</li>
@@ -270,7 +268,7 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 
 <p>Builds of this project are available as NuGet packages on <a href="https://www.nuget.org/packages?q=Jodosoft.">NuGet.org</a> (for help, see: <a href="https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio">"Quickstart: Install and use a package"</a>).</p>
 <p>Binaries are available on GitHub.com at <a href="https://github.com/Jodosoft/Libraries/releases">https://github.com/Jodosoft/Libraries/releases</a>.</p>
-<p>The libraries can also be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> (or alternative) with the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>.</p>
+<p>Alternatively the libraries can be built from the source code in this repository using <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio Community Edition</a> (or alternative) with nothing more than the appropriate <a href="https://dotnet.microsoft.com/en-us/download/visual-studio-sdks">.NET SDKs</a>. Every released version is <a href="https://github.com/Jodosoft/Libraries/tags">tagged</a> in the repository's history.</p>
 <p>
   <a href="https://www.nuget.org/packages?q=Jodosoft."><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodosoft.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
   <a href="[https://www.nuget.org/packages?q=Jodosoft.](https://github.com/Jodosoft/Libraries/releases)"><img alt="GitHub release (latest SemVer including pre-releases)" src="https://img.shields.io/github/v/release/Jodosoft/Libraries?include_prereleases&logo=github&style=flat-square&color=005784&no-cache"></a>
@@ -280,13 +278,24 @@ This work is licensed under the <a href="LICENSE.md">MIT License</a>.
 
 ### 3.6. Changelog <br id="changelog" />
 
-The following table summarizes the changes that were made for each published version of The Jodosoft Libraries.
+The following table summarizes the changes that were made for each published version of the Jodosoft Libraries.
 
 <table>
   <tr>
     <th>Version</th>
     <th>Release date</th>
     <th>Changes</th>
+  </tr>
+  <tr>
+    <td><code>2.0.0-preview1</code></td>
+    <td>2023-09-04</td>
+    <td>
+      <p>
+        <ul>
+          <li>Rebranded the libraries from "Jodo" to "Jodosoft" to reflect their new organizational home.</li>
+        </ul>
+      </p>
+    </td>
   </tr>
   <tr>
     <td><code>1.1.0</code></td>
@@ -336,7 +345,7 @@ The following table summarizes the changes that were made for each published ver
 
 ## 4. Jodosoft.Numerics <br id="numerics" />
 
-Provides numeric utilities, custom number types, and a generic interface for defining numbers.
+Provides custom number types, numeric utilities, and a generic interface for defining numbers.
 
 <a href="https://www.nuget.org/packages/Jodosoft.Numerics/"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodosoft.Numerics?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
   
@@ -346,7 +355,7 @@ Provides numeric utilities, custom number types, and a generic interface for def
 
 Unlike floating-point numbers, <a href="https://en.wikipedia.org/wiki/Fixed-point_arithmetic">fixed-point numbers</a> maintain a constant degree of precision regardless of magnitude. This can be useful in situations where <a href="https://en.wikipedia.org/wiki/MIM-104_Patriot#Failure_at_Dhahran">precision remains important whilst numbers grow</a>. As a trade-off, fixed-point numbers have a much lower maximum magnitude than floating-point numbers of the same size.
 
-<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Fix64.htm">Fix64</a> and <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_UFix64.htm">UFix64</a> are fixed-point number types with 6 decimal digits of precision. As with all number types provided by this library, they support a full range of mathematical functions, operators, conversions, string formatting, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
+<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Fix64.htm">Fix64</a> and <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_UFix64.htm">UFix64</a> are fixed-point number types with 6 decimal digits of precision. As with all number types provided by this library, they support a full range of mathematical functions, operators, conversions, string formatting, etc. (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 <pre lang="csharp"><code>using Jodosoft.Numerics;
 using System;
@@ -405,7 +414,7 @@ Number types in the <a href="https://libraries.jodosoft.com/docs/api/N_Jodosoft_
 
 This provides an alternative to using the <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/checked-and-unchecked"><code>checked</code></a> keyword, removing the need for repetitive error handling logic.
 
-As with all number types provided by this library, non-overflowing number types support a full range of mathematical functions, operators, conversions, string formatting, etc (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
+As with all number types provided by this library, non-overflowing number types support a full range of mathematical functions, operators, conversions, string formatting, etc. (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 ```csharp
 var i = Int32M.MaxValue + 1;
@@ -786,7 +795,7 @@ Provides extra collection classes and interfaces to complement the .NET API.
 
 ## 7. Jodosoft.Primitives <br id="primitives" />
 
-Provides utilities and abstractions that are used throughout The Jodosoft Libraries.
+Provides utilities and abstractions that are used throughout the Jodosoft Libraries.
 
 <a href="https://www.nuget.org/packages/Jodosoft.Primitives/"><img alt="Nuget (with prereleases)" src="https://img.shields.io/nuget/vpre/Jodosoft.Primitives?label=version&style=flat-square&color=005784&logo=nuget&no-cache"></a>
 
@@ -794,7 +803,7 @@ Provides utilities and abstractions that are used throughout The Jodosoft Librar
 
 ### 7.1. Random variants <br id="primitives-random-variants" />
 
-Provides a specification for randomly generating objects based on variants (categories). This feature is used extensively by the Jodosoft test libraries to ensure that tests cover a variety of scenarios. Although the exact definition of each variant is left to the implementor, the following table serves as a guide:
+Provides a specification for randomly generating objects based on variants (described below). This feature is used extensively by the Jodosoft test libraries to ensure that tests cover a variety of scenarios. Although the exact definition of each variant is left to the implementor, the following table serves as a guide:
 
 <table>
     <tr>
@@ -831,8 +840,7 @@ Provides a specification for randomly generating objects based on variants (cate
     </tr>
 </table>
 
-Extension methods for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> allow
-for objects to be generated within these categories.
+Extension methods are provided for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> to enable random generation of values within each variant.
 
 <pre lang="csharp"><code>var random = new Random();
 short num1 = random.NextVariant&lt;Int16N&gt;(Variants.LowMagnitude);
