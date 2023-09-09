@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 namespace Jodosoft.Numerics.Tests
 {
-    public class CheckedNumericTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
+    public class ClampedNumericTestBase<TNumeric> : GlobalFixtureBase where TNumeric : struct, INumeric<TNumeric>
     {
         [Test, Repeat(RandomVariations)]
         public void Abs_AnyValue_ShouldBeNonNegative()

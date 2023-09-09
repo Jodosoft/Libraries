@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives.Tests;
 using Jodosoft.Testing;
 
@@ -29,15 +30,15 @@ namespace Jodosoft.Numerics.Tests
         public sealed class FixedPointObjectTests : ObjectTestBase<UnitN<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<UnitN<Fix64>> { }
         public sealed class FixedPointUnitTests : UnitNTestBase<Fix64> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<UnitN<SingleN>> { }
-        public sealed class FloatingPointFormattableTests : FormattableTestBase<UnitN<SingleN>> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<UnitN<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<UnitN<SingleN>> { }
-        public sealed class FloatingPointUnitTests : UnitNTestBase<SingleN> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<UnitN<ByteN>> { }
-        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<UnitN<ByteN>> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<UnitN<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<UnitN<ByteN>> { }
-        public sealed class UnsignedIntegralUnitTests : UnitNTestBase<ByteN> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<UnitN<NSingle>> { }
+        public sealed class FloatingPointFormattableTests : FormattableTestBase<UnitN<NSingle>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<UnitN<NSingle>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<UnitN<NSingle>> { }
+        public sealed class FloatingPointUnitTests : UnitNTestBase<NSingle> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<UnitN<NByte>> { }
+        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<UnitN<NByte>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<UnitN<NByte>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<UnitN<NByte>> { }
+        public sealed class UnsignedIntegralUnitTests : UnitNTestBase<NByte> { }
     }
 }

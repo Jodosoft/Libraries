@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Packages.props" />
+  <Import Project="..\PackagesNonBreaking.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\Jodosoft.Numerics\Jodosoft.Numerics.csproj" />
+  </ItemGroup>
+</Project>

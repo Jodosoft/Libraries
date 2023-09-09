@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodosoft.Numerics;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives.Tests;
 using Jodosoft.Testing;
 
@@ -30,15 +31,15 @@ namespace Jodosoft.Geometry.Tests
         public sealed class FixedPointGeneralTests : AngleNTestBase<Fix64> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<AngleN<Fix64>> { }
         public sealed class FixedPointSerializableFixedPointTests : SerializableTestBase<AngleN<Fix64>> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<AngleN<SingleN>> { }
-        public sealed class FloatingPointFormattableTests : FormattableTestBase<AngleN<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : AngleNTestBase<SingleN> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<AngleN<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<AngleN<SingleN>> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<AngleN<ByteN>> { }
-        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<AngleN<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : AngleNTestBase<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AngleN<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AngleN<ByteN>> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<AngleN<NSingle>> { }
+        public sealed class FloatingPointFormattableTests : FormattableTestBase<AngleN<NSingle>> { }
+        public sealed class FloatingPointGeneralTests : AngleNTestBase<NSingle> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<AngleN<NSingle>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<AngleN<NSingle>> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<AngleN<NByte>> { }
+        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<AngleN<NByte>> { }
+        public sealed class UnsignedIntegralGeneralTests : AngleNTestBase<NByte> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<AngleN<NByte>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<AngleN<NByte>> { }
     }
 }

@@ -20,7 +20,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Jodosoft.Benchmarking;
-using Jodosoft.Numerics.Clamped;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives;
 
 namespace Jodosoft.Numerics.Benchmarks
@@ -31,73 +31,73 @@ namespace Jodosoft.Numerics.Benchmarks
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static Benchmark Int32NArithmetic_Versus_Int32Arithmetic()
+        public static Benchmark NInt32Arithmetic_Versus_Int32Arithmetic()
         {
             return Benchmark
-                .Using(LowMagnitudeWithInt32<Int32N>)
+                .Using(LowMagnitudeWithInt32<NInt32>)
                 .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
                 .Versus(x => (((x.Int32 + x.Int32) * x.Int32) - x.Int32) / x.Int32);
         }
 
         [Benchmark]
-        public static Benchmark Int32MArithmetic_Versus_Int32Arithmetic()
+        public static Benchmark ClampedInt32Arithmetic_Versus_Int32Arithmetic()
         {
             return Benchmark
-                .Using(LowMagnitudeWithInt32<Int32M>)
+                .Using(LowMagnitudeWithInt32<ClampedInt32>)
                 .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
                 .Versus(x => (((x.Int32 + x.Int32) * x.Int32) - x.Int32) / x.Int32);
         }
 
         [Benchmark]
-        public static Benchmark SingleNArithmetic_Versus_SingleArithmetic()
+        public static Benchmark NSingleArithmetic_Versus_SingleArithmetic()
         {
             return Benchmark
-                .Using(LowMagnitudeWithSingle<SingleN>)
+                .Using(LowMagnitudeWithSingle<NSingle>)
                 .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
                 .Versus(x => (((x.Single + x.Single) * x.Single) - x.Single) / x.Single);
         }
 
         [Benchmark]
-        public static Benchmark SingleMArithmetic_Versus_SingleArithmetic()
+        public static Benchmark ClampedSingleArithmetic_Versus_SingleArithmetic()
         {
             return Benchmark
-                .Using(LowMagnitudeWithSingle<SingleM>)
+                .Using(LowMagnitudeWithSingle<ClampedSingle>)
                 .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
                 .Versus(x => (((x.Single + x.Single) * x.Single) - x.Single) / x.Single);
         }
 
         [Benchmark]
-        public static Benchmark DoubleNArithmetic_Versus_DoubleArithmetic()
+        public static Benchmark NDoubleArithmetic_Versus_DoubleArithmetic()
         {
             return Benchmark
-                .Using(LowMagnitudeWithDouble<DoubleN>)
+                .Using(LowMagnitudeWithDouble<NDouble>)
                 .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
                 .Versus(x => (((x.Double + x.Double) * x.Double) - x.Double) / x.Double);
         }
 
         [Benchmark]
-        public static Benchmark DoubleMArithmetic_Versus_DoubleArithmetic()
+        public static Benchmark ClampedDoubleArithmetic_Versus_DoubleArithmetic()
         {
             return Benchmark
-                .Using(LowMagnitudeWithDouble<DoubleM>)
+                .Using(LowMagnitudeWithDouble<ClampedDouble>)
                 .Measure(x => (((x.Numeric + x.Numeric) * x.Numeric) - x.Numeric) / x.Numeric)
                 .Versus(x => (((x.Double + x.Double) * x.Double) - x.Double) / x.Double);
         }
 
         [Benchmark]
-        public static Benchmark DoubleNLogarithm_Versus_DoubleLogarithm()
+        public static Benchmark NDoubleLogarithm_Versus_DoubleLogarithm()
         {
             return Benchmark
-                .Using(LowMagnitudeWithDouble<DoubleN>)
+                .Using(LowMagnitudeWithDouble<NDouble>)
                 .Measure(x => MathN.Log(x.Numeric, 1))
                 .Versus(x => Math.Log(x.Double, 1));
         }
 
         [Benchmark]
-        public static Benchmark DoubleNRounding_Versus_DoubleRounding()
+        public static Benchmark NDoubleRounding_Versus_DoubleRounding()
         {
             return Benchmark
-                .Using(LowMagnitudeWithDouble<DoubleN>)
+                .Using(LowMagnitudeWithDouble<NDouble>)
                 .Measure(x => MathN.Round(x.Numeric, 1))
                 .Versus(x => Math.Round(x.Double, 1));
         }
@@ -124,7 +124,7 @@ namespace Jodosoft.Numerics.Benchmarks
         public static Benchmark Fix64StringParsing_Versus_DoubleStringParsing()
         {
             return Benchmark
-                .Using(() => Random.NextVariant<SingleN>(Variants.LowMagnitude).ToString())
+                .Using(() => Random.NextVariant<NSingle>(Variants.LowMagnitude).ToString())
                 .Measure(x => Fix64.Parse(x))
                 .Versus(x => double.Parse(x));
         }
@@ -164,19 +164,19 @@ namespace Jodosoft.Numerics.Benchmarks
 
         private static (int Int32, TNumeric Numeric) LowMagnitudeWithInt32<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
         {
-            int value = 1 + Math.Abs(Random.NextVariant<Int32N>(Variants.LowMagnitude));
+            int value = 1 + Math.Abs(Random.NextVariant<NInt32>(Variants.LowMagnitude));
             return (value, ConvertN.ToNumeric<TNumeric>(value, Conversion.Cast));
         }
 
         private static (float Single, TNumeric Numeric) LowMagnitudeWithSingle<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
         {
-            float value = 1 + Math.Abs(Random.NextVariant<SingleN>(Variants.LowMagnitude));
+            float value = 1 + Math.Abs(Random.NextVariant<NSingle>(Variants.LowMagnitude));
             return (value, ConvertN.ToNumeric<TNumeric>(value, Conversion.Cast));
         }
 
         private static (double Double, TNumeric Numeric) LowMagnitudeWithDouble<TNumeric>() where TNumeric : struct, INumeric<TNumeric>
         {
-            double value = 1 + Math.Abs(Random.NextVariant<DoubleN>(Variants.LowMagnitude));
+            double value = 1 + Math.Abs(Random.NextVariant<NDouble>(Variants.LowMagnitude));
             return (value, ConvertN.ToNumeric<TNumeric>(value, Conversion.Cast));
         }
     }

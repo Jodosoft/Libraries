@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodosoft.Numerics;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives.Tests;
 using Jodosoft.Testing;
 
@@ -30,15 +31,15 @@ namespace Jodosoft.Geometry.Tests
         public sealed class FixedPointGeneralTests : TriangleNTestBase<Fix64> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<TriangleN<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<TriangleN<Fix64>> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<TriangleN<SingleN>> { }
-        public sealed class FloatingPointFormattableTests : FormattableTestBase<TriangleN<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : TriangleNTestBase<SingleN> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<TriangleN<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<TriangleN<SingleN>> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<TriangleN<ByteN>> { }
-        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<TriangleN<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : TriangleNTestBase<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<TriangleN<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<TriangleN<ByteN>> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<TriangleN<NSingle>> { }
+        public sealed class FloatingPointFormattableTests : FormattableTestBase<TriangleN<NSingle>> { }
+        public sealed class FloatingPointGeneralTests : TriangleNTestBase<NSingle> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<TriangleN<NSingle>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<TriangleN<NSingle>> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<TriangleN<NByte>> { }
+        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<TriangleN<NByte>> { }
+        public sealed class UnsignedIntegralGeneralTests : TriangleNTestBase<NByte> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<TriangleN<NByte>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<TriangleN<NByte>> { }
     }
 }

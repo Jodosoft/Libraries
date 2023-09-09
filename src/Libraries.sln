@@ -60,6 +60,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jodosoft.Testing.Newtonsoft
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jodosoft.Testing.Tests", "Jodosoft.Testing.Tests\Jodosoft.Testing.Tests.csproj", "{77EC0B20-2F10-4E6E-A1D6-4BD4408AFF7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jodosoft.Numerics.Compatibility", "Jodosoft.Numerics.Compatibility\Jodosoft.Numerics.Compatibility.csproj", "{4AEB15FB-82CF-4A2F-BC4C-8088C2D01FB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,10 @@ Global
 		{77EC0B20-2F10-4E6E-A1D6-4BD4408AFF7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77EC0B20-2F10-4E6E-A1D6-4BD4408AFF7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77EC0B20-2F10-4E6E-A1D6-4BD4408AFF7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEB15FB-82CF-4A2F-BC4C-8088C2D01FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AEB15FB-82CF-4A2F-BC4C-8088C2D01FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AEB15FB-82CF-4A2F-BC4C-8088C2D01FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEB15FB-82CF-4A2F-BC4C-8088C2D01FB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{8B354BD3-9AFE-4F0E-BD16-707FFD9E04C3} = {A34600D5-617D-4892-9AB9-1FFC8D8094C2}
 		{8A5A4D78-0F23-44A6-BD76-EB1A8331C8C8} = {BE408783-FE5D-4639-9096-991A8DF85AF6}
 		{77EC0B20-2F10-4E6E-A1D6-4BD4408AFF7F} = {BE408783-FE5D-4639-9096-991A8DF85AF6}
+		{4AEB15FB-82CF-4A2F-BC4C-8088C2D01FB4} = {FEBB3563-984B-48BE-8E73-AF7845DC11DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384AE26E-3EAF-4811-8737-7DEF08E2997C}

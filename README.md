@@ -410,17 +410,17 @@ The table belows summarizes the capabilities of these types.
 
 ### 4.2 Non-overflowing numbers <br id="numerics-non-overflowing-numbers" />
   
-Number types in the <a href="https://libraries.jodosoft.com/docs/api/N_Jodosoft_Numerics_Clamped.htm">Jodosoft.Numerics.Clamped</a> namespace have built-in prevention of overflow. Operations that would normally error or overflow instead return `MinValue` or `MaxValue`, and operations that would normally return <code>NaN</code> instead return zero.
+Number types with <code>Clamped</code> prefix have built-in prevention of overflow. Operations that would normally error or overflow instead return `MinValue` or `MaxValue`, and operations that would normally return <code>NaN</code> instead return zero.
 
 This provides an alternative to using the <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/checked-and-unchecked"><code>checked</code></a> keyword, removing the need for repetitive error handling logic.
 
 As with all number types provided by this library, non-overflowing number types support a full range of mathematical functions, operators, conversions, string formatting, etc. (see <a href="#numerics-framework-for-numbers">§4.3. Framework for numbers</a>).
 
 ```csharp
-var i = Int32M.MaxValue + 1;
+var i = ClampedInt32.MaxValue + 1;
 Console.WriteLine(i);  // output: 2147483647
 
-var f = (SingleM)4 / 0;
+var f = (ClampedSingle)4 / 0;
 Console.WriteLine(f);  // output: 3.402823E+38
 ```
 
@@ -435,14 +435,14 @@ The table below summarizes the non-overflowing number types and utilities provid
 	<tr>
 		<td>
 			<sub><em>readonly struct</em></sub><br />
-			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_ByteM.htm">ByteM</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_SByteM.htm">SByteM</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_Int16M.htm">Int16M</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_UInt16M.htm">UInt16M</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_Int32M.htm">Int32M</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_UInt32M.htm">UInt32M</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_Int64M.htm">Int64M</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_UInt64M.htm">UInt64M</a>
+			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedByte.htm">ClampedByte</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedSByte.htm">ClampedSByte</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedInt16.htm">ClampedInt16</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedUInt16.htm">ClampedUInt16</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedInt32.htm">ClampedInt32</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedUInt32.htm">ClampedUInt32</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedInt64.htm">ClampedInt64</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedUInt64.htm">ClampedUInt64</a>
 		</td>
 		<td>
 			<p>Non-overflowing variants of the built-in integral number types.</p>
@@ -457,8 +457,8 @@ The table below summarizes the non-overflowing number types and utilities provid
 	<tr>
 		<td>
 			<sub><em>readonly struct</em></sub><br />
-			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_SingleM.htm">SingleM</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_DoubleM.htm">DoubleM</a>
+			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedSingle.htm">ClampedSingle</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedDouble.htm">ClampedDouble</a>
 		</td>
 		<td>
       <p>Non-overflowing variants of the built-in floating-point number types.</p>
@@ -471,7 +471,7 @@ The table below summarizes the non-overflowing number types and utilities provid
 	<tr>
 		<td>
 			<sub><em>readonly struct</em></sub><br />
-			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_DecimalM.htm">DecimalM</a>
+			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedDecimal.htm">ClampedDecimal</a>
 		</td>
 		<td>
 			<p>Non-overflowing variants of <a href="https://learn.microsoft.com/en-us/dotnet/api/system.decimal?view=net-7.0">System.Decimal</a>.</p>
@@ -486,8 +486,8 @@ The table below summarizes the non-overflowing number types and utilities provid
 	<tr>
 		<td>
 			<sub><em>readonly struct</em></sub><br />
-			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_Fix64M.htm">Fix64M</a>,<br />
-      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_UFix64M.htm">UFix64M</a>
+			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedFix64.htm">ClampedFix64</a>,<br />
+      <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedUFix64.htm">ClampedUFix64</a>
 		</td>
 		<td>
 			<p>Non-overflowing variants of fixed-point numbers (see <a href="#numerics-fixed-point-numbers">§4.1. Fixed-point numbers</a>).</p>
@@ -502,7 +502,7 @@ The table below summarizes the non-overflowing number types and utilities provid
 	<tr>
 		<td>
 			<sub><em>static class</em></sub><br />
-			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_Clamped_Clamped.htm">Clamped</a>
+			<a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_ClampedArithmetic.htm">ClampedArithmetic</a>
 		</td>
 		<td>
 			Provides static methods for performing non-overflowing arithmetic. Used in the implementation of the preceeding non-overflowing number types.
@@ -566,8 +566,8 @@ The table below gives a full list of features supported by number types that imp
         Overloads are provided to support alternative modes of conversion,
         e.g. <code>Default</code>, <code>Cast</code> and <code>Clamp</code>.
       </p>
-      <pre lang="csharp"><code>var defaultResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Default);
-var castResult = ConvertN.ToNumeric&lt;ByteN&gt;(199.956, Conversion.Cast);</code></pre>
+      <pre lang="csharp"><code>var defaultResult = ConvertN.ToNumeric&lt;NByte&gt;(199.956, Conversion.Default);
+var castResult = ConvertN.ToNumeric&lt;NByte&gt;(199.956, Conversion.Cast);</code></pre>
     </td>
   </tr>
   <tr />
@@ -651,12 +651,12 @@ Console.WriteLine(result); // output: 3.141</code></pre>
   <tr />
   <tr>
     <td id="wrappers"><sub><em>readonly struct</em></sub><br />
-      ByteN, SByteN,<br />
-      Int16N, UInt16N,<br />
-      Int32N, UInt32N,<br />
-      Int64N, UInt64N,<br />
-      SingleN, DoubleN,<br />
-      DecimalN
+      NByte, NSByte,<br />
+      NInt16, NUInt16,<br />
+      NInt32, NUInt32,<br />
+      NInt64, NUInt64,<br />
+      NSingle, NDouble,<br />
+      NDecimal
     </td>
     <td>Wrappers for the <a href="https://docs.microsoft.com/en-us/dotnet/standard/numerics">built-in numeric types</a> that implement <a href="https://libraries.jodosoft.com/docs/api/T_Jodosoft_Numerics_INumeric_1.htm">INumeric&lt;TSelf&gt;</a>, allowing them to be used in a generic context.</td>
   </tr>
@@ -757,15 +757,15 @@ Sample output can be seen below:
 | Fix64Random_Versus_DoubleRandom | 2.4E+07 | 3.995E+07 | *<1μs* | *<1μs* | **0.60** | 1.66 |
 | Fix64ToByteArray_Versus_DoubleToByteArray | 4.831E+07 | 4.876E+07 | *<1μs* | *<1μs* | 0.99 | 1.01 |
 | Fix64FromByteArray_Versus_DoubleFromByteArray | 5.29E+07 | 5.225E+07 | *<1μs* | *<1μs* | 1.01 | 0.99 |
-| Int32NArithmetic_Versus_Int32Arithmetic | 5.03E+07 | 5.282E+07 | *<1μs* | *<1μs* | 0.95 | 1.05 |
-| Int32MArithmetic_Versus_Int32Arithmetic | 4.425E+07 | 5.215E+07 | *<1μs* | *<1μs* | **0.85** | 1.18 |
-| SingleNArithmetic_Versus_SingleArithmetic | 4.122E+07 | 5.623E+07 | *<1μs* | *<1μs* | **0.73** | 1.36 |
-| SingleMArithmetic_Versus_SingleArithmetic | 3.418E+07 | 5.634E+07 | *<1μs* | *<1μs* | **0.61** | 1.65 |
-| DoubleNArithmetic_Versus_DoubleArithmetic | 4.129E+07 | 5.565E+07 | *<1μs* | *<1μs* | **0.74** | 1.35 |
-| DoubleMArithmetic_Versus_DoubleArithmetic | 3.402E+07 | 5.527E+07 | *<1μs* | *<1μs* | **0.62** | 1.62 |
-| DoubleNDivision_Versus_DoubleDivision | 4.833E+07 | 5.392E+07 | *<1μs* | *<1μs* | **0.90** | 1.12 |
-| DoubleNLogarithm_Versus_DoubleLogarithm | 4.913E+07 | 5.244E+07 | *<1μs* | *<1μs* | 0.94 | 1.07 |
-| DoubleNRounding_Versus_DoubleRounding | 3.396E+07 | 3.597E+07 | *<1μs* | *<1μs* | 0.94 | 1.06 |
+| NInt32Arithmetic_Versus_Int32Arithmetic | 5.03E+07 | 5.282E+07 | *<1μs* | *<1μs* | 0.95 | 1.05 |
+| ClampedInt32Arithmetic_Versus_Int32Arithmetic | 4.425E+07 | 5.215E+07 | *<1μs* | *<1μs* | **0.85** | 1.18 |
+| NSingleArithmetic_Versus_SingleArithmetic | 4.122E+07 | 5.623E+07 | *<1μs* | *<1μs* | **0.73** | 1.36 |
+| ClampedSingleArithmetic_Versus_SingleArithmetic | 3.418E+07 | 5.634E+07 | *<1μs* | *<1μs* | **0.61** | 1.65 |
+| NDoubleArithmetic_Versus_DoubleArithmetic | 4.129E+07 | 5.565E+07 | *<1μs* | *<1μs* | **0.74** | 1.35 |
+| ClampedDoubleArithmetic_Versus_DoubleArithmetic | 3.402E+07 | 5.527E+07 | *<1μs* | *<1μs* | **0.62** | 1.62 |
+| NDoubleDivision_Versus_DoubleDivision | 4.833E+07 | 5.392E+07 | *<1μs* | *<1μs* | **0.90** | 1.12 |
+| NDoubleLogarithm_Versus_DoubleLogarithm | 4.913E+07 | 5.244E+07 | *<1μs* | *<1μs* | 0.94 | 1.07 |
+| NDoubleRounding_Versus_DoubleRounding | 3.396E+07 | 3.597E+07 | *<1μs* | *<1μs* | 0.94 | 1.06 |
 
 [\[Back to top\]](#top)
 
@@ -843,8 +843,8 @@ Provides a specification for randomly generating objects based on variants (desc
 Extension methods are provided for <a href="https://docs.microsoft.com/en-us/dotnet/api/system.random">System.Random</a> to enable random generation of values within each variant.
 
 <pre lang="csharp"><code>var random = new Random();
-short num1 = random.NextVariant&lt;Int16N&gt;(Variants.LowMagnitude);
-short num2 = random.NextVariant&lt;Int16N&gt;(Variants.Defaults | Variants.Boundaries);
+short num1 = random.NextVariant&lt;NInt16&gt;(Variants.LowMagnitude);
+short num2 = random.NextVariant&lt;NInt16&gt;(Variants.Defaults | Variants.Boundaries);
 
 Console.WriteLine(num1); // output: 24 (example)
 Console.WriteLine(num2); // output: -32768 (example)</code></pre>

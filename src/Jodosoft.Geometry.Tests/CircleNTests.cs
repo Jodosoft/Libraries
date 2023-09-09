@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodosoft.Numerics;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives.Tests;
 using Jodosoft.Testing;
 
@@ -30,15 +31,15 @@ namespace Jodosoft.Geometry.Tests
         public sealed class FixedPointGeneralTests : CircleNTestBase<Fix64> { }
         public sealed class FixedPointObjectTests : ObjectTestBase<CircleN<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<CircleN<Fix64>> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<CircleN<SingleN>> { }
-        public sealed class FloatingPointFormattableTests : FormattableTestBase<CircleN<SingleN>> { }
-        public sealed class FloatingPointGeneralTests : CircleNTestBase<SingleN> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<CircleN<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<CircleN<SingleN>> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<CircleN<ByteN>> { }
-        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<CircleN<ByteN>> { }
-        public sealed class UnsignedIntegralGeneralTests : CircleNTestBase<ByteN> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<CircleN<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<CircleN<ByteN>> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<CircleN<NSingle>> { }
+        public sealed class FloatingPointFormattableTests : FormattableTestBase<CircleN<NSingle>> { }
+        public sealed class FloatingPointGeneralTests : CircleNTestBase<NSingle> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<CircleN<NSingle>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<CircleN<NSingle>> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<CircleN<NByte>> { }
+        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<CircleN<NByte>> { }
+        public sealed class UnsignedIntegralGeneralTests : CircleNTestBase<NByte> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<CircleN<NByte>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<CircleN<NByte>> { }
     }
 }

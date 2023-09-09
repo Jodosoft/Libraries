@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Benchmarks.props" />
   <ItemGroup>
-    <ProjectReference Include="..\Jodosoft.Numerics\Jodosoft.Numerics.csproj" />
+    <ProjectReference Include="..\Jodosoft.Numerics.Compatibility\Jodosoft.Numerics.Compatibility.csproj" />
   </ItemGroup>
 </Project>
