@@ -50,9 +50,9 @@ namespace Jodosoft.Numerics
         }
 
         private Vector3N(SerializationInfo info, StreamingContext context) : this(
-            (TNumeric)info.GetValue(nameof(X), typeof(TNumeric)),
-            (TNumeric)info.GetValue(nameof(Y), typeof(TNumeric)),
-            (TNumeric)info.GetValue(nameof(Z), typeof(TNumeric)))
+            (TNumeric)(info.GetValue(nameof(X), typeof(TNumeric)) ?? throw new InvalidOperationException()),
+            (TNumeric)(info.GetValue(nameof(Y), typeof(TNumeric)) ?? throw new InvalidOperationException()),
+            (TNumeric)(info.GetValue(nameof(Z), typeof(TNumeric)) ?? throw new InvalidOperationException()))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

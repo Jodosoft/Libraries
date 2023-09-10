@@ -58,8 +58,8 @@ namespace Jodosoft.Geometry
 
         private CircleN(SerializationInfo info, StreamingContext context)
         {
-            Center = (Vector2N<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2N<TNumeric>));
-            Radius = (TNumeric)info.GetValue(nameof(Radius), typeof(TNumeric));
+            Center = (Vector2N<TNumeric>)(info.GetValue(nameof(Center), typeof(Vector2N<TNumeric>)) ?? throw new InvalidOperationException());
+            Radius = (TNumeric)(info.GetValue(nameof(Radius), typeof(TNumeric)) ?? throw new InvalidOperationException());
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
@@ -80,7 +80,7 @@ namespace Jodosoft.Geometry
         public override bool Equals(object? obj) => obj is CircleN<TNumeric> circle && Equals(circle);
         public override int GetHashCode() => HashCodeShim.Combine(Center, Radius);
         public override string ToString() => $"<X:{Center.X}, Y:{Center.Y}, R:{Radius}>";
-        public string ToString(string format, IFormatProvider formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, R:{Radius.ToString(format, formatProvider)}>";
+        public string ToString(string? format, IFormatProvider? formatProvider) => $"<X:{Center.X.ToString(format, formatProvider)}, Y:{Center.Y.ToString(format, formatProvider)}, R:{Radius.ToString(format, formatProvider)}>";
 
         public static bool operator ==(CircleN<TNumeric> left, CircleN<TNumeric> right) => left.Equals(right);
         public static bool operator !=(CircleN<TNumeric> left, CircleN<TNumeric> right) => !(left == right);

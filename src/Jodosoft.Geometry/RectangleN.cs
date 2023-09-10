@@ -56,9 +56,9 @@ namespace Jodosoft.Geometry
 
         private RectangleN(SerializationInfo info, StreamingContext context)
         {
-            Center = (Vector2N<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2N<TNumeric>));
-            Dimensions = (Vector2N<TNumeric>)info.GetValue(nameof(Dimensions), typeof(Vector2N<TNumeric>));
-            Angle = (AngleN<TNumeric>)info.GetValue(nameof(Angle), typeof(AngleN<TNumeric>));
+            Center = (Vector2N<TNumeric>)(info.GetValue(nameof(Center), typeof(Vector2N<TNumeric>)) ?? throw new InvalidOperationException());
+            Dimensions = (Vector2N<TNumeric>)(info.GetValue(nameof(Dimensions), typeof(Vector2N<TNumeric>)) ?? throw new InvalidOperationException());
+            Angle = (AngleN<TNumeric>)(info.GetValue(nameof(Angle), typeof(AngleN<TNumeric>)) ?? throw new InvalidOperationException());
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

@@ -64,8 +64,8 @@ namespace Jodosoft.Geometry
         }
 
         private AARectangleN(SerializationInfo info, StreamingContext context) : this(
-            (Vector2N<TNumeric>)info.GetValue(nameof(Center), typeof(Vector2N<TNumeric>)),
-            (Vector2N<TNumeric>)info.GetValue(nameof(Dimensions), typeof(Vector2N<TNumeric>)))
+            (Vector2N<TNumeric>)(info.GetValue(nameof(Center), typeof(Vector2N<TNumeric>)) ?? throw new InvalidOperationException()),
+            (Vector2N<TNumeric>)(info.GetValue(nameof(Dimensions), typeof(Vector2N<TNumeric>)) ?? throw new InvalidOperationException()))
         { }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

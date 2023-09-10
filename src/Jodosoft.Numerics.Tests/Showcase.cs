@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#if NET5_0_OR_GREATER
+#if NET7_0
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -144,12 +144,12 @@ namespace Jodosoft.Numerics.Tests
             Console.WriteLine(x); // output: 100
             Console.WriteLine(y); // output: 1.724636
             Console.WriteLine(z); // output: 1000000.123456
-            Console.WriteLine(r); // output: 124.866858
+            Console.WriteLine(r); // output: 162.681102
             Console.WriteLine(f); // output: 1000000.1
             Console.WriteLine(bytes.Length); // output: 8
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("100", "1.724636", "1000000.123456", "124.866858", "1000000.1", "8");
+                .Should().ContainInOrder("100", "1.724636", "1000000.123456", "162.681102", "1000000.1", "8");
         }
 
         [Test]

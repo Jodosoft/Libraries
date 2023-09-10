@@ -17,6 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -30,7 +31,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the addition operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -42,7 +43,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the bitwise complement operator for <typeparamref name="T"/> using
         ///     <paramref name="value"/> as the parameter. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="value">The value to pass to operator.</param>
@@ -56,7 +57,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the decrement operator for <typeparamref name="T"/> using
         ///     <paramref name="value"/> as the parameter. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="value">The value to pass to operator.</param>
@@ -67,7 +68,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the division operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -90,7 +91,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the greater than operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -102,7 +103,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the greater than or equal operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -114,7 +115,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the increment operator for <typeparamref name="T"/> using
         ///     <paramref name="value"/> as the parameter. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="value">The value to pass to operator.</param>
@@ -136,7 +137,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the left-shift operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -148,7 +149,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the less than operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -160,7 +161,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the less than or equal operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -172,7 +173,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the logical AND operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -184,7 +185,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the logical exclusive OR operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -196,7 +197,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the logical OR operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -208,7 +209,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the multiplication operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -220,7 +221,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the remainder operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -232,7 +233,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the right-shift operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -244,7 +245,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the subtraction operator for <typeparamref name="T"/> using
         ///     <paramref name="left"/> and <paramref name="right"/> as the parameters. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="left">The left value to pass to operator.</param>
@@ -256,7 +257,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the unary minus operator for <typeparamref name="T"/> using
         ///     <paramref name="value"/> as the parameter. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="value">The value to pass to operator.</param>
@@ -267,7 +268,7 @@ namespace Jodosoft.Primitives
         /// <summary>
         ///     Uses reflection to invoke the unary plus operator for <typeparamref name="T"/> using
         ///     <paramref name="value"/> as the parameter. Returns the result of the operation
-        ///     or throws an <see cref="System.InvalidOperationException"/> if no such operator is defined.
+        ///     or throws an <see cref="InvalidOperationException"/> if no such operator is defined.
         /// </summary>
         /// <typeparam name="T">The type for which the operator is defined.</typeparam>
         /// <param name="value">The value to pass to operator.</param>
@@ -279,11 +280,11 @@ namespace Jodosoft.Primitives
         {
             try
             {
-                return (T)Expression.Lambda(expression).Compile().DynamicInvoke();
+                return (T)(Expression.Lambda(expression).Compile().DynamicInvoke() ?? throw new InvalidOperationException());
             }
             catch (TargetInvocationException exception)
             {
-                throw exception.InnerException;
+                throw exception.InnerException ?? exception;
             }
         }
     }

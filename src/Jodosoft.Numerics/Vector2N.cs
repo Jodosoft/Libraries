@@ -49,8 +49,8 @@ namespace Jodosoft.Numerics
 
         private Vector2N(SerializationInfo info, StreamingContext context)
         {
-            X = (TNumeric)info.GetValue(nameof(X), typeof(TNumeric));
-            Y = (TNumeric)info.GetValue(nameof(Y), typeof(TNumeric));
+            X = (TNumeric)(info.GetValue(nameof(X), typeof(TNumeric)) ?? throw new InvalidOperationException());
+            Y = (TNumeric)(info.GetValue(nameof(Y), typeof(TNumeric)) ?? throw new InvalidOperationException());
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

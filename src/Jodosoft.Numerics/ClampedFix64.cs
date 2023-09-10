@@ -57,7 +57,7 @@ namespace Jodosoft.Numerics
         public override bool Equals(object? obj) => obj is ClampedFix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => Scaled.ToString(_scaledValue, ScalingFactor, null);
-        public string ToString(IFormatProvider formatProvider) => Scaled.ToString(_scaledValue, ScalingFactor, formatProvider);
+        public string ToString(IFormatProvider? provider) => Scaled.ToString(_scaledValue, ScalingFactor, provider);
         public string ToString(string format) => ((double)this).ToString(format);
 
         public string ToString(string? format, IFormatProvider? formatProvider)
@@ -147,21 +147,21 @@ namespace Jodosoft.Numerics
         public static ClampedFix64 operator >>(ClampedFix64 left, int right) => new ClampedFix64(left._scaledValue >> right);
 
         TypeCode IConvertible.GetTypeCode() => TypeCode.Object;
-        bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToBoolean(this);
-        byte IConvertible.ToByte(IFormatProvider provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToByte(this, Conversion.Clamp);
-        char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)((IConvert<ClampedFix64>)Utilities.Instance).ToDouble(this, Conversion.Clamp)).ToChar(provider);
-        DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)((IConvert<ClampedFix64>)Utilities.Instance).ToDouble(this, Conversion.Clamp)).ToDateTime(provider);
-        decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToDecimal(this, Conversion.Clamp);
-        double IConvertible.ToDouble(IFormatProvider provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToDouble(this, Conversion.Clamp);
-        float IConvertible.ToSingle(IFormatProvider provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToSingle(this, Conversion.Clamp);
-        int IConvertible.ToInt32(IFormatProvider provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToInt32(this, Conversion.Clamp);
-        long IConvertible.ToInt64(IFormatProvider provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToInt64(this, Conversion.Clamp);
-        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertExtended<ClampedFix64>)Utilities.Instance).ToSByte(this, Conversion.Clamp);
-        short IConvertible.ToInt16(IFormatProvider provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToInt16(this, Conversion.Clamp);
-        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertExtended<ClampedFix64>)Utilities.Instance).ToUInt32(this, Conversion.Clamp);
-        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertExtended<ClampedFix64>)Utilities.Instance).ToUInt64(this, Conversion.Clamp);
-        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertExtended<ClampedFix64>)Utilities.Instance).ToUInt16(this, Conversion.Clamp);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
+        bool IConvertible.ToBoolean(IFormatProvider? provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToBoolean(this);
+        byte IConvertible.ToByte(IFormatProvider? provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToByte(this, Conversion.Clamp);
+        char IConvertible.ToChar(IFormatProvider? provider) => ((IConvertible)((IConvert<ClampedFix64>)Utilities.Instance).ToDouble(this, Conversion.Clamp)).ToChar(provider);
+        DateTime IConvertible.ToDateTime(IFormatProvider? provider) => ((IConvertible)((IConvert<ClampedFix64>)Utilities.Instance).ToDouble(this, Conversion.Clamp)).ToDateTime(provider);
+        decimal IConvertible.ToDecimal(IFormatProvider? provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToDecimal(this, Conversion.Clamp);
+        double IConvertible.ToDouble(IFormatProvider? provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToDouble(this, Conversion.Clamp);
+        float IConvertible.ToSingle(IFormatProvider? provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToSingle(this, Conversion.Clamp);
+        int IConvertible.ToInt32(IFormatProvider? provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToInt32(this, Conversion.Clamp);
+        long IConvertible.ToInt64(IFormatProvider? provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToInt64(this, Conversion.Clamp);
+        sbyte IConvertible.ToSByte(IFormatProvider? provider) => ((IConvertExtended<ClampedFix64>)Utilities.Instance).ToSByte(this, Conversion.Clamp);
+        short IConvertible.ToInt16(IFormatProvider? provider) => ((IConvert<ClampedFix64>)Utilities.Instance).ToInt16(this, Conversion.Clamp);
+        uint IConvertible.ToUInt32(IFormatProvider? provider) => ((IConvertExtended<ClampedFix64>)Utilities.Instance).ToUInt32(this, Conversion.Clamp);
+        ulong IConvertible.ToUInt64(IFormatProvider? provider) => ((IConvertExtended<ClampedFix64>)Utilities.Instance).ToUInt64(this, Conversion.Clamp);
+        ushort IConvertible.ToUInt16(IFormatProvider? provider) => ((IConvertExtended<ClampedFix64>)Utilities.Instance).ToUInt16(this, Conversion.Clamp);
+        object IConvertible.ToType(Type conversionType, IFormatProvider? provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<ClampedFix64>.IsGreaterThan(ClampedFix64 value) => this > value;
         bool INumeric<ClampedFix64>.IsGreaterThanOrEqualTo(ClampedFix64 value) => this >= value;
