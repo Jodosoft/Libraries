@@ -666,9 +666,6 @@ namespace Jodosoft.Numerics
 
         private static float NextSingleDefault(this Random random, float minValue, float maxValue)
         {
-#if NET6_0_OR_GREATER
-            return random.NextSingle(minValue, maxValue);
-#else
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
             if (!SingleShim.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
             if (!SingleShim.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
@@ -676,7 +673,6 @@ namespace Jodosoft.Numerics
             if (minValue == maxValue) return minValue;
 
             return minValue + ((float)random.NextDouble() * (maxValue - minValue));
-#endif
         }
 
         private static float NextSingleExtended(this Random random, float bound1, float bound2)
@@ -702,9 +698,6 @@ namespace Jodosoft.Numerics
 
         private static double NextDoubleDefault(this Random random, double minValue, double maxValue)
         {
-#if NET6_0_OR_GREATER
-            return random.NextDouble(minValue, maxValue);
-#else
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
             if (!DoubleShim.IsFinite(minValue)) throw new ArgumentOutOfRangeException(nameof(minValue), minValue, string.Format(XMustBeFinite, nameof(minValue)));
             if (!DoubleShim.IsFinite(maxValue)) throw new ArgumentOutOfRangeException(nameof(maxValue), maxValue, string.Format(XMustBeFinite, nameof(minValue)));
@@ -712,7 +705,6 @@ namespace Jodosoft.Numerics
             if (minValue == maxValue) return minValue;
 
             return minValue + (random.NextDouble() * (maxValue - minValue));
-#endif
         }
 
         private static double NextDoubleExtended(this Random random, double bound1, double bound2)
