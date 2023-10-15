@@ -19,12 +19,6 @@
 
 #if !HAS_SYSTEM_NUMERICS
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Jodosoft.Numerics.Compatibility
 {
     public interface IIncrementOperators<TSelf>

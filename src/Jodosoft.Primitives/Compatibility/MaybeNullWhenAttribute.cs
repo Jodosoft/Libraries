@@ -17,21 +17,24 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-using System.Numerics;
-using System.Runtime.CompilerServices;
+using System;
 
-#if HAS_SYSTEM_NUMERICS
+#if !NETSTANDARD2_1_OR_GREATER && !NETCOREAPP3_0_OR_GREATER
 
-namespace Jodosoft.Numerics.Compatibility
+namespace Jodosoft.Primitives.Compatibility
 {
-    public static class AdditionOperatorsExtensions
+    /// <summary>Specifies that when a method returns <see cref="ReturnValue"/>, the parameter may be null even if the corresponding type disallows it.</summary>
+    [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+    public class MaybeNullWhenAttribute : Attribute
     {
-        /// <summary>Adds two values together to compute their sum.</summary>
-        /// <param name="left">The value to which <paramref name="right" /> is added.</param>
-        /// <param name="right">The value which is added to <paramref name="left" />.</param>
-        /// <returns>The sum of <paramref name="left" /> and <paramref name="right" />.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TResult Add<TSelf, TOther, TResult>(this TSelf left, TOther right) where TSelf : IAdditionOperators<TSelf, TOther, TResult>, new() => left + right;
+        /// <summary>Initializes the attribute with the specified return value condition.</summary>
+        /// <param name="returnValue">
+        /// The return value condition. If the method returns this value, the associated parameter may be null.
+        /// </param>
+        public MaybeNullWhenAttribute(bool returnValue) => ReturnValue = returnValue;
+
+        /// <summary>Gets the return value condition.</summary>
+        public bool ReturnValue { get; }
     }
 }
 

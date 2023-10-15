@@ -17,21 +17,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#if NET7_0
-
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
 using FluentAssertions;
-using Jodosoft.Numerics;
 using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives;
 using Jodosoft.Testing;
 using NUnit.Framework;
 
 using MyNumberType = Jodosoft.Numerics.Compatibility.NDouble;
+
+#if NET7_0
 
 namespace Jodosoft.Numerics.Tests
 {

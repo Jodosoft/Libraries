@@ -19,19 +19,13 @@
 
 #if !HAS_SYSTEM_NUMERICS
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Jodosoft.Numerics.Compatibility
 {
     /// <summary>Defines a mechanism for getting the multiplicative identity of a given type.</summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
     /// <typeparam name="TResult">The type that contains the multiplicative identify of <typeparamref name="TSelf" />.</typeparam>
     public interface IMultiplicativeIdentity<TSelf, TResult>
-        where TSelf : IMultiplicativeIdentity<TSelf, TResult>?
+        where TSelf : IMultiplicativeIdentity<TSelf, TResult>?, new()
     {
         /// <summary>Gets the multiplicative identity of the current type.</summary>
         TResult MultiplicativeIdentity { get; }
