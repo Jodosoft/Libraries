@@ -38,7 +38,32 @@ namespace Jodosoft.Numerics
         }
 #endif
 
-        #region INumberBase
+        /// <inheritdoc cref="IAdditiveIdentity{TSelf}.AdditiveIdentity"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T AdditiveIdentity<T>(T value) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.AdditiveIdentity;
+
+        /// <inheritdoc cref="IMultiplicativeIdentity{TSelf}.MultiplicativeIdentity"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T MultiplicativeIdentity<T>(T value) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.MultiplicativeIdentity;
+
+        /// <inheritdoc cref="IMultiplicativeIdentity{TSelf}.MultiplicativeIdentity"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryParse<T>([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(returnValue: false)] out T result) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.TryParse(s, provider, out result);
 
         /// <inheritdoc cref="INumberBase{TSelf}.Abs(TSelf)"/>
         [DebuggerStepThrough]
@@ -49,79 +74,38 @@ namespace Jodosoft.Numerics
 #endif
                     T.Abs(value);
 
-        /// <inheritdoc cref="INumberBase{TSelf}.MaxMagnitude(TSelf, TSelf)"/>
+        /// <inheritdoc cref="INumberBase{TSelf}.CreateChecked{TOther}(TOther)"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T MaxMagnitude<T>(T x, T y) where T : INumberBase<T>, new() =>
+        public static T CreateChecked<T, TOther>(TOther value)
+            where T : INumberBase<T>, new()
+            where TOther : INumberBase<TOther>, new() =>
 #if !HAS_SYSTEM_NUMERICS
             Default<T>.
 #endif
-                    T.MaxMagnitude(x, y);
+                    T.CreateChecked(value);
 
-        /// <inheritdoc cref="INumberBase{TSelf}.MaxMagnitudeNumber(TSelf, TSelf)"/>
+        /// <inheritdoc cref="INumberBase{TSelf}.CreateSaturating{TOther}(TOther)"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T MaxMagnitudeNumber<T>(T x, T y) where T : INumberBase<T>, new() =>
+        public static T CreateSaturating<T, TOther>(TOther value)
+            where T : INumberBase<T>, new()
+            where TOther : INumberBase<TOther>, new() =>
 #if !HAS_SYSTEM_NUMERICS
             Default<T>.
 #endif
-                    T.MaxMagnitudeNumber(x, y);
+                    T.CreateSaturating(value);
 
-        /// <inheritdoc cref="INumberBase{TSelf}.MinMagnitude(TSelf, TSelf)"/>
+        /// <inheritdoc cref="INumberBase{TSelf}.CreateTruncating{TOther}(TOther)"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T MinMagnitude<T>(T x, T y) where T : INumberBase<T>, new() =>
+        public static T CreateTruncating<T, TOther>(TOther value)
+            where T : INumberBase<T>, new()
+            where TOther : INumberBase<TOther>, new() =>
 #if !HAS_SYSTEM_NUMERICS
             Default<T>.
 #endif
-                    T.MinMagnitude(x, y);
-
-        /// <inheritdoc cref="INumberBase{TSelf}.MinMagnitudeNumber(TSelf, TSelf)"/>
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T MinMagnitudeNumber<T>(T x, T y) where T : INumberBase<T>, new() =>
-#if !HAS_SYSTEM_NUMERICS
-            Default<T>.
-#endif
-                    T.MinMagnitudeNumber(x, y);
-
-        /// <inheritdoc cref="INumberBase{TSelf}.One"/>
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T One<T>() where T : INumberBase<T>, new() =>
-#if !HAS_SYSTEM_NUMERICS
-            Default<T>.
-#endif
-                    T.One;
-
-#if HAS_SPANS
-        /// <inheritdoc cref="INumberBase{TSelf}.Parse(ReadOnlySpan{char}, NumberStyles, IFormatProvider?)"/>
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Parse<T>(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider) where T : INumberBase<T>, new() =>
-#if !HAS_SYSTEM_NUMERICS
-            Default<T>.
-#endif
-                    T.Parse(s, style, provider);
-#endif
-
-        /// <inheritdoc cref="INumberBase{TSelf}.Parse(string, NumberStyles, IFormatProvider?)"/>
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Parse<T>(string s, NumberStyles style, IFormatProvider? provider) where T : INumberBase<T>, new() =>
-#if !HAS_SYSTEM_NUMERICS
-            Default<T>.
-#endif
-                    T.Parse(s, style, provider);
-
-        /// <inheritdoc cref="INumberBase{TSelf}.Zero"/>
-        [DebuggerStepThrough]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Zero<T>() where T : INumberBase<T>, new() =>
-#if !HAS_SYSTEM_NUMERICS
-            Default<T>.
-#endif
-                    T.Zero;
+                    T.CreateTruncating(value);
 
         /// <inheritdoc cref="INumberBase{TSelf}.IsCanonical(TSelf)"/>
         [DebuggerStepThrough]
@@ -276,25 +260,68 @@ namespace Jodosoft.Numerics
 #endif
                     T.IsZero(value);
 
-#if HAS_SPANS
-        /// <inheritdoc cref="INumberBase{TSelf}.TryParse(ReadOnlySpan{char}, NumberStyles, IFormatProvider?, out TSelf)"/>
+        /// <inheritdoc cref="INumberBase{TSelf}.MaxMagnitude(TSelf, TSelf)"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryParse<T>(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out T result) where T : INumberBase<T>, new() =>
+        public static T MaxMagnitude<T>(T x, T y) where T : INumberBase<T>, new() =>
 #if !HAS_SYSTEM_NUMERICS
             Default<T>.
 #endif
-                    T.TryParse(s, style, provider, out result);
-#endif
+                    T.MaxMagnitude(x, y);
 
-        /// <inheritdoc cref="INumberBase{TSelf}.TryParse(string?, NumberStyles, IFormatProvider?, out TSelf)"/>
+        /// <inheritdoc cref="INumberBase{TSelf}.MaxMagnitudeNumber(TSelf, TSelf)"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryParse<T>([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out T result) where T : INumberBase<T>, new() =>
+        public static T MaxMagnitudeNumber<T>(T x, T y) where T : INumberBase<T>, new() =>
 #if !HAS_SYSTEM_NUMERICS
             Default<T>.
 #endif
-                    T.TryParse(s, style, provider, out result);
+                    T.MaxMagnitudeNumber(x, y);
+
+        /// <inheritdoc cref="INumberBase{TSelf}.MinMagnitude(TSelf, TSelf)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T MinMagnitude<T>(T x, T y) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.MinMagnitude(x, y);
+
+        /// <inheritdoc cref="INumberBase{TSelf}.MinMagnitudeNumber(TSelf, TSelf)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T MinMagnitudeNumber<T>(T x, T y) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.MinMagnitudeNumber(x, y);
+
+        /// <inheritdoc cref="INumberBase{TSelf}.One"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T One<T>() where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.One;
+
+        /// <inheritdoc cref="INumberBase{TSelf}.Parse(string, NumberStyles, IFormatProvider?)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Parse<T>(string s, NumberStyles style, IFormatProvider? provider) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.Parse(s, style, provider);
+
+        /// <inheritdoc cref="INumberBase{TSelf}.Parse(ReadOnlySpan{char}, NumberStyles, IFormatProvider?)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Parse<T>(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.Parse(s, style, provider);
 
         /// <inheritdoc cref="INumberBase{TSelf}.Radix"/>
         [DebuggerStepThrough]
@@ -305,40 +332,59 @@ namespace Jodosoft.Numerics
 #endif
                     T.Radix;
 
-        /// <inheritdoc cref="INumberBase{TSelf}.CreateChecked{TOther}(TOther)"/>
+        /// <inheritdoc cref="INumberBase{TSelf}.TryParse(string?, NumberStyles, IFormatProvider?, out TSelf)"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T CreateChecked<T, TOther>(TOther value)
-            where T : INumberBase<T>, new()
-            where TOther : INumberBase<TOther>, new() =>
+        public static bool TryParse<T>([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out T result) where T : INumberBase<T>, new() =>
 #if !HAS_SYSTEM_NUMERICS
             Default<T>.
 #endif
-                    T.CreateChecked(value);
+                    T.TryParse(s, style, provider, out result);
 
-        /// <inheritdoc cref="INumberBase{TSelf}.CreateSaturating{TOther}(TOther)"/>
+        /// <inheritdoc cref="INumberBase{TSelf}.TryParse(ReadOnlySpan{char}, NumberStyles, IFormatProvider?, out TSelf)"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T CreateSaturating<T, TOther>(TOther value)
-            where T : INumberBase<T>, new()
-            where TOther : INumberBase<TOther>, new() =>
+        public static bool TryParse<T>(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out T result) where T : INumberBase<T>, new() =>
 #if !HAS_SYSTEM_NUMERICS
             Default<T>.
 #endif
-                    T.CreateSaturating(value);
+                    T.TryParse(s, style, provider, out result);
 
-        /// <inheritdoc cref="INumberBase{TSelf}.CreateTruncating{TOther}(TOther)"/>
+        /// <inheritdoc cref="INumberBase{TSelf}.Zero"/>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T CreateTruncating<T, TOther>(TOther value)
-            where T : INumberBase<T>, new()
-            where TOther : INumberBase<TOther>, new() =>
+        public static T Zero<T>() where T : INumberBase<T>, new() =>
 #if !HAS_SYSTEM_NUMERICS
             Default<T>.
 #endif
-                    T.CreateTruncating(value);
+                    T.Zero;
 
-        #endregion
+        /// <inheritdoc cref="IParsable{TSelf}.Parse(string, IFormatProvider?)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Parse<T>(string s, IFormatProvider? provider) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.Parse(s, provider);
+
+        /// <inheritdoc cref="ISpanParsable{TSelf}.Parse(ReadOnlySpan{char}, IFormatProvider?)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Parse<T>(ReadOnlySpan<char> s, IFormatProvider? provider) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.Parse(s, provider);
+
+        /// <inheritdoc cref="ISpanParsable{TSelf}.TryParse(ReadOnlySpan{char}, IFormatProvider?, out TSelf)"/>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryParse<T>(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(returnValue: false)] out T result) where T : INumberBase<T>, new() =>
+#if !HAS_SYSTEM_NUMERICS
+            Default<T>.
+#endif
+                    T.TryParse(s, provider, out result);
 
     }
 }
