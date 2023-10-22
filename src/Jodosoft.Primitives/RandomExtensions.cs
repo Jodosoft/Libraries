@@ -61,7 +61,7 @@ namespace Jodosoft.Primitives
         public static TEnum NextEnum<TEnum>(this Random random) where TEnum : Enum
         {
             Array? values = Enum.GetValues(typeof(TEnum));
-            return (TEnum)values.GetValue(random.Next(0, values.Length));
+            return (TEnum)(values.GetValue(random.Next(0, values.Length)) ?? throw new InvalidOperationException());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

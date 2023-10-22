@@ -172,9 +172,9 @@ namespace Jodosoft.Numerics
         /// <summary>
         /// Converts the numeric value of this instance to its equivalent string representation using the specified culture-specific format information.
         /// </summary>
-        /// <param name="formatProvider">An object that supplies culture-specific formatting information.</param>
-        /// <returns>The string representation of the value of this instance as specified by <paramref name="formatProvider"/>.</returns>
-        string ToString(IFormatProvider formatProvider);
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>The string representation of the value of this instance as specified by <paramref name="provider"/>.</returns>
+        string ToString(IFormatProvider? provider);
 
 #if HAS_DEFAULT_INTERFACE_METHODS
         public static bool operator <(INumeric<TSelf> left, INumeric<TSelf> right) => left.IsLessThan((TSelf)right);

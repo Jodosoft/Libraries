@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using Jodosoft.Numerics;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives.Tests;
 using Jodosoft.Testing;
 
@@ -30,15 +31,15 @@ namespace Jodosoft.Geometry.Tests
         public sealed class FixedPointObjectTests : ObjectTestBase<RectangleN<Fix64>> { }
         public sealed class FixedPointRectangleTests : RectangleNTestBase<Fix64> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<RectangleN<Fix64>> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<RectangleN<SingleN>> { }
-        public sealed class FloatingPointFormattableTests : FormattableTestBase<RectangleN<SingleN>> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<RectangleN<SingleN>> { }
-        public sealed class FloatingPointRectangleTests : RectangleNTestBase<SingleN> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<RectangleN<SingleN>> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<RectangleN<ByteN>> { }
-        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<RectangleN<ByteN>> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<RectangleN<ByteN>> { }
-        public sealed class UnsignedIntegralRectangleTests : RectangleNTestBase<ByteN> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<RectangleN<ByteN>> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<RectangleN<NSingle>> { }
+        public sealed class FloatingPointFormattableTests : FormattableTestBase<RectangleN<NSingle>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<RectangleN<NSingle>> { }
+        public sealed class FloatingPointRectangleTests : RectangleNTestBase<NSingle> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<RectangleN<NSingle>> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<RectangleN<NByte>> { }
+        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<RectangleN<NByte>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<RectangleN<NByte>> { }
+        public sealed class UnsignedIntegralRectangleTests : RectangleNTestBase<NByte> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<RectangleN<NByte>> { }
     }
 }

@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives;
 using Jodosoft.Testing;
 using NUnit.Framework;
@@ -320,7 +321,7 @@ namespace Jodosoft.Numerics.Tests
         {
             //arrange
             string input = Random.Choose(
-                Random.NextVariant<DoubleN>().ToString(),
+                Random.NextVariant<NDouble>().ToString(),
                 Random.Next(-100, 100).ToString(),
                 Guid.NewGuid().ToString());
             MethodInfo underlyingParseMethod = typeof(TNumeric)
@@ -346,7 +347,7 @@ namespace Jodosoft.Numerics.Tests
         {
             //arrange
             string input = Random.Choose(
-                Random.NextVariant<DoubleN>().ToString(),
+                Random.NextVariant<NDouble>().ToString(),
                 Random.Next(-100, 100).ToString(),
                 Guid.NewGuid().ToString());
             IFormatProvider formatProvider = Random.Choose(
@@ -381,7 +382,7 @@ namespace Jodosoft.Numerics.Tests
         {
             //arrange
             string input = Random.Choose(
-                Random.NextVariant<DoubleN>().ToString(),
+                Random.NextVariant<NDouble>().ToString(),
                 Random.Next(-100, 100).ToString(),
                 Guid.NewGuid().ToString());
             NumberStyles numberStyles = Random.NextEnum<NumberStyles>();
@@ -410,7 +411,7 @@ namespace Jodosoft.Numerics.Tests
         {
             //arrange
             string input = Random.Choose(
-                Random.NextVariant<DoubleN>().ToString(),
+                Random.NextVariant<NDouble>().ToString(),
                 Random.Next(-100, 100).ToString(),
                 Guid.NewGuid().ToString());
             NumberStyles numberStyles = Random.NextEnum<NumberStyles>();

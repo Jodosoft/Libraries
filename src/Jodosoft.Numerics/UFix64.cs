@@ -57,7 +57,7 @@ namespace Jodosoft.Numerics
         public override bool Equals(object? obj) => obj is UFix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => Scaled.ToString(_scaledValue, ScalingFactor, null);
-        public string ToString(IFormatProvider formatProvider) => Scaled.ToString(_scaledValue, ScalingFactor, formatProvider);
+        public string ToString(IFormatProvider? provider) => Scaled.ToString(_scaledValue, ScalingFactor, provider);
         public string ToString(string format) => ((double)this).ToString(format);
 
         public string ToString(string? format, IFormatProvider? formatProvider)
@@ -153,21 +153,21 @@ namespace Jodosoft.Numerics
         public static UFix64 operator >>(UFix64 left, int right) => new UFix64(left._scaledValue >> right);
 
         TypeCode IConvertible.GetTypeCode() => TypeCode.Object;
-        bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToBoolean(this);
-        char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToChar(provider);
-        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToSByte(this, Conversion.Default);
-        byte IConvertible.ToByte(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToByte(this, Conversion.Default);
-        short IConvertible.ToInt16(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt16(this, Conversion.Default);
-        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt16(this, Conversion.Default);
-        int IConvertible.ToInt32(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt32(this, Conversion.Default);
-        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt32(this, Conversion.Default);
-        long IConvertible.ToInt64(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt64(this, Conversion.Default);
-        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt64(this, Conversion.Default);
-        float IConvertible.ToSingle(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToSingle(this, Conversion.Default);
-        double IConvertible.ToDouble(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default);
-        decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvert<UFix64>)Utilities.Instance).ToDecimal(this, Conversion.Default);
-        DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
+        bool IConvertible.ToBoolean(IFormatProvider? provider) => ((IConvert<UFix64>)Utilities.Instance).ToBoolean(this);
+        char IConvertible.ToChar(IFormatProvider? provider) => ((IConvertible)((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToChar(provider);
+        sbyte IConvertible.ToSByte(IFormatProvider? provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToSByte(this, Conversion.Default);
+        byte IConvertible.ToByte(IFormatProvider? provider) => ((IConvert<UFix64>)Utilities.Instance).ToByte(this, Conversion.Default);
+        short IConvertible.ToInt16(IFormatProvider? provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt16(this, Conversion.Default);
+        ushort IConvertible.ToUInt16(IFormatProvider? provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt16(this, Conversion.Default);
+        int IConvertible.ToInt32(IFormatProvider? provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt32(this, Conversion.Default);
+        uint IConvertible.ToUInt32(IFormatProvider? provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt32(this, Conversion.Default);
+        long IConvertible.ToInt64(IFormatProvider? provider) => ((IConvert<UFix64>)Utilities.Instance).ToInt64(this, Conversion.Default);
+        ulong IConvertible.ToUInt64(IFormatProvider? provider) => ((IConvertExtended<UFix64>)Utilities.Instance).ToUInt64(this, Conversion.Default);
+        float IConvertible.ToSingle(IFormatProvider? provider) => ((IConvert<UFix64>)Utilities.Instance).ToSingle(this, Conversion.Default);
+        double IConvertible.ToDouble(IFormatProvider? provider) => ((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default);
+        decimal IConvertible.ToDecimal(IFormatProvider? provider) => ((IConvert<UFix64>)Utilities.Instance).ToDecimal(this, Conversion.Default);
+        DateTime IConvertible.ToDateTime(IFormatProvider? provider) => ((IConvertible)((IConvert<UFix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToDateTime(provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider? provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<UFix64>.IsGreaterThan(UFix64 value) => this > value;
         bool INumeric<UFix64>.IsGreaterThanOrEqualTo(UFix64 value) => this >= value;

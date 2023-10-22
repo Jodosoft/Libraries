@@ -57,7 +57,7 @@ namespace Jodosoft.Numerics
         public override bool Equals(object? obj) => obj is Fix64 other && Equals(other);
         public override int GetHashCode() => _scaledValue.GetHashCode();
         public override string ToString() => Scaled.ToString(_scaledValue, ScalingFactor, null);
-        public string ToString(IFormatProvider formatProvider) => Scaled.ToString(_scaledValue, ScalingFactor, formatProvider);
+        public string ToString(IFormatProvider? provider) => Scaled.ToString(_scaledValue, ScalingFactor, provider);
         public string ToString(string format) => ((double)this).ToString(format);
 
         public string ToString(string? format, IFormatProvider? formatProvider)
@@ -149,21 +149,21 @@ namespace Jodosoft.Numerics
         public static Fix64 operator >>(Fix64 left, int right) => new Fix64(left._scaledValue >> right);
 
         TypeCode IConvertible.GetTypeCode() => TypeCode.Object;
-        bool IConvertible.ToBoolean(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToBoolean(this);
-        char IConvertible.ToChar(IFormatProvider provider) => ((IConvertible)((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToChar(provider);
-        sbyte IConvertible.ToSByte(IFormatProvider provider) => ((IConvertExtended<Fix64>)Utilities.Instance).ToSByte(this, Conversion.Default);
-        byte IConvertible.ToByte(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToByte(this, Conversion.Default);
-        short IConvertible.ToInt16(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt16(this, Conversion.Default);
-        ushort IConvertible.ToUInt16(IFormatProvider provider) => ((IConvertExtended<Fix64>)Utilities.Instance).ToUInt16(this, Conversion.Default);
-        int IConvertible.ToInt32(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt32(this, Conversion.Default);
-        uint IConvertible.ToUInt32(IFormatProvider provider) => ((IConvertExtended<Fix64>)Utilities.Instance).ToUInt32(this, Conversion.Default);
-        long IConvertible.ToInt64(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt64(this, Conversion.Default);
-        ulong IConvertible.ToUInt64(IFormatProvider provider) => ((IConvertExtended<Fix64>)Utilities.Instance).ToUInt64(this, Conversion.Default);
-        float IConvertible.ToSingle(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToSingle(this, Conversion.Default);
-        double IConvertible.ToDouble(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default);
-        decimal IConvertible.ToDecimal(IFormatProvider provider) => ((IConvert<Fix64>)Utilities.Instance).ToDecimal(this, Conversion.Default);
-        DateTime IConvertible.ToDateTime(IFormatProvider provider) => ((IConvertible)((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToDateTime(provider);
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider) => this.ToTypeDefault(conversionType, provider);
+        bool IConvertible.ToBoolean(IFormatProvider? provider) => ((IConvert<Fix64>)Utilities.Instance).ToBoolean(this);
+        char IConvertible.ToChar(IFormatProvider? provider) => ((IConvertible)((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToChar(provider);
+        sbyte IConvertible.ToSByte(IFormatProvider? provider) => ((IConvertExtended<Fix64>)Utilities.Instance).ToSByte(this, Conversion.Default);
+        byte IConvertible.ToByte(IFormatProvider? provider) => ((IConvert<Fix64>)Utilities.Instance).ToByte(this, Conversion.Default);
+        short IConvertible.ToInt16(IFormatProvider? provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt16(this, Conversion.Default);
+        ushort IConvertible.ToUInt16(IFormatProvider? provider) => ((IConvertExtended<Fix64>)Utilities.Instance).ToUInt16(this, Conversion.Default);
+        int IConvertible.ToInt32(IFormatProvider? provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt32(this, Conversion.Default);
+        uint IConvertible.ToUInt32(IFormatProvider? provider) => ((IConvertExtended<Fix64>)Utilities.Instance).ToUInt32(this, Conversion.Default);
+        long IConvertible.ToInt64(IFormatProvider? provider) => ((IConvert<Fix64>)Utilities.Instance).ToInt64(this, Conversion.Default);
+        ulong IConvertible.ToUInt64(IFormatProvider? provider) => ((IConvertExtended<Fix64>)Utilities.Instance).ToUInt64(this, Conversion.Default);
+        float IConvertible.ToSingle(IFormatProvider? provider) => ((IConvert<Fix64>)Utilities.Instance).ToSingle(this, Conversion.Default);
+        double IConvertible.ToDouble(IFormatProvider? provider) => ((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default);
+        decimal IConvertible.ToDecimal(IFormatProvider? provider) => ((IConvert<Fix64>)Utilities.Instance).ToDecimal(this, Conversion.Default);
+        DateTime IConvertible.ToDateTime(IFormatProvider? provider) => ((IConvertible)((IConvert<Fix64>)Utilities.Instance).ToDouble(this, Conversion.Default)).ToDateTime(provider);
+        object IConvertible.ToType(Type conversionType, IFormatProvider? provider) => this.ToTypeDefault(conversionType, provider);
 
         bool INumeric<Fix64>.IsGreaterThan(Fix64 value) => this > value;
         bool INumeric<Fix64>.IsGreaterThanOrEqualTo(Fix64 value) => this >= value;

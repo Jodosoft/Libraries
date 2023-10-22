@@ -245,7 +245,7 @@ namespace Jodosoft.Numerics.Tests
         }
 
         [Test, Repeat(RandomVariations)]
-        public void ToByteMethods_RandomValues_ConsistentResults()
+        public void ToClampedByteethods_RandomValues_ConsistentResults()
         {
             //arrange
             TNumeric value = Random.NextNumeric<TNumeric>(Generation.Extended);

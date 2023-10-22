@@ -48,7 +48,7 @@ namespace Jodosoft.Geometry
 
         private AngleN(SerializationInfo info, StreamingContext context)
         {
-            Degrees = (TNumeric)info.GetValue(nameof(Degrees), typeof(TNumeric));
+            Degrees = (TNumeric)(info.GetValue(nameof(Degrees), typeof(TNumeric)) ?? throw new InvalidOperationException());
         }
 
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

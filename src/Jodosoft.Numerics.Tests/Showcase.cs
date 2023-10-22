@@ -17,20 +17,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#if NET5_0_OR_GREATER
-
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
 using FluentAssertions;
-using Jodosoft.Numerics;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives;
 using Jodosoft.Testing;
 using NUnit.Framework;
 
-using MyNumberType = Jodosoft.Numerics.DoubleN;
+using MyNumberType = Jodosoft.Numerics.Compatibility.NDouble;
+
+#if NET7_0
 
 namespace Jodosoft.Numerics.Tests
 {
@@ -57,7 +56,7 @@ namespace Jodosoft.Numerics.Tests
         public void NumericsSummary()
         {
             var value1 = MathN.Log10(99999 * (Fix64)3.444);
-            var value2 = (Int32N)107 << 4;
+            var value2 = (NInt32)107 << 4;
             var value3 = BitConverterN.GetBytes(value1);
             var value4 = new Vector2N<Fix64>(101, -202);
 
@@ -91,7 +90,7 @@ namespace Jodosoft.Numerics.Tests
         [Test]
         public void StringFormatting()
         {
-            Int32N var1 = 1023;
+            NInt32 var1 = 1023;
             Fix64 var2 = (Fix64)99.54322f;
 
             Console.WriteLine($"{var1:N2}"); // output: 1,023.00
@@ -106,8 +105,8 @@ namespace Jodosoft.Numerics.Tests
         [Test]
         public void RandomValueGeneration()
         {
-            DecimalN var1 = Random.NextNumeric<DecimalN>(Generation.Extended);
-            DecimalN var2 = Random.NextNumeric<DecimalN>(100, 120, Generation.Extended);
+            NDecimal var1 = Random.NextNumeric<NDecimal>(Generation.Extended);
+            NDecimal var2 = Random.NextNumeric<NDecimal>(100, 120, Generation.Extended);
 
             Console.WriteLine(var1); // output: -7.405808417991177E+115 (example)
             Console.WriteLine(var2); // output: 102.85086051826445 (example)
@@ -118,9 +117,9 @@ namespace Jodosoft.Numerics.Tests
         [Test]
         public void CastConvertAndClamp()
         {
-            ByteN castResult = ConvertN.ToNumeric<ByteN>(1023, Conversion.Cast);
-            ByteN convertResult = ConvertN.ToNumeric<ByteN>(199.956M, Conversion.Default);
-            ByteN clampResult = ConvertN.ToNumeric<ByteN>(-100, Conversion.Clamp);
+            NByte castResult = ConvertN.ToNumeric<NByte>(1023, Conversion.Cast);
+            NByte convertResult = ConvertN.ToNumeric<NByte>(199.956M, Conversion.Default);
+            NByte clampResult = ConvertN.ToNumeric<NByte>(-100, Conversion.Clamp);
 
             Console.WriteLine(castResult); // output: 255
             Console.WriteLine(convertResult); // output: 200
@@ -143,12 +142,12 @@ namespace Jodosoft.Numerics.Tests
             Console.WriteLine(x); // output: 100
             Console.WriteLine(y); // output: 1.724636
             Console.WriteLine(z); // output: 1000000.123456
-            Console.WriteLine(r); // output: 124.866858
+            Console.WriteLine(r); // output: 162.681102
             Console.WriteLine(f); // output: 1000000.1
             Console.WriteLine(bytes.Length); // output: 8
 
             ConsoleOuput.ToString().Split(Environment.NewLine)
-                .Should().ContainInOrder("100", "1.724636", "1000000.123456", "124.866858", "1000000.1", "8");
+                .Should().ContainInOrder("100", "1.724636", "1000000.123456", "162.681102", "1000000.1", "8");
         }
 
         [Test]
@@ -181,8 +180,8 @@ namespace Jodosoft.Numerics.Tests
         public void FixedPoints_Examples()
         {
             var random = new Random(93);
-            var num1 = random.NextVariant<Int16N>(Variants.LowMagnitude);
-            var num2 = random.NextVariant<Int16N>(Variants.Defaults | Variants.Boundaries);
+            var num1 = random.NextVariant<NInt16>(Variants.LowMagnitude);
+            var num2 = random.NextVariant<NInt16>(Variants.Defaults | Variants.Boundaries);
 
             Console.WriteLine(num1); // output: -26
             Console.WriteLine(num2); // output: 32767

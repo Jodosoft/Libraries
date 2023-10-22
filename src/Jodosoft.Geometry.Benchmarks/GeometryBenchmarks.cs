@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Jodosoft.Benchmarking;
 using Jodosoft.Numerics;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives;
 
 namespace Jodosoft.Geometry.Benchmarks
@@ -31,14 +32,14 @@ namespace Jodosoft.Geometry.Benchmarks
         private static readonly Random Random = new Random();
 
         [Benchmark]
-        public static Benchmark AARectangleNGetArea_Versus_SingleMultiplication()
+        public static Benchmark AARectangleNGetArea_Versus_ClampedSingleultiplication()
         {
             return Benchmark
                 .Using(() =>
                 {
                     float singleWidth = Random.NextSingle(Variants.LowMagnitude);
                     float singleHeight = Random.NextSingle(Variants.LowMagnitude);
-                    AARectangleN<SingleN> aaRectangle = new AARectangleN<SingleN>(
+                    AARectangleN<NSingle> aaRectangle = new AARectangleN<NSingle>(
                         Random.NextSingle(Variants.LowMagnitude), Random.NextSingle(Variants.LowMagnitude), singleWidth, singleHeight);
                     return (singleWidth, singleHeight, aaRectangle);
                 })

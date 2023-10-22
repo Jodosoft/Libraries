@@ -75,15 +75,15 @@ namespace Jodosoft.Numerics.Tests
         [Test] public void Int16ToUInt16Default_MinValue_SameAsSystem() => AssertSame.Outcome(() => Convert.ToUInt16(short.MinValue), () => ConvertN.ToUInt16(short.MinValue, Conversion.Default));
         [Test] public void Int16ToUInt16DefaultClamp_MinValue_ReturnsMinValue() => AssertSame.Outcome(() => ushort.MinValue, () => ConvertN.ToUInt16(short.MinValue, Conversion.Clamp));
 
-        [Test] public void DoubleToSingleClamp_MaxValue_ReturnsSingleMaxValue() => ConvertN.ToSingle(double.MaxValue, Conversion.Clamp).Should().Be(float.MaxValue);
-        [Test] public void DoubleToSingleClamp_MinValue_ReturnsSingleMinValue() => ConvertN.ToSingle(double.MinValue, Conversion.Clamp).Should().Be(float.MinValue);
-        [Test] public void DoubleToSingleCastClamp_MaxValue_ReturnsSingleMaxValue() => ConvertN.ToSingle(double.MaxValue, Conversion.CastClamp).Should().Be(float.MaxValue);
-        [Test] public void DoubleToSingleCastClamp_MinValue_ReturnsSingleMinValue() => ConvertN.ToSingle(double.MinValue, Conversion.CastClamp).Should().Be(float.MinValue);
+        [Test] public void DoubleToSingleClamp_MaxValue_ReturnsClampedSingleaxValue() => ConvertN.ToSingle(double.MaxValue, Conversion.Clamp).Should().Be(float.MaxValue);
+        [Test] public void DoubleToSingleClamp_MinValue_ReturnsClampedSingleinValue() => ConvertN.ToSingle(double.MinValue, Conversion.Clamp).Should().Be(float.MinValue);
+        [Test] public void DoubleToSingleCastClamp_MaxValue_ReturnsClampedSingleaxValue() => ConvertN.ToSingle(double.MaxValue, Conversion.CastClamp).Should().Be(float.MaxValue);
+        [Test] public void DoubleToSingleCastClamp_MinValue_ReturnsClampedSingleinValue() => ConvertN.ToSingle(double.MinValue, Conversion.CastClamp).Should().Be(float.MinValue);
 
-        [Test] public void DoubleToDecimalClamp_MaxValue_ReturnsSingleMaxValue() => ConvertN.ToDecimal(double.MaxValue, Conversion.Clamp).Should().Be(decimal.MaxValue);
-        [Test] public void DoubleToDecimalClamp_MinValue_ReturnsSingleMinValue() => ConvertN.ToDecimal(double.MinValue, Conversion.Clamp).Should().Be(decimal.MinValue);
-        [Test] public void DoubleToDecimalCastClamp_MaxValue_ReturnsSingleMaxValue() => ConvertN.ToDecimal(double.MaxValue, Conversion.CastClamp).Should().Be(decimal.MaxValue);
-        [Test] public void DoubleToDecimalCastClamp_MinValue_ReturnsSingleMinValue() => ConvertN.ToDecimal(double.MinValue, Conversion.CastClamp).Should().Be(decimal.MinValue);
+        [Test] public void DoubleToDecimalClamp_MaxValue_ReturnsClampedSingleaxValue() => ConvertN.ToDecimal(double.MaxValue, Conversion.Clamp).Should().Be(decimal.MaxValue);
+        [Test] public void DoubleToDecimalClamp_MinValue_ReturnsClampedSingleinValue() => ConvertN.ToDecimal(double.MinValue, Conversion.Clamp).Should().Be(decimal.MinValue);
+        [Test] public void DoubleToDecimalCastClamp_MaxValue_ReturnsClampedSingleaxValue() => ConvertN.ToDecimal(double.MaxValue, Conversion.CastClamp).Should().Be(decimal.MaxValue);
+        [Test] public void DoubleToDecimalCastClamp_MinValue_ReturnsClampedSingleinValue() => ConvertN.ToDecimal(double.MinValue, Conversion.CastClamp).Should().Be(decimal.MinValue);
 
         [Test]
         public void AllMethods_UnrecognisedConversion_MayOnlyThrowArgumentOutOfRange()

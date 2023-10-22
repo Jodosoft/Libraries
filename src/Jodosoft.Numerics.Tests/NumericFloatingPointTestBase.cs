@@ -19,6 +19,7 @@
 
 using System;
 using FluentAssertions;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives;
 using Jodosoft.Testing;
 using NUnit.Framework;
@@ -34,7 +35,7 @@ namespace Jodosoft.Numerics.Tests
         public void Round1_RandomFloatingPoint_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue = Random.NextVariant<DoubleN>(Variants.LowMagnitude);
+            double randomValue = Random.NextVariant<NDouble>(Variants.LowMagnitude);
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Round(randomValue), Conversion.Cast);
 
@@ -49,7 +50,7 @@ namespace Jodosoft.Numerics.Tests
         public void Round2_RandomFloatingPoint_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue = Random.NextVariant<DoubleN>(Variants.LowMagnitude);
+            double randomValue = Random.NextVariant<NDouble>(Variants.LowMagnitude);
             int digits = Random.NextInt32(0, 2);
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Round(randomValue, digits), Conversion.Cast);
@@ -65,7 +66,7 @@ namespace Jodosoft.Numerics.Tests
         public void Round3_RandomFloatingPoint_SameValue()
         {
             //arrange
-            double randomValue = Random.NextVariant<DoubleN>(Variants.LowMagnitude);
+            double randomValue = Random.NextVariant<NDouble>(Variants.LowMagnitude);
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);
             TNumeric expected = ConvertN.ToNumeric<TNumeric>(Math.Round(randomValue, mode), Conversion.Cast);
@@ -81,7 +82,7 @@ namespace Jodosoft.Numerics.Tests
         public void Round4_RandomFloatingPoint_EquivalentToSystemMath()
         {
             //arrange
-            double randomValue = Random.NextVariant<DoubleN>(Variants.LowMagnitude);
+            double randomValue = Random.NextVariant<NDouble>(Variants.LowMagnitude);
             int digits = Random.NextInt32(0, 2);
             MidpointRounding mode = Random.NextEnum<MidpointRounding>();
             TNumeric input = ConvertN.ToNumeric<TNumeric>(randomValue, Conversion.Cast);

@@ -18,6 +18,7 @@
 // IN THE SOFTWARE.
 
 using FluentAssertions;
+using Jodosoft.Numerics.Compatibility;
 using Jodosoft.Primitives.Tests;
 using Jodosoft.Testing;
 using NUnit.Framework;
@@ -31,24 +32,24 @@ namespace Jodosoft.Numerics.Tests
         public sealed class FixedPointObjectTests : ObjectTestBase<Vector2N<Fix64>> { }
         public sealed class FixedPointSerializableTests : SerializableTestBase<Vector2N<Fix64>> { }
         public sealed class FixedPointVector2Tests : Vector2NTestBase<Fix64> { }
-        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<Vector2N<SingleN>> { }
-        public sealed class FloatingPointFormattableTests : FormattableTestBase<Vector2N<SingleN>> { }
-        public sealed class FloatingPointObjectTests : ObjectTestBase<Vector2N<SingleN>> { }
-        public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector2N<SingleN>> { }
-        public sealed class FloatingPointVector2Tests : Vector2NTestBase<SingleN> { }
-        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<Vector2N<ByteN>> { }
-        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<Vector2N<ByteN>> { }
-        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector2N<ByteN>> { }
-        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector2N<ByteN>> { }
-        public sealed class UnsignedIntegralVector2Tests : Vector2NTestBase<ByteN> { }
+        public sealed class FloatingPointBinaryIOTests : BinaryIOTestBase<Vector2N<NSingle>> { }
+        public sealed class FloatingPointFormattableTests : FormattableTestBase<Vector2N<NSingle>> { }
+        public sealed class FloatingPointObjectTests : ObjectTestBase<Vector2N<NSingle>> { }
+        public sealed class FloatingPointSerializableTests : SerializableTestBase<Vector2N<NSingle>> { }
+        public sealed class FloatingPointVector2Tests : Vector2NTestBase<NSingle> { }
+        public sealed class UnsignedIntegralBinaryIOTests : BinaryIOTestBase<Vector2N<NByte>> { }
+        public sealed class UnsignedIntegralFormattableTests : FormattableTestBase<Vector2N<NByte>> { }
+        public sealed class UnsignedIntegralObjectTests : ObjectTestBase<Vector2N<NByte>> { }
+        public sealed class UnsignedIntegralSerializableTests : SerializableTestBase<Vector2N<NByte>> { }
+        public sealed class UnsignedIntegralVector2Tests : Vector2NTestBase<NByte> { }
 
         [Test]
         public void Dot_WorkedExample_CorrectResult()
         {
             //arrange
             //act
-            SingleN result = Vector2N.Dot(
-                new Vector2N<SingleN>(2, -4), new Vector2N<SingleN>(-8, 104));
+            NSingle result = Vector2N.Dot(
+                new Vector2N<NSingle>(2, -4), new Vector2N<NSingle>(-8, 104));
 
             //assert
             result.Should().Be(-432);

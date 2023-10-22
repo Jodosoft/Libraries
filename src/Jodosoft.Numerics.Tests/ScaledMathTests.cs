@@ -123,7 +123,7 @@ namespace Jodosoft.Numerics.Tests
         }
 
         [Test, Repeat(RandomVariations)]
-        public void Round_RandomInt64MorePlacesThanDigits_ReturnsZero()
+        public void Round_RandomClampedInt64orePlacesThanDigits_ReturnsZero()
         {
             //arrange
             byte places = Random.NextByte(2, 18);
@@ -200,7 +200,7 @@ namespace Jodosoft.Numerics.Tests
         }
 
         [Test, Repeat(RandomVariations)]
-        public void Round_RandomUInt64MorePlacesThanDigits_ReturnsZero()
+        public void Round_RandomClampedUInt64orePlacesThanDigits_ReturnsZero()
         {
             //arrange
             byte places = Random.NextByte(2, 18);

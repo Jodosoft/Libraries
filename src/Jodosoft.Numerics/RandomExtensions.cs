@@ -582,6 +582,9 @@ namespace Jodosoft.Numerics
 
         private static long NextInt64Default(this Random random, long minValue, long maxValue)
         {
+#if NET6_0_OR_GREATER
+            return random.NextInt64(minValue, maxValue);
+#else
             if (minValue == maxValue) return minValue;
             if (minValue > maxValue) throw new ArgumentOutOfRangeException(nameof(minValue), minValue,
                 string.Format(XCannotBeGreaterThanY, nameof(minValue), nameof(maxValue)));
@@ -598,6 +601,7 @@ namespace Jodosoft.Numerics
                 result = new BigInteger(bytes);
             } while (result < 0 || result > spread);
             return (long)(minValue + result);
+#endif
         }
 
         private static long NextInt64Extended(this Random random, long bound1, long bound2)
