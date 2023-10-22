@@ -17,6 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
+
 #if !HAS_SYSTEM_NUMERICS
 
 namespace Jodosoft.Numerics.Compatibility
@@ -24,6 +26,7 @@ namespace Jodosoft.Numerics.Compatibility
     /// <summary>Defines a mechanism for getting the multiplicative identity of a given type.</summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
     /// <typeparam name="TResult">The type that contains the multiplicative identify of <typeparamref name="TSelf" />.</typeparam>
+    [SuppressMessage("csharpsquid", "S3246:Generic type parameters should be co/contravariant when possible.", Justification = "Maintaining similarity with the .NET 7 API .")]
     public interface IMultiplicativeIdentity<TSelf, TResult>
         where TSelf : IMultiplicativeIdentity<TSelf, TResult>?, new()
     {

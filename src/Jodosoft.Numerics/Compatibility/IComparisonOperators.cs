@@ -17,6 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
+
 #if !HAS_SYSTEM_NUMERICS
 
 namespace Jodosoft.Numerics.Compatibility
@@ -25,6 +27,8 @@ namespace Jodosoft.Numerics.Compatibility
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
     /// <typeparam name="TOther">The type that will be compared with <typeparamref name="TSelf" />.</typeparam>
     /// <typeparam name="TResult">The type that is returned as a result of the comparison.</typeparam>
+    [SuppressMessage("csharpsquid", "S3246:Generic type parameters should be co/contravariant when possible.", Justification = "Maintaining similarity with the .NET 7 API .")]
+    [SuppressMessage("csharpsquid", "S2436:Types and methods should not have too many generic parameters.", Justification = "Maintaining similarity with the .NET 7 API .")]
     public interface IComparisonOperators<TSelf, TOther, TResult>
         : IEqualityOperators<TSelf, TOther, TResult>
         where TSelf : IComparisonOperators<TSelf, TOther, TResult>?, new()

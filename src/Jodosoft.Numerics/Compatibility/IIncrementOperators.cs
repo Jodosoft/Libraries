@@ -17,10 +17,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+using System.Diagnostics.CodeAnalysis;
+
 #if !HAS_SYSTEM_NUMERICS
 
 namespace Jodosoft.Numerics.Compatibility
 {
+    /// <summary>Defines a mechanism for incrementing a given value.</summary>
+    /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
+    [SuppressMessage("csharpsquid", "S3246:Generic type parameters should be co/contravariant when possible.", Justification = "Maintaining similarity with the .NET 7 API .")]
     public interface IIncrementOperators<TSelf>
         where TSelf : IIncrementOperators<TSelf>?, new()
     {

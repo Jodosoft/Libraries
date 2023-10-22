@@ -194,28 +194,24 @@ namespace Jodosoft.Numerics.Compatibility
         /// <param name="x">The value to compare with <paramref name="y" />.</param>
         /// <param name="y">The value to compare with <paramref name="x" />.</param>
         /// <returns><paramref name="x" /> if it is greater than <paramref name="y" />; otherwise, <paramref name="y" />.</returns>
-        /// <remarks>For <see cref="IFloatingPointIeee754{TSelf}" /> this method matches the IEEE 754:2019 <c>maximumMagnitude</c> function. This requires NaN inputs to be propagated back to the caller and for <c>-0.0</c> to be treated as less than <c>+0.0</c>.</remarks>
         TSelf MaxMagnitude(TSelf x, TSelf y);
 
         /// <summary>Compares two values to compute which has the greater magnitude and returning the other value if an input is <c>NaN</c>.</summary>
         /// <param name="x">The value to compare with <paramref name="y" />.</param>
         /// <param name="y">The value to compare with <paramref name="x" />.</param>
         /// <returns><paramref name="x" /> if it is greater than <paramref name="y" />; otherwise, <paramref name="y" />.</returns>
-        /// <remarks>For <see cref="IFloatingPointIeee754{TSelf}" /> this method matches the IEEE 754:2019 <c>maximumMagnitudeNumber</c> function. This requires NaN inputs to not be propagated back to the caller and for <c>-0.0</c> to be treated as less than <c>+0.0</c>.</remarks>
         TSelf MaxMagnitudeNumber(TSelf x, TSelf y);
 
         /// <summary>Compares two values to compute which is lesser.</summary>
         /// <param name="x">The value to compare with <paramref name="y" />.</param>
         /// <param name="y">The value to compare with <paramref name="x" />.</param>
         /// <returns><paramref name="x" /> if it is less than <paramref name="y" />; otherwise, <paramref name="y" />.</returns>
-        /// <remarks>For <see cref="IFloatingPointIeee754{TSelf}" /> this method matches the IEEE 754:2019 <c>minimumMagnitude</c> function. This requires NaN inputs to be propagated back to the caller and for <c>-0.0</c> to be treated as less than <c>+0.0</c>.</remarks>
         TSelf MinMagnitude(TSelf x, TSelf y);
 
         /// <summary>Compares two values to compute which has the lesser magnitude and returning the other value if an input is <c>NaN</c>.</summary>
         /// <param name="x">The value to compare with <paramref name="y" />.</param>
         /// <param name="y">The value to compare with <paramref name="x" />.</param>
         /// <returns><paramref name="x" /> if it is less than <paramref name="y" />; otherwise, <paramref name="y" />.</returns>
-        /// <remarks>For <see cref="IFloatingPointIeee754{TSelf}" /> this method matches the IEEE 754:2019 <c>minimumMagnitudeNumber</c> function. This requires NaN inputs to not be propagated back to the caller and for <c>-0.0</c> to be treated as less than <c>+0.0</c>.</remarks>
         TSelf MinMagnitudeNumber(TSelf x, TSelf y);
 
         /// <summary>Parses a string into a value.</summary>
@@ -229,15 +225,6 @@ namespace Jodosoft.Numerics.Compatibility
         /// <exception cref="OverflowException"><paramref name="s" /> is not representable by <typeparamref name="TSelf" />.</exception>
         TSelf Parse(string s, NumberStyles style, IFormatProvider? provider);
 
-        /// <summary>Tries to parses a string into a value.</summary>
-        /// <param name="s">The string to parse.</param>
-        /// <param name="style">A bitwise combination of number styles that can be present in <paramref name="s" />.</param>
-        /// <param name="provider">An object that provides culture-specific formatting information about <paramref name="s" />.</param>
-        /// <param name="result">On return, contains the result of successfully parsing <paramref name="s" /> or an undefined value on failure.</param>
-        /// <returns><c>true</c> if <paramref name="s" /> was successfully parsed; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentException"><paramref name="style" /> is not a supported <see cref="NumberStyles" /> value.</exception>
-        bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out TSelf result);
-
 #if HAS_SPANS
 
         /// <summary>Parses a span of characters into a value.</summary>
@@ -249,6 +236,19 @@ namespace Jodosoft.Numerics.Compatibility
         /// <exception cref="FormatException"><paramref name="s" /> is not in the correct format.</exception>
         /// <exception cref="OverflowException"><paramref name="s" /> is not representable by <typeparamref name="TSelf" />.</exception>
         TSelf Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider);
+
+#endif
+
+        /// <summary>Tries to parses a string into a value.</summary>
+        /// <param name="s">The string to parse.</param>
+        /// <param name="style">A bitwise combination of number styles that can be present in <paramref name="s" />.</param>
+        /// <param name="provider">An object that provides culture-specific formatting information about <paramref name="s" />.</param>
+        /// <param name="result">On return, contains the result of successfully parsing <paramref name="s" /> or an undefined value on failure.</param>
+        /// <returns><c>true</c> if <paramref name="s" /> was successfully parsed; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentException"><paramref name="style" /> is not a supported <see cref="NumberStyles" /> value.</exception>
+        bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out TSelf result);
+
+#if HAS_SPANS
 
         /// <summary>Tries to parses a span of characters into a value.</summary>
         /// <param name="s">The span of characters to parse.</param>
